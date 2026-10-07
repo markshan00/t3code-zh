@@ -1,0 +1,16 @@
+# n2761 上游配对修复：SQLite 原生驱动拒绝布尔参数，转为等价 1/0。
+# 维护者于 2026-10-07 明确授权合入；原作用域检查 / 令牌消费条件保持不变。
+# 真实 PairingGrantStore.test.ts：修复前 4/10，独立副本修复后 10/10。
+diff --git a/apps/server/src/persistence/AuthPairingLinks.ts b/apps/server/src/persistence/AuthPairingLinks.ts
+index ca18088..623fc81 100644
+--- a/apps/server/src/persistence/AuthPairingLinks.ts
++++ b/apps/server/src/persistence/AuthPairingLinks.ts
+@@ -172,7 +172,7 @@ export const make = Effect.gen(function* () {
+             proof_key_thumbprint IS NULL
+             OR proof_key_thumbprint = ${proofKeyThumbprint}
+           )
+-          AND (${requestedScopes === undefined} OR EXISTS (
++          AND (${requestedScopes === undefined ? 1 : 0} OR EXISTS (
+             SELECT 1
+             FROM json_each(${JSON.stringify(requestedScopes ?? [])}) AS requested
+             WHERE requested.value IN (

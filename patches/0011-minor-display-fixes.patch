@@ -1,0 +1,133 @@
+# 0011-minor-display-fixes.patch
+# Baseline v0.0.46-nightly.20261007.2774, apply after 0001–0010 (zh.5).
+# Small display fixes found while reviewing zh.4; display boundaries only.
+#   * Sidebar row accessible name: the status part (Goal / Working / Waiting / Approval /
+#     Input / Limited / Failed / Woke / Done) and the draft row's "Unsent draft" go through
+#     the exact allowlist. topStatus.label itself stays English for sorting and icons.
+#   * Provider banner dismiss button: one fixed skeleton per ServerProviderState
+#     (ready / warning / error); the provider name is inserted after translation and
+#     unknown states keep the original English sentence.
+#   * Tool group summary "commands + changed files": dedicated two-slot skeletons replace
+#     the generic "and" lookup; anything else (tool, integration or user names) is unchanged.
+# Dictionary-only wording changes in the same release: "Checked {0}", the follow-up
+# shortcut sentence. Tests: plugin/__tests__/acceptance-display-strings.test.ts.
+diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceDisplayStrings.ts
+index 912668e33bfd489594f6a11999c8d9a876a24e53..3ed7657babe8624201c2fd4375db6dc1709638e5 100644
+--- a/apps/web/src/acceptanceDisplayStrings.ts
++++ b/apps/web/src/acceptanceDisplayStrings.ts
+@@ -177,8 +177,17 @@ export const ACCEPTANCE_DISPLAY_LABELS: string[] = [
+   "Clone Bitbucket workspace/repository",
+   "Forgejo / Gitea repository",
+   "Clone Forgejo / Gitea owner/repo",
+-  "and",
+   "just now",
++  // Sidebar row status labels (SidebarThreadRow topStatus) and the draft row status.
++  "Goal",
++  "Working",
++  "Waiting",
++  "Approval",
++  "Input",
++  "Limited",
++  "Woke",
++  "Done",
++  "Unsent draft",
+ ];
+ const knownLabels = new Set(ACCEPTANCE_DISPLAY_LABELS);
+ export function displayKnown<T>(value: T): T {
+@@ -191,6 +200,14 @@ export function displayLiveCommand(verb: string, program: string): string {
+ export function displayProviderTitle(providerName: string): string {
+   return fillSlot("", providerName, " provider status");
+ }
++// The banner's status is a ServerProviderState; each value has its own fixed skeleton.
++// Unknown future states keep the original English sentence.
++const DISMISS_PROVIDER_STATES: string[] = ["ready", "warning", "error"];
++const dismissProviderStates = new Set(DISMISS_PROVIDER_STATES);
++export function displayDismissProvider(providerName: string, state: string): string {
++  if (!dismissProviderStates.has(state)) return `Dismiss ${providerName} provider ${state}`;
++  return fillSlot("Dismiss ", providerName, ` provider ${state}`);
++}
+ export function displayCount(count: number, singular: string, plural: string): string {
+   return fillSlot("", String(count), ` ${count === 1 ? singular : plural}`);
+ }
+@@ -220,11 +237,28 @@ export function displayFold(value: string): string {
+   return displayKnown(value);
+ }
+ export function displayWorkSummary(value: string): string {
+-  // This specific built-in aggregate has no paths, commands or user-supplied names.
+-  const part = String.raw`(?:已运行 \d+ 条命令|已更改 \d+ 个文件|Ran \d+ commands?|Changed \d+ files?)`;
+-  if (new RegExp(`^${part} and ${part}$`).test(value))
+-    return value.replace(" and ", ` ${displayKnown("and")} `);
+-  return value;
++  // Only the built-in "commands + changed files" aggregate: both halves must be exact
++  // counters, so tool, integration and user-supplied names never match. The counts are
++  // inserted after translating a dedicated two-slot skeleton.
++  const commands = String.raw`(?:已运行 (\d+) 条命令|[Rr]an (\d+) commands?)`;
++  const files = String.raw`(?:已更改 (\d+) 个文件|[Cc]hanged (\d+) files?)`;
++  const commandsFirst = new RegExp(`^${commands} and ${files}$`).exec(value);
++  const filesFirst = commandsFirst ? null : new RegExp(`^${files} and ${commands}$`).exec(value);
++  const match = commandsFirst ?? filesFirst;
++  if (!match) return value;
++  const first = "";
++  const second = "";
++  const skeleton = commandsFirst
++    ? `Ran ${first} commands and changed ${second} files`
++    : `Changed ${first} files and ran ${second} commands`;
++  const translated = globalThis.__t3zh?.t?.(skeleton) ?? skeleton;
++  if (
++    translated === skeleton ||
++    translated.split(first).length !== 2 ||
++    translated.split(second).length !== 2
++  )
++    return value;
++  return translated.replace(first, match[1] ?? match[2]!).replace(second, match[3] ?? match[4]!);
+ }
+ export function displayScope(value: string): string {
+   const turn = /^Turn (\d+|\?)$/.exec(value);
+diff --git a/apps/web/src/components/Sidebar.tsx b/apps/web/src/components/Sidebar.tsx
+index 8146bb6986995bf1399d67b1b39ba22f293b1b37..422ec7251b5cb6af70ddf93f2349d3a3ca1ad4c4 100644
+--- a/apps/web/src/components/Sidebar.tsx
++++ b/apps/web/src/components/Sidebar.tsx
+@@ -1,5 +1,5 @@
+ import { type EnvironmentId } from "@t3tools/contracts";
+-import { displayDuration } from "~/acceptanceDisplayStrings";
++import { displayDuration, displayKnown } from "~/acceptanceDisplayStrings";
+ import { ThreadHoverCard, ThreadHoverCardPopup } from "./ThreadHoverCard";
+ import { CollapsibleSectionHeader } from "./ui/collapsible-section-header";
+ import { setThreadChangeRequestSnapshot } from "./ThreadStatusIndicators";
+@@ -862,7 +862,7 @@ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
+       : `${attachmentCount} attachment${attachmentCount === 1 ? "" : "s"}`;
+   const accessibility = resolveSidebarRowAccessibility({
+     title: preview,
+-    statusLabel: "Unsent draft",
++    statusLabel: displayKnown("Unsent draft"),
+     projectDisplayName: displayDefaultName(props.projectDisplayName),
+     isActive: props.isActive,
+   });
+@@ -1643,7 +1643,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+ 
+   const accessibility = resolveSidebarRowAccessibility({
+     title: displayDefaultName(thread.title),
+-    statusLabel: topStatus?.label ?? null,
++    statusLabel: topStatus ? displayKnown(topStatus.label) : null,
+     projectDisplayName: displayDefaultName(props.projectDisplayName),
+     isActive: props.isActive,
+   });
+diff --git a/apps/web/src/components/chat/ProviderStatusBanner.tsx b/apps/web/src/components/chat/ProviderStatusBanner.tsx
+index dbbaf9c56f4f5d7717d9563cc0ba1a2c29445eeb..e377460bc4bf9814ba1e2fdf399ad8f26285ddf1 100644
+--- a/apps/web/src/components/chat/ProviderStatusBanner.tsx
++++ b/apps/web/src/components/chat/ProviderStatusBanner.tsx
+@@ -1,4 +1,4 @@
+-import { displayKnown, displayProviderTitle } from "~/acceptanceDisplayStrings";
++import { displayDismissProvider, displayKnown, displayProviderTitle } from "~/acceptanceDisplayStrings";
+ import { type ProviderInstanceId, type ServerProvider } from "@t3tools/contracts";
+ import { memo } from "react";
+ import { InfoIcon, XIcon } from "lucide-react";
+@@ -139,7 +139,7 @@ export const ProviderStatusBanner = memo(function ProviderStatusBanner({
+         </AlertDescription>
+         <AlertAction>
+           <Button
+-            aria-label={`Dismiss ${providerName} provider ${status.status}`}
++            aria-label={displayDismissProvider(providerName, status.status)}
+             onClick={onDismiss}
+             size="icon-xs"
+             variant="ghost-muted"

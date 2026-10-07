@@ -1,0 +1,7162 @@
+[
+  {
+    "key": "% zoom",
+    "section": "messages",
+    "value": "% 缩放"
+  },
+  {
+    "key": "'{file}' could not be read as an image.",
+    "section": "templates",
+    "value": "无法将“{file}”读取为图片。"
+  },
+  {
+    "key": "'{file}' is empty or could not be read.",
+    "section": "templates",
+    "value": "“{file}”为空或无法读取。"
+  },
+  {
+    "key": "'{file}' is not a supported image type. Attach GIF, HEIC, HEIF, JPEG, PNG, or WebP images.",
+    "section": "templates",
+    "value": "“{file}”不是支持的图片格式，请添加 GIF、HEIC、HEIF、JPEG、PNG 或 WebP 图片。"
+  },
+  {
+    "key": "'{file}' is too large to attach, even after compression.",
+    "section": "templates",
+    "value": "“{file}”即使压缩后仍然过大，无法添加。"
+  },
+  {
+    "key": "(Enter)",
+    "section": "messages",
+    "value": "（回车）"
+  },
+  {
+    "key": "({count} {kind})",
+    "section": "templates",
+    "value": "（{count}{kind}）"
+  },
+  {
+    "key": "({count} {kind}s)",
+    "section": "templates",
+    "value": "（{count}{kind}）"
+  },
+  {
+    "key": "* if billed at full API rate",
+    "section": "messages",
+    "value": "* 按完整 API 费率估算"
+  },
+  {
+    "key": "+{percent}% of pool",
+    "section": "templates",
+    "value": "恢复池额度的 {percent}%"
+  },
+  {
+    "key": ", T3 Code needs Full Disk Access. Turn it on in System Settings, then come back to finish the import — you can revoke it again once the import is done.",
+    "section": "messages",
+    "value": "，T3 Code 需要完全磁盘访问权限。请在系统设置中开启，然后返回完成导入；导入完成后可撤销此权限。"
+  },
+  {
+    "key": ", and more",
+    "section": "messages",
+    "value": "等更多快捷键"
+  },
+  {
+    "key": ", layer",
+    "section": "messages",
+    "value": "，图层"
+  },
+  {
+    "key": ", reconnecting…",
+    "section": "messages",
+    "value": "，正在重新连接…"
+  },
+  {
+    "key": ". Go home to choose a project or start a thread.",
+    "section": "messages",
+    "value": "。返回首页以选择项目或新建任务。"
+  },
+  {
+    "key": ". Search in the command palette.",
+    "section": "messages",
+    "value": "。在命令面板中搜索。"
+  },
+  {
+    "key": ". Sending will continue on",
+    "section": "messages",
+    "value": "。发送消息后将继续使用"
+  },
+  {
+    "key": ". The link will be kept.",
+    "section": "messages",
+    "value": "。链接将保留。"
+  },
+  {
+    "key": "/ bookshelf",
+    "section": "messages",
+    "value": "/ 书架"
+  },
+  {
+    "key": "1 device still scanning",
+    "section": "messages",
+    "value": "仍有 1 台设备正在扫描"
+  },
+  {
+    "key": "1 reset credit banked",
+    "section": "messages",
+    "value": "已储备 1 个重置额度"
+  },
+  {
+    "key": "2x speed, increased usage",
+    "section": "messages",
+    "value": "速度提升至 2 倍，用量增加"
+  },
+  {
+    "key": "A message holds at most {0} attachments. Use Send now on the queued row when you want the rest to go.",
+    "section": "templates",
+    "value": "一条消息最多包含 {0} 个附件。若要发送剩余附件，请在队列中选择“立即发送”。"
+  },
+  {
+    "key": "API endpoint",
+    "section": "messages",
+    "value": "API 地址"
+  },
+  {
+    "key": "API estimate excludes {share} unpriced records.",
+    "section": "templates",
+    "value": "API 费用估算不包含 {share} 的未定价记录。"
+  },
+  {
+    "key": "Active gh account",
+    "section": "messages",
+    "value": "gh 当前账户"
+  },
+  {
+    "key": "Add --tailscale to use your tailnet.",
+    "section": "messages",
+    "value": "如需使用 Tailnet，请添加 --tailscale。"
+  },
+  {
+    "key": "Add a reachable backend manually to start working from this browser.",
+    "section": "messages",
+    "value": "手动添加可访问的后端，即可在此浏览器中开始工作。"
+  },
+  {
+    "key": "Add accent color for {name}",
+    "section": "templates",
+    "value": "为 {name} 添加强调色"
+  },
+  {
+    "key": "Add an \"origin\" remote before creating a {request}.",
+    "section": "templates",
+    "value": "请先添加“origin”远程仓库再创建{request}。"
+  },
+  {
+    "key": "Add an \"origin\" remote before pushing.",
+    "section": "messages",
+    "value": "请先添加“origin”远程仓库再推送。"
+  },
+  {
+    "key": "Add an account or configure a provider on",
+    "section": "messages",
+    "value": "添加账户或配置服务提供方于"
+  },
+  {
+    "key": "Add provider instance",
+    "section": "messages",
+    "value": "添加服务提供方实例"
+  },
+  {
+    "key": "Add this binding to your Hyprland config, then save.",
+    "section": "messages",
+    "value": "将此快捷键配置加入 Hyprland 配置，然后保存。"
+  },
+  {
+    "key": "Add variables to pass API keys, base URLs, or other per-instance CLI settings.",
+    "section": "messages",
+    "value": "添加要传给此实例 CLI 的 API 密钥、基础 URL 或其他变量。"
+  },
+  {
+    "key": "Add {model} to favorites",
+    "section": "templates",
+    "value": "将 {model} 添加到收藏"
+  },
+  {
+    "key": "Adding",
+    "section": "messages",
+    "value": "正在添加"
+  },
+  {
+    "key": "Administrative access",
+    "section": "messages",
+    "value": "管理权限"
+  },
+  {
+    "key": "Agent access",
+    "section": "messages",
+    "value": "Agent 访问权限"
+  },
+  {
+    "key": "Agent device",
+    "section": "messages",
+    "value": "Agent 设备"
+  },
+  {
+    "key": "Agents",
+    "section": "messages",
+    "value": "Agent"
+  },
+  {
+    "key": "Agents available on your selected computers.",
+    "section": "messages",
+    "value": "所选设备上可用的 Agent。"
+  },
+  {
+    "key": "All accounts are shown by connected providers.",
+    "section": "messages",
+    "value": "所有账户均已通过已连接的服务提供方显示。"
+  },
+  {
+    "key": "All hosts",
+    "section": "messages",
+    "value": "全部托管服务"
+  },
+  {
+    "key": "All machines",
+    "section": "messages",
+    "value": "全部设备"
+  },
+  {
+    "key": "All selected connected environments must support restart continuation.",
+    "section": "messages",
+    "value": "所有选中的已连接环境都必须支持重启后继续任务。"
+  },
+  {
+    "key": "Allow Accessibility and Screen Recording in System Settings, then restart T3 Code.",
+    "section": "messages",
+    "value": "请在系统设置中允许辅助功能和屏幕录制，然后重新启动 T3 Code。"
+  },
+  {
+    "key": "Allow Accessibility in System Settings, then restart T3 Code.",
+    "section": "messages",
+    "value": "请在系统设置中允许辅助功能，然后重新启动 T3 Code。"
+  },
+  {
+    "key": "Allow Screen Recording in System Settings, then restart T3 Code.",
+    "section": "messages",
+    "value": "请在系统设置中允许屏幕录制，然后重新启动 T3 Code。"
+  },
+  {
+    "key": "Allow agent browser access",
+    "section": "messages",
+    "value": "允许 Agent 访问浏览器"
+  },
+  {
+    "key": "Allow agents to use the preview browser. Off hides browser tools from agents, not you.",
+    "section": "messages",
+    "value": "允许 Agent 使用预览浏览器。关闭后仅对 Agent 隐藏浏览器工具，不影响你使用。"
+  },
+  {
+    "key": "Allows scoped background probes while any subscribed client remains connected.",
+    "section": "messages",
+    "value": "只要有订阅的客户端保持连接，就允许执行限定范围的后台检查。"
+  },
+  {
+    "key": "Also pauses background probes when the host or client is on battery.",
+    "section": "messages",
+    "value": "主机或客户端使用电池供电时也会暂停后台检查。"
+  },
+  {
+    "key": "An instance named '{id}' already exists.",
+    "section": "templates",
+    "value": "实例“{id}”已存在。"
+  },
+  {
+    "key": "Android Emulator",
+    "section": "messages",
+    "value": "Android 模拟器"
+  },
+  {
+    "key": "Android Emulator screen",
+    "section": "messages",
+    "value": "Android 模拟器屏幕"
+  },
+  {
+    "key": "Another script change is still saving. Try again.",
+    "section": "messages",
+    "value": "另一项脚本更改仍在保存，请稍后重试。"
+  },
+  {
+    "key": "Antigravity is installed.",
+    "section": "messages",
+    "value": "Antigravity 已安装。"
+  },
+  {
+    "key": "Antigravity runs on {environment}.",
+    "section": "templates",
+    "value": "Antigravity 在 {environment} 上运行。"
+  },
+  {
+    "key": "App access approval",
+    "section": "messages",
+    "value": "应用访问批准"
+  },
+  {
+    "key": "App access request",
+    "section": "messages",
+    "value": "应用访问请求"
+  },
+  {
+    "key": "App language",
+    "section": "messages",
+    "value": "应用语言"
+  },
+  {
+    "key": "App permission approval",
+    "section": "messages",
+    "value": "应用权限审批"
+  },
+  {
+    "key": "Appearance: Cycle",
+    "section": "messages",
+    "value": "外观：循环切换"
+  },
+  {
+    "key": "Applies to sessions started from now on; a running agent keeps the tools it was given.",
+    "section": "messages",
+    "value": "仅对之后启动的会话生效；正在运行的 Agent 会保留已获得的工具。"
+  },
+  {
+    "key": "Applies your instructions to change descriptions and change request titles and descriptions in every project.",
+    "section": "messages",
+    "value": "在每个项目中，将你的说明应用于更改说明以及变更请求的标题和说明。"
+  },
+  {
+    "key": "Apply to all",
+    "section": "messages",
+    "value": "应用到全部环境"
+  },
+  {
+    "key": "Applying...",
+    "section": "messages",
+    "value": "正在应用..."
+  },
+  {
+    "key": "Approval dismissed",
+    "section": "messages",
+    "value": "批准已撤销"
+  },
+  {
+    "key": "Approved earlier changes",
+    "section": "messages",
+    "value": "曾批准较早的更改"
+  },
+  {
+    "key": "Approximate active CPU time for the T3 server root process and its descendants during the selected window.",
+    "section": "messages",
+    "value": "所选时间范围内，T3 服务器根进程及其子进程的近似活跃 CPU 时间。"
+  },
+  {
+    "key": "Archive thread “{title}”?",
+    "section": "templates",
+    "value": "归档任务“{title}”？"
+  },
+  {
+    "key": "Archive {count} thread?",
+    "section": "templates",
+    "value": "要归档 {count} 个任务吗？"
+  },
+  {
+    "key": "Archive {count} threads?",
+    "section": "templates",
+    "value": "要归档 {count} 个任务吗？"
+  },
+  {
+    "key": "Archived {time}",
+    "section": "templates",
+    "value": "归档于 {time}"
+  },
+  {
+    "key": "Ask for changes, send follow-ups, or attach images",
+    "section": "messages",
+    "value": "提出修改、发送后续消息或添加图片"
+  },
+  {
+    "key": "Attach files after answering plan questions.",
+    "section": "messages",
+    "value": "请先回答方案问题，再添加文件。"
+  },
+  {
+    "key": "Attach the interrupted file again or remove it",
+    "section": "messages",
+    "value": "请重新添加中断的文件，或将其移除"
+  },
+  {
+    "key": "Attach the interrupted files again or remove them",
+    "section": "messages",
+    "value": "请重新添加中断的文件，或将其移除"
+  },
+  {
+    "key": "Authentication failed.",
+    "section": "messages",
+    "value": "身份验证失败。"
+  },
+  {
+    "key": "Auto-merge",
+    "section": "messages",
+    "value": "自动合并"
+  },
+  {
+    "key": "Auto-merge ({method})",
+    "section": "templates",
+    "value": "自动合并（{method}）"
+  },
+  {
+    "key": "Automatic ({icon})",
+    "section": "templates",
+    "value": "自动（{icon}）"
+  },
+  {
+    "key": "Automatic installation is unavailable here. Set an existing binary path below or use a supported remote environment.",
+    "section": "messages",
+    "value": "此处无法自动安装。请在下方填写已有程序路径，或使用受支持的远程环境。"
+  },
+  {
+    "key": "Automatically pull the default branch",
+    "section": "messages",
+    "value": "自动拉取默认分支"
+  },
+  {
+    "key": "Automatically resume active threads after a server update restarts the environment.",
+    "section": "messages",
+    "value": "服务器更新并重启环境后，自动恢复进行中的任务。"
+  },
+  {
+    "key": "Available - Checking relay status...",
+    "section": "messages",
+    "value": "可用 - 正在检查中继状态..."
+  },
+  {
+    "key": "Available - Relay offline",
+    "section": "messages",
+    "value": "可用 - 中继离线"
+  },
+  {
+    "key": "Available - Relay online",
+    "section": "messages",
+    "value": "可用 - 中继在线"
+  },
+  {
+    "key": "Available - Relay status unavailable",
+    "section": "messages",
+    "value": "可用 - 中继状态不可用"
+  },
+  {
+    "key": "Available in every inheriting checkout. Commands run in that checkout or its worktree.",
+    "section": "messages",
+    "value": "可用于所有继承此设置的检出目录；命令会在该检出目录或其工作树中运行。"
+  },
+  {
+    "key": "Available. {hint}",
+    "section": "templates",
+    "value": "可用。{hint}"
+  },
+  {
+    "key": "Awaiting Input",
+    "section": "messages",
+    "value": "等待输入"
+  },
+  {
+    "key": "Azure DevOps repository",
+    "section": "messages",
+    "value": "Azure DevOps 仓库"
+  },
+  {
+    "key": "Back to {path}",
+    "section": "templates",
+    "value": "返回 {path}"
+  },
+  {
+    "key": "Backup:",
+    "section": "messages",
+    "value": "备份："
+  },
+  {
+    "key": "Bitbucket repository",
+    "section": "messages",
+    "value": "Bitbucket 仓库"
+  },
+  {
+    "key": "Blank cache rates use the input price. Enter 0 for free tokens.",
+    "section": "messages",
+    "value": "缓存价格留空时使用输入价格；免费 Token 请输入 0。"
+  },
+  {
+    "key": "Branch changes",
+    "section": "messages",
+    "value": "分支更改"
+  },
+  {
+    "key": "Branch has diverged from upstream. Rebase or merge first.",
+    "section": "messages",
+    "value": "分支已与上游分叉，请先变基或合并。"
+  },
+  {
+    "key": "Branch is behind upstream. Pull or rebase before creating a {request}.",
+    "section": "templates",
+    "value": "分支落后于上游，请先拉取或变基再创建{request}。"
+  },
+  {
+    "key": "Branch is behind upstream. Pull or rebase before pushing.",
+    "section": "messages",
+    "value": "分支落后于上游，请先拉取或变基再推送。"
+  },
+  {
+    "key": "Branch is behind upstream. Pull/rebase before creating a {request}.",
+    "section": "templates",
+    "value": "分支落后于上游，请先拉取或变基再创建{request}。"
+  },
+  {
+    "key": "Brings back the Build/Plan toggle in the composer along with the /plan and /default commands and the Shift+Tab shortcut. While off, every thread runs in build mode.",
+    "section": "messages",
+    "value": "恢复输入框中的“执行/规划”切换，以及 /plan、/default 命令和 Shift+Tab 快捷键。关闭后，所有任务都以执行模式运行。"
+  },
+  {
+    "key": "Brings back the original sidebar with per-project thread trees. The default sidebar shows one flat list: active work as rich cards, settled threads as compact rows.",
+    "section": "messages",
+    "value": "恢复按项目显示任务树的原版侧栏。默认侧栏使用一个扁平列表：活跃工作显示为详细卡片，已收起任务显示为紧凑行。"
+  },
+  {
+    "key": "CLI Proxy",
+    "section": "messages",
+    "value": "CLI 代理"
+  },
+  {
+    "key": "CPU avg",
+    "section": "messages",
+    "value": "CPU 平均值"
+  },
+  {
+    "key": "CPU peak",
+    "section": "messages",
+    "value": "CPU 峰值"
+  },
+  {
+    "key": "Cancel and return to the composer",
+    "section": "messages",
+    "value": "取消并返回输入框"
+  },
+  {
+    "key": "Cancelling installation",
+    "section": "messages",
+    "value": "正在取消安装"
+  },
+  {
+    "key": "Cancelling sign-in",
+    "section": "messages",
+    "value": "正在取消登录"
+  },
+  {
+    "key": "Cause",
+    "section": "messages",
+    "value": "原因"
+  },
+  {
+    "key": "Change accent color for {name}",
+    "section": "templates",
+    "value": "更改 {name} 的强调色"
+  },
+  {
+    "key": "Change project",
+    "section": "messages",
+    "value": "更改项目"
+  },
+  {
+    "key": "Change the keys if needed.",
+    "section": "messages",
+    "value": "可按需更改按键。"
+  },
+  {
+    "key": "Changed {0} files and ran {1} commands",
+    "section": "templates",
+    "value": "已更改 {0} 个文件，已运行 {1} 条命令"
+  },
+  {
+    "key": "Changed {count} file",
+    "section": "templates",
+    "value": "已更改 {count} 个文件"
+  },
+  {
+    "key": "Changes apply to connected machines only. Offline machines keep their current defaults.",
+    "section": "messages",
+    "value": "更改仅应用于已连接的设备；离线设备会保留当前默认设置。"
+  },
+  {
+    "key": "Chat: New",
+    "section": "messages",
+    "value": "聊天：新建任务"
+  },
+  {
+    "key": "Chat: New Local",
+    "section": "messages",
+    "value": "聊天：新建本地任务"
+  },
+  {
+    "key": "Chat: New Without Project",
+    "section": "messages",
+    "value": "聊天：新建无项目任务"
+  },
+  {
+    "key": "Check for Updates",
+    "section": "messages",
+    "value": "检查更新"
+  },
+  {
+    "key": "Check for updates",
+    "section": "messages",
+    "value": "检查更新"
+  },
+  {
+    "key": "Checked just now",
+    "section": "messages",
+    "value": "刚刚检查"
+  },
+  {
+    "key": "Checked {time}",
+    "section": "templates",
+    "value": "{time}检查"
+  },
+  {
+    "key": "Checked {time} ago",
+    "section": "templates",
+    "value": "{time}前检查"
+  },
+  {
+    "key": "Checking Google sign-in and available models.",
+    "section": "messages",
+    "value": "正在检查 Google 登录和可用模型。"
+  },
+  {
+    "key": "Checking connection…",
+    "section": "messages",
+    "value": "正在检查连接…"
+  },
+  {
+    "key": "Checking credentials and available models.",
+    "section": "messages",
+    "value": "正在检查凭据和可用模型。"
+  },
+  {
+    "key": "Checking credentials.",
+    "section": "messages",
+    "value": "正在检查凭据。"
+  },
+  {
+    "key": "Checking for updates…",
+    "section": "messages",
+    "value": "正在检查更新…"
+  },
+  {
+    "key": "Checking permissions…",
+    "section": "messages",
+    "value": "正在检查权限…"
+  },
+  {
+    "key": "Checking redirect",
+    "section": "messages",
+    "value": "正在检查重定向"
+  },
+  {
+    "key": "Checking the downloaded runtime.",
+    "section": "messages",
+    "value": "正在检查已下载的运行时。"
+  },
+  {
+    "key": "Checking what this session is allowed to change.",
+    "section": "messages",
+    "value": "正在检查当前会话可修改的内容。"
+  },
+  {
+    "key": "Checking {browser}",
+    "section": "templates",
+    "value": "正在检查 {browser}"
+  },
+  {
+    "key": "Checkout",
+    "section": "messages",
+    "value": "检出目录"
+  },
+  {
+    "key": "Checkout change request",
+    "section": "messages",
+    "value": "检出变更请求"
+  },
+  {
+    "key": "Checkout feature branch & continue",
+    "section": "messages",
+    "value": "检出功能分支并继续"
+  },
+  {
+    "key": "Checkout merge request",
+    "section": "messages",
+    "value": "检出合并请求"
+  },
+  {
+    "key": "Checkout pull request",
+    "section": "messages",
+    "value": "检出拉取请求"
+  },
+  {
+    "key": "Checkout {request}",
+    "section": "templates",
+    "value": "检出{request}"
+  },
+  {
+    "key": "Choose a custom accent color for {provider}",
+    "section": "templates",
+    "value": "为 {provider} 选择自定义强调色"
+  },
+  {
+    "key": "Choose a machine automatically for new threads in shared projects.",
+    "section": "messages",
+    "value": "为共享项目中的新任务自动选择设备。"
+  },
+  {
+    "key": "Choose a project before compacting",
+    "section": "messages",
+    "value": "请先选择项目，再压缩上下文"
+  },
+  {
+    "key": "Choose accent color for {provider}",
+    "section": "templates",
+    "value": "为 {provider} 选择强调色"
+  },
+  {
+    "key": "Choose files",
+    "section": "messages",
+    "value": "选择文件"
+  },
+  {
+    "key": "Choose how T3 Code looks. Use a built-in theme or make your own.",
+    "section": "messages",
+    "value": "选择 T3 Code 的显示方式。使用内置主题，或创建自己的主题。"
+  },
+  {
+    "key": "Choose the language used by T3 Code. Follow system uses your browser or operating system language.",
+    "section": "messages",
+    "value": "选择 T3 Code 的界面语言。跟随系统时，将使用浏览器或操作系统的语言。"
+  },
+  {
+    "key": "Choose whether the desktop app quits immediately, after a hold, or after two quick presses.",
+    "section": "messages",
+    "value": "选择桌面客户端立即退出、长按后退出，或快速按两次后退出。"
+  },
+  {
+    "key": "Choose which cookies to import for {environment}.",
+    "section": "templates",
+    "value": "选择要导入到 {environment} 的 Cookie。"
+  },
+  {
+    "key": "Claude provider status has not been checked in this session yet.",
+    "section": "messages",
+    "value": "本次会话尚未检查 Claude 服务提供方状态。"
+  },
+  {
+    "key": "Clear accent color for {provider}",
+    "section": "templates",
+    "value": "清除 {provider} 的强调色"
+  },
+  {
+    "key": "Clear “{0}”’s cookies and cache?",
+    "section": "templates",
+    "value": "清除“{0}”的 Cookie 和缓存？"
+  },
+  {
+    "key": "Cleared {profile}’s cookies and cache",
+    "section": "templates",
+    "value": "已清除{profile}的 Cookie 和缓存"
+  },
+  {
+    "key": "Click to retry.",
+    "section": "messages",
+    "value": "点击重试。"
+  },
+  {
+    "key": "Clients on this machine",
+    "section": "messages",
+    "value": "当前设备上的客户端"
+  },
+  {
+    "key": "Clipboard access is unavailable.",
+    "section": "messages",
+    "value": "当前无法访问剪贴板。"
+  },
+  {
+    "key": "Clone",
+    "section": "messages",
+    "value": "克隆"
+  },
+  {
+    "key": "Clone Azure DevOps project/repository",
+    "section": "messages",
+    "value": "克隆 Azure DevOps 项目/仓库"
+  },
+  {
+    "key": "Clone Bitbucket workspace/repository",
+    "section": "messages",
+    "value": "克隆 Bitbucket 工作区/仓库"
+  },
+  {
+    "key": "Clone Forgejo / Gitea owner/repo",
+    "section": "messages",
+    "value": "克隆 Forgejo / Gitea 所有者/仓库"
+  },
+  {
+    "key": "Clone GitHub owner/repo",
+    "section": "messages",
+    "value": "克隆 GitHub 所有者/仓库"
+  },
+  {
+    "key": "Clone GitLab group/project",
+    "section": "messages",
+    "value": "克隆 GitLab 群组/项目"
+  },
+  {
+    "key": "Clone from a remote URL",
+    "section": "messages",
+    "value": "从远程 URL 克隆"
+  },
+  {
+    "key": "Clone {provider} {path}",
+    "section": "templates",
+    "value": "克隆 {provider} {path}"
+  },
+  {
+    "key": "Close Terminal",
+    "section": "messages",
+    "value": "关闭终端"
+  },
+  {
+    "key": "Close image preview",
+    "section": "messages",
+    "value": "关闭图片预览"
+  },
+  {
+    "key": "Close review",
+    "section": "messages",
+    "value": "关闭评审"
+  },
+  {
+    "key": "Close script",
+    "section": "messages",
+    "value": "关闭脚本"
+  },
+  {
+    "key": "Close {0}",
+    "section": "templates",
+    "value": "关闭 {0}"
+  },
+  {
+    "key": "Close {0} preview",
+    "section": "templates",
+    "value": "关闭{0}预览"
+  },
+  {
+    "key": "Closed pull request",
+    "section": "messages",
+    "value": "已关闭的拉取请求"
+  },
+  {
+    "key": "Closed {count} pull request",
+    "section": "templates",
+    "value": "已关闭 {count} 个拉取请求"
+  },
+  {
+    "key": "Closed {count} pull requests",
+    "section": "templates",
+    "value": "已关闭 {count} 个拉取请求"
+  },
+  {
+    "key": "Codex feedback thread ID",
+    "section": "messages",
+    "value": "Codex 反馈任务 ID"
+  },
+  {
+    "key": "Codex provider status has not been checked in this session yet.",
+    "section": "messages",
+    "value": "本次会话尚未检查 Codex 服务提供方状态。"
+  },
+  {
+    "key": "Collapse composer",
+    "section": "messages",
+    "value": "自动收起输入框"
+  },
+  {
+    "key": "Collapse tasks",
+    "section": "messages",
+    "value": "收起任务"
+  },
+  {
+    "key": "Collapse tasks: {completed} of {total} complete. Current task: {task}",
+    "section": "templates",
+    "value": "收起任务清单：已完成 {completed}/{total}。当前任务：{task}"
+  },
+  {
+    "key": "Collapse workflow",
+    "section": "messages",
+    "value": "收起工作流"
+  },
+  {
+    "key": "Command + Command is not available on this system.",
+    "section": "messages",
+    "value": "此系统上无法使用 Command + Command。"
+  },
+  {
+    "key": "Command Palette: Toggle",
+    "section": "messages",
+    "value": "命令面板：切换"
+  },
+  {
+    "key": "Command approval",
+    "section": "messages",
+    "value": "命令批准"
+  },
+  {
+    "key": "Command approval requested",
+    "section": "messages",
+    "value": "命令需要批准"
+  },
+  {
+    "key": "Commands",
+    "section": "messages",
+    "value": "命令"
+  },
+  {
+    "key": "Comments",
+    "section": "messages",
+    "value": "评论"
+  },
+  {
+    "key": "Comments can contain up to {count} characters.",
+    "section": "templates",
+    "value": "批注最多可包含 {count} 个字符。"
+  },
+  {
+    "key": "Commit changes",
+    "section": "messages",
+    "value": "提交更改"
+  },
+  {
+    "key": "Commit is currently unavailable.",
+    "section": "messages",
+    "value": "当前无法提交。"
+  },
+  {
+    "key": "Commit local changes before creating a {request}.",
+    "section": "templates",
+    "value": "请先提交本地更改，再创建{request}。"
+  },
+  {
+    "key": "Commit or stash local changes before pushing.",
+    "section": "messages",
+    "value": "请先提交或暂存本地更改，再进行推送。"
+  },
+  {
+    "key": "Commit, push & change request",
+    "section": "messages",
+    "value": "提交、推送并创建变更请求"
+  },
+  {
+    "key": "Commit, push & create change request",
+    "section": "messages",
+    "value": "提交、推送并创建变更请求"
+  },
+  {
+    "key": "Commit, push & create change request from default ref?",
+    "section": "messages",
+    "value": "从默认引用提交、推送并创建变更请求？"
+  },
+  {
+    "key": "Commit, push & create {request} from default branch?",
+    "section": "templates",
+    "value": "从默认分支提交、推送并创建{request}？"
+  },
+  {
+    "key": "Committing...",
+    "section": "messages",
+    "value": "正在提交..."
+  },
+  {
+    "key": "Compact again once its thumbnail appears.",
+    "section": "messages",
+    "value": "缩略图出现后请再次压缩上下文。"
+  },
+  {
+    "key": "Compact and continue",
+    "section": "messages",
+    "value": "压缩并继续"
+  },
+  {
+    "key": "Compacting is unavailable right now",
+    "section": "messages",
+    "value": "目前无法压缩上下文"
+  },
+  {
+    "key": "Completed",
+    "section": "messages",
+    "value": "已完成"
+  },
+  {
+    "key": "Composer: Branch",
+    "section": "messages",
+    "value": "输入框：选择分支"
+  },
+  {
+    "key": "Composer: Cycle Host",
+    "section": "messages",
+    "value": "输入框：切换主机"
+  },
+  {
+    "key": "Composer: Effort",
+    "section": "messages",
+    "value": "输入框：推理强度"
+  },
+  {
+    "key": "Composer: Host",
+    "section": "messages",
+    "value": "输入框：选择主机"
+  },
+  {
+    "key": "Composer: Mode",
+    "section": "messages",
+    "value": "输入框：运行模式"
+  },
+  {
+    "key": "Composer: Previous Worktree",
+    "section": "messages",
+    "value": "输入框：上一个工作树"
+  },
+  {
+    "key": "Composer: Stash",
+    "section": "messages",
+    "value": "输入框：暂存内容"
+  },
+  {
+    "key": "Composer: Workspace",
+    "section": "messages",
+    "value": "输入框：选择工作区"
+  },
+  {
+    "key": "Config",
+    "section": "messages",
+    "value": "配置"
+  },
+  {
+    "key": "Configuration",
+    "section": "messages",
+    "value": "配置"
+  },
+  {
+    "key": "Configure an additional provider instance on {environment}, for example a second Codex install pointed at a different workspace.",
+    "section": "templates",
+    "value": "在 {environment} 上配置额外的服务提供方实例，例如将第二套 Codex 安装指向不同的工作区。"
+  },
+  {
+    "key": "Conflicts with {0}",
+    "section": "templates",
+    "value": "与 {0} 冲突"
+  },
+  {
+    "key": "Conflicts with {0}.",
+    "section": "templates",
+    "value": "与 {0} 冲突。"
+  },
+  {
+    "key": "Conflicts with {0}{1}.",
+    "section": "templates",
+    "value": "与 {0}{1} 冲突。"
+  },
+  {
+    "key": "Conflicts with {bindings}{more}.",
+    "section": "templates",
+    "value": "与 {bindings}{more} 冲突。"
+  },
+  {
+    "key": "Conflicts with {binding}.",
+    "section": "templates",
+    "value": "与 {binding} 冲突。"
+  },
+  {
+    "key": "Connect a CLIProxyAPI hub to show its accounts on Usage → Limits.",
+    "section": "messages",
+    "value": "连接 CLIProxyAPI Hub，在“用量 → 限额”中显示其账户。"
+  },
+  {
+    "key": "Connect a machine to change its project defaults.",
+    "section": "messages",
+    "value": "请先连接一台设备，再修改项目默认设置。"
+  },
+  {
+    "key": "Connect an environment to get started",
+    "section": "messages",
+    "value": "连接环境以开始使用"
+  },
+  {
+    "key": "Connect another machine to automatically balance load across environments.",
+    "section": "messages",
+    "value": "再连接一台设备，即可在各环境之间自动均衡负载。"
+  },
+  {
+    "key": "Connect from {0} selected environments.",
+    "section": "templates",
+    "value": "从 {0} 个所选环境连接。"
+  },
+  {
+    "key": "Connect from {0}.",
+    "section": "templates",
+    "value": "从 {0} 连接。"
+  },
+  {
+    "key": "Connect to this environment to change its icon.",
+    "section": "messages",
+    "value": "连接到此环境后才能更改图标。"
+  },
+  {
+    "key": "Connect with the credentials below.",
+    "section": "messages",
+    "value": "使用下方凭据连接。"
+  },
+  {
+    "key": "Connect with the credentials in the provider settings.",
+    "section": "messages",
+    "value": "使用服务提供方设置中的凭据连接。"
+  },
+  {
+    "key": "Connect your Google account.",
+    "section": "messages",
+    "value": "连接 Google 账户。"
+  },
+  {
+    "key": "Connected.",
+    "section": "messages",
+    "value": "已连接。"
+  },
+  {
+    "key": "Connecting",
+    "section": "messages",
+    "value": "正在连接"
+  },
+  {
+    "key": "Connecting to T3 Connect…",
+    "section": "messages",
+    "value": "正在连接 T3 Connect…"
+  },
+  {
+    "key": "Connecting to {environment}",
+    "section": "templates",
+    "value": "正在连接到{environment}"
+  },
+  {
+    "key": "Connecting video…",
+    "section": "messages",
+    "value": "正在连接视频…"
+  },
+  {
+    "key": "Connection cancelled.",
+    "section": "messages",
+    "value": "连接已取消。"
+  },
+  {
+    "key": "Connection failed: {reason}",
+    "section": "templates",
+    "value": "连接失败：{reason}"
+  },
+  {
+    "key": "Context window {0} tokens used",
+    "section": "templates",
+    "value": "上下文窗口已使用 {0} 个 Token"
+  },
+  {
+    "key": "Context window {0} used",
+    "section": "templates",
+    "value": "上下文窗口已使用 {0}"
+  },
+  {
+    "key": "Continue as {0} on OpenAI.",
+    "section": "templates",
+    "value": "在 OpenAI 上以 {0} 继续。"
+  },
+  {
+    "key": "Continue threads after server updates",
+    "section": "messages",
+    "value": "服务器更新后继续任务"
+  },
+  {
+    "key": "Continue without the rest",
+    "section": "messages",
+    "value": "忽略其余内容并继续"
+  },
+  {
+    "key": "Control + Control is not available on this system.",
+    "section": "messages",
+    "value": "此系统上无法使用 Control + Control。"
+  },
+  {
+    "key": "Control how transparent glass surfaces are. Higher values make menus, dialogs, and the composer more solid.",
+    "section": "messages",
+    "value": "控制玻璃界面的透明度。数值越高，菜单、对话框和输入框越不透明。"
+  },
+  {
+    "key": "Conversation unavailable",
+    "section": "messages",
+    "value": "对话不可用"
+  },
+  {
+    "key": "Copied {target}",
+    "section": "templates",
+    "value": "已复制{target}"
+  },
+  {
+    "key": "Copy branch",
+    "section": "messages",
+    "value": "复制分支"
+  },
+  {
+    "key": "Copy checkout path",
+    "section": "messages",
+    "value": "复制检出目录路径"
+  },
+  {
+    "key": "Copy options",
+    "section": "messages",
+    "value": "复制选项"
+  },
+  {
+    "key": "Copy {0} update command",
+    "section": "templates",
+    "value": "复制 {0} 的更新命令"
+  },
+  {
+    "key": "Could not check projects.",
+    "section": "messages",
+    "value": "无法检查项目。"
+  },
+  {
+    "key": "Could not clear {profile}’s data",
+    "section": "templates",
+    "value": "无法清除{profile}的数据"
+  },
+  {
+    "key": "Could not connect the T3 Connect environment.",
+    "section": "messages",
+    "value": "无法连接 T3 Connect 环境。"
+  },
+  {
+    "key": "Could not connect to this device",
+    "section": "messages",
+    "value": "无法连接到此设备"
+  },
+  {
+    "key": "Could not connect with the configured credentials.",
+    "section": "messages",
+    "value": "无法使用已配置的凭据连接。"
+  },
+  {
+    "key": "Could not copy the sign-in link. Use Open sign-in page.",
+    "section": "messages",
+    "value": "无法复制登录链接。请使用“打开登录页面”。"
+  },
+  {
+    "key": "Could not copy {target}",
+    "section": "templates",
+    "value": "无法复制{target}"
+  },
+  {
+    "key": "Could not download this video.",
+    "section": "messages",
+    "value": "无法下载此视频。"
+  },
+  {
+    "key": "Could not download {name}",
+    "section": "templates",
+    "value": "无法下载{name}"
+  },
+  {
+    "key": "Could not import thread history.",
+    "section": "messages",
+    "value": "无法导入任务历史。"
+  },
+  {
+    "key": "Could not load the script.",
+    "section": "messages",
+    "value": "无法加载脚本。"
+  },
+  {
+    "key": "Could not open a fresh composer.",
+    "section": "messages",
+    "value": "无法打开新的输入框。"
+  },
+  {
+    "key": "Could not open a fresh composer: {reason}",
+    "section": "templates",
+    "value": "无法打开新的输入框：{reason}"
+  },
+  {
+    "key": "Could not play {name}",
+    "section": "templates",
+    "value": "无法播放{name}"
+  },
+  {
+    "key": "Could not read limits.",
+    "section": "messages",
+    "value": "无法读取限额。"
+  },
+  {
+    "key": "Could not send feedback to OpenAI.\n\n{error}",
+    "section": "templates",
+    "value": "无法向 OpenAI 发送反馈。\n\n{error}"
+  },
+  {
+    "key": "Could not start without a project",
+    "section": "messages",
+    "value": "无法启动无项目任务"
+  },
+  {
+    "key": "Could not update {0}.",
+    "section": "templates",
+    "value": "无法更新 {0}。"
+  },
+  {
+    "key": "Could not update {environments}. The other selected environments saved the change.",
+    "section": "templates",
+    "value": "无法更新 {environments}。其他选中的环境已保存此更改。"
+  },
+  {
+    "key": "Could not update {server}",
+    "section": "templates",
+    "value": "无法更新 {server}"
+  },
+  {
+    "key": "Could not use the reset credit.",
+    "section": "messages",
+    "value": "无法使用重置额度。"
+  },
+  {
+    "key": "Could not verify {provider}. {hint}",
+    "section": "templates",
+    "value": "无法验证 {provider}。{hint}"
+  },
+  {
+    "key": "Couldn't connect",
+    "section": "messages",
+    "value": "无法连接"
+  },
+  {
+    "key": "Couldn't load output: {0}",
+    "section": "templates",
+    "value": "无法加载输出：{0}"
+  },
+  {
+    "key": "Couldn’t import from {browser}",
+    "section": "templates",
+    "value": "无法从 {browser} 导入"
+  },
+  {
+    "key": "Counted once across environments sharing a transcript directory: {sources}",
+    "section": "templates",
+    "value": "共享同一记录目录的环境只计一次：{sources}"
+  },
+  {
+    "key": "Create & Add",
+    "section": "messages",
+    "value": "创建并添加"
+  },
+  {
+    "key": "Create & Clone",
+    "section": "messages",
+    "value": "创建并克隆"
+  },
+  {
+    "key": "Create and check out a branch before pushing or opening a {request}.",
+    "section": "templates",
+    "value": "请先创建并检出分支，再推送或打开{request}。"
+  },
+  {
+    "key": "Create change request",
+    "section": "messages",
+    "value": "创建变更请求"
+  },
+  {
+    "key": "Create comments while reviewing changes.",
+    "section": "messages",
+    "value": "在审查更改时创建评论。"
+  },
+  {
+    "key": "Create new ref \"",
+    "section": "messages",
+    "value": "创建新引用「"
+  },
+  {
+    "key": "Create {request} is currently unavailable.",
+    "section": "templates",
+    "value": "当前无法创建{request}。"
+  },
+  {
+    "key": "Created {count} thread",
+    "section": "templates",
+    "value": "已创建 {count} 个任务"
+  },
+  {
+    "key": "Created {count} threads",
+    "section": "templates",
+    "value": "已创建 {count} 个任务"
+  },
+  {
+    "key": "Created {time}",
+    "section": "templates",
+    "value": "创建于 {time}"
+  },
+  {
+    "key": "Creating a {request} is currently unavailable.",
+    "section": "templates",
+    "value": "当前无法创建{request}。"
+  },
+  {
+    "key": "Creating change request...",
+    "section": "messages",
+    "value": "正在创建变更请求..."
+  },
+  {
+    "key": "Creating merge request...",
+    "section": "messages",
+    "value": "正在创建合并请求..."
+  },
+  {
+    "key": "Creating pull request...",
+    "section": "messages",
+    "value": "正在创建拉取请求..."
+  },
+  {
+    "key": "Current shared policy: {profile}.",
+    "section": "templates",
+    "value": "当前共享策略：{profile}。"
+  },
+  {
+    "key": "Custom HTTPS",
+    "section": "messages",
+    "value": "自定义 HTTPS"
+  },
+  {
+    "key": "Custom accent color hex value",
+    "section": "messages",
+    "value": "自定义强调色十六进制值"
+  },
+  {
+    "key": "Custom endpoint",
+    "section": "messages",
+    "value": "自定义地址"
+  },
+  {
+    "key": "Custom models are always shown in the picker",
+    "section": "messages",
+    "value": "自定义模型会始终显示在选择器中"
+  },
+  {
+    "key": "Daily at {time}",
+    "section": "templates",
+    "value": "每天 {time}"
+  },
+  {
+    "key": "Daily cost",
+    "section": "messages",
+    "value": "每日费用"
+  },
+  {
+    "key": "Daily processed tokens",
+    "section": "messages",
+    "value": "每日已处理 Token"
+  },
+  {
+    "key": "Decrease {0}",
+    "section": "templates",
+    "value": "缩短{0}"
+  },
+  {
+    "key": "Default (each checkout's t3.json or global setting)",
+    "section": "messages",
+    "value": "默认（使用各检出目录的 t3.json 或全局设置）"
+  },
+  {
+    "key": "Default (per checkout)",
+    "section": "messages",
+    "value": "默认（按检出目录）"
+  },
+  {
+    "key": "Default ({source}: {value})",
+    "section": "templates",
+    "value": "默认（{source}：{value}）"
+  },
+  {
+    "key": "Default ({value})",
+    "section": "templates",
+    "value": "默认（{value}）"
+  },
+  {
+    "key": "Default actions",
+    "section": "messages",
+    "value": "默认操作"
+  },
+  {
+    "key": "Default agent browser access",
+    "section": "messages",
+    "value": "默认 Agent 浏览器访问权限"
+  },
+  {
+    "key": "Default grouping across all machines in this client. Individual checkout overrides are preserved.",
+    "section": "messages",
+    "value": "此客户端中所有设备采用的默认分组方式；各检出目录的单独设置会保留。"
+  },
+  {
+    "key": "Default mode - click to enter plan mode",
+    "section": "messages",
+    "value": "当前为默认模式，点击进入规划模式"
+  },
+  {
+    "key": "Default model for generated text like thread titles and source control content. Source control settings can override it with a dedicated source control writer model.",
+    "section": "messages",
+    "value": "用于生成任务标题和源代码管理内容等文本的默认模型。源代码管理设置可以使用专用写作模型覆盖此项。"
+  },
+  {
+    "key": "Default project grouping",
+    "section": "messages",
+    "value": "默认项目分组"
+  },
+  {
+    "key": "Delete 1 thread?",
+    "section": "messages",
+    "value": "要删除 1 个任务吗？"
+  },
+  {
+    "key": "Delete action \"{name}\"?",
+    "section": "templates",
+    "value": "删除操作“{name}”？"
+  },
+  {
+    "key": "Delete instance",
+    "section": "messages",
+    "value": "删除实例"
+  },
+  {
+    "key": "Delete provider instance {instance}",
+    "section": "templates",
+    "value": "删除服务提供方实例 {instance}"
+  },
+  {
+    "key": "Delete thread \"{title}\"?",
+    "section": "templates",
+    "value": "要删除任务“{title}”吗？"
+  },
+  {
+    "key": "Delete {count} threads?",
+    "section": "templates",
+    "value": "要删除 {count} 个任务吗？"
+  },
+  {
+    "key": "Deleted action “{name}”",
+    "section": "templates",
+    "value": "已删除操作“{name}”"
+  },
+  {
+    "key": "Deletes all {0} checkout entries and their threads on every machine. Files on disk are not touched.",
+    "section": "templates",
+    "value": "删除全部 {0} 个检出目录条目及其在各设备上的任务，不会删除磁盘上的文件。"
+  },
+  {
+    "key": "Deliveries · {0}",
+    "section": "templates",
+    "value": "投递记录 · {0}"
+  },
+  {
+    "key": "Detached HEAD: check out a branch before creating a {request}.",
+    "section": "templates",
+    "value": "当前处于分离的 HEAD 状态，请先检出分支再创建{request}。"
+  },
+  {
+    "key": "Detached HEAD: check out a branch before pushing.",
+    "section": "messages",
+    "value": "当前处于分离的 HEAD 状态，请先检出分支再推送。"
+  },
+  {
+    "key": "Details for {model}",
+    "section": "templates",
+    "value": "查看 {model} 详情"
+  },
+  {
+    "key": "Devices on the same network",
+    "section": "messages",
+    "value": "同一局域网内的设备"
+  },
+  {
+    "key": "Devices on your private network",
+    "section": "messages",
+    "value": "私有网络中的设备"
+  },
+  {
+    "key": "Diff scope: {0}",
+    "section": "templates",
+    "value": "差异范围：{0}"
+  },
+  {
+    "key": "Diff: Toggle",
+    "section": "messages",
+    "value": "差异面板：切换"
+  },
+  {
+    "key": "Different actions across machines",
+    "section": "messages",
+    "value": "不同设备上的操作不一致"
+  },
+  {
+    "key": "Direct spawns",
+    "section": "messages",
+    "value": "直接创建的子 Agent"
+  },
+  {
+    "key": "Discard",
+    "section": "messages",
+    "value": "放弃"
+  },
+  {
+    "key": "Disconnected",
+    "section": "messages",
+    "value": "已断开连接"
+  },
+  {
+    "key": "Disconnecting...",
+    "section": "messages",
+    "value": "正在断开连接..."
+  },
+  {
+    "key": "Dismiss to clear the Woke indicator, or send a message to keep going.",
+    "section": "messages",
+    "value": "关闭此提示，或直接发送消息继续处理任务。"
+  },
+  {
+    "key": "Dismiss {0} provider error",
+    "section": "templates",
+    "value": "关闭 {0} 服务提供方错误提示"
+  },
+  {
+    "key": "Dismiss {0} provider ready",
+    "section": "templates",
+    "value": "关闭 {0} 服务提供方提示"
+  },
+  {
+    "key": "Dismiss {0} provider warning",
+    "section": "templates",
+    "value": "关闭 {0} 服务提供方警告"
+  },
+  {
+    "key": "Don't ask again",
+    "section": "messages",
+    "value": "不再询问"
+  },
+  {
+    "key": "Download",
+    "section": "messages",
+    "value": "下载"
+  },
+  {
+    "key": "Download {0}",
+    "section": "templates",
+    "value": "下载{0}"
+  },
+  {
+    "key": "Downloading {0}{1} MB.",
+    "section": "templates",
+    "value": "正在下载 {0}{1} MB。"
+  },
+  {
+    "key": "Downloading {downloaded} MB{total}.",
+    "section": "templates",
+    "value": "正在下载 {downloaded} MB{total}。"
+  },
+  {
+    "key": "Downloads {size} MB from Google.",
+    "section": "templates",
+    "value": "将从 Google 下载 {size} MB。"
+  },
+  {
+    "key": "Draft pull request",
+    "section": "messages",
+    "value": "拉取请求草稿"
+  },
+  {
+    "key": "Drag to resize sidebar",
+    "section": "messages",
+    "value": "拖动以调整侧栏宽度"
+  },
+  {
+    "key": "Each paragraph or code block appears as soon as it is complete.",
+    "section": "messages",
+    "value": "每个段落或代码块完成后立即显示。"
+  },
+  {
+    "key": "Earlier review dismissed",
+    "section": "messages",
+    "value": "较早的评审已撤销"
+  },
+  {
+    "key": "Early Access",
+    "section": "messages",
+    "value": "抢先体验"
+  },
+  {
+    "key": "Edit in the composer",
+    "section": "messages",
+    "value": "在输入框中编辑"
+  },
+  {
+    "key": "Edit in the composer ({shortcut})",
+    "section": "templates",
+    "value": "在输入框中编辑（{shortcut}）"
+  },
+  {
+    "key": "Edit {0}",
+    "section": "templates",
+    "value": "编辑{0}"
+  },
+  {
+    "key": "Edit {name}",
+    "section": "templates",
+    "value": "编辑{name}"
+  },
+  {
+    "key": "Editor: Open Favorite",
+    "section": "messages",
+    "value": "编辑器：在首选编辑器中打开"
+  },
+  {
+    "key": "Empty placeholders: {0}",
+    "section": "templates",
+    "value": "为空的占位符：{0}"
+  },
+  {
+    "key": "Enable T3 Connect on that machine, then open Connections here to sign in with the same account. You can also add the machine using a pairing link.",
+    "section": "messages",
+    "value": "请在该设备上启用 T3 Connect，再在此处打开“连接”并使用同一账户登录；也可以使用配对链接添加设备。"
+  },
+  {
+    "key": "Enable a Claude provider before compacting",
+    "section": "messages",
+    "value": "请先启用 Claude 服务提供方，再压缩上下文"
+  },
+  {
+    "key": "Enable it to use it in threads.",
+    "section": "messages",
+    "value": "启用后即可在任务中使用。"
+  },
+  {
+    "key": "Ended",
+    "section": "messages",
+    "value": "结束时间"
+  },
+  {
+    "key": "Enter a model ID.",
+    "section": "messages",
+    "value": "请输入模型 ID。"
+  },
+  {
+    "key": "Enter a path relative to {workspace}.",
+    "section": "templates",
+    "value": "输入相对于 {workspace} 的路径。"
+  },
+  {
+    "key": "Enter path (e.g. ~/projects/my-app)",
+    "section": "messages",
+    "value": "输入路径（例如 ~/projects/my-app）"
+  },
+  {
+    "key": "Enter project path (e.g. ~/projects/my-app)",
+    "section": "messages",
+    "value": "输入项目路径（例如 ~/projects/my-app）"
+  },
+  {
+    "key": "Environment removed",
+    "section": "messages",
+    "value": "环境已移除"
+  },
+  {
+    "key": "Environment variable name {0}",
+    "section": "templates",
+    "value": "第 {0} 个环境变量名称"
+  },
+  {
+    "key": "Environment variable value {0}",
+    "section": "templates",
+    "value": "第 {0} 个环境变量值"
+  },
+  {
+    "key": "Environment variables",
+    "section": "messages",
+    "value": "环境变量"
+  },
+  {
+    "key": "Environment: {environment}",
+    "section": "templates",
+    "value": "环境：{environment}"
+  },
+  {
+    "key": "Every token repaints the answer as it arrives. Slower and harder to read. Thinking traces still arrive a paragraph at a time.",
+    "section": "messages",
+    "value": "每个 Token 到达时都会重绘回复，速度较慢且不易阅读。思考过程仍逐段显示。"
+  },
+  {
+    "key": "Expanded image preview",
+    "section": "messages",
+    "value": "展开图片预览"
+  },
+  {
+    "key": "Expanded {media} preview",
+    "section": "templates",
+    "value": "展开{media}预览"
+  },
+  {
+    "key": "Expires in {0}d {1}h",
+    "section": "templates",
+    "value": "{0} 天 {1} 小时后过期"
+  },
+  {
+    "key": "Expires in {0}d {1}h {2}m",
+    "section": "templates",
+    "value": "{0} 天 {1} 小时 {2} 分钟后过期"
+  },
+  {
+    "key": "Expires in {0}d {1}h {2}m {3}s",
+    "section": "templates",
+    "value": "{0} 天 {1} 小时 {2} 分 {3} 秒后过期"
+  },
+  {
+    "key": "Expires in {0}d {1}h {2}s",
+    "section": "templates",
+    "value": "{0} 天 {1} 小时 {2} 秒后过期"
+  },
+  {
+    "key": "Expires in {0}d {1}m",
+    "section": "templates",
+    "value": "{0} 天 {1} 分钟后过期"
+  },
+  {
+    "key": "Expires in {0}d {1}m {2}s",
+    "section": "templates",
+    "value": "{0} 天 {1} 分 {2} 秒后过期"
+  },
+  {
+    "key": "Expires in {0}d {1}s",
+    "section": "templates",
+    "value": "{0} 天 {1} 秒后过期"
+  },
+  {
+    "key": "Expires in {0}h",
+    "section": "templates",
+    "value": "{0} 小时后过期"
+  },
+  {
+    "key": "Expires in {0}h {1}m",
+    "section": "templates",
+    "value": "{0} 小时 {1} 分钟后过期"
+  },
+  {
+    "key": "Expires in {0}h {1}m {2}s",
+    "section": "templates",
+    "value": "{0} 小时 {1} 分 {2} 秒后过期"
+  },
+  {
+    "key": "Expires in {0}h {1}s",
+    "section": "templates",
+    "value": "{0} 小时 {1} 秒后过期"
+  },
+  {
+    "key": "Exporting OTEL metrics to {url}.",
+    "section": "templates",
+    "value": "正在将 OTEL 指标导出到 {url}。"
+  },
+  {
+    "key": "Exporting OTEL to {url}.",
+    "section": "templates",
+    "value": "正在将 OTEL 导出到 {url}。"
+  },
+  {
+    "key": "Exporting OTEL traces to {tracesUrl} and metrics to {metricsUrl}.",
+    "section": "templates",
+    "value": "正在将 OTEL 跟踪导出到 {tracesUrl}，并将指标导出到 {metricsUrl}。"
+  },
+  {
+    "key": "Exporting OTEL traces to {url}.",
+    "section": "templates",
+    "value": "正在将 OTEL 跟踪导出到 {url}。"
+  },
+  {
+    "key": "Exposed on all interfaces.",
+    "section": "messages",
+    "value": "已在所有网络接口上开放。"
+  },
+  {
+    "key": "Exposed on all interfaces. Pairing links use {host}.",
+    "section": "templates",
+    "value": "已在所有网络接口上开放。配对链接使用 {host}。"
+  },
+  {
+    "key": "External power",
+    "section": "messages",
+    "value": "外接电源"
+  },
+  {
+    "key": "Extra high",
+    "section": "messages",
+    "value": "极高"
+  },
+  {
+    "key": "Extracting Antigravity.",
+    "section": "messages",
+    "value": "正在解压 Antigravity。"
+  },
+  {
+    "key": "Failed to cancel clone",
+    "section": "messages",
+    "value": "取消克隆失败"
+  },
+  {
+    "key": "Failed to compact context.",
+    "section": "messages",
+    "value": "压缩上下文失败。"
+  },
+  {
+    "key": "Failed to import action.",
+    "section": "messages",
+    "value": "导入操作失败。"
+  },
+  {
+    "key": "Failed to prepare {request} thread.",
+    "section": "templates",
+    "value": "无法准备{request}任务。"
+  },
+  {
+    "key": "Failed to remove keybinding",
+    "section": "messages",
+    "value": "移除快捷键失败"
+  },
+  {
+    "key": "Failed to remove {name}",
+    "section": "templates",
+    "value": "移除“{name}”失败"
+  },
+  {
+    "key": "Failed to reorder pinned threads",
+    "section": "messages",
+    "value": "调整置顶任务顺序失败"
+  },
+  {
+    "key": "Failed to retry clone",
+    "section": "messages",
+    "value": "重试克隆失败"
+  },
+  {
+    "key": "Failed to save keybinding",
+    "section": "messages",
+    "value": "保存快捷键失败"
+  },
+  {
+    "key": "Failed to save scripts",
+    "section": "messages",
+    "value": "保存脚本失败"
+  },
+  {
+    "key": "Failed to send {signal} to process {pid}.",
+    "section": "templates",
+    "value": "向进程 {pid} 发送 {signal} 失败。"
+  },
+  {
+    "key": "Failed to snooze {count} thread",
+    "section": "templates",
+    "value": "暂缓 {count} 个任务失败"
+  },
+  {
+    "key": "Failed to snooze {count} threads",
+    "section": "templates",
+    "value": "暂缓 {count} 个任务失败"
+  },
+  {
+    "key": "Failed to update automatic pull setting",
+    "section": "messages",
+    "value": "更新自动拉取设置失败"
+  },
+  {
+    "key": "Failed to update default model",
+    "section": "messages",
+    "value": "更新默认模型失败"
+  },
+  {
+    "key": "Failed to update new-thread workspace",
+    "section": "messages",
+    "value": "更新新任务工作区失败"
+  },
+  {
+    "key": "Failed to update project icon",
+    "section": "messages",
+    "value": "更新项目图标失败"
+  },
+  {
+    "key": "Fast",
+    "section": "messages",
+    "value": "快速"
+  },
+  {
+    "key": "Fast mode",
+    "section": "messages",
+    "value": "快速模式"
+  },
+  {
+    "key": "Feedback sent to OpenAI.\n\nThread ID: `{id}`",
+    "section": "templates",
+    "value": "反馈已发送给 OpenAI。\n\n任务 ID：`{id}`"
+  },
+  {
+    "key": "Fetch interval",
+    "section": "messages",
+    "value": "拉取间隔"
+  },
+  {
+    "key": "File Picker: Toggle",
+    "section": "messages",
+    "value": "文件选择器：切换"
+  },
+  {
+    "key": "File attachment, {name}, {size}",
+    "section": "templates",
+    "value": "文件附件，{name}，{size}"
+  },
+  {
+    "key": "File change",
+    "section": "messages",
+    "value": "文件更改"
+  },
+  {
+    "key": "File change approval",
+    "section": "messages",
+    "value": "文件更改批准"
+  },
+  {
+    "key": "File options for {0}",
+    "section": "templates",
+    "value": "{0} 的文件选项"
+  },
+  {
+    "key": "File read approval",
+    "section": "messages",
+    "value": "文件读取批准"
+  },
+  {
+    "key": "File to read",
+    "section": "messages",
+    "value": "要读取的文件"
+  },
+  {
+    "key": "File-change approval requested",
+    "section": "messages",
+    "value": "更改文件需要批准"
+  },
+  {
+    "key": "File-read approval requested",
+    "section": "messages",
+    "value": "读取文件需要批准"
+  },
+  {
+    "key": "Files and folders",
+    "section": "messages",
+    "value": "文件和文件夹"
+  },
+  {
+    "key": "Filter pull requests",
+    "section": "messages",
+    "value": "筛选拉取请求"
+  },
+  {
+    "key": "Finding devices…",
+    "section": "messages",
+    "value": "正在查找设备…"
+  },
+  {
+    "key": "Finding themes...",
+    "section": "messages",
+    "value": "正在查找主题..."
+  },
+  {
+    "key": "Fix findings in a thread",
+    "section": "messages",
+    "value": "在新任务中修复问题"
+  },
+  {
+    "key": "Fix findings in this thread",
+    "section": "messages",
+    "value": "在当前任务中修复问题"
+  },
+  {
+    "key": "Fix in this thread",
+    "section": "messages",
+    "value": "在当前任务中修复"
+  },
+  {
+    "key": "Follow system",
+    "section": "messages",
+    "value": "跟随系统"
+  },
+  {
+    "key": "For example, t3code or t3code/ produces t3code/add-search. Leave empty for no prefix.",
+    "section": "messages",
+    "value": "例如，t3code 或 t3code/ 会生成 t3code/add-search。留空则不加前缀。"
+  },
+  {
+    "key": "Forgejo / Gitea repository",
+    "section": "messages",
+    "value": "Forgejo / Gitea 仓库"
+  },
+  {
+    "key": "Fri",
+    "section": "messages",
+    "value": "周五"
+  },
+  {
+    "key": "From SSH config and known hosts",
+    "section": "messages",
+    "value": "来自 SSH 配置和已知主机"
+  },
+  {
+    "key": "Generating MR content...",
+    "section": "messages",
+    "value": "正在生成 MR 内容..."
+  },
+  {
+    "key": "Generating PR content...",
+    "section": "messages",
+    "value": "正在生成 PR 内容..."
+  },
+  {
+    "key": "Generating change request content...",
+    "section": "messages",
+    "value": "正在生成变更请求内容..."
+  },
+  {
+    "key": "Generating commit message...",
+    "section": "messages",
+    "value": "正在生成提交信息..."
+  },
+  {
+    "key": "GitHub repository",
+    "section": "messages",
+    "value": "GitHub 仓库"
+  },
+  {
+    "key": "GitLab repository",
+    "section": "messages",
+    "value": "GitLab 仓库"
+  },
+  {
+    "key": "Google sign-in cancelled.",
+    "section": "messages",
+    "value": "Google 登录已取消。"
+  },
+  {
+    "key": "Google sign-in complete.",
+    "section": "messages",
+    "value": "Google 登录已完成。"
+  },
+  {
+    "key": "Google sign-in failed.",
+    "section": "messages",
+    "value": "Google 登录失败。"
+  },
+  {
+    "key": "Grouping rule for {checkout}",
+    "section": "templates",
+    "value": "{checkout} 的分组规则"
+  },
+  {
+    "key": "Header actions",
+    "section": "messages",
+    "value": "标题栏操作"
+  },
+  {
+    "key": "Hidden from picker",
+    "section": "messages",
+    "value": "在选择器中隐藏"
+  },
+  {
+    "key": "Hide files",
+    "section": "messages",
+    "value": "隐藏文件"
+  },
+  {
+    "key": "Hide from picker",
+    "section": "messages",
+    "value": "从选择器中隐藏"
+  },
+  {
+    "key": "Hide {label} usage",
+    "section": "templates",
+    "value": "隐藏{label}的使用位置"
+  },
+  {
+    "key": "Hide {model}",
+    "section": "templates",
+    "value": "隐藏 {model}"
+  },
+  {
+    "key": "Hold to quit",
+    "section": "messages",
+    "value": "长按退出"
+  },
+  {
+    "key": "Hold {shortcut} or press twice to quit",
+    "section": "templates",
+    "value": "长按 {shortcut} 或快速按两次即可退出"
+  },
+  {
+    "key": "Hosts on the same machine are skipped.",
+    "section": "messages",
+    "value": "同一台设备上的主机将跳过。"
+  },
+  {
+    "key": "Hourly cost",
+    "section": "messages",
+    "value": "每小时费用"
+  },
+  {
+    "key": "Hourly processed tokens",
+    "section": "messages",
+    "value": "每小时已处理 Token"
+  },
+  {
+    "key": "How this checkout joins project groups in the sidebar. Changing it can move you to a different project group.",
+    "section": "messages",
+    "value": "设置此检出目录在侧栏中的分组方式。更改后，它可能会移入另一个项目组。"
+  },
+  {
+    "key": "Identity",
+    "section": "messages",
+    "value": "标识"
+  },
+  {
+    "key": "Identity: PID + start time",
+    "section": "messages",
+    "value": "标识：PID + 启动时间"
+  },
+  {
+    "key": "Image still uploading",
+    "section": "messages",
+    "value": "图片仍在上传"
+  },
+  {
+    "key": "Image unavailable",
+    "section": "messages",
+    "value": "图片不可用"
+  },
+  {
+    "key": "Image unavailable · {alt}",
+    "section": "templates",
+    "value": "图片不可用 · {alt}"
+  },
+  {
+    "key": "Images still uploading",
+    "section": "messages",
+    "value": "图片仍在上传"
+  },
+  {
+    "key": "Import from {browser}",
+    "section": "templates",
+    "value": "从 {browser} 导入"
+  },
+  {
+    "key": "Import theme",
+    "section": "messages",
+    "value": "导入主题"
+  },
+  {
+    "key": "Importing from this browser isn't possible on this platform.",
+    "section": "messages",
+    "value": "当前平台无法从此浏览器导入。"
+  },
+  {
+    "key": "Increase {0}",
+    "section": "templates",
+    "value": "延长{0}"
+  },
+  {
+    "key": "Indexing project files...",
+    "section": "messages",
+    "value": "正在索引项目文件..."
+  },
+  {
+    "key": "Indexing workspace files...",
+    "section": "messages",
+    "value": "正在索引工作区文件..."
+  },
+  {
+    "key": "Inherit defaults",
+    "section": "messages",
+    "value": "继承默认设置"
+  },
+  {
+    "key": "Inherited from environment",
+    "section": "messages",
+    "value": "继承环境设置"
+  },
+  {
+    "key": "Inherited from machine defaults. Controls agent access to the preview browser.",
+    "section": "messages",
+    "value": "继承设备默认设置，用于控制 Agent 对预览浏览器的访问权限。"
+  },
+  {
+    "key": "Input disconnected",
+    "section": "messages",
+    "value": "输入已断开"
+  },
+  {
+    "key": "Input, cache reads and output across {count} sessions.",
+    "section": "templates",
+    "value": "{count} 个会话的输入、缓存读取和输出总量。"
+  },
+  {
+    "key": "Install Git from https://git-scm.com/downloads or with your package manager.",
+    "section": "messages",
+    "value": "请从 https://git-scm.com/downloads 或使用包管理器安装 Git。"
+  },
+  {
+    "key": "Install Jujutsu with `brew install jj` or from https://github.com/jj-vcs/jj.",
+    "section": "messages",
+    "value": "请运行 `brew install jj`，或从 https://github.com/jj-vcs/jj 安装 Jujutsu。"
+  },
+  {
+    "key": "Install the Azure command-line tools (`az`), then enable Azure DevOps support with `az extension add --name azure-devops`.",
+    "section": "messages",
+    "value": "请安装 Azure 命令行工具（`az`），再运行 `az extension add --name azure-devops` 启用 Azure DevOps 支持。"
+  },
+  {
+    "key": "Install the GitHub command-line tool (`gh`) via https://cli.github.com/ or your package manager (for example `brew install gh`).",
+    "section": "messages",
+    "value": "请从 https://cli.github.com/ 或使用包管理器安装 GitHub 命令行工具（`gh`），例如运行 `brew install gh`。"
+  },
+  {
+    "key": "Install the GitLab command-line tool (`glab`) from https://gitlab.com/gitlab-org/cli or your package manager (for example `brew install glab`).",
+    "section": "messages",
+    "value": "请从 https://gitlab.com/gitlab-org/cli 或使用包管理器安装 GitLab 命令行工具（`glab`），例如运行 `brew install glab`。"
+  },
+  {
+    "key": "Install the official Antigravity runtime before signing in.",
+    "section": "messages",
+    "value": "请先安装官方 Antigravity 运行时，再登录。"
+  },
+  {
+    "key": "Install update and restart T3 Code?\n\nAny running tasks will be interrupted. Make sure you're ready before continuing.",
+    "section": "messages",
+    "value": "要安装更新并重启 T3 Code 吗？\n\n所有正在运行的任务都会被中断，请确认已准备好再继续。"
+  },
+  {
+    "key": "Install update {version} and restart T3 Code?\n\nAny running tasks will be interrupted. Make sure you're ready before continuing.",
+    "section": "templates",
+    "value": "要安装更新 {version} 并重启 T3 Code 吗？\n\n所有正在运行的任务都会被中断，请确认已准备好再继续。"
+  },
+  {
+    "key": "Installed and ready, but authentication could not be verified.",
+    "section": "messages",
+    "value": "已安装并可使用，但无法验证认证状态。"
+  },
+  {
+    "key": "Installing device support…",
+    "section": "messages",
+    "value": "正在安装设备支持…"
+  },
+  {
+    "key": "Instance ID is required.",
+    "section": "messages",
+    "value": "必须填写实例 ID。"
+  },
+  {
+    "key": "Instance ID must be 64 characters or fewer.",
+    "section": "messages",
+    "value": "实例 ID 不能超过 64 个字符。"
+  },
+  {
+    "key": "Instance ID must start with a letter and use only letters, digits, '-', or '_'.",
+    "section": "messages",
+    "value": "实例 ID 必须以字母开头，且只能包含字母、数字、“-”或“_”。"
+  },
+  {
+    "key": "It is significantly slower than the default buffered output and hurts the reading experience. This switch exists only for backwards compatibility.",
+    "section": "messages",
+    "value": "这会比默认的缓冲输出慢很多，并影响阅读体验。此开关仅用于向后兼容。"
+  },
+  {
+    "key": "It may be finishing an update. One moment.",
+    "section": "messages",
+    "value": "环境可能正在完成更新，请稍候。"
+  },
+  {
+    "key": "It stays on your T3 Connect account and keeps its host space. Deregister it in",
+    "section": "messages",
+    "value": "它仍保留在 T3 Connect 账户中，并占用主机名额。可在以下位置注销："
+  },
+  {
+    "key": "Its cookies and logins are deleted. Tabs already open in this profile stay open until you close them.",
+    "section": "messages",
+    "value": "将删除该配置文件的 Cookie 和登录状态；其中已打开的标签页会保留至关闭。"
+  },
+  {
+    "key": "Keep full history and skip future resume prompts.",
+    "section": "messages",
+    "value": "保留完整历史，并跳过以后继续会话时的提示。"
+  },
+  {
+    "key": "Keep this project on its own sidebar row.",
+    "section": "messages",
+    "value": "在侧栏中单独显示此项目。"
+  },
+  {
+    "key": "Keeps the default branch current in the background when the checkout has no local changes or commits.",
+    "section": "messages",
+    "value": "当检出目录没有本地更改或提交时，在后台保持默认分支为最新状态。"
+  },
+  {
+    "key": "Language",
+    "section": "messages",
+    "value": "语言"
+  },
+  {
+    "key": "Last Seen",
+    "section": "messages",
+    "value": "最近出现"
+  },
+  {
+    "key": "Let T3 Code read",
+    "section": "messages",
+    "value": "允许 T3 Code 读取"
+  },
+  {
+    "key": "Let agents open and drive the preview browser. When off, the browser tools and the instructions describing them are withheld from agent sessions. Your own browser panel is unaffected.",
+    "section": "messages",
+    "value": "允许 Agent 打开并操作预览浏览器。关闭后，Agent 会话将无法获得浏览器工具及相关说明；你自己的浏览器面板不受影响。"
+  },
+  {
+    "key": "Line",
+    "section": "messages",
+    "value": "行"
+  },
+  {
+    "key": "Line {0}",
+    "section": "templates",
+    "value": "第 {0} 行"
+  },
+  {
+    "key": "Link copied",
+    "section": "messages",
+    "value": "链接已复制"
+  },
+  {
+    "key": "Link created at {0}",
+    "section": "templates",
+    "value": "链接创建于 {0}"
+  },
+  {
+    "key": "Link expires at",
+    "section": "messages",
+    "value": "链接失效时间"
+  },
+  {
+    "key": "Linked from {0} {1}",
+    "section": "templates",
+    "value": "关联自 {0} {1}"
+  },
+  {
+    "key": "Linked to",
+    "section": "messages",
+    "value": "已关联到"
+  },
+  {
+    "key": "Linked {count} pull request",
+    "section": "templates",
+    "value": "已关联 {count} 个拉取请求"
+  },
+  {
+    "key": "Linked {count} pull requests",
+    "section": "templates",
+    "value": "已关联 {count} 个拉取请求"
+  },
+  {
+    "key": "Loading branch diff...",
+    "section": "messages",
+    "value": "正在加载分支差异…"
+  },
+  {
+    "key": "Loading conversation…",
+    "section": "messages",
+    "value": "正在加载对话…"
+  },
+  {
+    "key": "Loading provider settings",
+    "section": "messages",
+    "value": "正在加载服务提供方设置"
+  },
+  {
+    "key": "Loading pull request details…",
+    "section": "messages",
+    "value": "正在加载拉取请求详情…"
+  },
+  {
+    "key": "Loading working tree diff...",
+    "section": "messages",
+    "value": "正在加载工作区差异…"
+  },
+  {
+    "key": "Loading {name}",
+    "section": "templates",
+    "value": "正在加载 {name}"
+  },
+  {
+    "key": "Local device",
+    "section": "messages",
+    "value": "本地设备"
+  },
+  {
+    "key": "Local network",
+    "section": "messages",
+    "value": "本地网络"
+  },
+  {
+    "key": "Local trace file",
+    "section": "messages",
+    "value": "本地跟踪文件"
+  },
+  {
+    "key": "Lookup",
+    "section": "messages",
+    "value": "查找"
+  },
+  {
+    "key": "Machine scope",
+    "section": "messages",
+    "value": "设备范围"
+  },
+  {
+    "key": "Main colors",
+    "section": "messages",
+    "value": "主要颜色"
+  },
+  {
+    "key": "Managed by {0}.",
+    "section": "templates",
+    "value": "由 {0} 管理。"
+  },
+  {
+    "key": "Map new model to model",
+    "section": "messages",
+    "value": "将新模型映射到模型"
+  },
+  {
+    "key": "Mark environment variable {0} as sensitive",
+    "section": "templates",
+    "value": "将环境变量 {0} 标记为敏感信息"
+  },
+  {
+    "key": "Maximize panel",
+    "section": "messages",
+    "value": "最大化面板"
+  },
+  {
+    "key": "Maximum",
+    "section": "messages",
+    "value": "最高"
+  },
+  {
+    "key": "Merge stack (",
+    "section": "messages",
+    "value": "合并堆栈（"
+  },
+  {
+    "key": "Merge stack through #",
+    "section": "messages",
+    "value": "合并堆栈至 #"
+  },
+  {
+    "key": "Merged pull request",
+    "section": "messages",
+    "value": "已合并的拉取请求"
+  },
+  {
+    "key": "Mesh your devices together - publish this environment and connect the rest, all in one place.",
+    "section": "messages",
+    "value": "发布当前环境并连接其他设备，在一个位置完成设备互联。"
+  },
+  {
+    "key": "Messages loading",
+    "section": "messages",
+    "value": "正在加载消息"
+  },
+  {
+    "key": "Migrating {count} thread from the previous version. You can keep working while this finishes.",
+    "section": "templates",
+    "value": "正在从旧版本迁移 {count} 个任务。迁移期间你可以继续工作。"
+  },
+  {
+    "key": "Migrating {count} threads from the previous version. You can keep working while this finishes.",
+    "section": "templates",
+    "value": "正在从旧版本迁移 {count} 个任务。迁移期间你可以继续工作。"
+  },
+  {
+    "key": "Mixed cells keep each environment’s rate until you edit them.",
+    "section": "messages",
+    "value": "值不同的单元格会保留各环境原有价格，直到你进行编辑。"
+  },
+  {
+    "key": "Mixed defaults or overrides across selected checkouts.",
+    "section": "messages",
+    "value": "所选检出目录使用了不同的默认值或覆盖设置。"
+  },
+  {
+    "key": "Model Picker: Jump: 1",
+    "section": "messages",
+    "value": "模型选择器：跳转：1"
+  },
+  {
+    "key": "Model Picker: Jump: 2",
+    "section": "messages",
+    "value": "模型选择器：跳转：2"
+  },
+  {
+    "key": "Model Picker: Jump: 3",
+    "section": "messages",
+    "value": "模型选择器：跳转：3"
+  },
+  {
+    "key": "Model Picker: Jump: 4",
+    "section": "messages",
+    "value": "模型选择器：跳转：4"
+  },
+  {
+    "key": "Model Picker: Jump: 5",
+    "section": "messages",
+    "value": "模型选择器：跳转：5"
+  },
+  {
+    "key": "Model Picker: Jump: 6",
+    "section": "messages",
+    "value": "模型选择器：跳转：6"
+  },
+  {
+    "key": "Model Picker: Jump: 7",
+    "section": "messages",
+    "value": "模型选择器：跳转：7"
+  },
+  {
+    "key": "Model Picker: Jump: 8",
+    "section": "messages",
+    "value": "模型选择器：跳转：8"
+  },
+  {
+    "key": "Model Picker: Jump: 9",
+    "section": "messages",
+    "value": "模型选择器：跳转：9"
+  },
+  {
+    "key": "Model Picker: Jump: {index}",
+    "section": "templates",
+    "value": "模型选择器：选择第 {index} 个模型"
+  },
+  {
+    "key": "Model Picker: Next Provider",
+    "section": "messages",
+    "value": "模型选择器：下一个服务提供方"
+  },
+  {
+    "key": "Model Picker: Previous Provider",
+    "section": "messages",
+    "value": "模型选择器：上一个服务提供方"
+  },
+  {
+    "key": "Model Picker: Toggle",
+    "section": "messages",
+    "value": "模型选择器：切换"
+  },
+  {
+    "key": "Model for source control text and branch or bookmark names. Off uses the global default.",
+    "section": "messages",
+    "value": "用于源代码管理文案以及分支或书签名称的模型。关闭时使用全局默认模型。"
+  },
+  {
+    "key": "Mon",
+    "section": "messages",
+    "value": "周一"
+  },
+  {
+    "key": "Monitoring",
+    "section": "messages",
+    "value": "监控中"
+  },
+  {
+    "key": "Monthly",
+    "section": "messages",
+    "value": "每月"
+  },
+  {
+    "key": "More header actions",
+    "section": "messages",
+    "value": "更多标题栏操作"
+  },
+  {
+    "key": "Navigation: Back",
+    "section": "messages",
+    "value": "导航：后退"
+  },
+  {
+    "key": "Navigation: Forward",
+    "section": "messages",
+    "value": "导航：前进"
+  },
+  {
+    "key": "Needs Keychain access to read its cookies.",
+    "section": "messages",
+    "value": "需要访问系统钥匙串才能读取 Cookie。"
+  },
+  {
+    "key": "New Terminal",
+    "section": "messages",
+    "value": "新建终端"
+  },
+  {
+    "key": "New thread in current project: Shift+click",
+    "section": "messages",
+    "value": "在当前项目中新建任务：Shift+单击"
+  },
+  {
+    "key": "New thread on {0}",
+    "section": "templates",
+    "value": "在 {0} 分支新建任务"
+  },
+  {
+    "key": "New threads in this project start with this model. Applies to every checkout in this group.",
+    "section": "messages",
+    "value": "此项目的新任务默认使用该模型，并应用于组内所有检出目录。"
+  },
+  {
+    "key": "New-thread workspace",
+    "section": "messages",
+    "value": "新任务工作区"
+  },
+  {
+    "key": "Next image",
+    "section": "messages",
+    "value": "下一张图片"
+  },
+  {
+    "key": "Next turn",
+    "section": "messages",
+    "value": "下一轮"
+  },
+  {
+    "key": "No",
+    "section": "messages",
+    "value": "否"
+  },
+  {
+    "key": "No QR is available for this endpoint. Copy the URL for use on this machine instead.",
+    "section": "messages",
+    "value": "此地址无法生成二维码，请复制 URL 在当前设备上使用。"
+  },
+  {
+    "key": "No SSH route to {environment}",
+    "section": "templates",
+    "value": "没有通往 {environment} 的 SSH 路由"
+  },
+  {
+    "key": "No accounts reported.",
+    "section": "messages",
+    "value": "未报告任何账户。"
+  },
+  {
+    "key": "No actions configured for this checkout.",
+    "section": "messages",
+    "value": "此检出目录尚未配置操作。"
+  },
+  {
+    "key": "No agents yet",
+    "section": "messages",
+    "value": "暂无 Agent"
+  },
+  {
+    "key": "No available editors found.",
+    "section": "messages",
+    "value": "未找到可用的编辑器。"
+  },
+  {
+    "key": "No available machine, or another action change is saving.",
+    "section": "messages",
+    "value": "没有可用设备，或另一项操作更改仍在保存。"
+  },
+  {
+    "key": "No cookies",
+    "section": "messages",
+    "value": "没有 Cookie"
+  },
+  {
+    "key": "No custom prices. Add a row to override automatic pricing.",
+    "section": "messages",
+    "value": "尚无自定义价格；添加一行即可覆盖自动定价。"
+  },
+  {
+    "key": "No encryption key in your Keychain — sign in to that browser once, then retry.",
+    "section": "messages",
+    "value": "系统钥匙串中没有加密密钥。请先在该浏览器中登录一次，然后重试。"
+  },
+  {
+    "key": "No environment is selected.",
+    "section": "messages",
+    "value": "尚未选择环境。"
+  },
+  {
+    "key": "No hosts match \"",
+    "section": "messages",
+    "value": "没有主机匹配「"
+  },
+  {
+    "key": "No limits reported.",
+    "section": "messages",
+    "value": "未报告限额。"
+  },
+  {
+    "key": "No line comments yet",
+    "section": "messages",
+    "value": "暂无行评论"
+  },
+  {
+    "key": "No local commits to include in a {request}.",
+    "section": "templates",
+    "value": "没有可包含在{request}中的本地提交。"
+  },
+  {
+    "key": "No new SSH hosts were discovered.",
+    "section": "messages",
+    "value": "未发现新的 SSH 主机。"
+  },
+  {
+    "key": "No provider on a connected environment reports subscription limits.",
+    "section": "messages",
+    "value": "已连接环境中的服务提供方均未报告订阅限额。"
+  },
+  {
+    "key": "No reported errors",
+    "section": "messages",
+    "value": "未报告错误"
+  },
+  {
+    "key": "No reset credit left.",
+    "section": "messages",
+    "value": "没有可用的重置额度。"
+  },
+  {
+    "key": "No reset credits banked",
+    "section": "messages",
+    "value": "没有储备的重置额度"
+  },
+  {
+    "key": "No threads in {0} yet",
+    "section": "templates",
+    "value": "{0} 中还没有任务"
+  },
+  {
+    "key": "No usage providers configured.",
+    "section": "messages",
+    "value": "尚未配置用量服务。"
+  },
+  {
+    "key": "Not available on this server: {hint}",
+    "section": "templates",
+    "value": "此服务器上不可用：{hint}"
+  },
+  {
+    "key": "Not installed on this machine.",
+    "section": "messages",
+    "value": "此设备上未安装。"
+  },
+  {
+    "key": "Not saved",
+    "section": "messages",
+    "value": "未保存"
+  },
+  {
+    "key": "Nothing matches “{query}”",
+    "section": "templates",
+    "value": "没有与“{query}”匹配的结果"
+  },
+  {
+    "key": "Nothing stashed yet.",
+    "section": "messages",
+    "value": "暂存列表为空。"
+  },
+  {
+    "key": "Nothing to reset right now.",
+    "section": "messages",
+    "value": "当前无需重置。"
+  },
+  {
+    "key": "On Omarchy, use your own bindings file, not its defaults.",
+    "section": "messages",
+    "value": "在 Omarchy 上，请使用自己的快捷键配置文件，而非默认文件。"
+  },
+  {
+    "key": "On scroll",
+    "section": "messages",
+    "value": "滚动时"
+  },
+  {
+    "key": "On unfocus",
+    "section": "messages",
+    "value": "失去焦点时"
+  },
+  {
+    "key": "Only projects with the same repository and repo-relative path share one sidebar row.",
+    "section": "messages",
+    "value": "仓库与仓库内相对路径均相同的项目共用一个侧栏条目。"
+  },
+  {
+    "key": "Open Agents panel ›",
+    "section": "messages",
+    "value": "打开 Agent 面板 ›"
+  },
+  {
+    "key": "Open Connections and add that machine using its pairing link. This browser must be able to reach it.",
+    "section": "messages",
+    "value": "请打开“连接”，使用该设备的配对链接进行添加。此浏览器必须能够访问该设备。"
+  },
+  {
+    "key": "Open created thread",
+    "section": "messages",
+    "value": "打开已创建的任务"
+  },
+  {
+    "key": "Open in",
+    "section": "messages",
+    "value": "打开方式"
+  },
+  {
+    "key": "Open in {editor}",
+    "section": "templates",
+    "value": "在 {editor} 中打开"
+  },
+  {
+    "key": "Open linked pull requests first. Otherwise, open the working tree diff for changes to at least 3 files or 50 lines.",
+    "section": "messages",
+    "value": "优先打开关联的拉取请求；否则，当更改涉及至少 3 个文件或 50 行时，打开工作区差异。"
+  },
+  {
+    "key": "Open linked pull requests when found and turn diffs when work finishes.",
+    "section": "messages",
+    "value": "发现关联拉取请求时自动打开，并在工作完成后切换到差异面板。"
+  },
+  {
+    "key": "Open localhost:",
+    "section": "messages",
+    "value": "打开 localhost："
+  },
+  {
+    "key": "Open on",
+    "section": "messages",
+    "value": "打开于"
+  },
+  {
+    "key": "Open on {provider}",
+    "section": "templates",
+    "value": "在 {provider} 上打开"
+  },
+  {
+    "key": "Open pull request",
+    "section": "messages",
+    "value": "开放的拉取请求"
+  },
+  {
+    "key": "Open pull request #{0} on host",
+    "section": "templates",
+    "value": "在托管服务中打开拉取请求 #{0}"
+  },
+  {
+    "key": "OpenCode provider status has not been checked in this session yet.",
+    "section": "messages",
+    "value": "本次会话尚未检查 OpenCode 服务提供方状态。"
+  },
+  {
+    "key": "Opening device…",
+    "section": "messages",
+    "value": "正在打开设备…"
+  },
+  {
+    "key": "Opens over SSH. Needs your key on {environment}",
+    "section": "templates",
+    "value": "将通过 SSH 打开，需要在 {environment} 上配置你的密钥"
+  },
+  {
+    "key": "Opens the hosted app, no install needed",
+    "section": "messages",
+    "value": "打开托管应用，无需安装"
+  },
+  {
+    "key": "Option",
+    "section": "messages",
+    "value": "选项"
+  },
+  {
+    "key": "Option + Option is not available on this system.",
+    "section": "messages",
+    "value": "此系统上无法使用 Option + Option。"
+  },
+  {
+    "key": "Optional label shown in the provider list.",
+    "section": "messages",
+    "value": "可选名称，将显示在服务提供方列表中。"
+  },
+  {
+    "key": "Optional local executable to use instead of installing the registry distribution. Registry arguments and environment are still applied.",
+    "section": "messages",
+    "value": "可选的本地可执行文件，用于替代安装注册表发行版。注册表中的参数和环境变量仍会生效。"
+  },
+  {
+    "key": "Optional model override for change descriptions, change request titles and descriptions, and branch or bookmark names. Off uses the global text generation model.",
+    "section": "messages",
+    "value": "可为更改说明、变更请求标题与说明，以及分支或书签名称指定专用模型。关闭时使用全局文本生成模型。"
+  },
+  {
+    "key": "Other colors",
+    "section": "messages",
+    "value": "其他颜色"
+  },
+  {
+    "key": "Other entries in this grouped project are unaffected.",
+    "section": "messages",
+    "value": "此项目组中的其他条目不受影响。"
+  },
+  {
+    "key": "Overridden",
+    "section": "messages",
+    "value": "已覆盖"
+  },
+  {
+    "key": "Overridden for this project. Applies when the agent session next starts.",
+    "section": "messages",
+    "value": "已为此项目覆盖，将在 Agent 会话下次启动时生效。"
+  },
+  {
+    "key": "Override the Cursor API endpoint for this instance.",
+    "section": "messages",
+    "value": "覆盖此实例使用的 Cursor API 地址。"
+  },
+  {
+    "key": "PENDING APPROVAL",
+    "section": "messages",
+    "value": "等待批准"
+  },
+  {
+    "key": "PR link",
+    "section": "messages",
+    "value": "拉取请求链接"
+  },
+  {
+    "key": "PR number",
+    "section": "messages",
+    "value": "拉取请求编号"
+  },
+  {
+    "key": "Page didn't load — pick unavailable until the page renders",
+    "section": "messages",
+    "value": "页面未加载，渲染完成前无法拾取"
+  },
+  {
+    "key": "Paints assistant output token by token instead of in complete chunks. Not recommended: it is significantly slower, and long responses become harder to follow. Kept only for compatibility with the old behavior.",
+    "section": "messages",
+    "value": "逐个 Token 绘制助手输出，而不是分块显示完整内容。不建议启用：速度会明显变慢，长回复也更难阅读；此选项仅用于兼容旧行为。"
+  },
+  {
+    "key": "Pairing failed.",
+    "section": "messages",
+    "value": "配对失败。"
+  },
+  {
+    "key": "Pairing link - scan to open on another device",
+    "section": "messages",
+    "value": "扫描配对链接，在其他设备上打开"
+  },
+  {
+    "key": "Pairing links and client-session management require the access:write scope for this backend.",
+    "section": "messages",
+    "value": "管理配对链接和客户端会话需要此后端的 access:write 权限。"
+  },
+  {
+    "key": "Password",
+    "section": "messages",
+    "value": "密码"
+  },
+  {
+    "key": "Paste a {request} URL, checkout command, or enter 123 / #123.",
+    "section": "templates",
+    "value": "粘贴{request} URL、检出命令，或输入 123 / #123。"
+  },
+  {
+    "key": "Paste this inside binds { … } in your Niri config, then save.",
+    "section": "messages",
+    "value": "将此内容粘贴到 Niri 配置的 binds { … } 中，然后保存。"
+  },
+  {
+    "key": "Path to the {provider} binary used by this instance.",
+    "section": "templates",
+    "value": "此实例使用的 {provider} 程序路径。"
+  },
+  {
+    "key": "Path: {path}",
+    "section": "templates",
+    "value": "路径：{path}"
+  },
+  {
+    "key": "Pauses background probes when clients are idle, the host is locked, or low power mode is active.",
+    "section": "messages",
+    "value": "客户端空闲、主机锁定或启用低功耗模式时暂停后台检查。"
+  },
+  {
+    "key": "Pauses probes for idle clients, locked hosts, or low power mode.",
+    "section": "messages",
+    "value": "客户端空闲、主机锁定或处于低功耗模式时暂停检查。"
+  },
+  {
+    "key": "Pending Approval",
+    "section": "messages",
+    "value": "等待批准"
+  },
+  {
+    "key": "Permission request",
+    "section": "messages",
+    "value": "权限请求"
+  },
+  {
+    "key": "Personal",
+    "section": "messages",
+    "value": "个人"
+  },
+  {
+    "key": "Pick any Lucide icon and color, or use an emoji.",
+    "section": "messages",
+    "value": "选择任意 Lucide 图标和颜色，或使用表情符号。"
+  },
+  {
+    "key": "Pick the default workspace mode for newly created draft threads.",
+    "section": "messages",
+    "value": "选择新建草稿任务时默认使用的工作区模式。"
+  },
+  {
+    "key": "Pick where to host it, then point us at a repository to push to.",
+    "section": "messages",
+    "value": "选择托管服务，然后指定要推送到的仓库。"
+  },
+  {
+    "key": "Pinned threads",
+    "section": "messages",
+    "value": "已置顶任务"
+  },
+  {
+    "key": "Plan Ready",
+    "section": "messages",
+    "value": "方案已就绪"
+  },
+  {
+    "key": "Plan mode - click to return to normal build mode",
+    "section": "messages",
+    "value": "当前为规划模式，点击返回常规执行模式"
+  },
+  {
+    "key": "Play video on GitHub",
+    "section": "messages",
+    "value": "在 GitHub 上播放视频"
+  },
+  {
+    "key": "Play {0}",
+    "section": "templates",
+    "value": "播放{0}"
+  },
+  {
+    "key": "Playwright selector, preferably role/text based, for example role=button[name='Send'] or text=Continue. Use snapshot first to inspect the page.",
+    "section": "messages",
+    "value": "Playwright selector, preferably role/text based, for example role=button[name='Send'] or text=Continue. Use snapshot first to inspect the page."
+  },
+  {
+    "key": "Pop the floating preview into view when an agent opens a browser. An agent that explicitly asks to show or hide its preview still gets what it asked for.",
+    "section": "messages",
+    "value": "Agent 打开浏览器时自动显示浮动预览。若 Agent 明确要求显示或隐藏预览，仍会按其要求执行。"
+  },
+  {
+    "key": "Preparing MR...",
+    "section": "messages",
+    "value": "正在准备 MR..."
+  },
+  {
+    "key": "Preparing PR...",
+    "section": "messages",
+    "value": "正在准备 PR..."
+  },
+  {
+    "key": "Preparing change request...",
+    "section": "messages",
+    "value": "正在准备变更请求..."
+  },
+  {
+    "key": "Preparing feature branch...",
+    "section": "messages",
+    "value": "正在准备功能分支..."
+  },
+  {
+    "key": "Preparing worktree",
+    "section": "messages",
+    "value": "正在准备工作树"
+  },
+  {
+    "key": "Press a shortcut. Use {key} to clear.",
+    "section": "templates",
+    "value": "按下快捷键进行设置，按 {key} 清除。"
+  },
+  {
+    "key": "Press {0} + Enter for single-line prompts or {1} + Shift + Enter for multiline prompts to do the opposite for one message.",
+    "section": "templates",
+    "value": "单行提示词按 {0} + 回车，多行提示词按 {1} + Shift + 回车，可为此次消息使用相反行为。"
+  },
+  {
+    "key": "Press {0} + Enter to do the opposite for one message.",
+    "section": "templates",
+    "value": "按 {0} + 回车，可为此次消息使用相反行为。"
+  },
+  {
+    "key": "Press {0} with a prompt in the composer to stash it.",
+    "section": "templates",
+    "value": "输入框中有提示词时，按 {0} 可暂存。"
+  },
+  {
+    "key": "Press {0}{1} + Enter to do the opposite for one message.",
+    "section": "templates",
+    "value": "按 {0}{1} + 回车，可为此次消息使用相反行为。"
+  },
+  {
+    "key": "Press {shortcut} again to quit",
+    "section": "templates",
+    "value": "再次按下 {shortcut} 即可退出"
+  },
+  {
+    "key": "Press {shortcut} with a prompt in the composer to stash it.",
+    "section": "templates",
+    "value": "在输入框有内容时按 {shortcut} 即可暂存。"
+  },
+  {
+    "key": "Preview limited to the first 1 MB of a",
+    "section": "messages",
+    "value": "预览仅显示前 1 MB，文件类型为"
+  },
+  {
+    "key": "Preview limited to the first 1 MB of a {0} byte file. Save the file to read it in full.",
+    "section": "templates",
+    "value": "预览仅显示前 1 MB（文件共 {0} 字节）。保存文件后可查看完整内容。"
+  },
+  {
+    "key": "Preview limited to the first 1 MB. Save the file to read it in full.",
+    "section": "messages",
+    "value": "预览仅显示前 1 MB。保存文件后可查看完整内容。"
+  },
+  {
+    "key": "Preview video",
+    "section": "messages",
+    "value": "预览视频"
+  },
+  {
+    "key": "Preview video attachment, {name}, {size}",
+    "section": "templates",
+    "value": "预览视频附件，{name}，{size}"
+  },
+  {
+    "key": "Preview: Focus Url",
+    "section": "messages",
+    "value": "预览：聚焦地址栏"
+  },
+  {
+    "key": "Preview: Refresh",
+    "section": "messages",
+    "value": "预览：刷新"
+  },
+  {
+    "key": "Preview: Reset Zoom",
+    "section": "messages",
+    "value": "预览：重置缩放"
+  },
+  {
+    "key": "Preview: Toggle",
+    "section": "messages",
+    "value": "预览：切换"
+  },
+  {
+    "key": "Preview: Zoom In",
+    "section": "messages",
+    "value": "预览：放大"
+  },
+  {
+    "key": "Preview: Zoom Out",
+    "section": "messages",
+    "value": "预览：缩小"
+  },
+  {
+    "key": "Previous image",
+    "section": "messages",
+    "value": "上一张图片"
+  },
+  {
+    "key": "Previous turn",
+    "section": "messages",
+    "value": "上一轮"
+  },
+  {
+    "key": "Prices apply to all past and future usage on the environments you select.",
+    "section": "messages",
+    "value": "价格将应用于所选环境过去和未来的全部用量。"
+  },
+  {
+    "key": "Prices not loaded",
+    "section": "messages",
+    "value": "价格尚未加载"
+  },
+  {
+    "key": "Primary device",
+    "section": "messages",
+    "value": "主设备"
+  },
+  {
+    "key": "Profile:",
+    "section": "messages",
+    "value": "配置："
+  },
+  {
+    "key": "Project Search: Toggle",
+    "section": "messages",
+    "value": "项目搜索：切换"
+  },
+  {
+    "key": "Project agent browser access",
+    "section": "messages",
+    "value": "项目 Agent 浏览器访问权限"
+  },
+  {
+    "key": "Project defaults",
+    "section": "messages",
+    "value": "项目默认设置"
+  },
+  {
+    "key": "Project defaults not saved on every machine",
+    "section": "messages",
+    "value": "部分设备未能保存项目默认设置"
+  },
+  {
+    "key": "Project model not saved",
+    "section": "messages",
+    "value": "项目模型未保存"
+  },
+  {
+    "key": "Project settings breadcrumb",
+    "section": "messages",
+    "value": "项目设置导航"
+  },
+  {
+    "key": "Project settings for {0}",
+    "section": "templates",
+    "value": "{0} 的项目设置"
+  },
+  {
+    "key": "Prompt is {count} character over the {limit}-character limit. Shorten or split it before sending.",
+    "section": "templates",
+    "value": "提示词超出 {limit} 字符上限 {count} 个字符，请缩短或拆分后再发送。"
+  },
+  {
+    "key": "Prompt is {count} characters over the {limit}-character limit. Shorten or split it before sending.",
+    "section": "templates",
+    "value": "提示词超出 {limit} 字符上限 {count} 个字符，请缩短或拆分后再发送。"
+  },
+  {
+    "key": "Proposed plan",
+    "section": "messages",
+    "value": "建议方案"
+  },
+  {
+    "key": "Provider instance accent color",
+    "section": "messages",
+    "value": "服务提供方实例强调色"
+  },
+  {
+    "key": "Provider settings are unavailable",
+    "section": "messages",
+    "value": "服务提供方设置暂不可用"
+  },
+  {
+    "key": "Provider update did not finish.",
+    "section": "messages",
+    "value": "服务提供方更新未完成。"
+  },
+  {
+    "key": "Publishing repository to",
+    "section": "messages",
+    "value": "正在发布仓库到"
+  },
+  {
+    "key": "Publishing repository to {provider}...",
+    "section": "templates",
+    "value": "正在将仓库发布到 {provider}..."
+  },
+  {
+    "key": "Pull Request: Copy Number",
+    "section": "messages",
+    "value": "拉取请求：复制编号"
+  },
+  {
+    "key": "Pull request #",
+    "section": "messages",
+    "value": "拉取请求 #"
+  },
+  {
+    "key": "Pull request approved",
+    "section": "messages",
+    "value": "拉取请求已批准"
+  },
+  {
+    "key": "Push",
+    "section": "messages",
+    "value": "推送"
+  },
+  {
+    "key": "Push & create change request",
+    "section": "messages",
+    "value": "推送并创建变更请求"
+  },
+  {
+    "key": "Push & create change request from default ref?",
+    "section": "messages",
+    "value": "从默认引用推送并创建变更请求？"
+  },
+  {
+    "key": "Push & create {request} from default branch?",
+    "section": "templates",
+    "value": "从默认分支推送并创建{request}？"
+  },
+  {
+    "key": "Push & create {request} from {branch}",
+    "section": "templates",
+    "value": "从 {branch} 推送并创建{request}"
+  },
+  {
+    "key": "Push is currently unavailable.",
+    "section": "messages",
+    "value": "当前无法推送。"
+  },
+  {
+    "key": "Pushing...",
+    "section": "messages",
+    "value": "正在推送..."
+  },
+  {
+    "key": "Queue follow-ups while the agent runs or steer the current run.",
+    "section": "messages",
+    "value": "Agent 运行时，将后续消息加入队列或用来调整当前运行。"
+  },
+  {
+    "key": "Queue message",
+    "section": "messages",
+    "value": "将消息加入队列"
+  },
+  {
+    "key": "Quit the browser first so its cookie database can be read.",
+    "section": "messages",
+    "value": "请先退出浏览器，以便读取其 Cookie 数据库。"
+  },
+  {
+    "key": "Quit {browser} to import",
+    "section": "templates",
+    "value": "退出 {browser} 后导入"
+  },
+  {
+    "key": "Ran {0} commands and changed {1} files",
+    "section": "templates",
+    "value": "已运行 {0} 条命令，已更改 {1} 个文件"
+  },
+  {
+    "key": "Ran {count} command",
+    "section": "templates",
+    "value": "已运行 {count} 条命令"
+  },
+  {
+    "key": "Ran {count} commands",
+    "section": "templates",
+    "value": "已运行 {count} 条命令"
+  },
+  {
+    "key": "Raw token cost",
+    "section": "messages",
+    "value": "原始 Token 费用"
+  },
+  {
+    "key": "Reachable from anywhere",
+    "section": "messages",
+    "value": "可从任意位置访问"
+  },
+  {
+    "key": "Read file +{count} more",
+    "section": "templates",
+    "value": "已读取文件及另外 {count} 个"
+  },
+  {
+    "key": "Read threads, status, diffs, and configuration.",
+    "section": "messages",
+    "value": "读取任务、状态、差异和配置。"
+  },
+  {
+    "key": "Read {count} file",
+    "section": "templates",
+    "value": "已读取 {count} 个文件"
+  },
+  {
+    "key": "Read {count} files",
+    "section": "templates",
+    "value": "已读取 {count} 个文件"
+  },
+  {
+    "key": "Read {path}",
+    "section": "templates",
+    "value": "已读取 {path}"
+  },
+  {
+    "key": "Read {path} +{count} more",
+    "section": "templates",
+    "value": "已读取 {path} 及另外 {count} 个"
+  },
+  {
+    "key": "Read-only access",
+    "section": "messages",
+    "value": "只读权限"
+  },
+  {
+    "key": "Reading sign-in status.",
+    "section": "messages",
+    "value": "正在读取登录状态。"
+  },
+  {
+    "key": "Reading...",
+    "section": "messages",
+    "value": "正在读取..."
+  },
+  {
+    "key": "Rebase",
+    "section": "messages",
+    "value": "变基"
+  },
+  {
+    "key": "Received {count} update",
+    "section": "templates",
+    "value": "已收到 {count} 条更新"
+  },
+  {
+    "key": "Received {count} updates",
+    "section": "templates",
+    "value": "已收到 {count} 条更新"
+  },
+  {
+    "key": "Reconnect this environment before sending messages or running actions.",
+    "section": "messages",
+    "value": "发送消息或运行操作前，请先重新连接此环境。"
+  },
+  {
+    "key": "Reconnected on t3@{0}.",
+    "section": "templates",
+    "value": "已重新连接到 t3@{0}。"
+  },
+  {
+    "key": "Reconnecting after connection error: {reason}",
+    "section": "templates",
+    "value": "连接出错，正在重新连接：{reason}"
+  },
+  {
+    "key": "Reconnecting to {environment}",
+    "section": "templates",
+    "value": "正在重新连接到{environment}"
+  },
+  {
+    "key": "Refresh provider availability, versions, auth state, and model metadata in the background. Set this to 0 seconds to rely on manual refreshes.",
+    "section": "messages",
+    "value": "在后台刷新服务提供方的可用性、版本、认证状态和模型元数据。设为 0 秒时仅手动刷新。"
+  },
+  {
+    "key": "Refresh remote branch status in the background. Set this to 0 seconds if Git credentials or security keys should only be prompted by explicit Git actions.",
+    "section": "messages",
+    "value": "在后台刷新远程分支状态。如果 Git 凭据或安全密钥只应由明确的 Git 操作触发，请设为 0 秒。"
+  },
+  {
+    "key": "Regenerate titles",
+    "section": "messages",
+    "value": "重新生成标题"
+  },
+  {
+    "key": "Regenerating...",
+    "section": "messages",
+    "value": "正在重新生成..."
+  },
+  {
+    "key": "Remote \"{0}\" is set up. Make a commit and push it to share your code.",
+    "section": "templates",
+    "value": "已设置远程仓库“{0}”。提交并推送后即可共享代码。"
+  },
+  {
+    "key": "Remote device",
+    "section": "messages",
+    "value": "远程设备"
+  },
+  {
+    "key": "Remote environments",
+    "section": "messages",
+    "value": "远程环境"
+  },
+  {
+    "key": "Remove assistant citation",
+    "section": "messages",
+    "value": "移除助手引用"
+  },
+  {
+    "key": "Remove custom model {model}",
+    "section": "templates",
+    "value": "移除自定义模型 {model}"
+  },
+  {
+    "key": "Remove environment variable {0}",
+    "section": "templates",
+    "value": "移除环境变量 {0}"
+  },
+  {
+    "key": "Remove group",
+    "section": "messages",
+    "value": "移除条件组"
+  },
+  {
+    "key": "Remove negated group",
+    "section": "messages",
+    "value": "移除取反条件组"
+  },
+  {
+    "key": "Remove project “{name}” and delete its {count} thread(s)?",
+    "section": "templates",
+    "value": "移除项目“{name}”并删除其中 {count} 个任务？"
+  },
+  {
+    "key": "Remove project “{name}”?",
+    "section": "templates",
+    "value": "移除项目“{name}”？"
+  },
+  {
+    "key": "Remove selected",
+    "section": "messages",
+    "value": "移除所选主题"
+  },
+  {
+    "key": "Remove selected ({count})",
+    "section": "templates",
+    "value": "移除所选主题（{count}）"
+  },
+  {
+    "key": "Remove this image from the message?\nIt is referenced in your text; removing it also removes every reference.",
+    "section": "messages",
+    "value": "要从消息中移除这张图片吗？\n它在你的文本中被引用；移除后所有引用也会一并移除。"
+  },
+  {
+    "key": "Remove {0}",
+    "section": "templates",
+    "value": "移除 {0}"
+  },
+  {
+    "key": "Remove {0} route?",
+    "section": "templates",
+    "value": "要移除 {0} 路由吗？"
+  },
+  {
+    "key": "Remove {label}?",
+    "section": "templates",
+    "value": "移除 {label}？"
+  },
+  {
+    "key": "Remove {model} from favorites",
+    "section": "templates",
+    "value": "将 {model} 从收藏中移除"
+  },
+  {
+    "key": "Remove {name}",
+    "section": "templates",
+    "value": "移除 {name}"
+  },
+  {
+    "key": "Remove “{theme}”?",
+    "section": "templates",
+    "value": "移除“{theme}”？"
+  },
+  {
+    "key": "Removes this checkout and its threads from the project group. Files on disk are not touched.",
+    "section": "messages",
+    "value": "从项目组中移除此检出目录及其任务，不会删除磁盘上的文件。"
+  },
+  {
+    "key": "Removing runtime",
+    "section": "messages",
+    "value": "正在移除运行时"
+  },
+  {
+    "key": "Removing...",
+    "section": "messages",
+    "value": "正在移除..."
+  },
+  {
+    "key": "Render text with thinner grayscale anti-aliasing instead of macOS's heavier default.",
+    "section": "messages",
+    "value": "使用更纤细的灰度抗锯齿，而不是 macOS 较粗的默认效果。"
+  },
+  {
+    "key": "Reply could not be posted",
+    "section": "messages",
+    "value": "无法发布回复"
+  },
+  {
+    "key": "Repo",
+    "section": "messages",
+    "value": "仓库"
+  },
+  {
+    "key": "Requested changes to earlier changes",
+    "section": "messages",
+    "value": "曾要求修改较早的更改"
+  },
+  {
+    "key": "Require holding the quit shortcut before the desktop app quits. A quick tap shows a hint instead.",
+    "section": "messages",
+    "value": "退出桌面应用前需要长按退出快捷键；快速按一下只会显示提示。"
+  },
+  {
+    "key": "Reset applied. Your windows have cleared.",
+    "section": "messages",
+    "value": "已完成重置，用量窗口已清零。"
+  },
+  {
+    "key": "Reset to inherited automatic pull setting",
+    "section": "messages",
+    "value": "恢复为继承的自动拉取设置"
+  },
+  {
+    "key": "Reset to inherited browser access",
+    "section": "messages",
+    "value": "恢复为继承的浏览器访问设置"
+  },
+  {
+    "key": "Resize Sidebar",
+    "section": "messages",
+    "value": "调整侧栏宽度"
+  },
+  {
+    "key": "Resize sidebar",
+    "section": "messages",
+    "value": "调整侧栏宽度"
+  },
+  {
+    "key": "Resolve a {provider} {request}, then create the draft thread in the main repo or in a dedicated worktree.",
+    "section": "templates",
+    "value": "解析 {provider} {request}，然后在主仓库或独立工作树中创建草稿任务。"
+  },
+  {
+    "key": "Resolve a {provider} {request}, then create the draft thread in the main repository or in a dedicated worktree.",
+    "section": "templates",
+    "value": "解析 {provider} {request}，然后在主仓库或独立工作树中创建草稿任务。"
+  },
+  {
+    "key": "Resolving {request}...",
+    "section": "templates",
+    "value": "正在解析{request}..."
+  },
+  {
+    "key": "Resource monitor binary was not found for {platform}.",
+    "section": "templates",
+    "value": "未找到适用于 {platform} 的资源监控程序。"
+  },
+  {
+    "key": "Rest the composer of an existing thread into a single line when it loses focus, when you scroll the conversation, or both. Pick neither to keep it expanded.",
+    "section": "messages",
+    "value": "现有任务的输入框失去焦点、滚动对话或同时满足两者时收起为单行；均不选择则保持展开。"
+  },
+  {
+    "key": "Restarting...",
+    "section": "messages",
+    "value": "正在重新启动..."
+  },
+  {
+    "key": "Restore default settings?",
+    "section": "messages",
+    "value": "恢复默认设置？"
+  },
+  {
+    "key": "Restore defaults",
+    "section": "messages",
+    "value": "恢复默认设置"
+  },
+  {
+    "key": "Restore panel size",
+    "section": "messages",
+    "value": "恢复面板大小"
+  },
+  {
+    "key": "Restore stashed prompt: {0}",
+    "section": "templates",
+    "value": "恢复暂存内容：{0}"
+  },
+  {
+    "key": "Resume session",
+    "section": "messages",
+    "value": "继续会话"
+  },
+  {
+    "key": "Resume thread",
+    "section": "messages",
+    "value": "继续任务"
+  },
+  {
+    "key": "Resume with a summary and use fewer tokens.",
+    "section": "messages",
+    "value": "生成摘要后继续，以减少 Token 用量。"
+  },
+  {
+    "key": "Resume without changing the conversation.",
+    "section": "messages",
+    "value": "保留对话不变并继续。"
+  },
+  {
+    "key": "Retry Google sign-in",
+    "section": "messages",
+    "value": "重试 Google 登录"
+  },
+  {
+    "key": "Retry or remove failed image uploads before sending.",
+    "section": "messages",
+    "value": "请先重试或移除上传失败的图片，再发送消息。"
+  },
+  {
+    "key": "Retry or remove the failed image",
+    "section": "messages",
+    "value": "请重试或移除上传失败的图片"
+  },
+  {
+    "key": "Retry or remove the failed images",
+    "section": "messages",
+    "value": "请重试或移除上传失败的图片"
+  },
+  {
+    "key": "Retry upload for {0}",
+    "section": "templates",
+    "value": "重新上传 {0}"
+  },
+  {
+    "key": "Revert to this message",
+    "section": "messages",
+    "value": "恢复到此消息"
+  },
+  {
+    "key": "Review and confirm your commit. Leave the message blank to auto-generate one.",
+    "section": "messages",
+    "value": "检查并确认本次提交。留空提交信息可自动生成。"
+  },
+  {
+    "key": "Review submitted",
+    "section": "messages",
+    "value": "评审已提交"
+  },
+  {
+    "key": "Revoked {0} clients",
+    "section": "templates",
+    "value": "已撤销 {0} 个客户端"
+  },
+  {
+    "key": "Rewinding conversation",
+    "section": "messages",
+    "value": "正在回退对话"
+  },
+  {
+    "key": "Right Panel: Close",
+    "section": "messages",
+    "value": "右侧面板：关闭"
+  },
+  {
+    "key": "Right Panel: Toggle",
+    "section": "messages",
+    "value": "右侧面板：切换"
+  },
+  {
+    "key": "Right Panel: Toggle Maximized",
+    "section": "messages",
+    "value": "右侧面板：切换最大化"
+  },
+  {
+    "key": "Routing key used by threads and sessions. Letters, digits, '-', or '_'.",
+    "section": "messages",
+    "value": "任务和会话使用的路由键，可使用字母、数字、“-”或“_”。"
+  },
+  {
+    "key": "Run `{0}` on {1} to update it.",
+    "section": "templates",
+    "value": "在 {1} 上运行 `{0}` 即可更新。"
+  },
+  {
+    "key": "Run `{command}` on {server} to update it.",
+    "section": "templates",
+    "value": "在 {server} 上运行 `{command}` 即可更新。"
+  },
+  {
+    "key": "Run a prompt automatically — on an interval or at a fixed time.",
+    "section": "messages",
+    "value": "按间隔或在固定时间自动运行提示词。"
+  },
+  {
+    "key": "Run a second backend inside a WSL distro alongside the Windows one. Pick a distro to start it; pick Off to stop it. Projects opened against the WSL backend live on the Linux side; Windows projects stay where they are.",
+    "section": "messages",
+    "value": "在 Windows 后端旁边，再在 WSL 发行版中运行一个后端。选择发行版即可启动，选择“关闭”即可停止。通过 WSL 后端打开的项目位于 Linux 侧，Windows 项目保持原位置。"
+  },
+  {
+    "key": "Running source control action",
+    "section": "messages",
+    "value": "正在执行源代码管理操作"
+  },
+  {
+    "key": "SSH password prompt failed.",
+    "section": "messages",
+    "value": "SSH 密码请求失败。"
+  },
+  {
+    "key": "Sampling every",
+    "section": "messages",
+    "value": "采样间隔"
+  },
+  {
+    "key": "Sampling every {interval}",
+    "section": "templates",
+    "value": "每 {interval} 采样一次"
+  },
+  {
+    "key": "Sat",
+    "section": "messages",
+    "value": "周六"
+  },
+  {
+    "key": "Save any unfinished input before reloading.",
+    "section": "messages",
+    "value": "重新加载前，请先保存尚未完成的输入。"
+  },
+  {
+    "key": "Save host",
+    "section": "messages",
+    "value": "保存主机"
+  },
+  {
+    "key": "Save it to open in an app that supports",
+    "section": "messages",
+    "value": "保存后可在支持以下格式的应用中打开："
+  },
+  {
+    "key": "Saved and run only in {checkout}.",
+    "section": "templates",
+    "value": "仅保存在 {checkout} 中并从这里运行。"
+  },
+  {
+    "key": "Scan limit reached. Some projects or conversations may be missing.",
+    "section": "messages",
+    "value": "已达到扫描上限，部分项目或对话可能未显示。"
+  },
+  {
+    "key": "Scanning…",
+    "section": "messages",
+    "value": "正在扫描…"
+  },
+  {
+    "key": "Search commands, projects, and threads...",
+    "section": "messages",
+    "value": "搜索命令、项目和任务..."
+  },
+  {
+    "key": "Search files...",
+    "section": "messages",
+    "value": "搜索文件..."
+  },
+  {
+    "key": "Search fonts...",
+    "section": "messages",
+    "value": "搜索字体..."
+  },
+  {
+    "key": "Search image files...",
+    "section": "messages",
+    "value": "搜索图片文件..."
+  },
+  {
+    "key": "Search project contents...",
+    "section": "messages",
+    "value": "搜索项目内容..."
+  },
+  {
+    "key": "Search...",
+    "section": "messages",
+    "value": "搜索..."
+  },
+  {
+    "key": "Searched code {count} time",
+    "section": "templates",
+    "value": "已搜索代码 {count} 次"
+  },
+  {
+    "key": "Searched code {count} times",
+    "section": "templates",
+    "value": "已搜索代码 {count} 次"
+  },
+  {
+    "key": "Searched the web {count} time",
+    "section": "templates",
+    "value": "已搜索网页 {count} 次"
+  },
+  {
+    "key": "Searched the web {count} times",
+    "section": "templates",
+    "value": "已搜索网页 {count} 次"
+  },
+  {
+    "key": "Searching project files...",
+    "section": "messages",
+    "value": "正在搜索项目文件..."
+  },
+  {
+    "key": "Searching thread messages...",
+    "section": "messages",
+    "value": "正在搜索任务消息..."
+  },
+  {
+    "key": "Searching...",
+    "section": "messages",
+    "value": "正在搜索..."
+  },
+  {
+    "key": "Select",
+    "section": "messages",
+    "value": "选择"
+  },
+  {
+    "key": "Select a machine to edit its actions. Adding an action applies to all selected connected machines.",
+    "section": "messages",
+    "value": "选择一台设备以编辑其操作；新增操作会应用到所有选中的已连接设备。"
+  },
+  {
+    "key": "Select a project to change its icon.",
+    "section": "messages",
+    "value": "选择一个项目后可修改图标。"
+  },
+  {
+    "key": "Select a project to change its name.",
+    "section": "messages",
+    "value": "选择一个项目后可修改名称。"
+  },
+  {
+    "key": "Select a project to choose one of its checkouts.",
+    "section": "messages",
+    "value": "选择一个项目后可指定其检出目录。"
+  },
+  {
+    "key": "Select a project to import actions from its checkout's t3.json.",
+    "section": "messages",
+    "value": "选择一个项目，从其检出目录的 t3.json 导入操作。"
+  },
+  {
+    "key": "Select a project to remove its entries and threads. Files on disk are not touched.",
+    "section": "messages",
+    "value": "选择一个项目后可移除其条目和任务；磁盘上的文件不会被删除。"
+  },
+  {
+    "key": "Select a project to remove one of its checkouts.",
+    "section": "messages",
+    "value": "选择一个项目后可移除其检出目录。"
+  },
+  {
+    "key": "Select accent color {color}",
+    "section": "templates",
+    "value": "选择强调色 {color}"
+  },
+  {
+    "key": "Selected checkout",
+    "section": "messages",
+    "value": "已选择的检出目录"
+  },
+  {
+    "key": "Send as a steer instead",
+    "section": "messages",
+    "value": "改为作为调整发送"
+  },
+  {
+    "key": "Send as a steer instead ({shortcut})",
+    "section": "templates",
+    "value": "改为作为调整发送（{shortcut}）"
+  },
+  {
+    "key": "Send message",
+    "section": "messages",
+    "value": "发送消息"
+  },
+  {
+    "key": "Send now",
+    "section": "messages",
+    "value": "立即发送"
+  },
+  {
+    "key": "Send or clear your draft before compacting",
+    "section": "messages",
+    "value": "请先发送或清空草稿，再压缩上下文"
+  },
+  {
+    "key": "Send {signal}",
+    "section": "templates",
+    "value": "发送 {signal}"
+  },
+  {
+    "key": "Sending",
+    "section": "messages",
+    "value": "正在发送"
+  },
+  {
+    "key": "Sending a message moves it back to Active in the sidebar.",
+    "section": "messages",
+    "value": "发送消息会将任务移回侧栏的活跃列表。"
+  },
+  {
+    "key": "Sending a message wakes it and moves it back to Active in the sidebar.",
+    "section": "messages",
+    "value": "发送消息会唤醒任务，并将其移回侧栏的活跃列表。"
+  },
+  {
+    "key": "Sending feedback",
+    "section": "messages",
+    "value": "正在发送反馈"
+  },
+  {
+    "key": "Sensitive",
+    "section": "messages",
+    "value": "敏感信息"
+  },
+  {
+    "key": "Sensitive values are stored separately and are not returned to the app after saving.",
+    "section": "messages",
+    "value": "敏感值会单独存储，保存后不会再返回到应用。"
+  },
+  {
+    "key": "Server update failed: A prepared desktop update is already in progress.",
+    "section": "messages",
+    "value": "服务器更新失败：已有一个准备好的桌面更新正在进行。"
+  },
+  {
+    "key": "Server update failed: Automatic updates are disabled by the T3CODE_DISABLE_AUTO_UPDATE setting.",
+    "section": "messages",
+    "value": "服务器更新失败：自动更新已被 T3CODE_DISABLE_AUTO_UPDATE 设置停用。"
+  },
+  {
+    "key": "Server update failed: Automatic updates are disabled on this machine.",
+    "section": "messages",
+    "value": "服务器更新失败：此设备已停用自动更新。"
+  },
+  {
+    "key": "Server update failed: Automatic updates are not available because no update feed is configured.",
+    "section": "messages",
+    "value": "服务器更新失败：未配置更新源，无法使用自动更新。"
+  },
+  {
+    "key": "Server update failed: Automatic updates are only available in packaged production builds.",
+    "section": "messages",
+    "value": "服务器更新失败：自动更新仅适用于打包后的正式版本。"
+  },
+  {
+    "key": "Server update failed: Automatic updates on Linux require the AppImage or the .deb package.",
+    "section": "messages",
+    "value": "服务器更新失败：在 Linux 上使用自动更新需要 AppImage 或 .deb 安装包。"
+  },
+  {
+    "key": "Server update failed: The desktop app could not start the install.",
+    "section": "messages",
+    "value": "服务器更新失败：桌面应用无法开始安装。"
+  },
+  {
+    "key": "Server update failed: The desktop app did not report an update result.",
+    "section": "messages",
+    "value": "服务器更新失败：桌面应用没有报告更新结果。"
+  },
+  {
+    "key": "Server update failed: The desktop app failed to download the update.",
+    "section": "messages",
+    "value": "服务器更新失败：桌面应用下载更新失败。"
+  },
+  {
+    "key": "Server update failed: The desktop app failed to install the update.",
+    "section": "messages",
+    "value": "服务器更新失败：桌面应用安装更新失败。"
+  },
+  {
+    "key": "Server update failed: The desktop app lost the downloaded update.",
+    "section": "messages",
+    "value": "服务器更新失败：桌面应用丢失了已下载的更新。"
+  },
+  {
+    "key": "Server update failed: The desktop app update failed.",
+    "section": "messages",
+    "value": "服务器更新失败：桌面应用更新失败。"
+  },
+  {
+    "key": "Server update failed: This desktop update is no longer prepared.",
+    "section": "messages",
+    "value": "服务器更新失败：此桌面更新已不再处于就绪状态。"
+  },
+  {
+    "key": "Service Tier",
+    "section": "messages",
+    "value": "服务等级"
+  },
+  {
+    "key": "Set T3CODE_BITBUCKET_EMAIL and T3CODE_BITBUCKET_API_TOKEN on the server. Use a Bitbucket API token with pull request, repository, and user read scopes.",
+    "section": "messages",
+    "value": "请在服务器上设置 T3CODE_BITBUCKET_EMAIL 和 T3CODE_BITBUCKET_API_TOKEN，并使用具有拉取请求、仓库及用户读取权限的 Bitbucket API Token。"
+  },
+  {
+    "key": "Settings differ on {environments}. Thread and source control preferences are meant to match on every environment.",
+    "section": "templates",
+    "value": "{environments} 上的设置不一致。任务和源代码管理偏好应在所有环境中保持一致。"
+  },
+  {
+    "key": "Settings scope",
+    "section": "messages",
+    "value": "设置范围"
+  },
+  {
+    "key": "Settled ({0})",
+    "section": "templates",
+    "value": "已收起（{0}）"
+  },
+  {
+    "key": "Shift + Shift is not available on this system.",
+    "section": "messages",
+    "value": "此系统上无法使用 Shift + Shift。"
+  },
+  {
+    "key": "Shift combinations are used for typing and text selection. Add another modifier.",
+    "section": "messages",
+    "value": "Shift 组合键用于输入和选择文字，请再加一个修饰键。"
+  },
+  {
+    "key": "Show",
+    "section": "messages",
+    "value": "显示"
+  },
+  {
+    "key": "Show files",
+    "section": "messages",
+    "value": "显示文件"
+  },
+  {
+    "key": "Show in picker",
+    "section": "messages",
+    "value": "在选择器中显示"
+  },
+  {
+    "key": "Show more ({count} left)",
+    "section": "templates",
+    "value": "显示更多（剩余 {count} 个）"
+  },
+  {
+    "key": "Show only {count} recent bot comments",
+    "section": "templates",
+    "value": "仅显示最近 {count} 条机器人评论"
+  },
+  {
+    "key": "Show only {count} recent comments",
+    "section": "templates",
+    "value": "仅显示最近 {count} 条评论"
+  },
+  {
+    "key": "Show the floating preview when an agent opens a browser unless the agent says otherwise.",
+    "section": "messages",
+    "value": "Agent 打开浏览器时显示浮动预览，除非 Agent 明确要求其他方式。"
+  },
+  {
+    "key": "Show the quota of every account the hub pools, next to the providers on {environment}. The key stays on that server.",
+    "section": "templates",
+    "value": "在 {environment} 的服务提供方旁显示该 Hub 汇集的所有账户限额。管理密钥只保存在该服务器上。"
+  },
+  {
+    "key": "Show {count} older bot comments ({hidden} hidden)",
+    "section": "templates",
+    "value": "显示较早的 {count} 条机器人评论（隐藏了 {hidden} 条）"
+  },
+  {
+    "key": "Show {count} older comments ({hidden} hidden)",
+    "section": "templates",
+    "value": "显示较早的 {count} 条评论（隐藏了 {hidden} 条）"
+  },
+  {
+    "key": "Show {count} oldest comment",
+    "section": "templates",
+    "value": "显示最早的 {count} 条评论"
+  },
+  {
+    "key": "Show {count} oldest comments",
+    "section": "templates",
+    "value": "显示最早的 {count} 条评论"
+  },
+  {
+    "key": "Show {label} usage",
+    "section": "templates",
+    "value": "显示{label}的使用位置"
+  },
+  {
+    "key": "Show {model}",
+    "section": "templates",
+    "value": "显示 {model}"
+  },
+  {
+    "key": "Showing the last pull requests loaded.",
+    "section": "messages",
+    "value": "显示上次加载的拉取请求。"
+  },
+  {
+    "key": "Shown in picker",
+    "section": "messages",
+    "value": "在选择器中显示"
+  },
+  {
+    "key": "Shown in the provider list. Optional.",
+    "section": "messages",
+    "value": "显示在服务提供方列表中，可选。"
+  },
+  {
+    "key": "Side by side",
+    "section": "messages",
+    "value": "并排显示"
+  },
+  {
+    "key": "Sidebar: Toggle",
+    "section": "messages",
+    "value": "侧栏：切换"
+  },
+  {
+    "key": "Sign in to T3 Connect to connect a linked environment through its managed tunnel, or add a reachable backend manually.",
+    "section": "messages",
+    "value": "登录 T3 Connect，通过托管隧道连接已关联的环境，或手动添加可访问的后端。"
+  },
+  {
+    "key": "Sign in to T3 Connect to manage this environment.",
+    "section": "messages",
+    "value": "请登录 T3 Connect 以管理此环境。"
+  },
+  {
+    "key": "Sign in with Google",
+    "section": "messages",
+    "value": "使用 Google 登录"
+  },
+  {
+    "key": "Sign in with your Google account.",
+    "section": "messages",
+    "value": "使用 Google 账户登录。"
+  },
+  {
+    "key": "Sign out of Google",
+    "section": "messages",
+    "value": "退出 Google 登录"
+  },
+  {
+    "key": "Sign-in is open in another client. Complete or cancel it there.",
+    "section": "messages",
+    "value": "登录已在另一个客户端打开，请在那里完成或取消。"
+  },
+  {
+    "key": "Signed in with Google.",
+    "section": "messages",
+    "value": "已使用 Google 登录。"
+  },
+  {
+    "key": "Signing out",
+    "section": "messages",
+    "value": "正在退出登录"
+  },
+  {
+    "key": "Simplified Chinese",
+    "section": "messages",
+    "value": "简体中文"
+  },
+  {
+    "key": "Single",
+    "section": "messages",
+    "value": "单终端"
+  },
+  {
+    "key": "Skills",
+    "section": "messages",
+    "value": "技能"
+  },
+  {
+    "key": "Snapshot sound:",
+    "section": "messages",
+    "value": "截图声音："
+  },
+  {
+    "key": "Snoozed ({0})",
+    "section": "templates",
+    "value": "已暂缓（{0}）"
+  },
+  {
+    "key": "Snoozed until {time}",
+    "section": "templates",
+    "value": "已暂缓至 {time}"
+  },
+  {
+    "key": "Snoozed {count} thread(s)",
+    "section": "templates",
+    "value": "已暂缓 {count} 个任务"
+  },
+  {
+    "key": "Snoozed {done} of {total} threads",
+    "section": "templates",
+    "value": "已暂缓 {total} 个任务中的 {done} 个"
+  },
+  {
+    "key": "Some shortcuts may be claimed by the browser before T3 Code sees them. Use the desktop app for better keybinding support.",
+    "section": "messages",
+    "value": "部分快捷键可能会先被浏览器占用，T3 Code 无法接收。使用桌面应用可获得更完整的快捷键支持。"
+  },
+  {
+    "key": "Split Terminal Horizontally",
+    "section": "messages",
+    "value": "水平拆分终端"
+  },
+  {
+    "key": "Split Terminal Horizontally (max {max} per group)",
+    "section": "templates",
+    "value": "水平拆分终端（每组最多 {max} 个）"
+  },
+  {
+    "key": "Split Terminal Vertically",
+    "section": "messages",
+    "value": "垂直拆分终端"
+  },
+  {
+    "key": "Split Terminal Vertically (max {max} per group)",
+    "section": "templates",
+    "value": "垂直拆分终端（每组最多 {max} 个）"
+  },
+  {
+    "key": "Squash",
+    "section": "messages",
+    "value": "压缩合并"
+  },
+  {
+    "key": "Stable follows full releases. Nightly follows the nightly desktop channel and can switch back to stable immediately.",
+    "section": "messages",
+    "value": "稳定版跟随正式发布；夜间版跟随夜间桌面通道，并可随时切回稳定版。"
+  },
+  {
+    "key": "Stack #",
+    "section": "messages",
+    "value": "堆栈 #"
+  },
+  {
+    "key": "Stacked on {0}",
+    "section": "templates",
+    "value": "堆叠于 {0}"
+  },
+  {
+    "key": "Start tasks and perform changes in the environment.",
+    "section": "messages",
+    "value": "启动任务并在环境中执行更改。"
+  },
+  {
+    "key": "Started",
+    "section": "messages",
+    "value": "已启动"
+  },
+  {
+    "key": "Starting Google sign-in.",
+    "section": "messages",
+    "value": "正在启动 Google 登录。"
+  },
+  {
+    "key": "Starting device…",
+    "section": "messages",
+    "value": "正在启动设备…"
+  },
+  {
+    "key": "Starting installation",
+    "section": "messages",
+    "value": "正在开始安装"
+  },
+  {
+    "key": "Starting sign-in",
+    "section": "messages",
+    "value": "正在开始登录"
+  },
+  {
+    "key": "Starting source control action...",
+    "section": "messages",
+    "value": "正在启动源代码管理操作..."
+  },
+  {
+    "key": "Status colors",
+    "section": "messages",
+    "value": "状态颜色"
+  },
+  {
+    "key": "Steer message",
+    "section": "messages",
+    "value": "发送调整消息"
+  },
+  {
+    "key": "Step {index}",
+    "section": "templates",
+    "value": "第 {index} 步"
+  },
+  {
+    "key": "Stop the Windows backend and run only the WSL backend. Useful if you develop entirely inside WSL and don't want a second backend process. T3 Code restarts when you change this.",
+    "section": "messages",
+    "value": "停止 Windows 后端，仅运行 WSL 后端。适合完全在 WSL 中开发且不需要第二个后端进程的情况。修改后 T3 Code 会重启。"
+  },
+  {
+    "key": "Stopped watching {count} pull request",
+    "section": "templates",
+    "value": "已停止关注 {count} 个拉取请求"
+  },
+  {
+    "key": "Stopped watching {count} pull requests",
+    "section": "templates",
+    "value": "已停止关注 {count} 个拉取请求"
+  },
+  {
+    "key": "Stored secret - enter a new value to replace",
+    "section": "messages",
+    "value": "已保存敏感值，输入新值可替换"
+  },
+  {
+    "key": "Stream failed.",
+    "section": "messages",
+    "value": "流式传输失败。"
+  },
+  {
+    "key": "Stream output token by token. This legacy mode is slower and harder to follow.",
+    "section": "messages",
+    "value": "逐个 Token 流式输出。此旧版模式速度较慢，也较难阅读。"
+  },
+  {
+    "key": "Stream token by token (legacy)",
+    "section": "messages",
+    "value": "逐字输出（旧版）"
+  },
+  {
+    "key": "Structured recurring schedule. Pass an object with type 'interval' or 'fixed_time'.",
+    "section": "messages",
+    "value": "Structured recurring schedule. Pass an object with type 'interval' or 'fixed_time'."
+  },
+  {
+    "key": "Structures change request descriptions using the current repository's template when one is available.",
+    "section": "messages",
+    "value": "仓库提供模板时，使用当前仓库的模板组织变更请求说明。"
+  },
+  {
+    "key": "Submit message",
+    "section": "messages",
+    "value": "发送消息"
+  },
+  {
+    "key": "Suggested hosts",
+    "section": "messages",
+    "value": "建议的主机"
+  },
+  {
+    "key": "Sun",
+    "section": "messages",
+    "value": "周日"
+  },
+  {
+    "key": "Support for {provider} is coming soon.",
+    "section": "templates",
+    "value": "即将支持 {provider}。"
+  },
+  {
+    "key": "Switch project",
+    "section": "messages",
+    "value": "切换项目"
+  },
+  {
+    "key": "Switch the interface language. Changing it reloads the app.",
+    "section": "messages",
+    "value": "切换界面语言。更改后会重新加载应用。"
+  },
+  {
+    "key": "Switch to {branch}?",
+    "section": "templates",
+    "value": "切换到 {branch}？"
+  },
+  {
+    "key": "Syncing messages",
+    "section": "messages",
+    "value": "正在同步消息"
+  },
+  {
+    "key": "T3 Code will download and install version {version} locally.",
+    "section": "templates",
+    "value": "T3 Code 将在本机下载并安装版本 {version}。"
+  },
+  {
+    "key": "T3 Code will restart and limit this environment back to this machine.",
+    "section": "messages",
+    "value": "T3 Code 将重新启动，并把此环境限制为仅本机可访问。"
+  },
+  {
+    "key": "T3 Code will restart to expose this environment over the network.",
+    "section": "messages",
+    "value": "T3 Code 将重新启动，并允许通过网络访问此环境。"
+  },
+  {
+    "key": "T3 Connect could not load.",
+    "section": "messages",
+    "value": "T3 Connect 加载失败。"
+  },
+  {
+    "key": "T3 Connect is taking longer than expected.",
+    "section": "messages",
+    "value": "T3 Connect 加载时间较长。"
+  },
+  {
+    "key": "T3 Connect · Not added · Checking relay status…",
+    "section": "messages",
+    "value": "T3 Connect · 未添加 · 正在检查中继状态…"
+  },
+  {
+    "key": "T3 Connect · Not added · Client not supported",
+    "section": "messages",
+    "value": "T3 Connect · 未添加 · 不支持此客户端"
+  },
+  {
+    "key": "T3 Connect · Not added · Relay offline",
+    "section": "messages",
+    "value": "T3 Connect · 未添加 · 中继离线"
+  },
+  {
+    "key": "T3 Connect · Not added · Relay online",
+    "section": "messages",
+    "value": "T3 Connect · 未添加 · 中继在线"
+  },
+  {
+    "key": "T3 Connect · Not added · Relay status unavailable",
+    "section": "messages",
+    "value": "T3 Connect · 未添加 · 中继状态不可用"
+  },
+  {
+    "key": "T3 needs your SSH password to connect to {target}. The password is passed to the local SSH process for this connection attempt and is not saved by T3 Code.",
+    "section": "templates",
+    "value": "T3 需要使用 SSH 密码连接到 {target}。密码只会传递给本机 SSH 进程完成本次连接，T3 Code 不会保存该密码。"
+  },
+  {
+    "key": "Task list. {0} of {1} complete.",
+    "section": "templates",
+    "value": "任务清单。已完成 {0}/{1}。"
+  },
+  {
+    "key": "Task started in the background",
+    "section": "messages",
+    "value": "任务已在后台启动"
+  },
+  {
+    "key": "Tasks: {completed} of {total} complete. Current task: {task}",
+    "section": "templates",
+    "value": "任务清单：已完成 {completed}/{total}。当前任务：{task}"
+  },
+  {
+    "key": "Tent",
+    "section": "messages",
+    "value": "帐篷"
+  },
+  {
+    "key": "Terminal excerpt, {0}",
+    "section": "templates",
+    "value": "终端摘录，{0}"
+  },
+  {
+    "key": "Terminal input",
+    "section": "messages",
+    "value": "终端输入"
+  },
+  {
+    "key": "Terminal logs only",
+    "section": "messages",
+    "value": "仅终端日志"
+  },
+  {
+    "key": "Terminal: Close",
+    "section": "messages",
+    "value": "终端：关闭"
+  },
+  {
+    "key": "Terminal: New",
+    "section": "messages",
+    "value": "终端：新建"
+  },
+  {
+    "key": "Terminal: Split",
+    "section": "messages",
+    "value": "终端：拆分"
+  },
+  {
+    "key": "Terminal: Split Vertical",
+    "section": "messages",
+    "value": "终端：垂直拆分"
+  },
+  {
+    "key": "Terminal: Toggle",
+    "section": "messages",
+    "value": "终端：切换"
+  },
+  {
+    "key": "Text appears once the agent finishes its turn.",
+    "section": "messages",
+    "value": "Agent 完成本轮回复后显示文本。"
+  },
+  {
+    "key": "That browser is no longer available to import from.",
+    "section": "messages",
+    "value": "该浏览器已无法作为导入来源。"
+  },
+  {
+    "key": "That browser profile no longer exists.",
+    "section": "messages",
+    "value": "该浏览器配置文件已不存在。"
+  },
+  {
+    "key": "That credit was already redeemed.",
+    "section": "messages",
+    "value": "该额度已兑换。"
+  },
+  {
+    "key": "That profile is no longer available. Choose where to import these cookies.",
+    "section": "messages",
+    "value": "该配置文件已不可用，请重新选择 Cookie 的导入位置。"
+  },
+  {
+    "key": "That prompt was restored or deleted before {count} image finished saving. Re-attach it if you still need it.",
+    "section": "templates",
+    "value": "图片保存完成前，该内容已被恢复或删除。如仍需要这 {count} 张图片，请重新添加。"
+  },
+  {
+    "key": "That prompt was restored or deleted before {count} images finished saving. Re-attach them if you still need them.",
+    "section": "templates",
+    "value": "图片保存完成前，该内容已被恢复或删除。如仍需要这 {count} 张图片，请重新添加。"
+  },
+  {
+    "key": "The boxes below are whatever was last read, and empty if nothing has been read yet.",
+    "section": "messages",
+    "value": "以下显示上次读取的标记；如果尚未读取过，则显示为空。"
+  },
+  {
+    "key": "The browser's cookie database could not be read.",
+    "section": "messages",
+    "value": "无法读取浏览器的 Cookie 数据库。"
+  },
+  {
+    "key": "The configured Antigravity runtime has not been checked.",
+    "section": "messages",
+    "value": "尚未检查配置的 Antigravity 运行时。"
+  },
+  {
+    "key": "The configured Antigravity runtime is unavailable.",
+    "section": "messages",
+    "value": "配置的 Antigravity 运行时不可用。"
+  },
+  {
+    "key": "The conversation could not be updated",
+    "section": "messages",
+    "value": "无法更新对话"
+  },
+  {
+    "key": "The cookies were imported, but the new profile couldn't be saved. Try again.",
+    "section": "messages",
+    "value": "Cookie 已导入，但无法保存新配置文件。请重试。"
+  },
+  {
+    "key": "The environment",
+    "section": "messages",
+    "value": "此环境"
+  },
+  {
+    "key": "The host refused it. A rebase stops at the first commit that does not apply cleanly; updating with a merge commit may still work.",
+    "section": "messages",
+    "value": "托管服务拒绝了操作。变基会在首个无法干净应用的提交处停止；使用合并提交更新仍可能成功。"
+  },
+  {
+    "key": "The host refused it. Check that this repository allows auto-merge, that you have write access, and that there is something left for it to wait on.",
+    "section": "messages",
+    "value": "托管服务拒绝了操作。请确认仓库允许自动合并、你拥有写入权限，并且仍有条件需要等待。"
+  },
+  {
+    "key": "The host refused it. Check that you have Actions write access and that these workflow runs are still awaiting approval.",
+    "section": "messages",
+    "value": "托管服务拒绝了操作。请确认你拥有 Actions 写入权限，并且这些工作流运行仍在等待批准。"
+  },
+  {
+    "key": "The host refused it. Check that you have triage access on this repository.",
+    "section": "messages",
+    "value": "托管服务拒绝了操作。请确认你拥有此仓库的分类权限。"
+  },
+  {
+    "key": "The host refused it. Check that you have write access and that this pull request was merged on the host.",
+    "section": "messages",
+    "value": "托管服务拒绝了操作。请确认你拥有写入权限，并且此拉取请求已在托管服务中合并。"
+  },
+  {
+    "key": "The host refused it. Check that you have write access on this repository, and that they still have access to it.",
+    "section": "messages",
+    "value": "托管服务拒绝了操作。请确认你拥有此仓库的写入权限，并且对方仍可访问该仓库。"
+  },
+  {
+    "key": "The host refused it. Check that you have write access to the branch — one from a fork also needs its author to allow edits from maintainers — and that it does not conflict with the base.",
+    "section": "messages",
+    "value": "托管服务拒绝了操作。请确认你拥有该分支的写入权限；来自复刻仓库的分支还需作者允许维护者编辑，并确保它与基础分支没有冲突。"
+  },
+  {
+    "key": "The host refused it. Check that you have write access to this repository.",
+    "section": "messages",
+    "value": "托管服务拒绝了操作。请确认你拥有此仓库的写入权限。"
+  },
+  {
+    "key": "The host refused it. Check that you have write access, and that the branch still exists.",
+    "section": "messages",
+    "value": "托管服务拒绝了操作。请确认你拥有写入权限且分支仍然存在。"
+  },
+  {
+    "key": "The host refused it. Check that you have write access, and that the merge has not already happened.",
+    "section": "messages",
+    "value": "托管服务拒绝了操作。请确认你拥有写入权限，并且合并尚未完成。"
+  },
+  {
+    "key": "The host refused it. Check that you have write access, or that you opened it.",
+    "section": "messages",
+    "value": "托管服务拒绝了操作。请确认你拥有写入权限，或此请求由你创建。"
+  },
+  {
+    "key": "The host refused the merge. Check that you have write access, that the checks it requires have passed, and that the branch is not conflicting.",
+    "section": "messages",
+    "value": "托管服务拒绝了合并。请确认你拥有写入权限、所需检查均已通过，并且分支没有冲突。"
+  },
+  {
+    "key": "The host refused the new title.",
+    "section": "messages",
+    "value": "托管服务拒绝了新标题。"
+  },
+  {
+    "key": "The latest request failed. Showing the last pull requests loaded.",
+    "section": "messages",
+    "value": "最近一次请求失败，当前显示上次已加载的拉取请求。"
+  },
+  {
+    "key": "The machine other devices see this environment as. Automatic uses what the server detected.",
+    "section": "messages",
+    "value": "设置其他设备看到的此环境设备类型；自动模式使用服务器检测结果。"
+  },
+  {
+    "key": "The most recent matching binding wins when both conditions can apply.",
+    "section": "messages",
+    "value": "当两个条件同时适用时，最近的匹配快捷键生效。"
+  },
+  {
+    "key": "The name is chosen by the agent. Approval returns to {0} on the computer that opened this page. Only approve a sign-in you just started.",
+    "section": "templates",
+    "value": "该名称由 Agent 自行选择。批准结果将返回打开此页面的设备上的 {0}。仅批准你刚刚发起的登录。"
+  },
+  {
+    "key": "The page asks for a file.",
+    "section": "messages",
+    "value": "网页要求选择一个文件。"
+  },
+  {
+    "key": "The page asks for files.",
+    "section": "messages",
+    "value": "网页要求选择多个文件。"
+  },
+  {
+    "key": "The pull request is not available in this environment.",
+    "section": "messages",
+    "value": "此环境中没有该拉取请求。"
+  },
+  {
+    "key": "The stash holds {0} prompts; the oldest was removed to make room.",
+    "section": "templates",
+    "value": "暂存列表最多保留 {0} 条内容，已移除最早的一条以腾出空间。"
+  },
+  {
+    "key": "The system already uses this shortcut.",
+    "section": "messages",
+    "value": "系统已在使用此快捷键。"
+  },
+  {
+    "key": "The system could not register this shortcut.",
+    "section": "messages",
+    "value": "系统无法注册此快捷键。"
+  },
+  {
+    "key": "The system keyring could not be accessed. Make sure your desktop keyring is running and unlocked, then retry.",
+    "section": "messages",
+    "value": "无法访问系统密钥环。请确认桌面密钥环正在运行且已解锁，然后重试。"
+  },
+  {
+    "key": "The system uses Alt+Tab to switch apps.",
+    "section": "messages",
+    "value": "系统用 Alt+Tab 切换应用。"
+  },
+  {
+    "key": "The target profile could not be opened.",
+    "section": "messages",
+    "value": "无法打开目标配置文件。"
+  },
+  {
+    "key": "The viewport a browser tab opens at, for both you and agents. Fill sizes the page to the panel; any other choice opens the device toolbar at that size.",
+    "section": "messages",
+    "value": "设置你和 Agent 新建浏览器标签页时使用的视口。填满面板会使页面适应面板大小；选择其他尺寸时，将以该尺寸打开设备工具栏。"
+  },
+  {
+    "key": "Theme Editor: Toggle",
+    "section": "messages",
+    "value": "主题编辑器：切换"
+  },
+  {
+    "key": "Theme: Select",
+    "section": "messages",
+    "value": "主题：选择"
+  },
+  {
+    "key": "Thermal state: unknown",
+    "section": "messages",
+    "value": "温控状态：未知"
+  },
+  {
+    "key": "This account has no subscription limits.",
+    "section": "messages",
+    "value": "此账户没有订阅限额。"
+  },
+  {
+    "key": "This action is currently unavailable.",
+    "section": "messages",
+    "value": "当前无法执行此操作。"
+  },
+  {
+    "key": "This action will commit and push changes on \"{branch}\". You can continue on this branch or create a feature branch and run the same action there.",
+    "section": "templates",
+    "value": "此操作会在“{branch}”上提交并推送更改。你可以继续使用此分支，也可以创建功能分支后执行相同操作。"
+  },
+  {
+    "key": "This action will commit and push changes on \"{branch}\". You can continue on this ref or create a feature ref and run the same action there.",
+    "section": "templates",
+    "value": "此操作会在“{branch}”上提交并推送更改。你可以继续使用此引用，也可以创建功能引用后执行相同操作。"
+  },
+  {
+    "key": "This action will commit, push, and create a PR on \"{branch}\". You can continue on this branch or create a feature branch and run the same action there.",
+    "section": "templates",
+    "value": "此操作会在“{branch}”上提交、推送并创建 PR。你可以继续使用此分支，也可以创建功能分支后执行相同操作。"
+  },
+  {
+    "key": "This action will commit, push, and create a {request} from \"{branch}\". You can continue on this branch or create a feature branch and run the same action there.",
+    "section": "templates",
+    "value": "此操作会从“{branch}”提交、推送并创建{request}。你可以继续使用此分支，也可以创建功能分支后执行相同操作。"
+  },
+  {
+    "key": "This action will commit, push, and create a {request} on \"{branch}\". You can continue on this ref or create a feature ref and run the same action there.",
+    "section": "templates",
+    "value": "此操作会在“{branch}”上提交、推送并创建{request}。你可以继续使用此引用，也可以创建功能引用后执行相同操作。"
+  },
+  {
+    "key": "This action will push changes on \"{branch}\". You can continue on this branch or create a feature branch and run the same action there.",
+    "section": "templates",
+    "value": "此操作会在“{branch}”上推送更改。你可以继续使用此分支，也可以创建功能分支后执行相同操作。"
+  },
+  {
+    "key": "This action will push local commits and create a PR on \"{branch}\". You can continue on this branch or create a feature branch and run the same action there.",
+    "section": "templates",
+    "value": "此操作会推送“{branch}”上的本地提交并创建 PR。你可以继续使用此分支，也可以创建功能分支后执行相同操作。"
+  },
+  {
+    "key": "This action will push local commits and create a {request} from \"{branch}\". You can continue on this branch or create a feature branch and run the same action there.",
+    "section": "templates",
+    "value": "此操作会推送本地提交，并从“{branch}”创建{request}。你可以继续使用此分支，也可以创建功能分支后执行相同操作。"
+  },
+  {
+    "key": "This action will push local commits and create a {request} on \"{branch}\". You can continue on this ref or create a feature ref and run the same action there.",
+    "section": "templates",
+    "value": "此操作会推送“{branch}”上的本地提交并创建{request}。你可以继续使用此引用，也可以创建功能引用后执行相同操作。"
+  },
+  {
+    "key": "This action will push local commits on \"{branch}\". You can continue on this branch or create a feature branch and run the same action there.",
+    "section": "templates",
+    "value": "此操作会推送“{branch}”上的本地提交。你可以继续使用此分支，也可以创建功能分支后执行相同操作。"
+  },
+  {
+    "key": "This action will push local commits on \"{branch}\". You can continue on this ref or create a feature ref and run the same action there.",
+    "section": "templates",
+    "value": "此操作会推送“{branch}”上的本地提交。你可以继续使用此引用，也可以创建功能引用后执行相同操作。"
+  },
+  {
+    "key": "This allows {count} workflow from #{number} to run. Review the code and workflow changes first.",
+    "section": "templates",
+    "value": "这会允许 #{number} 中的 {count} 个工作流运行。请先检查代码和工作流更改。"
+  },
+  {
+    "key": "This allows {count} workflow(s) from #{number} to run. Review the code and workflow changes first.",
+    "section": "templates",
+    "value": "这会允许 #{number} 中的 {count} 个工作流运行。请先检查代码和工作流更改。"
+  },
+  {
+    "key": "This allows {count} workflows from #{number} to run. Review the code and workflow changes first.",
+    "section": "templates",
+    "value": "这会允许 #{number} 中的 {count} 个工作流运行。请先检查代码和工作流更改。"
+  },
+  {
+    "key": "This backend is already configured for remote access. Network exposure changes must be made where the server is launched.",
+    "section": "messages",
+    "value": "此后端已配置为可远程访问。网络暴露设置需要在启动服务器的位置修改。"
+  },
+  {
+    "key": "This backend is only reachable on this machine. Restart it with a non-loopback host to enable remote pairing.",
+    "section": "messages",
+    "value": "此后端目前仅能从本机访问。请使用非回环地址重启，以启用远程配对。"
+  },
+  {
+    "key": "This branch is out-of-date with {branch}.",
+    "section": "templates",
+    "value": "此分支落后于 {branch}。"
+  },
+  {
+    "key": "This branch is {count} commit(s) behind {branch}.",
+    "section": "templates",
+    "value": "此分支落后 {branch} {count} 个提交。"
+  },
+  {
+    "key": "This browser connects to T3 Code running on your computer or a server. Start the T3 Code desktop app or command-line server on that machine and keep it running.",
+    "section": "messages",
+    "value": "此浏览器会连接到电脑或服务器上运行的 T3 Code。请在该设备上启动 T3 Code 桌面客户端或命令行服务器，并保持其运行。"
+  },
+  {
+    "key": "This connection cannot browse host folders.",
+    "section": "messages",
+    "value": "此连接无权浏览主机文件夹。"
+  },
+  {
+    "key": "This connection cannot change keyboard shortcuts.",
+    "section": "messages",
+    "value": "此连接无权修改键盘快捷键。"
+  },
+  {
+    "key": "This connection cannot change projects in {0}.",
+    "section": "templates",
+    "value": "此连接无权修改 {0} 中的项目。"
+  },
+  {
+    "key": "This connection cannot change provider setup.",
+    "section": "messages",
+    "value": "当前连接无权修改服务提供方设置。"
+  },
+  {
+    "key": "This connection cannot change source control.",
+    "section": "messages",
+    "value": "此连接无权修改源代码管理。"
+  },
+  {
+    "key": "This connection cannot change threads.",
+    "section": "messages",
+    "value": "此连接无权修改任务。"
+  },
+  {
+    "key": "This connection cannot import projects or thread history.",
+    "section": "messages",
+    "value": "此连接无权导入项目或任务历史。"
+  },
+  {
+    "key": "This connection cannot search host files.",
+    "section": "messages",
+    "value": "此连接无权搜索主机文件。"
+  },
+  {
+    "key": "This connection cannot upload attachments.",
+    "section": "messages",
+    "value": "此连接无权上传附件。"
+  },
+  {
+    "key": "This connection does not have permission to change environment settings.",
+    "section": "messages",
+    "value": "此连接无权修改环境设置。"
+  },
+  {
+    "key": "This conversation is longer than this page reads in one go. The most recent {count} are here; open it on the host to read the rest.",
+    "section": "templates",
+    "value": "此对话内容较长，当前显示最近 {count} 条；请在托管服务中查看其余内容。"
+  },
+  {
+    "key": "This environment",
+    "section": "messages",
+    "value": "当前环境"
+  },
+  {
+    "key": "This environment's server is too old to keep an icon. Update it to choose one.",
+    "section": "messages",
+    "value": "此环境的服务器版本过旧，无法保存图标。请先更新服务器。"
+  },
+  {
+    "key": "This host could not be read.",
+    "section": "messages",
+    "value": "无法读取此托管服务。"
+  },
+  {
+    "key": "This instance uses the binary path below. Installing a managed runtime does not change that path.",
+    "section": "messages",
+    "value": "此实例使用下方的程序路径。安装托管运行时不会更改该路径。"
+  },
+  {
+    "key": "This link doesn't point to a page in",
+    "section": "messages",
+    "value": "此链接未指向以下应用中的页面："
+  },
+  {
+    "key": "This machine is no longer available.",
+    "section": "messages",
+    "value": "此设备已不可用。"
+  },
+  {
+    "key": "This model already has a row. Edit its prices there.",
+    "section": "messages",
+    "value": "此模型已有价格行，请直接编辑该行。"
+  },
+  {
+    "key": "This permanently clears any archived conversation history.",
+    "section": "messages",
+    "value": "这会永久清除所有已归档的对话历史。"
+  },
+  {
+    "key": "This permanently clears conversation history for these threads.",
+    "section": "messages",
+    "value": "这会永久清除这些任务的对话记录。"
+  },
+  {
+    "key": "This permanently clears conversation history for this thread.",
+    "section": "messages",
+    "value": "这会永久清除此任务的对话记录。"
+  },
+  {
+    "key": "This permanently clears conversation history for those threads and any archived threads.",
+    "section": "messages",
+    "value": "这会永久清除这些任务及所有已归档任务的对话历史。"
+  },
+  {
+    "key": "This permanently clears conversation history for those threads.",
+    "section": "messages",
+    "value": "这会永久清除这些任务的对话历史。"
+  },
+  {
+    "key": "This preview exceeds the size limit. Changes shown are incomplete.",
+    "section": "messages",
+    "value": "预览超出大小限制，显示的更改不完整。"
+  },
+  {
+    "key": "This project has no checkout on this machine.",
+    "section": "messages",
+    "value": "此项目在当前设备上没有检出目录。"
+  },
+  {
+    "key": "This provider driver is not included in the current build. Configuration values are preserved but cannot be edited.",
+    "section": "messages",
+    "value": "当前版本未包含此服务提供方驱动。配置值会保留，但无法编辑。"
+  },
+  {
+    "key": "This removes only the project entries, not the files on disk.",
+    "section": "messages",
+    "value": "只会移除项目条目，不会删除磁盘上的文件。"
+  },
+  {
+    "key": "This removes {count} grouped project entries.",
+    "section": "templates",
+    "value": "这会移除 {count} 个已分组的项目条目。"
+  },
+  {
+    "key": "This server does not support file attachments.",
+    "section": "messages",
+    "value": "此服务器暂不支持文件附件。"
+  },
+  {
+    "key": "This session can view {environment}'s providers, but its credential does not allow changing their configuration.",
+    "section": "templates",
+    "value": "当前会话可以查看 {environment} 的服务提供方，但此凭据无权修改其配置。"
+  },
+  {
+    "key": "This session is {age} old and uses {tokens} tokens. Compact it before continuing?",
+    "section": "templates",
+    "value": "此会话已有 {age}，当前使用 {tokens} 个 Token。是否先压缩再继续？"
+  },
+  {
+    "key": "This shortcut controls running commands in terminals.",
+    "section": "messages",
+    "value": "此快捷键在终端中用于控制正在运行的命令。"
+  },
+  {
+    "key": "This shortcut is Close Window in most apps.",
+    "section": "messages",
+    "value": "在大多数应用中，此快捷键用于“关闭窗口”。"
+  },
+  {
+    "key": "This shortcut is Copy in most apps.",
+    "section": "messages",
+    "value": "在大多数应用中，此快捷键用于“复制”。"
+  },
+  {
+    "key": "This shortcut is Cut in most apps.",
+    "section": "messages",
+    "value": "在大多数应用中，此快捷键用于“剪切”。"
+  },
+  {
+    "key": "This shortcut is Find in most apps.",
+    "section": "messages",
+    "value": "在大多数应用中，此快捷键用于“查找”。"
+  },
+  {
+    "key": "This shortcut is New Tab in most apps.",
+    "section": "messages",
+    "value": "在大多数应用中，此快捷键用于“新建标签页”。"
+  },
+  {
+    "key": "This shortcut is New in most apps.",
+    "section": "messages",
+    "value": "在大多数应用中，此快捷键用于“新建”。"
+  },
+  {
+    "key": "This shortcut is Open in most apps.",
+    "section": "messages",
+    "value": "在大多数应用中，此快捷键用于“打开”。"
+  },
+  {
+    "key": "This shortcut is Paste in most apps.",
+    "section": "messages",
+    "value": "在大多数应用中，此快捷键用于“粘贴”。"
+  },
+  {
+    "key": "This shortcut is Print in most apps.",
+    "section": "messages",
+    "value": "在大多数应用中，此快捷键用于“打印”。"
+  },
+  {
+    "key": "This shortcut is Quit in most apps.",
+    "section": "messages",
+    "value": "在大多数应用中，此快捷键用于“退出”。"
+  },
+  {
+    "key": "This shortcut is Save in most apps.",
+    "section": "messages",
+    "value": "在大多数应用中，此快捷键用于“保存”。"
+  },
+  {
+    "key": "This shortcut is Select All in most apps.",
+    "section": "messages",
+    "value": "在大多数应用中，此快捷键用于“全选”。"
+  },
+  {
+    "key": "This shortcut is Undo in most apps.",
+    "section": "messages",
+    "value": "在大多数应用中，此快捷键用于“撤销”。"
+  },
+  {
+    "key": "This shortcut is already used by the system or another app.",
+    "section": "messages",
+    "value": "此快捷键已被系统或其他应用占用。"
+  },
+  {
+    "key": "This thread is settled",
+    "section": "messages",
+    "value": "此任务已收起"
+  },
+  {
+    "key": "This thread is snoozed",
+    "section": "messages",
+    "value": "此任务已暂缓"
+  },
+  {
+    "key": "This thread last ran on",
+    "section": "messages",
+    "value": "此任务上次运行于"
+  },
+  {
+    "key": "This thread last ran on {previous}. Sending will continue on {current}.",
+    "section": "templates",
+    "value": "此任务上次在 {previous} 上运行，发送后将在 {current} 上继续。"
+  },
+  {
+    "key": "This thread woke from snooze",
+    "section": "messages",
+    "value": "此任务已从暂缓中唤醒"
+  },
+  {
+    "key": "This video format cannot be played here.",
+    "section": "messages",
+    "value": "此视频格式无法在这里播放。"
+  },
+  {
+    "key": "This will reset: {settings}.",
+    "section": "templates",
+    "value": "以下设置将被重置：{settings}。"
+  },
+  {
+    "key": "Thread Panel: Toggle",
+    "section": "messages",
+    "value": "任务详情：切换"
+  },
+  {
+    "key": "Thread in the calling project. Omit to update the calling thread.",
+    "section": "messages",
+    "value": "Thread in the calling project. Omit to update the calling thread."
+  },
+  {
+    "key": "Thread: Jump: 1",
+    "section": "messages",
+    "value": "任务：跳转：1"
+  },
+  {
+    "key": "Thread: Jump: 2",
+    "section": "messages",
+    "value": "任务：跳转：2"
+  },
+  {
+    "key": "Thread: Jump: 3",
+    "section": "messages",
+    "value": "任务：跳转：3"
+  },
+  {
+    "key": "Thread: Jump: 4",
+    "section": "messages",
+    "value": "任务：跳转：4"
+  },
+  {
+    "key": "Thread: Jump: 5",
+    "section": "messages",
+    "value": "任务：跳转：5"
+  },
+  {
+    "key": "Thread: Jump: 6",
+    "section": "messages",
+    "value": "任务：跳转：6"
+  },
+  {
+    "key": "Thread: Jump: 7",
+    "section": "messages",
+    "value": "任务：跳转：7"
+  },
+  {
+    "key": "Thread: Jump: 8",
+    "section": "messages",
+    "value": "任务：跳转：8"
+  },
+  {
+    "key": "Thread: Jump: 9",
+    "section": "messages",
+    "value": "任务：跳转：9"
+  },
+  {
+    "key": "Thread: Jump: {index}",
+    "section": "templates",
+    "value": "任务：跳转到第 {index} 个"
+  },
+  {
+    "key": "Thread: Next",
+    "section": "messages",
+    "value": "任务：下一个"
+  },
+  {
+    "key": "Thread: Pin",
+    "section": "messages",
+    "value": "任务：置顶"
+  },
+  {
+    "key": "Thread: Previous",
+    "section": "messages",
+    "value": "任务：上一个"
+  },
+  {
+    "key": "Thread: Settle",
+    "section": "messages",
+    "value": "任务：收起"
+  },
+  {
+    "key": "Thread: Settle or restore",
+    "section": "messages",
+    "value": "任务：收起或恢复"
+  },
+  {
+    "key": "Thread: Steer Queued Message",
+    "section": "messages",
+    "value": "任务：用排队消息调整当前任务"
+  },
+  {
+    "key": "Thread: Stop",
+    "section": "messages",
+    "value": "任务：停止"
+  },
+  {
+    "key": "Thread: Undo",
+    "section": "messages",
+    "value": "任务：撤销"
+  },
+  {
+    "key": "Thu",
+    "section": "messages",
+    "value": "周四"
+  },
+  {
+    "key": "To import cookies from",
+    "section": "messages",
+    "value": "要从以下浏览器导入 Cookie："
+  },
+  {
+    "key": "Toggle right panel ({shortcut})",
+    "section": "templates",
+    "value": "切换右侧面板（{shortcut}）"
+  },
+  {
+    "key": "Toggle right panel, {0} {1} working",
+    "section": "templates",
+    "value": "切换右侧面板，{0} {1} 运行中"
+  },
+  {
+    "key": "Token by token (legacy)",
+    "section": "messages",
+    "value": "逐 Token 显示（旧版）"
+  },
+  {
+    "key": "Token by token is a worse experience",
+    "section": "messages",
+    "value": "逐 Token 显示的体验较差"
+  },
+  {
+    "key": "Token streaming repaints the message on every delta. It is slower, harder to read, and costs more CPU on every connected device. This mode stays only for backwards compatibility. Use paragraph streaming instead.",
+    "section": "messages",
+    "value": "逐 Token 显示会在每次增量更新时重绘消息，速度更慢、更难阅读，也会增加每台已连接设备的 CPU 用量。此模式仅为向后兼容而保留，建议使用按段落显示。"
+  },
+  {
+    "key": "Tools update automatically on this host when needed.",
+    "section": "messages",
+    "value": "此主机上的工具会按需自动更新。"
+  },
+  {
+    "key": "Tue",
+    "section": "messages",
+    "value": "周二"
+  },
+  {
+    "key": "Turn capture off in T3 Code to stop it. Remove the shortcut from",
+    "section": "messages",
+    "value": "在 T3 Code 中关闭捕获即可停止。请从以下位置移除快捷键："
+  },
+  {
+    "key": "Turn on token-by-token output?",
+    "section": "messages",
+    "value": "启用逐 Token 输出？"
+  },
+  {
+    "key": "Turn {0}",
+    "section": "templates",
+    "value": "第 {0} 轮"
+  },
+  {
+    "key": "Unable to load {0}",
+    "section": "templates",
+    "value": "无法加载 {0}"
+  },
+  {
+    "key": "Unavailable machine",
+    "section": "messages",
+    "value": "不可用的设备"
+  },
+  {
+    "key": "Unknown condition: {0}",
+    "section": "templates",
+    "value": "未知条件：{0}"
+  },
+  {
+    "key": "Unknown condition: {condition}",
+    "section": "templates",
+    "value": "未知条件：{condition}"
+  },
+  {
+    "key": "Unknown conditions: {0}",
+    "section": "templates",
+    "value": "未知条件：{0}"
+  },
+  {
+    "key": "Unknown conditions: {conditions}",
+    "section": "templates",
+    "value": "未知条件：{conditions}"
+  },
+  {
+    "key": "Unlinked {count} pull request",
+    "section": "templates",
+    "value": "已取消关联 {count} 个拉取请求"
+  },
+  {
+    "key": "Unlinked {count} pull requests",
+    "section": "templates",
+    "value": "已取消关联 {count} 个拉取请求"
+  },
+  {
+    "key": "Unsupported file type for '{file}'. Please attach image files only.",
+    "section": "templates",
+    "value": "“{file}”的文件类型不受支持，请仅添加图片文件。"
+  },
+  {
+    "key": "Up to Date",
+    "section": "messages",
+    "value": "已是最新版本"
+  },
+  {
+    "key": "Update available",
+    "section": "messages",
+    "value": "有可用更新"
+  },
+  {
+    "key": "Update available - view details",
+    "section": "messages",
+    "value": "有可用更新 - 查看详情"
+  },
+  {
+    "key": "Update available.",
+    "section": "messages",
+    "value": "有可用更新。"
+  },
+  {
+    "key": "Update available: install the latest provider version.",
+    "section": "messages",
+    "value": "有可用更新：请安装最新的服务提供方版本。"
+  },
+  {
+    "key": "Update available: install {version}.",
+    "section": "templates",
+    "value": "有可用更新：请安装 {version}。"
+  },
+  {
+    "key": "Update failed.",
+    "section": "messages",
+    "value": "更新失败。"
+  },
+  {
+    "key": "Update failed. Check this host's network connection and try again.",
+    "section": "messages",
+    "value": "更新失败。请检查此主机的网络连接后重试。"
+  },
+  {
+    "key": "Update queued message",
+    "section": "messages",
+    "value": "更新排队消息"
+  },
+  {
+    "key": "Update server to edit prices",
+    "section": "messages",
+    "value": "请更新服务器后编辑价格"
+  },
+  {
+    "key": "Update this environment to install Antigravity and sign in with Google here.",
+    "section": "messages",
+    "value": "请更新此环境，以便在这里安装 Antigravity 并使用 Google 登录。"
+  },
+  {
+    "key": "Update this environment's T3 Code server to browse pull requests.",
+    "section": "messages",
+    "value": "请更新此环境的 T3 Code 服务器以浏览拉取请求。"
+  },
+  {
+    "key": "Update your T3 Code servers to browse pull requests.",
+    "section": "messages",
+    "value": "请更新 T3 Code 服务器后再浏览拉取请求。"
+  },
+  {
+    "key": "Update “{theme}”?",
+    "section": "templates",
+    "value": "更新“{theme}”？"
+  },
+  {
+    "key": "Updated {0} from {1}",
+    "section": "templates",
+    "value": "已从 {1} 更新 {0}"
+  },
+  {
+    "key": "Updating capture settings…",
+    "section": "messages",
+    "value": "正在更新捕获设置…"
+  },
+  {
+    "key": "Usage: Cost",
+    "section": "messages",
+    "value": "用量：费用"
+  },
+  {
+    "key": "Usage: Limits",
+    "section": "messages",
+    "value": "用量：限额"
+  },
+  {
+    "key": "Usage: Open",
+    "section": "messages",
+    "value": "用量：打开"
+  },
+  {
+    "key": "Usage: Period: 30 days",
+    "section": "messages",
+    "value": "用量：30 天"
+  },
+  {
+    "key": "Usage: Period: 7 days",
+    "section": "messages",
+    "value": "用量：7 天"
+  },
+  {
+    "key": "Usage: Period: 90 days",
+    "section": "messages",
+    "value": "用量：90 天"
+  },
+  {
+    "key": "Usage: Period: Past 24h",
+    "section": "messages",
+    "value": "用量：过去 24 小时"
+  },
+  {
+    "key": "Usage: Tokens",
+    "section": "messages",
+    "value": "用量：Token"
+  },
+  {
+    "key": "Use $frontend-design to fix the flaky test in [surface.test.ts](apps/web/src/terminal/ghostty/surface.test.ts) and align the header with [SettingsPanels.tsx](apps/web/src/components/settings/SettingsPanels.tsx) before shipping.",
+    "section": "messages",
+    "value": "使用 $frontend-design 修复 [surface.test.ts](apps/web/src/terminal/ghostty/surface.test.ts) 中不稳定的测试，并在发布前将标题与 [SettingsPanels.tsx](apps/web/src/components/settings/SettingsPanels.tsx) 对齐。"
+  },
+  {
+    "key": "Use a reset credit",
+    "section": "messages",
+    "value": "使用重置额度"
+  },
+  {
+    "key": "Use a {request} URL, checkout command, 123, or #123.",
+    "section": "templates",
+    "value": "请输入{request} URL、检出命令、123 或 #123。"
+  },
+  {
+    "key": "Use dark mode",
+    "section": "messages",
+    "value": "使用深色模式"
+  },
+  {
+    "key": "Use light mode",
+    "section": "messages",
+    "value": "使用浅色模式"
+  },
+  {
+    "key": "Use non-negative numbers for prices.",
+    "section": "messages",
+    "value": "价格必须是非负数。"
+  },
+  {
+    "key": "Use paragraphs",
+    "section": "messages",
+    "value": "按段落显示"
+  },
+  {
+    "key": "Use token by token",
+    "section": "messages",
+    "value": "逐 Token 显示"
+  },
+  {
+    "key": "Use your desktop's shortcut settings file.",
+    "section": "messages",
+    "value": "使用桌面的快捷键设置文件。"
+  },
+  {
+    "key": "Use {0} accent",
+    "section": "templates",
+    "value": "使用强调色 {0}"
+  },
+  {
+    "key": "Use {0}{1}",
+    "section": "templates",
+    "value": "使用 {0}{1}"
+  },
+  {
+    "key": "Use {collection}, {theme} variant",
+    "section": "templates",
+    "value": "使用 {collection}，{theme} 变体"
+  },
+  {
+    "key": "Use {collection}, {theme} variant, currently active",
+    "section": "templates",
+    "value": "使用 {collection}，{theme} 变体，当前正在使用"
+  },
+  {
+    "key": "Use {color} accent",
+    "section": "templates",
+    "value": "使用强调色 {color}"
+  },
+  {
+    "key": "Use {theme} for dark mode",
+    "section": "templates",
+    "value": "在深色模式下使用 {theme}"
+  },
+  {
+    "key": "Use {theme} for dark mode, currently active",
+    "section": "templates",
+    "value": "在深色模式下使用 {theme}，当前正在使用"
+  },
+  {
+    "key": "Use {theme} for light mode",
+    "section": "templates",
+    "value": "在浅色模式下使用 {theme}"
+  },
+  {
+    "key": "Use {theme} for light mode, currently active",
+    "section": "templates",
+    "value": "在浅色模式下使用 {theme}，当前正在使用"
+  },
+  {
+    "key": "Use {theme} for {mode} mode, currently active",
+    "section": "templates",
+    "value": "将{theme}用于{mode}模式，当前已启用"
+  },
+  {
+    "key": "Use {theme} theme",
+    "section": "templates",
+    "value": "使用 {theme} 主题"
+  },
+  {
+    "key": "Use {theme} theme, currently active",
+    "section": "templates",
+    "value": "使用 {theme} 主题，当前正在使用"
+  },
+  {
+    "key": "Use {theme}, currently active",
+    "section": "templates",
+    "value": "使用{theme}，当前已启用"
+  },
+  {
+    "key": "Used browser {count} time",
+    "section": "templates",
+    "value": "已使用浏览器 {count} 次"
+  },
+  {
+    "key": "Used browser {count} times",
+    "section": "templates",
+    "value": "已使用浏览器 {count} 次"
+  },
+  {
+    "key": "Used device controls {count} time",
+    "section": "templates",
+    "value": "已使用设备控制 {count} 次"
+  },
+  {
+    "key": "Used device controls {count} times",
+    "section": "templates",
+    "value": "已使用设备控制 {count} 次"
+  },
+  {
+    "key": "Used for thread titles and other generated text. Source control can override it.",
+    "section": "messages",
+    "value": "用于任务标题和其他生成文本；源代码管理可以单独覆盖此设置。"
+  },
+  {
+    "key": "Used to distinguish this instance in picker rails and model lists.",
+    "section": "messages",
+    "value": "用于在选择栏和模型列表中区分此实例。"
+  },
+  {
+    "key": "Used {count} tool",
+    "section": "templates",
+    "value": "已使用 {count} 个工具"
+  },
+  {
+    "key": "Used {count} tools",
+    "section": "templates",
+    "value": "已使用 {count} 个工具"
+  },
+  {
+    "key": "Uses Conventional Commit prefixes for change descriptions; change request titles and descriptions stay concise.",
+    "section": "messages",
+    "value": "更改说明使用 Conventional Commit 前缀，变更请求的标题和说明保持简洁。"
+  },
+  {
+    "key": "Uses custom background intervals with the selected shared power policy.",
+    "section": "messages",
+    "value": "使用自定义后台间隔，并遵循所选的共享电源策略。"
+  },
+  {
+    "key": "Uses custom intervals.",
+    "section": "messages",
+    "value": "使用自定义间隔。"
+  },
+  {
+    "key": "Using credit…",
+    "section": "messages",
+    "value": "正在使用额度…"
+  },
+  {
+    "key": "Value",
+    "section": "messages",
+    "value": "值"
+  },
+  {
+    "key": "Variable",
+    "section": "messages",
+    "value": "变量"
+  },
+  {
+    "key": "Version control",
+    "section": "messages",
+    "value": "版本控制"
+  },
+  {
+    "key": "Video attachment, {name}, {size}",
+    "section": "templates",
+    "value": "视频附件，{name}，{size}"
+  },
+  {
+    "key": "Video unavailable",
+    "section": "messages",
+    "value": "视频不可用"
+  },
+  {
+    "key": "View",
+    "section": "messages",
+    "value": "查看"
+  },
+  {
+    "key": "View agents",
+    "section": "messages",
+    "value": "查看 Agent"
+  },
+  {
+    "key": "View release on GitHub",
+    "section": "messages",
+    "value": "在 GitHub 上查看版本"
+  },
+  {
+    "key": "View stack #",
+    "section": "messages",
+    "value": "查看堆栈 #"
+  },
+  {
+    "key": "View {request}",
+    "section": "templates",
+    "value": "查看{request}"
+  },
+  {
+    "key": "Viewing the {request} is currently unavailable.",
+    "section": "templates",
+    "value": "当前无法查看{request}。"
+  },
+  {
+    "key": "WSL backend couldn't start: {error}",
+    "section": "templates",
+    "value": "WSL 后端无法启动：{error}"
+  },
+  {
+    "key": "WSL is no longer available, so the Windows backend is running instead. Switch off the WSL backend to clear this preference.",
+    "section": "messages",
+    "value": "WSL 已不可用，当前正在运行 Windows 后端。关闭 WSL 后端即可清除此偏好。"
+  },
+  {
+    "key": "Waiting",
+    "section": "messages",
+    "value": "等待中"
+  },
+  {
+    "key": "Waiting for Google sign-in.",
+    "section": "messages",
+    "value": "正在等待 Google 登录。"
+  },
+  {
+    "key": "Waiting for {environment}'s configuration.",
+    "section": "templates",
+    "value": "正在等待 {environment} 的配置。"
+  },
+  {
+    "key": "Warning: default branch",
+    "section": "messages",
+    "value": "警告：当前是默认分支"
+  },
+  {
+    "key": "Watching {count} pull request",
+    "section": "templates",
+    "value": "正在关注 {count} 个拉取请求"
+  },
+  {
+    "key": "Watching {count} pull requests",
+    "section": "templates",
+    "value": "正在关注 {count} 个拉取请求"
+  },
+  {
+    "key": "Wed",
+    "section": "messages",
+    "value": "周三"
+  },
+  {
+    "key": "Weekdays at {time}",
+    "section": "templates",
+    "value": "工作日 {time}"
+  },
+  {
+    "key": "Weekly",
+    "section": "messages",
+    "value": "每周"
+  },
+  {
+    "key": "What should we build in {project}?",
+    "section": "templates",
+    "value": "想在 {project} 中构建什么？"
+  },
+  {
+    "key": "When this thread spawns subagents or runs a workflow, they show up here with live status, activity, and token usage.",
+    "section": "messages",
+    "value": "此任务创建子 Agent或运行工作流时，它们会显示在这里，包含实时状态、活动和 Token 用量。"
+  },
+  {
+    "key": "Where links in the chat and terminal open. Hold ⌘ or Ctrl while clicking a chat link to open it in your default browser either way.",
+    "section": "messages",
+    "value": "选择对话和终端中的链接打开位置。按住 ⌘ 或 Ctrl 点击对话链接时，始终使用默认浏览器打开。"
+  },
+  {
+    "key": "Where new threads in this project start. Overrides t3.json and the global default; applies to every checkout in this group.",
+    "section": "messages",
+    "value": "设置此项目中新任务的启动位置。此设置会覆盖 t3.json 和全局默认值，并应用于组内所有检出目录。"
+  },
+  {
+    "key": "Where new threads start, unless overridden by the project or t3.json.",
+    "section": "messages",
+    "value": "新任务的默认工作区；项目设置或 t3.json 可以覆盖此项。"
+  },
+  {
+    "key": "Worked",
+    "section": "messages",
+    "value": "已完成"
+  },
+  {
+    "key": "Worked for {0}",
+    "section": "templates",
+    "value": "已用时 {0}"
+  },
+  {
+    "key": "Working section",
+    "section": "messages",
+    "value": "进行中分区"
+  },
+  {
+    "key": "Working tree",
+    "section": "messages",
+    "value": "工作区"
+  },
+  {
+    "key": "Working...",
+    "section": "messages",
+    "value": "正在运行…"
+  },
+  {
+    "key": "Worktree is clean. Make changes before committing.",
+    "section": "messages",
+    "value": "工作树没有更改，请先修改文件再提交。"
+  },
+  {
+    "key": "Writable recurring schedule. Pass an object with type 'interval' or 'fixed_time'.",
+    "section": "messages",
+    "value": "Writable recurring schedule. Pass an object with type 'interval' or 'fixed_time'."
+  },
+  {
+    "key": "Write reviews",
+    "section": "messages",
+    "value": "编写审查意见"
+  },
+  {
+    "key": "Yes",
+    "section": "messages",
+    "value": "是"
+  },
+  {
+    "key": "You appear to be offline.",
+    "section": "messages",
+    "value": "当前似乎处于离线状态。"
+  },
+  {
+    "key": "You can attach up to {count} files per message.",
+    "section": "templates",
+    "value": "每条消息最多可添加 {count} 个文件。"
+  },
+  {
+    "key": "You can attach up to {count} images per message.",
+    "section": "templates",
+    "value": "每条消息最多可以添加 {count} 张图片。"
+  },
+  {
+    "key": "You stopped after {0}",
+    "section": "templates",
+    "value": "你在 {0} 后停止了回复"
+  },
+  {
+    "key": "You stopped this response",
+    "section": "messages",
+    "value": "你已停止此次回复"
+  },
+  {
+    "key": "You've reached the profile limit. Choose an existing profile to import into.",
+    "section": "messages",
+    "value": "配置文件数量已达上限，请选择已有配置文件作为导入位置。"
+  },
+  {
+    "key": "You've reached the profile limit. Delete a profile or import into an existing one.",
+    "section": "messages",
+    "value": "配置文件数量已达上限。请删除一个配置文件，或导入到已有配置文件。"
+  },
+  {
+    "key": "Your agents",
+    "section": "messages",
+    "value": "你的 Agent"
+  },
+  {
+    "key": "Your session does not have permission to manage T3 Connect access.",
+    "section": "messages",
+    "value": "当前会话无权管理 T3 Connect 访问权限。"
+  },
+  {
+    "key": "Your session on this environment cannot change its settings.",
+    "section": "messages",
+    "value": "当前会话无权更改此环境的设置。"
+  },
+  {
+    "key": "You’re not connected to a server yet.",
+    "section": "messages",
+    "value": "尚未连接到服务器。"
+  },
+  {
+    "key": "_No description provided._",
+    "section": "messages",
+    "value": "_未提供说明。_"
+  },
+  {
+    "key": "agents",
+    "section": "messages",
+    "value": "Agent"
+  },
+  {
+    "key": "attachment",
+    "section": "messages",
+    "value": "个附件"
+  },
+  {
+    "key": "automatic pull",
+    "section": "messages",
+    "value": "自动拉取"
+  },
+  {
+    "key": "binding",
+    "section": "messages",
+    "value": "项快捷键"
+  },
+  {
+    "key": "bindings",
+    "section": "messages",
+    "value": "项快捷键"
+  },
+  {
+    "key": "byte file.",
+    "section": "messages",
+    "value": "字节的文件。"
+  },
+  {
+    "key": "byte file. Save the file to read it in full.",
+    "section": "messages",
+    "value": "字节的文件。保存文件后可完整阅读。"
+  },
+  {
+    "key": "can't be used: {0}",
+    "section": "templates",
+    "value": "无法使用：{0}"
+  },
+  {
+    "key": "change request",
+    "section": "messages",
+    "value": "变更请求"
+  },
+  {
+    "key": "change requests",
+    "section": "messages",
+    "value": "变更请求"
+  },
+  {
+    "key": "collapse composer",
+    "section": "messages",
+    "value": "收起输入框"
+  },
+  {
+    "key": "continue threads after server updates",
+    "section": "messages",
+    "value": "服务器更新后继续任务"
+  },
+  {
+    "key": "dark",
+    "section": "messages",
+    "value": "深色"
+  },
+  {
+    "key": "degraded",
+    "section": "messages",
+    "value": "性能下降"
+  },
+  {
+    "key": "detached HEAD",
+    "section": "messages",
+    "value": "游离 HEAD"
+  },
+  {
+    "key": "dropped",
+    "section": "messages",
+    "value": "已丢弃"
+  },
+  {
+    "key": "exit {0}",
+    "section": "templates",
+    "value": "退出码 {0}"
+  },
+  {
+    "key": "expires in {duration}",
+    "section": "templates",
+    "value": "{duration} 后过期"
+  },
+  {
+    "key": "failed",
+    "section": "messages",
+    "value": "失败"
+  },
+  {
+    "key": "file(s)",
+    "section": "messages",
+    "value": "个文件"
+  },
+  {
+    "key": "files.",
+    "section": "messages",
+    "value": "个文件。"
+  },
+  {
+    "key": "from this device?",
+    "section": "messages",
+    "value": "从此设备移除？"
+  },
+  {
+    "key": "full path",
+    "section": "messages",
+    "value": "完整路径"
+  },
+  {
+    "key": "gh reports this login as invalid.",
+    "section": "messages",
+    "value": "gh 提示该登录账户无效。"
+  },
+  {
+    "key": "global setting",
+    "section": "messages",
+    "value": "全局设置"
+  },
+  {
+    "key": "healthy",
+    "section": "messages",
+    "value": "正常"
+  },
+  {
+    "key": "hidden",
+    "section": "messages",
+    "value": "已隐藏"
+  },
+  {
+    "key": "iOS Simulator screen",
+    "section": "messages",
+    "value": "iOS 模拟器屏幕"
+  },
+  {
+    "key": "idle",
+    "section": "messages",
+    "value": "空闲"
+  },
+  {
+    "key": "image",
+    "section": "messages",
+    "value": "图片"
+  },
+  {
+    "key": "includes {count} reasoning",
+    "section": "templates",
+    "value": "其中推理 Token {count}"
+  },
+  {
+    "key": "into",
+    "section": "messages",
+    "value": "合并至"
+  },
+  {
+    "key": "landscape",
+    "section": "messages",
+    "value": "横向"
+  },
+  {
+    "key": "light",
+    "section": "messages",
+    "value": "浅色"
+  },
+  {
+    "key": "linked",
+    "section": "messages",
+    "value": "已关联"
+  },
+  {
+    "key": "load preference",
+    "section": "messages",
+    "value": "负载偏好"
+  },
+  {
+    "key": "merge request",
+    "section": "messages",
+    "value": "合并请求"
+  },
+  {
+    "key": "merge requests",
+    "section": "messages",
+    "value": "合并请求"
+  },
+  {
+    "key": "model",
+    "section": "messages",
+    "value": "模型"
+  },
+  {
+    "key": "models",
+    "section": "messages",
+    "value": "模型"
+  },
+  {
+    "key": "more",
+    "section": "messages",
+    "value": "更多"
+  },
+  {
+    "key": "more selected elements",
+    "section": "messages",
+    "value": "个更多选中元素"
+  },
+  {
+    "key": "ms",
+    "section": "messages",
+    "value": "毫秒"
+  },
+  {
+    "key": "new threads",
+    "section": "messages",
+    "value": "新任务"
+  },
+  {
+    "key": "next expires in {duration}",
+    "section": "templates",
+    "value": "下一个额度将在 {duration} 后过期"
+  },
+  {
+    "key": "of",
+    "section": "messages",
+    "value": "/"
+  },
+  {
+    "key": "of {0}",
+    "section": "templates",
+    "value": "，共 {0}"
+  },
+  {
+    "key": "of {total} MB",
+    "section": "templates",
+    "value": "，共 {total} MB"
+  },
+  {
+    "key": "open ·",
+    "section": "messages",
+    "value": "打开 ·"
+  },
+  {
+    "key": "opened",
+    "section": "messages",
+    "value": "创建于"
+  },
+  {
+    "key": "portrait",
+    "section": "messages",
+    "value": "纵向"
+  },
+  {
+    "key": "preview",
+    "section": "messages",
+    "value": "预览"
+  },
+  {
+    "key": "project browser access",
+    "section": "messages",
+    "value": "项目浏览器访问权限"
+  },
+  {
+    "key": "projects",
+    "section": "messages",
+    "value": "项目"
+  },
+  {
+    "key": "pull request",
+    "section": "messages",
+    "value": "拉取请求"
+  },
+  {
+    "key": "pull requests",
+    "section": "messages",
+    "value": "拉取请求"
+  },
+  {
+    "key": "relative path",
+    "section": "messages",
+    "value": "相对路径"
+  },
+  {
+    "key": "saving",
+    "section": "messages",
+    "value": "正在保存"
+  },
+  {
+    "key": "saving {count} images…",
+    "section": "templates",
+    "value": "正在保存 {count} 张图片…"
+  },
+  {
+    "key": "saving {count} image…",
+    "section": "templates",
+    "value": "正在保存 {count} 张图片…"
+  },
+  {
+    "key": "script",
+    "section": "messages",
+    "value": "脚本"
+  },
+  {
+    "key": "selected",
+    "section": "messages",
+    "value": "已选择"
+  },
+  {
+    "key": "sessions",
+    "section": "messages",
+    "value": "个会话"
+  },
+  {
+    "key": "settled",
+    "section": "messages",
+    "value": "已收起"
+  },
+  {
+    "key": "starting",
+    "section": "messages",
+    "value": "正在启动"
+  },
+  {
+    "key": "stopped",
+    "section": "messages",
+    "value": "已停止"
+  },
+  {
+    "key": "the current environment",
+    "section": "messages",
+    "value": "当前环境"
+  },
+  {
+    "key": "this environment",
+    "section": "messages",
+    "value": "此环境"
+  },
+  {
+    "key": "thread",
+    "section": "messages",
+    "value": "个任务"
+  },
+  {
+    "key": "threads",
+    "section": "messages",
+    "value": "个任务"
+  },
+  {
+    "key": "to",
+    "section": "messages",
+    "value": "至"
+  },
+  {
+    "key": "to change its settings.",
+    "section": "messages",
+    "value": "以更改其设置。"
+  },
+  {
+    "key": "to free it.",
+    "section": "messages",
+    "value": "以释放。"
+  },
+  {
+    "key": "to free up the keys.",
+    "section": "messages",
+    "value": "以释放按键。"
+  },
+  {
+    "key": "tok",
+    "section": "messages",
+    "value": "Token"
+  },
+  {
+    "key": "try dracula, nord, catppuccin...",
+    "section": "messages",
+    "value": "例如 dracula、nord、catppuccin..."
+  },
+  {
+    "key": "updated",
+    "section": "messages",
+    "value": "更新于"
+  },
+  {
+    "key": "updated {time}",
+    "section": "templates",
+    "value": "更新于 {time}"
+  },
+  {
+    "key": "version {0}",
+    "section": "templates",
+    "value": "版本 {0}"
+  },
+  {
+    "key": "video",
+    "section": "messages",
+    "value": "视频"
+  },
+  {
+    "key": "vs full input rates",
+    "section": "messages",
+    "value": "与完整输入费率相比"
+  },
+  {
+    "key": "working",
+    "section": "messages",
+    "value": "运行中"
+  },
+  {
+    "key": "{0} active · {1} done",
+    "section": "templates",
+    "value": "{0} 个活跃 · {1} 个完成"
+  },
+  {
+    "key": "{0} empty placeholder",
+    "section": "templates",
+    "value": "{0} 个占位符为空"
+  },
+  {
+    "key": "{0} empty placeholders",
+    "section": "templates",
+    "value": "{0} 个占位符为空"
+  },
+  {
+    "key": "{0} favorite",
+    "section": "templates",
+    "value": "{0} 个收藏"
+  },
+  {
+    "key": "{0} is already synchronized.",
+    "section": "templates",
+    "value": "{0} 已同步。"
+  },
+  {
+    "key": "{0} is now live on {1}.",
+    "section": "templates",
+    "value": "{0} 现已发布到 {1}。"
+  },
+  {
+    "key": "{0} is set on the server, so it overrides the account chosen here until it is unset.",
+    "section": "templates",
+    "value": "服务器已设置 {0}；在取消该设置前，它将覆盖此处选择的账户。"
+  },
+  {
+    "key": "{0} is unauthenticated",
+    "section": "templates",
+    "value": "{0} 未认证"
+  },
+  {
+    "key": "{0} is unavailable in this thread. Start a new thread to switch providers.",
+    "section": "templates",
+    "value": "此任务无法使用 {0}。请新建任务以切换服务提供方。"
+  },
+  {
+    "key": "{0} of {1}",
+    "section": "templates",
+    "value": "已选 {0} 个，共 {1} 个"
+  },
+  {
+    "key": "{0} provider status",
+    "section": "templates",
+    "value": "{0} 服务提供方状态"
+  },
+  {
+    "key": "{0} stand",
+    "section": "templates",
+    "value": "{0}姿态"
+  },
+  {
+    "key": "{0} {1} is {2}",
+    "section": "templates",
+    "value": "{0} {1} 的状态为 {2}"
+  },
+  {
+    "key": "{0} {1} still scanning{2}",
+    "section": "templates",
+    "value": "{0} {1} 仍在扫描{2}"
+  },
+  {
+    "key": "{0} · {1} project overrides",
+    "section": "templates",
+    "value": "{0} · {1} 个项目覆盖"
+  },
+  {
+    "key": "{0}, step {1}{2}",
+    "section": "templates",
+    "value": "{0}，第 {1} 步{2}"
+  },
+  {
+    "key": "{0}h {1}m {2}s",
+    "section": "templates",
+    "value": "{0} 小时 {1} 分 {2} 秒"
+  },
+  {
+    "key": "{0}h {1}s",
+    "section": "templates",
+    "value": "{0} 小时 {1} 秒"
+  },
+  {
+    "key": "{action} for {provider} on {environment}? This stops its running threads. Thread history is kept.",
+    "section": "templates",
+    "value": "要在 {environment} 上为 {provider} 执行“{action}”吗？这会停止正在运行的任务，但会保留任务历史。"
+  },
+  {
+    "key": "{browser} is open, so its cookies can’t be read yet. Quit it, then continue.",
+    "section": "templates",
+    "value": "{browser} 仍在运行，暂时无法读取其中的 Cookie。请先退出浏览器，然后继续。"
+  },
+  {
+    "key": "{conflict} The most recent matching binding wins when both conditions can apply.",
+    "section": "templates",
+    "value": "{conflict} 两个条件都适用时，以最近匹配的快捷键为准。"
+  },
+  {
+    "key": "{count} accounts",
+    "section": "templates",
+    "value": "{count} 个账户"
+  },
+  {
+    "key": "{count} agent done",
+    "section": "templates",
+    "value": "{count} 个 Agent 已完成"
+  },
+  {
+    "key": "{count} agents done",
+    "section": "templates",
+    "value": "{count} 个 Agent 已完成"
+  },
+  {
+    "key": "{count} approval(s)",
+    "section": "templates",
+    "value": "{count} 个批准"
+  },
+  {
+    "key": "{count} author(s)",
+    "section": "templates",
+    "value": "{count} 位作者"
+  },
+  {
+    "key": "{count} binding",
+    "section": "templates",
+    "value": "{count} 个快捷键"
+  },
+  {
+    "key": "{count} bindings",
+    "section": "templates",
+    "value": "{count} 个快捷键"
+  },
+  {
+    "key": "{count} bot comment",
+    "section": "templates",
+    "value": "{count} 条机器人评论"
+  },
+  {
+    "key": "{count} bot comments",
+    "section": "templates",
+    "value": "{count} 条机器人评论"
+  },
+  {
+    "key": "{count} cache writes",
+    "section": "templates",
+    "value": "{count} 次缓存写入"
+  },
+  {
+    "key": "{count} changed file",
+    "section": "templates",
+    "value": "已更改 {count} 个文件"
+  },
+  {
+    "key": "{count} changed file(s)",
+    "section": "templates",
+    "value": "已更改 {count} 个文件"
+  },
+  {
+    "key": "{count} changed files",
+    "section": "templates",
+    "value": "已更改 {count} 个文件"
+  },
+  {
+    "key": "{count} check(s) awaiting action",
+    "section": "templates",
+    "value": "{count} 项检查等待操作"
+  },
+  {
+    "key": "{count} comment",
+    "section": "templates",
+    "value": "{count} 条评论"
+  },
+  {
+    "key": "{count} comment pending",
+    "section": "templates",
+    "value": "{count} 条评论待提交"
+  },
+  {
+    "key": "{count} comments",
+    "section": "templates",
+    "value": "{count} 条评论"
+  },
+  {
+    "key": "{count} comments pending",
+    "section": "templates",
+    "value": "{count} 条评论待提交"
+  },
+  {
+    "key": "{count} commit(s)",
+    "section": "templates",
+    "value": "{count} 个提交"
+  },
+  {
+    "key": "{count} compatible agent found.",
+    "section": "templates",
+    "value": "找到 {count} 个兼容的 Agent。"
+  },
+  {
+    "key": "{count} compatible agents found.",
+    "section": "templates",
+    "value": "找到 {count} 个兼容的 Agent。"
+  },
+  {
+    "key": "{count} conversation",
+    "section": "templates",
+    "value": "{count} 个对话"
+  },
+  {
+    "key": "{count} cookie",
+    "section": "templates",
+    "value": "{count} 个 Cookie"
+  },
+  {
+    "key": "{count} cookies",
+    "section": "templates",
+    "value": "{count} 个 Cookie"
+  },
+  {
+    "key": "{count} days",
+    "section": "templates",
+    "value": "{count} 天"
+  },
+  {
+    "key": "{count} devices still scanning",
+    "section": "templates",
+    "value": "仍有 {count} 台设备正在扫描"
+  },
+  {
+    "key": "{count} downloads",
+    "section": "templates",
+    "value": "{count} 次下载"
+  },
+  {
+    "key": "{count} favorites",
+    "section": "templates",
+    "value": "{count} 个收藏"
+  },
+  {
+    "key": "{count} file",
+    "section": "templates",
+    "value": "{count} 个文件"
+  },
+  {
+    "key": "{count} file(s)",
+    "section": "templates",
+    "value": "{count} 个文件"
+  },
+  {
+    "key": "{count} hidden",
+    "section": "templates",
+    "value": "{count} 个已隐藏"
+  },
+  {
+    "key": "{count} image dropped",
+    "section": "templates",
+    "value": "已丢弃 {count} 张图片"
+  },
+  {
+    "key": "{count} images dropped",
+    "section": "templates",
+    "value": "已丢弃 {count} 张图片"
+  },
+  {
+    "key": "{count} merges loaded",
+    "section": "templates",
+    "value": "已加载 {count} 次合并"
+  },
+  {
+    "key": "{count} model",
+    "section": "templates",
+    "value": "{count} 个模型"
+  },
+  {
+    "key": "{count} model available.",
+    "section": "templates",
+    "value": "可用模型：{count} 个。"
+  },
+  {
+    "key": "{count} models",
+    "section": "templates",
+    "value": "{count} 个模型"
+  },
+  {
+    "key": "{count} models available.",
+    "section": "templates",
+    "value": "可用模型：{count} 个。"
+  },
+  {
+    "key": "{count} more change on GitHub",
+    "section": "templates",
+    "value": "GitHub 上还有 {count} 项更改"
+  },
+  {
+    "key": "{count} more changes on GitHub",
+    "section": "templates",
+    "value": "GitHub 上还有 {count} 项更改"
+  },
+  {
+    "key": "{count} older release on GitHub",
+    "section": "templates",
+    "value": "在 GitHub 上查看更早的 {count} 个版本"
+  },
+  {
+    "key": "{count} older releases on GitHub",
+    "section": "templates",
+    "value": "在 GitHub 上查看更早的 {count} 个版本"
+  },
+  {
+    "key": "{count} process",
+    "section": "templates",
+    "value": "{count} 个进程"
+  },
+  {
+    "key": "{count} processes",
+    "section": "templates",
+    "value": "{count} 个进程"
+  },
+  {
+    "key": "{count} queued message",
+    "section": "templates",
+    "value": "{count} 条排队消息"
+  },
+  {
+    "key": "{count} queued messages",
+    "section": "templates",
+    "value": "{count} 条排队消息"
+  },
+  {
+    "key": "{count} request waiting longer than {seconds}s.",
+    "section": "templates",
+    "value": "{count} 个请求的等待时间已超过 {seconds} 秒。"
+  },
+  {
+    "key": "{count} requests waiting longer than {seconds}s.",
+    "section": "templates",
+    "value": "{count} 个请求的等待时间已超过 {seconds} 秒。"
+  },
+  {
+    "key": "{count} reset credits banked",
+    "section": "templates",
+    "value": "已储备 {count} 个重置额度"
+  },
+  {
+    "key": "{count} resolved or dismissed comment",
+    "section": "templates",
+    "value": "{count} 条已解决或已撤销的评论"
+  },
+  {
+    "key": "{count} resolved or dismissed comments",
+    "section": "templates",
+    "value": "{count} 条已解决或已撤销的评论"
+  },
+  {
+    "key": "{count} scope",
+    "section": "templates",
+    "value": "{count} 项权限"
+  },
+  {
+    "key": "{count} scopes",
+    "section": "templates",
+    "value": "{count} 项权限"
+  },
+  {
+    "key": "{count} session",
+    "section": "templates",
+    "value": "{count} 个会话"
+  },
+  {
+    "key": "{count} session · API estimate",
+    "section": "templates",
+    "value": "{count} 个会话 · API 估算"
+  },
+  {
+    "key": "{count} sessions",
+    "section": "templates",
+    "value": "{count} 个会话"
+  },
+  {
+    "key": "{count} sessions · API estimate",
+    "section": "templates",
+    "value": "{count} 个会话 · API 估算"
+  },
+  {
+    "key": "{count} skipped.",
+    "section": "templates",
+    "value": "另有 {count} 被跳过。"
+  },
+  {
+    "key": "{count} terminal process running",
+    "section": "templates",
+    "value": "有 {count} 个终端进程正在运行"
+  },
+  {
+    "key": "{count} terminal process(es) running",
+    "section": "templates",
+    "value": "有 {count} 个终端进程正在运行"
+  },
+  {
+    "key": "{count} terminal processes running",
+    "section": "templates",
+    "value": "有 {count} 个终端进程正在运行"
+  },
+  {
+    "key": "{count} themes added",
+    "section": "templates",
+    "value": "已添加 {count} 个主题"
+  },
+  {
+    "key": "{count} themes updated",
+    "section": "templates",
+    "value": "已更新 {count} 个主题"
+  },
+  {
+    "key": "{count} thread(s)",
+    "section": "templates",
+    "value": "{count} 个任务"
+  },
+  {
+    "key": "{count} thread(s) couldn't be snoozed.",
+    "section": "templates",
+    "value": "有 {count} 个任务无法暂缓。"
+  },
+  {
+    "key": "{count} workflow(s) awaiting approval",
+    "section": "templates",
+    "value": "{count} 个工作流等待批准"
+  },
+  {
+    "key": "{current} of {total}",
+    "section": "templates",
+    "value": "第 {current} 项，共 {total} 项"
+  },
+  {
+    "key": "{driver} Workspace",
+    "section": "templates",
+    "value": "{driver} 工作区"
+  },
+  {
+    "key": "{environment} could not report usage.",
+    "section": "templates",
+    "value": "{environment} 无法报告用量。"
+  },
+  {
+    "key": "{failed} of {total} failing",
+    "section": "templates",
+    "value": "{total} 项中有 {failed} 项失败"
+  },
+  {
+    "key": "{files} could not be read when this prompt was saved.",
+    "section": "templates",
+    "value": "保存此内容时无法读取 {files}。"
+  },
+  {
+    "key": "{files} could not be restored: the composer is at its {count}-attachment limit.",
+    "section": "templates",
+    "value": "无法恢复 {files}：输入框最多只能添加 {count} 个附件。"
+  },
+  {
+    "key": "{files} exceeded the stash size limit when this prompt was saved.",
+    "section": "templates",
+    "value": "保存此内容时，{files} 超出了暂存大小限制。"
+  },
+  {
+    "key": "{files}: stashed files are kept for 24 hours and this upload expired. Attach the file again.",
+    "section": "templates",
+    "value": "{files}：暂存文件仅保留 24 小时，此上传已过期。请重新添加文件。"
+  },
+  {
+    "key": "{head} to {base}",
+    "section": "templates",
+    "value": "{head} 到 {base}"
+  },
+  {
+    "key": "{label} · {count} use",
+    "section": "templates",
+    "value": "{label} · {count} 处使用"
+  },
+  {
+    "key": "{label} · {count} uses",
+    "section": "templates",
+    "value": "{label} · {count} 处使用"
+  },
+  {
+    "key": "{label}: the host will merge this on its own once its requirements are met",
+    "section": "templates",
+    "value": "{label}：满足要求后，托管服务将自动完成合并"
+  },
+  {
+    "key": "{mode}.",
+    "section": "templates",
+    "value": "{mode}。"
+  },
+  {
+    "key": "{name} in seconds",
+    "section": "templates",
+    "value": "{name}（秒）"
+  },
+  {
+    "key": "{name}: {remaining}% left",
+    "section": "templates",
+    "value": "{name}：剩余 {remaining}%"
+  },
+  {
+    "key": "{name}: {remaining}% left, {credits} reset credit banked",
+    "section": "templates",
+    "value": "{name}：剩余 {remaining}%，已存 {credits} 次重置额度"
+  },
+  {
+    "key": "{name}: {remaining}% left, {credits} reset credits banked",
+    "section": "templates",
+    "value": "{name}：剩余 {remaining}%，已存 {credits} 次重置额度"
+  },
+  {
+    "key": "{name}: {remaining}% left, {resets}",
+    "section": "templates",
+    "value": "{name}：剩余 {remaining}%，{resets}"
+  },
+  {
+    "key": "{name}: {remaining}% left, {resets}, {credits} reset credit banked",
+    "section": "templates",
+    "value": "{name}：剩余 {remaining}%，{resets}，已存 {credits} 次重置额度"
+  },
+  {
+    "key": "{name}: {remaining}% left, {resets}, {credits} reset credits banked",
+    "section": "templates",
+    "value": "{name}：剩余 {remaining}%，{resets}，已存 {credits} 次重置额度"
+  },
+  {
+    "key": "{pending} of {total} running",
+    "section": "templates",
+    "value": "{total} 项中有 {pending} 项运行中"
+  },
+  {
+    "key": "{percent}% left",
+    "section": "templates",
+    "value": "剩余 {percent}%"
+  },
+  {
+    "key": "{percent}% of the window elapsed",
+    "section": "templates",
+    "value": "时间窗口已过去 {percent}%"
+  },
+  {
+    "key": "{percent}% of the window left",
+    "section": "templates",
+    "value": "此时间窗口剩余 {percent}%"
+  },
+  {
+    "key": "{percent}% used",
+    "section": "templates",
+    "value": "已使用 {percent}%"
+  },
+  {
+    "key": "{project} to start",
+    "section": "templates",
+    "value": "{project}后开始"
+  },
+  {
+    "key": "{providers} still appear outdated. Check provider settings for details.",
+    "section": "templates",
+    "value": "{providers} 似乎仍未更新，详情请查看服务提供方设置。"
+  },
+  {
+    "key": "{providers} still appear outdated. Review provider settings for details.",
+    "section": "templates",
+    "value": "{providers} 似乎仍未更新，详情请查看服务提供方设置。"
+  },
+  {
+    "key": "{providers} still appears outdated. Check provider settings for details.",
+    "section": "templates",
+    "value": "{providers} 似乎仍未更新，详情请查看服务提供方设置。"
+  },
+  {
+    "key": "{providers} still appears outdated. Review provider settings for details.",
+    "section": "templates",
+    "value": "{providers} 似乎仍未更新，详情请查看服务提供方设置。"
+  },
+  {
+    "key": "{provider} CLI ({command}) is not installed or not on PATH.",
+    "section": "templates",
+    "value": "未安装 {provider} CLI（{command}），或其不在 PATH 中。"
+  },
+  {
+    "key": "{provider} is disabled in T3 Code settings.",
+    "section": "templates",
+    "value": "已在 T3 Code 设置中停用 {provider}。"
+  },
+  {
+    "key": "{provider} is not authenticated on this server. Sign in or configure credentials using the {command} tool on the server host to enable change request features.",
+    "section": "templates",
+    "value": "此服务器上的 {provider} 尚未认证。请在服务器主机上使用 {command} 工具登录或配置凭据，以启用变更请求功能。"
+  },
+  {
+    "key": "{provider} repository",
+    "section": "templates",
+    "value": "{provider} 仓库"
+  },
+  {
+    "key": "{provider} {current} is too old for {model}. Upgrade to {required} or newer to access it.",
+    "section": "templates",
+    "value": "{provider} {current} 版本过旧，无法使用 {model}。请升级到 {required} 或更高版本。"
+  },
+  {
+    "key": "{retained}/{scanned} retained",
+    "section": "templates",
+    "value": "保留 {retained}/{scanned}"
+  },
+  {
+    "key": "{share} of observed input",
+    "section": "templates",
+    "value": "占已统计输入 {share}"
+  },
+  {
+    "key": "{step}, step {index}, {summary}",
+    "section": "templates",
+    "value": "{step}，第 {index} 步，{summary}"
+  },
+  {
+    "key": "{theme} updated",
+    "section": "templates",
+    "value": "已更新主题“{theme}”"
+  },
+  {
+    "key": "{time} ago",
+    "section": "templates",
+    "value": "{time}前"
+  },
+  {
+    "key": "{tokens} tokens from an older session",
+    "section": "templates",
+    "value": "来自较早会话的 {tokens} 个 Token"
+  },
+  {
+    "key": "{value} per active {period}",
+    "section": "templates",
+    "value": "每个活跃{period} {value}"
+  },
+  {
+    "key": "{value} second",
+    "section": "templates",
+    "value": "{value} 秒"
+  },
+  {
+    "key": "{value} seconds",
+    "section": "templates",
+    "value": "{value} 秒"
+  },
+  {
+    "key": "{value}x the raw token cost",
+    "section": "templates",
+    "value": "相当于原始 Token 费用的 {value} 倍"
+  },
+  {
+    "key": "{workflows} workflow(s) and {checks} check(s) awaiting action",
+    "section": "templates",
+    "value": "{workflows} 个工作流和 {checks} 项检查等待操作"
+  },
+  {
+    "key": "· synced {0}",
+    "section": "templates",
+    "value": "· 同步于 {0}"
+  },
+  {
+    "key": "’s cookies",
+    "section": "messages",
+    "value": "的 Cookie"
+  },
+  {
+    "key": "“{name}” already has a dark palette. Pick another name.",
+    "section": "templates",
+    "value": "“{name}”已有深色配色，请换一个名称。"
+  },
+  {
+    "key": "“{name}” already has a light palette. Pick another name.",
+    "section": "templates",
+    "value": "“{name}”已有浅色配色，请换一个名称。"
+  },
+  {
+    "key": "” will be removed from this account.",
+    "section": "messages",
+    "value": "」将从此账户移除。"
+  },
+  {
+    "key": "… This can take a minute.",
+    "section": "messages",
+    "value": "… 这可能需要一分钟。"
+  }
+]

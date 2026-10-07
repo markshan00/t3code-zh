@@ -1,0 +1,253 @@
+# 0006-desktop-ipc-display-strings.patch
+#
+# 桌面主进程经 IPC 传给 web 显示的英文，在 web 的显示位置翻译（T07-fix1，对应 T07 已知问题 3）。
+# 基线 v0.0.46-nightly.20261007.2774；类型上依赖 0004 在 vite-env.d.ts 补的全局 `var __t3zh`（含 t），须在 0004 之后应用。
+#
+# 做法：新增 apps/web/src/desktopIpcStrings.ts 的 translateKnownDesktopString(x)。只有名单里的精确文字才交给
+# globalThis.__t3zh?.t?.(x) 查表（CONVENTIONS §5 全局 API），其余原样返回。名单外的文字不能交给 t()：
+# 这些显示位置还会收到任意英文（截图失败的 error.message、服务器报错等），运行时的模板匹配用在任意英文上会误配
+# ——T07-fix1 用主词库对服务端 / client-runtime / ssh / desktop 源码里 2921 条错误文字实测，1669 条会被
+# `{head} to {base}`、`{0}d` 之类的宽模板改坏。没有汉化运行时（__t3zh 未挂载）或 en 模式下原样显示英文。
+#
+# 只改显示处：先让比较、存储、去重、作键等功能性代码拿原值，翻译只落在最终渲染的 JSX 文本上。
+#   * components/settings/ConnectionsSettings.tsx   端点列表行标题、二维码端点切换按钮上的端点名
+#     （ConnectionsSettings 的 endpointDefaultPreferenceKey 仍拼英文 endpoint.label）
+#   * components/settings/SnapShotSettings.tsx      快捷键检测结果（shortcutStatus 里来自主进程的那一支）
+#   * components/settings/SnapShotSetupDialog.tsx   设置向导「权限」步骤的提示（state.message）：details 先用英文
+#     原值去重，React key 也是英文原值，只有 <p> 的正文包一层 translateKnownDesktopString(detail)
+#   * components/desktop/SnapShotCoordinator.tsx    截图失败 toast 的说明（state.message）
+#   * components/ServerUpdateAction.tsx             远程更新失败的 toast 与进度行（Server update failed: <桌面原因>）
+#   * desktopIpcStrings.ts（新文件）               名单与 translateKnownDesktopString
+#
+# 词条在 dict/zh-CN.json（精确 messages）。名单出处与没处理的类别（SSH 错误、登录错误等）见
+# reports/desktop-main-strings.md 第 4 节和 handoff/T07.md。上游更新后重做方法见 patches/README.md。
+#
+diff --git a/apps/web/src/components/ServerUpdateAction.tsx b/apps/web/src/components/ServerUpdateAction.tsx
+index e40d4f5d0792d2d1af1c39a6a210664328ceb76a..6b365600cac21c15e23ccd2d36b31ff5d62362f5 100644
+--- a/apps/web/src/components/ServerUpdateAction.tsx
++++ b/apps/web/src/components/ServerUpdateAction.tsx
+@@ -26,6 +26,7 @@ import { serverEnvironment, updateOutdatedServer } from "~/state/server";
+ import { appAtomRegistry } from "~/rpc/atomRegistry";
+ import { useAtomCommand } from "~/state/use-atom-command";
+ import { manualServerUpdateCommand } from "~/versionSkew";
++import { translateKnownDesktopString } from "~/desktopIpcStrings";
+ import { Button } from "./ui/button";
+ import { toastManager } from "./ui/toast";
+ import { Tooltip, TooltipPopup, TooltipTrigger } from "./ui/tooltip";
+@@ -45,7 +46,7 @@ export function serverUpdateStageLabel(stage: ServerUpdateStage): string {
+ }
+ 
+ function updateFailureMessage(error: unknown): string {
+-  return error instanceof Error ? error.message : "Server update failed.";
++  return error instanceof Error ? translateKnownDesktopString(error.message) : "Server update failed.";
+ }
+ 
+ export interface ServerUpdateTarget {
+@@ -185,8 +186,12 @@ export function ServerUpdateProgress({
+       <div className="mt-1 flex min-w-0 items-center gap-2 text-xs text-destructive" role="alert">
+         <span className="size-1.5 shrink-0 rounded-full bg-destructive" aria-hidden="true" />
+         <Tooltip>
+-          <TooltipTrigger render={<span className="min-w-0 truncate">{state.message}</span>} />
+-          <TooltipPopup side="top">{state.message}</TooltipPopup>
++          <TooltipTrigger
++            render={
++              <span className="min-w-0 truncate">{translateKnownDesktopString(state.message)}</span>
++            }
++          />
++          <TooltipPopup side="top">{translateKnownDesktopString(state.message)}</TooltipPopup>
+         </Tooltip>
+       </div>
+     );
+diff --git a/apps/web/src/components/desktop/SnapShotCoordinator.tsx b/apps/web/src/components/desktop/SnapShotCoordinator.tsx
+index e7ac04b0d068d1ae280d9aa52b44cf542a3c06c0..fee5348a4fa7b1f8860f22306ce12e556fa1ae1d 100644
+--- a/apps/web/src/components/desktop/SnapShotCoordinator.tsx
++++ b/apps/web/src/components/desktop/SnapShotCoordinator.tsx
+@@ -33,6 +33,7 @@ import {
+ } from "../../lib/desktopSnapShot";
+ import { readFileAsDataUrl } from "../ChatView.logic";
+ import { stackedThreadToast, toastManager } from "../ui/toast";
++import { translateKnownDesktopString } from "~/desktopIpcStrings";
+ 
+ type CaptureTarget = DraftId | ScopedThreadRef;
+ 
+@@ -377,7 +378,7 @@ export function SnapShotCoordinator() {
+               stackedThreadToast({
+                 type: "error",
+                 title: "Snapshot failed",
+-                description: state.message ?? "Try the capture again.",
++                description: translateKnownDesktopString(state.message) ?? "Try the capture again.",
+               }),
+             );
+           });
+diff --git a/apps/web/src/components/settings/ConnectionsSettings.tsx b/apps/web/src/components/settings/ConnectionsSettings.tsx
+index 5877f1bbda6c838828dc4df29ee38d9fa257eb6f..d01bb924b00017f20d902160f7a070ec3e238d70 100644
+--- a/apps/web/src/components/settings/ConnectionsSettings.tsx
++++ b/apps/web/src/components/settings/ConnectionsSettings.tsx
+@@ -188,6 +188,7 @@ import {
+   usePrimaryEnvironmentId,
+ } from "~/state/environments";
+ import { APP_VERSION } from "~/branding";
++import { translateKnownDesktopString } from "~/desktopIpcStrings";
+ import { requestConfirmDialog } from "~/confirmDialog";
+ import { useAtomCommand } from "../../state/use-atom-command";
+ import { primaryServerKeybindingsAtom, serverEnvironment } from "~/state/server";
+@@ -975,7 +976,7 @@ const PairingLinkListRow = memo(function PairingLinkListRow({
+                           isSelected ? "text-foreground" : "text-muted-foreground",
+                         )}
+                       >
+-                        {option.label}
++                        {translateKnownDesktopString(option.label)}
+                       </span>
+                       <span className="min-w-0 truncate text-2xs text-muted-foreground/70">
+                         {option.detail}
+@@ -1424,7 +1425,7 @@ const AdvertisedEndpointListRow = memo(function AdvertisedEndpointListRow({
+       <div className="flex min-h-6 min-w-0 flex-col gap-2 sm:-my-0.5 sm:flex-row sm:items-center">
+         <div className="flex min-w-0 items-baseline gap-3">
+           <h3 className="shrink-0 text-sm leading-5 font-medium text-foreground">
+-            {endpoint.label}
++            {translateKnownDesktopString(endpoint.label)}
+           </h3>
+           {shouldShowEndpointUrl ? (
+             <Tooltip>
+diff --git a/apps/web/src/components/settings/SnapShotSettings.tsx b/apps/web/src/components/settings/SnapShotSettings.tsx
+index 286d065b449f31e65565d46200bc449f6515b29a..ec60aa9222f66dd8425fdd1fb27c241f1e592243 100644
+--- a/apps/web/src/components/settings/SnapShotSettings.tsx
++++ b/apps/web/src/components/settings/SnapShotSettings.tsx
+@@ -47,6 +47,7 @@ import { Switch } from "../ui/switch";
+ import { toastManager } from "../ui/toast";
+ import { SnapShotSetupDialog } from "./SnapShotSetupDialog";
+ import { useSnapShotShortcutRecorder } from "./useSnapShotShortcutRecorder";
++import { translateKnownDesktopString } from "~/desktopIpcStrings";
+ import {
+   captureSetupAccessReady,
+   captureSetupInitialStep,
+@@ -269,7 +270,7 @@ export function SnapShotSettings() {
+         : shortcutCheck.availability
+           ? shortcutCheck.availability.available
+             ? "Ready to save."
+-            : shortcutCheck.availability.message
++            : translateKnownDesktopString(shortcutCheck.availability.message)
+           : state?.mode === "portal" &&
+               !state.shortcutLabel &&
+               isModifierPairShortcut(displayShortcut)
+diff --git a/apps/web/src/components/settings/SnapShotSetupDialog.tsx b/apps/web/src/components/settings/SnapShotSetupDialog.tsx
+index c6003adc740f2682c2bc745a73f16de0d203e17b..ba45a12fbcf4c0ec402110082b3c70f0940b4e1e 100644
+--- a/apps/web/src/components/settings/SnapShotSetupDialog.tsx
++++ b/apps/web/src/components/settings/SnapShotSetupDialog.tsx
+@@ -11,6 +11,7 @@ import { CaptureShortcutConfig } from "./CaptureShortcutConfig";
+ import { Button } from "../ui/button";
+ import { Dialog, DialogDescription } from "../ui/dialog";
+ import { WizardSteps, WizardPopup, WizardHeader, WizardPanel, WizardFooter } from "../ui/wizard";
++import { translateKnownDesktopString } from "~/desktopIpcStrings";
+ import {
+   captureSetupAccessReady,
+   captureSetupBackend,
+@@ -351,7 +352,7 @@ export function SnapShotSetupDialog({
+                 <div className="mt-3 space-y-3">
+                   {details.map((detail) => (
+                     <p key={detail} className="break-words">
+-                      {detail}
++                      {translateKnownDesktopString(detail)}
+                     </p>
+                   ))}
+                   {step === "access" && (backend === "gnome" || helperBackend) ? (
+diff --git a/apps/web/src/desktopIpcStrings.ts b/apps/web/src/desktopIpcStrings.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..de5660388a1914790b8a2606ed4f77b201f523bd
+--- /dev/null
++++ b/apps/web/src/desktopIpcStrings.ts
+@@ -0,0 +1,94 @@
++/**
++ * t3code-zh（patches/0006）：桌面主进程经 IPC 传给 web、在界面上显示的英文。
++ *
++ * 只有下面列出的精确文字才交给 `globalThis.__t3zh?.t?.()` 查表，其余原样返回。这些显示位置还会收到
++ * 任意英文（截图失败时的 error.message、服务器返回的报错等），而运行时的模板匹配用在任意英文上会误配
++ * （例如 `{head} to {base}` 会把 "Failed to …" 拆成半中半英），所以不能对任意文字调用 t()。
++ * 词条在 dict/zh-CN.json；名单出处见 reports/desktop-main-strings.md 第 4 节，
++ * plugin/__tests__/desktop-ipc-strings.test.ts 核对名单里的文字仍在上游源码中、且都有精确词条。
++ *
++ * 只用在显示处：比较、存储、去重、作为键的代码继续用原值（SnapShotSetupDialog 的 details 就先用英文原值去重、
++ * 用英文原值当 React key，只在 <p> 的正文调用本函数）。名单写成普通数组再传给 Set，不写成
++ * `new Set([...字面量])`——转换插件的预扫描会把那种写法的元素记为值用途，影响别处同名文字的翻译。
++ */
++
++// 连接设置的端点名（apps/desktop/src/backend/DesktopServerExposure.ts；Tailscale 两项是产品名，不译）。
++const ENDPOINT_NAMES: readonly string[] = [
++  "This machine",
++  "Local network",
++  "Custom HTTPS",
++  "Custom endpoint",
++];
++
++// 截图：macOS 权限提示与快捷键检测（apps/desktop/src/snapShot/DesktopSnapShot.ts、snapShot.ts）。
++const SNAP_SHOT_MESSAGES: readonly string[] = [
++  "Allow Screen Recording in System Settings, then restart T3 Code.",
++  "Allow Accessibility in System Settings, then restart T3 Code.",
++  "Allow Accessibility and Screen Recording in System Settings, then restart T3 Code.",
++  "This shortcut is already used by the system or another app.",
++  "The system could not register this shortcut.",
++  "Shift combinations are used for typing and text selection. Add another modifier.",
++  "This shortcut controls running commands in terminals.",
++  "The system uses Alt+Tab to switch apps.",
++  "The system already uses this shortcut.",
++];
++// snapShot.ts 的 COMMON_MOD_ACTIONS：`This shortcut is ${action} in most apps.`
++const SNAP_SHOT_COMMON_ACTIONS: readonly string[] = [
++  "Select All",
++  "Copy",
++  "Find",
++  "New",
++  "Open",
++  "Print",
++  "Quit",
++  "Save",
++  "New Tab",
++  "Paste",
++  "Close Window",
++  "Cut",
++  "Undo",
++];
++// packages/contracts/src/settings.ts 的 APPLE_MODIFIER_LABELS：`${label} + ${label} is not available on this system.`
++const SNAP_SHOT_APPLE_MODIFIERS: readonly string[] = ["Shift", "Command", "Control", "Option"];
++
++// 桌面版远程更新失败的原因（apps/desktop/src/updates/remoteUpdateFlow.ts、DesktopRemoteUpdates.ts、
++// DesktopUpdates.ts），经服务端的 ServerSelfUpdateError 变成 `Server update failed: ${reason}` 后显示。
++const DESKTOP_UPDATE_FAILURE_REASONS: readonly string[] = [
++  "Automatic updates are disabled on this machine.",
++  "Automatic updates are not available because no update feed is configured.",
++  "Automatic updates are only available in packaged production builds.",
++  "Automatic updates are disabled by the T3CODE_DISABLE_AUTO_UPDATE setting.",
++  "Automatic updates on Linux require the AppImage or the .deb package.",
++  "The desktop app failed to download the update.",
++  "The desktop app update failed.",
++  "The desktop app did not report an update result.",
++  "The desktop app failed to install the update.",
++  "A prepared desktop update is already in progress.",
++  "The desktop app lost the downloaded update.",
++  "This desktop update is no longer prepared.",
++  "The desktop app could not start the install.",
++];
++
++const KNOWN_DESKTOP_IPC_STRINGS: ReadonlySet<string> = new Set(
++  ENDPOINT_NAMES.concat(
++    SNAP_SHOT_MESSAGES,
++    SNAP_SHOT_COMMON_ACTIONS.map((action) => `This shortcut is ${action} in most apps.`),
++    SNAP_SHOT_APPLE_MODIFIERS.map(
++      (modifier) => `${modifier} + ${modifier} is not available on this system.`,
++    ),
++    DESKTOP_UPDATE_FAILURE_REASONS.map((reason) => `Server update failed: ${reason}`),
++  ),
++);
++
++/** 名单里的文字查表翻译，其余（含 null / undefined）原样返回。 */
++export function translateKnownDesktopString(value: string): string;
++export function translateKnownDesktopString(value: string | null): string | null;
++export function translateKnownDesktopString(
++  value: string | null | undefined,
++): string | null | undefined;
++export function translateKnownDesktopString(
++  value: string | null | undefined,
++): string | null | undefined {
++  if (typeof value !== "string" || !KNOWN_DESKTOP_IPC_STRINGS.has(value)) return value;
++  return globalThis.__t3zh?.t?.(value) ?? value;
++}

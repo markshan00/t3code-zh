@@ -1,0 +1,27 @@
+{
+  "name": "t3code-zh",
+  "version": "0.0.46-n2774.zh.4",
+  "private": true,
+  "type": "module",
+  "description": "T3 Code 中文界面汉化层（非官方）：词库提取、构建时转换、运行时查表",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "extract-dict": "node scripts/extract-dict.ts",
+    "gen-glossary": "node scripts/gen-glossary.ts",
+    "check-dict": "node scripts/check-dict.ts dict/zh-CN.json",
+    "test:check-dict": "node scripts/check-dict.test.ts",
+    "report": "node scripts/report.ts",
+    "test:plugin": "node --test \"plugin/__tests__/*.test.ts\""
+  },
+  "devDependencies": {
+    "@babel/generator": "^7.29.8",
+    "@babel/parser": "^7.28.0",
+    "@babel/traverse": "^7.28.0",
+    "@babel/types": "^7.28.0",
+    "@electron/asar": "^4.0.1",
+    "magic-string": "^0.30.21"
+  }
+}

@@ -1,0 +1,1266 @@
+{
+  "baseline": "v0.0.46-nightly.20261007.2774",
+  "dict": {
+    "path": "dict/zh-CN.json",
+    "messages": 5166,
+    "templates": 1100
+  },
+  "allowSuspicious": 67,
+  "prescan": {
+    "files": 2097,
+    "valueUseLiterals": 24961
+  },
+  "pluginOrder": [
+    "vite:optimized-deps",
+    "vite:watch-package-data",
+    "vite:pre-alias",
+    "alias",
+    "vite-plus:vitest-resolver",
+    "vite-plus:auto-inline-matcher-deps",
+    "t3zh",
+    "tanstack:router-generator",
+    "tanstack-router:code-splitter:compile-reference-file",
+    "tanstack-router:code-splitter:compile-virtual-file",
+    "tanstack-router:code-splitter:compile-shared-file",
+    "vite:react-babel",
+    "vite:react-refresh-fbm",
+    "vite:react-refresh",
+    "@rolldown/plugin-babel",
+    "@tailwindcss/vite:scan",
+    "@tailwindcss/vite:generate:build",
+    "vite:modulepreload-polyfill",
+    "vite:resolve-builtin:get-environment",
+    "vite:resolve-builtin",
+    "vite:html-inline-proxy",
+    "vite:css",
+    "builtin:oxc-runtime",
+    "vite:oxc",
+    "builtin:vite-json",
+    "vite:wasm-helper",
+    "vite:worker",
+    "vite:asset",
+    "vite:forward-console",
+    "vite-plus:coverage-version-guard",
+    "t3code:third-party-licenses",
+    "tanstack:router-inline-css-defaults",
+    "vite:react-virtual-preamble",
+    "vite:define",
+    "vite:css-post",
+    "vite:build-html",
+    "vite:worker-import-meta-url",
+    "vite:asset-import-meta-url",
+    "vite:prepare-out-dir",
+    "vite:rollup-options-plugins",
+    "vite:dynamic-import-vars",
+    "vite:import-glob",
+    "vite:react:config-post",
+    "vite:build-import-analysis",
+    "native:import-analysis-build",
+    "vite:terser",
+    "vite:license",
+    "native:manifest",
+    "vite:ssr-manifest",
+    "native:reporter",
+    "builtin:vite-load-fallback",
+    "vite:client-inject",
+    "vite:css-analysis",
+    "vite:import-analysis"
+  ],
+  "modules": {
+    "scanned": 1245,
+    "transformed": 422,
+    "transformCalls": 1271,
+    "skippedQueries": {}
+  },
+  "totals": {
+    "candidates": 7900,
+    "translate": 6635,
+    "skip": 1112,
+    "suspicious": 153,
+    "edits": 6635,
+    "translateWithDictMessage": 5873
+  },
+  "byCategory": {
+    "A": {
+      "skip": 583,
+      "suspicious": 3,
+      "translate": 2166
+    },
+    "B": {
+      "skip": 60,
+      "translate": 1652
+    },
+    "C": {
+      "skip": 469,
+      "suspicious": 147,
+      "translate": 2669
+    },
+    "D": {
+      "suspicious": 3,
+      "translate": 148
+    }
+  },
+  "reasons": {
+    "translate": {
+      "allow-listed": 127,
+      "as-const-property": 300,
+      "attribute": 1643,
+      "call-arg": 143,
+      "destructuring-default": 18,
+      "jsx-expression": 900,
+      "jsx-text": 1082,
+      "jsx-text-fragment": 182,
+      "label-function-return": 423,
+      "label-map": 160,
+      "property": 1657
+    },
+    "skip": {
+      "brand-name": 2,
+      "data-function": 16,
+      "error-constructor": 51,
+      "identifier-like": 30,
+      "mixed-jsx": 216,
+      "no-letters": 561,
+      "non-display-call": 235,
+      "rpc-input": 1
+    },
+    "suspicious": {
+      "template-collision": 45,
+      "value-use": 108
+    }
+  },
+  "byRule": {
+    "E1": {
+      "skip": 25,
+      "suspicious": 6,
+      "translate": 313
+    },
+    "E2": {
+      "suspicious": 15,
+      "translate": 174
+    },
+    "E3": {
+      "skip": 105,
+      "suspicious": 14,
+      "translate": 451
+    }
+  },
+  "suspicious": [
+    {
+      "file": "apps/web/src/branding.logic.ts",
+      "line": 20,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Nightly"
+    },
+    {
+      "file": "apps/web/src/components/ChatView.logic.ts",
+      "line": 520,
+      "category": "C",
+      "reason": "value-use",
+      "key": "New thread"
+    },
+    {
+      "file": "apps/web/src/components/ChatView.tsx",
+      "line": 9311,
+      "category": "D",
+      "reason": "value-use",
+      "key": "This connection cannot change threads."
+    },
+    {
+      "file": "apps/web/src/components/GitActionsControl.logic.ts",
+      "line": 195,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Commit"
+    },
+    {
+      "file": "apps/web/src/components/GitActionsControl.logic.ts",
+      "line": 208,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Push"
+    },
+    {
+      "file": "apps/web/src/components/GitActionsControl.logic.ts",
+      "line": 242,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Commit"
+    },
+    {
+      "file": "apps/web/src/components/GitActionsControl.logic.ts",
+      "line": 247,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Commit"
+    },
+    {
+      "file": "apps/web/src/components/GitActionsControl.logic.ts",
+      "line": 265,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Commit"
+    },
+    {
+      "file": "apps/web/src/components/GitActionsControl.logic.ts",
+      "line": 274,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Commit"
+    },
+    {
+      "file": "apps/web/src/components/GitActionsControl.logic.ts",
+      "line": 298,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Commit"
+    },
+    {
+      "file": "apps/web/src/components/GitActionsControl.logic.ts",
+      "line": 305,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Push"
+    },
+    {
+      "file": "apps/web/src/components/GitActionsControl.logic.ts",
+      "line": 313,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Push"
+    },
+    {
+      "file": "apps/web/src/components/GitActionsControl.logic.ts",
+      "line": 347,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Push"
+    },
+    {
+      "file": "apps/web/src/components/GitActionsControl.logic.ts",
+      "line": 365,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Commit"
+    },
+    {
+      "file": "apps/web/src/components/GitActionsControl.logic.ts",
+      "line": 382,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Commit"
+    },
+    {
+      "file": "apps/web/src/components/ProviderUpdateLaunchNotification.logic.ts",
+      "line": 694,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Windows"
+    },
+    {
+      "file": "apps/web/src/components/ProviderUpdateLaunchNotification.logic.ts",
+      "line": 696,
+      "category": "C",
+      "reason": "value-use",
+      "key": "macOS"
+    },
+    {
+      "file": "apps/web/src/components/ProviderUpdateLaunchNotification.logic.ts",
+      "line": 698,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Linux"
+    },
+    {
+      "file": "apps/web/src/components/RightPanelTabs.tsx",
+      "line": 346,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Browser"
+    },
+    {
+      "file": "apps/web/src/components/RightPanelTabs.tsx",
+      "line": 872,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Browser"
+    },
+    {
+      "file": "apps/web/src/components/Sidebar.logic.ts",
+      "line": 1171,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Pending Approval"
+    },
+    {
+      "file": "apps/web/src/components/Sidebar.logic.ts",
+      "line": 1180,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Awaiting Input"
+    },
+    {
+      "file": "apps/web/src/components/Sidebar.logic.ts",
+      "line": 1189,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Working"
+    },
+    {
+      "file": "apps/web/src/components/Sidebar.logic.ts",
+      "line": 1202,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Connecting"
+    },
+    {
+      "file": "apps/web/src/components/Sidebar.logic.ts",
+      "line": 1211,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Waiting"
+    },
+    {
+      "file": "apps/web/src/components/Sidebar.logic.ts",
+      "line": 1225,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Plan Ready"
+    },
+    {
+      "file": "apps/web/src/components/Sidebar.logic.ts",
+      "line": 1234,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Completed"
+    },
+    {
+      "file": "apps/web/src/components/Sidebar.tsx",
+      "line": 1299,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Working"
+    },
+    {
+      "file": "apps/web/src/components/Sidebar.tsx",
+      "line": 1309,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Waiting"
+    },
+    {
+      "file": "apps/web/src/components/SidebarStageBackdrop.tsx",
+      "line": 30,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Dev"
+    },
+    {
+      "file": "apps/web/src/components/SidebarStageBackdrop.tsx",
+      "line": 31,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Nightly"
+    },
+    {
+      "file": "apps/web/src/components/chat/ComposerTasksBadge.tsx",
+      "line": 25,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Completed"
+    },
+    {
+      "file": "apps/web/src/components/chat/ThreadRelationshipIcon.tsx",
+      "line": 19,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Waiting"
+    },
+    {
+      "file": "apps/web/src/components/chat/TraitsPicker.tsx",
+      "line": 48,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Agent"
+    },
+    {
+      "file": "apps/web/src/components/chat/TraitsSpeed.tsx",
+      "line": 14,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Fast"
+    },
+    {
+      "file": "apps/web/src/components/chat/V2LifecycleRow.tsx",
+      "line": 250,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Waiting"
+    },
+    {
+      "file": "apps/web/src/components/chat/V2LifecycleRow.tsx",
+      "line": 252,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Completed"
+    },
+    {
+      "file": "apps/web/src/components/chat/externalLinkContextMenu.ts",
+      "line": 114,
+      "category": "D",
+      "reason": "value-use",
+      "key": "show-link-context-menu"
+    },
+    {
+      "file": "apps/web/src/components/projectScriptEditor.tsx",
+      "line": 254,
+      "category": "D",
+      "reason": "value-use",
+      "key": "This connection cannot change keyboard shortcuts."
+    },
+    {
+      "file": "apps/web/src/components/settings/DiagnosticsSettings.tsx",
+      "line": 255,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Agent"
+    },
+    {
+      "file": "apps/web/src/components/settings/GitHubAccountSettings.tsx",
+      "line": 90,
+      "category": "A",
+      "reason": "template-collision",
+      "key": "gh",
+      "template": "{0}h"
+    },
+    {
+      "file": "apps/web/src/components/settings/GitHubTokenSettings.tsx",
+      "line": 73,
+      "category": "A",
+      "reason": "template-collision",
+      "key": "gh",
+      "template": "{0}h"
+    },
+    {
+      "file": "apps/web/src/components/settings/IntegrationsSettings.tsx",
+      "line": 581,
+      "category": "C",
+      "reason": "value-use",
+      "key": "T3 Code"
+    },
+    {
+      "file": "apps/web/src/components/settings/ProjectDefaultsSettings.tsx",
+      "line": 168,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Mixed"
+    },
+    {
+      "file": "apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx",
+      "line": 136,
+      "category": "C",
+      "reason": "value-use",
+      "key": "GPU"
+    },
+    {
+      "file": "apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx",
+      "line": 162,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Unavailable"
+    },
+    {
+      "file": "apps/web/src/components/settings/ScheduledTasksSettings.tsx",
+      "line": 1183,
+      "category": "A",
+      "reason": "template-collision",
+      "key": "Each request runs the prompt. Use {{body.path}}, {{headers.name}}, {{query.name}}, {{body}} or {{request}} in the prompt; only what it names reaches the agent.",
+      "template": "{0} in {1}"
+    },
+    {
+      "file": "apps/web/src/components/settings/SettingsPanels.tsx",
+      "line": 206,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "English",
+      "template": "{0}h"
+    },
+    {
+      "file": "apps/web/src/components/settings/SettingsPanels.tsx",
+      "line": 2184,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Enter"
+    },
+    {
+      "file": "apps/web/src/components/settings/SettingsPanels.tsx",
+      "line": 3295,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Mixed"
+    },
+    {
+      "file": "apps/web/src/components/settings/SourceControlWritingSettings.tsx",
+      "line": 311,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Mixed"
+    },
+    {
+      "file": "apps/web/src/components/settings/ThemePreviewCircles.tsx",
+      "line": 61,
+      "category": "C",
+      "reason": "value-use",
+      "key": "T3 Code"
+    },
+    {
+      "file": "apps/web/src/components/settings/customModelEditor.logic.ts",
+      "line": 64,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Fast"
+    },
+    {
+      "file": "apps/web/src/components/settings/customModelEditor.logic.ts",
+      "line": 112,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Agent"
+    },
+    {
+      "file": "apps/web/src/components/settings/providerDriverMeta.ts",
+      "line": 52,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Codex"
+    },
+    {
+      "file": "apps/web/src/components/settings/providerDriverMeta.ts",
+      "line": 57,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Claude"
+    },
+    {
+      "file": "apps/web/src/components/settings/providerDriverMeta.ts",
+      "line": 62,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Cursor"
+    },
+    {
+      "file": "apps/web/src/components/settings/providerDriverMeta.ts",
+      "line": 76,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Grok"
+    },
+    {
+      "file": "apps/web/src/components/settings/providerDriverMeta.ts",
+      "line": 81,
+      "category": "C",
+      "reason": "value-use",
+      "key": "OpenCode"
+    },
+    {
+      "file": "apps/web/src/components/settings/providerDriverMeta.ts",
+      "line": 86,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Antigravity"
+    },
+    {
+      "file": "apps/web/src/components/settings/providerDriverMeta.ts",
+      "line": 91,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Pi"
+    },
+    {
+      "file": "apps/web/src/components/settings/providerStatus.ts",
+      "line": 72,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Unavailable"
+    },
+    {
+      "file": "apps/web/src/components/settings/themeInspector.ts",
+      "line": 42,
+      "category": "C",
+      "reason": "value-use",
+      "key": "placeholder"
+    },
+    {
+      "file": "apps/web/src/components/threadActionMenu.logic.ts",
+      "line": 55,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Branch"
+    },
+    {
+      "file": "apps/web/src/components/threadActionMenu.logic.ts",
+      "line": 227,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Branch"
+    },
+    {
+      "file": "apps/web/src/components/ui/collapsible-section-header.tsx",
+      "line": 9,
+      "category": "C",
+      "reason": "value-use",
+      "key": "text-primary"
+    },
+    {
+      "file": "apps/web/src/components/usage/usageBreakdown.ts",
+      "line": 83,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Fast"
+    },
+    {
+      "file": "apps/web/src/components/usage/usagePriceTable.ts",
+      "line": 41,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Unavailable"
+    },
+    {
+      "file": "apps/web/src/components/usage/usagePriceTable.ts",
+      "line": 43,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Mixed"
+    },
+    {
+      "file": "apps/web/src/components/usage/usagePriceTable.ts",
+      "line": 57,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Unavailable"
+    },
+    {
+      "file": "apps/web/src/components/usage/usagePriceTable.ts",
+      "line": 58,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Mixed"
+    },
+    {
+      "file": "apps/web/src/components/usage/usageProviders.ts",
+      "line": 18,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Codex"
+    },
+    {
+      "file": "apps/web/src/components/usage/usageProviders.ts",
+      "line": 33,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Cursor"
+    },
+    {
+      "file": "apps/web/src/components/usage/usageProviders.ts",
+      "line": 35,
+      "category": "C",
+      "reason": "value-use",
+      "key": "OpenCode"
+    },
+    {
+      "file": "apps/web/src/components/usage/usageProviders.ts",
+      "line": 40,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Antigravity"
+    },
+    {
+      "file": "apps/web/src/keybindings.ts",
+      "line": 192,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Space"
+    },
+    {
+      "file": "apps/web/src/lib/snapShotShortcut.ts",
+      "line": 68,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Alt"
+    },
+    {
+      "file": "apps/web/src/state/sourceControlActions.ts",
+      "line": 256,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Running source control action"
+    },
+    {
+      "file": "packages/client-runtime/src/connection/routes.ts",
+      "line": 183,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "SSH {0}{1}",
+      "template": "SSH {0}"
+    },
+    {
+      "file": "packages/client-runtime/src/state/gitActions.ts",
+      "line": 78,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Commit"
+    },
+    {
+      "file": "packages/client-runtime/src/state/gitActions.ts",
+      "line": 86,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Push"
+    },
+    {
+      "file": "packages/client-runtime/src/state/gitActions.ts",
+      "line": 118,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Commit"
+    },
+    {
+      "file": "packages/client-runtime/src/state/gitActions.ts",
+      "line": 123,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Commit"
+    },
+    {
+      "file": "packages/client-runtime/src/state/gitActions.ts",
+      "line": 139,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Commit"
+    },
+    {
+      "file": "packages/client-runtime/src/state/gitActions.ts",
+      "line": 148,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Commit"
+    },
+    {
+      "file": "packages/client-runtime/src/state/gitActions.ts",
+      "line": 167,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Push"
+    },
+    {
+      "file": "packages/client-runtime/src/state/gitActions.ts",
+      "line": 178,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Push"
+    },
+    {
+      "file": "packages/client-runtime/src/state/gitActions.ts",
+      "line": 186,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Push"
+    },
+    {
+      "file": "packages/client-runtime/src/state/gitActions.ts",
+      "line": 220,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Push"
+    },
+    {
+      "file": "packages/client-runtime/src/state/gitActions.ts",
+      "line": 239,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Commit"
+    },
+    {
+      "file": "packages/client-runtime/src/state/subagentDisplay.ts",
+      "line": 108,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Branch"
+    },
+    {
+      "file": "packages/client-runtime/src/state/threadExecution.ts",
+      "line": 190,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Working"
+    },
+    {
+      "file": "packages/client-runtime/src/state/threadExecution.ts",
+      "line": 191,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Working"
+    },
+    {
+      "file": "packages/client-runtime/src/state/threadExecution.ts",
+      "line": 192,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Waiting"
+    },
+    {
+      "file": "packages/client-runtime/src/state/threadExecution.ts",
+      "line": 193,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Completed"
+    },
+    {
+      "file": "packages/contracts/src/editor.ts",
+      "line": 25,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Cursor"
+    },
+    {
+      "file": "packages/contracts/src/editor.ts",
+      "line": 64,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Antigravity"
+    },
+    {
+      "file": "packages/contracts/src/orchestratorMcp.ts",
+      "line": 68,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Trigger object: {type:'interval', everyMs}, {type:'fixed_time', timeOfDay, weekdays?}, or {type:'webhook'} to run on each request to a generated URL. Never stringify it unless the provider requires the compatibility form.",
+      "template": "{failure} on {environment}"
+    },
+    {
+      "file": "packages/contracts/src/orchestratorMcp.ts",
+      "line": 287,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Project to act on. Omit for the calling thread's project; required when the caller is not a T3 thread.",
+      "template": "{0} {1} is {2}"
+    },
+    {
+      "file": "packages/contracts/src/orchestratorMcp.ts",
+      "line": 559,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Public URL to give the sender. Absent when this environment has no T3 Connect managed tunnel; the user must enable T3 Connect remote access first.",
+      "template": "{head} to {base}"
+    },
+    {
+      "file": "packages/contracts/src/orchestratorMcp.ts",
+      "line": 574,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Only list this project's tasks. Omit for the calling thread's project, or for every project when the caller is not a T3 thread.",
+      "template": "{0} {1} is {2}"
+    },
+    {
+      "file": "packages/contracts/src/orchestratorMcp.ts",
+      "line": 604,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "One or two sentences on what it is for and where the user gets or also enters it.",
+      "template": "{first} and {second}"
+    },
+    {
+      "file": "packages/contracts/src/orchestratorMcp.ts",
+      "line": 611,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "How long to wait for the user. Default 10 minutes.",
+      "template": "{0} for {1}"
+    },
+    {
+      "file": "packages/contracts/src/orchestratorMcp.ts",
+      "line": 614,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Reuse when retrying a call that lost its result, so the user sees one card and its answer is returned again. Use a new id to ask again after timed_out or cancelled.",
+      "template": "{first} and {second}"
+    },
+    {
+      "file": "packages/contracts/src/orchestratorMcp.ts",
+      "line": 624,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Pass it to a tool that accepts a secretRef; it works once, and you never see the value.",
+      "template": "{leading}, and {last}"
+    },
+    {
+      "file": "packages/contracts/src/orchestratorMcp.ts",
+      "line": 630,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "declined: the user chose not to. cancelled: the request ended with the run. timed_out: the user did not answer in time; the card is closed, so ask again with a new clientRequestId if still needed.",
+      "template": "{0} {1} is {2}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 137,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Optional text to submit when accepting a prompt dialog.",
+      "template": "{head} to {base}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 217,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Environment-relative target. Prefer {kind:'environment-port',port:5173} for a dev server in the current environment.",
+      "template": "{0} for {1}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 221,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Environment-relative target. Prefer {kind:'environment-port',port:5173} for a dev server in the current environment.",
+      "template": "{0} for {1}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 347,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Use locator='aria-ref=<ref>' with a ref from the latest server snapshot (including iframe elements), or a unique Playwright role/text selector. Refs expire on navigation, a new snapshot, or control handoff; refresh the snapshot after a stale-ref error.",
+      "template": "{failure} on {environment}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 363,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Use locator='aria-ref=<ref>' with a ref from the latest server snapshot (including iframe elements), or a unique Playwright role/text selector. Refs expire on navigation, a new snapshot, or control handoff; refresh the snapshot after a stale-ref error.",
+      "template": "{failure} on {environment}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 399,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Mouse button. Defaults to left; right opens the page's context menu.",
+      "template": "{head} to {base}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 404,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "1 for a click, 2 for a double-click, 3 for a triple-click. Defaults to 1.",
+      "template": "{0} for {1}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 419,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Moves the mouse over one target. Provide exactly one of locator, selector, or the x/y coordinate pair.",
+      "template": "{selected} of {total}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 426,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Legacy CSS selector for a <select>. Prefer locator.",
+      "template": "{0} for {1}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 429,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "The <select> element, for example aria-ref=<ref> or role=combobox[name='Size'].",
+      "template": "{0} for {1}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 433,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Option values or visible labels to select. Pass several for a multiple select, or an empty list to clear it.",
+      "template": "{0} for {1}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 444,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Chooses options in one native <select> element.",
+      "template": "{0} in {1}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 449,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "The values of the options now selected.",
+      "template": "{selected} of {total}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 467,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Drags one element and drops it onto another.",
+      "template": "{first} and {second}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 474,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Absolute paths of files on the environment to give the page. An empty list cancels the open file picker.",
+      "template": "{failure} on {environment}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 477,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Legacy CSS selector for an <input type=file>. Prefer locator.",
+      "template": "{0} for {1}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 481,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Set files directly on this <input type=file> instead of answering the open file picker.",
+      "template": "{failure} on {environment}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 494,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Answers the page's open file picker, or sets files on a file input when locator/selector is given.",
+      "template": "{0} {1} is {2}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 590,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "JavaScript expression evaluated in the page's main frame, for example document.title or (() => ({href: location.href}))().",
+      "template": "{0} for {1}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 596,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "JavaScript expression evaluated in the page's main frame, for example document.title or (() => ({href: location.href}))().",
+      "template": "{0} for {1}"
+    },
+    {
+      "file": "packages/contracts/src/projectClone.ts",
+      "line": 93,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Connecting"
+    },
+    {
+      "file": "packages/contracts/src/scheduledTask.ts",
+      "line": 64,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "How the HMAC-SHA256 digest is encoded in the header.",
+      "template": "{0} {1} is {2}"
+    },
+    {
+      "file": "packages/contracts/src/scheduledTask.ts",
+      "line": 67,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Text before the digest in the header value, such as 'sha256='. Empty for none.",
+      "template": "{0} for {1}"
+    },
+    {
+      "file": "packages/contracts/src/scheduledTask.ts",
+      "line": 89,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Run when the task's webhook URL receives a request.",
+      "template": "Run {0}"
+    },
+    {
+      "file": "packages/contracts/src/scheduledTask.ts",
+      "line": 96,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Run on each request to the task's webhook URL. The prompt may use {{body.path}}, {{headers.name}}, {{query.name}}, {{body}} and {{request}} placeholders.",
+      "template": "{first} and {second}"
+    },
+    {
+      "file": "packages/contracts/src/scheduledTask.ts",
+      "line": 101,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Run when the task's webhook URL receives a request.",
+      "template": "Run {0}"
+    },
+    {
+      "file": "packages/contracts/src/scheduledTask.ts",
+      "line": 108,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Shared signing secret. Omit to keep the stored secret.",
+      "template": "{head} to {base}"
+    },
+    {
+      "file": "packages/contracts/src/scheduledTask.ts",
+      "line": 112,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "A secret the user entered through request_secret, used instead of secret. It is consumed by this save.",
+      "template": "{0} {1} is {2}"
+    },
+    {
+      "file": "packages/contracts/src/scheduledTask.ts",
+      "line": 117,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Signature check; omit or null to accept requests by URL token only.",
+      "template": "{head} to {base}"
+    },
+    {
+      "file": "packages/contracts/src/scheduledTask.ts",
+      "line": 122,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Run on each request to the task's webhook URL. The prompt may use {{body.path}}, {{headers.name}}, {{query.name}}, {{body}} and {{request}} placeholders.",
+      "template": "{first} and {second}"
+    },
+    {
+      "file": "packages/contracts/src/settings.ts",
+      "line": 203,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Shift"
+    },
+    {
+      "file": "packages/contracts/src/settings.ts",
+      "line": 204,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Command"
+    },
+    {
+      "file": "packages/contracts/src/settings.ts",
+      "line": 205,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Control"
+    },
+    {
+      "file": "packages/contracts/src/settings.ts",
+      "line": 206,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Option"
+    },
+    {
+      "file": "packages/contracts/src/settings.ts",
+      "line": 209,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Shift"
+    },
+    {
+      "file": "packages/contracts/src/settings.ts",
+      "line": 212,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Alt"
+    },
+    {
+      "file": "packages/contracts/src/settings.ts",
+      "line": 601,
+      "category": "C",
+      "reason": "value-use",
+      "key": "codex"
+    },
+    {
+      "file": "packages/contracts/src/settings.ts",
+      "line": 660,
+      "category": "C",
+      "reason": "value-use",
+      "key": "claude"
+    },
+    {
+      "file": "packages/contracts/src/settings.ts",
+      "line": 746,
+      "category": "C",
+      "reason": "value-use",
+      "key": "grok"
+    },
+    {
+      "file": "packages/contracts/src/settings.ts",
+      "line": 852,
+      "category": "C",
+      "reason": "value-use",
+      "key": "pi"
+    },
+    {
+      "file": "packages/contracts/src/settings.ts",
+      "line": 901,
+      "category": "C",
+      "reason": "value-use",
+      "key": "devin"
+    },
+    {
+      "file": "packages/contracts/src/settings.ts",
+      "line": 923,
+      "category": "C",
+      "reason": "value-use",
+      "key": "auto"
+    },
+    {
+      "file": "packages/contracts/src/settings.ts",
+      "line": 954,
+      "category": "C",
+      "reason": "value-use",
+      "key": "opencode"
+    },
+    {
+      "file": "packages/contracts/src/t3ProjectFile.ts",
+      "line": 49,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "When true, the script runs in the thread's worktree each time the thread settles, for example to delete build output. Threads without their own worktree skip it.",
+      "template": "{0} for {1}"
+    },
+    {
+      "file": "packages/contracts/src/threadMetadataMcp.ts",
+      "line": 83,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Thread to update. Omit to update the calling thread.",
+      "template": "{head} to {base}"
+    },
+    {
+      "file": "packages/shared/src/thirdPartyLicenses.ts",
+      "line": 100,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Android"
+    },
+    {
+      "file": "packages/shared/src/thirdPartyLicenses.ts",
+      "line": 104,
+      "category": "C",
+      "reason": "value-use",
+      "key": "iOS"
+    }
+  ]
+}

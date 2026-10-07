@@ -1,0 +1,140 @@
+# 0002-composer-resting-tween.patch
+#
+# 输入框收起动画的调度修复。来自维护者在本地上游克隆工作区里尚未提交的修复
+#（分支 perf/composer-resting-transition，HEAD 31a9da179），T06 时用只读方式导出：
+#
+#   git -C ~/Projects/t3code diff -- \
+#     apps/web/src/components/chat/ChatComposer.tsx \
+#     apps/web/src/components/chat/useComposerFocusState.ts
+#
+# 改动两处：
+#   * apps/web/src/components/chat/useComposerFocusState.ts
+#       - 到达时间线末尾时的展开改走 startTransition，不再阻塞触发它的滚动帧；
+#   * apps/web/src/components/chat/ChatComposer.tsx
+#       - 滚动触发的收起用 requestAnimationFrame + startTransition 延后提交，
+#         不让进行中的滚动帧等一次完整的 composer 重渲染。
+#
+# zh.8 起撤掉了原修复的第三部分（backdrop-filter 回退）：原 diff 还在补间期间给
+# composer-shell 打 data-composer-resting-tween，配合 index.css 规则把毛玻璃换成
+# 不透明 fallback 来省每帧的背景模糊重算，但这带来两个视觉回归——不透明表面盖住
+# composer-host 的描边（zh.7 曾用 z-index 兜底），补间结束切回毛玻璃时背后内容
+# 闪一下。维护者决定补间全程保持毛玻璃渲染（恢复上游行为），index.css 不再改动。
+# 本补丁的 diff 不再包含 index.css，也不再与 ~/Projects/t3code 的未提交 diff
+# 逐字节一致（CONVENTIONS §2.3 禁止改那边的工作区；两个 TSX hunk 与原 diff 一致，
+# 只是去掉了其中设置/移除 data-composer-resting-tween 的行）。
+#
+# 上游更新后重做方法见 patches/README.md。
+#
+diff --git a/apps/web/src/components/chat/ChatComposer.tsx b/apps/web/src/components/chat/ChatComposer.tsx
+index 0ee5a5fc14..57f0987876 100644
+--- a/apps/web/src/components/chat/ChatComposer.tsx
++++ b/apps/web/src/components/chat/ChatComposer.tsx
+@@ -57,6 +57,7 @@ import { createModelSelection, normalizeModelSlug } from "@t3tools/shared/model"
+ import { USAGE_LIMITS_COMMAND } from "@t3tools/shared/usageLimits";
+ import {
+   memo,
++  startTransition,
+   type ComponentProps,
+   type ReactNode,
+   useCallback,
+@@ -2432,6 +2433,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+   const mobileComposerExpandReleaseFrameRef = useRef<number | null>(null);
+   const mobileComposerExpandInFlightRef = useRef(false);
+   const composerScrollCollapseTimeoutRef = useRef<number | null>(null);
++  const composerScrollCollapseFrameRef = useRef<number | null>(null);
+   const composerScrollCollapseEligibleRef = useRef(false);
+   const windowRefocusInFlightRef = useRef(false);
+   const composerScrollGestureRef = useRef(createComposerScrollGestureState());
+@@ -5242,6 +5244,27 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+     }
+   }, [canScrollCollapseComposer, setIsComposerScrollCollapsed]);
+ 
++  // Scroll gestures collapse the composer from inside wheel/keydown
++  // dispatch. Committing React state there blocks the in-flight scroll frame
++  // behind a full composer re-render plus the FLIP measurement, which reads
++  // as a stutter mid-gesture. Defer the commit to the next frame and mark it
++  // interruptible so the scroll always wins the main thread.
++  const scheduleScrollCollapse = useCallback(() => {
++    if (composerScrollCollapseFrameRef.current !== null) return;
++    composerScrollCollapseFrameRef.current = window.requestAnimationFrame(() => {
++      composerScrollCollapseFrameRef.current = null;
++      // An expand, eligibility change, or return to the live edge may have
++      // landed since scheduling.
++      if (!composerScrollCollapseEligibleRef.current || isTimelineAtLogicalEnd()) return;
++      startTransition(() => setIsComposerScrollCollapsed(true));
++    });
++  }, [isTimelineAtLogicalEnd, setIsComposerScrollCollapsed]);
++  const cancelScheduledScrollCollapse = useCallback(() => {
++    if (composerScrollCollapseFrameRef.current === null) return;
++    window.cancelAnimationFrame(composerScrollCollapseFrameRef.current);
++    composerScrollCollapseFrameRef.current = null;
++  }, []);
++
+   // Returning to the window re-fires focus on the element that already held
+   // it. That focus arrives after the window's own event, so a window focus
+   // marks the frame in which it should be ignored by the form's capture.
+@@ -5320,20 +5343,22 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+         return;
+       }
+ 
+-      setIsComposerScrollCollapsed(true);
++      scheduleScrollCollapse();
+     };
+ 
+     document.addEventListener("wheel", handleTimelineWheel, { capture: true, passive: true });
+     return () => {
+       document.removeEventListener("wheel", handleTimelineWheel, true);
+       finishScrollGesture();
++      cancelScheduledScrollCollapse();
+     };
+   }, [
+     activeThreadId,
+     canTrackComposerScrollGesture,
++    cancelScheduledScrollCollapse,
+     getTimelineScrollableNode,
+     isTimelineAtLogicalEnd,
+-    setIsComposerScrollCollapsed,
++    scheduleScrollCollapse,
+   ]);
+ 
+   const restingHiddenBlockCount = composerControlsCollapsed
+@@ -6281,7 +6306,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+             isAtLogicalEnd: isTimelineAtLogicalEnd(),
+           })
+         ) {
+-          setIsComposerScrollCollapsed(true);
++          scheduleScrollCollapse();
+         }
+       },
+       addDroppedFiles: (files: File[]) => {
+@@ -6521,6 +6546,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+       restoreAfterTimelineReachedEnd,
+       getTimelineScrollableNode,
+       isTimelineAtLogicalEnd,
++      scheduleScrollCollapse,
+       setIsComposerScrollCollapsed,
+     ],
+   );
+diff --git a/apps/web/src/components/chat/useComposerFocusState.ts b/apps/web/src/components/chat/useComposerFocusState.ts
+index 476fc0f9f0..fe528082fa 100644
+--- a/apps/web/src/components/chat/useComposerFocusState.ts
++++ b/apps/web/src/components/chat/useComposerFocusState.ts
+@@ -1,13 +1,15 @@
+-import { useCallback, useState } from "react";
++import { startTransition, useCallback, useState } from "react";
+ 
+ export function useComposerFocusState() {
+   const [isComposerFocused, setIsComposerFocused] = useState(false);
+   const [isComposerScrollCollapsed, setIsComposerScrollCollapsed] = useState(false);
+ 
+   // Reaching the end of the timeline lifts a scroll collapse without moving
+-  // DOM focus to the editor.
++  // DOM focus to the editor. This fires from the timeline's scroll handler,
++  // so keep the expansion interruptible rather than blocking the scroll
++  // frame that triggered it.
+   const restoreAfterTimelineReachedEnd = useCallback(() => {
+-    setIsComposerScrollCollapsed(false);
++    startTransition(() => setIsComposerScrollCollapsed(false));
+   }, []);
+ 
+   return {

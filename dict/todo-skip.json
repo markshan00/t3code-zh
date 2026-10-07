@@ -1,0 +1,298 @@
+[
+  {
+    "key": "1 for a click, 2 for a double-click, 3 for a triple-click. Defaults to 1.",
+    "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
+  },
+  {
+    "key": "A secret the user entered through request_secret, used instead of secret. It is consumed by this save.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Absolute paths of files on the environment to give the page. An empty list cancels the open file picker.",
+    "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
+  },
+  {
+    "key": "Accept the pending browser dialog when true, or dismiss it when false.",
+    "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
+  },
+  {
+    "key": "Answers the page's open file picker, or sets files on a file input when locator/selector is given.",
+    "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
+  },
+  {
+    "key": "Chooses options in one native <select> element.",
+    "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
+  },
+  {
+    "key": "Closed {0} pull request{1}",
+    "reason": "复数后缀 {1}（\"\" / \"s\"）：由附加清单的 Closed {count} pull request / pull requests 两条具体模板覆盖"
+  },
+  {
+    "key": "Drags one element and drops it onto another.",
+    "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
+  },
+  {
+    "key": "Each request runs the prompt. Use {{body.path}}, {{headers.name}}, {{query.name}}, {{body}} or {{request}} in the prompt; only what it names reaches the agent.",
+    "reason": "词库校验拒收：含 {{…}} 嵌套花括号（同 T05 已知限制），界面保持英文"
+  },
+  {
+    "key": "Environment-relative target. Prefer {kind:'environment-port',port:5173} for a dev server in the current environment.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "GH_TOKEN",
+    "reason": "命令或环境变量名，保持原文。"
+  },
+  {
+    "key": "HTML",
+    "reason": "保留英文：格式名"
+  },
+  {
+    "key": "Hint inside the input, e.g. 'Paste your GitHub token'.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "How long to wait for the user. Default 10 minutes.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "How the HMAC-SHA256 digest is encoded in the header.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "JavaScript expression evaluated in the page's main frame, for example document.title or (() => ({href: location.href}))().",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Legacy CSS selector for a <select>. Prefer locator.",
+    "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
+  },
+  {
+    "key": "Legacy CSS selector for an <input type=file>. Prefer locator.",
+    "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
+  },
+  {
+    "key": "Mouse button. Defaults to left; right opens the page's context menu.",
+    "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
+  },
+  {
+    "key": "Moves the mouse over one target. Provide exactly one of locator, selector, or the x/y coordinate pair.",
+    "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
+  },
+  {
+    "key": "One or two sentences on what it is for and where the user gets or also enters it.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Only list this project's tasks. Omit for the calling thread's project, or for every project when the caller is not a T3 thread.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Option values or visible labels to select. Pass several for a multiple select, or an empty list to clear it.",
+    "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
+  },
+  {
+    "key": "Optional HMAC-SHA256 signature check over the raw request body.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Optional text to submit when accepting a prompt dialog.",
+    "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
+  },
+  {
+    "key": "Pass it to a tool that accepts a secretRef; it works once, and you never see the value.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Project to act on. Omit for the calling thread's project; required when the caller is not a T3 thread.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Public URL to give the sender. Absent when this environment has no T3 Connect managed tunnel; the user must enable T3 Connect remote access first.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Request header carrying the signature, such as x-hub-signature-256.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Reuse when retrying a call that lost its result, so the user sees one card and its answer is returned again. Use a new id to ask again after timed_out or cancelled.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Run on each request to the task's webhook URL. The prompt may use {{body.path}}, {{headers.name}}, {{query.name}}, {{body}} and {{request}} placeholders.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Run when the task's webhook URL receives a request.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "SSH {0}{1}",
+    "reason": "保留英文：SSH + 用户名@主机名，原样显示即正确"
+  },
+  {
+    "key": "Set files directly on this <input type=file> instead of answering the open file picker.",
+    "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
+  },
+  {
+    "key": "Settled {0}",
+    "reason": "槽位是 formatRelativeTimeLabel 的英文时间（5m ago / just now），通用模板会中英夹杂；已在 .extra.json 按输出形态补具体模板与词条（Settled {0}m/h/d ago、Settled just now）"
+  },
+  {
+    "key": "Shared signing secret. Omit to keep the stored secret.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Signature check; omit or null to accept requests by URL token only.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Skip requests the relay held longer than this many minutes while the environment was offline. Null runs every request.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Snoozed, {0}",
+    "reason": "槽位是 formatRelativeTimeUntilLabel 的英文时间（5m left / Soon / Expired），通用模板会中英夹杂；已在 .extra.json 按输出形态补具体模板与词条（Snoozed, {0}s/m/h/d left、Snoozed, Soon、Snoozed, Expired）"
+  },
+  {
+    "key": "Structured trigger. Pass an object with type 'interval', 'fixed_time' or 'webhook'.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Tailscale",
+    "reason": "保留英文：产品名"
+  },
+  {
+    "key": "Text before the digest in the header value, such as 'sha256='. Empty for none.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "The <select> element, for example aria-ref=<ref> or role=combobox[name='Size'].",
+    "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
+  },
+  {
+    "key": "The values of the options now selected.",
+    "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
+  },
+  {
+    "key": "Thread to update. Omit to update the calling thread.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Trigger object: {type:'interval', everyMs}, {type:'fixed_time', timeOfDay, weekdays?}, or {type:'webhook'} to run on each request to a generated URL. Never stringify it unless the provider requires the compatibility form.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Ultracode",
+    "reason": "保留英文，要与输入框的 Ultrathink: 前缀一致。"
+  },
+  {
+    "key": "Ultrathink",
+    "reason": "保留英文，要与输入框的 Ultrathink: 前缀一致。"
+  },
+  {
+    "key": "Use locator='aria-ref=<ref>' with a ref from the latest server snapshot (including iframe elements), or a unique Playwright role/text selector. Refs expire on navigation, a new snapshot, or control handoff; refresh the snapshot after a stale-ref error.",
+    "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
+  },
+  {
+    "key": "Webhook URL",
+    "reason": "保留英文：术语本身"
+  },
+  {
+    "key": "What you need, shown as the card's title, e.g. 'GitHub webhook secret'.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "When true, the script runs in the thread's worktree each time the thread settles, for example to delete build output. Threads without their own worktree skip it.",
+    "reason": "t3.json 的 Schema 说明（packages/contracts/src/t3ProjectFile.ts），web 只用它解码、不显示；保持英文"
+  },
+  {
+    "key": "Whether requests must carry a valid signature.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Writable trigger. Pass an object with type 'interval', 'fixed_time' or 'webhook'.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Write-only headers JSON, e.g. {\"Authorization\":\"Bearer …\"}",
+    "reason": "T05 已知限制：含花括号的输入示例，保持英文"
+  },
+  {
+    "key": "base64",
+    "reason": "保留英文：编码格式名"
+  },
+  {
+    "key": "declined: the user chose not to. cancelled: the request ended with the run. timed_out: the user did not answer in time; the card is closed, so ask again with a new clientRequestId if still needed.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "gh",
+    "reason": "命令或环境变量名，保持原文。"
+  },
+  {
+    "key": "gh auth login",
+    "reason": "命令或环境变量名，保持原文。"
+  },
+  {
+    "key": "hex",
+    "reason": "保留英文：编码格式名"
+  },
+  {
+    "key": "oklch(0.529681 0.01551 326.299)",
+    "reason": "不是界面文字：主题颜色值"
+  },
+  {
+    "key": "oklch(0.530733 0.01795 323.79)",
+    "reason": "不是界面文字：主题颜色值"
+  },
+  {
+    "key": "oklch(0.532177 0.019333 325.784)",
+    "reason": "不是界面文字：主题颜色值"
+  },
+  {
+    "key": "oklch(0.532339 0.017796 331.748)",
+    "reason": "不是界面文字：主题颜色值"
+  },
+  {
+    "key": "oklch(0.549927 0.090215 323.149)",
+    "reason": "不是界面文字：主题颜色值"
+  },
+  {
+    "key": "oklch(0.657087 0.028226 307.985)",
+    "reason": "不是界面文字：主题颜色值"
+  },
+  {
+    "key": "oklch(0.706249 0.014508 306.607)",
+    "reason": "不是界面文字：主题颜色值"
+  },
+  {
+    "key": "oklch(0.721641 0.010192 281.271)",
+    "reason": "不是界面文字：主题颜色值"
+  },
+  {
+    "key": "oklch(0.723533 0.008741 4.515)",
+    "reason": "不是界面文字：主题颜色值"
+  },
+  {
+    "key": "oklch(0.739243 0.002222 223.225)",
+    "reason": "不是界面文字：主题颜色值"
+  },
+  {
+    "key": "secretRef holds the value.",
+    "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "t3 auth pairing create",
+    "reason": "命令或环境变量名，保持原文。"
+  },
+  {
+    "key": "text-blue-600 dark:text-blue-400",
+    "reason": "不是界面文字：Tailwind 类名"
+  },
+  {
+    "key": "{\n  \"version\": 1,\n  \"name\": \"Aurora\",\n  \"appearance\": \"light\",\n  \"colors\": { ... }\n}",
+    "reason": "不是界面文字：主题 JSON 示例（T05 已知）"
+  }
+]

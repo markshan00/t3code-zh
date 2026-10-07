@@ -1,0 +1,92 @@
+[
+  {
+    "key": "Snoozed, {0}",
+    "section": "templates",
+    "zh": "",
+    "skip": "槽位是 formatRelativeTimeUntilLabel 的英文时间（5m left / Soon / Expired），通用模板会中英夹杂；已在 .extra.json 按输出形态补具体模板与词条（Snoozed, {0}s/m/h/d left、Snoozed, Soon、Snoozed, Expired）",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/ChatView.tsx:7581（B，threadStatusLine）"
+    ]
+  },
+  {
+    "key": "Settled {0}",
+    "section": "templates",
+    "zh": "",
+    "skip": "槽位是 formatRelativeTimeLabel 的英文时间（5m ago / just now），通用模板会中英夹杂；已在 .extra.json 按输出形态补具体模板与词条（Settled {0}m/h/d ago、Settled just now）",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/ChatView.tsx:7593（B，threadStatusLine）"
+    ]
+  },
+  {
+    "key": "Woke from snooze",
+    "section": "messages",
+    "zh": "已从暂缓中唤醒",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/ChatView.tsx:7603（B，threadStatusLine）"
+    ]
+  },
+  {
+    "key": "Compact and send",
+    "section": "messages",
+    "zh": "压缩并发送",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/chat/ComposerPrimaryActions.tsx:291（A，ComposerPrimaryActions）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Compact 和 send"
+  },
+  {
+    "key": "Send options",
+    "section": "messages",
+    "zh": "发送选项",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/chat/ComposerPrimaryActions.tsx:304（B，ComposerPrimaryActions）"
+    ],
+    "collidesWith": "{profile} options",
+    "wrongResult": "Send选项"
+  },
+  {
+    "key": "Run in the thread's worktree when the thread settles",
+    "section": "messages",
+    "zh": "任务收起时在其工作树中运行",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/projectScriptEditor.tsx:453（A，ProjectScriptEditorDialog）"
+    ],
+    "collidesWith": "{0} in {1}",
+    "wrongResult": "Run，用时 the thread's worktree when the thread settles"
+  },
+  {
+    "key": "on settle",
+    "section": "messages",
+    "zh": "收起时",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ProjectActionsList.tsx:43（A，ProjectActionsList）"
+    ],
+    "collidesWith": "on {environment}",
+    "wrongResult": "（settle）"
+  },
+  {
+    "key": "When true, the script runs in the thread's worktree each time the thread settles, for example to delete build output. Threads without their own worktree skip it.",
+    "section": "messages",
+    "zh": "",
+    "skip": "t3.json 的 Schema 说明（packages/contracts/src/t3ProjectFile.ts），web 只用它解码、不显示；保持英文",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/t3ProjectFile.ts:49（C，T3ProjectFileScript）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "example to delete build output. Threads without their own worktree skip it. 的 When true, the script runs in the thread's worktree each time the thread settles,"
+  }
+]

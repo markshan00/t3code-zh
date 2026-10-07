@@ -1,0 +1,1931 @@
+[
+  {
+    "key": "Could not open preview",
+    "section": "messages",
+    "zh": "无法打开预览",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/ChatView.tsx:4928（C，runProjectScript）"
+    ]
+  },
+  {
+    "key": "Resume",
+    "section": "messages",
+    "zh": "继续",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/ChatView.tsx:7251（A，goalBannerItem）"
+    ]
+  },
+  {
+    "key": "Relaunch command copied",
+    "section": "messages",
+    "zh": "重新启动命令已复制",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/ServerUpdateAction.tsx:218（C，ServerUpdateAction）"
+    ],
+    "collidesWith": "{0} copied",
+    "wrongResult": "Relaunch command 已复制"
+  },
+  {
+    "key": "Run `{0}` on {1}, then restart t3 with your usual options.",
+    "section": "templates",
+    "zh": "在 {1} 上运行 `{0}`，然后用你平时的选项重启 t3。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/ServerUpdateAction.tsx:221（C，ServerUpdateAction）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "{1}, then restart t3 with your usual options.上的Run `{0}`"
+  },
+  {
+    "key": "Stop t3 on {0}, then relaunch with `{1}` using the same subcommand and options. This does not update an installed t3 command.",
+    "section": "templates",
+    "zh": "先停止 {0} 上的 t3，再用 `{1}` 以相同的子命令和选项重新启动。这不会更新已安装的 t3 命令。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/ServerUpdateAction.tsx:222（C，ServerUpdateAction）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Stop t3 on {0}, then relaunch with `{1}` using the same subcommand 和 options. This does not update an installed t3 command."
+  },
+  {
+    "key": "Goal",
+    "section": "messages",
+    "zh": "目标",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/Sidebar.tsx:1262（C，SidebarThreadRow）"
+    ]
+  },
+  {
+    "key": "Open in panel",
+    "section": "messages",
+    "zh": "在面板中打开",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/chat/HtmlRenderFrame.tsx:100（B，HtmlRenderFrame）",
+      "apps/web/src/components/chat/HtmlRenderFrame.tsx:119（A，HtmlRenderFrame）"
+    ],
+    "collidesWith": "Open in {fileManager}",
+    "wrongResult": "在 panel 中打开"
+  },
+  {
+    "key": "Save securely",
+    "section": "messages",
+    "zh": "安全保存",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/chat/SecretRequestCard.tsx:151（A，PendingSecretRequestForm）"
+    ],
+    "collidesWith": "Save {0}",
+    "wrongResult": "保存 securely"
+  },
+  {
+    "key": "Stop watching #{0}",
+    "section": "templates",
+    "zh": "停止关注 #{0}",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/ThreadDetailsPrRow.tsx:372（B，ThreadDetailsPrRow）"
+    ]
+  },
+  {
+    "key": "Watching: the agent wakes when checks finish, someone comments, or the branch conflicts. Click to stop.",
+    "section": "messages",
+    "zh": "正在关注：检查完成、有人评论或分支出现冲突时，Agent 会被唤醒。点击停止。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/chat/ThreadDetailsPrRow.tsx:381（A，ThreadDetailsPrRow）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Watching: the agent wakes when checks finish, someone comments, or the branch conflicts. Click 到 stop."
+  },
+  {
+    "key": "Tool output image",
+    "section": "messages",
+    "zh": "工具输出图片",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/V2ItemInspector.tsx:155（B，images）"
+    ]
+  },
+  {
+    "key": "Loading output…",
+    "section": "messages",
+    "zh": "正在加载输出…",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/chat/V2ItemInspector.tsx:163（A，ToolOutput）"
+    ],
+    "collidesWith": "Loading {name}",
+    "wrongResult": "正在加载 output…"
+  },
+  {
+    "key": "No output.",
+    "section": "messages",
+    "zh": "无输出。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/V2ItemInspector.tsx:167（A，ToolOutput）"
+    ]
+  },
+  {
+    "key": "T3 Connect route added",
+    "section": "messages",
+    "zh": "已添加 T3 Connect 路由",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/cloud/CloudEnvironmentConnectList.tsx:167（C，connectEnvironment）"
+    ],
+    "collidesWith": "{theme} added",
+    "wrongResult": "已添加主题“T3 Connect route”"
+  },
+  {
+    "key": "{0} falls back to T3 Connect when its other routes are unreachable.",
+    "section": "templates",
+    "zh": "{0} 的其他路由都无法连接时，会改用 T3 Connect。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/cloud/CloudEnvironmentConnectList.tsx:170（C，connectEnvironment）",
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:2848（C，addRelayRoute）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "{0} falls back 到 T3 Connect when its other routes are unreachable."
+  },
+  {
+    "key": "Add route",
+    "section": "messages",
+    "zh": "添加路由",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/cloud/CloudEnvironmentConnectList.tsx:491（A，CloudEnvironmentConnectRows）",
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:2877（A，renderRemoteModeBody）",
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:2998（A，renderSshFields）",
+      "apps/web/src/components/settings/EnvironmentRoutesList.tsx:134（A，EnvironmentRoutesList）"
+    ]
+  },
+  {
+    "key": "Quick actions for pull request #{0}",
+    "section": "templates",
+    "zh": "拉取请求 #{0} 的快捷操作",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestSpeedActions.tsx:75（B，PullRequestSpeedActions）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "pull request #{0} 的 Quick actions"
+  },
+  {
+    "key": "Open this pull request to merge its stack",
+    "section": "messages",
+    "zh": "打开此拉取请求以合并其堆栈",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestSpeedActions.tsx:104（A，PullRequestSpeedActions）"
+    ],
+    "collidesWith": "Open {0}",
+    "wrongResult": "打开 this pull request to merge its stack"
+  },
+  {
+    "key": "Close immediately, or drag across rows to close several",
+    "section": "messages",
+    "zh": "立即关闭，或拖过多行一次关闭多个",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestSpeedActions.tsx:106（A，PullRequestSpeedActions）"
+    ],
+    "collidesWith": "Close {name}",
+    "wrongResult": "关闭 immediately, or drag across rows to close several"
+  },
+  {
+    "key": "{0} immediately",
+    "section": "templates",
+    "zh": "立即{0}",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestSpeedActions.tsx:107（A，PullRequestSpeedActions）"
+    ]
+  },
+  {
+    "key": "Reopen",
+    "section": "messages",
+    "zh": "重新打开",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestSpeedActions.tsx:120（C，label）"
+    ]
+  },
+  {
+    "key": "Merge requested",
+    "section": "messages",
+    "zh": "已请求合并",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/usePullRequestActions.ts:81（C，ACTION_SUCCESS_LABELS）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "Merge requeste 天"
+  },
+  {
+    "key": "Closed {0} of {1} pull requests",
+    "section": "templates",
+    "zh": "已关闭 {0} 个拉取请求（共 {1} 个）",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/usePullRequestActions.ts:226（C，close）"
+    ],
+    "collidesWith": "{selected} of {total}",
+    "wrongResult": "已选 Closed {0} 个，共 {1} pull requests 个"
+  },
+  {
+    "key": "Closed {0} pull request{1}",
+    "section": "templates",
+    "zh": "",
+    "skip": "复数后缀 {1}（\"\" / \"s\"）：由附加清单的 Closed {count} pull request / pull requests 两条具体模板覆盖",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/pullRequest/usePullRequestActions.ts:227（C，close）"
+    ]
+  },
+  {
+    "key": "Local ACP command",
+    "section": "messages",
+    "zh": "本地 ACP 命令",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/AcpRegistrySearchStep.tsx:182（A，AcpRegistrySearchStep）",
+      "apps/web/src/components/settings/AddProviderInstanceDialog.tsx:478（A，AddProviderInstanceDialog）"
+    ],
+    "collidesWith": "L{0}",
+    "wrongResult": "Local ACP command"
+  },
+  {
+    "key": "Write-only headers JSON, e.g. {\"Authorization\":\"Bearer …\"}",
+    "section": "messages",
+    "zh": "",
+    "skip": "T05 已知限制：含花括号的输入示例，保持英文",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/AcpSessionManagementSection.tsx:555（B，AcpSessionManagementSection）"
+    ]
+  },
+  {
+    "key": "Local ACP",
+    "section": "messages",
+    "zh": "本地 ACP",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/AddProviderInstanceDialog.tsx:302（C，handleLocalAcpConfiguration）"
+    ],
+    "collidesWith": "L{0}",
+    "wrongResult": "Local ACP"
+  },
+  {
+    "key": "Run an installed ACP executable on {0}.",
+    "section": "templates",
+    "zh": "在 {0} 上运行已安装的 ACP 可执行文件。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/AddProviderInstanceDialog.tsx:482（A，AddProviderInstanceDialog）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "{0}.上的Run an installed ACP executable"
+  },
+  {
+    "key": "For example, t3 or t3/ produces t3/add-search. Leave empty for no prefix.",
+    "section": "messages",
+    "zh": "例如，填 t3 或 t3/ 会得到 t3/add-search。留空则不加前缀。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/BranchNamingSettings.tsx:79（B，BranchNamingSettings）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "no prefix. 的 For example, t3 or t3/ produces t3/add-search. Leave empty"
+  },
+  {
+    "key": "Routes",
+    "section": "messages",
+    "zh": "路由",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:1624（A，SavedBackendListRow）",
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:1712（A，SavedBackendListRow）"
+    ],
+    "collidesWith": "{0}s",
+    "wrongResult": "Route 秒"
+  },
+  {
+    "key": "{0} routes",
+    "section": "templates",
+    "zh": "{0} 条路由",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:1624（A，SavedBackendListRow）"
+    ],
+    "collidesWith": "{0}s",
+    "wrongResult": "{0} route 秒"
+  },
+  {
+    "key": "Hide routes",
+    "section": "messages",
+    "zh": "隐藏路由",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:1712（A，SavedBackendListRow）"
+    ],
+    "collidesWith": "Hide {model}",
+    "wrongResult": "隐藏 routes"
+  },
+  {
+    "key": "Webhooks held while offline",
+    "section": "messages",
+    "zh": "离线期间将暂存 Webhook 请求",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:1826（C，updateHoldWebhooks）"
+    ]
+  },
+  {
+    "key": "Webhooks no longer held",
+    "section": "messages",
+    "zh": "不再暂存 Webhook 请求",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:1826（C，updateHoldWebhooks）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "Webhooks no longer hel 天"
+  },
+  {
+    "key": "T3 Connect keeps webhook requests for up to 24 hours while this environment is offline.",
+    "section": "messages",
+    "zh": "此环境离线期间，T3 Connect 会将 Webhook 请求最多保留 24 小时。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:1828（C，updateHoldWebhooks）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "T3 Connect keeps webhook requests for up to 24 hours while this environment 的状态为 offline."
+  },
+  {
+    "key": "Requests to an offline environment now fail. Anything already held is still delivered.",
+    "section": "messages",
+    "zh": "发往离线环境的请求现在会失败。已暂存的请求仍会投递。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:1829（C，updateHoldWebhooks）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "Requests to an offline environment now fail. Anything already held 的状态为 still delivered."
+  },
+  {
+    "key": "Keep webhook requests for up to 24 hours while this environment is offline, then deliver them. Off: T3 Connect only forwards requests and stores nothing.",
+    "section": "messages",
+    "zh": "此环境离线期间，将 Webhook 请求最多保留 24 小时，恢复后再投递。关闭时：T3 Connect 只转发请求，不存储任何内容。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:1872（B，ConfiguredCloudLinkRow）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Keep webhook requests for up to 24 hours while this environment is offline, then deliver them. Off: T3 Connect only forwards requests 和 stores nothing."
+  },
+  {
+    "key": "Hold webhook requests while this environment is offline",
+    "section": "messages",
+    "zh": "此环境离线时暂存 Webhook 请求",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:1875（B，ConfiguredCloudLinkRow）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "Hold webhook requests while this environment 的状态为 offline"
+  },
+  {
+    "key": "Route added",
+    "section": "messages",
+    "zh": "已添加路由",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:2433（C，connectSavedBackendSshTarget）",
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:2514（C，handleAddSavedBackend）",
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:2847（C，addRelayRoute）"
+    ],
+    "collidesWith": "{theme} added",
+    "wrongResult": "已添加主题“Route”"
+  },
+  {
+    "key": "{0} can now be reached over SSH {1}.",
+    "section": "templates",
+    "zh": "现在可以通过 SSH {1} 连接 {0}。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:2435（C，connectSavedBackendSshTarget）"
+    ]
+  },
+  {
+    "key": "{0} now has another way to connect.",
+    "section": "templates",
+    "zh": "{0} 现在多了一种连接方式。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:2515（C，handleAddSavedBackend）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "{0} now has another way 到 connect."
+  },
+  {
+    "key": "This machine is on your T3 Connect account. Use it as a fallback route.",
+    "section": "messages",
+    "zh": "这台设备已在你的 T3 Connect 账户中，可用作备用路由。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:2856（A，renderRemoteModeBody）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "This machine 的状态为 on your T3 Connect account. Use it as a fallback route."
+  },
+  {
+    "key": "Add T3 Connect",
+    "section": "messages",
+    "zh": "添加 T3 Connect",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:2864（A，renderRemoteModeBody）"
+    ]
+  },
+  {
+    "key": "Add a route to {0}",
+    "section": "templates",
+    "zh": "为 {0} 添加路由",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:3914（A，ConnectionsSettings）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Add a route 到 {0}"
+  },
+  {
+    "key": "Pair this machine again over another address, such as its Tailscale name. It joins the existing routes instead of adding a second machine.",
+    "section": "messages",
+    "zh": "通过另一个地址（例如它的 Tailscale 名称）再次配对这台设备。它会并入现有路由，而不是添加为第二台设备。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:3918（A，ConnectionsSettings）"
+    ],
+    "collidesWith": "{selected} of {total}",
+    "wrongResult": "已选 Pair this machine again over another address, such as its Tailscale name. It joins the existing routes instead 个，共 adding a second machine. 个"
+  },
+  {
+    "key": "Remove {0} route?{1}",
+    "section": "templates",
+    "zh": "要移除 {0} 路由吗？{1}",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/EnvironmentRoutesList.tsx:82（D，confirmRemove）"
+    ],
+    "collidesWith": "Remove {theme}",
+    "wrongResult": "移除{0} route?{1}"
+  },
+  {
+    "key": "Routes to {0}, preferred first",
+    "section": "templates",
+    "zh": "{0} 的路由（优先的排在前面）",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/EnvironmentRoutesList.tsx:114（B，EnvironmentRoutesList）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Routes 到 {0}, preferred first"
+  },
+  {
+    "key": "Reorder {0}, position {1}",
+    "section": "templates",
+    "zh": "调整 {0} 的顺序，当前第 {1} 位",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/EnvironmentRoutesList.tsx:181（B，SortableRouteRow）"
+    ]
+  },
+  {
+    "key": "In use",
+    "section": "messages",
+    "zh": "使用中",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/EnvironmentRoutesList.tsx:191（A，SortableRouteRow）"
+    ]
+  },
+  {
+    "key": "· found automatically",
+    "section": "messages",
+    "zh": "· 自动发现",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/EnvironmentRoutesList.tsx:198（A，SortableRouteRow）"
+    ]
+  },
+  {
+    "key": "Remove {0} route",
+    "section": "templates",
+    "zh": "移除 {0} 路由",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/EnvironmentRoutesList.tsx:210（B，SortableRouteRow）"
+    ],
+    "collidesWith": "Remove {theme}",
+    "wrongResult": "移除{0} route"
+  },
+  {
+    "key": "Remove route",
+    "section": "messages",
+    "zh": "移除路由",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/EnvironmentRoutesList.tsx:217（A，SortableRouteRow）"
+    ],
+    "collidesWith": "Remove {theme}",
+    "wrongResult": "移除route"
+  },
+  {
+    "key": "via {0}",
+    "section": "templates",
+    "zh": "通过 {0}",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/EnvironmentRow.tsx:42（C，environmentTransportLabel）"
+    ],
+    "collidesWith": "v{0}",
+    "wrongResult": "via {0}"
+  },
+  {
+    "key": "\"{0}\" isn't monospace",
+    "section": "templates",
+    "zh": "“{0}”不是等宽字体",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/FontFamilyPicker.tsx:168（C，handlePick）"
+    ]
+  },
+  {
+    "key": "Code and terminal need a fixed-width font, so the current font was kept.",
+    "section": "messages",
+    "zh": "代码和终端需要等宽字体，因此保留了当前字体。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/FontFamilyPicker.tsx:169（C，handlePick）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Code 和 terminal need a fixed-width font, so the current font was kept."
+  },
+  {
+    "key": "Remove recognized agent credit lines from GitHub merge and squash messages, keeping human co-authors. Includes auto-merge. Excludes merge queues, stack merges, and existing commits.",
+    "section": "messages",
+    "zh": "从 GitHub 的合并与压缩合并提交信息中移除可识别的 Agent 署名行，保留人类共同作者。包括自动合并；不包括合并队列、堆栈合并和已有提交。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ProjectDefaultsSettings.tsx:421（B，ProjectDefaultsSettings）"
+    ],
+    "collidesWith": "Remove {theme}",
+    "wrongResult": "移除recognized agent credit lines from GitHub merge and squash messages, keeping human co-authors. Includes auto-merge. Excludes merge queues, stack merges, and existing commits."
+  },
+  {
+    "key": "agent credit removal",
+    "section": "messages",
+    "zh": "移除 Agent 署名",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ProjectDefaultsSettings.tsx:425（B，ProjectDefaultsSettings）"
+    ]
+  },
+  {
+    "key": "Keep agent credits",
+    "section": "messages",
+    "zh": "保留 Agent 署名",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ProjectDefaultsSettings.tsx:426（B，ProjectDefaultsSettings）"
+    ],
+    "collidesWith": "{0}s",
+    "wrongResult": "Keep agent credit 秒"
+  },
+  {
+    "key": "Remove agent credits when merging",
+    "section": "messages",
+    "zh": "合并时移除 Agent 署名",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ProjectDefaultsSettings.tsx:433（B，ProjectDefaultsSettings）",
+      "apps/web/src/components/settings/settingsSearch.ts:708（C，title）"
+    ],
+    "collidesWith": "Remove {theme}",
+    "wrongResult": "移除agent credits when merging"
+  },
+  {
+    "key": "Executable",
+    "section": "messages",
+    "zh": "可执行文件",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ProviderSettingsForm.tsx:113（C，deriveProviderSettingsFields）"
+    ]
+  },
+  {
+    "key": "Executable name or path on this environment.",
+    "section": "messages",
+    "zh": "此环境上的可执行文件名或路径。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ProviderSettingsForm.tsx:116（C，deriveProviderSettingsFields）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "this environment.上的Executable name or path"
+  },
+  {
+    "key": "e.g. dsh",
+    "section": "messages",
+    "zh": "例如 dsh",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ProviderSettingsForm.tsx:121（C，deriveProviderSettingsFields）"
+    ],
+    "collidesWith": "{0}h",
+    "wrongResult": "e.g. ds 小时"
+  },
+  {
+    "key": "Arguments",
+    "section": "messages",
+    "zh": "参数",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ProviderSettingsForm.tsx:192（B，ProviderCommandArguments）"
+    ],
+    "collidesWith": "{0}s",
+    "wrongResult": "Argument 秒"
+  },
+  {
+    "key": "One literal argument per row, in launch order.",
+    "section": "messages",
+    "zh": "每行一个字面参数，按启动顺序排列。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ProviderSettingsForm.tsx:193（B，ProviderCommandArguments）"
+    ],
+    "collidesWith": "{0} in {1}",
+    "wrongResult": "One literal argument per row,，用时 launch order."
+  },
+  {
+    "key": "Add argument",
+    "section": "messages",
+    "zh": "添加参数",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ProviderSettingsForm.tsx:202（A，ProviderCommandArguments）"
+    ]
+  },
+  {
+    "key": "Argument {0}",
+    "section": "templates",
+    "zh": "参数 {0}",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ProviderSettingsForm.tsx:221（B，ProviderCommandArguments）"
+    ]
+  },
+  {
+    "key": "Remove argument {0}",
+    "section": "templates",
+    "zh": "移除参数 {0}",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ProviderSettingsForm.tsx:231（B，ProviderCommandArguments）"
+    ],
+    "collidesWith": "Remove {theme}",
+    "wrongResult": "移除argument {0}"
+  },
+  {
+    "key": "On webhook",
+    "section": "messages",
+    "zh": "Webhook 触发",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:174（C，scheduleLabel）",
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1152（A，ScheduledTaskEditorDialog）"
+    ],
+    "collidesWith": "{0}k",
+    "wrongResult": "On webhook"
+  },
+  {
+    "key": "Ran",
+    "section": "messages",
+    "zh": "已运行",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:213（C，DELIVERY_OUTCOME_LABELS）"
+    ]
+  },
+  {
+    "key": "Run failed",
+    "section": "messages",
+    "zh": "运行失败",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:214（C，DELIVERY_OUTCOME_LABELS）"
+    ],
+    "collidesWith": "Run {0}",
+    "wrongResult": "运行 failed"
+  },
+  {
+    "key": "Bad signature",
+    "section": "messages",
+    "zh": "签名无效",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:215（C，DELIVERY_OUTCOME_LABELS）"
+    ]
+  },
+  {
+    "key": "Task paused",
+    "section": "messages",
+    "zh": "定时任务已暂停",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:216（C，DELIVERY_OUTCOME_LABELS）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "Task pause 天"
+  },
+  {
+    "key": "Rate limited",
+    "section": "messages",
+    "zh": "已限流",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:217（C，DELIVERY_OUTCOME_LABELS）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "Rate limite 天"
+  },
+  {
+    "key": "Too old",
+    "section": "messages",
+    "zh": "已过期",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:218（C，DELIVERY_OUTCOME_LABELS）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "Too ol 天"
+  },
+  {
+    "key": "Deliveries",
+    "section": "messages",
+    "zh": "投递记录",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:490（A，ScheduledTaskRow）"
+    ],
+    "collidesWith": "{0}s",
+    "wrongResult": "Deliverie 秒"
+  },
+  {
+    "key": "Recent requests to this task's webhook URL.",
+    "section": "messages",
+    "zh": "最近发往此定时任务 Webhook URL 的请求。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:555（A，WebhookDeliveriesDialog）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Recent requests 到 this task's webhook URL."
+  },
+  {
+    "key": "Loading delivery…",
+    "section": "messages",
+    "zh": "正在加载投递记录…",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:561（A，WebhookDeliveriesDialog）"
+    ],
+    "collidesWith": "Loading {name}",
+    "wrongResult": "正在加载 delivery…"
+  },
+  {
+    "key": "Signature verified",
+    "section": "messages",
+    "zh": "签名已验证",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:573（A，WebhookDeliveriesDialog）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "Signature verifie 天"
+  },
+  {
+    "key": "Prompt sent to the agent",
+    "section": "messages",
+    "zh": "发给 Agent 的提示词",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:577（B，WebhookDeliveriesDialog）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Prompt sent 到 the agent"
+  },
+  {
+    "key": "No run was started for this request.",
+    "section": "messages",
+    "zh": "此请求没有启动运行。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:578（A，WebhookDeliveriesDialog）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "this request. 的 No run was started"
+  },
+  {
+    "key": "Headers",
+    "section": "messages",
+    "zh": "请求头",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:585（B，WebhookDeliveriesDialog）"
+    ],
+    "collidesWith": "{0}s",
+    "wrongResult": "Header 秒"
+  },
+  {
+    "key": "Query",
+    "section": "messages",
+    "zh": "查询参数",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:591（B，WebhookDeliveriesDialog）"
+    ]
+  },
+  {
+    "key": "Body (truncated)",
+    "section": "messages",
+    "zh": "请求体（已截断）",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:593（B，WebhookDeliveriesDialog）"
+    ]
+  },
+  {
+    "key": "Body",
+    "section": "messages",
+    "zh": "请求体",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:593（B，WebhookDeliveriesDialog）"
+    ]
+  },
+  {
+    "key": "Loading deliveries…",
+    "section": "messages",
+    "zh": "正在加载投递记录…",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:599（A，WebhookDeliveriesDialog）"
+    ],
+    "collidesWith": "Loading {name}",
+    "wrongResult": "正在加载 deliveries…"
+  },
+  {
+    "key": "No requests yet.",
+    "section": "messages",
+    "zh": "还没有请求。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:602（A，WebhookDeliveriesDialog）"
+    ]
+  },
+  {
+    "key": "The URL appears after you save.",
+    "section": "messages",
+    "zh": "保存后会显示 URL。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:679（A，WebhookEndpointField）"
+    ]
+  },
+  {
+    "key": "Rotate this webhook URL?\nThe current URL stops working.",
+    "section": "messages",
+    "zh": "要轮换此 Webhook URL 吗？\n当前 URL 将失效。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:684（D，rotateUrl）"
+    ]
+  },
+  {
+    "key": "Rotate this webhook URL? The current URL stops working.",
+    "section": "messages",
+    "zh": "要轮换此 Webhook URL 吗？当前 URL 将失效。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:689（D，rotateUrl）"
+    ]
+  },
+  {
+    "key": "Could not rotate webhook URL",
+    "section": "messages",
+    "zh": "无法轮换 Webhook URL",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:698（C，rotateUrl）"
+    ]
+  },
+  {
+    "key": "Webhook URL",
+    "section": "messages",
+    "zh": "",
+    "skip": "保留英文：术语本身",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:709（B，WebhookEndpointField）"
+    ]
+  },
+  {
+    "key": "Held for up to 24 hours while this environment is offline.",
+    "section": "messages",
+    "zh": "此环境离线期间最多暂存 24 小时。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:751（A，WebhookDeliveryMode）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "Held for up to 24 hours while this environment 的状态为 offline. "
+  },
+  {
+    "key": "Forwarded live. Requests fail while this environment is offline.",
+    "section": "messages",
+    "zh": "实时转发。此环境离线时请求会失败。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:752（A，WebhookDeliveryMode）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "Forwarded live. Requests fail while this environment 的状态为 offline. "
+  },
+  {
+    "key": "Change in Connections",
+    "section": "messages",
+    "zh": "在“连接”中更改",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:754（A，WebhookDeliveryMode）"
+    ],
+    "collidesWith": "{0} in {1}",
+    "wrongResult": "Change，用时 Connections"
+  },
+  {
+    "key": "Invalid age limit",
+    "section": "messages",
+    "zh": "时限无效",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:863（D，submit）"
+    ]
+  },
+  {
+    "key": "Signing secret is required",
+    "section": "messages",
+    "zh": "必须填写签名密钥",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:875（D，submit）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "Signing secret 的状态为 required"
+  },
+  {
+    "key": "Run a prompt automatically — on an interval, at a fixed time, or when a webhook is called.",
+    "section": "messages",
+    "zh": "按间隔、在固定时间，或在 Webhook 被调用时自动运行提示词。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:947（A，ScheduledTaskEditorDialog）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "Run a prompt automatically — on an interval, at a fixed time, or when a webhook 的状态为 called."
+  },
+  {
+    "key": "Each request runs the prompt. Use {{body.path}}, {{headers.name}}, {{query.name}}, {{body}} or {{request}} in the prompt; only what it names reaches the agent.",
+    "section": "messages",
+    "zh": "",
+    "skip": "词库校验拒收：含 {{…}} 嵌套花括号（同 T05 已知限制），界面保持英文",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1161（A，ScheduledTaskEditorDialog）"
+    ],
+    "collidesWith": "{0} in {1}",
+    "wrongResult": "Each request runs the prompt. Use {{body.path}}, {{headers.name}}, {{query.name}}, {{body}} or {{request}}，用时 the prompt; only what it names reaches the agent."
+  },
+  {
+    "key": "Skip requests older than",
+    "section": "messages",
+    "zh": "跳过超过以下时长的请求",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1165（B，ScheduledTaskEditorDialog）"
+    ]
+  },
+  {
+    "key": "minutes, optional",
+    "section": "messages",
+    "zh": "分钟，可选",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1166（B，ScheduledTaskEditorDialog）"
+    ]
+  },
+  {
+    "key": "Run every request",
+    "section": "messages",
+    "zh": "每个请求都运行",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1175（B，ScheduledTaskEditorDialog）"
+    ],
+    "collidesWith": "Run {0}",
+    "wrongResult": "运行 every request"
+  },
+  {
+    "key": "Require signature",
+    "section": "messages",
+    "zh": "要求签名",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1187（A，ScheduledTaskEditorDialog）"
+    ]
+  },
+  {
+    "key": "Reject requests without a valid HMAC-SHA256 signature of the body.",
+    "section": "messages",
+    "zh": "拒绝请求体没有有效 HMAC-SHA256 签名的请求。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1189（A，ScheduledTaskEditorDialog）"
+    ],
+    "collidesWith": "{selected} of {total}",
+    "wrongResult": "已选 Reject requests without a valid HMAC-SHA256 signature 个，共 the body. 个"
+  },
+  {
+    "key": "Header",
+    "section": "messages",
+    "zh": "请求头",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1202（B，ScheduledTaskEditorDialog）"
+    ]
+  },
+  {
+    "key": "Prefix",
+    "section": "messages",
+    "zh": "前缀",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1214（B，ScheduledTaskEditorDialog）"
+    ]
+  },
+  {
+    "key": "Encoding",
+    "section": "messages",
+    "zh": "编码",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1227（B，ScheduledTaskEditorDialog）"
+    ]
+  },
+  {
+    "key": "hex",
+    "section": "messages",
+    "zh": "",
+    "skip": "保留英文：编码格式名",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1241（A，ScheduledTaskEditorDialog）"
+    ]
+  },
+  {
+    "key": "base64",
+    "section": "messages",
+    "zh": "",
+    "skip": "保留英文：编码格式名",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1242（A，ScheduledTaskEditorDialog）"
+    ]
+  },
+  {
+    "key": "Secret",
+    "section": "messages",
+    "zh": "密钥",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1246（B，ScheduledTaskEditorDialog）"
+    ]
+  },
+  {
+    "key": "Unchanged",
+    "section": "messages",
+    "zh": "保持不变",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1254（B，ScheduledTaskEditorDialog）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "Unchange 天"
+  },
+  {
+    "key": "Shared secret",
+    "section": "messages",
+    "zh": "共享密钥",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1255（B，ScheduledTaskEditorDialog）"
+    ]
+  },
+  {
+    "key": "{\n  \"version\": 1,\n  \"name\": \"Aurora\",\n  \"appearance\": \"light\",\n  \"colors\": { ... }\n}",
+    "section": "messages",
+    "zh": "",
+    "skip": "不是界面文字：主题 JSON 示例（T05 已知）",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ThemeImportDialog.tsx:134（B，ThemeJsonEditor）"
+    ]
+  },
+  {
+    "key": "Hold webhooks while offline",
+    "section": "messages",
+    "zh": "离线时暂存 Webhook",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/settingsSearch.ts:845（C，title）"
+    ]
+  },
+  {
+    "key": "text-blue-600 dark:text-blue-400",
+    "section": "messages",
+    "zh": "",
+    "skip": "不是界面文字：Tailwind 类名",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/ui/collapsible-section-header.tsx:7（C，label）"
+    ]
+  },
+  {
+    "key": "LAN",
+    "section": "messages",
+    "zh": "局域网",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/client-runtime/src/connection/routes.ts:177（C，connectionRouteLabel）"
+    ],
+    "collidesWith": "L{0}",
+    "wrongResult": "LAN"
+  },
+  {
+    "key": "Tailscale",
+    "section": "messages",
+    "zh": "",
+    "skip": "保留英文：产品名",
+    "why": "untranslated",
+    "where": [
+      "packages/client-runtime/src/connection/routes.ts:179（C，connectionRouteLabel）"
+    ]
+  },
+  {
+    "key": "SSH {0}{1}",
+    "section": "templates",
+    "zh": "",
+    "skip": "保留英文：SSH + 用户名@主机名，原样显示即正确",
+    "why": "collision",
+    "where": [
+      "packages/client-runtime/src/connection/routes.ts:183（C，connectionRouteLabel）"
+    ],
+    "collidesWith": "SSH {0}",
+    "wrongResult": "SSH {0}{1}"
+  },
+  {
+    "key": "Saved securely and kept private",
+    "section": "messages",
+    "zh": "已安全保存，内容保密",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/client-runtime/src/secretRequest.ts:25（C，label）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Saved securely 和 kept private"
+  },
+  {
+    "key": "Declined",
+    "section": "messages",
+    "zh": "已拒绝",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/client-runtime/src/secretRequest.ts:30（C，label）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "Decline 天"
+  },
+  {
+    "key": "Request ended",
+    "section": "messages",
+    "zh": "请求已结束",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/client-runtime/src/secretRequest.ts:35（C，label）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "Request ende 天"
+  },
+  {
+    "key": "Waiting for an answer in the original thread",
+    "section": "messages",
+    "zh": "等待在原任务中回复",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/client-runtime/src/secretRequest.ts:40（C，label）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "an answer in the original thread 的 Waiting"
+  },
+  {
+    "key": "Could not answer the request. Try again.",
+    "section": "messages",
+    "zh": "无法回复此请求，请重试。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/client-runtime/src/secretRequest.ts:100（C，secretRequestFailureMessage）"
+    ]
+  },
+  {
+    "key": "Pursuing goal",
+    "section": "messages",
+    "zh": "正在推进目标",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/client-runtime/src/state/threadExecution.ts:392（C，PROVIDER_GOAL_TITLES）"
+    ]
+  },
+  {
+    "key": "Goal paused",
+    "section": "messages",
+    "zh": "目标已暂停",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/client-runtime/src/state/threadExecution.ts:393（C，PROVIDER_GOAL_TITLES）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "Goal pause 天"
+  },
+  {
+    "key": "Goal blocked",
+    "section": "messages",
+    "zh": "目标受阻",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/client-runtime/src/state/threadExecution.ts:394（C，PROVIDER_GOAL_TITLES）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "Goal blocke 天"
+  },
+  {
+    "key": "Goal hit a usage limit",
+    "section": "messages",
+    "zh": "目标已达到用量限额",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/client-runtime/src/state/threadExecution.ts:395（C，PROVIDER_GOAL_TITLES）"
+    ]
+  },
+  {
+    "key": "Goal reached its token budget",
+    "section": "messages",
+    "zh": "目标已用完 Token 预算",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/client-runtime/src/state/threadExecution.ts:396（C，PROVIDER_GOAL_TITLES）"
+    ]
+  },
+  {
+    "key": "Goal complete",
+    "section": "messages",
+    "zh": "目标已完成",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/client-runtime/src/state/threadExecution.ts:397（C，PROVIDER_GOAL_TITLES）"
+    ]
+  },
+  {
+    "key": "Goal set",
+    "section": "messages",
+    "zh": "已设定目标",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/client-runtime/src/state/threadExecution.ts:429（C，presentProviderGoal）"
+    ]
+  },
+  {
+    "key": "Trigger object: {type:'interval', everyMs}, {type:'fixed_time', timeOfDay, weekdays?}, or {type:'webhook'} to run on each request to a generated URL. Never stringify it unless the provider requires the compatibility form.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/orchestratorMcp.ts:68（C，OrchestratorMcpSchedule）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "each request to a generated URL. Never stringify it unless the provider requires the compatibility form.上的Trigger object: {type:'interval', everyMs}, {type:'fixed_time', timeOfDay, weekdays?}, or {type:'webhook'} to run"
+  },
+  {
+    "key": "Project to act on. Omit for the calling thread's project; required when the caller is not a T3 thread.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/orchestratorMcp.ts:287（C，OrchestratorMcpProjectTarget）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "Project to act on. Omit for the calling thread's project; required when the caller 的状态为 not a T3 thread."
+  },
+  {
+    "key": "Public URL to give the sender. Absent when this environment has no T3 Connect managed tunnel; the user must enable T3 Connect remote access first.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/orchestratorMcp.ts:548（C，OrchestratorMcpScheduledTask）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Public URL 到 give the sender. Absent when this environment has no T3 Connect managed tunnel; the user must enable T3 Connect remote access first."
+  },
+  {
+    "key": "Whether requests must carry a valid signature.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "untranslated",
+    "where": [
+      "packages/contracts/src/orchestratorMcp.ts:551（C，OrchestratorMcpScheduledTask）"
+    ]
+  },
+  {
+    "key": "Only list this project's tasks. Omit for the calling thread's project, or for every project when the caller is not a T3 thread.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/orchestratorMcp.ts:563（C，OrchestratorMcpListScheduledTasksInput）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "Only list this project's tasks. Omit for the calling thread's project, or for every project when the caller 的状态为 not a T3 thread."
+  },
+  {
+    "key": "What you need, shown as the card's title, e.g. 'GitHub webhook secret'.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "untranslated",
+    "where": [
+      "packages/contracts/src/orchestratorMcp.ts:589（C，OrchestratorMcpRequestSecretInput）"
+    ]
+  },
+  {
+    "key": "One or two sentences on what it is for and where the user gets or also enters it.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/orchestratorMcp.ts:593（C，OrchestratorMcpRequestSecretInput）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "One or two sentences on what it is for 和 where the user gets or also enters it."
+  },
+  {
+    "key": "Hint inside the input, e.g. 'Paste your GitHub token'.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "untranslated",
+    "where": [
+      "packages/contracts/src/orchestratorMcp.ts:596（C，OrchestratorMcpRequestSecretInput）"
+    ]
+  },
+  {
+    "key": "How long to wait for the user. Default 10 minutes.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/orchestratorMcp.ts:600（C，OrchestratorMcpRequestSecretInput）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "the user. Default 10 minutes. 的 How long to wait"
+  },
+  {
+    "key": "Reuse when retrying a call that lost its result, so the user sees one card and its answer is returned again. Use a new id to ask again after timed_out or cancelled.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/orchestratorMcp.ts:603（C，OrchestratorMcpRequestSecretInput）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Reuse when retrying a call that lost its result, so the user sees one card 和 its answer is returned again. Use a new id to ask again after timed_out or cancelled."
+  },
+  {
+    "key": "secretRef holds the value.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "untranslated",
+    "where": [
+      "packages/contracts/src/orchestratorMcp.ts:610（C，OrchestratorMcpRequestSecretResult）"
+    ]
+  },
+  {
+    "key": "Pass it to a tool that accepts a secretRef; it works once, and you never see the value.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/orchestratorMcp.ts:613（C，OrchestratorMcpRequestSecretResult）"
+    ],
+    "collidesWith": "{leading}, and {last}",
+    "wrongResult": "Pass it to a tool that accepts a secretRef; it works once 和 you never see the value."
+  },
+  {
+    "key": "declined: the user chose not to. cancelled: the request ended with the run. timed_out: the user did not answer in time; the card is closed, so ask again with a new clientRequestId if still needed.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/orchestratorMcp.ts:619（C，OrchestratorMcpRequestSecretResult）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "declined: the user chose not to. cancelled: the request ended with the run. timed_out: the user did not answer in time; the card 的状态为 closed, so ask again with a new clientRequestId if still needed."
+  },
+  {
+    "key": "Environment-relative target. Prefer {kind:'environment-port',port:5173} for a dev server in the current environment.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/previewAutomation.ts:155（C，PreviewAutomationNavigateInput）",
+      "packages/contracts/src/previewAutomation.ts:159（C，PreviewAutomationNavigateInput）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "a dev server in the current environment. 的 Environment-relative target. Prefer {kind:'environment-port',port:5173}"
+  },
+  {
+    "key": "JavaScript expression evaluated in the page's main frame, for example document.title or (() => ({href: location.href}))().",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/previewAutomation.ts:424（C，PreviewAutomationEvaluateInput）",
+      "packages/contracts/src/previewAutomation.ts:430（C，PreviewAutomationEvaluateInput）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "example document.title or (() => ({href: location.href}))(). 的 JavaScript expression evaluated in the page's main frame,"
+  },
+  {
+    "key": "Request header carrying the signature, such as x-hub-signature-256.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "untranslated",
+    "where": [
+      "packages/contracts/src/scheduledTask.ts:61（C，description）"
+    ]
+  },
+  {
+    "key": "How the HMAC-SHA256 digest is encoded in the header.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/scheduledTask.ts:64（C，description）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "How the HMAC-SHA256 digest 的状态为 encoded in the header."
+  },
+  {
+    "key": "Text before the digest in the header value, such as 'sha256='. Empty for none.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/scheduledTask.ts:67（C，description）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "none. 的 Text before the digest in the header value, such as 'sha256='. Empty"
+  },
+  {
+    "key": "Optional HMAC-SHA256 signature check over the raw request body.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "untranslated",
+    "where": [
+      "packages/contracts/src/scheduledTask.ts:74（C，ScheduledTaskWebhookSignature）"
+    ]
+  },
+  {
+    "key": "Skip requests the relay held longer than this many minutes while the environment was offline. Null runs every request.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "untranslated",
+    "where": [
+      "packages/contracts/src/scheduledTask.ts:84（C，WebhookMaxDeliveryAgeMinutes）"
+    ]
+  },
+  {
+    "key": "Run when the task's webhook URL receives a request.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/scheduledTask.ts:89（C，ScheduledTaskWebhookSchedule）",
+      "packages/contracts/src/scheduledTask.ts:101（C，ScheduledTaskUpsertWebhookSchedule）"
+    ],
+    "collidesWith": "Run {0}",
+    "wrongResult": "运行 when the task's webhook URL receives a request."
+  },
+  {
+    "key": "Run on each request to the task's webhook URL. The prompt may use {{body.path}}, {{headers.name}}, {{query.name}}, {{body}} and {{request}} placeholders.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/scheduledTask.ts:96（C，ScheduledTaskWebhookSchedule）",
+      "packages/contracts/src/scheduledTask.ts:122（C，ScheduledTaskUpsertWebhookSchedule）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Run on each request to the task's webhook URL. The prompt may use {{body.path}}, {{headers.name}}, {{query.name}}, {{body}} 和 {{request}} placeholders."
+  },
+  {
+    "key": "Shared signing secret. Omit to keep the stored secret.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/scheduledTask.ts:108（C，ScheduledTaskUpsertWebhookSchedule）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Shared signing secret. Omit 到 keep the stored secret."
+  },
+  {
+    "key": "A secret the user entered through request_secret, used instead of secret. It is consumed by this save.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/scheduledTask.ts:112（C，ScheduledTaskUpsertWebhookSchedule）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "A secret the user entered through request_secret, used instead of secret. It 的状态为 consumed by this save."
+  },
+  {
+    "key": "Signature check; omit or null to accept requests by URL token only.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/scheduledTask.ts:117（C，ScheduledTaskUpsertWebhookSchedule）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Signature check; omit or null 到 accept requests by URL token only."
+  },
+  {
+    "key": "Structured trigger. Pass an object with type 'interval', 'fixed_time' or 'webhook'.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "untranslated",
+    "where": [
+      "packages/contracts/src/scheduledTask.ts:135（C，ScheduledTaskSchedule）"
+    ]
+  },
+  {
+    "key": "Writable trigger. Pass an object with type 'interval', 'fixed_time' or 'webhook'.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "untranslated",
+    "where": [
+      "packages/contracts/src/scheduledTask.ts:156（C，ScheduledTaskUpsertSchedule）"
+    ]
+  },
+  {
+    "key": "ACP source",
+    "section": "messages",
+    "zh": "ACP 来源",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/contracts/src/settings.ts:877（C，AcpRegistrySettings）"
+    ]
+  },
+  {
+    "key": "Local command",
+    "section": "messages",
+    "zh": "本地命令",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/settings.ts:882（C，AcpRegistrySettings）"
+    ],
+    "collidesWith": "L{0}",
+    "wrongResult": "Local command"
+  },
+  {
+    "key": "Executable on this environment. For registry agents, this overrides the distribution executable while keeping its arguments and environment.",
+    "section": "messages",
+    "zh": "此环境上的可执行文件。对于注册表中的 Agent，它会覆盖发行版自带的可执行文件，同时保留其参数和环境变量。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/settings.ts:904（C，AcpRegistrySettings）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Executable on this environment. For registry agents, this overrides the distribution executable while keeping its arguments 和 environment."
+  },
+  {
+    "key": "Thread to update. Omit to update the calling thread.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/threadMetadataMcp.ts:83（C，ThreadMetadataMcpUpdateInput）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Thread 到 update. Omit to update the calling thread."
+  },
+  {
+    "key": "HTML",
+    "section": "messages",
+    "zh": "",
+    "skip": "保留英文：格式名",
+    "why": "untranslated",
+    "where": [
+      "packages/shared/src/htmlRender.ts:81（C，readHtmlRenderReference）"
+    ]
+  },
+  {
+    "key": "Watching pull request #{0}",
+    "section": "templates",
+    "zh": "正在关注拉取请求 #{0}",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/shared/src/orchestrationV2PendingBackgroundWork.ts:298（C，pullRequestWatchTasks）"
+    ],
+    "collidesWith": "Watching {0} {1}",
+    "wrongResult": "正在关注 pull request #{0}"
+  },
+  {
+    "key": "oklch(0.549927 0.090215 323.149)",
+    "section": "messages",
+    "zh": "",
+    "skip": "不是界面文字：主题颜色值",
+    "why": "untranslated",
+    "where": [
+      "packages/shared/src/themePalettes.ts:278（C，placeholder）"
+    ]
+  },
+  {
+    "key": "oklch(0.657087 0.028226 307.985)",
+    "section": "messages",
+    "zh": "",
+    "skip": "不是界面文字：主题颜色值",
+    "why": "untranslated",
+    "where": [
+      "packages/shared/src/themePalettes.ts:338（C，placeholder）"
+    ]
+  },
+  {
+    "key": "oklch(0.529681 0.01551 326.299)",
+    "section": "messages",
+    "zh": "",
+    "skip": "不是界面文字：主题颜色值",
+    "why": "untranslated",
+    "where": [
+      "packages/shared/src/themePalettes.ts:405（C，placeholder）"
+    ]
+  },
+  {
+    "key": "oklch(0.739243 0.002222 223.225)",
+    "section": "messages",
+    "zh": "",
+    "skip": "不是界面文字：主题颜色值",
+    "why": "untranslated",
+    "where": [
+      "packages/shared/src/themePalettes.ts:465（C，placeholder）"
+    ]
+  },
+  {
+    "key": "oklch(0.530733 0.01795 323.79)",
+    "section": "messages",
+    "zh": "",
+    "skip": "不是界面文字：主题颜色值",
+    "why": "untranslated",
+    "where": [
+      "packages/shared/src/themePalettes.ts:532（C，placeholder）"
+    ]
+  },
+  {
+    "key": "oklch(0.721641 0.010192 281.271)",
+    "section": "messages",
+    "zh": "",
+    "skip": "不是界面文字：主题颜色值",
+    "why": "untranslated",
+    "where": [
+      "packages/shared/src/themePalettes.ts:592（C，placeholder）"
+    ]
+  },
+  {
+    "key": "oklch(0.532339 0.017796 331.748)",
+    "section": "messages",
+    "zh": "",
+    "skip": "不是界面文字：主题颜色值",
+    "why": "untranslated",
+    "where": [
+      "packages/shared/src/themePalettes.ts:659（C，placeholder）"
+    ]
+  },
+  {
+    "key": "oklch(0.723533 0.008741 4.515)",
+    "section": "messages",
+    "zh": "",
+    "skip": "不是界面文字：主题颜色值",
+    "why": "untranslated",
+    "where": [
+      "packages/shared/src/themePalettes.ts:719（C，placeholder）"
+    ]
+  },
+  {
+    "key": "oklch(0.532177 0.019333 325.784)",
+    "section": "messages",
+    "zh": "",
+    "skip": "不是界面文字：主题颜色值",
+    "why": "untranslated",
+    "where": [
+      "packages/shared/src/themePalettes.ts:786（C，placeholder）"
+    ]
+  },
+  {
+    "key": "oklch(0.706249 0.014508 306.607)",
+    "section": "messages",
+    "zh": "",
+    "skip": "不是界面文字：主题颜色值",
+    "why": "untranslated",
+    "where": [
+      "packages/shared/src/themePalettes.ts:846（C，placeholder）"
+    ]
+  }
+]

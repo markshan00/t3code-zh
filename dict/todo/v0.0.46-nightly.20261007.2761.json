@@ -1,0 +1,1906 @@
+[
+  {
+    "key": "The page copied text",
+    "section": "messages",
+    "zh": "网页已复制文字",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/browser/ServerBrowserSurface.tsx:114（C，id）"
+    ]
+  },
+  {
+    "key": "Downloaded {0}",
+    "section": "templates",
+    "zh": "已下载 {0}",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/browser/ServerBrowserSurface.tsx:130（C，id）"
+    ]
+  },
+  {
+    "key": "Could not send the files to the page",
+    "section": "messages",
+    "zh": "无法将文件发送到网页",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/browser/ServerBrowserSurface.tsx:193（C，answerFileChooser）"
+    ],
+    "collidesWith": "Could not send {signal}",
+    "wrongResult": "无法发送 the files to the page"
+  },
+  {
+    "key": "Release control",
+    "section": "messages",
+    "zh": "交还控制权",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/browser/ServerBrowserSurface.tsx:743（A，ServerBrowserSurface）"
+    ]
+  },
+  {
+    "key": "Take control",
+    "section": "messages",
+    "zh": "接管控制",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/browser/ServerBrowserSurface.tsx:743（A，ServerBrowserSurface）"
+    ]
+  },
+  {
+    "key": "Browser page",
+    "section": "messages",
+    "zh": "浏览器网页",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/browser/ServerBrowserSurface.tsx:769（B，ServerBrowserSurface）"
+    ]
+  },
+  {
+    "key": "Press Shift+Escape to leave the browser page.",
+    "section": "messages",
+    "zh": "按 Shift+Escape 离开浏览器网页。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/browser/ServerBrowserSurface.tsx:770（B，ServerBrowserSurface）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Press Shift+Escape 到 leave the browser page."
+  },
+  {
+    "key": "Choose files for the page",
+    "section": "messages",
+    "zh": "选择要上传到网页的文件",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/browser/ServerBrowserSurface.tsx:801（B，ServerBrowserSurface）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "the page 的 Choose files"
+  },
+  {
+    "key": "Browser dialog",
+    "section": "messages",
+    "zh": "浏览器对话框",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/browser/ServerBrowserSurface.tsx:832（B，ServerBrowserSurface）"
+    ]
+  },
+  {
+    "key": "Dialog response",
+    "section": "messages",
+    "zh": "对话框回复",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/browser/ServerBrowserSurface.tsx:839（B，ServerBrowserSurface）"
+    ]
+  },
+  {
+    "key": "Accept",
+    "section": "messages",
+    "zh": "接受",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/browser/ServerBrowserSurface.tsx:862（A，ServerBrowserSurface）"
+    ]
+  },
+  {
+    "key": "Take control to respond.",
+    "section": "messages",
+    "zh": "接管控制后可回复。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/browser/ServerBrowserSurface.tsx:867（A，ServerBrowserSurface）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Take control 到 respond."
+  },
+  {
+    "key": "Browser connection was refused.",
+    "section": "messages",
+    "zh": "浏览器连接被拒绝。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/browser/ServerBrowserSurface.tsx:887（A，ServerBrowserSurface）"
+    ]
+  },
+  {
+    "key": "Action unavailable",
+    "section": "messages",
+    "zh": "操作不可用",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/BranchToolbarBranchSelector.tsx:423（C，runBranchAction）",
+      "apps/web/src/components/LegacySidebar.tsx:373（C，checkTaskPermission）"
+    ]
+  },
+  {
+    "key": "This connection cannot change the thread's branch.",
+    "section": "messages",
+    "zh": "此连接无权更改任务的分支。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/BranchToolbarBranchSelector.tsx:424（C，runBranchAction）"
+    ]
+  },
+  {
+    "key": "Cannot add project",
+    "section": "messages",
+    "zh": "无法添加项目",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/CommandPalette.tsx:2440（C，handleAddProjectForEnvironment）"
+    ]
+  },
+  {
+    "key": "This connection cannot add projects.",
+    "section": "messages",
+    "zh": "此连接无权添加项目。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/CommandPalette.tsx:2441（C，handleAddProjectForEnvironment）",
+      "apps/web/src/components/CommandPalette.tsx:3411（A，OpenCommandPaletteDialog）"
+    ]
+  },
+  {
+    "key": "Clone unavailable",
+    "section": "messages",
+    "zh": "无法克隆",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/CommandPalette.tsx:2642（C，submitAddProjectCloneFlow）"
+    ]
+  },
+  {
+    "key": "This connection needs permission to write source control and add projects.",
+    "section": "messages",
+    "zh": "此连接需要源代码管理写入权限和添加项目的权限。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/CommandPalette.tsx:2643（C，submitAddProjectCloneFlow）",
+      "apps/web/src/components/CommandPalette.tsx:3408（A，OpenCommandPaletteDialog）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "This connection needs permission to write source control 和 add projects."
+  },
+  {
+    "key": "Loading folders...",
+    "section": "messages",
+    "zh": "正在加载文件夹...",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/CommandPalette.tsx:3533（A，OpenCommandPaletteDialog）"
+    ],
+    "collidesWith": "Loading {name}",
+    "wrongResult": "正在加载 folders..."
+  },
+  {
+    "key": "Checking file access...",
+    "section": "messages",
+    "zh": "正在检查文件访问权限...",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/DiffPanel.tsx:1067（B，DiffPanel）",
+      "apps/web/src/components/files/FilePreviewPanel.tsx:1214（A，FilePreviewPanel）"
+    ],
+    "collidesWith": "Checking {browser}",
+    "wrongResult": "正在检查 file access..."
+  },
+  {
+    "key": "This connection cannot read local diffs.",
+    "section": "messages",
+    "zh": "此连接无权读取本地差异。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/DiffPanel.tsx:1070（A，DiffPanel）"
+    ]
+  },
+  {
+    "key": "Open {0} in editor",
+    "section": "templates",
+    "zh": "在编辑器中打开 {0}",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/GitActionsControl.tsx:2075（B，GitActionsControl）"
+    ],
+    "collidesWith": "Open {0}",
+    "wrongResult": "打开 {0} in editor"
+  },
+  {
+    "key": "This connection cannot change projects.",
+    "section": "messages",
+    "zh": "此连接无权更改项目。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/LegacySidebar.tsx:2636（A，SidebarProjectItem）"
+    ]
+  },
+  {
+    "key": "Permissions have changed for {0}",
+    "section": "templates",
+    "zh": "{0} 的权限已更改",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/PermissionUpdateNotice.tsx:51（C，id）"
+    ],
+    "collidesWith": "{0} changed {1}",
+    "wrongResult": "已更改 Permissions have for {0}"
+  },
+  {
+    "key": "This connection still uses the old permissions, so some actions may no longer be available. Pair again using a new link with the permissions you need.",
+    "section": "messages",
+    "zh": "此连接仍在使用旧权限，部分操作可能已不可用。请使用包含所需权限的新链接重新配对。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/PermissionUpdateNotice.tsx:53（C，id）"
+    ]
+  },
+  {
+    "key": "Pair this client again with permission to run terminal commands.",
+    "section": "messages",
+    "zh": "请重新配对此客户端，并授予运行终端命令的权限。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/ProjectScriptsControl.tsx:334（A，ProjectScriptsControl）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Pair this client again with permission 到 run terminal commands."
+  },
+  {
+    "key": "This connection cannot manage provider accounts.",
+    "section": "messages",
+    "zh": "此连接无权管理服务提供方账户。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/ProviderUpdateEnvironmentRows.tsx:156（A，EnvironmentUpdateRow）"
+    ]
+  },
+  {
+    "key": "This connection cannot manage provider accounts. View provider settings for update details.",
+    "section": "messages",
+    "zh": "此连接无权管理服务提供方账户。请到服务提供方设置中查看更新详情。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/ProviderUpdatePrimaryNotification.tsx:304（C，toastOptions）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "update details. 的 This connection cannot manage provider accounts. View provider settings"
+  },
+  {
+    "key": "Could not reopen view",
+    "section": "messages",
+    "zh": "无法重新打开视图",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/ReopenClosedViewShortcut.tsx:135（C，enqueueReopen）"
+    ]
+  },
+  {
+    "key": "Thread action unavailable",
+    "section": "messages",
+    "zh": "任务操作不可用",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/Sidebar.tsx:320（C，checkThreadOperations）",
+      "apps/web/src/hooks/useThreadActionMenu.ts:172（D，openMenu）"
+    ]
+  },
+  {
+    "key": "This connection cannot change one or more selected threads.",
+    "section": "messages",
+    "zh": "此连接无权更改部分或全部选中的任务。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/Sidebar.tsx:321（C，checkThreadOperations）"
+    ]
+  },
+  {
+    "key": "Read projects and threads. Cannot start, message or change anything.",
+    "section": "messages",
+    "zh": "读取项目和任务。不能启动任务、发送消息或进行任何更改。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/auth/ConnectAgentSurface.tsx:33（C，description）"
+    ],
+    "collidesWith": "Read {0} {1}",
+    "wrongResult": "已读取 projects and threads. Cannot start, message or change anything."
+  },
+  {
+    "key": "Checking the sign-in request",
+    "section": "messages",
+    "zh": "正在检查登录请求",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/auth/ConnectAgentSurface.tsx:162（B，ConnectAgentSurface）"
+    ],
+    "collidesWith": "Checking {browser}",
+    "wrongResult": "正在检查 the sign-in request"
+  },
+  {
+    "key": "One moment while this environment verifies the agent's request.",
+    "section": "messages",
+    "zh": "请稍候，此环境正在验证 Agent 的请求。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/auth/ConnectAgentSurface.tsx:163（B，ConnectAgentSurface）"
+    ]
+  },
+  {
+    "key": "This sign-in cannot continue",
+    "section": "messages",
+    "zh": "无法继续此次登录",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/auth/ConnectAgentSurface.tsx:173（B，ConnectAgentSurface）"
+    ]
+  },
+  {
+    "key": "Close this page and start the sign-in again from your agent.",
+    "section": "messages",
+    "zh": "请关闭此页面，并从你的 Agent 重新发起登录。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/auth/ConnectAgentSurface.tsx:175（A，ConnectAgentSurface）"
+    ],
+    "collidesWith": "Close {name}",
+    "wrongResult": "关闭 this page and start the sign-in again from your agent."
+  },
+  {
+    "key": "Connect {0}",
+    "section": "templates",
+    "zh": "连接 {0}",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/auth/ConnectAgentSurface.tsx:188（B，ConnectAgentSurface）"
+    ]
+  },
+  {
+    "key": "This agent wants to use the threads in every project on",
+    "section": "messages",
+    "zh": "此 Agent 希望使用以下环境中所有项目的任务：",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/auth/ConnectAgentSurface.tsx:191（A，ConnectAgentSurface）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "This agent wants 到 use the threads in every project on"
+  },
+  {
+    "key": "The name is chosen by the agent. Approval gives access to whoever runs",
+    "section": "messages",
+    "zh": "该名称由 Agent 自行选择。批准后，任何运行以下服务的人都将获得访问权限：",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/auth/ConnectAgentSurface.tsx:204（A，ConnectAgentSurface）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "The name 的状态为 chosen by the agent. Approval gives access to whoever runs"
+  },
+  {
+    "key": ". Only approve a sign-in you just started there.",
+    "section": "messages",
+    "zh": "。仅批准你刚刚在该服务中发起的登录。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/auth/ConnectAgentSurface.tsx:205（A，ConnectAgentSurface）"
+    ]
+  },
+  {
+    "key": "What it may do",
+    "section": "messages",
+    "zh": "允许的操作",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/auth/ConnectAgentSurface.tsx:220（A，ConnectAgentSurface）"
+    ]
+  },
+  {
+    "key": "Beyond read only, it can start, message and stop threads, and none of them can run with more than the mode you pick.",
+    "section": "messages",
+    "zh": "选择非只读模式后，它可以启动任务、发送消息和停止任务；所有任务的运行权限都不会超过你选择的模式。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/auth/ConnectAgentSurface.tsx:232（A，ConnectAgentSurface）"
+    ],
+    "collidesWith": "{leading}, and {last}",
+    "wrongResult": "Beyond read only, it can start, message and stop threads 和 none of them can run with more than the mode you pick."
+  },
+  {
+    "key": "Paste a one-time pairing code",
+    "section": "messages",
+    "zh": "粘贴一次性配对码",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/auth/ConnectAgentSurface.tsx:250（B，ConnectAgentSurface）"
+    ]
+  },
+  {
+    "key": "Create one in Settings → Connections, or run",
+    "section": "messages",
+    "zh": "在「设置 → 连接」中创建配对码，或运行",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/auth/ConnectAgentSurface.tsx:255（A，ConnectAgentSurface）"
+    ],
+    "collidesWith": "Create {request}",
+    "wrongResult": "创建one in Settings → Connections, or run "
+  },
+  {
+    "key": "t3 auth pairing create",
+    "section": "messages",
+    "zh": "",
+    "skip": "命令或环境变量名，保持原文。",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/auth/ConnectAgentSurface.tsx:255（A，ConnectAgentSurface）"
+    ]
+  },
+  {
+    "key": "on this machine.",
+    "section": "messages",
+    "zh": "（在该设备上执行）。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/auth/ConnectAgentSurface.tsx:255（A，ConnectAgentSurface）"
+    ],
+    "collidesWith": "on {environment}",
+    "wrongResult": " （this machine.）"
+  },
+  {
+    "key": "Approving…",
+    "section": "messages",
+    "zh": "正在批准…",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/auth/ConnectAgentSurface.tsx:269（A，ConnectAgentSurface）"
+    ]
+  },
+  {
+    "key": "Denying…",
+    "section": "messages",
+    "zh": "正在拒绝…",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/auth/ConnectAgentSurface.tsx:277（A，ConnectAgentSurface）"
+    ]
+  },
+  {
+    "key": "Deny",
+    "section": "messages",
+    "zh": "拒绝",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/auth/ConnectAgentSurface.tsx:277（A，ConnectAgentSurface）"
+    ]
+  },
+  {
+    "key": "Agent sign-in",
+    "section": "messages",
+    "zh": "Agent 登录",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/auth/ConnectAgentSurface.tsx:294（A，ConnectAgentHeading）"
+    ]
+  },
+  {
+    "key": "Could not stop subagent",
+    "section": "messages",
+    "zh": "无法停止子 Agent",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/ThreadRelationshipsControl.tsx:326（C，stopSubagent）"
+    ]
+  },
+  {
+    "key": "Stop subagent {0}",
+    "section": "templates",
+    "zh": "停止子 Agent {0}",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/ThreadRelationshipsControl.tsx:546（B，ThreadRelationshipsPanel）"
+    ]
+  },
+  {
+    "key": "Stop subagent",
+    "section": "messages",
+    "zh": "停止子 Agent",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/ThreadRelationshipsControl.tsx:558（A，ThreadRelationshipsPanel）"
+    ]
+  },
+  {
+    "key": "Laptop stand",
+    "section": "messages",
+    "zh": "笔记本支架模式",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/device/DeviceDuoControls.tsx:17（C，label）"
+    ],
+    "collidesWith": "{0} stand",
+    "wrongResult": "Laptop姿态"
+  },
+  {
+    "key": "Tent stand",
+    "section": "messages",
+    "zh": "帐篷支架模式",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/device/DeviceDuoControls.tsx:18（C，label）"
+    ],
+    "collidesWith": "{0} stand",
+    "wrongResult": "Tent姿态"
+  },
+  {
+    "key": "This connection cannot read host files.",
+    "section": "messages",
+    "zh": "此连接无权读取主机文件。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/files/FilePreviewPanel.tsx:1220（A，FilePreviewPanel）"
+    ]
+  },
+  {
+    "key": "Read-only connection. Unsaved edits are kept until write access returns.",
+    "section": "messages",
+    "zh": "此连接为只读。未保存的编辑会保留，待写入权限恢复后可保存。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/files/FilePreviewPanel.tsx:1305（A，FilePreviewPanel）"
+    ]
+  },
+  {
+    "key": "Attempted path",
+    "section": "messages",
+    "zh": "尝试访问的路径",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/files/FilePreviewPanel.tsx:1377（A，FilePreviewPanel）"
+    ],
+    "collidesWith": "{0}d {1}h",
+    "wrongResult": "Attempte 天 pat 小时"
+  },
+  {
+    "key": "Workspace folder:",
+    "section": "messages",
+    "zh": "工作区文件夹：",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/files/FilePreviewPanel.tsx:1385（A，FilePreviewPanel）"
+    ]
+  },
+  {
+    "key": ". Check the link's path or locate the file in Files.",
+    "section": "messages",
+    "zh": "。请检查链接中的路径，或在「文件」中找到该文件。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/files/FilePreviewPanel.tsx:1389（A，FilePreviewPanel）"
+    ],
+    "collidesWith": "{0} in {1}",
+    "wrongResult": ". Check the link's path or locate the file，用时 Files."
+  },
+  {
+    "key": "The path is a directory or special file, not a regular file.",
+    "section": "messages",
+    "zh": "该路径指向目录或特殊文件，并非普通文件。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/files/filePreviewMode.ts:17（C，filePreviewReadErrorMessage）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "The path 的状态为 a directory or special file, not a regular file."
+  },
+  {
+    "key": "The file is binary and cannot be displayed as text.",
+    "section": "messages",
+    "zh": "这是二进制文件，无法以文本显示。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/files/filePreviewMode.ts:19（C，filePreviewReadErrorMessage）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "The file is binary 和 cannot be displayed as text."
+  },
+  {
+    "key": "The requested path is outside the workspace.",
+    "section": "messages",
+    "zh": "请求的路径不在工作区内。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/files/filePreviewMode.ts:21（C，filePreviewReadErrorMessage）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "The requested path 的状态为 outside the workspace."
+  },
+  {
+    "key": "The path resolves to a location outside the workspace.",
+    "section": "messages",
+    "zh": "该路径解析后指向工作区以外的位置。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/files/filePreviewMode.ts:23（C，filePreviewReadErrorMessage）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "The path resolves 到 a location outside the workspace."
+  },
+  {
+    "key": "The workspace folder could not be accessed.",
+    "section": "messages",
+    "zh": "无法访问工作区文件夹。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/files/filePreviewMode.ts:27（C，filePreviewReadErrorMessage）"
+    ]
+  },
+  {
+    "key": "The file could not be accessed or read. It may be missing or inaccessible.",
+    "section": "messages",
+    "zh": "无法访问或读取该文件。文件可能不存在，或你没有访问权限。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/files/filePreviewMode.ts:28（C，filePreviewReadErrorMessage）"
+    ]
+  },
+  {
+    "key": "T3 Code collects anonymous usage data to help us improve it. To read more about how your data is used and how to opt out, see our",
+    "section": "messages",
+    "zh": "T3 Code 会收集匿名使用数据，用于改进产品。要了解数据用途及如何退出收集，请参阅我们的",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/onboarding/WelcomeWizard.tsx:426（A，ConnectionStep）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "T3 Code collects anonymous usage data to help us improve it. To read more about how your data is used 和 how to opt out, see our"
+  },
+  {
+    "key": "privacy policy",
+    "section": "messages",
+    "zh": "隐私政策",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/onboarding/WelcomeWizard.tsx:434（A，ConnectionStep）"
+    ]
+  },
+  {
+    "key": "This connection cannot control terminals.",
+    "section": "messages",
+    "zh": "此连接无权控制终端。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/onboarding/WelcomeWizard.tsx:756（A，ConnectedAgentsStep）",
+      "apps/web/src/components/onboarding/WelcomeWizard.tsx:1130（A，AgentInstallTerminal）"
+    ]
+  },
+  {
+    "key": "Pair this client again with preview access to control browser previews.",
+    "section": "messages",
+    "zh": "请重新配对此客户端，并授予预览权限，以控制浏览器预览。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/preview/PreviewPanel.tsx:45（A，PreviewPanel）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Pair this client again with preview access 到 control browser previews."
+  },
+  {
+    "key": "Unable to change the browser tab",
+    "section": "messages",
+    "zh": "无法更改浏览器标签页",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/preview/PreviewView.tsx:308（C，adjustServerTab）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Unable 到 change the browser tab"
+  },
+  {
+    "key": "This tab is open in the T3 Code desktop app.",
+    "section": "messages",
+    "zh": "此标签页已在 T3 Code 桌面应用中打开。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/preview/PreviewView.tsx:1017（A，PreviewView）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "This tab 的状态为 open in the T3 Code desktop app."
+  },
+  {
+    "key": "Unable to pop out preview",
+    "section": "messages",
+    "zh": "无法将预览弹出为独立窗口",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/preview/ThreadPreviewMiniPlayer.tsx:170（C，toggleNativePictureInPicture）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Unable 到 pop out preview"
+  },
+  {
+    "key": "This connection cannot change project actions.",
+    "section": "messages",
+    "zh": "此连接无权更改项目操作。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/projectScriptEditor.tsx:241（D，submit）",
+      "apps/web/src/components/projectScriptEditor.tsx:498（D，ProjectScriptEditorDialog）"
+    ]
+  },
+  {
+    "key": "Checking file access…",
+    "section": "messages",
+    "zh": "正在检查文件访问权限…",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/search/ProjectContentSearchDialog.tsx:255（A，OpenContentSearchDialog）"
+    ],
+    "collidesWith": "Checking {browser}",
+    "wrongResult": "正在检查 file access…"
+  },
+  {
+    "key": "Read threads, status, checkpoints, and configuration.",
+    "section": "messages",
+    "zh": "读取任务、状态、检查点和配置。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:242（C，description）"
+    ],
+    "collidesWith": "{leading}, and {last}",
+    "wrongResult": "Read threads, status, checkpoints 和 configuration."
+  },
+  {
+    "key": "Start, update, and stop tasks.",
+    "section": "messages",
+    "zh": "启动、更新和停止任务。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:247（C，description）"
+    ],
+    "collidesWith": "{leading}, and {last}",
+    "wrongResult": "Start, update 和 stop tasks."
+  },
+  {
+    "key": "Change environment settings",
+    "section": "messages",
+    "zh": "更改环境设置",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:251（C，title）"
+    ],
+    "collidesWith": "{0}s",
+    "wrongResult": "Change environment setting 秒"
+  },
+  {
+    "key": "Edit environment preferences and keybindings.",
+    "section": "messages",
+    "zh": "编辑环境偏好设置和快捷键。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:252（C，description）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Edit environment preferences 和 keybindings."
+  },
+  {
+    "key": "Manage providers",
+    "section": "messages",
+    "zh": "管理服务提供方",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:256（C，title）"
+    ],
+    "collidesWith": "{0}s",
+    "wrongResult": "Manage provider 秒"
+  },
+  {
+    "key": "Configure, install, sign in to, and update providers and usage sources.",
+    "section": "messages",
+    "zh": "配置、安装、登录和更新服务提供方及用量来源。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:257（C，description）"
+    ],
+    "collidesWith": "{leading}, and {last}",
+    "wrongResult": "Configure, install, sign in to 和 update providers and usage sources."
+  },
+  {
+    "key": "Maintain environment",
+    "section": "messages",
+    "zh": "维护环境",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:261（C，title）"
+    ]
+  },
+  {
+    "key": "Update the server and control environment processes.",
+    "section": "messages",
+    "zh": "更新服务器并控制环境进程。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:262（C，description）"
+    ],
+    "collidesWith": "Update {0} {1}",
+    "wrongResult": "更新 the server and control environment processes."
+  },
+  {
+    "key": "Control previews",
+    "section": "messages",
+    "zh": "控制预览",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:266（C，title）"
+    ],
+    "collidesWith": "{0}s",
+    "wrongResult": "Control preview 秒"
+  },
+  {
+    "key": "Open browser previews and host browser automation.",
+    "section": "messages",
+    "zh": "打开浏览器预览，并在主机上运行浏览器自动化。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:267（C，description）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Open browser previews 和 host browser automation."
+  },
+  {
+    "key": "View diagnostics and usage",
+    "section": "messages",
+    "zh": "查看诊断和用量",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:271（C，title）"
+    ],
+    "collidesWith": "{0} {1} usage",
+    "wrongResult": "View diagnostics and 的使用位置"
+  },
+  {
+    "key": "Read process diagnostics, resource history, and usage totals.",
+    "section": "messages",
+    "zh": "读取进程诊断、资源使用历史和用量汇总。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:272（C，description）"
+    ],
+    "collidesWith": "{0} process {1}",
+    "wrongResult": "Read 进程 diagnostics, resource history, and usage totals."
+  },
+  {
+    "key": "View terminals",
+    "section": "messages",
+    "zh": "查看终端",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:276（C，title）"
+    ],
+    "collidesWith": "View {request}",
+    "wrongResult": "查看terminals"
+  },
+  {
+    "key": "Read existing terminal output and status.",
+    "section": "messages",
+    "zh": "读取已有终端的输出和状态。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:277（C，description）"
+    ],
+    "collidesWith": "Read {0} {1}",
+    "wrongResult": "已读取 existing terminal output and status."
+  },
+  {
+    "key": "Change source control",
+    "section": "messages",
+    "zh": "更改源代码管理",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:286（C，title）"
+    ]
+  },
+  {
+    "key": "Commit, push, manage branches and repositories, and change pull requests.",
+    "section": "messages",
+    "zh": "提交、推送、管理分支和仓库，以及更改拉取请求。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:287（C，description）"
+    ],
+    "collidesWith": "{leading}, and {last}",
+    "wrongResult": "Commit, push, manage branches and repositories 和 change pull requests."
+  },
+  {
+    "key": "Read files",
+    "section": "messages",
+    "zh": "读取文件",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:291（C，title）"
+    ],
+    "collidesWith": "Read file{0}",
+    "wrongResult": "已读取文件s"
+  },
+  {
+    "key": "Browse host files, search workspaces, and inspect local changes.",
+    "section": "messages",
+    "zh": "浏览主机文件、搜索工作区并查看本地更改。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:292（C，description）"
+    ],
+    "collidesWith": "Browse {path}",
+    "wrongResult": "浏览 host files, search workspaces, and inspect local changes."
+  },
+  {
+    "key": "Write files",
+    "section": "messages",
+    "zh": "写入文件",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:296（C，title）"
+    ],
+    "collidesWith": "{count} files",
+    "wrongResult": "Write 个文件"
+  },
+  {
+    "key": "Edit workspace files and save plans to disk.",
+    "section": "messages",
+    "zh": "编辑工作区文件，并将方案保存到磁盘。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:297（C，description）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Edit workspace files 和 save plans to disk."
+  },
+  {
+    "key": "MCP URL copied",
+    "section": "messages",
+    "zh": "已复制 MCP URL",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:1625（C，SavedBackendListRow）"
+    ],
+    "collidesWith": "{0} copied",
+    "wrongResult": "MCP URL 已复制"
+  },
+  {
+    "key": "Add it to an agent, e.g. claude mcp add --transport http t3 {0}",
+    "section": "templates",
+    "zh": "将其添加到 Agent，例如 claude mcp add --transport http t3 {0}",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:1626（C，SavedBackendListRow）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Add it 到 an agent, e.g. claude mcp add --transport http t3 {0}"
+  },
+  {
+    "key": "Could not copy MCP URL",
+    "section": "messages",
+    "zh": "无法复制 MCP URL",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:1633（C，SavedBackendListRow）"
+    ],
+    "collidesWith": "Could not copy {target}",
+    "wrongResult": "无法复制MCP URL"
+  },
+  {
+    "key": "Copy MCP URL",
+    "section": "messages",
+    "zh": "复制 MCP URL",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:1839（A，SavedBackendListRow）"
+    ]
+  },
+  {
+    "key": "To edit these settings, pair this connection with both View relay and Manage relay permissions.",
+    "section": "messages",
+    "zh": "要编辑这些设置，请重新配对此连接，同时授予「查看中继」和「管理中继」权限。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:2050（B，CloudLinkRow）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "To edit these settings, pair this connection with both View relay 和 Manage relay permissions."
+  },
+  {
+    "key": "This connection cannot view or change network exposure.",
+    "section": "messages",
+    "zh": "此连接无权查看或更改网络开放设置。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:3636（B，renderDisabledNetworkAccessRow）"
+    ]
+  },
+  {
+    "key": "Network exposure information is unavailable.",
+    "section": "messages",
+    "zh": "网络开放信息不可用。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:3641（B，renderDisabledNetworkAccessRow）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "Network exposure information 的状态为 unavailable."
+  },
+  {
+    "key": "This connection can create access links but cannot view authorized clients.",
+    "section": "messages",
+    "zh": "此连接可以创建访问链接，但无权查看已授权的客户端。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:3816（A，ConnectionsSettings）"
+    ]
+  },
+  {
+    "key": "No environment selected",
+    "section": "messages",
+    "zh": "未选择环境",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:4095（B，ConnectionsSettings）"
+    ],
+    "collidesWith": "{count} selected",
+    "wrongResult": "已选择 No environment 项"
+  },
+  {
+    "key": "Connect an environment to view its settings and access.",
+    "section": "messages",
+    "zh": "连接一个环境后，即可查看其设置和访问权限。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:4096（B，ConnectionsSettings）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Connect an environment to view its settings 和 access."
+  },
+  {
+    "key": "Connect an environment to see diagnostics.",
+    "section": "messages",
+    "zh": "连接一个环境后，即可查看诊断信息。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/DiagnosticsSettings.tsx:925（A，DiagnosticsSettingsPanel）"
+    ],
+    "collidesWith": "Connect an environment to see {0}.",
+    "wrongResult": "连接环境以查看 diagnostics。"
+  },
+  {
+    "key": "Checking diagnostics access…",
+    "section": "messages",
+    "zh": "正在检查诊断访问权限…",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/DiagnosticsSettings.tsx:927（A，DiagnosticsSettingsPanel）"
+    ],
+    "collidesWith": "Checking {browser}",
+    "wrongResult": "正在检查 diagnostics access…"
+  },
+  {
+    "key": "Hidden account",
+    "section": "messages",
+    "zh": "已隐藏账户",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/GitHubAccountSettings.tsx:34（A，RedactedLogin）"
+    ]
+  },
+  {
+    "key": "Sign in with",
+    "section": "messages",
+    "zh": "运行以下命令登录：",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/GitHubAccountSettings.tsx:79（A，GitHubAccountSettings）"
+    ],
+    "collidesWith": "{0} in {1}",
+    "wrongResult": "Sign，用时 with "
+  },
+  {
+    "key": "gh auth login",
+    "section": "messages",
+    "zh": "",
+    "skip": "命令或环境变量名，保持原文。",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/GitHubAccountSettings.tsx:79（A，GitHubAccountSettings）"
+    ]
+  },
+  {
+    "key": "on the server host, then rescan to choose accounts here.",
+    "section": "messages",
+    "zh": "（在服务器主机上执行），然后重新扫描，即可在此选择账户。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/GitHubAccountSettings.tsx:79（A，GitHubAccountSettings）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": " on the server host, then rescan 到 choose accounts here."
+  },
+  {
+    "key": "Choose which",
+    "section": "messages",
+    "zh": "为每个 GitHub 托管服务选择要使用的",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/GitHubAccountSettings.tsx:89（A，GitHubAccountSettings）"
+    ],
+    "collidesWith": "{0}h",
+    "wrongResult": "Choose whic 小时 "
+  },
+  {
+    "key": "gh",
+    "section": "messages",
+    "zh": "",
+    "skip": "命令或环境变量名，保持原文。",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/GitHubAccountSettings.tsx:89（A，GitHubAccountSettings）",
+      "apps/web/src/components/settings/GitHubTokenSettings.tsx:73（A，GitHubTokenSettings）"
+    ],
+    "collidesWith": "{0}h",
+    "wrongResult": "g 小时"
+  },
+  {
+    "key": "login each GitHub host uses, or turn a host off.",
+    "section": "messages",
+    "zh": "登录账户，或停用该托管服务。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/GitHubAccountSettings.tsx:89（A，GitHubAccountSettings）"
+    ]
+  },
+  {
+    "key": "Hide GitHub accounts",
+    "section": "messages",
+    "zh": "隐藏 GitHub 账户",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/GitHubAccountSettings.tsx:96（B，GitHubAccountSettings）"
+    ],
+    "collidesWith": "{count} accounts",
+    "wrongResult": "Hide GitHub 个账户"
+  },
+  {
+    "key": "Reveal GitHub accounts",
+    "section": "messages",
+    "zh": "显示 GitHub 账户",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/GitHubAccountSettings.tsx:96（B，GitHubAccountSettings）"
+    ],
+    "collidesWith": "{count} accounts",
+    "wrongResult": "Reveal GitHub 个账户"
+  },
+  {
+    "key": "Use GitHub on {0}",
+    "section": "templates",
+    "zh": "在 {0} 上使用 GitHub",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/GitHubAccountSettings.tsx:123（B，GitHubAccountSettings）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "{0}上的Use GitHub"
+  },
+  {
+    "key": "GitHub account for {0}",
+    "section": "templates",
+    "zh": "{0} 的 GitHub 账户",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/GitHubAccountSettings.tsx:141（B，GitHubAccountSettings）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "{0} 的 GitHub account"
+  },
+  {
+    "key": "The chosen login is no longer signed in, so the active gh login is used.",
+    "section": "messages",
+    "zh": "所选账户已退出登录，因此将使用 gh 当前登录的账户。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/GitHubAccountSettings.tsx:192（A，GitHubAccountSettings）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "The chosen login 的状态为 no longer signed in, so the active gh login is used."
+  },
+  {
+    "key": "Use active login",
+    "section": "messages",
+    "zh": "使用当前登录账户",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/GitHubAccountSettings.tsx:200（A，GitHubAccountSettings）"
+    ],
+    "collidesWith": "Use {theme}",
+    "wrongResult": "使用active login"
+  },
+  {
+    "key": "A token saved here is used before",
+    "section": "messages",
+    "zh": "保存在这里的令牌优先于",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/GitHubTokenSettings.tsx:71（A，GitHubTokenSettings）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "A token saved here 的状态为 used before"
+  },
+  {
+    "key": "GH_TOKEN",
+    "section": "messages",
+    "zh": "",
+    "skip": "命令或环境变量名，保持原文。",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/GitHubTokenSettings.tsx:72（A，GitHubTokenSettings）"
+    ]
+  },
+  {
+    "key": "and the",
+    "section": "messages",
+    "zh": "和",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/GitHubTokenSettings.tsx:72（A，GitHubTokenSettings）"
+    ]
+  },
+  {
+    "key": "login, so GitHub works without the GitHub CLI. Give it read and write access to pull requests and contents.",
+    "section": "messages",
+    "zh": "登录信息，因此无需 GitHub CLI 也能使用 GitHub。请授予此令牌拉取请求和仓库内容的读写权限。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/GitHubTokenSettings.tsx:73（A，GitHubTokenSettings）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": " login, so GitHub works without the GitHub CLI. Give it read 和 write access to pull requests and contents."
+  },
+  {
+    "key": "Create a token",
+    "section": "messages",
+    "zh": "创建令牌",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/GitHubTokenSettings.tsx:84（A，GitHubTokenSettings）"
+    ],
+    "collidesWith": "Create {request}",
+    "wrongResult": "创建a token"
+  },
+  {
+    "key": "Token",
+    "section": "messages",
+    "zh": "令牌",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/GitHubTokenSettings.tsx:101（A，GitHubTokenSettings）"
+    ]
+  },
+  {
+    "key": "No token saved; the server uses GH_TOKEN or the gh login.",
+    "section": "messages",
+    "zh": "未保存令牌；服务器将使用 GH_TOKEN 或 gh 登录信息。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/GitHubTokenSettings.tsx:116（A，GitHubTokenSettings）"
+    ]
+  },
+  {
+    "key": "Saved for {0}.",
+    "section": "templates",
+    "zh": "已为 {0} 保存。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/GitHubTokenSettings.tsx:117（A，GitHubTokenSettings）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "{0}. 的 Saved"
+  },
+  {
+    "key": "Its cookies and logins are deleted. Desktop tabs already open in this profile stay open until you close them; server browser tabs close now.",
+    "section": "messages",
+    "zh": "该配置的 Cookie 和登录信息将被删除。使用该配置的桌面标签页会保持打开，直到你手动关闭；服务器浏览器标签页将立即关闭。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/IntegrationsSettings.tsx:1419（A，BrowserProfilesSetting）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Its cookies 和 logins are deleted. Desktop tabs already open in this profile stay open until you close them; server browser tabs close now."
+  },
+  {
+    "key": "You are signed out of its sites. Server browser tabs open in this profile close now.",
+    "section": "messages",
+    "zh": "你将退出该配置中所有网站的登录。使用该配置的服务器浏览器标签页将立即关闭。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/IntegrationsSettings.tsx:1466（A，BrowserProfilesSetting）"
+    ],
+    "collidesWith": "{selected} of {total}",
+    "wrongResult": "已选 You are signed out 个，共 its sites. Server browser tabs open in this profile close now. 个"
+  },
+  {
+    "key": "Clear data",
+    "section": "messages",
+    "zh": "清除数据",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/IntegrationsSettings.tsx:1479（A，BrowserProfilesSetting）"
+    ],
+    "collidesWith": "Clear {0}",
+    "wrongResult": "清除 data"
+  },
+  {
+    "key": "Composer",
+    "section": "messages",
+    "zh": "输入框",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/KeybindingsSettings.logic.ts:218（C，title）"
+    ]
+  },
+  {
+    "key": "Preview & diff",
+    "section": "messages",
+    "zh": "预览与差异",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/KeybindingsSettings.logic.ts:220（C，title）"
+    ],
+    "collidesWith": "Preview {0}",
+    "wrongResult": "预览 & diff"
+  },
+  {
+    "key": "Reopen Closed Tab",
+    "section": "messages",
+    "zh": "重新打开已关闭的标签页",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/KeybindingsSettings.logic.ts:372（C，commandLabel）"
+    ],
+    "collidesWith": "{0}b",
+    "wrongResult": "Reopen Closed Tab"
+  },
+  {
+    "key": "This connection can view keybindings but cannot change them.",
+    "section": "messages",
+    "zh": "此连接可以查看快捷键，但无权更改。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/KeybindingsSettings.tsx:1528（A，KeybindingsSettingsPanel）"
+    ]
+  },
+  {
+    "key": "Shared settings require permission to change every checkout in this group.",
+    "section": "messages",
+    "zh": "更改共享设置需要具备更改此组中每个检出目录的权限。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ProjectSettingsPanel.tsx:461（A，ProjectDetail）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Shared settings require permission 到 change every checkout in this group."
+  },
+  {
+    "key": "This connection cannot change this project.",
+    "section": "messages",
+    "zh": "此连接无权更改此项目。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ProjectSettingsPanel.tsx:462（A，ProjectDetail）"
+    ]
+  },
+  {
+    "key": "How we handle your data, including the anonymous usage data T3 Code collects.",
+    "section": "messages",
+    "zh": "了解我们如何处理你的数据，包括 T3 Code 收集的匿名使用数据。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/SettingsPanels.tsx:3354（B，GeneralSettingsPanel）"
+    ]
+  },
+  {
+    "key": "View policy",
+    "section": "messages",
+    "zh": "查看政策",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/SettingsPanels.tsx:3361（A，GeneralSettingsPanel）"
+    ],
+    "collidesWith": "View {request}",
+    "wrongResult": "查看policy"
+  },
+  {
+    "key": "Every {0} host is turned off.",
+    "section": "templates",
+    "zh": "所有 {0} 托管服务均已停用。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/SourceControlSettings.tsx:252（A，itemSummary）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "Every {0} host 的状态为 turned off."
+  },
+  {
+    "key": "Folder where new worktrees are created, on any drive, such as D:\\worktrees or ~/worktrees. Existing worktrees stay where they are. Leave empty to use the T3 home folder.",
+    "section": "messages",
+    "zh": "新工作树的创建目录，可位于任意磁盘，例如 D:\\worktrees 或 ~/worktrees。已有工作树保持原位置。留空则使用 T3 主目录。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:51（B，WorktreesDirectoryRow）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "any drive, such as D:\\worktrees or ~/worktrees. Existing worktrees stay where they are. Leave empty to use the T3 home folder.上的Folder where new worktrees are created,"
+  },
+  {
+    "key": "worktree location",
+    "section": "messages",
+    "zh": "工作树位置",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:58（B，WorktreesDirectoryRow）"
+    ]
+  },
+  {
+    "key": "Worktree location",
+    "section": "messages",
+    "zh": "工作树位置",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:66（B，WorktreesDirectoryRow）",
+      "apps/web/src/components/settings/settingsSearch.ts:148（C，title）"
+    ]
+  },
+  {
+    "key": "Privacy policy",
+    "section": "messages",
+    "zh": "隐私政策",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/settingsSearch.ts:508（C，title）"
+    ]
+  },
+  {
+    "key": "GitHub accounts and token",
+    "section": "messages",
+    "zh": "GitHub 账户与令牌",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/settingsSearch.ts:762（C，title）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "GitHub accounts 和 token"
+  },
+  {
+    "key": "This connection does not have permission to change these settings.",
+    "section": "messages",
+    "zh": "此连接无权更改这些设置。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/hooks/useSettings.ts:491（C，updateSettings）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "This connection does not have permission 到 change these settings."
+  },
+  {
+    "key": "Read-only",
+    "section": "messages",
+    "zh": "只读",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/client-runtime/src/preview/serverBrowserStream.ts:34（C，previewStreamControlLabel）"
+    ]
+  },
+  {
+    "key": "You have control",
+    "section": "messages",
+    "zh": "你正在控制",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/client-runtime/src/preview/serverBrowserStream.ts:36（C，previewStreamControlLabel）"
+    ]
+  },
+  {
+    "key": "Agent has control",
+    "section": "messages",
+    "zh": "Agent 正在控制",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/client-runtime/src/preview/serverBrowserStream.ts:38（C，previewStreamControlLabel）"
+    ]
+  },
+  {
+    "key": "Another viewer has control",
+    "section": "messages",
+    "zh": "另一位查看者正在控制",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/client-runtime/src/preview/serverBrowserStream.ts:40（C，previewStreamControlLabel）"
+    ]
+  },
+  {
+    "key": "This server's host blocks the sandbox its browser runs in. Run this once on the host, then try again:",
+    "section": "messages",
+    "zh": "服务器主机阻止了浏览器沙盒运行。请在主机上执行一次以下命令，然后重试：",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/client-runtime/src/preview/serverBrowserStream.ts:475（C，previewStreamHostSetupMessage）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "the host, then try again:上的This server's host blocks the sandbox its browser runs in. Run this once"
+  },
+  {
+    "key": "This server's host is missing libraries its browser needs. Run this once on the host, then try again:",
+    "section": "messages",
+    "zh": "服务器主机缺少浏览器所需的库。请在主机上执行一次以下命令，然后重试：",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/client-runtime/src/preview/serverBrowserStream.ts:476（C，previewStreamHostSetupMessage）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "This server's host 的状态为 missing libraries its browser needs. Run this once on the host, then try again:"
+  },
+  {
+    "key": "Accept the pending browser dialog when true, or dismiss it when false.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。",
+    "why": "untranslated",
+    "where": [
+      "packages/contracts/src/previewAutomation.ts:134（C，PreviewAutomationDialogInput）"
+    ]
+  },
+  {
+    "key": "Optional text to submit when accepting a prompt dialog.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/previewAutomation.ts:137（C，PreviewAutomationDialogInput）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Optional text 到 submit when accepting a prompt dialog."
+  },
+  {
+    "key": "Use locator='aria-ref=<ref>' with a ref from the latest server snapshot (including iframe elements), or a unique Playwright role/text selector. Refs expire on navigation, a new snapshot, or control handoff; refresh the snapshot after a stale-ref error.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/previewAutomation.ts:347（C，Locator）",
+      "packages/contracts/src/previewAutomation.ts:363（C，description）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "navigation, a new snapshot, or control handoff; refresh the snapshot after a stale-ref error.上的Use locator='aria-ref=<ref>' with a ref from the latest server snapshot (including iframe elements), or a unique Playwright role/text selector. Refs expire"
+  },
+  {
+    "key": "Mouse button. Defaults to left; right opens the page's context menu.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/previewAutomation.ts:399（C，PreviewAutomationClickInput）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Mouse button. Defaults 到 left; right opens the page's context menu."
+  },
+  {
+    "key": "1 for a click, 2 for a double-click, 3 for a triple-click. Defaults to 1.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/previewAutomation.ts:404（C，PreviewAutomationClickInput）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "a click, 2 for a double-click, 3 for a triple-click. Defaults to 1. 的 1"
+  },
+  {
+    "key": "Moves the mouse over one target. Provide exactly one of locator, selector, or the x/y coordinate pair.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/previewAutomation.ts:419（C，PreviewAutomationHoverInput）"
+    ],
+    "collidesWith": "{selected} of {total}",
+    "wrongResult": "已选 Moves the mouse over one target. Provide exactly one 个，共 locator, selector, or the x/y coordinate pair. 个"
+  },
+  {
+    "key": "Legacy CSS selector for a <select>. Prefer locator.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/previewAutomation.ts:426（C，PreviewAutomationSelectInput）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "a <select>. Prefer locator. 的 Legacy CSS selector"
+  },
+  {
+    "key": "The <select> element, for example aria-ref=<ref> or role=combobox[name='Size'].",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/previewAutomation.ts:429（C，PreviewAutomationSelectInput）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "example aria-ref=<ref> or role=combobox[name='Size']. 的 The <select> element,"
+  },
+  {
+    "key": "Option values or visible labels to select. Pass several for a multiple select, or an empty list to clear it.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/previewAutomation.ts:433（C，PreviewAutomationSelectInput）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "a multiple select, or an empty list to clear it. 的 Option values or visible labels to select. Pass several"
+  },
+  {
+    "key": "Chooses options in one native <select> element.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/previewAutomation.ts:444（C，PreviewAutomationSelectInput）"
+    ],
+    "collidesWith": "{0} in {1}",
+    "wrongResult": "Chooses options，用时 one native <select> element."
+  },
+  {
+    "key": "The values of the options now selected.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/previewAutomation.ts:449（C，PreviewAutomationSelectResult）"
+    ],
+    "collidesWith": "{selected} of {total}",
+    "wrongResult": "已选 The values 个，共 the options now selected. 个"
+  },
+  {
+    "key": "Drags one element and drops it onto another.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/previewAutomation.ts:467（C，PreviewAutomationDragInput）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Drags one element 和 drops it onto another."
+  },
+  {
+    "key": "Absolute paths of files on the environment to give the page. An empty list cancels the open file picker.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/previewAutomation.ts:474（C，PreviewAutomationUploadInput）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "the environment to give the page. An empty list cancels the open file picker.上的Absolute paths of files"
+  },
+  {
+    "key": "Legacy CSS selector for an <input type=file>. Prefer locator.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/previewAutomation.ts:477（C，PreviewAutomationUploadInput）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "an <input type=file>. Prefer locator. 的 Legacy CSS selector"
+  },
+  {
+    "key": "Set files directly on this <input type=file> instead of answering the open file picker.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/previewAutomation.ts:481（C，PreviewAutomationUploadInput）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "this <input type=file> instead of answering the open file picker.上的Set files directly"
+  },
+  {
+    "key": "Answers the page's open file picker, or sets files on a file input when locator/selector is given.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/previewAutomation.ts:494（C，PreviewAutomationUploadInput）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "Answers the page's open file picker, or sets files on a file input when locator/selector 的状态为 given."
+  }
+]

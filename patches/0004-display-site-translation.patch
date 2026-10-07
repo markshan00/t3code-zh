@@ -1,0 +1,1156 @@
+# 0004-display-site-translation.patch
+#
+# 显示位置补译：给那些同时被代码当作「值」比较/查表、因而转换插件不能包裹的界面文字
+# 补一层只在渲染处生效的翻译。基线 v0.0.46-nightly.20261007.2774，须在 0001 之后应用
+# （依赖 0001 给 Window 补的 __t3zh 声明，本补丁把它扩上 t() 并补一个全局 var 声明）。
+#
+# 背景（handoff/T05.md「已知问题」第 2 条、dict/T05-changes.md §5.2）：有 16 条文字既被渲染、
+# 又被代码当作值比较或用做查表键（例如 GitActionsControl 用 quickAction.label === "Commit"
+# 选图标，Sidebar 用 THREAD_STATUS_PRIORITY[status.label] 排序）。CONVENTIONS §5 定案：
+# 比较逻辑保持英文，只在显示位置调用 globalThis.__t3zh?.t?.(x) ?? x 翻译。可选链保证
+# 没有汉化运行时（__t3zh 未挂载）时照常显示英文、不抛错；en 模式下 t 是恒等函数。
+#
+# 只改显示处（§5.3）：数据对象（`resolveChangeRequestTerminology` 的返回值、
+# `getProviderSummary` 的 headline、右键菜单 item 的 label）保持英文原值，翻译放在消费方的
+# JSX / title / placeholder / 菜单最终显示入口。带 `terminology.singular` 这类运行时拼接串的
+# 显示文案，统一走 `sourceControlPresentation.ts` 的 `localizeTerminologyText`：先按词库精确
+# 命中整串，未命中再把术语替换成词库译文后才查表，好让整句落到词库既有的 `{request}` 模板上
+# （§5.2、§5.4）。
+#
+# progress 行（服务端 `phase_started.label` 是任意非空串）改为**精确名单门控**（§5.1/§5.5）：
+# `GitActionsControl.tsx` 里 `KNOWN_GIT_ACTION_PROGRESS` 是普通数组、传 `Set`；只有名单内的
+# 13 个服务端 phase 值 + 2 个客户端值会查表，名单外（含 `Running <hook>...`）原样返回，
+# 免得宽模板把 `Custom status` 之类改坏（`Custo 分 statu 秒`）。名单内每个值在主词库都有
+# 精确 messages 词条（本次一并补入 dict/zh-CN.json）。
+#
+# 涉及 23 个上游文件（apps/web/src 下 20 个 + apps/desktop 1 个 + 1 个类型声明 +
+# 1 个源控制文案）。r3 相比 r2 新增/改动的关键文件：
+#   * components/GitActionsControl.tsx                 精确名单门控 progressLabel；快捷操作/菜单/默认分支对话框
+#                                                      文案改走 localizeTerminologyText（原先 quickActionLabel 直接 t()）
+#   * sourceControlPresentation.ts                     localizeTerminologyText（整串优先、术语先行的受控替换）；不再预改 singular
+#   * components/PullRequestThreadDialog.tsx（新）      对话框标题/说明/校验/占位符的 display 入口
+#   * components/BranchToolbarBranchSelector.tsx（新）  Checkout {singular} 显示
+#   * components/settings/{ProviderInstanceCard,CodexSetupSection}.tsx、onboarding/WelcomeWizard.tsx（新）
+#                                                      provider headline 的 display 入口，走 providerStatusLabel
+#   * components/settings/providerStatus.ts             headline 还原英文；新增 providerStatusLabel（只在渲染处翻）
+#   * contextMenuFallback.ts（新）                      浏览器 DOM 右键菜单 label 的 display 入口
+#   * apps/desktop/src/electron/ElectronMenu.ts（新）   桌面原生菜单 label 的 display 入口（__t3zh_t）
+#
+# r4 在 r3 显示入口上加了下述边界，避免再消费已经翻译过的文字或任意服务端/用户内容：
+#   * providerStatusLabel 改为「静态 headline 精确名单 + 两个审核过的认证骨架」。英文骨架是
+#     **兜底路径**：zh 模式下 headline 正常已在插件源头译好，helper 收到英文骨架说明该定义点
+#     没被插件覆盖，此时用词库既有的 `Authenticated · {method}` / `Not authenticated · {0}`
+#     模板翻译一次（词库这两条就是为此存在的，调度方 r5 裁决保留此设计）
+#   * contextMenuFallback / ElectronMenu 的 displayMenuLabel 改为**只翻审核过、且有精确 messages
+#     词条的菜单标签**（`TRANSLATABLE_MENU_LABELS`）；项目名、环境名、路径、分支名、
+#     server 文案一律原样。`Branch` 因在 `SubagentTooltipContent` 里被当值比较，插件不包裹，
+#     原生菜单是它在桌面端唯一的翻译点；`Copy Path` 因 `LegacySidebar` 用
+#     `buildTargetedItem("copy-path", "Copy Path")` 以函数参数传 label，插件同样不包裹。
+#     两条词条因此也补进 dict/zh-CN.desktop.json
+# 另有 components/GitActionsControl.logic.ts、threadActionMenu.logic.ts 的源头预翻译被移除：两文件
+# 因此还原成上游原文，无 hunk，不占上面 23 个文件数（§5.3 的「只改显示处」落实结果）。
+# 其余 r1 站点（Sidebar / LegacySidebar / ThreadStatusIndicators / RightPanelTabs /
+# ComposerTasksBadge / SubagentTooltipContent / PullRequestStackMenu / providerStatus 之外的 settings /
+# ResourceTelemetryDiagnostics / UsagePriceOverrides / vite-env.d.ts）保持 r1 的显示处包法。
+#
+# r5（本轮）收紧三处边界：
+#   * 认证骨架只接受「前缀精确相等 + 恰好一个 ` · ` 分隔符」（参数 = 剩余全部，可含换行）；
+#     裸前缀无参数、参数里还有 ` · ` 的相似串（`Authenticated · x · y`）一律原样，不再走宽前缀
+#   * `localizeTerminologyText` 的术语替换避开调用方给的 preserve 参数（providerName），
+#     否则 providerName 里的同文本也会被当作术语换掉，原 providerName 不再逐字出现
+#   * 菜单名单加 `Copy Path`（两端一致），桌面词库补精确词条；动态项目子项仍原样，不恢复宽 t
+#
+# 未覆盖（补丁之外，handoff 中已记）：移动端 packages/client-runtime/state/gitActions.ts 与服务端
+# GitManager 渲染同一批标签，属另一构建目标；`buildGitActionProgressStages` 的
+# `Preparing <shortLabel>...` / `Generating <shortLabel> content...` / `Creating <singular>...`
+# 在已知术语下与 13 个服务端 phase 是同一批字符串、已进名单，名单外的是 `Preparing feature ref...`
+# 与带运行时推送目标的 `Pushing to <target>...`；Fast / New thread 按派单不改。
+#
+# 上游更新后重做方法见 patches/README.md。
+diff --git a/apps/desktop/src/electron/ElectronMenu.ts b/apps/desktop/src/electron/ElectronMenu.ts
+index 401e0c27ccd88e91c539448b32a2bfb7258a2169..57bfa44e5e356f9ed434934cd4c6a720842ce0c7 100644
+--- a/apps/desktop/src/electron/ElectronMenu.ts
++++ b/apps/desktop/src/electron/ElectronMenu.ts
+@@ -8,6 +8,52 @@ import * as Schema from "effect/Schema";
+ 
+ import * as Electron from "electron";
+ 
++import { __t3zh_t } from "../t3zh/t3zh-desktop.ts";
++
++/**
++ * Menu labels the web plugin leaves unwrapped at their definition: either the same
++ * string is compared as a value elsewhere in the app (`threadActionMenu.logic.ts`'s
++ * `copy-branch` label "Branch" is also compared in
++ * `chat/SubagentTooltipContent.tsx`), or the label reaches the menu through a
++ * function parameter instead of an object literal (`LegacySidebar.tsx` builds the
++ * project "Copy Path" entry with `buildTargetedItem("copy-path", "Copy Path")`).
++ * The web app ships them English; the native menu is their only translation point
++ * on the desktop.
++ *
++ * The same list appears in `apps/web/src/contextMenuFallback.ts`; the two must stay
++ * identical (asserted by `plugin/__tests__/display-site-translation.test.ts`) so
++ * "those fixed actions are translated on both ends, everything else is not" holds.
++ *
++ * Kept as a plain array passed to `Set` so the plugin's pre-scan does not record
++ * these literals as value-use (CONVENTIONS §5.5).
++ */
++const TRANSLATABLE_MENU_LABELS = [
++  // Right-click on a thread or a draft: the "Branch" entry under "Copy".
++  "Branch",
++  // Right-click on a project: the "Copy Path" action (see above).
++  "Copy Path",
++];
++const TRANSLATABLE_MENU_LABEL_SET = new Set(TRANSLATABLE_MENU_LABELS);
++
++/**
++ * t3code-zh (patches/0004-display-site-translation.patch): context-menu labels are
++ * built as value objects in the web app and cross IPC untranslated. This is the
++ * native menu's final display point; the selected `id` is unaffected. English
++ * when the main process resolves to en (the usual `__t3zh_t` contract).
++ *
++ * Only the audited labels above are handed to the translator. Everything else
++ * crossing IPC is data the user or the server owns — project names, workspace
++ * roots, branch names — and stays byte-for-byte, the same boundary the browser
++ * fallback uses. The desktop dictionary (`dict/zh-CN.desktop.json`) is also a
++ * different, much narrower file than the web one, so `/tmp/Custom status` stays
++ * unharmed here even though `__t3zh_t` would template-match it against the web
++ * dictionary; gating makes that independent of which dictionary is loaded.
++ */
++function displayMenuLabel(label: string): string {
++  if (!TRANSLATABLE_MENU_LABEL_SET.has(label)) return label;
++  return __t3zh_t(label);
++}
++
+ export interface ElectronMenuPosition {
+   readonly x: number;
+   readonly y: number;
+@@ -167,7 +213,7 @@ export const make = Effect.gen(function* () {
+       }
+ 
+       const itemOption: Electron.MenuItemConstructorOptions = {
+-        label: item.label,
++        label: displayMenuLabel(item.label),
+         enabled: !item.disabled,
+         ...(typeof item.checked === "boolean" ? { type: "checkbox", checked: item.checked } : {}),
+       };
+diff --git a/apps/web/src/components/BranchToolbarBranchSelector.tsx b/apps/web/src/components/BranchToolbarBranchSelector.tsx
+index 1db0e3c993408a275fdd190ba21ce53df5823f34..77d55f57ac04b807d914c79960f3ba61a08b9fc4 100644
+--- a/apps/web/src/components/BranchToolbarBranchSelector.tsx
++++ b/apps/web/src/components/BranchToolbarBranchSelector.tsx
+@@ -48,7 +48,7 @@ import {
+ } from "./chat/threadDetailsPanelStyles";
+ import { ThreadDetailsPrRows } from "./chat/ThreadDetailsPrRows";
+ import { parsePullRequestReference } from "../pullRequestReference";
+-import { getSourceControlPresentation } from "../sourceControlPresentation";
++import { getSourceControlPresentation, localizeTerminologyText } from "../sourceControlPresentation";
+ import { useComposerMenuProps } from "./chat/composerEventScope";
+ import {
+   deriveLocalBranchNameFromRemoteRef,
+@@ -651,7 +651,10 @@ export function BranchToolbarBranchSelector({
+             <SourceControlIcon className="size-3.5 shrink-0 text-muted-foreground" />
+             <span className="flex min-w-0 flex-col items-start">
+               <span className="truncate font-medium">
+-                Checkout {sourceControlPresentation.terminology.singular}
++                {localizeTerminologyText(
++                  `Checkout ${sourceControlPresentation.terminology.singular}`,
++                  sourceControlPresentation.terminology,
++                )}
+               </span>
+               <span className="truncate text-muted-foreground text-xs">{prReference}</span>
+             </span>
+diff --git a/apps/web/src/components/GitActionsControl.tsx b/apps/web/src/components/GitActionsControl.tsx
+index 23cb11ea9c5ca68fd262bd289068a415bd2d2a40..0f4ea61dee11e3e654c71e14533aef47e2b00eec 100644
+--- a/apps/web/src/components/GitActionsControl.tsx
++++ b/apps/web/src/components/GitActionsControl.tsx
+@@ -129,7 +129,7 @@ import {
+   THREAD_DETAILS_PANEL_SPLIT_GROUP_CLASS,
+   THREAD_DETAILS_PANEL_SPLIT_SEPARATOR_CLASS,
+ } from "./chat/threadDetailsPanelStyles";
+-import { getSourceControlPresentation } from "~/sourceControlPresentation";
++import { getSourceControlPresentation, localizeTerminologyText } from "~/sourceControlPresentation";
+ import { useOpenLink } from "~/browser/useOpenLink";
+ 
+ interface GitActionsControlProps {
+@@ -357,6 +357,59 @@ const COMMIT_DIALOG_TITLE = "Commit changes";
+ const COMMIT_DIALOG_DESCRIPTION =
+   "Review and confirm your commit. Leave the message blank to auto-generate one.";
+ 
++/**
++ * Added by patches/0004-display-site-translation.patch. The progress line can
++ * carry any label the server sends (`phase_started.label` is
++ * `TrimmedNonEmptyStringSchema`), so translate only the audited set of values we
++ * ship and return everything else verbatim. Without this gate an arbitrary label
++ * would be run through the dictionary's templates and corrupted (e.g.
++ * `Custom status` → `Custo 分 statu 秒`). `Running <hook>...` (a runtime-built
++ * hook label) and any other server/user text stay English. The array is passed
++ * to `Set` so the pre-scan doesn't record the literals as value-use (§5.5).
++ *
++ * The client also builds stage progress locally (`buildGitActionProgressStages`):
++ * `Preparing <shortLabel>...` / `Generating <shortLabel> content...` /
++ * `Creating <singular>...` are the very same 13 audited values for the known
++ * terminologies (github/gitlab/generic all have exact messages), so they are
++ * gated too. The stages this list does *not* cover are `Preparing feature
++ * ref...` and `Pushing to <target>...`; the first matches no dictionary
++ * template at all, and the second carries a runtime-built push target, so
++ * neither may be translated through a template.
++ */
++const KNOWN_GIT_ACTION_PROGRESS = [
++  // Client-synthesized progress (GitActionsControl.logic.ts): the sentinel is
++  // replaced before render, so these two are the real display values.
++  "Pulling latest changes...",
++  "Starting source control action...",
++  // Server phase labels (apps/server/src/git/GitManager.ts) for the 13 audited
++  // phases; every one has an exact messages entry in dict/zh-CN.json.
++  "Generating commit message...",
++  "Committing...",
++  "Preparing feature branch...",
++  "Pushing...",
++  "Preparing PR...",
++  "Preparing MR...",
++  "Preparing change request...",
++  "Generating PR content...",
++  "Generating MR content...",
++  "Generating change request content...",
++  "Creating pull request...",
++  "Creating merge request...",
++  "Creating change request...",
++];
++const KNOWN_GIT_ACTION_PROGRESS_SET = new Set(KNOWN_GIT_ACTION_PROGRESS);
++
++/**
++ * Translate a progress value only when it is in the audited set; otherwise return
++ * it untouched. `Running <hook>...` and any unknown server/user label fall through
++ * the second branch unchanged.
++ */
++const progressLabel = (value: string): string =>
++  KNOWN_GIT_ACTION_PROGRESS_SET.has(value)
++    ? (globalThis.__t3zh?.t?.(value) ?? value)
++    : value;
++
++
+ function GitActionItemIcon({
+   icon,
+   SourceControlIcon,
+@@ -451,7 +504,7 @@ function GitActionProgressButtonContent({
+       role="status"
+     >
+       <Spinner aria-hidden="true" className="row-start-1 -mx-0.5 shrink-0" />
+-      <p className="row-start-1 min-w-0 truncate text-left">{progress.status}</p>
++      <p className="row-start-1 min-w-0 truncate text-left">{progressLabel(progress.status)}</p>
+       {!isPanel ? (
+         <GitActionElapsedTime
+           startedAtMs={progress.startedAtMs}
+@@ -1276,7 +1329,7 @@ export default function GitActionsControl({
+   const quickActionDisabledReason = !canWriteSourceControl
+     ? "This connection cannot change source control."
+     : quickAction.disabled
+-      ? (quickAction.hint ?? "This action is currently unavailable.")
++      ? localizeTerminologyText(quickAction.hint ?? "This action is currently unavailable.", changeRequestTerminology)
+       : null;
+   const gitActionProgress = resolveGitActionProgressPresentation(vcsActionState);
+   const pendingDefaultBranchActionCopy = pendingDefaultBranchAction
+@@ -1581,7 +1634,7 @@ export default function GitActionsControl({
+     if (quickAction.kind === "show_hint") {
+       toastManager.add({
+         type: "info",
+-        title: quickAction.label,
++        title: localizeTerminologyText(quickAction.label, changeRequestTerminology),
+         description: quickAction.hint,
+         data: threadToastData,
+       });
+@@ -1685,9 +1738,9 @@ export default function GitActionsControl({
+             <div key={`${item.id}-${item.label}`}>
+               <MenuItem density={presentation === "menu" ? "touch" : "default"} disabled>
+                 <GitActionItemIcon icon={item.icon} SourceControlIcon={SourceControlIcon} />
+-                <MenuItemLabel>{item.label}</MenuItemLabel>
++                <MenuItemLabel>{localizeTerminologyText(item.label, changeRequestTerminology)}</MenuItemLabel>
+               </MenuItem>
+-              <p className="max-w-64 px-2 pb-2 text-xs text-muted-foreground">{disabledReason}</p>
++              <p className="max-w-64 px-2 pb-2 text-xs text-muted-foreground">{localizeTerminologyText(disabledReason, changeRequestTerminology)}</p>
+             </div>
+           );
+         }
+@@ -1705,11 +1758,11 @@ export default function GitActionsControl({
+                   disabled
+                 >
+                   <GitActionItemIcon icon={item.icon} SourceControlIcon={SourceControlIcon} />
+-                  <MenuItemLabel>{item.label}</MenuItemLabel>
++                  <MenuItemLabel>{localizeTerminologyText(item.label, changeRequestTerminology)}</MenuItemLabel>
+                 </MenuItem>
+               </PopoverTrigger>
+               <PopoverPopup tooltipStyle side="left" align="center">
+-                {disabledReason}
++                {localizeTerminologyText(disabledReason, changeRequestTerminology)}
+               </PopoverPopup>
+             </Popover>
+           );
+@@ -1725,7 +1778,7 @@ export default function GitActionsControl({
+             }}
+           >
+             <GitActionItemIcon icon={item.icon} SourceControlIcon={SourceControlIcon} />
+-            <MenuItemLabel>{item.label}</MenuItemLabel>
++            <MenuItemLabel>{localizeTerminologyText(item.label, changeRequestTerminology)}</MenuItemLabel>
+           </MenuItem>
+         );
+       })}
+@@ -1787,7 +1840,7 @@ export default function GitActionsControl({
+                 quickAction={quickAction}
+                 SourceControlIcon={SourceControlIcon}
+               />
+-              <MenuItemLabel>{quickAction.label}</MenuItemLabel>
++              <MenuItemLabel>{localizeTerminologyText(quickAction.label, changeRequestTerminology)}</MenuItemLabel>
+             </MenuItem>
+             {quickActionDisabledReason && (
+               <p className="max-w-64 px-2 py-1.5 text-xs text-warning">
+@@ -1836,8 +1889,8 @@ export default function GitActionsControl({
+             <ThreadDetailsControl
+               aria-label={
+                 gitActionProgress.output
+-                  ? `${gitActionProgress.status} ${gitActionProgress.output}`
+-                  : gitActionProgress.status
++                  ? `${progressLabel(gitActionProgress.status)} ${gitActionProgress.output}`
++                  : progressLabel(gitActionProgress.status)
+               }
+               part="primary"
+               panel={isPanel}
+@@ -1878,7 +1931,7 @@ export default function GitActionsControl({
+                     isPanel && "not-sr-only ml-0 truncate",
+                   )}
+                 >
+-                  {quickAction.label}
++                  {localizeTerminologyText(quickAction.label, changeRequestTerminology)}
+                 </span>
+               </PopoverTrigger>
+               <PopoverPopup tooltipStyle side="bottom" align="start">
+@@ -1905,7 +1958,7 @@ export default function GitActionsControl({
+                   isPanel && "not-sr-only ml-0 truncate",
+                 )}
+               >
+-                {quickAction.label}
++                {localizeTerminologyText(quickAction.label, changeRequestTerminology)}
+               </span>
+             </ThreadDetailsControl>
+           )}
+@@ -1999,7 +2052,7 @@ export default function GitActionsControl({
+           <DialogPanel>
+             <div className="space-y-3 rounded-xl bg-zinc-25 p-3 text-sm ring-1 ring-black/5 dark:bg-white/[0.035] dark:ring-white/5">
+               <div className="grid grid-cols-[auto_1fr] items-center gap-x-2 gap-y-1">
+-                <span className="text-muted-foreground">Branch</span>
++                <span className="text-muted-foreground">{localizeTerminologyText("Branch", changeRequestTerminology)}</span>
+                 <span className="flex items-center justify-between gap-2">
+                   <span className="font-medium">
+                     {gitStatusForActions?.refName ?? "(detached HEAD)"}
+@@ -2175,9 +2228,19 @@ export default function GitActionsControl({
+         <DialogPopup className="max-w-xl">
+           <DialogHeader>
+             <DialogTitle>
+-              {pendingDefaultBranchActionCopy?.title ?? "Run action on default branch?"}
++              {localizeTerminologyText(
++                pendingDefaultBranchActionCopy?.title ?? "Run action on default branch?",
++                changeRequestTerminology,
++              )}
+             </DialogTitle>
+-            <DialogDescription>{pendingDefaultBranchActionCopy?.description}</DialogDescription>
++            <DialogDescription>
++              {pendingDefaultBranchActionCopy?.description === undefined
++                ? undefined
++                : localizeTerminologyText(
++                    pendingDefaultBranchActionCopy.description,
++                    changeRequestTerminology,
++                  )}
++            </DialogDescription>
+           </DialogHeader>
+           <DialogFooter variant="bare" className="sm:flex-wrap sm:items-center">
+             <Button
+@@ -2195,7 +2258,10 @@ export default function GitActionsControl({
+               onClick={continuePendingDefaultBranchAction}
+               disabled={!canWriteSourceControl}
+             >
+-              {pendingDefaultBranchActionCopy?.continueLabel ?? "Continue"}
++              {localizeTerminologyText(
++                pendingDefaultBranchActionCopy?.continueLabel ?? "Continue",
++                changeRequestTerminology,
++              )}
+             </Button>
+             <Button
+               className="w-full max-w-full sm:w-auto"
+diff --git a/apps/web/src/components/LegacySidebar.tsx b/apps/web/src/components/LegacySidebar.tsx
+index b78c6f955e2bdea4d4355ea45f60b4508eab124d..aa006438de071cc36110a1fd2511a009523af19a 100644
+--- a/apps/web/src/components/LegacySidebar.tsx
++++ b/apps/web/src/components/LegacySidebar.tsx
+@@ -2467,7 +2467,7 @@ const SidebarProjectItem = memo(function SidebarProjectItem(props: SidebarProjec
+               <TooltipTrigger
+                 render={
+                   <span
+-                    aria-label={projectStatus.label}
++                    aria-label={globalThis.__t3zh?.t?.(projectStatus.label) ?? projectStatus.label}
+                     className={`-ml-0.5 relative inline-flex size-3.5 shrink-0 items-center justify-center ${projectStatus.colorClass}`}
+                   />
+                 }
+@@ -2481,7 +2481,9 @@ const SidebarProjectItem = memo(function SidebarProjectItem(props: SidebarProjec
+                 </span>
+                 <ChevronRightIcon className="absolute inset-0 m-auto size-3.5 text-icon-muted opacity-0 transition-opacity duration-150 group-hover/project-header:opacity-100" />
+               </TooltipTrigger>
+-              <TooltipPopup side="top">{projectStatus.label}</TooltipPopup>
++              <TooltipPopup side="top">
++                {globalThis.__t3zh?.t?.(projectStatus.label) ?? projectStatus.label}
++              </TooltipPopup>
+             </Tooltip>
+           ) : (
+             <ChevronRightIcon
+@@ -2781,7 +2783,9 @@ function LocalSecondaryStatus() {
+       {connecting.length > 0 ? (
+         <Alert variant="sidebar">
+           <Spinner />
+-          <AlertTitle>Connecting {connecting.join(", ")}</AlertTitle>
++          <AlertTitle>
++            {globalThis.__t3zh?.t?.("Connecting") ?? "Connecting"} {connecting.join(", ")}
++          </AlertTitle>
+         </Alert>
+       ) : null}
+       {failed.length > 0 ? (
+diff --git a/apps/web/src/components/PullRequestThreadDialog.tsx b/apps/web/src/components/PullRequestThreadDialog.tsx
+index 47e4b361aaeeb386ba7d96b3caf1f26d7d2b605c..b5493ce69cad63bfaa786f0d56ecd25119f9b21b 100644
+--- a/apps/web/src/components/PullRequestThreadDialog.tsx
++++ b/apps/web/src/components/PullRequestThreadDialog.tsx
+@@ -17,7 +17,7 @@ import {
+ } from "~/lib/sourceControlActions";
+ import { cn } from "~/lib/utils";
+ import { parsePullRequestReference } from "~/pullRequestReference";
+-import { getSourceControlPresentation } from "~/sourceControlPresentation";
++import { getSourceControlPresentation, localizeTerminologyText } from "~/sourceControlPresentation";
+ import { useEnvironmentQuery } from "~/state/query";
+ import { readEnvironmentScope, useEnvironmentScope } from "~/state/session";
+ import { vcsEnvironment } from "~/state/vcs";
+@@ -198,9 +198,15 @@ export function PullRequestThreadDialog({
+   const validationMessage = !referenceDirty
+     ? null
+     : reference.trim().length === 0
+-      ? `Paste a ${terminology.singular} URL, checkout command, or enter 123 / #123.`
++      ? localizeTerminologyText(
++          `Paste a ${terminology.singular} URL, checkout command, or enter 123 / #123.`,
++          terminology,
++        )
+       : parsedReference === null
+-        ? `Use a ${terminology.singular} URL, checkout command, 123, or #123.`
++        ? localizeTerminologyText(
++            `Use a ${terminology.singular} URL, checkout command, 123, or #123.`,
++            terminology,
++          )
+         : null;
+   const errorMessage =
+     validationMessage ??
+@@ -210,7 +216,7 @@ export function PullRequestThreadDialog({
+       : preparePullRequestThreadAction.error instanceof Error
+         ? preparePullRequestThreadAction.error.message
+         : preparePullRequestThreadAction.error
+-          ? `Failed to prepare ${terminology.singular} thread.`
++          ? localizeTerminologyText(`Failed to prepare ${terminology.singular} thread.`, terminology)
+           : null);
+ 
+   return (
+@@ -226,21 +232,31 @@ export function PullRequestThreadDialog({
+         <DialogHeader>
+           <DialogTitle className="flex items-center">
+             <SourceControlIcon className="me-2 size-4" />
+-            Checkout {terminology.singular}
++            {localizeTerminologyText(`Checkout ${terminology.singular}`, terminology)}
+           </DialogTitle>
+           <DialogDescription>
+-            Resolve a {sourceControlPresentation.providerName} {terminology.singular}, then create
+-            the draft thread in the main repo or in a dedicated worktree.
++            {localizeTerminologyText(
++              `Resolve a ${sourceControlPresentation.providerName} ${terminology.singular}, then create the draft thread in the main repo or in a dedicated worktree.`,
++              terminology,
++              // The provider name is server/user data (contract: any non-empty
++              // string) and may itself contain the term — "My change request
++              // host". Hand it over verbatim instead of letting the term
++              // substitution split it.
++              sourceControlPresentation.providerName,
++            )}
+           </DialogDescription>
+         </DialogHeader>
+         <DialogPanel>
+           <label className="grid gap-1.5">
+             <span className="text-xs font-medium text-foreground capitalize">
+-              {terminology.singular}
++              {localizeTerminologyText(terminology.singular, terminology)}
+             </span>
+             <Input
+               ref={referenceInputRef}
+-              placeholder={`${terminology.shortLabel} URL, checkout command, or #42`}
++              placeholder={localizeTerminologyText(
++                `${terminology.shortLabel} URL, checkout command, or #42`,
++                terminology,
++              )}
+               value={reference}
+               onChange={(event) => {
+                 setReferenceDirty(true);
+@@ -281,7 +297,7 @@ export function PullRequestThreadDialog({
+           {isResolving ? (
+             <div className="flex items-center gap-2 text-muted-foreground text-xs">
+               <Spinner size="sm" />
+-              Resolving {terminology.singular}...
++              {localizeTerminologyText(`Resolving ${terminology.singular}...`, terminology)}
+             </div>
+           ) : null}
+ 
+diff --git a/apps/web/src/components/RightPanelTabs.tsx b/apps/web/src/components/RightPanelTabs.tsx
+index 4f6f3607f470c9c464431ed74eb3415ce24127ac..155aa76f832d54a27fb519a95259a395f6d133f6 100644
+--- a/apps/web/src/components/RightPanelTabs.tsx
++++ b/apps/web/src/components/RightPanelTabs.tsx
+@@ -82,6 +82,11 @@ import { PierreEntryIcon } from "./chat/PierreEntryIcon";
+ import { resolvePullRequestState } from "./pullRequest/pullRequestPresentation";
+ import { PullRequestGlyph } from "~/components/pullRequest/pullRequestIcons";
++
++/** Added by patches/0004-display-site-translation.patch: action labels double as
++ * values (`action.label === "Browser"` picks the browser submenu), so the plugin
++ * keeps the definitions English. Tag them at render time instead. */
++const displayLabel = (value: string): string => globalThis.__t3zh?.t?.(value) ?? value;
+ 
+ interface RightPanelTabsProps {
+   mode: PreviewPanelMode;
+   maximized?: boolean;
+@@ -518,7 +523,7 @@ function RightPanelEmptyState(props: {
+                       action.label === "Browser" && props.browserProfiles.length > 1 && "pr-7",
+                     )}
+                   >
+-                    {action.label}
++                    {displayLabel(action.label)}
+                   </span>
+                   <Kbd>{action.shortcut}</Kbd>
+                 </button>
+@@ -565,7 +570,7 @@ function RightPanelEmptyState(props: {
+                     className="flex h-8 w-full cursor-default items-center gap-2.5 rounded-(--control-radius) px-2.5 text-left text-sm opacity-50"
+                   >
+                     {actionIcon(action, "size-4")}
+-                    <span className="min-w-0 flex-1 truncate">{action.label}</span>
++                    <span className="min-w-0 flex-1 truncate">{displayLabel(action.label)}</span>
+                     <Kbd>{action.shortcut}</Kbd>
+                   </div>
+                 }
+@@ -605,12 +610,12 @@ function surfaceTitle(
+       return surface.title ?? surface.target?.name ?? "Device";
+     case "preview": {
+       const snapshot = surface.resourceId ? sessions[surface.resourceId] : null;
+-      if (!snapshot || snapshot.navStatus._tag === "Idle") return "Browser";
++      if (!snapshot || snapshot.navStatus._tag === "Idle") return displayLabel("Browser");
+       if (snapshot.navStatus.title.trim().length > 0) return snapshot.navStatus.title;
+       try {
+-        return new URL(snapshot.navStatus.url).host || "Browser";
++        return new URL(snapshot.navStatus.url).host || displayLabel("Browser");
+       } catch {
+-        return "Browser";
++        return displayLabel("Browser");
+       }
+     }
+   }
+@@ -1295,7 +1300,7 @@ export function RightPanelTabs(props: RightPanelTabsProps) {
+                             }}
+                           >
+                             <Icon />
+-                            {action.label}
++                            {displayLabel(action.label)}
+                             <MenuShortcut>{action.shortcut}</MenuShortcut>
+                           </MenuSubTrigger>
+                           {/*
+@@ -1325,7 +1330,7 @@ export function RightPanelTabs(props: RightPanelTabsProps) {
+                         onClick={action.onClick}
+                       >
+                         <Icon />
+-                        {action.label}
++                        {displayLabel(action.label)}
+                       </SurfaceMenuItem>
+                     );
+                   })}
+diff --git a/apps/web/src/components/Sidebar.tsx b/apps/web/src/components/Sidebar.tsx
+index 43d1f8dacffb1c1bfb0e9cf674b1a2107b8ef3f4..fc81b431e19a1b51ebfade0e08e19786b499c1ec 100644
+--- a/apps/web/src/components/Sidebar.tsx
++++ b/apps/web/src/components/Sidebar.tsx
+@@ -2041,7 +2041,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+                                 )}
+                               >
+                                 <AlarmClockIcon aria-hidden className="size-4 shrink-0" />
+-                                <span role="status">{topStatus.label}</span>
++                                <span role="status">{globalThis.__t3zh?.t?.(topStatus.label) ?? topStatus.label}</span>
+                               </button>
+                             }
+                           />
+@@ -2068,7 +2068,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+                           {/* The label alone is the live region: a role="status"
+                             wrapper around the ticking duration would make
+                             screen readers announce every second. */}
+-                          <span role="status">{topStatus.label}</span>
++                          <span role="status">{globalThis.__t3zh?.t?.(topStatus.label) ?? topStatus.label}</span>
+                           {status === "working" ? (
+                             <span aria-hidden>
+                               <WorkingDuration startedAt={resolveWorkingStartedAt(thread)} />
+diff --git a/apps/web/src/components/ThreadStatusIndicators.tsx b/apps/web/src/components/ThreadStatusIndicators.tsx
+index ad0c9c99a29212514c37d35b69478a801ad195b6..c895e5787f75a2fa19a0a04f3de927ea8005ccc6 100644
+--- a/apps/web/src/components/ThreadStatusIndicators.tsx
++++ b/apps/web/src/components/ThreadStatusIndicators.tsx
+@@ -828,7 +828,7 @@ export function ThreadStatusLabel({
+           render={
+             <span
+               role="img"
+-              aria-label={status.label}
++              aria-label={globalThis.__t3zh?.t?.(status.label) ?? status.label}
+               className={`inline-flex size-3.5 shrink-0 items-center justify-center ${status.colorClass}`}
+             />
+           }
+@@ -839,7 +839,9 @@ export function ThreadStatusLabel({
+             }`}
+           />
+         </TooltipTrigger>
+-        <TooltipPopup side="top">{status.label}</TooltipPopup>
++        <TooltipPopup side="top">
++          {globalThis.__t3zh?.t?.(status.label) ?? status.label}
++        </TooltipPopup>
+       </Tooltip>
+     );
+   }
+@@ -850,7 +852,7 @@ export function ThreadStatusLabel({
+         render={
+           <span
+             role="img"
+-            aria-label={status.label}
++            aria-label={globalThis.__t3zh?.t?.(status.label) ?? status.label}
+             className={`inline-flex items-center gap-1 text-3xs ${status.colorClass}`}
+           />
+         }
+@@ -860,9 +862,13 @@ export function ThreadStatusLabel({
+             status.pulse ? "animate-status-pulse" : ""
+           }`}
+         />
+-        <span className="hidden md:inline">{status.label}</span>
++        <span className="hidden md:inline">
++          {globalThis.__t3zh?.t?.(status.label) ?? status.label}
++        </span>
+       </TooltipTrigger>
+-      <TooltipPopup side="top">{status.label}</TooltipPopup>
++      <TooltipPopup side="top">
++        {globalThis.__t3zh?.t?.(status.label) ?? status.label}
++      </TooltipPopup>
+     </Tooltip>
+   );
+ }
+diff --git a/apps/web/src/components/chat/ComposerTasksBadge.tsx b/apps/web/src/components/chat/ComposerTasksBadge.tsx
+index 3031924e44e339b121170840d83802da6b1d68c6..5e422fdf82c9581aef74940928049642e2d46f2a 100644
+--- a/apps/web/src/components/chat/ComposerTasksBadge.tsx
++++ b/apps/web/src/components/chat/ComposerTasksBadge.tsx
+@@ -195,7 +195,9 @@ export const ComposerTasksContent = memo(function ComposerTasksContent({
+                         : "text-muted-foreground/70",
+                   )}
+                 >
+-                  <span className="sr-only">{taskStatusLabels[step.status]}: </span>
++                  <span className="sr-only">
++                    {globalThis.__t3zh?.t?.(taskStatusLabels[step.status]) ?? taskStatusLabels[step.status]}:{" "}
++                  </span>
+                   {step.step}
+                 </ComposerBanner.Content>
+                 <ComposerBanner.Actions>
+diff --git a/apps/web/src/components/chat/SubagentTooltipContent.tsx b/apps/web/src/components/chat/SubagentTooltipContent.tsx
+index 61408d61f639f834479c232189a604dc4c8b18be..2b203e50eb877dde482a35db9ef59a15a45040ce 100644
+--- a/apps/web/src/components/chat/SubagentTooltipContent.tsx
++++ b/apps/web/src/components/chat/SubagentTooltipContent.tsx
+@@ -174,7 +174,7 @@ export function SubagentTooltipContent(props: {
+         return (
+           <div key={label} className="flex min-w-0 items-center gap-2">
+             <Icon aria-hidden className="size-3 shrink-0" />
+-            <span className="sr-only">{label}</span>
++            <span className="sr-only">{globalThis.__t3zh?.t?.(label) ?? label}</span>
+             <MiddleTruncate value={value} className="flex" showTitle={false} />
+           </div>
+         );
+diff --git a/apps/web/src/components/onboarding/WelcomeWizard.tsx b/apps/web/src/components/onboarding/WelcomeWizard.tsx
+index 9d1c96e19eeda84d8fb636352832d2ec94341ce9..a9b60b5db4f97157de0e59ab314f639f0269c094 100644
+--- a/apps/web/src/components/onboarding/WelcomeWizard.tsx
++++ b/apps/web/src/components/onboarding/WelcomeWizard.tsx
+@@ -70,7 +70,7 @@ import {
+ import { terminalEnvironment } from "../../state/terminal";
+ import { useAtomCommand } from "../../state/use-atom-command";
+ import { connectPairing } from "../../connection/onboarding";
+-import { getProviderSummary } from "../settings/providerStatus";
++import { getProviderSummary, providerStatusLabel } from "../settings/providerStatus";
+ import { getDriverOption } from "../settings/providerDriverMeta";
+ import { ChatGptWelcomeCoordinator } from "../settings/ChatGptWelcomeCoordinator";
+ import { AddManagedCodexAccountDialog, CodexSetupSection } from "../settings/CodexSetupSection";
+@@ -980,7 +980,7 @@ function AgentCard({
+       <div className="min-w-0 flex-1">
+         <span className="block text-sm font-medium text-foreground">{displayName}</span>
+         <p className="mt-0.5 text-xs leading-relaxed break-words whitespace-pre-wrap text-muted-foreground">
+-          {providerState === "ready" ? "Ready to code." : summary.headline}
++          {providerState === "ready" ? "Ready to code." : providerStatusLabel(summary.headline)}
+           {providerState !== "ready" && summary.detail ? ` · ${summary.detail}` : ""}
+         </p>
+       </div>
+@@ -995,7 +995,9 @@ function AgentCard({
+         ) : providerState === "disabled" ? (
+           <span className="text-xs text-muted-foreground">Disabled</span>
+         ) : providerState === "attention" ? (
+-          <span className="text-xs text-muted-foreground">{summary.headline}</span>
++          <span className="text-xs text-muted-foreground">
++            {providerStatusLabel(summary.headline)}
++          </span>
+         ) : (
+           <Button
+             size="xs"
+diff --git a/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx b/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx
+index 61eeed0f0f3271b1eabc689f6044aba3ad54cc29..1d5e346a0fff8bacdf2938ffec52ffb6d169923a 100644
+--- a/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx
++++ b/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx
+@@ -209,7 +209,9 @@ export function PullRequestStackMenu({
+           />
+           <TooltipPopup>
+             Merge stack through #{reference.number} into {stack.base} ({mergeLayers.length}{" "}
+-            {mergeLayers.length === 1 ? "pull request" : "pull requests"})
++            {globalThis.__t3zh?.t?.(
++              mergeLayers.length === 1 ? "pull request" : "pull requests",
++            ) ?? (mergeLayers.length === 1 ? "pull request" : "pull requests")})
+           </TooltipPopup>
+         </Tooltip>
+       ) : null}
+diff --git a/apps/web/src/components/settings/CodexSetupSection.tsx b/apps/web/src/components/settings/CodexSetupSection.tsx
+index 415882dbacd9685a32d66dcd8a6101cf07f5e7c6..cd3e91333978a110203b115cf7e89efef9faf81c 100644
+--- a/apps/web/src/components/settings/CodexSetupSection.tsx
++++ b/apps/web/src/components/settings/CodexSetupSection.tsx
+@@ -37,7 +37,7 @@ import { RedactedSensitiveText } from "./RedactedSensitiveText";
+ import { SettingsRow } from "./settingsLayout";
+ import { AddCodexAccountDialog } from "./AddCodexAccountDialog";
+ import { getOnboardingProviderState } from "../../onboarding/providerReadiness.logic";
+-import { getProviderSummary } from "./providerStatus";
++import { getProviderSummary, providerStatusLabel } from "./providerStatus";
+ 
+ const noop = () => undefined;
+ 
+@@ -88,7 +88,7 @@ export function CodexSetupSection(props: CodexSetupSectionProps) {
+           ) : existingChecking ? (
+             "Checking your Codex CLI..."
+           ) : props.provider?.installed ? (
+-            existingSummary.headline
++            providerStatusLabel(existingSummary.headline)
+           ) : (
+             "Code with your ChatGPT subscription."
+           )
+@@ -102,7 +102,9 @@ export function CodexSetupSection(props: CodexSetupSectionProps) {
+           ) : existingChecking ? (
+             <span className="text-xs text-muted-foreground">Checking...</span>
+           ) : existingAuthenticated ? (
+-            <span className="text-xs text-muted-foreground">{existingSummary.headline}</span>
++            <span className="text-xs text-muted-foreground">
++              {providerStatusLabel(existingSummary.headline)}
++            </span>
+           ) : (
+             <ChatGptConnectionButton
+               size="sm"
+diff --git a/apps/web/src/components/settings/ProjectDefaultsSettings.tsx b/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
+index bfd776855307cc291cdeb8915e6a7804a544e977..3600347b8a17c11c04812ce596f8dda0d8456192 100644
+--- a/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
++++ b/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
+@@ -164,7 +164,7 @@ export function ProjectDefaultsSettings({ category }: { category: ProjectSetting
+               instanceEntries={entries}
+               modelOptionsByInstance={modelOptions}
+               triggerClassName={SETTINGS_PICKER_TRIGGER_CLASSNAME}
+-              {...(mixedModel ? { triggerLabel: "Mixed" } : {})}
++              {...(mixedModel ? { triggerLabel: globalThis.__t3zh?.t?.("Mixed") ?? "Mixed" } : {})}
+               getModelDisabledReason={modelDisabledReason}
+               onOpenProviderSetup={(instanceId) => {
+                 if (representative)
+diff --git a/apps/web/src/components/settings/ProviderInstanceCard.tsx b/apps/web/src/components/settings/ProviderInstanceCard.tsx
+index 381dcd864e425a115dab6c2ea8380920daceb223..27879f0cd696aa0f4f48400ac11585346eb77abf 100644
+--- a/apps/web/src/components/settings/ProviderInstanceCard.tsx
++++ b/apps/web/src/components/settings/ProviderInstanceCard.tsx
+@@ -61,6 +61,7 @@ import {
+   PROVIDER_STATUS_STYLES,
+   getProviderSummary,
+   getProviderVersionLabel,
++  providerStatusLabel,
+   type ProviderStatusKey,
+ } from "./providerStatus";
+ 
+@@ -773,7 +774,7 @@ export function ProviderInstanceCard({
+     ) : (
+       <>
+         {statusDotNode}
+-        <span>{summary.headline}</span>
++        <span>{providerStatusLabel(summary.headline)}</span>
+         {inlineStatusDetail ? (
+           <span className="min-w-0 [overflow-wrap:anywhere]">· {inlineStatusDetail}</span>
+         ) : null}
+@@ -916,7 +917,7 @@ export function ProviderInstanceCard({
+                   tabIndex={statusDiagnostic ? 0 : undefined}
+                   className="pointer-events-auto line-clamp-2 [overflow-wrap:anywhere]"
+                 >
+-                  {summary.headline}
++                  {providerStatusLabel(summary.headline)}
+                   {needsAttention && inlineStatusDetail ? ` · ${inlineStatusDetail}` : null}
+                 </span>
+               </ProviderStatusDiagnostic>
+diff --git a/apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx b/apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx
+index ab721ef54f4c3172647293e9857edc1839bdcd49..167fd810189e2c6418b4f00e4b0e7393196379c5 100644
+--- a/apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx
++++ b/apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx
+@@ -650,7 +650,10 @@ function ProcessTable({
+                 <td className="px-3 py-2 text-right font-mono tabular-nums text-muted-foreground">
+                   <Tooltip>
+                     <TooltipTrigger render={<span>{formatBytes(process.ioWriteBytes)}</span>} />
+-                    <TooltipPopup side="top">{ioSemanticsLabel(process.ioSemantics)}</TooltipPopup>
++                    <TooltipPopup side="top">
++                      {globalThis.__t3zh?.t?.(ioSemanticsLabel(process.ioSemantics)) ??
++                        ioSemanticsLabel(process.ioSemantics)}
++                    </TooltipPopup>
+                   </Tooltip>
+                 </td>
+                 <td className="px-3 py-2 text-right font-mono tabular-nums text-muted-foreground">
+diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/components/settings/SettingsPanels.tsx
+index 4d9a85935ac73fc84f0db6ceec0406381b772a82..87990539c2262b73d676e12f0ef1c151cb43d8f8 100644
+--- a/apps/web/src/components/settings/SettingsPanels.tsx
++++ b/apps/web/src/components/settings/SettingsPanels.tsx
+@@ -3295,7 +3295,7 @@ export function GeneralSettingsPanel() {
+                   instanceEntries={textGenerationModelInstanceEntries}
+                   modelOptionsByInstance={textGenerationModelOptionsByInstance}
+                   triggerClassName={SETTINGS_PICKER_TRIGGER_CLASSNAME}
+-                  {...(mixedTextGenerationModel ? { triggerLabel: "Mixed" } : {})}
++                  {...(mixedTextGenerationModel ? { triggerLabel: globalThis.__t3zh?.t?.("Mixed") ?? "Mixed" } : {})}
+                   getModelDisabledReason={textGenerationModelDisabledReason}
+                   {...(environmentId
+                     ? {
+diff --git a/apps/web/src/components/settings/SourceControlWritingSettings.tsx b/apps/web/src/components/settings/SourceControlWritingSettings.tsx
+index a9932e1ac911d78b4f04dfcde77180b6372784a9..ce9a205a69f66b3fe06cbb6fb04e1fbb3cacc229 100644
+--- a/apps/web/src/components/settings/SourceControlWritingSettings.tsx
++++ b/apps/web/src/components/settings/SourceControlWritingSettings.tsx
+@@ -308,7 +308,7 @@ export function SourceControlWritingSettingsSection() {
+                   modelOptionsByInstance={modelOptionsByInstance}
+                   triggerClassName={SETTINGS_PICKER_TRIGGER_CLASSNAME}
+                   triggerAriaLabel="Source control writer model"
+-                  {...(mixedWriterModel ? { triggerLabel: "Mixed" } : {})}
++                  {...(mixedWriterModel ? { triggerLabel: globalThis.__t3zh?.t?.("Mixed") ?? "Mixed" } : {})}
+                   {...(environmentId
+                     ? {
+                         onOpenProviderSetup: (instanceId: ProviderInstanceId) => {
+diff --git a/apps/web/src/components/settings/providerStatus.ts b/apps/web/src/components/settings/providerStatus.ts
+index ad8494fac555c36fab15a631d84d064ca525dbf2..38670e802a5000300a91d736d44b1adb1ecf16f3 100644
+--- a/apps/web/src/components/settings/providerStatus.ts
++++ b/apps/web/src/components/settings/providerStatus.ts
+@@ -104,6 +104,75 @@ export function getProviderVersionLabel(version: string | null | undefined) {
+   return /^\d/.test(version) ? `v${version}` : version;
+ }
+ 
++/**
++ * Added by patches/0004-display-site-translation.patch.
++ *
++ * `getProviderSummary` produces two families of headline:
++ *
++ * 1. A finite set of static English headlines. The plugin translates all of them
++ *    where they are defined *except* `Unavailable`, which doubles as a value
++ *    elsewhere in the app; whichever way it went, the value that reaches the
++ *    render site is either the audited English literal (translate it here) or an
++ *    already-translated string (leave it alone).
++ * 2. `Authenticated · ${authLabel}` / `Not authenticated · ${authLabel}`, whose
++ *    parameter is `provider.auth.label ?? provider.auth.type`. The contract types
++ *    it as any non-empty string (`packages/contracts/src/server.ts`), and
++ *    `AcpRegistryDriver` fills it with the auth method the server advertises — so
++ *    it is arbitrary server text, not a value this file knows.
++ *
++ * Handing the finished headline back to `t()` is what breaks family 2. An
++ * already-translated headline ("已认证 · Custom status") or one carrying a
++ * server string falls through the exact-message step and is caught by the
++ * dictionary's broad templates: "Custom status" → "Custo 分 statu 秒", and
++ * "已认证 · Custom status" → "已认证 · Custo 分 statu 秒".
++ *
++ * So the render site translates only what it can prove is a bare English
++ * skeleton: an exact value from the static set, or a headline whose English
++ * prefix is one of the two audited ones *and* which holds exactly one separator,
++ * so the parameter is the whole remaining tail (`Authenticated · <parameter>`,
++ * matching the dictionary's `Authenticated · {method}` / `Not authenticated ·
++ * {0}`). A second separator means the tail is not the single audited parameter
++ * this file knows how to split off — `Authenticated · x · y` is server text, not
++ * a skeleton — and a bare prefix with no parameter is not one either; both are
++ * returned byte-for-byte. The one lookup is accepted only when the parameter
++ * survives it verbatim, so a template that rewrote it would drop out here
++ * instead of shipping corrupted text. With no `__t3zh`, no `t`, or in en the
++ * original headline comes back unchanged.
++ */
++const STATIC_PROVIDER_HEADLINES = [
++  "Available",
++  "Unavailable",
++  "Disabled",
++  "Not found",
++  "Checking provider status",
++  "Needs attention",
++  "Authenticated",
++  "Not authenticated",
++];
++const STATIC_PROVIDER_HEADLINE_SET = new Set(STATIC_PROVIDER_HEADLINES);
++
++/** The two audited English auth skeletons, up to (and including) the separator. */
++const AUTH_HEADLINE_ENGLISH_PREFIXES = ["Authenticated · ", "Not authenticated · "];
++
++export function providerStatusLabel(headline: string): string {
++  const t = globalThis.__t3zh?.t;
++  if (!t) return headline;
++  // Only exact English members of the finite set reach `t()`, so an
++  // already-translated static headline (or an en-mode one) stays untouched.
++  if (STATIC_PROVIDER_HEADLINE_SET.has(headline)) return t(headline);
++  for (const prefix of AUTH_HEADLINE_ENGLISH_PREFIXES) {
++    if (!headline.startsWith(prefix)) continue;
++    // Exactly one separator: the parameter is the whole remaining tail. A tail
++    // that holds another ` · ` is a different (server-authored) string, not the
++    // audited skeleton, and is passed through untouched.
++    const authLabel = headline.slice(prefix.length);
++    if (authLabel.length === 0 || authLabel.includes(" · ")) continue;
++    const translated = t(headline);
++    return translated.includes(authLabel) ? translated : headline;
++  }
++  return headline;
++}
++
+ const COMPATIBILITY_TITLES = {
+   graceful: "Limited support",
+   unsupported: "Unsupported version",
+diff --git a/apps/web/src/components/usage/UsagePriceOverrides.tsx b/apps/web/src/components/usage/UsagePriceOverrides.tsx
+index 4fe68f66c8a3a6e48fd51782f9fa4c17685aa311..e6e165401c503fb8c4ffdb23b9c138a1f64aaa94 100644
+--- a/apps/web/src/components/usage/UsagePriceOverrides.tsx
++++ b/apps/web/src/components/usage/UsagePriceOverrides.tsx
+@@ -457,7 +457,12 @@ export function UsagePriceOverrides({
+                                   value={row.alias ?? aliasCell.value}
+                                   aria-label={`Map ${row.model || "new model"} to model`}
+                                   list="usage-alias-models"
+-                                  placeholder={row.isNew ? "Optional" : aliasCell.placeholder}
++                                  placeholder={
++                                    row.isNew
++                                      ? "Optional"
++                                      : (globalThis.__t3zh?.t?.(aliasCell.placeholder) ??
++                                        aliasCell.placeholder)
++                                  }
+                                   autoComplete="off"
+                                   spellCheck={false}
+                                   disabled={locked}
+@@ -486,7 +491,8 @@ export function UsagePriceOverrides({
+                                           ? field.optional
+                                             ? "Input rate"
+                                             : "0.00"
+-                                          : cell.placeholder
++                                          : (globalThis.__t3zh?.t?.(cell.placeholder) ??
++                                            cell.placeholder)
+                                       }
+                                       autoComplete="off"
+                                       disabled={locked}
+diff --git a/apps/web/src/contextMenuFallback.ts b/apps/web/src/contextMenuFallback.ts
+index db14ed8c860c26e0c1d9c1f0d7836c21dc35354d..b5c6a53ae1148ef10227c5a5014f914c4efc9fcb 100644
+--- a/apps/web/src/contextMenuFallback.ts
++++ b/apps/web/src/contextMenuFallback.ts
+@@ -2,6 +2,60 @@ import type { ContextMenuItem } from "@t3tools/contracts";
+ 
+ const SVG_NS = "http://www.w3.org/2000/svg";
+ 
++/**
++ * Menu labels the translation plugin leaves unwrapped, because the same string
++ * is compared as a value elsewhere in the app (`threadActionMenu.logic.ts`'s
++ * `copy-branch` label "Branch" is also compared in
++ * `chat/SubagentTooltipContent.tsx`) or because the label reaches the menu through
++ * a function parameter instead of an object literal, where the plugin has no
++ * literal to wrap (`LegacySidebar.tsx` builds the project entry with
++ * `buildTargetedItem("copy-path", "Copy Path")`). They are the only menu text this
++ * file may translate, and each one must have an exact `messages` entry — never a
++ * template — so the label never reaches the dictionary's pattern matcher.
++ *
++ * The list is deliberately short: it is a reviewed allowlist of fixed actions, not
++ * a hook for "labels that look like UI text". Project names, workspace roots,
++ * environment labels and branch names are owned by the user or the server and must
++ * stay out.
++ *
++ * The same list appears in `apps/desktop/src/electron/ElectronMenu.ts`; the two
++ * must stay identical (asserted by
++ * `plugin/__tests__/display-site-translation.test.ts`).
++ *
++ * Kept as a plain array passed to `Set` so the plugin's pre-scan does not record
++ * these literals as value-use (CONVENTIONS §5.5).
++ */
++const TRANSLATABLE_MENU_LABELS = [
++  // Right-click on a thread or a draft: the "Branch" entry under "Copy".
++  "Branch",
++  // Right-click on a project: the "Copy Path" action. Its two call sites differ —
++  // `buildTargetedItem("copy-path", "Copy Path")` passes the label as a function
++  // argument (the plugin sees no literal at the definition), while the thread
++  // context menu has the label inline and is wrapped there.
++  "Copy Path",
++];
++const TRANSLATABLE_MENU_LABEL_SET = new Set(TRANSLATABLE_MENU_LABELS);
++
++/**
++ * Added by patches/0004-display-site-translation.patch. This is the browser
++ * menu's final display point, but it is *not* a place to translate arbitrary
++ * text. The plugin already wrapped every label it knows how to translate
++ * (`__t3zh_t`), and the sidebars build the rest from data the user or the server
++ * owns: project `title` / `environmentLabel` / `workspaceRoot`, branch names,
++ * the server's reveal wording, editor and host names. Running one of those
++ * through the dictionary's template matcher corrupts it (measured against the
++ * real dictionary: `/tmp/Custom status` → `/tmp/Custo 分 statu 秒`).
++ *
++ * So this is a gate, not a translator: only the audited labels above — whose
++ * exact `messages` entry is asserted by
++ * `plugin/__tests__/display-site-translation.test.ts` — are looked up, and every
++ * other string is returned byte-for-byte. The selected `id` is untouched.
++ */
++export function displayMenuLabel(label: string): string {
++  if (!TRANSLATABLE_MENU_LABEL_SET.has(label)) return label;
++  return globalThis.__t3zh?.t?.(label) ?? label;
++}
++
+ // Inline Lucide-style icon paths (stroke-based, viewBox 0 0 24 24, strokeWidth 2).
+ const ICON_PATHS: Record<string, ReadonlyArray<{ tag: string; attrs: Record<string, string> }>> = {
+   archive: [
+@@ -322,7 +376,7 @@ export function showContextMenuFallback<T extends string>(
+         if (item.header === true) {
+           const header = document.createElement("div");
+           header.className = "px-2 py-1.5 font-medium text-muted-foreground text-xs";
+-          header.textContent = item.label;
++          header.textContent = displayMenuLabel(item.label);
+           inner.appendChild(header);
+           continue;
+         }
+@@ -377,7 +431,7 @@ export function showContextMenuFallback<T extends string>(
+ 
+         const label = document.createElement("span");
+         label.className = "min-w-0 flex-1 truncate";
+-        label.textContent = item.label;
++        label.textContent = displayMenuLabel(item.label);
+         button.appendChild(label);
+ 
+         if (hasChildren) {
+diff --git a/apps/web/src/sourceControlPresentation.ts b/apps/web/src/sourceControlPresentation.ts
+index 7a8d2cab8fe516f1651c4f604e7c0fd26ab2555c..77b0cb043f9a78298d325d5926e3f9484cb00827 100644
+--- a/apps/web/src/sourceControlPresentation.ts
++++ b/apps/web/src/sourceControlPresentation.ts
+@@ -27,6 +27,97 @@ export interface SourceControlPresentation {
+   readonly Icon: ElementType<{ className?: string }>;
+ }
+ 
++/**
++ * Added by patches/0004-display-site-translation.patch. Several display strings
++ * carry `terminology.singular` ("pull request" / "merge request" / "change
++ * request") or `terminology.shortLabel` ("PR" / "MR" / "change request") as a
++ * runtime-inserted parameter, so the plugin cannot translate them (the value
++ * comes from a function call, not a literal) and the runtime never re-looks-up a
++ * captured value (handoff/T05.md 已知问题 4).
++ *
++ * Step 1 asks the dictionary for the whole string; that covers the fixed labels
++ * and the reviewer-built combinations that have exact `messages` entries. It
++ * deliberately does **not** stand in for argument safety: every text that reaches
++ * step 2 (or falls out of step 1) is still matched against the templates, and a
++ * template can rewrite a parameter. The gate is what decides which whole strings
++ * are looked up at all.
++ *
++ * Step 2 is the reviewed one, for texts whose term arrives as a runtime value.
++ * Step 1 has already run `t(text)` — which is what turns the reviewer-built
++ * combinations (`Commit, push & PR`, …) into whole Chinese sentences via their
++ * exact `messages` entries.
++ *
++ * The remaining strings carry the term inside a sentence the dictionary only knows
++ * as a `{request}` template, so `t(text)` holds the term in English (or, once the
++ * term has already been dealt with, still leaves the sentence English). Step 2
++ * therefore substitutes the translated term into its positions and looks the
++ * result up again so the sentence's own template can build the Chinese text. It
++ * substitutes term-by-term and only outside the parameters listed in `preserve`,
++ * so a term that also occurs inside another parameter does not split it: without
++ * that, providerName "My change request host" reached the dialog as
++ * "解析 My 变更请求 host 变更请求，然后…" and the provider name stopped appearing
++ * at all. `preserve` entries are echoed back verbatim, so they must themselves
++ * contain the whole parameter, not a piece of it (the caller passes the finished
++ * provider name, never a raw value it then decorates).
++ *
++ * The Chinese term does not re-match any `{request}` capture, but the sentence
++ * around it does, which is why the second lookup — not `t(text)` — produces the
++ * Chinese sentence; conversely `t(text.replaceAll(singular, …))` re-ran the
++ * dictionary over a sentence that already held the Chinese term, which is what
++ * risked translating it twice.
++ *
++ * Unlike the progress stream (which the contract lets the server fill with an
++ * arbitrary label, so `GitActionsControl.tsx` reviews an exact list), this helper
++ * is reached only from a reviewed finite set of client literals and built-in
++ * labels: fixed labels ("Branch"), fixed fallback sentences, and template
++ * literals whose dynamic parts are the provider's term, the default branch name
++ * (`Push to <branch>` / `Commit & push to <branch>`,
++ * `resolveDefaultBranchActionDialogCopy`) and `PullRequestThreadDialog`'s
++ * `sourceControlPresentation.providerName`. The branch name survives because the
++ * dictionary's reviewed `Push to {branch}` / `… on "{branch}"` templates echo
++ * their capture, and the provider name survives through `preserve`;
++ * `plugin/__tests__/display-site-translation.test.ts` pins both, so these callers
++ * must not grow new dynamic parts without a test. The two guarantees differ in
++ * strength and the tests say so: a parameter the template captures comes back
++ * verbatim by construction, while `preserve` protects a value only from this
++ * helper's own substitution — a branch named after the term itself
++ * (`my change request branch`) still has that word replaced, which is the
++ * narrower case the reviewed call sites accept. A dynamic part that does *not*
++ * reach its parameter's position — an error message interpolated into a draft
++ * thread title, say — would be dropped from the replaced text, which is why the
++ * caller's option is restricted to the reviewed provider name.
++ *
++ * The `terminology`/`singular`/`shortLabel` values used for comparison, lookup,
++ * or requests stay English in their definition objects. The term used for the
++ * substitution is `t(terminology.singular)` — the dictionary value for the
++ * provider's own term (`pull request` / `merge request` / `change request`),
++ * which is also the `{request}` capture the reviewed sentences carry. A term the
++ * dictionary does not know is left untouched, and with no `__t3zh` (or in en)
++ * both steps return the original text unchanged.
++ */
++export function localizeTerminologyText(
++  text: string,
++  terminology: ChangeRequestTerminology,
++  preserve: string | null = null,
++): string {
++  const t = globalThis.__t3zh?.t;
++  if (!t) return text;
++  const direct = t(text);
++  if (direct !== text && !direct.includes(terminology.singular)) return direct;
++  const term = t(terminology.singular);
++  if (term === terminology.singular) return direct;
++  // Replace the term at its translated positions only, never inside `preserve`.
++  // Function form: a `$` in the translated term would otherwise be a replacement
++  // pattern.
++  const replaced =
++    preserve === null || preserve === ""
++      ? text.replaceAll(terminology.singular, () => term)
++      : text.split(preserve).map((part) => part.replaceAll(terminology.singular, () => term)).join(preserve);
++  // The second lookup restores the term to `{request}` where a whole-sentence
++  // template wins, and is a no-op where only the term position matched.
++  return t(replaced);
++}
++
+ export function getSourceControlPresentation(
+   provider: SourceControlProviderInfo | null | undefined,
+ ): SourceControlPresentation {
+diff --git a/apps/web/src/vite-env.d.ts b/apps/web/src/vite-env.d.ts
+index d3ecb559241378d1a6108873d2f2934377a14e2e..700221980da0225227d10898a960ca44b63706d2 100644
+--- a/apps/web/src/vite-env.d.ts
++++ b/apps/web/src/vite-env.d.ts
+@@ -23,11 +23,27 @@ interface ImportMeta {
+ declare global {
+   interface Window {
+     desktopBridge?: DesktopBridge;
+-    /** Injected by the zh-CN runtime (patches/0001-language-setting.patch). */
++    /** Injected by the zh-CN runtime (patches/0001-language-setting.patch, extended by 0004). */
+     __t3zh?: {
+       getLocale(): "system" | "en" | "zh-CN";
+       getResolvedLocale(): "en" | "zh-CN";
+       setLocale(value: "system" | "en" | "zh-CN"): void;
++      /** Translate a display string; the same function as the plugin-injected __t3zh_t. */
++      t?(value: string): string;
+     };
+   }
++  /**
++   * Added by patches/0004-display-site-translation.patch. The zh-CN runtime sets
++   * `globalThis.__t3zh`; declaring it as a `var` lets patches call it as
++   * `globalThis.__t3zh?.t?.(x) ?? x` where the `Window` type is not in scope.
++   */
++  // eslint-disable-next-line no-var
++  var __t3zh:
++    | {
++        getLocale(): "system" | "en" | "zh-CN";
++        getResolvedLocale(): "en" | "zh-CN";
++        setLocale(value: "system" | "en" | "zh-CN"): void;
++        t?(value: string): string;
++      }
++    | undefined;
+ }

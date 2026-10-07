@@ -1,0 +1,636 @@
+# T14 / T14-fix1：r1 审核范围内的最终显示修复。
+# 基线 v0.0.46-nightly.20261007.2774；在 0016 后应用。
+diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceDisplayStrings.ts
+index 3ed7657..5b153c0 100644
+--- a/apps/web/src/acceptanceDisplayStrings.ts
++++ b/apps/web/src/acceptanceDisplayStrings.ts
+@@ -3,6 +3,61 @@ import { fillSlot, translateAroundSlot, translateFixed } from "./newThreadDispla
+ // Finite UI labels audited against baseline 2702. Never translate arbitrary errors,
+ // project names, model names, script IDs, or option values.
+ export const ACCEPTANCE_DISPLAY_LABELS: string[] = [
++  "Cloning repository",
++  "Repository not cloned",
++  "Select at least one model.",
++  "Attachment still uploading",
++  "Attachments still uploading",
++  "Retry or remove the failed attachment",
++  "Retry or remove the failed attachments",
++  "Update this server to send files with question answers",
++  "Attach the interrupted file again or remove it",
++  "Attach the interrupted files again or remove them",
++  "Waiting for the server before file attachments can send",
++  "This server does not accept file attachments right now. Remove the files to send.",
++  "Install Antigravity in provider settings before sending.",
++  "Sign in to Antigravity in provider settings before sending.",
++  "Choose an Antigravity model before sending.",
++  "Refresh Antigravity models in provider settings before sending.",
++  "That Antigravity model is no longer available. Choose another model.",
++  "Device hub",
++  "Simulators",
++  "Agent access",
++  "iOS support was not detected.",
++  "Android support was not detected.",
++  "Xcode is installed, but no iOS Simulator is available. Install a runtime in Xcode Settings \u2192 Components.",
++  "The Android SDK is installed, but no virtual device exists. Create one in Android Studio \u2192 Device Manager.",
++  "Xcode and iOS Simulator are available.",
++  "The Android SDK and Emulator are available.",
++  "Even faster, more expensive",
++  "Updating capture settings\u2026",
++
++  "Right Panel: New",
++  "Messages loading",
++  "Environment disconnected",
++  "Preparing machine",
++  "Rewinding conversation",
++  "Sending feedback",
++  "Connecting",
++  "Preparing worktree",
++  "Submitting message",
++  "Updating queued message",
++  "Checking snapshots…",
++  "Not supported on this platform.",
++  "Turn this on to set up snapshots.",
++  "Capture needs attention",
++  "Check capture access in setup",
++  "Install the capture helper to continue",
++  "Set up active-window snapshots",
++  "Manual capture only — you'll choose a window each time",
++  "Enable capture to continue",
++  "Connecting your shortcut…",
++  "Waiting for shortcut permission",
++  "Ready to capture",
++  "Use your shortcut from another app",
++  "Shortcut saved",
++  "Finish shortcut setup",
++
+   "Search commands, projects, and threads...",
+   "Search...",
+   "Clone from a remote URL",
+@@ -189,6 +244,45 @@ export const ACCEPTANCE_DISPLAY_LABELS: string[] = [
+   "Done",
+   "Unsent draft",
+ ];
++// Provider trait labels are gated only at trait display sites; model names stay unchanged.
++export const TRAIT_DISPLAY_LABELS: string[] = [
++  "Extra High",
++  "High",
++  "Medium",
++  "Low",
++  "Max",
++  "Ultra",
++  "Ultrafast",
++  "Normal",
++  "Minimal",
++  "None",
++  "Context Window",
++  "Fast Mode",
++  "Mode",
++  "Speed",
++  "Effort",
++  "Reasoning effort",
++  "Thinking On",
++  "Thinking Off",
++  "Fast",
++  "Standard",
++  "On",
++  "Off",
++  "Reasoning",
++  "Thinking",
++  "Fast mode",
++];
++const traitLabels = new Set(TRAIT_DISPLAY_LABELS);
++export const TRAIT_CONTEXT_LABELS: string[] = ["Max", "Ultra"];
++export const TRAIT_CONTEXT_KEYS: string[] = ["Reasoning tier: Max", "Reasoning tier: Ultra"];
++export function displayTraitLabel(value: string): string {
++  const key = TRAIT_CONTEXT_KEYS[TRAIT_CONTEXT_LABELS.indexOf(value)];
++  if (key) {
++    const translated = translateFixed(key);
++    return translated === key ? value : translated;
++  }
++  return traitLabels.has(value) ? translateFixed(value) : displayKnown(value);
++}
+ const knownLabels = new Set(ACCEPTANCE_DISPLAY_LABELS);
+ export function displayKnown<T>(value: T): T {
+   return (typeof value === "string" && knownLabels.has(value) ? translateFixed(value) : value) as T;
+@@ -301,3 +395,48 @@ export function displayFollowUp(modifier: string, shortcut: string): string {
+     )
+   );
+ }
++
++/** Running send tooltip: only the two audited directions; shortcut is inserted after translation. */
++export function displayRunningSendTooltip(
++  value: string | null | undefined,
++  followUpBehavior: string,
++  alternateAction: string,
++  shortcut: string | null | undefined,
++): string | null | undefined {
++  if (
++    !(
++      (followUpBehavior === "steer" && alternateAction === "queue") ||
++      (followUpBehavior === "queue" && alternateAction === "steer")
++    )
++  )
++    return displayKnown(value);
++  const expected = `Click to ${followUpBehavior}, Ctrl/⌘-click${shortcut ? ` or ${shortcut}` : ""} to ${alternateAction}`;
++  if (value !== expected) return displayKnown(value);
++  if (!shortcut) return translateFixed(expected);
++  return fillSlot(
++    `Click to ${followUpBehavior}, Ctrl/⌘-click or `,
++    shortcut,
++    ` to ${alternateAction}`,
++  );
++}
++
++/** Two-slot display skeletons: dynamic values never enter t(). */
++export function displayOlderComments(count: number, hidden: number): string {
++  const skeleton =
++    hidden === 1
++      ? "Show \uE000 older comment (\uE001 hidden)"
++      : "Show \uE000 older comments (\uE001 hidden)";
++  return translateFixed(skeleton)
++    .replace("\uE000", String(count))
++    .replace("\uE001", String(hidden));
++}
++export function displayDeviceStepAria(
++  step: string,
++  index: number,
++  summary: string | null | undefined,
++): string {
++  return translateFixed(summary ? "\uE000, step \uE001, \uE002" : "\uE000, step \uE001")
++    .replace("\uE000", () => displayKnown(step))
++    .replace("\uE001", String(index + 1))
++    .replace("\uE002", () => summary ?? "");
++}
+diff --git a/apps/web/src/components/Sidebar.tsx b/apps/web/src/components/Sidebar.tsx
+index 422ec72..4696f30 100644
+--- a/apps/web/src/components/Sidebar.tsx
++++ b/apps/web/src/components/Sidebar.tsx
+@@ -5517,7 +5517,11 @@ export default function Sidebar() {
+                           className="flex h-9 w-full cursor-pointer items-center gap-2.5 rounded-md px-2.5 text-left text-sm text-sidebar-muted-foreground/55 hover:bg-sidebar-row-hover hover:text-sidebar-foreground"
+                         >
+                           <PlusIcon aria-hidden className="size-4 shrink-0" />
+-                          Show {Math.min(hiddenSettledCount, SETTLED_TAIL_PAGE_COUNT)} more
++                          {fillSlot(
++                            "Show ",
++                            String(Math.min(hiddenSettledCount, SETTLED_TAIL_PAGE_COUNT)),
++                            " more",
++                          )}
+                         </button>
+                       </li>
+                     ) : null}
+diff --git a/apps/web/src/components/chat/ComposerPrimaryActions.tsx b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
+index b7e007a..79715eb 100644
+--- a/apps/web/src/components/chat/ComposerPrimaryActions.tsx
++++ b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
+@@ -1,5 +1,5 @@
+ import { displayConnectionPermissionError } from "~/connectionPermissionDisplayStrings";
+-import { displayKnown } from "~/acceptanceDisplayStrings";
++import { displayRunningSendTooltip, displayKnown } from "~/acceptanceDisplayStrings";
+ import { fillSlot } from "~/newThreadDisplayStrings";
+ import { memo, type MouseEventHandler, type PointerEventHandler } from "react";
+ import { CheckIcon, ChevronDownIcon, ChevronLeftIcon, PlayIcon } from "lucide-react";
+@@ -369,7 +369,9 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
+         isEnvironmentUnavailable ||
+         (!hasSendableContent && !showResume)
+       }
+-      aria-label={displayConnectionPermissionError(submitStatus) ?? displayKnown(submitLabel)}
++      aria-label={
++        displayKnown(displayConnectionPermissionError(submitStatus)) ?? displayKnown(submitLabel)
++      }
+     >
+       {stageBackdropVariant ? (
+         <span className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+@@ -401,7 +403,14 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
+   return (
+     <Tooltip key="submit">
+       <TooltipTrigger render={<span className="inline-flex" />}>{sendButton}</TooltipTrigger>
+-      <TooltipPopup>{displayConnectionPermissionError(submitTooltip)}</TooltipPopup>
++      <TooltipPopup>
++        {displayRunningSendTooltip(
++          displayConnectionPermissionError(submitTooltip),
++          followUpBehavior,
++          alternateAction,
++          alternateShortcutLabel,
++        )}
++      </TooltipPopup>
+     </Tooltip>
+   );
+ });
+diff --git a/apps/web/src/components/chat/ThreadRelationshipsControl.tsx b/apps/web/src/components/chat/ThreadRelationshipsControl.tsx
+index f56c1c9..5492c9d 100644
+--- a/apps/web/src/components/chat/ThreadRelationshipsControl.tsx
++++ b/apps/web/src/components/chat/ThreadRelationshipsControl.tsx
+@@ -1,3 +1,4 @@
++import { fillSlot } from "~/newThreadDisplayStrings";
+ import { ThreadDetailsControl } from "./ThreadDetailsControl";
+ import { ThreadHoverCardPopup } from "../ThreadHoverCard";
+ import { ThreadDetailsSection } from "./ThreadDetailsSection";
+@@ -107,7 +108,11 @@ export function ThreadLineageRowList(props: {
+           className={`flex h-8 w-full cursor-pointer items-center rounded-lg ${THREAD_DETAILS_PANEL_ROW_CONTENT_CLASS} text-sm font-medium text-muted-foreground/70 hover:bg-black/[0.055] hover:text-foreground/80 dark:hover:bg-white/[0.075]`}
+         >
+           <PlusIcon aria-hidden className="size-4 shrink-0" />
+-          Show {Math.min(props.hiddenCount, THREAD_LINEAGE_PAGE_COUNT)} more
++          {fillSlot(
++            "Show ",
++            String(Math.min(props.hiddenCount, THREAD_LINEAGE_PAGE_COUNT)),
++            " more",
++          )}
+         </button>
+       ) : null}
+     </>
+@@ -134,7 +139,11 @@ function ThreadLineageGroup(props: {
+           expanded={expanded}
+           onClick={() => setExpanded(!expanded)}
+           accessory={
+-            failedCount > 0 ? <SectionHeaderStatus>{failedCount} failed</SectionHeaderStatus> : null
++            failedCount > 0 ? (
++              <SectionHeaderStatus>
++                {fillSlot("", String(failedCount), " failed")}
++              </SectionHeaderStatus>
++            ) : null
+           }
+         >
+           {props.label}
+diff --git a/apps/web/src/components/chat/TraitsPicker.tsx b/apps/web/src/components/chat/TraitsPicker.tsx
+index d97a80c..fc98ac3 100644
+--- a/apps/web/src/components/chat/TraitsPicker.tsx
++++ b/apps/web/src/components/chat/TraitsPicker.tsx
+@@ -1,4 +1,4 @@
+-import { displayKnown } from "~/acceptanceDisplayStrings";
++import { displayKnown, displayTraitLabel } from "~/acceptanceDisplayStrings";
+ import {
+   type ModelSelection,
+   type ProviderDriverKind,
+@@ -380,7 +380,7 @@ export const TraitsMenuContent = memo(function TraitsMenuContentImpl({
+               {index > 0 ? <MenuDivider /> : null}
+               <MenuGroup>
+                 <div className="px-2 pt-1.5 pb-1 font-medium text-muted-foreground text-xs">
+-                  {displayKnown(descriptor.label)}
++                  {displayTraitLabel(descriptor.label)}
+                 </div>
+                 <div className="px-2 pb-1.5 text-muted-foreground/80 text-xs">{value}</div>
+               </MenuGroup>
+@@ -404,7 +404,7 @@ export const TraitsMenuContent = memo(function TraitsMenuContentImpl({
+             {index > 0 ? <MenuDivider /> : null}
+             <MenuGroup>
+               <div className="px-2 pt-1.5 pb-1 font-medium text-muted-foreground text-xs">
+-                {displayKnown(descriptor.label)}
++                {displayTraitLabel(descriptor.label)}
+               </div>
+               {ultrathinkInBodyText && descriptor.id === primarySelectDescriptor?.id ? (
+                 <div className="px-2 pb-1.5 text-muted-foreground/80 text-xs">
+@@ -429,7 +429,7 @@ export const TraitsMenuContent = memo(function TraitsMenuContentImpl({
+                     <span className="flex w-full min-w-0 flex-col">
+                       <span className="flex w-full min-w-0 items-center justify-between gap-3">
+                         <span className="min-w-0 truncate">
+-                          {displayKnown(option.label)}
++                          {displayTraitLabel(option.label)}
+                           {option.isDefault ? (
+                             <>
+                               {" "}
+@@ -459,7 +459,7 @@ export const TraitsMenuContent = memo(function TraitsMenuContentImpl({
+             {index > 0 || selectDescriptors.length > 0 ? <MenuDivider /> : null}
+             <MenuGroup>
+               <div className="px-2 py-1.5 font-medium text-muted-foreground text-xs">
+-                {displayKnown(descriptor.label)}
++                {displayTraitLabel(descriptor.label)}
+               </div>
+               <MenuRadioGroup
+                 value={selectedValue}
+@@ -493,7 +493,9 @@ export function buildTraitsTriggerDisplay(input: {
+   ultrathinkPromptControlled: boolean;
+   modelSelection?: ModelSelection | null;
+   reportedModelSelection?: ModelSelection | null | undefined;
++  displayLabel?: (value: string) => string;
+ }): { label: string } {
++  const displayLabel = input.displayLabel ?? ((value: string) => value);
+   let fastModeFallbackLabel: string | null = null;
+   let speedLabel: string | null = null;
+   let reasoningLabelIndex = -1;
+@@ -547,7 +549,7 @@ export function buildTraitsTriggerDisplay(input: {
+       ) {
+         reasoningLabelIndex = labels.length;
+       }
+-      labels.push(label);
++      labels.push(displayLabel(label));
+     }
+   }
+ 
+@@ -555,13 +557,13 @@ export function buildTraitsTriggerDisplay(input: {
+   // off an empty label list alone would also catch descriptors that resolved to
+   // no label at all, printing a bogus "Normal" for a model without fast mode.
+   if (labels.length === 0 && fastModeFallbackLabel !== null) {
+-    return { label: fastModeFallbackLabel };
++    return { label: displayLabel(fastModeFallbackLabel) };
+   }
+   if (speedLabel) {
+     if (reasoningLabelIndex >= 0) {
+-      labels[reasoningLabelIndex] = `${labels[reasoningLabelIndex]} ${speedLabel}`;
++      labels[reasoningLabelIndex] = `${labels[reasoningLabelIndex]} ${displayLabel(speedLabel)}`;
+     } else {
+-      labels.push(speedLabel);
++      labels.push(displayLabel(speedLabel));
+     }
+   }
+   return { label: labels.join(" · ") };
+@@ -623,6 +625,7 @@ export const TraitsPicker = memo(function TraitsPicker({
+     ultrathinkPromptControlled,
+     modelSelection: instanceId && model ? { instanceId, model, options: modelOptions ?? [] } : null,
+     reportedModelSelection,
++    displayLabel: displayTraitLabel,
+   });
+   const isCodexStyle = provider === "codex";
+ 
+diff --git a/apps/web/src/components/clerk/BrowserManagedAuthShell.tsx b/apps/web/src/components/clerk/BrowserManagedAuthShell.tsx
+index 285e9f7..1f38882 100644
+--- a/apps/web/src/components/clerk/BrowserManagedAuthShell.tsx
++++ b/apps/web/src/components/clerk/BrowserManagedAuthShell.tsx
+@@ -1,3 +1,4 @@
++import { translateFixed } from "~/newThreadDisplayStrings";
+ import { ClerkProvider } from "@clerk/react";
+ import type { ReactNode } from "react";
+ 
+@@ -18,7 +19,20 @@ export default function BrowserManagedAuthShell({
+   readonly children: ReactNode;
+ }) {
+   return (
+-    <ClerkProvider appearance={clerkAppearance} publishableKey={publishableKey}>
++    <ClerkProvider
++      {...(globalThis.__t3zh?.getResolvedLocale?.() === "zh-CN"
++        ? {
++            localization: {
++              userButton: {
++                action__openUserMenu: translateFixed("Open user menu"),
++                action__closeUserMenu: translateFixed("Close user menu"),
++              },
++            },
++          }
++        : {})}
++      appearance={clerkAppearance}
++      publishableKey={publishableKey}
++    >
+       <ManagedRelayAuthProvider>{children}</ManagedRelayAuthProvider>
+     </ClerkProvider>
+   );
+diff --git a/apps/web/src/components/clerk/ElectronManagedAuthShell.tsx b/apps/web/src/components/clerk/ElectronManagedAuthShell.tsx
+index 3030c2a..ddf7779 100644
+--- a/apps/web/src/components/clerk/ElectronManagedAuthShell.tsx
++++ b/apps/web/src/components/clerk/ElectronManagedAuthShell.tsx
+@@ -1,3 +1,4 @@
++import { translateFixed } from "~/newThreadDisplayStrings";
+ import { passkeys } from "@clerk/electron/passkeys";
+ import { ClerkProvider } from "@clerk/electron/react";
+ import type { ReactNode } from "react";
+@@ -19,7 +20,21 @@ export default function ElectronManagedAuthShell({
+   readonly children: ReactNode;
+ }) {
+   return (
+-    <ClerkProvider appearance={clerkAppearance} publishableKey={publishableKey} passkeys={passkeys}>
++    <ClerkProvider
++      {...(globalThis.__t3zh?.getResolvedLocale?.() === "zh-CN"
++        ? {
++            localization: {
++              userButton: {
++                action__openUserMenu: translateFixed("Open user menu"),
++                action__closeUserMenu: translateFixed("Close user menu"),
++              },
++            },
++          }
++        : {})}
++      appearance={clerkAppearance}
++      publishableKey={publishableKey}
++      passkeys={passkeys}
++    >
+       <ManagedRelayAuthProvider>{children}</ManagedRelayAuthProvider>
+     </ClerkProvider>
+   );
+diff --git a/apps/web/src/components/device/DeviceSetup.tsx b/apps/web/src/components/device/DeviceSetup.tsx
+index 67c3052..59c5268 100644
+--- a/apps/web/src/components/device/DeviceSetup.tsx
++++ b/apps/web/src/components/device/DeviceSetup.tsx
+@@ -1,3 +1,5 @@
++import { displayKnown, displayDeviceStepAria } from "~/acceptanceDisplayStrings";
++import { translateFixed } from "~/newThreadDisplayStrings";
+ import { DeviceHostUpdates } from "./DeviceHostUpdates";
+ import type { DevicePlatform, DeviceServiceState, EnvironmentId } from "@t3tools/contracts";
+ import { Check } from "lucide-react";
+@@ -92,6 +94,8 @@ export function DeviceSetup(props: {
+       >
+         <WizardSteps
+           steps={["Device hub", "Simulators", "Agent access"]}
++          displayStep={displayKnown}
++          displayStepAria={displayDeviceStepAria}
+           currentStep={step}
+           onStepChange={setStep}
+           isStepDisabled={(requested) => busy || pending !== null || requested > step}
+@@ -104,7 +108,7 @@ export function DeviceSetup(props: {
+           <section className="space-y-3 text-sm">
+             <h3 className="font-medium">Enable the device hub</h3>
+             <div className="flex items-start justify-between gap-4">
+-              <p className="text-muted-foreground">{deviceHubDescription}</p>
++              <p className="text-muted-foreground">{translateFixed(deviceHubDescription)}</p>
+               <Switch
+                 checked={enabled}
+                 disabled={!canConfigure || busy || pending !== null}
+@@ -145,7 +149,7 @@ export function DeviceSetup(props: {
+           <section className="space-y-3 text-sm">
+             <h3 className="font-medium">Allow agent control</h3>
+             <div className="flex items-start justify-between gap-4">
+-              <p className="text-muted-foreground">{agentDeviceDescription}</p>
++              <p className="text-muted-foreground">{translateFixed(agentDeviceDescription)}</p>
+               <Switch
+                 checked={props.state.agentAccessEnabled}
+                 disabled={!canConfigure || !enabled || busy || pending !== null}
+@@ -310,7 +314,7 @@ export function PlatformStatus(props: {
+       <div className={cn(props.compact && props.status.ready && "flex items-center gap-2")}>
+         <p className="font-medium">{props.platform}</p>
+         <p className="text-xs text-muted-foreground">
+-          {props.compact && props.status.ready ? "Ready" : props.status.message}
++          {props.compact && props.status.ready ? "Ready" : displayKnown(props.status.message)}
+         </p>
+       </div>
+     </div>
+diff --git a/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx b/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx
+index 581c4d0..4f2e104 100644
+--- a/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx
++++ b/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx
+@@ -1,3 +1,4 @@
++import { displayOlderComments } from "~/acceptanceDisplayStrings";
+ import { useAtomCommand } from "~/state/use-atom-command";
+ import type {
+   EnvironmentId,
+@@ -526,8 +527,7 @@ export function PullRequestSummaryTab({
+         className="w-full"
+         onClick={() => setShown({ url: detail.url, count: shownComments + COMMENT_PAGE })}
+       >
+-        Show {Math.min(hiddenCommentCount, COMMENT_PAGE)} older comment
+-        {hiddenCommentCount === 1 ? "" : "s"} ({hiddenCommentCount} hidden)
++        {displayOlderComments(Math.min(hiddenCommentCount, COMMENT_PAGE), hiddenCommentCount)}
+       </Button>
+     ) : null;
+   // Read from the whole conversation, not the window shown below it: a verdict older than the
+diff --git a/apps/web/src/components/settings/BranchNamingSettings.tsx b/apps/web/src/components/settings/BranchNamingSettings.tsx
+index d6167d0..5e3c269 100644
+--- a/apps/web/src/components/settings/BranchNamingSettings.tsx
++++ b/apps/web/src/components/settings/BranchNamingSettings.tsx
+@@ -1,3 +1,4 @@
++import { translateFixed } from "~/newThreadDisplayStrings";
+ import { useRef } from "react";
+ import { BranchNamingMode, DEFAULT_SERVER_SETTINGS } from "@t3tools/contracts";
+ 
+@@ -58,13 +59,15 @@ export function BranchNamingSettings() {
+           >
+             <SelectTrigger size="sm" aria-label="Worktree branch naming">
+               <SelectValue>
+-                {(value: BranchNamingMode | null) => (value === null ? "Mixed" : MODES[value])}
++                {(value: BranchNamingMode | null) =>
++                  translateFixed(value === null ? "Mixed" : MODES[value])
++                }
+               </SelectValue>
+             </SelectTrigger>
+             <SelectPopup align="end" alignItemWithTrigger={false}>
+               {BranchNamingMode.literals.map((mode) => (
+                 <SelectItem key={mode} value={mode}>
+-                  {MODES[mode]}
++                  {translateFixed(MODES[mode])}
+                 </SelectItem>
+               ))}
+             </SelectPopup>
+diff --git a/apps/web/src/components/settings/ConnectionsSettings.tsx b/apps/web/src/components/settings/ConnectionsSettings.tsx
+index d01bb92..09d708b 100644
+--- a/apps/web/src/components/settings/ConnectionsSettings.tsx
++++ b/apps/web/src/components/settings/ConnectionsSettings.tsx
+@@ -1,3 +1,4 @@
++import { fillSlot } from "~/newThreadDisplayStrings";
+ import {
+   ChevronRightIcon,
+   ChevronsLeftRightEllipsisIcon,
+@@ -512,9 +513,9 @@ function summarizeAuthorizedClients(
+   links: ReadonlyArray<ServerPairingLinkRecord>,
+ ): string {
+   const parts = [
+-    `${sessions.length} ${sessions.length === 1 ? "client" : "clients"}`,
++    fillSlot("", String(sessions.length), sessions.length === 1 ? " client" : " clients"),
+     links.length > 0
+-      ? `${links.length} ${links.length === 1 ? "pairing link" : "pairing links"}`
++      ? fillSlot("", String(links.length), links.length === 1 ? " pairing link" : " pairing links")
+       : null,
+   ];
+   return parts.filter((part): part is string => part !== null).join(" · ");
+diff --git a/apps/web/src/components/settings/IntegrationsSettings.tsx b/apps/web/src/components/settings/IntegrationsSettings.tsx
+index 3f123ed..769f6ea 100644
+--- a/apps/web/src/components/settings/IntegrationsSettings.tsx
++++ b/apps/web/src/components/settings/IntegrationsSettings.tsx
+@@ -1,5 +1,5 @@
+ import { DeviceHostUpdates } from "../device/DeviceHostUpdates";
+-import { fillSlot } from "~/newThreadDisplayStrings";
++import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
+ import { DeviceToolVersions } from "../device/DeviceToolVersions";
+ import { useScopedSettings, useUpdateScopedSettings } from "./useScopedSettings";
+ import { ScopedSwitch } from "./ScopedSwitch";
+@@ -781,7 +781,7 @@ function DeviceIntegrationControls({
+         {...searchableSetting("device-hub")}
+         serverScoped
+         settingKeys={["enableDeviceSupport"]}
+-        description={deviceHubDescription}
++        description={translateFixed(deviceHubDescription)}
+         control={
+           <>
+             <DeviceToolVersions
+@@ -852,7 +852,7 @@ function DeviceIntegrationControls({
+         {...searchableSetting("agent-device-access")}
+         serverScoped
+         settingKeys={["enableAgentDeviceAccess"]}
+-        description={agentDeviceDescription}
++        description={translateFixed(agentDeviceDescription)}
+         control={
+           <>
+             <DeviceToolVersions
+diff --git a/apps/web/src/components/settings/ProjectDefaultsSettings.tsx b/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
+index 3600347..e459db2 100644
+--- a/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
++++ b/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
+@@ -1,3 +1,4 @@
++import { translateFixed } from "~/newThreadDisplayStrings";
+ import {
+   DEFAULT_SERVER_SETTINGS,
+   type ModelSelection,
+@@ -473,8 +474,8 @@ export function ProjectDefaultsSettings({ category }: { category: ProjectSetting
+                       value === "merge" || value === "squash" || value === "rebase"
+                         ? PULL_REQUEST_MERGE_METHOD_LABELS[value]
+                         : value === "last"
+-                          ? "Last selected"
+-                          : "Mixed"
++                          ? translateFixed("Last selected")
++                          : translateFixed("Mixed")
+                     }
+                   </SelectValue>
+                 </SelectTrigger>
+diff --git a/apps/web/src/components/settings/SnapShotSettings.tsx b/apps/web/src/components/settings/SnapShotSettings.tsx
+index ec60aa9..75cdc81 100644
+--- a/apps/web/src/components/settings/SnapShotSettings.tsx
++++ b/apps/web/src/components/settings/SnapShotSettings.tsx
+@@ -1,3 +1,4 @@
++import { displayKnown } from "~/acceptanceDisplayStrings";
+ import { useAtomValue } from "@effect/atom-react";
+ import {
+   isModifierPairShortcut,
+@@ -376,8 +377,8 @@ export function SnapShotSettings() {
+             status={
+               bridge
+                 ? setupBusy && !wizard
+-                  ? "Updating capture settings…"
+-                  : snapShotStatus(state, settings.snapShotEnabled)
++                  ? displayKnown("Updating capture settings…")
++                  : displayKnown(snapShotStatus(state, settings.snapShotEnabled))
+                 : undefined
+             }
+             control={
+diff --git a/apps/web/src/components/ui/wizard.tsx b/apps/web/src/components/ui/wizard.tsx
+index 1687ccb..206f0e4 100644
+--- a/apps/web/src/components/ui/wizard.tsx
++++ b/apps/web/src/components/ui/wizard.tsx
+@@ -69,6 +69,8 @@ export function WizardFooter({
+ 
+ export function WizardSteps({
+   steps,
++  displayStep = (step: string) => step,
++  displayStepAria,
+   currentStep,
+   summaries,
+   showSummaries = false,
+@@ -76,6 +78,12 @@ export function WizardSteps({
+   isStepDisabled,
+ }: {
+   readonly steps: readonly string[];
++  readonly displayStep?: (step: string) => string;
++  readonly displayStepAria?: (
++    step: string,
++    index: number,
++    summary: string | null | undefined,
++  ) => string;
+   readonly currentStep: number;
+   readonly summaries?: readonly (string | null)[];
+   readonly showSummaries?: boolean;
+@@ -103,7 +111,11 @@ export function WizardSteps({
+                 "bg-card text-foreground shadow-xs ring-1 ring-black/5 hover:bg-card dark:shadow-none dark:ring-white/5",
+             )}
+             aria-current={index === currentStep ? "step" : undefined}
+-            aria-label={`${step}, step ${index + 1}${index < currentStep && summaries?.[index] ? `, ${summaries?.[index]}` : ""}`}
++            aria-label={
++              displayStepAria
++                ? displayStepAria(step, index, index < currentStep ? summaries?.[index] : null)
++                : `${step}, step ${index + 1}${index < currentStep && summaries?.[index] ? `, ${summaries?.[index]}` : ""}`
++            }
+             onClick={onStepChange ? () => onStepChange(index) : undefined}
+           >
+             <span
+@@ -125,7 +137,7 @@ export function WizardSteps({
+                 index === currentStep ? "text-foreground" : "text-muted-foreground",
+               )}
+             >
+-              {step}
++              {displayStep(step)}
+               {showSummaries && index < currentStep && summaries?.[index]
+                 ? `: ${summaries[index]}`
+                 : null}

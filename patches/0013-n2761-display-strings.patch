@@ -1,0 +1,426 @@
+# n2761 新增显示路径：文件上传、外部 Agent 登录、GitHub 账户、权限错误与浏览器资料清理。
+# 基线：v0.0.46-nightly.20261007.2774；按序在 0012 之后普通 git apply。
+# 任意主机名、账户错误、环境变量和资料名不交给 t()；英文显示与原版一致。
+# n2774 移植：上游删除了 ChatView 的「Resume with less context」横幅，原先包在其提示里的 compactDisabledReason 显示点随之去掉；同一文字仍在 ContextWindowMeter 显示处翻译。
+
+diff --git a/apps/web/src/browser/ServerBrowserSurface.tsx b/apps/web/src/browser/ServerBrowserSurface.tsx
+index 26013d7..f4c5646 100644
+--- a/apps/web/src/browser/ServerBrowserSurface.tsx
++++ b/apps/web/src/browser/ServerBrowserSurface.tsx
+@@ -40,6 +40,7 @@ import { Button } from "~/components/ui/button";
+ import { Input } from "~/components/ui/input";
+ import { toastManager } from "~/components/ui/toast";
+ import { cn } from "~/lib/utils";
++import { translateFixed } from "~/newThreadDisplayStrings";
+ import { refreshPreviewStreamAccess, usePreviewStreamAccess } from "~/state/previewStream";
+ 
+ /** Chrome-row controls for a server tab; commands require current ownership. */
+@@ -801,7 +802,7 @@ export function ServerBrowserSurface(props: {
+             aria-label="Choose files for the page"
+           >
+             <p className="text-sm">
+-              The page asks for {fileChooser.multiple ? "files" : "a file"}.
++              {translateFixed(fileChooser.multiple ? "The page asks for files." : "The page asks for a file.")}
+             </p>
+             <input
+               ref={fileInputRef}
+@@ -820,7 +821,7 @@ export function ServerBrowserSurface(props: {
+                 Cancel
+               </Button>
+               <Button size="sm" onClick={() => fileInputRef.current?.click()}>
+-                Choose {fileChooser.multiple ? "files" : "file"}
++                {translateFixed(fileChooser.multiple ? "Choose files" : "Choose file")}
+               </Button>
+             </div>
+           </div>
+diff --git a/apps/web/src/components/ChatView.tsx b/apps/web/src/components/ChatView.tsx
+index 3b08fa7..3b0c59b 100644
+--- a/apps/web/src/components/ChatView.tsx
++++ b/apps/web/src/components/ChatView.tsx
+@@ -1,4 +1,5 @@
+ import { ChatCanvas } from "./chat/ChatCanvas";
++import { displayConnectionPermissionError } from "~/connectionPermissionDisplayStrings";
+ import { usageLimitRecoveryBannerItem } from "./chat/UsageLimitRecoveryBanner";
+ import {
+   resolveBackgroundDraftWorkspaceOptions,
+@@ -11249,7 +11250,7 @@ export default function ChatView(props: ChatViewProps) {
+                 onOpenProviderSetup={openProviderSetup}
+               />
+               <ThreadErrorBanner
+-                error={timelineThreadError}
++                error={displayConnectionPermissionError(timelineThreadError)}
+                 errorClass={
+                   localServerError === null && visibleThreadError === serverRuntime?.lastError
+                     ? (serverRuntime?.lastErrorClass ?? null)
+diff --git a/apps/web/src/components/CommandPalette.tsx b/apps/web/src/components/CommandPalette.tsx
+index 4fce1e0..d1b6234 100644
+--- a/apps/web/src/components/CommandPalette.tsx
++++ b/apps/web/src/components/CommandPalette.tsx
+@@ -1,4 +1,5 @@
+ "use client";
++import { displayConnectionPermissionError } from "~/connectionPermissionDisplayStrings";
+ import { displayKnown } from "~/acceptanceDisplayStrings";
+ 
+ import { threadPullRequestLinkMode } from "@t3tools/client-runtime/thread-pull-request-compatibility";
+@@ -3527,7 +3528,7 @@ function OpenCommandPaletteDialog(props: {
+       ) : null}
+       {browseAccessError ? (
+         <div role="alert" className="px-4 py-3 text-sm text-muted-foreground">
+-          {browseAccessError}
++          {displayConnectionPermissionError(browseAccessError)}
+         </div>
+       ) : isBrowsePending && browseResult === null ? (
+         <div role="status" className="px-4 py-3 text-sm text-muted-foreground">
+diff --git a/apps/web/src/components/GitActionsControl.tsx b/apps/web/src/components/GitActionsControl.tsx
+index 0f4ea61..323e739 100644
+--- a/apps/web/src/components/GitActionsControl.tsx
++++ b/apps/web/src/components/GitActionsControl.tsx
+@@ -1327,7 +1327,7 @@ export default function GitActionsControl({
+     [gitStatusForActions, hasPrimaryRemote, isDefaultRef, isGitActionRunning],
+   );
+   const quickActionDisabledReason = !canWriteSourceControl
+-    ? "This connection cannot change source control."
++    ? localizeTerminologyText("This connection cannot change source control.", changeRequestTerminology)
+     : quickAction.disabled
+       ? localizeTerminologyText(quickAction.hint ?? "This action is currently unavailable.", changeRequestTerminology)
+       : null;
+diff --git a/apps/web/src/components/auth/ConnectAgentSurface.tsx b/apps/web/src/components/auth/ConnectAgentSurface.tsx
+index 12d620a..cb58e88 100644
+--- a/apps/web/src/components/auth/ConnectAgentSurface.tsx
++++ b/apps/web/src/components/auth/ConnectAgentSurface.tsx
+@@ -16,6 +16,7 @@ import { type ReactNode, useCallback, useEffect, useState } from "react";
+ import { PrimaryEnvironmentHttpClient } from "~/environments/primary/httpClient";
+ import { runPrimaryHttp } from "~/lib/runtime";
+ import { cn } from "~/lib/utils";
++import { fillSlot } from "~/newThreadDisplayStrings";
+ import { runtimeModeConfig } from "../chat/runtimeModeConfig";
+ import { Alert, AlertDescription } from "../ui/alert";
+ import { Button } from "../ui/button";
+@@ -196,8 +197,7 @@ export function ConnectAgentSurface() {
+       <p className="mt-2 text-xs text-muted-foreground">
+         {redirectsToThisComputer(details.redirectHost) ? (
+           <>
+-            The name is chosen by the agent. Approval returns to {details.redirectHost} on the
+-            computer that opened this page. Only approve a sign-in you just started.
++            {fillSlot("The name is chosen by the agent. Approval returns to ", details.redirectHost, " on the computer that opened this page. Only approve a sign-in you just started.")}
+           </>
+         ) : (
+           <>
+diff --git a/apps/web/src/components/chat/ChatComposer.tsx b/apps/web/src/components/chat/ChatComposer.tsx
+index 2c4d9b0..82a72aa 100644
+--- a/apps/web/src/components/chat/ChatComposer.tsx
++++ b/apps/web/src/components/chat/ChatComposer.tsx
+@@ -1,3 +1,4 @@
++import { displayConnectionPermissionError } from "~/connectionPermissionDisplayStrings";
+ import { DESKTOP_PASTE_AS_TEXT_EVENT } from "../../lib/desktopPasteAsText";
+ import { runtimeModeConfig, runtimeModeOptions as runtimeModes } from "./runtimeModeConfig";
+ import { isLocalEnvironmentDisabled } from "../../localEnvironment";
+@@ -7130,7 +7131,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+                                 >
+                                   <RefreshIcon />
+                                 </TooltipTrigger>
+-                                <TooltipPopup side="top">{upload.reason}</TooltipPopup>
++                                <TooltipPopup side="top">{displayConnectionPermissionError(upload.reason)}</TooltipPopup>
+                               </Tooltip>
+                             )}
+                             {/* Snap-shot frames reveal their remove button on hover or focus. */}
+@@ -7230,7 +7231,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+                               >
+                                 <RefreshIcon />
+                               </TooltipTrigger>
+-                              <TooltipPopup side="top">{upload.reason}</TooltipPopup>
++                              <TooltipPopup side="top">{displayConnectionPermissionError(upload.reason)}</TooltipPopup>
+                             </Tooltip>
+                           )}
+                           <Button
+@@ -7309,7 +7310,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+                               >
+                                 <RefreshIcon />
+                               </TooltipTrigger>
+-                              <TooltipPopup side="top">{upload.reason}</TooltipPopup>
++                              <TooltipPopup side="top">{displayConnectionPermissionError(upload.reason)}</TooltipPopup>
+                             </Tooltip>
+                           ) : null}
+                           <Button
+diff --git a/apps/web/src/components/chat/ComposerPrimaryActions.tsx b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
+index 7235b66..369a00f 100644
+--- a/apps/web/src/components/chat/ComposerPrimaryActions.tsx
++++ b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
+@@ -1,3 +1,4 @@
++import { displayConnectionPermissionError } from "~/connectionPermissionDisplayStrings";
+ import { displayKnown } from "~/acceptanceDisplayStrings";
+ import { memo, type MouseEventHandler, type PointerEventHandler } from "react";
+ import { CheckIcon, ChevronDownIcon, ChevronLeftIcon, PlayIcon } from "lucide-react";
+@@ -365,7 +366,7 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
+         isEnvironmentUnavailable ||
+         (!hasSendableContent && !showResume)
+       }
+-      aria-label={submitStatus ?? displayKnown(submitLabel)}
++      aria-label={displayConnectionPermissionError(submitStatus) ?? displayKnown(submitLabel)}
+     >
+       {stageBackdropVariant ? (
+         <span className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+@@ -397,7 +398,7 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
+   return (
+     <Tooltip key="submit">
+       <TooltipTrigger render={<span className="inline-flex" />}>{sendButton}</TooltipTrigger>
+-      <TooltipPopup>{submitTooltip}</TooltipPopup>
++      <TooltipPopup>{displayConnectionPermissionError(submitTooltip)}</TooltipPopup>
+     </Tooltip>
+   );
+ });
+diff --git a/apps/web/src/components/chat/ContextWindowMeter.tsx b/apps/web/src/components/chat/ContextWindowMeter.tsx
+index 5c9fc8b..4fe33b7 100644
+--- a/apps/web/src/components/chat/ContextWindowMeter.tsx
++++ b/apps/web/src/components/chat/ContextWindowMeter.tsx
+@@ -1,3 +1,4 @@
++import { displayConnectionPermissionError } from "~/connectionPermissionDisplayStrings";
+ import { Button } from "../ui/button";
+ import { type ContextWindowSnapshot, formatContextWindowTokens } from "~/lib/contextWindow";
+ import { Popover, PopoverPopup, PopoverTrigger } from "../ui/popover";
+@@ -163,7 +164,7 @@ export function ContextWindowMeter(props: {
+               </Button>
+               {compactDisabled && compactDisabledReason ? (
+                 <div className="text-pretty text-secondary-label text-2xs">
+-                  {compactDisabledReason}
++                  {displayConnectionPermissionError(compactDisabledReason)}
+                 </div>
+               ) : null}
+             </>
+diff --git a/apps/web/src/components/files/FileBrowserPanel.tsx b/apps/web/src/components/files/FileBrowserPanel.tsx
+index ad134ab..d715042 100644
+--- a/apps/web/src/components/files/FileBrowserPanel.tsx
++++ b/apps/web/src/components/files/FileBrowserPanel.tsx
+@@ -1,3 +1,5 @@
++import { displayConnectionPermissionError } from "~/connectionPermissionDisplayStrings";
++import { translateFixed } from "~/newThreadDisplayStrings";
+ import { RefreshIcon } from "~/components/ui/refresh-icon";
+ import type {
+   ContextMenuItem as TreeContextMenuItem,
+@@ -534,7 +536,7 @@ export default function FileBrowserPanel({
+           onClick={handleRefresh}
+           className="p-4 text-left text-xs leading-relaxed text-destructive"
+         >
+-          {error ?? pathSearch.error} Click to retry.
++          {displayConnectionPermissionError(error ?? pathSearch.error)}{" "}{translateFixed("Click to retry.")}
+         </button>
+       ) : null}
+       {query.trim() && pathSearch.truncated && !pathSearch.isPending ? (
+diff --git a/apps/web/src/components/onboarding/WelcomeWizard.tsx b/apps/web/src/components/onboarding/WelcomeWizard.tsx
+index a9b60b5..144618b 100644
+--- a/apps/web/src/components/onboarding/WelcomeWizard.tsx
++++ b/apps/web/src/components/onboarding/WelcomeWizard.tsx
+@@ -1,3 +1,4 @@
++import { displayConnectionPermissionError } from "~/connectionPermissionDisplayStrings";
+ import { useAuth } from "@clerk/react";
+ import { useAtomValue } from "@effect/atom-react";
+ import type {
+@@ -1535,7 +1536,7 @@ function ImportStep({
+         </div>
+       </ScrollArea>
+       {visibleImportError ? (
+-        <p className="mt-3 text-sm text-destructive">{visibleImportError}</p>
++        <p className="mt-3 text-sm text-destructive">{displayConnectionPermissionError(visibleImportError)}</p>
+       ) : null}
+       <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
+         <Button variant="ghost-muted" disabled={isImporting} onClick={finishAfterImport}>
+diff --git a/apps/web/src/components/projectScriptEditor.tsx b/apps/web/src/components/projectScriptEditor.tsx
+index 19a246c..09967ee 100644
+--- a/apps/web/src/components/projectScriptEditor.tsx
++++ b/apps/web/src/components/projectScriptEditor.tsx
+@@ -19,6 +19,7 @@ import {
+   PlayIcon,
+   WrenchIcon,
+ } from "lucide-react";
++import { displayConnectionPermissionError } from "~/connectionPermissionDisplayStrings";
+ import React, {
+   type FormEvent,
+   type KeyboardEvent,
+@@ -468,7 +469,7 @@ export function ProjectScriptEditorDialog({
+                     onCheckedChange={(checked) => setAutoOpenPreview(Boolean(checked))}
+                   />
+                 </label>
+-                {validationError && <p className="text-sm text-destructive">{validationError}</p>}
++                {validationError && <p className="text-sm text-destructive">{displayConnectionPermissionError(validationError)}</p>}
+               </fieldset>
+             </form>
+           </DialogPanel>
+diff --git a/apps/web/src/components/search/ProjectContentSearchDialog.tsx b/apps/web/src/components/search/ProjectContentSearchDialog.tsx
+index f429d36..4dbce64 100644
+--- a/apps/web/src/components/search/ProjectContentSearchDialog.tsx
++++ b/apps/web/src/components/search/ProjectContentSearchDialog.tsx
+@@ -1,3 +1,4 @@
++import { displayConnectionPermissionError } from "~/connectionPermissionDisplayStrings";
+ import { Spinner } from "~/components/ui/spinner";
+ import { AuthFilesystemReadScope, type ProjectContentMatch } from "@t3tools/contracts";
+ 
+@@ -240,7 +241,7 @@ function OpenContentSearchDialog(props: {
+               <Spinner size="sm" /> Searching…
+             </span>
+           ) : search.error ? (
+-            <span className="text-destructive">{search.error}</span>
++            <span className="text-destructive">{displayConnectionPermissionError(search.error)}</span>
+           ) : search.invalidRegex ? (
+             <span className="text-destructive">Invalid regular expression</span>
+           ) : (
+diff --git a/apps/web/src/components/settings/GitHubAccountSettings.tsx b/apps/web/src/components/settings/GitHubAccountSettings.tsx
+index 98e7289..2dd677f 100644
+--- a/apps/web/src/components/settings/GitHubAccountSettings.tsx
++++ b/apps/web/src/components/settings/GitHubAccountSettings.tsx
+@@ -1,6 +1,7 @@
+ import type { EnvironmentId, SourceControlProviderAuth } from "@t3tools/contracts";
+ import { EyeIcon, EyeOffIcon } from "lucide-react";
+ import { useState } from "react";
++import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
+ 
+ import { useEnvironmentSettings } from "../../hooks/useSettings";
+ import { serverEnvironment } from "../../state/server";
+@@ -143,7 +144,7 @@ export function GitHubAccountSettings({
+                         {(value: string) =>
+                           value === ACTIVE_ACCOUNT ? (
+                             <span className="flex min-w-0 items-center gap-1">
+-                              Active gh account
++                              {translateFixed("Active gh account")}
+                               {group.activeAccount ? (
+                                 <>
+                                   (
+@@ -164,7 +165,7 @@ export function GitHubAccountSettings({
+                     <SelectPopup align="end" alignItemWithTrigger={false}>
+                       <SelectItem value={ACTIVE_ACCOUNT}>
+                         <span className="flex min-w-0 items-center gap-1">
+-                          Active gh account
++                          {translateFixed("Active gh account")}
+                           {group.activeAccount ? (
+                             <>
+                               (<RedactedLogin revealed={revealed} account={group.activeAccount} />)
+@@ -207,13 +208,12 @@ export function GitHubAccountSettings({
+                 className="flex min-w-0 flex-wrap items-center gap-1 text-xs text-muted-foreground/70"
+               >
+                 <RedactedLogin revealed={revealed} account={entry.account} />
+-                <span>can't be used: {entry.error ?? "gh reports this login as invalid."}</span>
++                <span>{fillSlot("can't be used: ", entry.error ?? translateFixed("gh reports this login as invalid."), "")}</span>
+               </p>
+             ))}
+             {group.environmentVariable ? (
+               <p className="text-xs text-warning">
+-                {group.environmentVariable} is set on the server, so it overrides the account chosen
+-                here until it is unset.
++                {fillSlot("", group.environmentVariable, " is set on the server, so it overrides the account chosen here until it is unset.")}
+               </p>
+             ) : null}
+           </div>
+diff --git a/apps/web/src/components/settings/IntegrationsSettings.tsx b/apps/web/src/components/settings/IntegrationsSettings.tsx
+index a0c0a79..3f123ed 100644
+--- a/apps/web/src/components/settings/IntegrationsSettings.tsx
++++ b/apps/web/src/components/settings/IntegrationsSettings.tsx
+@@ -1,4 +1,5 @@
+ import { DeviceHostUpdates } from "../device/DeviceHostUpdates";
++import { fillSlot } from "~/newThreadDisplayStrings";
+ import { DeviceToolVersions } from "../device/DeviceToolVersions";
+ import { useScopedSettings, useUpdateScopedSettings } from "./useScopedSettings";
+ import { ScopedSwitch } from "./ScopedSwitch";
+@@ -1460,7 +1461,7 @@ function BrowserProfilesSetting({ disabled }: { readonly disabled: boolean }) {
+         <AlertDialogPopup>
+           <AlertDialogHeader>
+             <AlertDialogTitle>
+-              Clear “{profilePendingClear?.name}”’s cookies and cache?
++              {fillSlot("Clear “", profilePendingClear?.name ?? "", "”’s cookies and cache?")}
+             </AlertDialogTitle>
+             <AlertDialogDescription>
+               You are signed out of its sites. Server browser tabs open in this profile close now.
+diff --git a/apps/web/src/components/settings/ProjectSettingsPanel.tsx b/apps/web/src/components/settings/ProjectSettingsPanel.tsx
+index fcc83a8..4897feb 100644
+--- a/apps/web/src/components/settings/ProjectSettingsPanel.tsx
++++ b/apps/web/src/components/settings/ProjectSettingsPanel.tsx
+@@ -1,3 +1,4 @@
++import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
+ import { useComposerMenuState } from "../chat/useComposerMenuState";
+ import { useOrchestrationCommand } from "../../state/use-orchestration-command";
+ import { AuthOrchestrationOperateScope } from "@t3tools/contracts";
+@@ -203,14 +204,14 @@ function ProjectDetail({
+       ? window.desktopBridge?.pickProjectFavicon
+       : undefined;
+ 
+-  const reportFailure = useCallback((title: string, result: AtomCommandResult<void, unknown>) => {
++  const reportFailure = useCallback((title: string, result: AtomCommandResult<void, unknown>, displayDescription?: string) => {
+     if (result._tag !== "Failure" || isAtomCommandInterrupted(result)) return;
+     const error = squashAtomCommandFailure(result);
+     toastManager.add(
+       stackedThreadToast({
+         type: "error",
+         title,
+-        description: error instanceof Error ? error.message : "An error occurred.",
++        description: displayDescription ?? (error instanceof Error ? error.message : "An error occurred."),
+       }),
+     );
+   }, []);
+@@ -228,7 +229,7 @@ function ProjectDetail({
+           ),
+         ),
+       );
+-      reportFailure(failureTitle, result);
++      reportFailure(failureTitle, result, fillSlot("This connection cannot change projects in ", denied.environmentLabel ?? translateFixed("this environment"), "."));
+       return result;
+     },
+     [reportFailure],
+diff --git a/apps/web/src/components/settings/settingsLayout.tsx b/apps/web/src/components/settings/settingsLayout.tsx
+index c455792..f5f2b3f 100644
+--- a/apps/web/src/components/settings/settingsLayout.tsx
++++ b/apps/web/src/components/settings/settingsLayout.tsx
+@@ -1,3 +1,4 @@
++import { translateFixed } from "~/newThreadDisplayStrings";
+ import { SettingsGroup } from "./SettingsGroup";
+ import { AuthSettingsWriteScope } from "@t3tools/contracts";
+ import { usePrimaryEnvironmentId } from "../../state/environments";
+@@ -391,7 +392,7 @@ export function SettingsRow({
+     unavailable && control
+       ? inertControl(
+           !canWriteSettings
+-            ? "This connection does not have permission to change environment settings."
++            ? translateFixed("This connection does not have permission to change environment settings.")
+             : context
+               ? "Reconnect the selected environment to change this setting."
+               : PRIMARY_SETTINGS_UNAVAILABLE_MESSAGE,
+diff --git a/apps/web/src/connectionPermissionDisplayStrings.ts b/apps/web/src/connectionPermissionDisplayStrings.ts
+new file mode 100644
+index 0000000..2f95275
+--- /dev/null
++++ b/apps/web/src/connectionPermissionDisplayStrings.ts
+@@ -0,0 +1,16 @@
++/** Known UI permission failures only; arbitrary provider/server errors stay unchanged. */
++const PERMISSION_ERRORS: readonly string[] = [
++  "This connection cannot change threads.",
++  "This connection cannot search host files.",
++  "This connection cannot read host files.",
++  "This connection cannot upload attachments.",
++  "This connection cannot import projects or thread history.",
++  "This connection cannot browse host folders.",
++  "This connection cannot change keyboard shortcuts.",
++];
++const permissionErrors = new Set(PERMISSION_ERRORS);
++
++export function displayConnectionPermissionError<T extends string | null | undefined>(value: T): T {
++  if (typeof value !== "string" || !permissionErrors.has(value)) return value;
++  return (globalThis.__t3zh?.t?.(value) ?? value) as T;
++}
+diff --git a/apps/web/src/hooks/useSettings.ts b/apps/web/src/hooks/useSettings.ts
+index 04fab1c..b879b1b 100644
+--- a/apps/web/src/hooks/useSettings.ts
++++ b/apps/web/src/hooks/useSettings.ts
+@@ -9,6 +9,7 @@
+  * access is intentionally named as such so environment-sensitive consumers
+  * cannot silently read the wrong server's settings.
+  */
++import { translateFixed } from "~/newThreadDisplayStrings";
+ import { useCallback, useMemo, useSyncExternalStore } from "react";
+ import { useAtomValue } from "@effect/atom-react";
+ import {
+@@ -549,7 +550,7 @@ function useUpdateSettingsTarget(environmentId: EnvironmentId | null) {
+           if (!wroteToTarget) {
+             warnUnsaved(
+               permissionDenied
+-                ? "This connection does not have permission to change these settings."
++                ? translateFixed("This connection does not have permission to change these settings.")
+                 : targets.size > 0
+                   ? "Update older servers to save this setting."
+                   : undefined,

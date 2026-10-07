@@ -1,0 +1,25 @@
+{
+  "tag": "v0.0.46-nightly.20261007.2774",
+  "root": "",
+  "counts": {
+    "scopeFiles": 1285,
+    "candidateOccurrences": 7989,
+    "translatableOccurrences": 6657,
+    "distinctTranslatable": 4783,
+    "translatedOccurrences": 6623,
+    "distinctTranslated": 4749,
+    "untranslatedOccurrences": 34,
+    "distinctUntranslated": 34,
+    "skipOccurrences": 1177,
+    "suspiciousOccurrences": 155,
+    "suspiciousValueUseOccurrences": 111,
+    "suspiciousCollisionOccurrences": 44,
+    "abValueUseOccurrences": 219,
+    "distinctAbValueUse": 113,
+    "mixedJsxOccurrences": 273,
+    "staleEntries": 1518,
+    "usedDictKeys": 4748,
+    "dictMessages": 5166,
+    "dictTemplates": 1100
+  }
+}

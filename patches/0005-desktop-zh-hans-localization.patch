@@ -1,0 +1,36 @@
+# 0005-desktop-zh-hans-localization.patch
+#
+# 给桌面版 app 声明简体中文本地化（T07-fix1，CONVENTIONS §5 末尾 2026-10-05 的例外）。基线 v0.0.46-nightly.20261007.2774。
+#
+# 改动：scripts/build-desktop-artifact.ts 里 electron-builder 的 mac.extendInfo 加
+#   CFBundleLocalizations: ["en", "zh-Hans"]
+# 打包后 Info.plist 带这个键。系统语言为简体中文时，AppKit 按应用的本地化语言插入的菜单项
+# （编辑菜单的自动填充、开始听写…、表情与符号，窗口菜单的填充、居中、移动与调整大小、全屏幕平铺，
+# Option 替换项退出并保留窗口、全部关闭等）显示中文；英文系统不受影响。
+#
+# 只声明本地化、不加 zh-Hans.lproj 目录：T07-fix1 实测「只加这个键」（本补丁的正式构建）与
+# 「加键 + zh-Hans.lproj/InfoPlist.strings」（T07 r0 在构建副本上的实验）相比，AppKit 插入的菜单项、
+# navigator.languages、Intl 默认 locale 都相同（菜单只差「服务」子菜单里随系统变化的服务列表）。
+# electronLanguages 仍是 ["en-US"]，Chromium 只有 en-US 的 locale pak，Chromium 自身的界面文字不变。
+#
+# 已知影响（CONVENTIONS §5 允许的例外）：简体中文系统上 Electron 的应用 locale 变成 zh-Hans，
+# 渲染进程的 navigator.languages 第一项、Intl 默认格式随之变化；把界面切到 English 时这些格式与原版不同。
+# web 运行时取系统语言用的是 preload 暴露的 __t3zhSystemLanguages（patches/0003，§5 第 1 级），不受影响。
+#
+# 涉及一个上游文件：scripts/build-desktop-artifact.ts（打包脚本，不进 app）。上游更新后重做方法见 patches/README.md。
+#
+diff --git a/scripts/build-desktop-artifact.ts b/scripts/build-desktop-artifact.ts
+index 301b42613d25849b7c695dcf4c2fcf6558cb7513..486ee868356dabbff00b220e0bf4f8cbd242a40c 100644
+--- a/scripts/build-desktop-artifact.ts
++++ b/scripts/build-desktop-artifact.ts
+@@ -2723,6 +2723,10 @@ export const createBuildConfig = Effect.fn("createBuildConfig")(function* (
+       extendInfo: {
+         NSScreenCaptureUsageDescription:
+           "T3 Code captures the active window when you use the window capture shortcut.",
++        // t3code-zh：声明简体中文本地化，系统语言为简体中文时 AppKit 自动插入的菜单项
++        // （自动填充、开始听写…、移动与调整大小等）显示中文。electronLanguages 仍只带
++        // en-US 的 locale pak；应用 locale 随之变化的影响见 CONVENTIONS §5 的例外。
++        CFBundleLocalizations: ["en", "zh-Hans"],
+       },
+       protocols: [
+         {

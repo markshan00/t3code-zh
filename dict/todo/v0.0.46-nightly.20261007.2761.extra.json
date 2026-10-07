@@ -1,0 +1,252 @@
+[
+  {
+    "key": "The page asks for files.",
+    "section": "messages",
+    "zh": "网页要求选择多个文件。",
+    "skip": "",
+    "why": "new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "The page asks for a file.",
+    "section": "messages",
+    "zh": "网页要求选择一个文件。",
+    "skip": "",
+    "why": "new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Choose files",
+    "section": "messages",
+    "zh": "选择文件",
+    "skip": "",
+    "why": "new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Choose file",
+    "section": "messages",
+    "zh": "选择文件",
+    "skip": "",
+    "why": "new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Active gh account",
+    "section": "messages",
+    "zh": "gh 当前账户",
+    "skip": "",
+    "why": "new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "gh reports this login as invalid.",
+    "section": "messages",
+    "zh": "gh 提示该登录账户无效。",
+    "skip": "",
+    "why": "new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "This connection cannot change threads.",
+    "section": "messages",
+    "zh": "此连接无权修改任务。",
+    "skip": "",
+    "why": "new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "This connection cannot change keyboard shortcuts.",
+    "section": "messages",
+    "zh": "此连接无权修改键盘快捷键。",
+    "skip": "",
+    "why": "new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "This connection cannot change source control.",
+    "section": "messages",
+    "zh": "此连接无权修改源代码管理。",
+    "skip": "",
+    "why": "new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "The name is chosen by the agent. Approval returns to {0} on the computer that opened this page. Only approve a sign-in you just started.",
+    "section": "templates",
+    "zh": "该名称由 Agent 自行选择。批准结果将返回打开此页面的设备上的 {0}。仅批准你刚刚发起的登录。",
+    "skip": "",
+    "why": "new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "can't be used: {0}",
+    "section": "templates",
+    "zh": "无法使用：{0}",
+    "skip": "",
+    "why": "new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "{0} is set on the server, so it overrides the account chosen here until it is unset.",
+    "section": "templates",
+    "zh": "服务器已设置 {0}；在取消该设置前，它将覆盖此处选择的账户。",
+    "skip": "",
+    "why": "new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Clear “{0}”’s cookies and cache?",
+    "section": "templates",
+    "zh": "清除“{0}”的 Cookie 和缓存？",
+    "skip": "",
+    "why": "new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "This connection cannot import projects or thread history.",
+    "section": "messages",
+    "zh": "此连接无权导入项目或任务历史。",
+    "skip": "",
+    "why": "review-r1-new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "This connection cannot change projects in {0}.",
+    "section": "templates",
+    "zh": "此连接无权修改 {0} 中的项目。",
+    "skip": "",
+    "why": "review-r1-new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "this environment",
+    "section": "messages",
+    "zh": "此环境",
+    "skip": "",
+    "why": "review-r1-new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "This connection does not have permission to change environment settings.",
+    "section": "messages",
+    "zh": "此连接无权修改环境设置。",
+    "skip": "",
+    "why": "review-r1-new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "This connection cannot browse host folders.",
+    "section": "messages",
+    "zh": "此连接无权浏览主机文件夹。",
+    "skip": "",
+    "why": "review-r1-new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "This connection cannot search host files.",
+    "section": "messages",
+    "zh": "此连接无权搜索主机文件。",
+    "skip": "",
+    "why": "review-r1-new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "This connection cannot upload attachments.",
+    "section": "messages",
+    "zh": "此连接无权上传附件。",
+    "skip": "",
+    "why": "review-r1-new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Click to retry.",
+    "section": "messages",
+    "zh": "点击重试。",
+    "skip": "",
+    "why": "review-r1-new-display-path",
+    "where": [
+      "patches/0013-n2761-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Connecting to T3 Connect…",
+    "section": "messages",
+    "zh": "正在连接 T3 Connect…",
+    "skip": "",
+    "why": "authorized-connect-auth-recovery",
+    "where": [
+      "patches/0015-connect-auth-recovery.patch"
+    ]
+  },
+  {
+    "key": "Save any unfinished input before reloading.",
+    "section": "messages",
+    "zh": "重新加载前，请先保存尚未完成的输入。",
+    "skip": "",
+    "why": "authorized-connect-auth-recovery",
+    "where": [
+      "patches/0015-connect-auth-recovery.patch"
+    ]
+  },
+  {
+    "key": "T3 Connect could not load.",
+    "section": "messages",
+    "zh": "T3 Connect 加载失败。",
+    "skip": "",
+    "why": "authorized-connect-auth-recovery",
+    "where": [
+      "patches/0015-connect-auth-recovery.patch"
+    ]
+  },
+  {
+    "key": "T3 Connect is taking longer than expected.",
+    "section": "messages",
+    "zh": "T3 Connect 加载时间较长。",
+    "skip": "",
+    "why": "authorized-connect-auth-recovery",
+    "where": [
+      "patches/0015-connect-auth-recovery.patch"
+    ]
+  }
+]

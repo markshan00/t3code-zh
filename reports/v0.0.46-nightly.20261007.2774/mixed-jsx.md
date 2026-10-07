@@ -1,0 +1,244 @@
+# mixed-jsx v0.0.46-nightly.20261007.2774
+
+文本和表达式混排的 JSX 子节点（如 `<span>{count} files</span>`）。v1 记为 skip（reason `mixed-jsx`），不转换；此清单留作以后决定要不要支持时用。
+
+共 273 处（238 条文字）。
+
+- `s`（8 处）：`apps/web/src/components/chat/ChangedFilesTree.tsx:56`（A，ChangedFilesCard）；`apps/web/src/components/chat/ComposerStashMenu.tsx:180`（A，ComposerStashMenu）；`apps/web/src/components/chat/ComposerStashMenu.tsx:185`（A，ComposerStashMenu）；`apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:530`（A，PullRequestSummaryTab）；`apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:997`（A，PullRequestSummaryTab）；`apps/web/src/components/settings/ProviderModelsSection.tsx:543`（A，ProviderModelsSection）；`apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx:815`（A，AttributionTable）；`apps/web/src/components/settings/ScheduledTasksSettings.tsx:630`（A，WebhookDeliveriesDialog）
+- `of`（5 处）：`apps/web/src/components/GitActionsControl.tsx:2027`（A，GitActionsControl）；`apps/web/src/components/cloud/RelayClientInstallDialog.tsx:84`（A，RelayClientInstallDialog）；`apps/web/src/components/onboarding/WelcomeWizard.tsx:1460`（A，ImportStep）；`apps/web/src/components/pullRequest/PullRequestStackMenu.tsx:144`（A，PullRequestStackMenu）；`apps/web/src/components/pullRequest/PullRequestStackPopover.tsx:83`（A，PullRequestStackPopover）
+- `Checked`（4 处）：`apps/web/src/components/settings/DiagnosticsSettings.tsx:676`（A，DiagnosticsLastChecked）；`apps/web/src/components/settings/DiagnosticsSettings.tsx:679`（A，DiagnosticsLastChecked）；`apps/web/src/components/settings/ProviderSettingsPanel.tsx:173`（A，ProviderLastChecked）；`apps/web/src/components/settings/ProviderSettingsPanel.tsx:177`（A，ProviderLastChecked）
+- `Show`（4 处）：`apps/web/src/components/Sidebar.tsx:5510`（A，Sidebar）；`apps/web/src/components/chat/ThreadRelationshipsControl.tsx:110`（A，ThreadLineageRowList）；`apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:529`（A，PullRequestSummaryTab）；`apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:996`（A，PullRequestSummaryTab）
+- `files`（3 处）：`apps/web/src/browser/ServerBrowserSurface.tsx:804`（A，ServerBrowserSurface）；`apps/web/src/browser/ServerBrowserSurface.tsx:823`（A，ServerBrowserSurface）；`apps/web/src/components/chat/V2ItemInspector.tsx:373`（A，V2ItemInspector）
+- `% left`（2 处）：`apps/web/src/components/usage/UsageLimits.tsx:135`（A，WindowBar）；`apps/web/src/components/usage/UsageLimits.tsx:184`（A，LimitWindows）
+- `, layer`（2 处）：`apps/web/src/components/pullRequest/PullRequestStackMenu.tsx:144`（A，PullRequestStackMenu）；`apps/web/src/components/pullRequest/PullRequestStackPopover.tsx:83`（A，PullRequestStackPopover）
+- `: the host will merge this on its own once its requirements are met`（2 处）：`apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:1881`（A，PullRequestDetailPanel）；`apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:1956`（A，PullRequestDetailPanel）
+- `Active gh account`（2 处）：`apps/web/src/components/settings/GitHubAccountSettings.tsx:146`（A，GitHubAccountSettings）；`apps/web/src/components/settings/GitHubAccountSettings.tsx:167`（A，GitHubAccountSettings）
+- `Checkout`（2 处）：`apps/web/src/components/BranchToolbarBranchSelector.tsx:654`（A，renderPickerItem）；`apps/web/src/components/PullRequestThreadDialog.tsx:229`（A，PullRequestThreadDialog）
+- `From`（2 处）：`apps/web/src/components/chat/MessagesTimeline.tsx:2914`（A，V2EventTimelineRow）；`apps/web/src/components/chat/MessagesTimeline.tsx:2989`（A，V2EventTimelineRow）
+- `Remove`（2 处）：`apps/web/src/components/clerk/RemoveT3ConnectEnvironmentDialog.tsx:46`（A，RemoveT3ConnectEnvironmentDialog）；`apps/web/src/components/settings/UsageProviderSettings.tsx:151`（A，RemoveUsageProviderButton）
+- `Show only`（2 处）：`apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:965`（A，PullRequestSummaryTab）；`apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:1007`（A，PullRequestSummaryTab）
+- `View stack #`（2 处）：`apps/web/src/components/pullRequest/PullRequestStackMenu.tsx:144`（A，PullRequestStackMenu）；`apps/web/src/components/pullRequest/PullRequestStackPopover.tsx:83`（A，PullRequestStackPopover）
+- `failed`（2 处）：`apps/web/src/components/chat/ThreadRelationshipsControl.tsx:137`（A，ThreadLineageGroup）；`apps/web/src/components/pullRequest/PullRequestChecksPopover.tsx:195`（A，PullRequestChecksPopover）
+- `fps`（2 处）：`apps/web/src/components/settings/IntegrationsSettings.tsx:563`（A，BrowserRecordingFrameRateSetting）；`apps/web/src/components/settings/IntegrationsSettings.tsx:568`（A，BrowserRecordingFrameRateSetting）
+- `hidden)`（2 处）：`apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:530`（A，PullRequestSummaryTab）；`apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:997`（A，PullRequestSummaryTab）
+- `image`（2 处）：`apps/web/src/components/chat/ComposerStashMenu.tsx:179`（A，ComposerStashMenu）；`apps/web/src/components/chat/ComposerStashMenu.tsx:184`（A，ComposerStashMenu）
+- `more`（2 处）：`apps/web/src/components/Sidebar.tsx:5510`（A，Sidebar）；`apps/web/src/components/chat/ThreadRelationshipsControl.tsx:110`（A，ThreadLineageRowList）
+- `px`（2 处）：`apps/web/src/components/settings/SettingsPanels.tsx:2010`（A，FontFamilySettingsRow）；`apps/web/src/components/settings/SettingsPanels.tsx:2016`（A，FontFamilySettingsRow）
+- `updated`（2 处）：`apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:2444`（A，PullRequestDetailPanel）；`apps/web/src/components/pullRequest/PullRequestGhosts.tsx:219`（A，PullRequestDetailGhost）
+- `% of pool`（1 处）：`apps/web/src/components/usage/UsageLimitsPooled.tsx:197`（A，SegmentPopover）
+- `% zoom`（1 处）：`apps/web/src/components/chat/ZoomableImage.tsx:243`（A，ZoomableImage）
+- `%, peak`（1 处）：`apps/web/src/components/settings/DiagnosticsSettings.tsx:522`（A，ProcessResourceHistoryChart）
+- `(Enter)`（1 处）：`apps/web/src/components/CommandPalette.tsx:3365`（A，OpenCommandPaletteDialog）
+- `, T3 Code needs Full Disk Access. Turn it on in System Settings, then come back to finish the import — you can revoke it again once the import is done.`（1 处）：`apps/web/src/components/settings/BrowserImportWizard.tsx:290`（A，FullDiskAccessStep）
+- `, reconnecting…`（1 处）：`apps/web/src/components/device/DeviceStreamView.tsx:531`（A，DeviceStreamView）
+- `, then create the draft thread in the main repo or in a dedicated worktree.`（1 处）：`apps/web/src/components/PullRequestThreadDialog.tsx:232`（A，PullRequestThreadDialog）
+- `. Go home to choose a project or start a thread.`（1 处）：`apps/web/src/routes/__root.tsx:131`（A，RootRouteNotFoundView）
+- `. Save the file to read it in full.`（1 处）：`apps/web/src/components/files/AttachmentFilePreview.tsx:355`（A，AttachmentFilePreview）
+- `. Search in the command palette.`（1 处）：`apps/web/src/components/pullRequest/PullRequestThreadLinks.tsx:133`（A，EnabledPullRequestThreadLinks）
+- `. Sending will continue on`（1 处）：`apps/web/src/components/ChatView.tsx:7770`（A，composerBannerItems）
+- `. The key stays on that server.`（1 处）：`apps/web/src/components/settings/AddUsageLimitSourceDialog.tsx:98`（A，AddUsageLimitSourceDialog）
+- `. The link will be kept.`（1 处）：`apps/web/src/components/settings/CaptureShortcutConfig.tsx:267`（A，CaptureShortcutConfig）
+- `; totals are partial`（1 处）：`apps/web/src/components/usage/UsagePage.tsx:1141`（A，UsageEnvironmentFilter）
+- `A custom --config or NIRI_CONFIG can change its location.`（1 处）：`apps/web/src/components/settings/CaptureShortcutConfig.tsx:301`（A，CaptureShortcutConfig）
+- `API estimate excludes`（1 处）：`apps/web/src/components/usage/UsagePage.tsx:541`（A，UsagePage）
+- `About`（1 处）：`apps/web/src/components/settings/AcpRegistrySearchStep.tsx:273`（A，AcpRegistrySearchStep）
+- `Add an account or configure a provider on`（1 处）：`apps/web/src/components/settings/AddProviderInstanceDialog.tsx:384`（A，AddProviderInstanceDialog）
+- `Add this binding to your Hyprland config, then save.`（1 处）：`apps/web/src/components/settings/CaptureShortcutConfig.tsx:309`（A，CaptureShortcutConfig）
+- `Archived`（1 处）：`apps/web/src/components/settings/SettingsPanels.tsx:3580`（A，ArchivedThreadsPanel）
+- `Available.`（1 处）：`apps/web/src/components/settings/SourceControlSettings.tsx:247`（A，itemSummary）
+- `Avg`（1 处）：`apps/web/src/components/settings/DiagnosticsSettings.tsx:522`（A，ProcessResourceHistoryChart）
+- `Back to`（1 处）：`apps/web/src/components/files/FileBreadcrumbs.tsx:118`（A，BreadcrumbMenuContent）
+- `Backup:`（1 处）：`apps/web/src/components/settings/CaptureShortcutConfig.tsx:304`（A，CaptureShortcutConfig）
+- `Blank cache rates use the input price. Enter 0 for free tokens. A mapped model’s usage counts as the model it maps to.`（1 处）：`apps/web/src/components/usage/UsagePriceOverrides.tsx:565`（A，UsagePriceOverrides）
+- `CLI Proxy`（1 处）：`apps/web/src/components/settings/UsageProviderSettings.tsx:105`（A，UsageProviderSettings）
+- `CPU avg`（1 处）：`apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx:460`（A，ResourceHistoryChart）
+- `CPU peak`（1 处）：`apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx:461`（A，ResourceHistoryChart）
+- `Change the keys if needed.`（1 处）：`apps/web/src/components/settings/CaptureShortcutConfig.tsx:310`（A，CaptureShortcutConfig）
+- `Checking`（1 处）：`apps/web/src/components/settings/BrowserImportWizard.tsx:513`（A，CheckingStep）
+- `Choose`（1 处）：`apps/web/src/browser/ServerBrowserSurface.tsx:823`（A，ServerBrowserSurface）
+- `Choose which cookies to import for`（1 处）：`apps/web/src/components/settings/BrowserImportWizard.tsx:374`（A，ConfigureStep）
+- `Clear “`（1 处）：`apps/web/src/components/settings/IntegrationsSettings.tsx:1463`（A，BrowserProfilesSetting）
+- `Click to retry.`（1 处）：`apps/web/src/components/files/FileBrowserPanel.tsx:537`（A，FileBrowserPanel）
+- `Client`（1 处）：`apps/web/src/components/chat/ThreadDetailsPanel.tsx:137`（A，ThreadDetailsPanel）
+- `Comments can contain up to`（1 处）：`apps/web/src/components/chat/AssistantCitationCommentEditor.tsx:78`（A，AssistantCitationCommentEditor）
+- `Connect from {0} selected environments.`（1 处）：`apps/web/src/components/settings/DeviceHostEditor.tsx:71`（A，DeviceHostEditor）
+- `Connect from {0}.`（1 处）：`apps/web/src/components/settings/DeviceHostEditor.tsx:70`（A，DeviceHostEditor）
+- `Connecting`（1 处）：`apps/web/src/components/LegacySidebar.tsx:2784`（A，LocalSecondaryStatus）
+- `Continue`（1 处）：`apps/web/src/components/CommandPalette.tsx:3365`（A，OpenCommandPaletteDialog）
+- `Could not check projects.`（1 处）：`apps/web/src/components/onboarding/WelcomeWizard.tsx:1510`（A，ImportStep）
+- `Could not load automations:`（1 处）：`apps/web/src/components/chat/ThreadAutomationsPanel.tsx:150`（A，ThreadAutomationsPanel）
+- `Could not verify`（1 处）：`apps/web/src/components/settings/SourceControlSettings.tsx:267`（A，itemSummary）
+- `Couldn't connect`（1 处）：`apps/web/src/components/LegacySidebar.tsx:2790`（A，LocalSecondaryStatus）
+- `Couldn't load output:`（1 处）：`apps/web/src/components/chat/V2ItemInspector.tsx:165`（A，ToolOutput）
+- `Couldn’t import from`（1 处）：`apps/web/src/components/settings/BrowserImportWizard.tsx:596`（A，BlockedStep）
+- `Counted as`（1 处）：`apps/web/src/components/usage/UsagePriceOverrides.tsx:471`（A，UsagePriceOverrides）
+- `Counted once across environments sharing a transcript directory:`（1 处）：`apps/web/src/components/usage/UsagePage.tsx:1087`（A，UsageCoverageNotice）
+- `Create new ref "`（1 处）：`apps/web/src/components/BranchToolbarBranchSelector.tsx:671`（A，renderPickerItem）
+- `Created thread`（1 处）：`apps/web/src/components/chat/V2LifecycleRow.tsx:199`（A，V2LifecycleRow）
+- `Cursor`（1 处）：`apps/web/src/components/usage/UsagePage.tsx:971`（A，CursorEnableRow）
+- `Delete action "`（1 处）：`apps/web/src/components/projectScriptEditor.tsx:500`（A，ProjectScriptEditorDialog）
+- `Deliveries ·`（1 处）：`apps/web/src/components/settings/ScheduledTasksSettings.tsx:562`（A，WebhookDeliveriesDialog）
+- `Download`（1 处）：`apps/web/src/components/chat/MessagesTimeline.tsx:2247`（A，UserTimelineRow）
+- `Empty placeholders:`（1 处）：`apps/web/src/components/settings/ScheduledTasksSettings.tsx:590`（A，WebhookDeliveriesDialog）
+- `Environment:`（1 处）：`apps/web/src/components/LegacySidebar.tsx:2631`（A，SidebarProjectItem）
+- `Expanded`（1 处）：`apps/web/src/components/chat/ExpandedImageDialog.tsx:191`（A，ExpandedImageDialog）
+- `Handed off from`（1 处）：`apps/web/src/components/Sidebar.tsx:532`（A，SidebarThreadTooltip）
+- `Hosts on the same machine are skipped.`（1 处）：`apps/web/src/components/settings/DeviceHostEditor.tsx:72`（A，DeviceHostEditor）
+- `Import from`（1 处）：`apps/web/src/components/settings/BrowserImportWizard.tsx:372`（A，ConfigureStep）
+- `Input disconnected`（1 处）：`apps/web/src/components/device/DeviceStreamView.tsx:531`（A，DeviceStreamView）
+- `It stays on your T3 Connect account and keeps its host space. Deregister it in`（1 处）：`apps/web/src/components/clerk/RemoveT3ConnectEnvironmentDialog.tsx:51`（A，RemoveT3ConnectEnvironmentDialog）
+- `Let T3 Code read`（1 处）：`apps/web/src/components/settings/BrowserImportWizard.tsx:288`（A，FullDiskAccessStep）
+- `Line`（1 处）：`apps/web/src/components/pullRequest/PullRequestCodeTab.tsx:1452`（A，PullRequestCodeTab）
+- `Linked to`（1 处）：`apps/web/src/components/settings/CaptureShortcutConfig.tsx:267`（A，CaptureShortcutConfig）
+- `Managed by {0}.`（1 处）：`apps/web/src/components/device/DeviceToolVersions.tsx:79`（A，DeviceToolVersions）
+- `Merge conflicts with`（1 处）：`apps/web/src/components/chat/ThreadDetailsPrRow.tsx:288`（A，ThreadDetailsPrRow）
+- `Merge stack (`（1 处）：`apps/web/src/components/pullRequest/PullRequestStackMenu.tsx:172`（A，PullRequestStackMenu）
+- `Merge stack through #`（1 处）：`apps/web/src/components/pullRequest/PullRequestStackMenu.tsx:211`（A，PullRequestStackMenu）
+- `Mixed cells keep each environment’s rate until you edit them.`（1 处）：`apps/web/src/components/usage/UsagePriceOverrides.tsx:568`（A，UsagePriceOverrides）
+- `New thread in`（1 处）：`apps/web/src/components/chat/ChatHeader.tsx:288`（A，ChatHeader）
+- `New thread in current project: Shift+click`（1 处）：`apps/web/src/components/sidebar/SidebarThreadHeader.tsx:142`（A，SidebarThreadHeader）
+- `No SSH route to`（1 处）：`apps/web/src/components/chat/OpenInPicker.tsx:328`（A，OpenInPicker）
+- `No hosts match "`（1 处）：`apps/web/src/components/settings/ConnectionsSettings.tsx:3150`（A，renderSshFields）
+- `Not available on this server:`（1 处）：`apps/web/src/components/settings/SourceControlSettings.tsx:222`（A，itemSummary）
+- `Nothing matches “`（1 处）：`apps/web/src/components/pullRequest/PullRequestListEmptyState.tsx:139`（A，PullRequestListEmptyState）
+- `Nothing stashed yet.`（1 处）：`apps/web/src/components/chat/ComposerStashMenu.tsx:139`（A，ComposerStashMenu）
+- `On Omarchy, use your own bindings file, not its defaults.`（1 处）：`apps/web/src/components/settings/CaptureShortcutConfig.tsx:302`（A，CaptureShortcutConfig）
+- `Open in`（1 处）：`apps/web/src/components/chat/OpenInPicker.tsx:371`（A，OpenInPicker）
+- `Open localhost:`（1 处）：`apps/web/src/components/LegacySidebar.tsx:846`（A，SidebarThreadRow）
+- `Open on`（1 处）：`apps/web/src/components/GitActionsControl.tsx:1009`（A，PublishRepositoryDialog）
+- `Opens over SSH. Needs your key on`（1 处）：`apps/web/src/components/chat/OpenInPicker.tsx:353`（A，OpenInPicker）
+- `Option`（1 处）：`apps/web/src/components/settings/CustomModelEditor.tsx:204`（A，renderDescriptor）
+- `Paste this inside binds { … } in your Niri config, then save.`（1 处）：`apps/web/src/components/settings/CaptureShortcutConfig.tsx:308`（A，CaptureShortcutConfig）
+- `Press {0} with a prompt in the composer to stash it.`（1 处）：`apps/web/src/components/chat/ComposerStashMenu.tsx:141`（A，ComposerStashMenu）
+- `Preview limited to the first 1 MB`（1 处）：`apps/web/src/components/files/AttachmentFilePreview.tsx:354`（A，AttachmentFilePreview）
+- `Preview limited to the first 1 MB of a`（1 处）：`apps/web/src/components/files/FilePreviewPanel.tsx:1314`（A，FilePreviewPanel）
+- `Profile:`（1 处）：`apps/web/src/components/preview/PreviewMoreMenu.tsx:194`（A，PreviewMoreMenu）
+- `Publishing repository to`（1 处）：`apps/web/src/components/GitActionsControl.tsx:963`（A，PublishRepositoryDialog）
+- `Pull request #`（1 处）：`apps/web/src/components/PullRequestContextDetails.tsx:14`（A，PullRequestContextDetails）
+- `Quit`（1 处）：`apps/web/src/components/settings/BrowserImportWizard.tsx:216`（A，QuitStep）
+- `Read`（1 处）：`apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx:462`（A，ResourceHistoryChart）
+- `Reconnect`（1 处）：`apps/web/src/routes/settings.tsx:105`（A，SettingsScopeBoundary）
+- `Remove “`（1 处）：`apps/web/src/components/settings/IntegrationsSettings.tsx:1417`（A，BrowserProfilesSetting）
+- `Reset`（1 处）：`apps/web/src/components/settings/SettingInheritance.tsx:286`（A，SettingInheritance）
+- `Resets`（1 处）：`apps/web/src/components/usage/UsageLimits.tsx:142`（A，WindowBar）
+- `Resolve a`（1 处）：`apps/web/src/components/PullRequestThreadDialog.tsx:232`（A，PullRequestThreadDialog）
+- `Resolving`（1 处）：`apps/web/src/components/PullRequestThreadDialog.tsx:284`（A，PullRequestThreadDialog）
+- `Restart the app from the update button to install it.`（1 处）：`apps/web/src/components/desktopUpdate.toast.tsx:59`（A，showDesktopUpdateDownloadedToast）
+- `Run`（1 处）：`apps/web/src/components/ProjectScriptsControl.tsx:263`（A，ProjectScriptsControl）
+- `Sampling every`（1 处）：`apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx:1022`（A，ResourceTelemetryDiagnostics）
+- `Save host`（1 处）：`apps/web/src/components/settings/DeviceHostEditor.tsx:218`（A，DeviceHostEditor）
+- `Save it to open in an app that supports`（1 处）：`apps/web/src/components/files/AttachmentFilePreview.tsx:280`（A，AttachmentFilePreview）
+- `Send with full history (`（1 处）：`apps/web/src/components/chat/ComposerPrimaryActions.tsx:314`（A，ComposerPrimaryActions）
+- `Show more (`（1 处）：`apps/web/src/components/pullRequest/PullRequestCodeTab.tsx:1113`（A，PullRequestCodeTab）
+- `Show the quota of every account the hub pools, next to the providers on`（1 处）：`apps/web/src/components/settings/AddUsageLimitSourceDialog.tsx:97`（A，AddUsageLimitSourceDialog）
+- `Showing the last pull requests loaded.`（1 处）：`apps/web/src/routes/_chat.pull-requests.tsx:1960`（A，PullRequestsRouteView）
+- `Stack #`（1 处）：`apps/web/src/components/pullRequest/PullRequestStackHeader.tsx:16`（A，PullRequestStackHeader）
+- `Started`（1 处）：`apps/web/src/components/SlowRpcRequestToastCoordinator.tsx:26`（A，SlowRequestDetails）
+- `Starting`（1 处）：`apps/web/src/components/device/DevicePanel.tsx:181`（A，DevicePanel）
+- `Summarize`（1 处）：`apps/web/src/components/chat/ComposerPrimaryActions.tsx:293`（A，ComposerPrimaryActions）
+- `Support for`（1 处）：`apps/web/src/components/settings/SourceControlSettings.tsx:218`（A，itemSummary）
+- `T3 Code will download and install version`（1 处）：`apps/web/src/components/cloud/RelayClientInstallDialog.tsx:101`（A，RelayClientInstallDialog）
+- `T3 Connect settings`（1 处）：`apps/web/src/components/clerk/RemoveT3ConnectEnvironmentDialog.tsx:62`（A，RemoveT3ConnectEnvironmentDialog）
+- `Test connection`（1 处）：`apps/web/src/components/settings/DeviceHostEditor.tsx:159`（A，DeviceHostEditor）
+- `The boxes below are whatever was last read, and empty if nothing has been read yet.`（1 处）：`apps/web/src/components/pullRequest/PullRequestCodeTab.tsx:1162`（A，PullRequestCodeTab）
+- `The most recent matching binding wins when both conditions can apply.`（1 处）：`apps/web/src/components/settings/KeybindingsSettings.tsx:276`（A，KeybindingConflictWarning）
+- `The name is chosen by the agent. Approval returns to`（1 处）：`apps/web/src/components/auth/ConnectAgentSurface.tsx:199`（A，ConnectAgentSurface）
+- `The page asks for`（1 处）：`apps/web/src/browser/ServerBrowserSurface.tsx:804`（A，ServerBrowserSurface）
+- `This conversation is longer than this page reads in one go. The most recent`（1 处）：`apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:947`（A，PullRequestSummaryTab）
+- `This link doesn't point to a page in`（1 处）：`apps/web/src/routes/__root.tsx:131`（A，RootRouteNotFoundView）
+- `This merges #`（1 处）：`apps/web/src/components/chat/ThreadDetailsPrRow.tsx:467`（A，ThreadDetailsPrRow）
+- `This preview exceeds the size limit. Changes shown are incomplete.`（1 处）：`apps/web/src/components/DiffPanel.tsx:1078`（A，DiffPanel）
+- `This thread last ran on`（1 处）：`apps/web/src/components/ChatView.tsx:7770`（A，composerBannerItems）
+- `To import cookies from`（1 处）：`apps/web/src/components/settings/BrowserImportWizard.tsx:290`（A，FullDiskAccessStep）
+- `Toggle main sidebar`（1 处）：`apps/web/src/components/AppSidebarLayout.tsx:154`（A，SidebarControl）
+- `Toggle thread details`（1 处）：`apps/web/src/components/chat/PanelLayoutControls.tsx:76`（A，threadPanelTooltip）
+- `Tools update automatically on this host when needed.`（1 处）：`apps/web/src/components/device/DeviceToolVersions.tsx:79`（A，DeviceToolVersions）
+- `Totals include all changes.`（1 处）：`apps/web/src/components/DiffPanel.tsx:1079`（A，DiffPanel）
+- `Transfer`（1 处）：`apps/web/src/components/chat/V2ItemInspector.tsx:416`（A，V2ItemInspector）
+- `Turn`（1 处）：`apps/web/src/components/DiffPanel.tsx:785`（A，DiffPanel）
+- `Turn capture off in T3 Code to stop it. Remove the shortcut from`（1 处）：`apps/web/src/components/settings/CaptureShortcutConfig.tsx:326`（A，CaptureShortcutConfig）
+- `Unable to load`（1 处）：`apps/web/src/components/chat/HtmlRenderFrame.tsx:134`（A，HtmlRenderFrame）
+- `Unable to render diagram:`（1 处）：`apps/web/src/components/chat/MermaidDiagram.tsx:180`（A，MermaidDiagram）
+- `Update “`（1 处）：`apps/web/src/components/settings/ThemeSearchSection.tsx:435`（A，ThemeSearchSection）
+- `Updated`（1 处）：`apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx:231`（A，LastSampleLabel）
+- `Use your desktop's shortcut settings file.`（1 处）：`apps/web/src/components/settings/CaptureShortcutConfig.tsx:299`（A，CaptureShortcutConfig）
+- `Video unavailable`（1 处）：`apps/web/src/components/media/MediaVideoPlayer.tsx:149`（A，MediaVideoPlayer）
+- `WSL backend couldn't start:`（1 处）：`apps/web/src/components/settings/ConnectionsSettings.tsx:3488`（A，renderWslRow）
+- `What should we build in`（1 处）：`apps/web/src/components/chat/DraftHeroHeadline.tsx:369`（A，DraftHeroHeadline）
+- `Write`（1 处）：`apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx:463`（A，ResourceHistoryChart）
+- `a file`（1 处）：`apps/web/src/browser/ServerBrowserSurface.tsx:804`（A，ServerBrowserSurface）
+- `all`（1 处）：`apps/web/src/components/settings/SettingInheritance.tsx:286`（A，SettingInheritance）
+- `are here; open it on the host to read the rest.`（1 处）：`apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:948`（A，PullRequestSummaryTab）
+- `banked`（1 处）：`apps/web/src/components/usage/UsageLimitsPooled.tsx:387`（A，LegendRow）
+- `byte file.`（1 处）：`apps/web/src/components/files/FilePreviewPanel.tsx:1314`（A，FilePreviewPanel）
+- `can't be used:`（1 处）：`apps/web/src/components/settings/GitHubAccountSettings.tsx:210`（A，GitHubAccountSettings）
+- `changed file`（1 处）：`apps/web/src/components/chat/ChangedFilesTree.tsx:56`（A，ChangedFilesCard）
+- `characters.`（1 处）：`apps/web/src/components/chat/AssistantCitationCommentEditor.tsx:79`（A，AssistantCitationCommentEditor）
+- `credit`（1 处）：`apps/web/src/components/usage/UsageLimitsPooled.tsx:387`（A，LegendRow）
+- `credits`（1 处）：`apps/web/src/components/usage/UsageLimitsPooled.tsx:387`（A，LegendRow）
+- `downloads`（1 处）：`apps/web/src/components/settings/ThemeSearchSection.tsx:383`（A，ThemeSearchSection）
+- `dropped`（1 处）：`apps/web/src/components/chat/ComposerStashMenu.tsx:185`（A，ComposerStashMenu）
+- `empty placeholder`（1 处）：`apps/web/src/components/settings/ScheduledTasksSettings.tsx:629`（A，WebhookDeliveriesDialog）
+- `environment`（1 处）：`apps/web/src/components/usage/UsagePage.tsx:1140`（A，UsageEnvironmentFilter）
+- `environments`（1 处）：`apps/web/src/components/usage/UsagePage.tsx:1140`（A，UsageEnvironmentFilter）
+- `exit`（1 处）：`apps/web/src/components/chat/V2ItemInspector.tsx:216`（A，ToolCallBody）
+- `file`（1 处）：`apps/web/src/browser/ServerBrowserSurface.tsx:823`（A，ServerBrowserSurface）
+- `files.`（1 处）：`apps/web/src/components/files/AttachmentFilePreview.tsx:281`（A，AttachmentFilePreview）
+- `from this device?`（1 处）：`apps/web/src/components/clerk/RemoveT3ConnectEnvironmentDialog.tsx:46`（A，RemoveT3ConnectEnvironmentDialog）
+- `gh reports this login as invalid.`（1 处）：`apps/web/src/components/settings/GitHubAccountSettings.tsx:210`（A，GitHubAccountSettings）
+- `into`（1 处）：`apps/web/src/components/pullRequest/PullRequestStackMenu.tsx:211`（A，PullRequestStackMenu）
+- `is coming soon.`（1 处）：`apps/web/src/components/settings/SourceControlSettings.tsx:218`（A，itemSummary）
+- `is not authenticated on this server. Sign in or configure credentials using the`（1 处）：`apps/web/src/components/settings/SourceControlSettings.tsx:258`（A，itemSummary）
+- `is open, so its cookies can’t be read yet. Quit it, then continue.`（1 处）：`apps/web/src/components/settings/BrowserImportWizard.tsx:218`（A，QuitStep）
+- `is set on the server, so it overrides the account chosen here until it is unset.`（1 处）：`apps/web/src/components/settings/GitHubAccountSettings.tsx:215`（A，GitHubAccountSettings）
+- `it`（1 处）：`apps/web/src/components/settings/SettingInheritance.tsx:286`（A，SettingInheritance）
+- `left)`（1 处）：`apps/web/src/components/pullRequest/PullRequestCodeTab.tsx:1113`（A，PullRequestCodeTab）
+- `linked`（1 处）：`apps/web/src/components/pullRequest/ThreadPullRequestsPanel.tsx:436`（A，EnabledThreadPullRequestsPanel）
+- `locally.`（1 处）：`apps/web/src/components/cloud/RelayClientInstallDialog.tsx:102`（A，RelayClientInstallDialog）
+- `merges loaded`（1 处）：`apps/web/src/components/pullRequest/PullRequestListFilters.tsx:311`（A，PullRequestAuthorFilter）
+- `model`（1 处）：`apps/web/src/components/settings/ProviderModelsSection.tsx:543`（A，ProviderModelsSection）
+- `models`（1 处）：`apps/web/src/components/chat/ModelPickerContent.tsx:989`（A，ModelPickerContent）
+- `more selected elements`（1 处）：`apps/web/src/components/chat/MessagesTimeline.tsx:4051`（A，UserMessagePreviewAnnotationDetails）
+- `ms`（1 处）：`apps/web/src/components/settings/SettingsPanels.tsx:1471`（A，AppearanceSettingsPanel）
+- `of a {0} byte file`（1 处）：`apps/web/src/components/files/AttachmentFilePreview.tsx:355`（A，AttachmentFilePreview）
+- `older bot comment`（1 处）：`apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:996`（A，PullRequestSummaryTab）
+- `older comment`（1 处）：`apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:529`（A，PullRequestSummaryTab）
+- `on`（1 处）：`apps/web/src/components/settings/ChatGptWelcomeCoordinator.tsx:73`（A，ChatGptWelcomeCoordinator）
+- `on the computer that opened this page. Only approve a sign-in you just started.`（1 处）：`apps/web/src/components/auth/ConnectAgentSurface.tsx:199`（A，ConnectAgentSurface）
+- `open ·`（1 处）：`apps/web/src/components/pullRequest/ThreadPullRequestsPanel.tsx:436`（A，EnabledThreadPullRequestsPanel）
+- `opened`（1 处）：`apps/web/src/components/pullRequest/PullRequestLinkPreview.tsx:143`（A，PullRequestLinkPreview）
+- `preview`（1 处）：`apps/web/src/components/chat/ExpandedImageDialog.tsx:191`（A，ExpandedImageDialog）
+- `projects`（1 处）：`apps/web/src/components/LegacySidebar.tsx:2502`（A，SidebarProjectItem）
+- `pull request`（1 处）：`apps/web/src/components/pullRequest/PullRequestStackMenu.tsx:212`（A，PullRequestStackMenu）
+- `pull requests`（1 处）：`apps/web/src/components/pullRequest/PullRequestStackMenu.tsx:212`（A，PullRequestStackMenu）
+- `recent bot comments`（1 处）：`apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:1007`（A，PullRequestSummaryTab）
+- `recent comments`（1 处）：`apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:965`（A，PullRequestSummaryTab）
+- `reset`（1 处）：`apps/web/src/components/usage/UsageLimitsPooled.tsx:387`（A，LegendRow）
+- `saving`（1 处）：`apps/web/src/components/chat/ComposerStashMenu.tsx:179`（A，ComposerStashMenu）
+- `selected`（1 处）：`apps/web/src/components/onboarding/WelcomeWizard.tsx:1460`（A，ImportStep）
+- `sessions`（1 处）：`apps/web/src/components/usage/UsagePage.tsx:525`（A，UsagePage）
+- `still scanning`（1 处）：`apps/web/src/components/usage/UsagePage.tsx:1140`（A，UsageEnvironmentFilter）
+- `this format`（1 处）：`apps/web/src/components/files/AttachmentFilePreview.tsx:280`（A，AttachmentFilePreview）
+- `to`（1 处）：`apps/web/src/components/PullRequestThreadDialog.tsx:270`（A，PullRequestThreadDialog）
+- `to change its settings.`（1 处）：`apps/web/src/routes/settings.tsx:105`（A，SettingsScopeBoundary）
+- `to free it.`（1 处）：`apps/web/src/components/clerk/RemoveT3ConnectEnvironmentDialog.tsx:64`（A，RemoveT3ConnectEnvironmentDialog）
+- `to free up the keys.`（1 处）：`apps/web/src/components/settings/CaptureShortcutConfig.tsx:326`（A，CaptureShortcutConfig）
+- `to import`（1 处）：`apps/web/src/components/settings/BrowserImportWizard.tsx:216`（A，QuitStep）
+- `to start`（1 处）：`apps/web/src/components/chat/DraftHeroHeadline.tsx:371`（A，DraftHeroHeadline）
+- `tokens have no known price`（1 处）：`apps/web/src/components/usage/UsageModelDialog.tsx:149`（A，UsageModelDialog）
+- `tokens of history, then send`（1 处）：`apps/web/src/components/chat/ComposerPrimaryActions.tsx:293`（A，ComposerPrimaryActions）
+- `tokens)`（1 处）：`apps/web/src/components/chat/ComposerPrimaryActions.tsx:314`（A，ComposerPrimaryActions）
+- `tool on the server host to enable change request features.`（1 处）：`apps/web/src/components/settings/SourceControlSettings.tsx:259`（A，itemSummary）
+- `unpriced records.`（1 处）：`apps/web/src/components/usage/UsagePage.tsx:542`（A，UsagePage）
+- `using`（1 处）：`apps/web/src/components/chat/ThreadDetailsPrRow.tsx:467`（A，ThreadDetailsPrRow）
+- `v`（1 处）：`apps/web/src/components/settings/AddProviderInstanceDialog.tsx:546`（A，AddProviderInstanceDialog）
+- `· Created`（1 处）：`apps/web/src/components/settings/SettingsPanels.tsx:3581`（A，ArchivedThreadsPanel）
+- `· Disabled`（1 处）：`apps/web/src/components/settings/UsageProviderSettings.tsx:105`（A，UsageProviderSettings）
+- `· synced {0}`（1 处）：`apps/web/src/components/pullRequest/ThreadPullRequestsPanel.tsx:437`（A，EnabledThreadPullRequestsPanel）
+- `· {0} favorite{1}`（1 处）：`apps/web/src/components/settings/ProviderModelsSection.tsx:545`（A，ProviderModelsSection）
+- `· {0} hidden`（1 处）：`apps/web/src/components/settings/ProviderModelsSection.tsx:547`（A，ProviderModelsSection）
+- `· {0}% of the window left`（1 处）：`apps/web/src/components/usage/UsageLimits.tsx:135`（A，WindowBar）
+- `’s cookies`（1 处）：`apps/web/src/components/settings/BrowserImportWizard.tsx:288`（A，FullDiskAccessStep）
+- `” will be removed from this account.`（1 处）：`apps/web/src/components/clerk/T3ConnectUserProfilePage.tsx:81`（A，T3ConnectEnvironmentRow）
+- `”’s cookies and cache?`（1 处）：`apps/web/src/components/settings/IntegrationsSettings.tsx:1463`（A，BrowserProfilesSetting）
+- `… This can take a minute.`（1 处）：`apps/web/src/components/device/DevicePanel.tsx:181`（A，DevicePanel）

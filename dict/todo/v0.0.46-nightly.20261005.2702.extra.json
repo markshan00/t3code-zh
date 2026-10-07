@@ -1,0 +1,122 @@
+[
+  {
+    "key": "Closed {count} pull request",
+    "section": "templates",
+    "zh": "已关闭 {count} 个拉取请求",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/pullRequest/usePullRequestActions.ts:227（复数后缀模板的单数形式）"
+    ]
+  },
+  {
+    "key": "Closed {count} pull requests",
+    "section": "templates",
+    "zh": "已关闭 {count} 个拉取请求",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/pullRequest/usePullRequestActions.ts:227（复数后缀模板的复数形式）"
+    ]
+  },
+  {
+    "key": "Remove {0} route?",
+    "section": "templates",
+    "zh": "要移除 {0} 路由吗？",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/EnvironmentRoutesList.tsx:82（路由没有地址时 {1} 为空，模板 `Remove {0} route?{1}` 匹配不到，需要这条）"
+    ]
+  },
+  {
+    "key": "Deliveries · {0}",
+    "section": "templates",
+    "zh": "投递记录 · {0}",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:554（patches/0008 显示处补译，T10-fix1 I3）"
+    ]
+  },
+  {
+    "key": "Empty placeholders: {0}",
+    "section": "templates",
+    "zh": "为空的占位符：{0}",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:582（patches/0008 显示处补译，T10-fix1 I3）"
+    ]
+  },
+  {
+    "key": "{0} empty placeholder",
+    "section": "templates",
+    "zh": "{0} 个占位符为空",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:621（单数）（patches/0008 显示处补译，T10-fix1 I3）"
+    ]
+  },
+  {
+    "key": "{0} empty placeholders",
+    "section": "templates",
+    "zh": "{0} 个占位符为空",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:621（复数）（patches/0008 显示处补译，T10-fix1 I3）"
+    ]
+  },
+  {
+    "key": "Couldn't load output: {0}",
+    "section": "templates",
+    "zh": "无法加载输出：{0}",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/V2ItemInspector.tsx:165（patches/0008 显示处补译，T10-fix1 I3）"
+    ]
+  },
+  {
+    "key": "exit {0}",
+    "section": "templates",
+    "zh": "退出码 {0}",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/V2ItemInspector.tsx:216（patches/0008 显示处补译，T10-fix1 I3）"
+    ]
+  },
+  {
+    "key": "Unable to load {0}",
+    "section": "templates",
+    "zh": "无法加载 {0}",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/HtmlRenderFrame.tsx:125（patches/0008 显示处补译，T10-fix1 I3）"
+    ]
+  },
+  {
+    "key": "Preview limited to the first 1 MB of a {0} byte file. Save the file to read it in full.",
+    "section": "templates",
+    "zh": "预览仅显示前 1 MB（文件共 {0} 字节）。保存文件后可查看完整内容。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/files/AttachmentFilePreview.tsx:354（有文件大小）（patches/0008 显示处补译，T10-fix1 I3）"
+    ]
+  },
+  {
+    "key": "Preview limited to the first 1 MB. Save the file to read it in full.",
+    "section": "messages",
+    "zh": "预览仅显示前 1 MB。保存文件后可查看完整内容。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/files/AttachmentFilePreview.tsx:354（无文件大小）（patches/0008 显示处补译，T10-fix1 I3）"
+    ]
+  }
+]

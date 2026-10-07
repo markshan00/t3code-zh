@@ -1,0 +1,44 @@
+[
+  {
+    "en": "Failed to snooze {0} thread{1}",
+    "zh": "暂缓 {0} 个任务失败",
+    "source": "2",
+    "reason": "placeholder-mismatch",
+    "enPlaceholders": [
+      "0",
+      "1"
+    ],
+    "zhPlaceholders": [
+      "0"
+    ]
+  },
+  {
+    "en": "That prompt was restored or deleted before {0} image{1} finished saving. Re-attach {2} if you still need {3}.",
+    "zh": "在 {0} 张图片保存完成前，提示词已恢复或删除。若仍需要这些图片，请重新附加 {2}。",
+    "source": "2",
+    "reason": "placeholder-mismatch",
+    "enPlaceholders": [
+      "0",
+      "1",
+      "2",
+      "3"
+    ],
+    "zhPlaceholders": [
+      "0",
+      "2"
+    ]
+  },
+  {
+    "en": "{0} context item{1}",
+    "zh": "{0} 个上下文项",
+    "source": "2",
+    "reason": "placeholder-mismatch",
+    "enPlaceholders": [
+      "0",
+      "1"
+    ],
+    "zhPlaceholders": [
+      "0"
+    ]
+  }
+]

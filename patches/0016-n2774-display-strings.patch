@@ -1,0 +1,105 @@
+# n2774 新增的混排显示文字：旧 Claude 任务「压缩并发送」按钮的提示与菜单项、拉取请求检查的失败计数、项目动作菜单名的角色后缀，以及移动端收起输入框的压缩发送读屏名。
+# 基线：v0.0.46-nightly.20261007.2774；按序在 0015 之后普通 git apply。依赖 0007 的 fillSlot（U+E000 槽位）与 ChatComposer 已导入的 translateFixed。
+# T13-fix1 I1：只在最终 aria-label 翻译 collapsedComposerPrimaryActionLabel；三个固定取值都有精确 messages 词条。
+# t() 只收到固定文字或固定骨架 + 槽位；Token 数、失败计数和用户起的脚本名在翻译后插入，英文显示与原版逐字一致。
+
+diff --git a/apps/web/src/components/ProjectScriptsControl.tsx b/apps/web/src/components/ProjectScriptsControl.tsx
+index 5bea0b4..178dfd5 100644
+--- a/apps/web/src/components/ProjectScriptsControl.tsx
++++ b/apps/web/src/components/ProjectScriptsControl.tsx
+@@ -17,6 +17,7 @@ import { ChevronDownIcon, DownloadIcon, PlusIcon, SettingsIcon, WrenchIcon } fro
+ import React, { useCallback, useMemo, useState } from "react";
+ 
+ import { commandForProjectScript, primaryProjectScript } from "~/projectScripts";
++import { fillSlot } from "~/newThreadDisplayStrings";
+ import { shortcutLabelForCommand } from "~/keybindings";
+ import { serverEnvironment } from "~/state/server";
+ import { readEnvironmentScope } from "~/state/session";
+@@ -76,6 +77,14 @@ interface ProjectScriptsControlProps {
+   onDeleteScript: (scriptId: string) => Promise<ProjectScriptActionResult>;
+ }
+ 
++// t3code-zh（patches/0016）：菜单名后缀只是 setup / on settle 两种角色的有限组合，按固定骨架翻译；
++// 脚本名是用户内容，翻译后才插入槽位，不交给 t()。
++function displayScriptMenuName(script: ProjectScript): string {
++  const label = projectScriptMenuLabel(script);
++  if (label === script.name || !label.startsWith(script.name)) return label;
++  return fillSlot("", script.name, label.slice(script.name.length));
++}
++
+ export default function ProjectScriptsControl({
+   displayMode = "toolbar",
+   presentation = "toolbar",
+@@ -204,7 +213,7 @@ export default function ProjectScriptsControl({
+             onClick={() => onRunScript?.(script)}
+           >
+             <ScriptIcon icon={script.icon} className="size-4" />
+-            <MenuItemLabel>{projectScriptMenuLabel(script)}</MenuItemLabel>
++            <MenuItemLabel>{displayScriptMenuName(script)}</MenuItemLabel>
+             <span className="relative ms-auto flex h-6 min-w-6 items-center justify-end">
+               {shortcutLabel &&
+                 (presentation === "menu" ? (
+diff --git a/apps/web/src/components/chat/ComposerPrimaryActions.tsx b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
+index 369a00f..b7e007a 100644
+--- a/apps/web/src/components/chat/ComposerPrimaryActions.tsx
++++ b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
+@@ -1,5 +1,6 @@
+ import { displayConnectionPermissionError } from "~/connectionPermissionDisplayStrings";
+ import { displayKnown } from "~/acceptanceDisplayStrings";
++import { fillSlot } from "~/newThreadDisplayStrings";
+ import { memo, type MouseEventHandler, type PointerEventHandler } from "react";
+ import { CheckIcon, ChevronDownIcon, ChevronLeftIcon, PlayIcon } from "lucide-react";
+ import { CornerUpRight, ListPlus } from "lucide";
+@@ -292,7 +293,9 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
+           >
+             {isConnecting || isSendBusy ? "Sending..." : "Compact and send"}
+           </TooltipTrigger>
+-          <TooltipPopup>Summarize {tokens} tokens of history, then send</TooltipPopup>
++          <TooltipPopup>
++            {fillSlot("Summarize ", tokens, " tokens of history, then send")}
++          </TooltipPopup>
+         </Tooltip>
+         <Menu>
+           <MenuTrigger
+@@ -313,7 +316,7 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
+           </MenuTrigger>
+           <MenuPopup align="end" side="top" {...composerFloatingLayerProps}>
+             <MenuItem disabled={sendBlocked} onClick={onSendWithFullHistory}>
+-              Send with full history ({tokens} tokens)
++              {fillSlot("Send with full history (", tokens, " tokens)")}
+             </MenuItem>
+           </MenuPopup>
+         </Menu>
+diff --git a/apps/web/src/components/pullRequest/PullRequestChecksPopover.tsx b/apps/web/src/components/pullRequest/PullRequestChecksPopover.tsx
+index adbd9ad..810cd9b 100644
+--- a/apps/web/src/components/pullRequest/PullRequestChecksPopover.tsx
++++ b/apps/web/src/components/pullRequest/PullRequestChecksPopover.tsx
+@@ -10,6 +10,7 @@ import { useState } from "react";
+ 
+ import { useOpenLink } from "~/browser/useOpenLink";
+ import { cn } from "~/lib/utils";
++import { fillSlot } from "~/newThreadDisplayStrings";
+ import { pullRequestEnvironment } from "~/state/pullRequests";
+ import { useEnvironmentQuery } from "~/state/query";
+ 
+@@ -192,7 +193,7 @@ export function PullRequestChecksPopover({
+                 {runningCount}/{checks.length}
+               </span>
+             ) : failedCount > 0 ? (
+-              <span className="tabular-nums">{failedCount} failed</span>
++              <span className="tabular-nums">{fillSlot("", String(failedCount), " failed")}</span>
+             ) : null}
+           </>
+         ) : null}
+diff --git a/apps/web/src/components/chat/ChatComposer.tsx b/apps/web/src/components/chat/ChatComposer.tsx
+--- a/apps/web/src/components/chat/ChatComposer.tsx
++++ b/apps/web/src/components/chat/ChatComposer.tsx
+@@ -6882,7 +6882,7 @@
+                   data-chat-composer-transition-actions="true"
+                   className="flex size-8 shrink-0 items-center justify-center rounded-full bg-message-action text-message-action-foreground hover:bg-message-action-hover disabled:opacity-64"
+                   disabled={collapsedComposerPrimaryActionDisabled}
+-                  aria-label={collapsedComposerPrimaryActionLabel}
++                  aria-label={translateFixed(collapsedComposerPrimaryActionLabel)}
+                   onPointerDown={(event) => event.preventDefault()}
+                   onClick={(event) => {
+                     event.stopPropagation();

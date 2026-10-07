@@ -1,0 +1,106 @@
+# 0001-language-setting.patch
+#
+# 在设置的「常规 / General」页加一行语言选择（System / English / 简体中文），
+# 让用户在设置里切换界面语言。读写一律走运行时注入的 window.__t3zh
+# （见 CONVENTIONS §5），因此本补丁只加一个 UI 入口，不引入任何自己的状态：
+#
+#   * window.__t3zh 不存在时（未加载汉化运行时、例如脱离词库/插件构建）
+#     整行不渲染，页面其余部分不受影响，也不会抛错；
+#   * getLocale() 返回 'system' | 'en' | 'zh-CN'（localStorage 里的偏好），
+#     setLocale() 写入 localStorage 后自行刷新页面。
+#
+# 涉及三个上游文件：
+#   * apps/web/src/components/settings/SettingsPanels.tsx
+#       - 新增 LANGUAGE_OPTIONS 常量与 GeneralSettingsPanel 的 Behavior 段首行；
+#   * apps/web/src/components/settings/settingsSearch.ts
+#       - 新增 id "language" 的搜索目录项（设置搜索能搜到这一行）；
+#   * apps/web/src/vite-env.d.ts
+#       - 给 Window 补 __t3zh 的可选类型声明（纯类型，不影响运行）。
+#
+# 文案用英文写（Language / System / English），由词库翻译；"简体中文"固定中文，
+# 词条见 dict/zh-CN.json。上游更新后重做方法见 patches/README.md。
+#
+diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/components/settings/SettingsPanels.tsx
+index 5e52b482789133c30d871f5e145a32f8c8c28338..4d9a85935ac73fc84f0db6ceec0406381b772a82 100644
+--- a/apps/web/src/components/settings/SettingsPanels.tsx
++++ b/apps/web/src/components/settings/SettingsPanels.tsx
+@@ -199,6 +199,13 @@ const TIMESTAMP_FORMAT_LABELS = {
+   "24-hour": "24-hour",
+ } as const;
+ 
++// Added by patches/0001-language-setting.patch.
++const LANGUAGE_OPTIONS: ReadonlyArray<{ value: string; label: string }> = [
++  { value: "system", label: "System" },
++  { value: "en", label: "English" },
++  { value: "zh-CN", label: "简体中文" },
++];
++
+ const CHAT_WIDTH_LABELS: Record<ChatWidth, string> = {
+   comfortable: "Comfortable",
+   wide: "Wide",
+@@ -2480,6 +2487,32 @@ export function GeneralSettingsPanel() {
+       </SettingsSection>
+ 
+       <SettingsSection id="behavior" title="Behavior">
++        {typeof window !== "undefined" && window.__t3zh ? (
++          <SettingsRow
++            {...searchableSetting("language")}
++            description="Switch the interface language. Changing it reloads the app."
++            control={
++              <Select
++                items={LANGUAGE_OPTIONS}
++                value={window.__t3zh.getLocale()}
++                onValueChange={(value) => {
++                  if (typeof value === "string") window.__t3zh?.setLocale(value);
++                }}
++              >
++                <SelectTrigger size="sm" className="w-full sm:w-40" aria-label="Language">
++                  <SelectValue />
++                </SelectTrigger>
++                <SelectPopup align="end" alignItemWithTrigger={false}>
++                  {LANGUAGE_OPTIONS.map(({ value, label }) => (
++                    <SelectItem key={value} value={value}>
++                      {label}
++                    </SelectItem>
++                  ))}
++                </SelectPopup>
++              </Select>
++            }
++          />
++        ) : null}
+         <NotificationSettings />
+         <SettingsRow
+           {...searchableSetting("in-app-notifications")}
+diff --git a/apps/web/src/components/settings/settingsSearch.ts b/apps/web/src/components/settings/settingsSearch.ts
+index 81b2d1248f19c32d325b828c03560f092525b902..72b58e5607a48bb6210c53e6f84b5559d51ef1c7 100644
+--- a/apps/web/src/components/settings/settingsSearch.ts
++++ b/apps/web/src/components/settings/settingsSearch.ts
+@@ -351,6 +351,12 @@ export const SETTINGS_SEARCH_ITEMS = [
+     to: "/settings/general",
+     searchTerms: ["notification toast popup completion input approval failure"],
+   },
++  {
++    id: "language",
++    title: "Language",
++    to: "/settings/general",
++    searchTerms: ["locale interface app translation chinese english system"],
++  },
+   {
+     id: "time-format",
+     title: "Time format",
+diff --git a/apps/web/src/vite-env.d.ts b/apps/web/src/vite-env.d.ts
+index 31260c8ae666fcb7814d8e078f4dac4a930a0f6d..d3ecb559241378d1a6108873d2f2934377a14e2e 100644
+--- a/apps/web/src/vite-env.d.ts
++++ b/apps/web/src/vite-env.d.ts
+@@ -23,5 +23,11 @@ interface ImportMeta {
+ declare global {
+   interface Window {
+     desktopBridge?: DesktopBridge;
++    /** Injected by the zh-CN runtime (patches/0001-language-setting.patch). */
++    __t3zh?: {
++      getLocale(): "system" | "en" | "zh-CN";
++      getResolvedLocale(): "en" | "zh-CN";
++      setLocale(value: "system" | "en" | "zh-CN"): void;
++    };
+   }
+ }

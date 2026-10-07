@@ -1,0 +1,547 @@
+# 0007-new-thread-display-strings.patch
+#
+# 新建任务页面上转换插件包不到的英文，只在显示处翻译（T09，维护者在 zh.1 手动验收时指出的四处）。
+# 基线 v0.0.46-nightly.20261007.2774；须在 0004（Sidebar.tsx、vite-env.d.ts 的
+# 全局 `var __t3zh` 声明）之后应用；ChatComposer 直接使用原版，不依赖已停用的 0002。
+#
+# 四处英文与原因：
+#   * 顶栏 / 侧栏的 `No project`：服务端给「无项目」任务用的临时项目起的名字
+#     （apps/server/src/project/ManagedProjectFolders.ts 的 title），是数据值，插件只包源码字面量
+#   * 顶栏 / 侧栏的 `New thread`：新任务的默认标题（web 草稿与服务端共用）。服务端
+#     ThreadTitleRegenerationService 按 `=== "New thread"` 判断要不要重新生成标题，值本身必须保持英文
+#   * 大标题 `What should we build in <项目选择器>?` / `<项目选择器> to start`：文字与组件混排的 JSX，
+#     插件按 CONVENTIONS §4 记 mixed-jsx 跳过；h1 的 aria-label 是变量，插件同样不包
+#   * 输入框提示 `Ask for changes, send follow-ups, or attach images`：模块常量
+#     DISCONNECTED_COMPOSER_PLACEHOLDER，使用处是常量引用，插件不包
+#
+# 做法（CONVENTIONS §5 补丁调用 t() 的规则）：新增 apps/web/src/newThreadDisplayStrings.ts
+#   * displayDefaultName(x)：只有名单 [`New thread`, `No project`] 里的精确值交给 t()，用户起的项目名 /
+#     任务标题原样返回（规则 1、2）。数据对象、比较、重命名输入框的初值都不动，只包最终渲染处（规则 3）
+#   * translateAroundSlot(before, after)：用私有区字符 U+E000 占住句中槽位，把「固定骨架 + 槽位」整句交给
+#     t()，命中词库专用模板（`What should we build in {project}?`、`{project} to start`、`New thread in {0}`）
+#     后在槽位处切开，组件 / 项目名插在中间。t() 只收到固定骨架，不会把任意文字送进宽模板（规则 4）；
+#     没命中或槽位不唯一时返回原样英文两段，en 模式下渲染出的文本节点与原版逐个相同
+#   * translateFixed(x)：只用于词库里有精确 messages 词条的固定字面量 / 常量
+#   * 名单写成普通数组再传给 Set（规则 5）
+#
+# 改动的显示处：
+#   * components/chat/ChatHeader.tsx         面包屑项目名、任务标题（服务端 / 草稿两支）及其 tooltip、aria-label；
+#                                            「New thread in <项目>」tooltip
+#   * components/chat/DraftHeroHeadline.tsx  大标题两句混排、h1 的 aria-label、项目选择器文字与 tooltip、
+#                                            项目菜单里的项目名
+#   * components/Sidebar.tsx                 任务行的标题与项目标签（含 sr-only 与行 aria-label）、草稿行项目标签、
+#                                            悬停卡片标题与项目名、搜索结果行标题与读屏标签、
+#                                            归档确认框里内插的任务标题；删除确认框整句
+#   * hooks/useThreadActionMenu.ts、hooks/useThreadActions.ts  顶栏任务菜单等处的归档确认框内插标题、删除确认框整句
+#     （删除确认框的文案是 `[问句, 说明].join("\n")`，插件不包数组元素：问句走 fillSlot + 专用模板
+#      `Delete thread "{title}"?`，说明句走 translateFixed；归档确认框整句由插件按 D 类 `*.dialogs.confirm` 包裹）
+#   * components/chat/ChatComposer.tsx       断开阶段的输入框提示
+#   * components/settings/SettingsFontPreviews.tsx  字体预览里的同一条输入框提示
+#   * newThreadDisplayStrings.ts（新文件）
+#
+# 词库：`{project} to start` 的译文由「选择 {project} 开始」改为「{project}后开始」（这条此前无人命中、在
+# stale 清单里；槽位里是项目选择器，未选项目时显示「选择项目」，旧译文会拼成「选择 选择项目 开始」）。
+# 测试：plugin/__tests__/new-thread-display-strings.test.ts。未覆盖：LegacySidebar（旧版侧栏）、命令面板、
+# 侧栏的项目筛选下拉与右键菜单「按项目筛选」、通知、归档设置页等其他列出任务标题 / 项目名的位置，
+# 见 handoff/T09.md。
+# 上游更新后重做方法见 patches/README.md。
+#
+diff --git a/apps/web/src/components/Sidebar.tsx b/apps/web/src/components/Sidebar.tsx
+index fc81b431e19a1b51ebfade0e08e19786b499c1ec..95c25110f354e2d9f621bdfab67cbca451732c1c 100644
+--- a/apps/web/src/components/Sidebar.tsx
++++ b/apps/web/src/components/Sidebar.tsx
+@@ -171,6 +171,7 @@ import { formatRelativeTimeLabel, parseTimestampDate } from "../timestampFormat"
+ import type { SidebarThreadSummary } from "../types";
+ import type { EnvironmentProject } from "@t3tools/client-runtime/state/shell";
+ import { cn } from "~/lib/utils";
++import { displayDefaultName, fillSlot, translateFixed } from "~/newThreadDisplayStrings";
+ import { EnvironmentMachineIcon } from "./EnvironmentMachineIcon";
+ import { ProjectEnvironmentBadge } from "./ProjectEnvironmentBadge";
+ import {
+@@ -464,7 +465,7 @@ function SidebarThreadTooltip({
+   return (
+     <ThreadHoverCardPopup side="right" align="start" sideOffset={4}>
+       <ThreadHoverCard
+-        title={thread.title}
++        title={displayDefaultName(thread.title)}
+         footer={
+           supportsMultiplePullRequests && thread.pullRequests.length > 0 ? (
+             <div className="border-t border-border/60 pt-2 pl-0.5 text-xs text-muted-foreground">
+@@ -476,7 +477,9 @@ function SidebarThreadTooltip({
+         {projectDisplayName ? (
+           <div className="flex min-w-0 items-center gap-2">
+             {project ? <ProjectFavicon project={project} className="size-3 shrink-0" /> : null}
+-            <div className="min-w-0 truncate text-foreground/75">{projectDisplayName}</div>
++            <div className="min-w-0 truncate text-foreground/75">
++              {displayDefaultName(projectDisplayName)}
++            </div>
+           </div>
+         ) : null}
+         {environmentLabel ? (
+@@ -859,7 +862,7 @@ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
+   const accessibility = resolveSidebarRowAccessibility({
+     title: preview,
+     statusLabel: "Unsent draft",
+-    projectDisplayName: props.projectDisplayName,
++    projectDisplayName: displayDefaultName(props.projectDisplayName),
+     isActive: props.isActive,
+   });
+   const handleActivate = useCallback(() => onNavigate(draftId), [draftId, onNavigate]);
+@@ -919,7 +922,7 @@ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
+               <ProjectFavicon project={props.project} className="size-4 shrink-0" />
+             ) : null}
+             <span className="min-w-0 flex-1 truncate text-xs font-medium text-secondary-label">
+-              {props.projectDisplayName}
++              {displayDefaultName(props.projectDisplayName)}
+             </span>
+             <span className="ml-auto flex h-5 min-w-5 shrink-0 items-center justify-end">
+               <Tooltip>
+@@ -1638,9 +1641,9 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+     ) : null;
+ 
+   const accessibility = resolveSidebarRowAccessibility({
+-    title: thread.title,
++    title: displayDefaultName(thread.title),
+     statusLabel: topStatus?.label ?? null,
+-    projectDisplayName: props.projectDisplayName,
++    projectDisplayName: displayDefaultName(props.projectDisplayName),
+     isActive: props.isActive,
+   });
+ 
+@@ -1688,10 +1691,12 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+           isRegeneratingTitle && "opacity-55",
+         )}
+       >
+-        {thread.title}
++        {displayDefaultName(thread.title)}
+       </span>
+     );
+-  const accessibleTitle = isRenaming ? null : <span className="sr-only">{thread.title}</span>;
++  const accessibleTitle = isRenaming ? null : (
++    <span className="sr-only">{displayDefaultName(thread.title)}</span>
++  );
+ 
+   // Stacks show their layer count; multiple unrelated links show their total count.
+   // Either opens the thread's pull requests tab; a single PR link opens that PR and still
+@@ -1995,7 +2000,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+                     shouldRecede ? "font-normal" : "font-medium",
+                   )}
+                 >
+-                  {props.projectDisplayName}
++                  {displayDefaultName(props.projectDisplayName)}
+                 </span>
+               ) : (
+                 <span className="flex-1" />
+@@ -2041,7 +2046,9 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+                                 )}
+                               >
+                                 <AlarmClockIcon aria-hidden className="size-4 shrink-0" />
+-                                <span role="status">{globalThis.__t3zh?.t?.(topStatus.label) ?? topStatus.label}</span>
++                                <span role="status">
++                                  {globalThis.__t3zh?.t?.(topStatus.label) ?? topStatus.label}
++                                </span>
+                               </button>
+                             }
+                           />
+@@ -2068,7 +2075,9 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+                           {/* The label alone is the live region: a role="status"
+                             wrapper around the ticking duration would make
+                             screen readers announce every second. */}
+-                          <span role="status">{globalThis.__t3zh?.t?.(topStatus.label) ?? topStatus.label}</span>
++                          <span role="status">
++                            {globalThis.__t3zh?.t?.(topStatus.label) ?? topStatus.label}
++                          </span>
+                           {status === "working" ? (
+                             <span aria-hidden>
+                               <WorkingDuration startedAt={resolveWorkingStartedAt(thread)} />
+@@ -2230,9 +2239,9 @@ const SidebarSearchResultRow = memo(function SidebarSearchResultRow(props: {
+ }) {
+   const { thread } = props;
+   const accessibility = resolveSidebarRowAccessibility({
+-    title: thread.title,
++    title: displayDefaultName(thread.title),
+     statusLabel: null,
+-    projectDisplayName: props.projectDisplayName,
++    projectDisplayName: displayDefaultName(props.projectDisplayName),
+     isActive: props.isRouteActive,
+   });
+   const threadRef = useMemo(
+@@ -2331,7 +2340,7 @@ const SidebarSearchResultRow = memo(function SidebarSearchResultRow(props: {
+           ) : null}
+           <span className="flex min-w-0 flex-1 flex-col">
+             <span className="flex min-w-0 items-center gap-2.5">
+-              <span className="min-w-0 flex-1 truncate">{thread.title}</span>
++              <span className="min-w-0 flex-1 truncate">{displayDefaultName(thread.title)}</span>
+               <span className="shrink-0 text-xs text-muted-foreground/55 tabular-nums">
+                 {threadTimeLabel(thread)}
+               </span>
+@@ -4744,7 +4753,7 @@ export default function Sidebar() {
+           case "archive": {
+             if (confirmThreadArchive) {
+               const confirmed = await settlePromise(() =>
+-                api.dialogs.confirm(`Archive thread "${thread.title}"?`),
++                api.dialogs.confirm(`Archive thread "${displayDefaultName(thread.title)}"?`),
+               );
+               if (confirmed._tag === "Failure" || !confirmed.value) return;
+             }
+@@ -4774,8 +4783,8 @@ export default function Sidebar() {
+               const confirmed = await settlePromise(() =>
+                 api.dialogs.confirm(
+                   [
+-                    `Delete thread "${thread.title}"?`,
+-                    "This permanently clears conversation history for this thread.",
++                    fillSlot('Delete thread "', displayDefaultName(thread.title), '"?'),
++                    translateFixed("This permanently clears conversation history for this thread."),
+                   ].join("\n"),
+                   { variant: "destructive" },
+                 ),
+diff --git a/apps/web/src/components/chat/ChatComposer.tsx b/apps/web/src/components/chat/ChatComposer.tsx
+index b3be7790bce47ba1baf2239108c2b771abb12daa..e5165d2a59f161b21731ade9d480d4f3fcce6352 100644
+--- a/apps/web/src/components/chat/ChatComposer.tsx
++++ b/apps/web/src/components/chat/ChatComposer.tsx
+@@ -84,6 +84,7 @@ import {
+   replaceTextRange,
+ } from "../../composer-logic";
+ import { DISCONNECTED_COMPOSER_PLACEHOLDER } from "../../composerPlaceholder";
++import { translateFixed } from "~/newThreadDisplayStrings";
+ import { listContinuationForEnter, listIndentForTab } from "../../composer-list-continuation";
+ import {
+   deriveComposerSendState,
+@@ -7411,7 +7412,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+                               : showProviderUnavailable
+                                 ? "Enable a provider in Settings to send a message"
+                                 : phase === "disconnected"
+-                                  ? DISCONNECTED_COMPOSER_PLACEHOLDER
++                                  ? translateFixed(DISCONNECTED_COMPOSER_PLACEHOLDER)
+                                   : "Ask anything, @tag files/folders, $use skills, or / for commands"
+                     }
+                     disabled={
+diff --git a/apps/web/src/components/chat/ChatHeader.tsx b/apps/web/src/components/chat/ChatHeader.tsx
+index 51c7ebb15f47bfac2fe4583469d76c60b43ecf71..34fb99e26ed1e857790d9f12becfd8e34c6ff6f1 100644
+--- a/apps/web/src/components/chat/ChatHeader.tsx
++++ b/apps/web/src/components/chat/ChatHeader.tsx
+@@ -37,6 +37,7 @@ import {
+   WorkspaceBreadcrumbText,
+ } from "../WorkspaceBreadcrumb";
+ import { cn } from "~/lib/utils";
++import { displayDefaultName, translateAroundSlot } from "~/newThreadDisplayStrings";
+ 
+ interface ChatHeaderProps {
+   activeThreadEnvironmentId: EnvironmentId;
+@@ -82,6 +83,8 @@ export const ChatHeader = memo(function ChatHeader({
+   onOpenProjectSettings,
+ }: ChatHeaderProps) {
+   const activeProjectName = activeProject?.title;
++  // t3code-zh（patches/0007）：「New thread in <项目名>」提示的固定骨架；项目名在渲染处插入。
++  const [newThreadInBefore, newThreadInAfter] = translateAroundSlot("New thread in ", "");
+   const activeProjectCwd = activeProject?.workspaceRoot ?? null;
+   const activeThreadRef = useMemo(
+     () => scopeThreadRef(activeThreadEnvironmentId, activeThreadId),
+@@ -274,7 +277,7 @@ export const ChatHeader = memo(function ChatHeader({
+                   render={
+                     <button
+                       type="button"
+-                      aria-label={`New thread in ${activeProjectName}`}
++                      aria-label={`New thread in ${displayDefaultName(activeProjectName)}`}
+                       onClick={onNewThreadInProject}
+                       className="inline-flex min-w-0 max-w-full cursor-pointer items-center gap-1.5 rounded-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
+                     />
+@@ -282,10 +285,14 @@ export const ChatHeader = memo(function ChatHeader({
+                 >
+                   <ProjectFavicon project={activeProject} className="size-3.5" />
+                   <WorkspaceBreadcrumbText className="max-w-40">
+-                    {activeProjectName}
++                    {displayDefaultName(activeProjectName)}
+                   </WorkspaceBreadcrumbText>
+                 </TooltipTrigger>
+-                <TooltipPopup side="top">New thread in {activeProjectName}</TooltipPopup>
++                <TooltipPopup side="top">
++                  {newThreadInBefore}
++                  {displayDefaultName(activeProjectName)}
++                  {newThreadInAfter}
++                </TooltipPopup>
+               </Tooltip>
+             </WorkspaceBreadcrumbItem>
+             <WorkspaceBreadcrumbSeparator>
+@@ -323,7 +330,7 @@ export const ChatHeader = memo(function ChatHeader({
+                   <button
+                     ref={titleButtonRef}
+                     type="button"
+-                    aria-label={`Thread actions for ${activeThreadTitle}`}
++                    aria-label={`Thread actions for ${displayDefaultName(activeThreadTitle)}`}
+                     aria-haspopup="menu"
+                     onClick={openMenuFromTitle}
+                     onDoubleClick={canOperateThread ? handleTitleDoubleClick : undefined}
+@@ -333,7 +340,9 @@ export const ChatHeader = memo(function ChatHeader({
+                 }
+               >
+                 <h2 className="min-w-0">
+-                  <WorkspaceBreadcrumbText>{activeThreadTitle}</WorkspaceBreadcrumbText>
++                  <WorkspaceBreadcrumbText>
++                    {displayDefaultName(activeThreadTitle)}
++                  </WorkspaceBreadcrumbText>
+                 </h2>
+                 <ChevronDownIcon
+                   aria-hidden
+@@ -341,16 +350,23 @@ export const ChatHeader = memo(function ChatHeader({
+                   className="size-3.5 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover/thread-title:opacity-100 group-focus-visible/thread-title:opacity-100"
+                 />
+               </TooltipTrigger>
+-              <TooltipPopup side="top">{activeThreadTitle}</TooltipPopup>
++              <TooltipPopup side="top">{displayDefaultName(activeThreadTitle)}</TooltipPopup>
+             </Tooltip>
+           ) : (
+             <Tooltip>
+               <TooltipTrigger
+-                render={<h2 aria-label={activeThreadTitle} className="min-w-0 flex-1" />}
++                render={
++                  <h2
++                    aria-label={displayDefaultName(activeThreadTitle)}
++                    className="min-w-0 flex-1"
++                  />
++                }
+               >
+-                <WorkspaceBreadcrumbText>{activeThreadTitle}</WorkspaceBreadcrumbText>
++                <WorkspaceBreadcrumbText>
++                  {displayDefaultName(activeThreadTitle)}
++                </WorkspaceBreadcrumbText>
+               </TooltipTrigger>
+-              <TooltipPopup side="top">{activeThreadTitle}</TooltipPopup>
++              <TooltipPopup side="top">{displayDefaultName(activeThreadTitle)}</TooltipPopup>
+             </Tooltip>
+           )}
+         </WorkspaceBreadcrumbItem>
+diff --git a/apps/web/src/components/chat/DraftHeroHeadline.tsx b/apps/web/src/components/chat/DraftHeroHeadline.tsx
+index ac995a47a67032aea115d2397790381ebfbb9486..fa3ec336f2536f1f74b8bf6e3658148b0c2ebbf9 100644
+--- a/apps/web/src/components/chat/DraftHeroHeadline.tsx
++++ b/apps/web/src/components/chat/DraftHeroHeadline.tsx
+@@ -40,6 +40,12 @@ import {
+ import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
+ import { InlineButton } from "../ui/button";
+ import { resolveProjectSettings } from "@t3tools/shared/projectSettings";
++import {
++  displayDefaultName,
++  fillSlot,
++  translateAroundSlot,
++  translateFixed,
++} from "~/newThreadDisplayStrings";
+ 
+ // Menu value for "No project"; real entries are keyed by logical project key.
+ const NO_PROJECT_VALUE = "no-project";
+@@ -242,11 +248,13 @@ export function DraftHeroHeadline({
+           }
+         >
+           <span className="min-w-0 truncate">
+-            {isScratchDraft ? "No project" : (activeProjectDisplayName ?? "Choose a project")}
++            {isScratchDraft
++              ? "No project"
++              : (displayDefaultName(activeProjectDisplayName) ?? "Choose a project")}
+           </span>
+         </TooltipTrigger>
+         {activeProjectDisplayName && !isScratchDraft ? (
+-          <TooltipPopup side="top">{activeProjectDisplayName}</TooltipPopup>
++          <TooltipPopup side="top">{displayDefaultName(activeProjectDisplayName)}</TooltipPopup>
+         ) : null}
+       </Tooltip>
+       <MenuPopup align="center" className="max-h-80 overflow-y-auto">
+@@ -285,9 +293,9 @@ export function DraftHeroHeadline({
+                   <ProjectFavicon project={group} className="size-4 shrink-0" />
+                   <Tooltip>
+                     <TooltipTrigger render={<span className="block min-w-0 truncate" />}>
+-                      {group.displayName}
++                      {displayDefaultName(group.displayName)}
+                     </TooltipTrigger>
+-                    <TooltipPopup side="top">{group.displayName}</TooltipPopup>
++                    <TooltipPopup side="top">{displayDefaultName(group.displayName)}</TooltipPopup>
+                   </Tooltip>
+                   {showProjectEnvironments ? (
+                     <ProjectEnvironmentBadge
+@@ -322,13 +330,24 @@ export function DraftHeroHeadline({
+   // a complete sentence too. The project picker is a control rendered inline
+   // in the h1; without an explicit label its widget state bleeds into the
+   // announced phrase.
++  // t3code-zh（patches/0007）：这个标签只用作下面 h1 的 aria-label，各分支在这里按显示译文拼出。
+   const headingLabel = isScratchDraft
+-    ? "What should we work on?"
++    ? translateFixed("What should we work on?")
+     : hasResolvedProject
+-      ? `What should we build in ${activeProjectDisplayName}?`
++      ? fillSlot(
++          "What should we build in ",
++          String(displayDefaultName(activeProjectDisplayName)),
++          "?",
++        )
+       : canChooseProject
+-        ? `${activeProjectDisplayName ?? "Choose a project"} to start`
+-        : "Add a project to start";
++        ? fillSlot(
++            "",
++            displayDefaultName(activeProjectDisplayName) ?? translateFixed("Choose a project"),
++            " to start",
++          )
++        : translateFixed("Add a project to start");
++  const [buildInBefore, buildInAfter] = translateAroundSlot("What should we build in ", "?");
++  const [toStartBefore, toStartAfter] = translateAroundSlot("", " to start");
+ 
+   // One click out of the project, phrased as the alternative to the question
+   // above it. Focus moves to the project picker once this line has gone.
+@@ -366,9 +385,17 @@ export function DraftHeroHeadline({
+         {isScratchDraft ? (
+           <>What should we work on?</>
+         ) : hasResolvedProject ? (
+-          <>What should we build in {projectSelector}?</>
++          <>
++            {buildInBefore}
++            {projectSelector}
++            {buildInAfter}
++          </>
+         ) : canChooseProject ? (
+-          <>{projectSelector} to start</>
++          <>
++            {toStartBefore}
++            {projectSelector}
++            {toStartAfter}
++          </>
+         ) : (
+           <>Add a project to start</>
+         )}
+diff --git a/apps/web/src/components/settings/SettingsFontPreviews.tsx b/apps/web/src/components/settings/SettingsFontPreviews.tsx
+index 4715583e4005c3453bdc3164efb5001a12d59e21..357cb44f74fa41cb4ff986d91fd871e33992cce4 100644
+--- a/apps/web/src/components/settings/SettingsFontPreviews.tsx
++++ b/apps/web/src/components/settings/SettingsFontPreviews.tsx
+@@ -5,6 +5,7 @@ import { EMPTY_COMPOSER_CONTEXT_RECORDS } from "../composerContextPresentation";
+ import { terminalThemeFromApp } from "../ThreadTerminalDrawer";
+ import { useTheme } from "../../hooks/useTheme";
+ import { DISCONNECTED_COMPOSER_PLACEHOLDER } from "../../composerPlaceholder";
++import { translateFixed } from "~/newThreadDisplayStrings";
+ import { resolveDiffThemeName, type DiffThemeName } from "../../lib/diffRendering";
+ import { PREFERRED_HIGHLIGHTER } from "../../lib/syntaxHighlighting";
+ import { GhosttyTerminalSurface } from "~/terminal/ghostty/surface";
+@@ -46,7 +47,7 @@ export function PromptFontPreview() {
+         contextRecords={EMPTY_COMPOSER_CONTEXT_RECORDS}
+         skills={EMPTY_SKILLS}
+         disabled={false}
+-        placeholder={DISCONNECTED_COMPOSER_PLACEHOLDER}
++        placeholder={translateFixed(DISCONNECTED_COMPOSER_PLACEHOLDER)}
+         className="max-h-42 min-h-14"
+         onChange={onChange}
+         onPaste={noop}
+diff --git a/apps/web/src/hooks/useThreadActionMenu.ts b/apps/web/src/hooks/useThreadActionMenu.ts
+index 2fda09240b6b27e2d426d98d37a5e8758715ecd4..b7e7be8f351844285593bc5a8eeedb1aa494799b 100644
+--- a/apps/web/src/hooks/useThreadActionMenu.ts
++++ b/apps/web/src/hooks/useThreadActionMenu.ts
+@@ -47,6 +47,7 @@ import { useCopyToClipboard } from "./useCopyToClipboard";
+ import { useNewThreadHandler } from "./useHandleNewThread";
+ import { useClientSettings } from "./useSettings";
+ import { useThreadActions } from "./useThreadActions";
++import { displayDefaultName, fillSlot, translateFixed } from "~/newThreadDisplayStrings";
+ 
+ function failureToast(title: string, error: unknown) {
+   toastManager.add(
+@@ -291,7 +292,7 @@ export function useThreadActionMenu(input: {
+           case "archive": {
+             if (confirmThreadArchive) {
+               const confirmed = await settlePromise(() =>
+-                api.dialogs.confirm(`Archive thread "${thread.title}"?`),
++                api.dialogs.confirm(`Archive thread "${displayDefaultName(thread.title)}"?`),
+               );
+               if (confirmed._tag === "Failure" || !confirmed.value) return;
+             }
+@@ -314,8 +315,8 @@ export function useThreadActionMenu(input: {
+               const confirmed = await settlePromise(() =>
+                 api.dialogs.confirm(
+                   [
+-                    `Delete thread "${thread.title}"?`,
+-                    "This permanently clears conversation history for this thread.",
++                    fillSlot('Delete thread "', displayDefaultName(thread.title), '"?'),
++                    translateFixed("This permanently clears conversation history for this thread."),
+                   ].join("\n"),
+                   { variant: "destructive" },
+                 ),
+diff --git a/apps/web/src/hooks/useThreadActions.ts b/apps/web/src/hooks/useThreadActions.ts
+index cab4dde3dd204ae6ab7c11474c62d5a59373644e..c73660cefa8cb1031e886083efab5499b785acc2 100644
+--- a/apps/web/src/hooks/useThreadActions.ts
++++ b/apps/web/src/hooks/useThreadActions.ts
+@@ -58,6 +58,7 @@ import { useClientSettings } from "./useSettings";
+ import * as ThreadUndo from "./threadUndo";
+ import { showThreadUndoNotice } from "./showThreadUndoNotice";
+ import { useAtomCommand } from "../state/use-atom-command";
++import { displayDefaultName, fillSlot, translateFixed } from "~/newThreadDisplayStrings";
+ import { useOrchestrationCommand } from "../state/use-orchestration-command";
+ import { useAtomQueryRunner } from "../state/use-atom-query-runner";
+ 
+@@ -985,8 +986,8 @@ export function useThreadActions() {
+         const confirmationResult = await settlePromise(() =>
+           localApi.dialogs.confirm(
+             [
+-              `Delete thread "${title}"?`,
+-              "This permanently clears conversation history for this thread.",
++              fillSlot('Delete thread "', displayDefaultName(title), '"?'),
++              translateFixed("This permanently clears conversation history for this thread."),
+             ].join("\n"),
+             { variant: "destructive" },
+           ),
+diff --git a/apps/web/src/newThreadDisplayStrings.ts b/apps/web/src/newThreadDisplayStrings.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..71aca95aeb32899b992c83704f74a5a37bf27651
+--- /dev/null
++++ b/apps/web/src/newThreadDisplayStrings.ts
+@@ -0,0 +1,58 @@
++/**
++ * t3code-zh（patches/0007）：新建任务页面上转换插件包不到的几处英文，只在显示处翻译。
++ *
++ * - 默认名：服务端给「无项目」任务用的临时项目起名 `No project`（apps/server/src/project/ManagedProjectFolders.ts），
++ *   新任务的默认标题是 `New thread`（web 草稿与服务端共用；ThreadTitleRegenerationService 按
++ *   `=== "New thread"` 判断要不要重新生成标题）。两者都是数据值，不能在定义处翻译，只能在渲染处按精确名单查表；
++ *   用户自己起的项目名、任务标题原样返回。
++ * - 句子中间嵌着组件或运行时值（`What should we build in <项目选择器>?`）：文字与表达式混排的 JSX 被插件记为
++ *   mixed-jsx 跳过。这里用一个私有区字符占住槽位，把「固定骨架 + 槽位」整句交给 t()，按词库的专用模板翻译后
++ *   在槽位处切开。t() 只会收到固定骨架，不会把项目名这类任意文字送进宽模板（CONVENTIONS §5 补丁规则 1、4）。
++ *
++ * 词条都在 dict/zh-CN.json；plugin/__tests__/new-thread-display-strings.test.ts 用真实主词库逐条核对。
++ * 名单写成普通数组再传给 Set，不写成 `new Set([...字面量])`——那种写法会被预扫描记为值用途，
++ * 影响别处同名文字的翻译。
++ */
++
++// 服务端 / 客户端起的默认名。
++const DEFAULT_NAMES: readonly string[] = ["New thread", "No project"];
++const defaultNames = new Set(DEFAULT_NAMES);
++
++/** 句子槽位的占位字符（Unicode 私有区），不会出现在词库和界面文字里。 */
++const SLOT = "";
++
++function translate(value: string): string {
++  return globalThis.__t3zh?.t?.(value) ?? value;
++}
++
++/** 名单里的默认名查表翻译，其余（含 null / undefined）原样返回。 */
++export function displayDefaultName(value: string): string;
++export function displayDefaultName(value: string | undefined): string | undefined;
++export function displayDefaultName(value: string | null): string | null;
++export function displayDefaultName(value: string | null | undefined): string | null | undefined;
++export function displayDefaultName(value: string | null | undefined): string | null | undefined {
++  if (typeof value !== "string" || !defaultNames.has(value)) return value;
++  return translate(value);
++}
++
++/**
++ * 句子 `before + <槽位> + after` 按词库模板翻译后在槽位处切开，返回 [槽位前, 槽位后]。
++ * 没有命中模板、或译文里的槽位不是恰好一个时，返回原样的 [before, after]（en 模式即如此）。
++ */
++export function translateAroundSlot(before: string, after: string): [string, string] {
++  const translated = translate(before + SLOT + after);
++  const index = translated.indexOf(SLOT);
++  if (index < 0 || translated.indexOf(SLOT, index + SLOT.length) >= 0) return [before, after];
++  return [translated.slice(0, index), translated.slice(index + SLOT.length)];
++}
++
++/** 同 translateAroundSlot，槽位处直接填入文字（调用方负责先对默认名调用 displayDefaultName）。 */
++export function fillSlot(before: string, value: string, after: string): string {
++  const [head, tail] = translateAroundSlot(before, after);
++  return head + value + tail;
++}
++
++/** 固定字面量的显示翻译。只用于词库里有精确 messages 词条的字面量，不传任意文字。 */
++export function translateFixed(value: string): string {
++  return translate(value);
++}

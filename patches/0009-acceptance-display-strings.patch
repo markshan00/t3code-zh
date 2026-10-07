@@ -1,0 +1,1062 @@
+# 0009-acceptance-display-strings.patch
+# Baseline: v0.0.46-nightly.20261007.2774, apply after 0001–0008.
+# Fix UI observations in reviews/T10-acceptance-codex.md.
+# Finite labels use an exact allowlist at display boundaries; dynamic values are
+# inserted after translating a sentinel skeleton. User content and stored values
+# stay unchanged. The font preview is a fixed local sample, never an agent prompt.
+# Tests: plugin/__tests__/acceptance-display-strings.test.ts.
+diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceDisplayStrings.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..4825f4271b30ad2f81bfa56c40f262691ed4aad9
+--- /dev/null
++++ b/apps/web/src/acceptanceDisplayStrings.ts
+@@ -0,0 +1,238 @@
++import { fillSlot, translateAroundSlot, translateFixed } from "./newThreadDisplayStrings";
++
++// Finite UI labels audited against baseline 2702. Never translate arbitrary errors,
++// project names, model names, script IDs, or option values.
++export const ACCEPTANCE_DISPLAY_LABELS: string[] = [
++  "Search commands, projects, and threads...",
++  "Search...",
++  "Clone from a remote URL",
++  "Select",
++  "Create",
++  "Toggle",
++  "Continue",
++  "Pauses probes for idle clients, locked hosts, or low power mode.",
++  "Allows scoped background probes while any subscribed client remains connected.",
++  "Also pauses background probes when the host or client is on battery.",
++  "Uses custom intervals.",
++  "Check for Updates",
++  "Check for updates",
++  "Checking for updates…",
++  "Up to Date",
++  "Downloading…",
++  "Checking…",
++  "Fast mode",
++  "Thinking",
++  "Reasoning",
++  "Favorites",
++  "All",
++  "Service Tier",
++  "Standard",
++  "Fast",
++  "2x speed, increased usage",
++  "Weekly",
++  "Daily",
++  "Monthly",
++  "All environments",
++  "Resize Sidebar",
++  "Toggle Sidebar",
++  "Submit message",
++  "Resume thread",
++  "Update queued message",
++  "Queue message",
++  "Steer message",
++  "Maximize panel",
++  "Restore panel size",
++  "Custom",
++  "Default",
++  "Project",
++  "New Terminal",
++  "Close Terminal",
++  "Split Terminal Horizontally",
++  "Split Terminal Vertically",
++  "Terminal input",
++  "Use light mode",
++  "Use dark mode",
++  "Each paragraph or code block appears as soon as it is complete.",
++  "Current version of the application.",
++  "Update available.",
++  "Download",
++  "Install",
++  "Changes",
++  "Uncommitted",
++  "Latest turn",
++  "Queue follow-ups while the agent runs or steer the current run.",
++  "Worked",
++  "You stopped this response",
++  "Text appears once the agent finishes its turn.",
++  "Thread: Jump: 1",
++  "Thread: Jump: 2",
++  "Thread: Jump: 3",
++  "Thread: Jump: 4",
++  "Thread: Jump: 5",
++  "Thread: Jump: 6",
++  "Thread: Jump: 7",
++  "Thread: Jump: 8",
++  "Thread: Jump: 9",
++  "Model Picker: Jump: 1",
++  "Model Picker: Jump: 2",
++  "Model Picker: Jump: 3",
++  "Model Picker: Jump: 4",
++  "Model Picker: Jump: 5",
++  "Model Picker: Jump: 6",
++  "Model Picker: Jump: 7",
++  "Model Picker: Jump: 8",
++  "Model Picker: Jump: 9",
++  "Thread: Stop",
++  "Queue: Send First Queued Message as Steer",
++  "Queue: Edit Last Queued Message",
++  "Thread: Previous",
++  "Thread: Next",
++  "Pull Request: Copy Link or Thread ID",
++  "Thread: Settle",
++  "Thread: Pin",
++  "Thread: Undo",
++  "Model Picker: Toggle",
++  "Model Picker: Previous Provider",
++  "Model Picker: Next Provider",
++  "Sidebar: Toggle",
++  "Navigation: Back",
++  "Navigation: Forward",
++  "Terminal: Toggle",
++  "Terminal: Split",
++  "Terminal: Split Vertical",
++  "Terminal: New",
++  "Terminal: Close",
++  "Right Panel: Toggle",
++  "Thread Panel: Toggle",
++  "Right Panel: Toggle Maximized",
++  "Right Panel: Close",
++  "Pull Request: Copy Number",
++  "Diff: Toggle",
++  "Preview: Toggle",
++  "Preview: Refresh",
++  "Preview: Focus Url",
++  "Preview: Zoom In",
++  "Preview: Zoom Out",
++  "Preview: Reset Zoom",
++  "Command Palette: Toggle",
++  "File Picker: Toggle",
++  "Project Search: Toggle",
++  "Usage: Open",
++  "Theme: Select",
++  "Appearance: Cycle",
++  "Theme Editor: Toggle",
++  "Composer: Stash",
++  "Composer: Opposite Queue or Steer Action",
++  "Composer: Start in Background",
++  "Composer: Send and Start New Thread",
++  "Composer: Host",
++  "Composer: Cycle Host",
++  "Composer: Effort",
++  "Composer: Mode",
++  "Composer: Workspace",
++  "Composer: Previous Worktree",
++  "Composer: Branch",
++  "Chat: New",
++  "Chat: New Local",
++  "Chat: New Without Project",
++  "Editor: Open Favorite",
++  "Usage: Cost",
++  "Usage: Tokens",
++  "Usage: Limits",
++  "Usage: Period: Past 24h",
++  "Usage: Period: 7 days",
++  "Usage: Period: 30 days",
++  "Usage: Period: 90 days",
++  "GitHub repository",
++  "Clone GitHub owner/repo",
++  "GitLab repository",
++  "Clone GitLab group/project",
++  "Azure DevOps repository",
++  "Clone Azure DevOps project/repository",
++  "Bitbucket repository",
++  "Clone Bitbucket workspace/repository",
++  "Forgejo / Gitea repository",
++  "Clone Forgejo / Gitea owner/repo",
++  "and",
++  "just now",
++];
++const knownLabels = new Set(ACCEPTANCE_DISPLAY_LABELS);
++export function displayKnown<T>(value: T): T {
++  return (typeof value === "string" && knownLabels.has(value) ? translateFixed(value) : value) as T;
++}
++export function displayCount(count: number, singular: string, plural: string): string {
++  return fillSlot("", String(count), ` ${count === 1 ? singular : plural}`);
++}
++export function displayDuration(value: string): string {
++  // Only the formatter's numeric units, never free text. Existing Chinese stays unchanged.
++  if (!/^\d+(?:\.\d+)?(?:ms|s|m|h|d)(?: \d+(?:\.\d+)?(?:ms|s|m|h|d))*$/.test(value))
++    return displayKnown(value);
++  return value.replace(/(\d+(?:\.\d+)?)(ms|s|m|h|d)/g, (_whole, n, unit) => fillSlot("", n, unit));
++}
++export function displayCheckedParts(suffix: string | null | undefined): readonly [string, string] {
++  if (suffix && suffix !== "ago") return ["Checked ", ` ${suffix}`];
++  return translateAroundSlot("Checked ", suffix ? " ago" : "");
++}
++export function displayRelativeTime(value: string): string {
++  if (value.endsWith(" ago")) {
++    const duration = value.slice(0, -4);
++    if (/^\d+(?:\.\d+)?[smhd]$/.test(duration))
++      return fillSlot("", displayDuration(duration), " ago");
++  }
++  return displayKnown(value);
++}
++export function displayFold(value: string): string {
++  for (const before of ["Worked for ", "You stopped after "]) {
++    if (value.startsWith(before))
++      return fillSlot(before, displayDuration(value.slice(before.length)), "");
++  }
++  return displayKnown(value);
++}
++export function displayWorkSummary(value: string): string {
++  // This specific built-in aggregate has no paths, commands or user-supplied names.
++  const part = String.raw`(?:已运行 \d+ 条命令|已更改 \d+ 个文件|Ran \d+ commands?|Changed \d+ files?)`;
++  if (new RegExp(`^${part} and ${part}$`).test(value))
++    return value.replace(" and ", ` ${displayKnown("and")} `);
++  return value;
++}
++export function displayScope(value: string): string {
++  const turn = /^Turn (\d+|\?)$/.exec(value);
++  return turn ? fillSlot("Turn ", turn[1]!, "") : displayKnown(value);
++}
++export function displayFailedTool(value: string): string {
++  return fillSlot("", value, ", tool call failed");
++}
++export function displayTerminalAction(value: string): string {
++  for (const prefix of [
++    "Split Terminal Horizontally",
++    "Split Terminal Vertically",
++    "New Terminal",
++    "Close Terminal",
++  ]) {
++    if (value === prefix) return displayKnown(prefix);
++    if (value.startsWith(`${prefix} (`) && value.endsWith(")"))
++      return displayKnown(prefix) + value.slice(prefix.length);
++  }
++  return value;
++}
++export function displayOpenIn(value: string): string {
++  return value.startsWith("Open in ") ? fillSlot("Open in ", value.slice(8), "") : value;
++}
++export function displayFollowUp(modifier: string, shortcut: string): string {
++  const intro = displayKnown("Queue follow-ups while the agent runs or steer the current run.");
++  if (shortcut === "mod-enter-multiline") {
++    // Two occurrences use an exact dedicated skeleton; insert modifier after translation.
++    const slot = "\uE000";
++    const sentence = `Press ${slot} + Enter for single-line prompts or ${slot} + Shift + Enter for multiline prompts to do the opposite for one message.`;
++    return intro + " " + (globalThis.__t3zh?.t?.(sentence) ?? sentence).split(slot).join(modifier);
++  }
++  return (
++    intro +
++    " " +
++    fillSlot(
++      "Press ",
++      modifier + (shortcut === "mod-enter" ? " + Shift" : ""),
++      " + Enter to do the opposite for one message.",
++    )
++  );
++}
+diff --git a/apps/web/src/components/CommandPalette.tsx b/apps/web/src/components/CommandPalette.tsx
+index 023eafa9397a97eaf502e2c95ef760ac70d15a56..4fce1e07b66b9c37c6b727af724c3f18667f4ebc 100644
+--- a/apps/web/src/components/CommandPalette.tsx
++++ b/apps/web/src/components/CommandPalette.tsx
+@@ -1,4 +1,5 @@
+ "use client";
++import { displayKnown } from "~/acceptanceDisplayStrings";
+ 
+ import { threadPullRequestLinkMode } from "@t3tools/client-runtime/thread-pull-request-compatibility";
+ import { visibleThreadPullRequests } from "@t3tools/shared/threadPullRequests";
+@@ -3442,7 +3443,7 @@ function OpenCommandPaletteDialog(props: {
+       key={`${viewStack.length}-${browseGeneration}-${isBrowsing}-${newProjectFlow ? "new-project" : (addProjectCloneFlow?.step ?? "none")}`}
+       aria-label="Command palette"
+       autoHighlight={autoHighlightsFirstRow ? "always" : false}
+-      footerActionLabel={footerActionLabel}
++      footerActionLabel={displayKnown(footerActionLabel)}
+       footerTrailing={footerTrailing}
+       inputAccessory={inputAccessory}
+       inputProps={{
+@@ -3457,7 +3458,7 @@ function OpenCommandPaletteDialog(props: {
+                   hasHighlightedBrowseItem,
+                 })
+               : undefined,
+-        placeholder: inputPlaceholder,
++        placeholder: displayKnown(inputPlaceholder),
+         ...(isSubmenu
+           ? {
+               startAddon: (
+diff --git a/apps/web/src/components/CommandPaletteResults.tsx b/apps/web/src/components/CommandPaletteResults.tsx
+index b909a0c97e4448789774219118e24d01595abbb4..7d94208d17d28dab8c1a92d4470cf0ed42d627ed 100644
+--- a/apps/web/src/components/CommandPaletteResults.tsx
++++ b/apps/web/src/components/CommandPaletteResults.tsx
+@@ -1,3 +1,4 @@
++import { displayKnown, displayRelativeTime } from "~/acceptanceDisplayStrings";
+ import { type ResolvedKeybindingsConfig } from "@t3tools/contracts";
+ import { LegendList, type LegendListRef } from "@legendapp/list/react";
+ import { ChevronRightIcon } from "lucide-react";
+@@ -165,21 +166,31 @@ function DisabledCommandPaletteResultRow(props: {
+         <span className="flex min-w-0 flex-1 flex-col">
+           <span className="flex min-w-0 items-center gap-1.5 text-sm text-foreground">
+             {props.item.titleLeadingContent}
+-            <span className="truncate">{props.item.title}</span>
++            <span className="truncate">
++              {props.item.value.startsWith("action:add-project:")
++                ? displayKnown(props.item.title)
++                : props.item.title}
++            </span>
+           </span>
+           {props.item.threadContentMatch ? (
+             <ThreadSearchMatchExcerpt match={props.item.threadContentMatch} />
+           ) : null}
+           {props.item.description ? (
+             <span className="min-w-0 text-muted-foreground/70 text-xs">
+-              {props.item.description}
++              {props.item.value.startsWith("action:add-project:")
++                ? displayKnown(props.item.description)
++                : props.item.description}
+             </span>
+           ) : null}
+         </span>
+       ) : (
+         <span className="flex min-w-0 flex-1 items-center gap-1.5 text-sm text-foreground">
+           {props.item.titleLeadingContent}
+-          <span className="truncate">{props.item.title}</span>
++          <span className="truncate">
++            {props.item.value.startsWith("action:add-project:")
++              ? displayKnown(props.item.title)
++              : props.item.title}
++          </span>
+         </span>
+       )}
+       {props.item.titleTrailingContent}
+@@ -215,27 +226,37 @@ function CommandPaletteResultRow(props: {
+         <span className="flex min-w-0 flex-1 flex-col">
+           <span className="flex min-w-0 items-center gap-1.5 text-sm text-foreground">
+             {props.item.titleLeadingContent}
+-            <span className="truncate">{props.item.title}</span>
++            <span className="truncate">
++              {props.item.value.startsWith("action:add-project:")
++                ? displayKnown(props.item.title)
++                : props.item.title}
++            </span>
+           </span>
+           {props.item.threadContentMatch ? (
+             <ThreadSearchMatchExcerpt match={props.item.threadContentMatch} />
+           ) : null}
+           {props.item.description ? (
+             <span className="min-w-0 text-muted-foreground/70 text-xs">
+-              {props.item.description}
++              {props.item.value.startsWith("action:add-project:")
++                ? displayKnown(props.item.description)
++                : props.item.description}
+             </span>
+           ) : null}
+         </span>
+       ) : (
+         <span className="flex min-w-0 flex-1 items-center gap-1.5 text-sm text-foreground">
+           {props.item.titleLeadingContent}
+-          <span className="truncate">{props.item.title}</span>
++          <span className="truncate">
++            {props.item.value.startsWith("action:add-project:")
++              ? displayKnown(props.item.title)
++              : props.item.title}
++          </span>
+         </span>
+       )}
+       {props.item.titleTrailingContent}
+       {props.item.timestamp ? (
+         <span className="min-w-12 shrink-0 text-right text-xs tabular-nums text-muted-foreground/70">
+-          {props.item.timestamp}
++          {displayRelativeTime(props.item.timestamp)}
+         </span>
+       ) : null}
+       {shortcutLabel ? <CommandShortcut>{shortcutLabel}</CommandShortcut> : null}
+diff --git a/apps/web/src/components/DiffPanel.tsx b/apps/web/src/components/DiffPanel.tsx
+index cc5354f383540f0da9c72a012c550619d5cca72d..32c8ed7c0c4b2d7cc8e9eca314fd0edbe3832c29 100644
+--- a/apps/web/src/components/DiffPanel.tsx
++++ b/apps/web/src/components/DiffPanel.tsx
+@@ -1,3 +1,4 @@
++import { displayScope } from "~/acceptanceDisplayStrings";
+ import { RefreshIcon } from "~/components/ui/refresh-icon";
+ import { useAtomValue } from "@effect/atom-react";
+ import type { FileDiffContentsLoader, FileDiffMetadata } from "@pierre/diffs";
+@@ -749,9 +750,9 @@ export default function DiffPanel({
+           <DropdownMenuTrigger
+             render={<Button size="xs" variant="secondary" />}
+             className="max-w-full"
+-            aria-label={`Diff scope: ${selectedScopeLabel}`}
++            aria-label={`Diff scope: ${displayScope(selectedScopeLabel)}`}
+           >
+-            <span className="truncate">{selectedScopeLabel}</span>
++            <span className="truncate">{displayScope(selectedScopeLabel)}</span>
+             <ChevronDownIcon className="size-3.5 shrink-0 opacity-70" />
+           </DropdownMenuTrigger>
+           <DropdownMenuContent align="start">
+diff --git a/apps/web/src/components/ThreadTerminalDrawer.tsx b/apps/web/src/components/ThreadTerminalDrawer.tsx
+index bd40a4417955e875e6790f9a828e02c9646e12d4..8a81752ce45f5088940bc7e4514f199267d674c8 100644
+--- a/apps/web/src/components/ThreadTerminalDrawer.tsx
++++ b/apps/web/src/components/ThreadTerminalDrawer.tsx
+@@ -1,3 +1,4 @@
++import { displayTerminalAction } from "~/acceptanceDisplayStrings";
+ import { useAtomValue } from "@effect/atom-react";
+ import {
+   isAtomCommandInterrupted,
+@@ -1504,7 +1505,7 @@ export default function ThreadTerminalDrawer({
+             onClick={onNewTerminalAction}
+             disabled={!canOperateTerminal}
+           >
+-            {newTerminalActionLabel}
++            {displayTerminalAction(newTerminalActionLabel)}
+           </Button>
+         </div>
+       </aside>
+@@ -1544,7 +1545,7 @@ export default function ThreadTerminalDrawer({
+                   : "hover:bg-accent"
+               }`}
+               onClick={onSplitTerminalAction}
+-              label={splitTerminalActionLabel}
++              label={displayTerminalAction(splitTerminalActionLabel)}
+             >
+               <SquareSplitHorizontal className="size-3.25" />
+             </TerminalActionButton>
+@@ -1557,7 +1558,7 @@ export default function ThreadTerminalDrawer({
+                   : "hover:bg-accent"
+               }`}
+               onClick={onSplitTerminalVerticalAction}
+-              label={splitTerminalVerticalActionLabel}
++              label={displayTerminalAction(splitTerminalVerticalActionLabel)}
+             >
+               <SquareSplitVertical className="size-3.25" />
+             </TerminalActionButton>
+@@ -1566,7 +1567,7 @@ export default function ThreadTerminalDrawer({
+               disabled={!canOperateTerminal}
+               className="p-1 text-foreground/90 transition-colors hover:bg-accent"
+               onClick={onNewTerminalAction}
+-              label={newTerminalActionLabel}
++              label={displayTerminalAction(newTerminalActionLabel)}
+             >
+               <Plus className="size-3.25" />
+             </TerminalActionButton>
+@@ -1575,7 +1576,7 @@ export default function ThreadTerminalDrawer({
+               disabled={!canOperateTerminal}
+               className="p-1 text-foreground/90 transition-colors hover:bg-accent"
+               onClick={() => confirmCloseTerminal(resolvedActiveTerminalId)}
+-              label={closeTerminalActionLabel}
++              label={displayTerminalAction(closeTerminalActionLabel)}
+             >
+               <Trash2 className="size-3.25" />
+             </TerminalActionButton>
+@@ -1693,7 +1694,7 @@ export default function ThreadTerminalDrawer({
+                         : "hover:bg-accent/70"
+                     }`}
+                     onClick={onSplitTerminalAction}
+-                    label={splitTerminalActionLabel}
++                    label={displayTerminalAction(splitTerminalActionLabel)}
+                   >
+                     <SquareSplitHorizontal className="size-3.25" />
+                   </TerminalActionButton>
+@@ -1705,7 +1706,7 @@ export default function ThreadTerminalDrawer({
+                         : "hover:bg-accent/70"
+                     }`}
+                     onClick={onSplitTerminalVerticalAction}
+-                    label={splitTerminalVerticalActionLabel}
++                    label={displayTerminalAction(splitTerminalVerticalActionLabel)}
+                   >
+                     <SquareSplitVertical className="size-3.25" />
+                   </TerminalActionButton>
+@@ -1713,7 +1714,7 @@ export default function ThreadTerminalDrawer({
+                     disabled={!canOperateTerminal}
+                     className="inline-flex h-full items-center border-l border-border/70 px-1 text-foreground/90 transition-colors hover:bg-accent/70"
+                     onClick={onNewTerminalAction}
+-                    label={newTerminalActionLabel}
++                    label={displayTerminalAction(newTerminalActionLabel)}
+                   >
+                     <Plus className="size-3.25" />
+                   </TerminalActionButton>
+@@ -1721,7 +1722,7 @@ export default function ThreadTerminalDrawer({
+                     disabled={!canOperateTerminal}
+                     className="inline-flex h-full items-center border-l border-border/70 px-1 text-foreground/90 transition-colors hover:bg-accent/70"
+                     onClick={() => confirmCloseTerminal(resolvedActiveTerminalId)}
+-                    label={closeTerminalActionLabel}
++                    label={displayTerminalAction(closeTerminalActionLabel)}
+                   >
+                     <Trash2 className="size-3.25" />
+                   </TerminalActionButton>
+diff --git a/apps/web/src/components/chat/ChangedFilesTree.tsx b/apps/web/src/components/chat/ChangedFilesTree.tsx
+index a1cb0dac252a1c17624823a1dc08d37d3c37421d..a855af6626cdfff6e8a3f62df2c6a01edd5c2804 100644
+--- a/apps/web/src/components/chat/ChangedFilesTree.tsx
++++ b/apps/web/src/components/chat/ChangedFilesTree.tsx
+@@ -1,3 +1,4 @@
++import { displayCount } from "~/acceptanceDisplayStrings";
+ import { type RunId } from "@t3tools/contracts";
+ import { type MouseEvent, memo, useCallback, useMemo, useState } from "react";
+ import { type TurnDiffFileChange } from "../../types";
+@@ -52,9 +53,7 @@ export const ChangedFilesCard = memo(function ChangedFilesCard(props: {
+         className="sticky top-2 z-10 flex items-center justify-between gap-2 rounded-t-lg bg-secondary px-3 py-2 dark:bg-background dark:bg-linear-to-b dark:from-input/20 dark:to-input/20"
+       >
+         <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-foreground">
+-          <span>
+-            {files.length} changed file{files.length === 1 ? "" : "s"}
+-          </span>
++          <span>{displayCount(files.length, "changed file", "changed files")}</span>
+           {hasNonZeroStat(summaryStat) && (
+             <DiffStatLabel
+               additions={summaryStat.additions}
+diff --git a/apps/web/src/components/chat/ComposerPrimaryActions.tsx b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
+index af4fc8a8234cd782624dc6248c00363ea0a63feb..cb3796b699d54fe2aeeb586fb14fa54c78fc1e5b 100644
+--- a/apps/web/src/components/chat/ComposerPrimaryActions.tsx
++++ b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
+@@ -1,3 +1,4 @@
++import { displayKnown } from "~/acceptanceDisplayStrings";
+ import { memo, type MouseEventHandler, type PointerEventHandler } from "react";
+ import { CheckIcon, ChevronDownIcon, ChevronLeftIcon, PlayIcon } from "lucide-react";
+ import { CornerUpRight, ListPlus } from "lucide";
+@@ -305,7 +306,7 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
+         isEnvironmentUnavailable ||
+         (!hasSendableContent && !showResume)
+       }
+-      aria-label={submitStatus ?? submitLabel}
++      aria-label={submitStatus ?? displayKnown(submitLabel)}
+     >
+       {stageBackdropVariant ? (
+         <span className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+diff --git a/apps/web/src/components/chat/MessagesTimeline.tsx b/apps/web/src/components/chat/MessagesTimeline.tsx
+index 89d44b6abf76da4017e7368e64b3e6a6dcaa74f5..b88605adb69e0bae0ce75a767ebf66cfc6022ae9 100644
+--- a/apps/web/src/components/chat/MessagesTimeline.tsx
++++ b/apps/web/src/components/chat/MessagesTimeline.tsx
+@@ -1,3 +1,4 @@
++import { displayFold, displayWorkSummary, displayFailedTool } from "~/acceptanceDisplayStrings";
+ import { ComputerUseAppIcon } from "~/components/Icons";
+ import { useChatCanvas } from "./ChatCanvasContext";
+ import { WorkLogBlock, WorkLogButton, WorkLogDetails, WorkLogList, WorkLogRow } from "./WorkLog";
+@@ -2461,7 +2462,7 @@ function TurnFoldTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "turn-
+         onClick={() => ctx.onToggleTurnFold(row.runId)}
+         className="flex cursor-pointer select-none items-center gap-1 rounded-md px-1 text-sm leading-relaxed text-muted-foreground tabular-nums transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/70"
+       >
+-        <span>{row.label}</span>
++        <span>{displayFold(row.label)}</span>
+         <MorphIcon className="size-3.5" icon={row.expanded ? ChevronDown : ChevronRight} />
+       </button>
+       <TimelineRowTimestamp
+@@ -3651,7 +3652,7 @@ function LiveWorkEntryTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "
+     <button
+       type="button"
+       className="group/live-work flex min-h-6 w-full max-w-full cursor-pointer items-center rounded-md text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/70"
+-      aria-label={failed ? `${label}, tool call failed` : undefined}
++      aria-label={failed ? displayFailedTool(label) : undefined}
+       aria-expanded={row.expanded}
+       onClick={() => ctx.onToggleWorkGroup(row.groupId, row.id)}
+     >
+@@ -3737,7 +3738,7 @@ function WorkGroupToggleTimelineRow({
+   const ctx = use(TimelineRowCtx);
+   return (
+     <WorkGroupHeader
+-      label={row.summary}
++      label={displayWorkSummary(row.summary)}
+       iconName={row.summaryToolIcon ?? row.toolSurface ?? toolGroupSummaryIconName(row.summaryKind)}
+       toolIcon={row.toolIcon}
+       failed={row.hasFailure}
+@@ -3763,7 +3764,7 @@ function WorkGroupHeader(props: {
+   return (
+     <WorkLogButton
+       ref={props.active && !props.failed ? observeVisibleAnimation : undefined}
+-      aria-label={props.failed ? `${props.label}, tool call failed` : props.label}
++      aria-label={props.failed ? displayFailedTool(props.label) : props.label}
+       aria-expanded={props.expanded}
+       onClick={props.onToggle}
+       icon={
+@@ -5227,7 +5228,7 @@ function WorkEntryLogRow(props: WorkEntryRowProps) {
+         : "text-foreground/80";
+   const accessiblePreview = [previewText, answerPreview].filter(Boolean).join(": ");
+   const accessibleDisplayText = showFailedIndicator
+-    ? `${accessiblePreview}, tool call failed`
++    ? displayFailedTool(accessiblePreview)
+     : accessiblePreview;
+   const rowToggleProps = canExpandProjectedItem
+     ? {
+diff --git a/apps/web/src/components/chat/OpenInPicker.tsx b/apps/web/src/components/chat/OpenInPicker.tsx
+index 302d09b8244e5bdb0bdbbf6b8640b3093b7e359c..3a67abae4905de95307fa6bbae03ec4c2c6b6422 100644
+--- a/apps/web/src/components/chat/OpenInPicker.tsx
++++ b/apps/web/src/components/chat/OpenInPicker.tsx
+@@ -1,3 +1,4 @@
++import { displayOpenIn } from "~/acceptanceDisplayStrings";
+ import { ThreadDetailsControl } from "./ThreadDetailsControl";
+ import {
+   AuthOrchestrationOperateScope,
+@@ -394,7 +395,7 @@ export const OpenInPicker = memo(function OpenInPicker({
+         : {})}
+     >
+       <ThreadDetailsControl
+-        aria-label={compact ? "Open file in preferred editor" : primaryLabel}
++        aria-label={compact ? "Open file in preferred editor" : displayOpenIn(primaryLabel)}
+         size={isPanel ? "sm" : "xs"}
+         variant={isPanel ? "ghost" : "outline"}
+         part="primary"
+@@ -424,7 +425,7 @@ export const OpenInPicker = memo(function OpenInPicker({
+             isPanel && "not-sr-only ml-0 min-w-0 truncate",
+           )}
+         >
+-          {primaryLabel}
++          {displayOpenIn(primaryLabel)}
+         </span>
+       </ThreadDetailsControl>
+       {isPanel ? (
+diff --git a/apps/web/src/components/chat/PanelLayoutControls.tsx b/apps/web/src/components/chat/PanelLayoutControls.tsx
+index ff6f00e28272ef4859ed04966b7d77b7f990b05e..997aa58b530ef18b793a5ad07b25fa4b5a044f16 100644
+--- a/apps/web/src/components/chat/PanelLayoutControls.tsx
++++ b/apps/web/src/components/chat/PanelLayoutControls.tsx
+@@ -1,3 +1,4 @@
++import { displayKnown } from "~/acceptanceDisplayStrings";
+ import { PanelBottomIcon, PanelRightIcon, SquareMenuIcon } from "lucide-react";
+ import { Maximize2, Minimize2 } from "lucide";
+ import { MorphIcon } from "~/components/MorphIcon";
+@@ -155,7 +156,7 @@ export const RightPanelMaximizeControl = memo(function RightPanelMaximizeControl
+             className="shrink-0 [-webkit-app-region:no-drag]"
+             pressed={maximized}
+             onPressedChange={onToggle}
+-            aria-label={label}
++            aria-label={displayKnown(label)}
+             variant="ghost"
+             size="sm"
+           >
+@@ -163,7 +164,7 @@ export const RightPanelMaximizeControl = memo(function RightPanelMaximizeControl
+           </Toggle>
+         }
+       />
+-      <TooltipPopup side="bottom">{label}</TooltipPopup>
++      <TooltipPopup side="bottom">{displayKnown(label)}</TooltipPopup>
+     </Tooltip>
+   );
+ });
+diff --git a/apps/web/src/components/chat/TraitsPicker.tsx b/apps/web/src/components/chat/TraitsPicker.tsx
+index cfd900e8338e210d48a4aed0b73e4d335aeddff6..d97a80c8b533f4f19555f7274f07ab9bfd43c053 100644
+--- a/apps/web/src/components/chat/TraitsPicker.tsx
++++ b/apps/web/src/components/chat/TraitsPicker.tsx
+@@ -1,3 +1,4 @@
++import { displayKnown } from "~/acceptanceDisplayStrings";
+ import {
+   type ModelSelection,
+   type ProviderDriverKind,
+@@ -379,7 +380,7 @@ export const TraitsMenuContent = memo(function TraitsMenuContentImpl({
+               {index > 0 ? <MenuDivider /> : null}
+               <MenuGroup>
+                 <div className="px-2 pt-1.5 pb-1 font-medium text-muted-foreground text-xs">
+-                  {descriptor.label}
++                  {displayKnown(descriptor.label)}
+                 </div>
+                 <div className="px-2 pb-1.5 text-muted-foreground/80 text-xs">{value}</div>
+               </MenuGroup>
+@@ -403,7 +404,7 @@ export const TraitsMenuContent = memo(function TraitsMenuContentImpl({
+             {index > 0 ? <MenuDivider /> : null}
+             <MenuGroup>
+               <div className="px-2 pt-1.5 pb-1 font-medium text-muted-foreground text-xs">
+-                {descriptor.label}
++                {displayKnown(descriptor.label)}
+               </div>
+               {ultrathinkInBodyText && descriptor.id === primarySelectDescriptor?.id ? (
+                 <div className="px-2 pb-1.5 text-muted-foreground/80 text-xs">
+@@ -428,7 +429,7 @@ export const TraitsMenuContent = memo(function TraitsMenuContentImpl({
+                     <span className="flex w-full min-w-0 flex-col">
+                       <span className="flex w-full min-w-0 items-center justify-between gap-3">
+                         <span className="min-w-0 truncate">
+-                          {option.label}
++                          {displayKnown(option.label)}
+                           {option.isDefault ? (
+                             <>
+                               {" "}
+@@ -439,7 +440,7 @@ export const TraitsMenuContent = memo(function TraitsMenuContentImpl({
+                       </span>
+                       {option.description ? (
+                         <span className="max-w-56 text-pretty text-muted-foreground/80 text-xs">
+-                          {option.description}
++                          {displayKnown(option.description)}
+                         </span>
+                       ) : null}
+                     </span>
+@@ -458,7 +459,7 @@ export const TraitsMenuContent = memo(function TraitsMenuContentImpl({
+             {index > 0 || selectDescriptors.length > 0 ? <MenuDivider /> : null}
+             <MenuGroup>
+               <div className="px-2 py-1.5 font-medium text-muted-foreground text-xs">
+-                {descriptor.label}
++                {displayKnown(descriptor.label)}
+               </div>
+               <MenuRadioGroup
+                 value={selectedValue}
+diff --git a/apps/web/src/components/settings/KeybindingsSettings.tsx b/apps/web/src/components/settings/KeybindingsSettings.tsx
+index 156a3d0f80044483b1b04accc56a64936049f32a..df6a38f21998957673c29b00a3c74156610e1fd2 100644
+--- a/apps/web/src/components/settings/KeybindingsSettings.tsx
++++ b/apps/web/src/components/settings/KeybindingsSettings.tsx
+@@ -1,5 +1,6 @@
+ import { useEnvironmentScope } from "../../state/session";
+ import { useEnvironmentsWithScope, readEnvironmentScope } from "../../state/session";
++import { displayKnown } from "~/acceptanceDisplayStrings";
+ import {
+   ChevronDownIcon,
+   CircleXIcon,
+@@ -816,7 +817,7 @@ function KeybindingKeyControl({
+         <button
+           type="button"
+           onClick={() => setDraft({ isRecording: true })}
+-          aria-label={`Edit shortcut for ${commandLabel(row.command)}: ${formatShortcutLabel(row.binding.shortcut)}`}
++          aria-label={`Edit shortcut for ${displayKnown(commandLabel(row.command))}: ${formatShortcutLabel(row.binding.shortcut)}`}
+           className={cn(
+             "inline-flex h-8 cursor-pointer items-center rounded-md border border-transparent px-1.5 sm:h-7 outline-none transition-colors hover:border-border/70 hover:bg-accent focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/24",
+             pillClassName,
+@@ -828,7 +829,7 @@ function KeybindingKeyControl({
+         <Input
+           data-keybinding-capture=""
+           autoFocus={isRecording}
+-          aria-label={`Keybinding for ${commandLabel(row.command)}`}
++          aria-label={`Keybinding for ${displayKnown(commandLabel(row.command))}`}
+           value={isRecording ? "" : keyDraft}
+           placeholder={isRecording ? "Press shortcut" : "Unassigned"}
+           size="sm"
+@@ -911,7 +912,7 @@ function KeybindingRowMenu({
+             variant="ghost-muted"
+             size="icon-sm"
+             disabled={isSaving}
+-            aria-label={`Actions for ${commandLabel(row.command)}`}
++            aria-label={`Actions for ${displayKnown(commandLabel(row.command))}`}
+           />
+         }
+       >
+@@ -937,7 +938,7 @@ function KeybindingSourceBadge({ source }: { source: KeybindingRow["source"] })
+   if (source === "Default") return null;
+   return (
+     <Badge variant="outline" size="sm">
+-      {source}
++      {displayKnown(source)}
+     </Badge>
+   );
+ }
+@@ -946,7 +947,7 @@ function KeybindingRowTitle({ row }: { row: KeybindingRow }) {
+   return (
+     <Tooltip>
+       <TooltipTrigger render={<span className="flex items-center gap-2" />}>
+-        {commandLabel(row.command)}
++        {displayKnown(commandLabel(row.command))}
+         <KeybindingSourceBadge source={row.source} />
+       </TooltipTrigger>
+       <TooltipPopup side="top">{row.command}</TooltipPopup>
+@@ -967,7 +968,7 @@ function KeybindingRowWhen({
+     <span className="flex h-6 items-center gap-1.5">
+       <span className="text-xs leading-none text-muted-foreground/70">When</span>
+       <WhenClauseControl
+-        label={commandLabel(row.command)}
++        label={displayKnown(commandLabel(row.command))}
+         expression={editor.whenDraftExpression}
+         value={editor.whenDraft}
+         variables={variables}
+@@ -1046,7 +1047,9 @@ function useNewKeybindingDraft({
+     key: keyDraft,
+     when: whenDraftExpression,
+   });
+-  const commandLabelText = commandDraft ? commandLabel(commandDraft) : "new keybinding";
++  const commandLabelText = commandDraft
++    ? displayKnown(commandLabel(commandDraft))
++    : "new keybinding";
+   const canSave = Boolean(commandDraft) && keyDraft.trim().length > 0 && isWhenDraftValid;
+ 
+   const save = () => {
+@@ -1118,7 +1121,7 @@ function NewKeybindingCommandSelect({
+       <SelectContent alignItemWithTrigger={false} matchTriggerWidth={false} className="max-h-72">
+         {commandOptions.map((command) => (
+           <SelectItem key={command} value={command} className="w-full">
+-            <span className="truncate">{commandLabel(command)}</span>
++            <span className="truncate">{displayKnown(commandLabel(command))}</span>
+           </SelectItem>
+         ))}
+       </SelectContent>
+diff --git a/apps/web/src/components/settings/ProviderModelsSection.tsx b/apps/web/src/components/settings/ProviderModelsSection.tsx
+index 1cb3e311147e9b75c6d739c3aa2e8c877743ec57..a3d3d1b70c878419c512e2abda11bc302ef1678a 100644
+--- a/apps/web/src/components/settings/ProviderModelsSection.tsx
++++ b/apps/web/src/components/settings/ProviderModelsSection.tsx
+@@ -1,4 +1,5 @@
+ "use client";
++import { displayKnown, displayCount } from "~/acceptanceDisplayStrings";
+ 
+ import { ArrowDownIcon, ArrowUpIcon, PencilIcon, PlusIcon, StarIcon, XIcon } from "lucide-react";
+ import { useEffect, useMemo, useRef, useState } from "react";
+@@ -497,7 +498,7 @@ export function ProviderModelsSection({
+         */}
+         <span className="text-2xs text-muted-foreground/70">
+           {capLabels.length > 0 ? (
+-            <span className="hidden sm:inline">{capLabels.join(" · ")}</span>
++            <span className="hidden sm:inline">{capLabels.map(displayKnown).join(" · ")}</span>
+           ) : null}
+         </span>
+         {rowActions(model, { isHidden, canMoveUp, canMoveDown })}
+@@ -508,7 +509,7 @@ export function ProviderModelsSection({
+ 
+   const groupLabel = (label: string, isFirst: boolean) => (
+     <div className={cn("px-2 pb-1.5 text-2xs text-muted-foreground", isFirst ? "pt-1" : "pt-5")}>
+-      {label}
++      {displayKnown(label)}
+     </div>
+   );
+ 
+@@ -540,11 +541,9 @@ export function ProviderModelsSection({
+             </Button>
+           ) : null}
+           <span className="text-xs text-muted-foreground">
+-            {models.length} model{models.length === 1 ? "" : "s"}
+-            {favoriteCount > 0
+-              ? ` · ${favoriteCount} favorite${favoriteCount === 1 ? "" : "s"}`
+-              : ""}
+-            {hiddenCount > 0 ? ` · ${hiddenCount} hidden` : ""}
++            {displayCount(models.length, "model", "models")}
++            {favoriteCount > 0 ? ` · ${displayCount(favoriteCount, "favorite", "favorites")}` : ""}
++            {hiddenCount > 0 ? ` · ${displayCount(hiddenCount, "hidden", "hidden")}` : ""}
+           </span>
+         </div>
+         {driverKind !== "antigravity" && !isAdding ? (
+diff --git a/apps/web/src/components/settings/ProviderSettingsPanel.tsx b/apps/web/src/components/settings/ProviderSettingsPanel.tsx
+index 6f46870ed76d51646d77a48c5b60502f9a4b28e2..6570765e950b504ad89596f1837d816c4f0e747c 100644
+--- a/apps/web/src/components/settings/ProviderSettingsPanel.tsx
++++ b/apps/web/src/components/settings/ProviderSettingsPanel.tsx
+@@ -1,3 +1,4 @@
++import { displayCheckedParts, displayDuration } from "~/acceptanceDisplayStrings";
+ import { SettingsGroup } from "./SettingsGroup";
+ import { RefreshIcon } from "~/components/ui/refresh-icon";
+ import {
+@@ -166,15 +167,23 @@ function ProviderLastChecked({ lastCheckedAt }: { lastCheckedAt: string | null }
+     return <span>Checked unavailable</span>;
+   }
+ 
++  const checkedParts = displayCheckedParts(lastCheckedRelative.suffix);
+   return (
+     <span>
+       {lastCheckedRelative.suffix ? (
+         <>
+-          Checked <span className="font-mono tabular-nums">{lastCheckedRelative.value}</span>{" "}
+-          {lastCheckedRelative.suffix}
++          {checkedParts[0]}
++          <span className="font-mono tabular-nums">
++            {displayDuration(lastCheckedRelative.value)}
++          </span>
++          {checkedParts[1]}
+         </>
+       ) : (
+-        <>Checked {lastCheckedRelative.value}</>
++        <>
++          {checkedParts[0]}
++          {displayDuration(lastCheckedRelative.value)}
++          {checkedParts[1]}
++        </>
+       )}
+     </span>
+   );
+diff --git a/apps/web/src/components/settings/SettingsFontPreviews.tsx b/apps/web/src/components/settings/SettingsFontPreviews.tsx
+index 357cb44f74fa41cb4ff986d91fd871e33992cce4..5fef58edcb9536711058fa11db0d264133321eec 100644
+--- a/apps/web/src/components/settings/SettingsFontPreviews.tsx
++++ b/apps/web/src/components/settings/SettingsFontPreviews.tsx
+@@ -31,8 +31,8 @@ function noop() {}
+ /** A live composer editor: type in it to feel the family and size. */
+ export function PromptFontPreview() {
+   const editorRef = useRef<ComposerPromptEditorHandle>(null);
+-  const [prompt, setPrompt] = useState(PROMPT_PREVIEW_TEXT);
+-  const [cursor, setCursor] = useState(PROMPT_PREVIEW_TEXT.length);
++  const [prompt, setPrompt] = useState(() => translateFixed(PROMPT_PREVIEW_TEXT));
++  const [cursor, setCursor] = useState(() => translateFixed(PROMPT_PREVIEW_TEXT).length);
+   const onChange = useCallback((nextValue: string, nextCursor: number) => {
+     setPrompt(nextValue);
+     setCursor(nextCursor);
+diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/components/settings/SettingsPanels.tsx
+index 87990539c2262b73d676e12f0ef1c151cb43d8f8..5c4f306b7d2012bd01d3f4e62bcbb3345a4d15b6 100644
+--- a/apps/web/src/components/settings/SettingsPanels.tsx
++++ b/apps/web/src/components/settings/SettingsPanels.tsx
+@@ -1,3 +1,4 @@
++import { displayKnown, displayFollowUp } from "~/acceptanceDisplayStrings";
+ import { SettingsGroup } from "./SettingsGroup";
+ import { useScopedSettingsWriteAllowed } from "./useScopedSettings";
+ import { Spinner } from "~/components/ui/spinner";
+@@ -435,7 +436,7 @@ function AboutVersionSection() {
+     <>
+       <SettingsRow
+         title={<AboutVersionTitle />}
+-        description={description}
++        description={displayKnown(description)}
+         control={
+           <Tooltip>
+             <TooltipTrigger
+@@ -446,7 +447,7 @@ function AboutVersionSection() {
+                   disabled={buttonDisabled || isUpdateActionPending}
+                   onClick={handleButtonClick}
+                 >
+-                  {buttonLabel}
++                  {displayKnown(buttonLabel)}
+                 </Button>
+               }
+             />
+@@ -2573,7 +2574,7 @@ export function GeneralSettingsPanel() {
+           description={
+             mixedResponseStreamingMode
+               ? "The selected targets use different streaming modes."
+-              : RESPONSE_STREAMING_MODE_DESCRIPTIONS[settings.responseStreamingMode]
++              : displayKnown(RESPONSE_STREAMING_MODE_DESCRIPTIONS[settings.responseStreamingMode])
+           }
+           resetAction={
+             settings.responseStreamingMode !== DEFAULT_UNIFIED_SETTINGS.responseStreamingMode ? (
+@@ -2871,12 +2872,7 @@ export function GeneralSettingsPanel() {
+ 
+         <SettingsRow
+           {...searchableSetting("follow-up-behavior")}
+-          description={
+-            "Queue follow-ups while the agent runs or steer the current run. " +
+-            (settings.sendShortcut === "mod-enter-multiline"
+-              ? `Press ${modifierLabel} + Enter for single-line prompts or ${modifierLabel} + Shift + Enter for multiline prompts to do the opposite for one message.`
+-              : `Press ${modifierLabel}${settings.sendShortcut === "mod-enter" ? " + Shift" : ""} + Enter to do the opposite for one message.`)
+-          }
++          description={displayFollowUp(modifierLabel, settings.sendShortcut)}
+           resetAction={
+             settings.followUpBehavior !== DEFAULT_UNIFIED_SETTINGS.followUpBehavior ? (
+               <SettingResetButton
+@@ -2992,7 +2988,7 @@ export function GeneralSettingsPanel() {
+               </PolicyTooltip>
+             </span>
+           }
+-          description={backgroundActivityDescription}
++          description={displayKnown(backgroundActivityDescription)}
+           resetAction={
+             canResetBackgroundActivity ? (
+               <SettingResetButton
+@@ -3295,7 +3291,9 @@ export function GeneralSettingsPanel() {
+                   instanceEntries={textGenerationModelInstanceEntries}
+                   modelOptionsByInstance={textGenerationModelOptionsByInstance}
+                   triggerClassName={SETTINGS_PICKER_TRIGGER_CLASSNAME}
+-                  {...(mixedTextGenerationModel ? { triggerLabel: globalThis.__t3zh?.t?.("Mixed") ?? "Mixed" } : {})}
++                  {...(mixedTextGenerationModel
++                    ? { triggerLabel: globalThis.__t3zh?.t?.("Mixed") ?? "Mixed" }
++                    : {})}
+                   getModelDisabledReason={textGenerationModelDisabledReason}
+                   {...(environmentId
+                     ? {
+diff --git a/apps/web/src/components/settings/ThemeSettings.tsx b/apps/web/src/components/settings/ThemeSettings.tsx
+index b0e474ad475beec66b5b24a996fd0e8b0e656452..f5b875b39a6bcb7d7a72343fa0ddae07e245a4aa 100644
+--- a/apps/web/src/components/settings/ThemeSettings.tsx
++++ b/apps/web/src/components/settings/ThemeSettings.tsx
+@@ -1,3 +1,4 @@
++import { displayKnown } from "~/acceptanceDisplayStrings";
+ import {
+   CheckIcon,
+   CopyIcon,
+@@ -723,7 +724,9 @@ export function ThemeLibrary({
+         const isActive = appearanceMode === mode;
+         return (
+           <button
+-            aria-label={mode === "system" ? "Follow the system appearance" : `Use ${mode} mode`}
++            aria-label={
++              mode === "system" ? "Follow the system appearance" : displayKnown(`Use ${mode} mode`)
++            }
+             aria-pressed={isActive}
+             className={cn(
+               "flex cursor-pointer flex-col items-stretch gap-1.5 rounded-xl border p-2 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring",
+diff --git a/apps/web/src/components/sidebar/SidebarUpdatePill.tsx b/apps/web/src/components/sidebar/SidebarUpdatePill.tsx
+index e9ba268300b2f135c2ec62fdafaa6ce4a30bf1eb..bd3cef3b9f8c1806322779fdca65b75fa7961e34 100644
+--- a/apps/web/src/components/sidebar/SidebarUpdatePill.tsx
++++ b/apps/web/src/components/sidebar/SidebarUpdatePill.tsx
+@@ -1,3 +1,4 @@
++import { displayKnown } from "~/acceptanceDisplayStrings";
+ import type { DesktopUpdateState } from "@t3tools/contracts";
+ import { TriangleAlertIcon } from "lucide-react";
+ import { type ComponentProps, useCallback, useEffect, useId, useRef, useState } from "react";
+@@ -300,7 +301,7 @@ function SidebarUpdateControl() {
+   const updateButton = (
+     <button
+       type="button"
+-      aria-label={tooltip}
++      aria-label={displayKnown(tooltip)}
+       aria-disabled={isInteractionDisabled || undefined}
+       className={cn(
+         "inline-flex size-8 items-center justify-center rounded-full outline-hidden ring-ring transition-colors focus-visible:ring-2",
+@@ -385,7 +386,7 @@ function SidebarUpdateControl() {
+               side="top"
+               variant={showUpdateDetails ? "glass" : "default"}
+             >
+-              {tooltip}
++              {displayKnown(tooltip)}
+             </TooltipPopup>
+           ) : null}
+         </Tooltip>
+@@ -409,7 +410,7 @@ function SidebarUpdateControl() {
+             <SidebarUpdateReleaseNotes
+               shell={window.desktopBridge}
+               state={state}
+-              tooltip={tooltip}
++              tooltip={displayKnown(tooltip)}
+             />
+           </PopoverPopup>
+         ) : null}
+diff --git a/apps/web/src/components/ui/sidebar.tsx b/apps/web/src/components/ui/sidebar.tsx
+index 19fc8666efca5dc572051a8e8d85ac46e31a313e..ccc920097f940dcc243f7c0449eadde8f1927962 100644
+--- a/apps/web/src/components/ui/sidebar.tsx
++++ b/apps/web/src/components/ui/sidebar.tsx
+@@ -1,3 +1,4 @@
++import { displayKnown } from "~/acceptanceDisplayStrings";
+ import { mergeProps } from "@base-ui/react/merge-props";
+ import { useRender } from "@base-ui/react/use-render";
+ import { cva, type VariantProps } from "class-variance-authority";
+@@ -486,7 +487,7 @@ function SidebarRail({
+       <TooltipTrigger
+         render={
+           <button
+-            aria-label={railLabel}
++            aria-label={displayKnown(railLabel)}
+             className={cn(
+               /* disable pointer events only when offcanvas sidebar is collapsed, that's when the rail sits over the native scrollbar on windows and linux. icon mode stays fully clickable. */
+               "-translate-x-1/2 group-data-[side=left]:-right-4 absolute inset-y-0 z-20 hidden w-4 after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-sidebar-border group-data-[side=right]:left-0 sm:flex [[data-collapsible=offcanvas][data-state=collapsed]_&]:pointer-events-none",
+diff --git a/apps/web/src/components/usage/UsageLimits.tsx b/apps/web/src/components/usage/UsageLimits.tsx
+index a031cd0d15642c513f320828ca4413ec6893c28e..475ff4563d323f494db3d23baa8082a1358f16d9 100644
+--- a/apps/web/src/components/usage/UsageLimits.tsx
++++ b/apps/web/src/components/usage/UsageLimits.tsx
+@@ -1,3 +1,4 @@
++import { displayKnown } from "~/acceptanceDisplayStrings";
+ import {
+   AuthProvidersManageScope,
+   type EnvironmentId,
+@@ -98,7 +99,7 @@ function WindowBar({
+   const resetsAt = window.resetsAt
+     ? formatUpcomingTimestamp(window.resetsAt, timestampFormat, now)
+     : null;
+-  const summary = `${window.label}: ${remaining}% left${
++  const summary = `${displayKnown(window.label)}: ${remaining}% left${
+     timeLeft === null ? "" : `, ${timeLeft}% of the window left`
+   }${resetsIn ? `, ${resetsIn}` : ""}`;
+ 
+@@ -179,7 +180,7 @@ export function LimitWindows({
+         return (
+           <Fragment key={window.id}>
+             <span className="flex min-w-0 items-center gap-2 text-xs">
+-              <span className="truncate text-muted-foreground">{window.label}</span>
++              <span className="truncate text-muted-foreground">{displayKnown(window.label)}</span>
+               <span className="ms-auto shrink-0 font-medium text-foreground tabular-nums">
+                 {remainingPercent(window)}% left
+               </span>
+diff --git a/apps/web/src/components/usage/UsagePage.tsx b/apps/web/src/components/usage/UsagePage.tsx
+index 0a525054915f84f8d7a9ea32fa791a50c43963f1..0f4ad1275d26e6aa0777cf11f4338607678f7e80 100644
+--- a/apps/web/src/components/usage/UsagePage.tsx
++++ b/apps/web/src/components/usage/UsagePage.tsx
+@@ -1,3 +1,4 @@
++import { displayKnown } from "~/acceptanceDisplayStrings";
+ import { ChatGptUsageButton } from "../settings/ChatGptUsageButton";
+ import { usesChatGptSharing } from "@t3tools/shared/usageLimits";
+ import { RefreshIcon } from "~/components/ui/refresh-icon";
+@@ -1131,7 +1132,7 @@ function UsageEnvironmentFilter({
+   return (
+     <Menu>
+       <MenuTrigger render={<InlineButton />} className="group/usage-environment min-w-0 max-w-full">
+-        <span className="min-w-0 truncate">{label}</span>
++        <span className="min-w-0 truncate">{allSelected ? displayKnown(label) : label}</span>
+         <span className="flex size-3.5 shrink-0 items-center justify-center text-muted-foreground">
+           {showUsageStatus && pendingCount > 0 ? (
+             <>
+diff --git a/apps/web/src/terminal/ghostty/surface.ts b/apps/web/src/terminal/ghostty/surface.ts
+index 1ec3f48bcffc6f3fc47fba2ac06feda54ff262a7..626b2ad4bfb7ae4871dd9d81875ffa4dbec5771b 100644
+--- a/apps/web/src/terminal/ghostty/surface.ts
++++ b/apps/web/src/terminal/ghostty/surface.ts
+@@ -1,3 +1,4 @@
++import { displayKnown } from "~/acceptanceDisplayStrings";
+ import { isMacPlatform } from "../../lib/utils";
+ import { SELECTION_MULTI_CLICK_INTERVAL_MS } from "../../lib/selectionActions";
+ import { collectWrappedTerminalLinkLine, extractTerminalLinks } from "../../terminal-links";
+@@ -684,7 +685,7 @@ export class GhosttyTerminalSurface {
+ 
+     const input = document.createElement("textarea");
+     input.className = "t3-ghostty-input";
+-    input.setAttribute("aria-label", "Terminal input");
++    input.setAttribute("aria-label", displayKnown("Terminal input"));
+     input.autocapitalize = "off";
+     input.autocomplete = "off";
+     input.spellcheck = false;

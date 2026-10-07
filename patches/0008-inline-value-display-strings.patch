@@ -1,0 +1,153 @@
+# 0008-inline-value-display-strings.patch
+#
+# 2702 新增的七处「英文句子中间嵌一个运行时值」的显示文字，只在显示处翻译（T10-fix1，reviews/T10-r1.md I3）。
+# 基线 v0.0.46-nightly.20261007.2774；复用 0007 新增的 apps/web/src/newThreadDisplayStrings.ts，须在 0007 之后应用。
+#
+# 原因：这些句子是文字与表达式混排的 JSX（其中一处还带复数后缀 `{n === 1 ? "" : "s"}`），插件按 CONVENTIONS §4
+# 记 mixed-jsx 跳过，交付包里直接显示英文。
+#
+# 做法（CONVENTIONS §5 补丁调用 t() 的规则 1、4）：
+#   * 整句改成 fillSlot(前段, 值, 后段)：「固定骨架 + U+E000」交给 t()，命中词库专用模板后把值插进槽位。
+#     值（定时任务标题、缺失字段名、错误文本、退出码、HTML 标题、字节数）不进 t()，原样显示
+#   * 复数后缀改成单 / 复数两条固定骨架（`… empty placeholder` / `… empty placeholders`），中文不会多出 "s"
+#   * 截断提示没有文件大小的一支是固定字面量，走 translateFixed（词库有精确 messages 词条）
+#   * en 模式下 t() 原样返回，拼出的文字与原版逐字相同（测试从补丁前后源码各取表达式求值比对）
+#
+# 改动的显示处：
+#   * components/settings/ScheduledTasksSettings.tsx  Webhook 投递记录弹窗标题 `Deliveries · <任务名>`、
+#                                                     缺失字段 `Empty placeholders: <字段>`、列表里 `<n> empty placeholder(s)`
+#   * components/chat/V2ItemInspector.tsx           工具输出读取失败 `Couldn't load output: <错误>`、非零退出码 `exit <n>`
+#   * components/chat/HtmlRenderFrame.tsx           HTML 预览加载失败 `Unable to load <标题>`
+#   * components/files/AttachmentFilePreview.tsx    附件文本超过 1 MB 的截断提示（有 / 无文件大小两支）
+#
+# 词库：8 条模板 + 1 条 messages，登记在 dict/todo/v0.0.46-nightly.20261005.2702.extra.json 后由 dict-merge 合并。
+# 测试：plugin/__tests__/inline-value-display-strings.test.ts。上游更新后重做方法见 patches/README.md。
+#
+diff --git a/apps/web/src/components/chat/HtmlRenderFrame.tsx b/apps/web/src/components/chat/HtmlRenderFrame.tsx
+index 9661f59249d9be3c4bf2511eeff8ef5c270954ed..a08501f0f8ad1b8e8f8c6d875aff70ea03d88b93 100644
+--- a/apps/web/src/components/chat/HtmlRenderFrame.tsx
++++ b/apps/web/src/components/chat/HtmlRenderFrame.tsx
+@@ -9,6 +9,7 @@ import { Maximize2Icon } from "lucide-react";
+ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+ 
+ import { useAssetUrlRefresh, useAssetUrlState } from "~/assets/assetUrls";
++import { fillSlot } from "~/newThreadDisplayStrings";
+ import type { ChatFileAttachment } from "~/types";
+ 
+ import { HtmlRenderDocument } from "../files/BrowserDocumentFrame";
+@@ -131,7 +132,7 @@ export function HtmlRenderFrame(props: {
+         </>
+       ) : failed ? (
+         <p className="flex size-full items-center justify-center text-muted-foreground text-xs">
+-          Unable to load {title}
++          {fillSlot("Unable to load ", title, "")}
+         </p>
+       ) : null}
+     </div>
+diff --git a/apps/web/src/components/chat/V2ItemInspector.tsx b/apps/web/src/components/chat/V2ItemInspector.tsx
+index 8f92a511d6993572eed9d3a11872c152c7f96d62..d8b1910dfd88b9d0098159f74fa6c48eb8c0fa29 100644
+--- a/apps/web/src/components/chat/V2ItemInspector.tsx
++++ b/apps/web/src/components/chat/V2ItemInspector.tsx
+@@ -21,6 +21,7 @@ import { getSyntaxHighlighterPromise } from "../../lib/syntaxHighlighting";
+ import { useTurnItemDetail } from "../../state/queries";
+ import { useV2ItemSupport } from "../../state/v2ItemSupport";
+ import { formatWorkspaceRelativePath } from "../../filePathDisplay";
++import { fillSlot } from "../../newThreadDisplayStrings";
+ import { Button } from "../ui/button";
+ import ChatMarkdown, { ChatMarkdownAssetImage } from "../ChatMarkdown";
+ import { RenderErrorBoundary } from "../RenderErrorBoundary";
+@@ -162,7 +163,7 @@ function ToolOutput(props: ToolOutputState) {
+   ) : props.pending ? (
+     <div className="text-muted-foreground italic">Loading output…</div>
+   ) : props.error ? (
+-    <div className="text-destructive">Couldn&apos;t load output: {props.error}</div>
++    <div className="text-destructive">{fillSlot("Couldn't load output: ", props.error, "")}</div>
+   ) : props.empty && images.length === 0 ? (
+     <div className="text-muted-foreground italic">No output.</div>
+   ) : null;
+@@ -213,7 +214,7 @@ function ToolCallBody(
+       {call.argsText ? <StructuredValue value={call.argsText} highlightJson /> : null}
+       <ToolOutput {...props} />
+       {props.exitCode !== undefined && props.exitCode !== 0 ? (
+-        <div className="text-destructive">exit {props.exitCode}</div>
++        <div className="text-destructive">{fillSlot("exit ", String(props.exitCode), "")}</div>
+       ) : null}
+     </div>
+   );
+diff --git a/apps/web/src/components/files/AttachmentFilePreview.tsx b/apps/web/src/components/files/AttachmentFilePreview.tsx
+index aa5d1802be12ec16ba52ce7a5af417b97838332a..60ce9d82406cdc230b5f83563aa5775a744f4502 100644
+--- a/apps/web/src/components/files/AttachmentFilePreview.tsx
++++ b/apps/web/src/components/files/AttachmentFilePreview.tsx
+@@ -15,6 +15,7 @@ import { toastManager } from "~/components/ui/toast";
+ import { useCopyToClipboard } from "~/hooks/useCopyToClipboard";
+ import { useClientSettings, useUpdateClientSettings } from "~/hooks/useSettings";
+ import { cn } from "~/lib/utils";
++import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
+ 
+ import { AudioPreview } from "./AudioPreview";
+ import { BrowserDocumentFrame } from "./BrowserDocumentFrame";
+@@ -351,9 +352,15 @@ export function AttachmentFilePreview(props: {
+       </div>
+       {content?.truncated ? (
+         <FileSurfaceNotice>
+-          Preview limited to the first 1 MB
+-          {props.sizeBytes > 0 ? ` of a ${props.sizeBytes.toLocaleString()} byte file` : ""}. Save
+-          the file to read it in full.
++          {props.sizeBytes > 0
++            ? fillSlot(
++                "Preview limited to the first 1 MB of a ",
++                props.sizeBytes.toLocaleString(),
++                " byte file. Save the file to read it in full.",
++              )
++            : translateFixed(
++                "Preview limited to the first 1 MB. Save the file to read it in full.",
++              )}
+         </FileSurfaceNotice>
+       ) : null}
+       {body}
+diff --git a/apps/web/src/components/settings/ScheduledTasksSettings.tsx b/apps/web/src/components/settings/ScheduledTasksSettings.tsx
+index 34c3896d87fca46edca7ee1e872461e909b3d64a..f035195d2b993cca12f1fcafc529707f997171f1 100644
+--- a/apps/web/src/components/settings/ScheduledTasksSettings.tsx
++++ b/apps/web/src/components/settings/ScheduledTasksSettings.tsx
+@@ -45,6 +45,7 @@ import {
+ } from "../../providerInstances";
+ import { usePrimaryCloudLinkState } from "../../cloud/primaryCloudLinkState";
+ import { requestConfirmDialog } from "../../confirmDialog";
++import { fillSlot } from "../../newThreadDisplayStrings";
+ import { webhookAddress } from "@t3tools/client-runtime/webhook-address";
+ import { Link } from "@tanstack/react-router";
+ import { useCopyToClipboard } from "../../hooks/useCopyToClipboard";
+@@ -559,7 +560,7 @@ function WebhookDeliveriesDialog({
+     >
+       <DialogPopup className="max-w-2xl">
+         <DialogHeader>
+-          <DialogTitle>Deliveries · {task.title}</DialogTitle>
++          <DialogTitle>{fillSlot("Deliveries · ", task.title, "")}</DialogTitle>
+           <DialogDescription>Recent requests to this task's webhook URL.</DialogDescription>
+         </DialogHeader>
+         <DialogPanel>
+@@ -587,7 +588,7 @@ function WebhookDeliveriesDialog({
+               </DeliveryBlock>
+               {selected.missingFields.length > 0 ? (
+                 <p className="text-sm text-muted-foreground">
+-                  Empty placeholders: {selected.missingFields.join(", ")}
++                  {fillSlot("Empty placeholders: ", selected.missingFields.join(", "), "")}
+                 </p>
+               ) : null}
+               <DeliveryBlock title="Headers">
+@@ -626,8 +627,13 @@ function WebhookDeliveriesDialog({
+                     </span>
+                     {delivery.missingFields.length > 0 ? (
+                       <span className="text-muted-foreground">
+-                        {delivery.missingFields.length} empty placeholder
+-                        {delivery.missingFields.length === 1 ? "" : "s"}
++                        {fillSlot(
++                          "",
++                          String(delivery.missingFields.length),
++                          delivery.missingFields.length === 1
++                            ? " empty placeholder"
++                            : " empty placeholders",
++                        )}
+                       </span>
+                     ) : null}
+                   </button>

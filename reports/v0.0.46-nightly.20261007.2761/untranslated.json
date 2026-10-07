@@ -1,0 +1,386 @@
+[
+  {
+    "text": "Accept the pending browser dialog when true, or dismiss it when false.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/previewAutomation.ts",
+        "line": 134,
+        "category": "C",
+        "context": "PreviewAutomationDialogInput"
+      }
+    ]
+  },
+  {
+    "text": "Closed {0} pull request{1}",
+    "kind": "template",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/pullRequest/usePullRequestActions.ts",
+        "line": 229,
+        "category": "C",
+        "context": "close"
+      }
+    ]
+  },
+  {
+    "text": "GH_TOKEN",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/settings/GitHubTokenSettings.tsx",
+        "line": 72,
+        "category": "A",
+        "context": "GitHubTokenSettings"
+      }
+    ]
+  },
+  {
+    "text": "HTML",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/htmlRender.ts",
+        "line": 81,
+        "category": "C",
+        "context": "readHtmlRenderReference"
+      }
+    ]
+  },
+  {
+    "text": "Hint inside the input, e.g. 'Paste your GitHub token'.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/orchestratorMcp.ts",
+        "line": 596,
+        "category": "C",
+        "context": "OrchestratorMcpRequestSecretInput"
+      }
+    ]
+  },
+  {
+    "text": "Optional HMAC-SHA256 signature check over the raw request body.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/scheduledTask.ts",
+        "line": 74,
+        "category": "C",
+        "context": "ScheduledTaskWebhookSignature"
+      }
+    ]
+  },
+  {
+    "text": "Request header carrying the signature, such as x-hub-signature-256.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/scheduledTask.ts",
+        "line": 61,
+        "category": "C",
+        "context": "description"
+      }
+    ]
+  },
+  {
+    "text": "Skip requests the relay held longer than this many minutes while the environment was offline. Null runs every request.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/scheduledTask.ts",
+        "line": 84,
+        "category": "C",
+        "context": "WebhookMaxDeliveryAgeMinutes"
+      }
+    ]
+  },
+  {
+    "text": "Structured trigger. Pass an object with type 'interval', 'fixed_time' or 'webhook'.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/scheduledTask.ts",
+        "line": 135,
+        "category": "C",
+        "context": "ScheduledTaskSchedule"
+      }
+    ]
+  },
+  {
+    "text": "Tailscale",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/client-runtime/src/connection/routes.ts",
+        "line": 179,
+        "category": "C",
+        "context": "connectionRouteLabel"
+      }
+    ]
+  },
+  {
+    "text": "Webhook URL",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/settings/ScheduledTasksSettings.tsx",
+        "line": 720,
+        "category": "B",
+        "context": "WebhookEndpointField"
+      }
+    ]
+  },
+  {
+    "text": "What you need, shown as the card's title, e.g. 'GitHub webhook secret'.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/orchestratorMcp.ts",
+        "line": 589,
+        "category": "C",
+        "context": "OrchestratorMcpRequestSecretInput"
+      }
+    ]
+  },
+  {
+    "text": "Whether requests must carry a valid signature.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/orchestratorMcp.ts",
+        "line": 551,
+        "category": "C",
+        "context": "OrchestratorMcpScheduledTask"
+      }
+    ]
+  },
+  {
+    "text": "Writable trigger. Pass an object with type 'interval', 'fixed_time' or 'webhook'.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/scheduledTask.ts",
+        "line": 156,
+        "category": "C",
+        "context": "ScheduledTaskUpsertSchedule"
+      }
+    ]
+  },
+  {
+    "text": "Write-only headers JSON, e.g. {\"Authorization\":\"Bearer …\"}",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/settings/AcpSessionManagementSection.tsx",
+        "line": 574,
+        "category": "B",
+        "context": "AcpSessionManagementSection"
+      }
+    ]
+  },
+  {
+    "text": "base64",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/settings/ScheduledTasksSettings.tsx",
+        "line": 1257,
+        "category": "A",
+        "context": "ScheduledTaskEditorDialog"
+      }
+    ]
+  },
+  {
+    "text": "gh auth login",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/settings/GitHubAccountSettings.tsx",
+        "line": 79,
+        "category": "A",
+        "context": "GitHubAccountSettings"
+      }
+    ]
+  },
+  {
+    "text": "hex",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/settings/ScheduledTasksSettings.tsx",
+        "line": 1256,
+        "category": "A",
+        "context": "ScheduledTaskEditorDialog"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.529681 0.01551 326.299)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 405,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.530733 0.01795 323.79)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 532,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.532177 0.019333 325.784)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 786,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.532339 0.017796 331.748)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 659,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.549927 0.090215 323.149)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 278,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.657087 0.028226 307.985)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 338,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.706249 0.014508 306.607)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 846,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.721641 0.010192 281.271)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 592,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.723533 0.008741 4.515)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 719,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.739243 0.002222 223.225)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 465,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "secretRef holds the value.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/orchestratorMcp.ts",
+        "line": 610,
+        "category": "C",
+        "context": "OrchestratorMcpRequestSecretResult"
+      }
+    ]
+  },
+  {
+    "text": "t3 auth pairing create",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/auth/ConnectAgentSurface.tsx",
+        "line": 255,
+        "category": "A",
+        "context": "ConnectAgentSurface"
+      }
+    ]
+  },
+  {
+    "text": "text-blue-600 dark:text-blue-400",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/ui/collapsible-section-header.tsx",
+        "line": 7,
+        "category": "C",
+        "context": "label"
+      }
+    ]
+  },
+  {
+    "text": "{\n  \"version\": 1,\n  \"name\": \"Aurora\",\n  \"appearance\": \"light\",\n  \"colors\": { ... }\n}",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/settings/ThemeImportDialog.tsx",
+        "line": 134,
+        "category": "B",
+        "context": "ThemeJsonEditor"
+      }
+    ]
+  }
+]

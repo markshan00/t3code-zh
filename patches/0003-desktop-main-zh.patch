@@ -1,0 +1,470 @@
+# 0003-desktop-main-zh.patch
+#
+# 桌面主进程（apps/desktop）的界面文字，以及把系统语言暴露给渲染进程（T07）。基线 v0.0.46-nightly.20261007.2774。
+#
+# 1. 主进程文字：菜单栏、右键菜单、原生对话框、权限助手面板、画中画预览窗口（标题与图片 alt）、
+#    截图动画遮罩（空窗口标题时的回退文字）里的英文原文包成 __t3zh_t(<原表达式>)；插进主进程自己拼的
+#    data: HTML 时用 __t3zh_html（查表后做 HTML 转义），插进内联 <script> 时用 __t3zh_js（查表后写成
+#    JS 字符串字面量、`<` 转成 \u003c）。这几处的英文原文不含需要转义的字符，en 时输出与原版逐字相同。
+#    这几个函数来自 apps/desktop/src/t3zh/t3zh-desktop.ts——不在本补丁里，
+#    由 scripts/build-zh.sh 从 plugin/desktop/ 复制进来（同目录还有 runtime/t3zh-runtime.ts 和
+#    dict/zh-CN.desktop.json 的副本）。语言只跟随系统：app.getPreferredSystemLanguages() 按 CONVENTIONS §5
+#    的列表检查规则解析（与 web 运行时同一个 resolveSystemLocale），解析为 en 时原样返回，输出与原版一致。
+#    role 菜单项（undo、copy、windowMenu 等）保留 role 和 accelerator，只加 label；windowMenu 写出
+#    与 Electron 默认相同的子菜单，以便给各项加标签。
+# 2. 系统语言：主窗口 webPreferences.additionalArguments 传入 --t3zh-system-languages=<JSON 数组>，
+#    preload 从 process.argv 读出后 contextBridge.exposeInMainWorld("__t3zhSystemLanguages", …)，
+#    即 CONVENTIONS §5「system 时的语言来源」第 1 级。参数缺失或不合法时不暴露，web 运行时退回第 2 级。
+#
+# 涉及七个上游文件：
+#   * apps/desktop/src/window/DesktopApplicationMenu.ts  菜单栏（含 role 项的标签）、检查更新的三个对话框
+#   * apps/desktop/src/window/DesktopWindow.ts           右键菜单；主窗口 additionalArguments
+#   * apps/desktop/src/preload.ts                         暴露 __t3zhSystemLanguages
+#   * apps/desktop/src/app/DesktopApp.ts                  启动失败的错误框
+#   * apps/desktop/src/permissions/MacPermissionHelper.ts 系统设置旁的权限助手面板
+#   * apps/desktop/src/preview/Manager.ts                 画中画预览窗口的标题与图片 alt
+#   * apps/desktop/src/snapShot/SnapShotTransition.ts     截图动画遮罩的回退窗口标题（T07-fix2 补）
+#
+# 词条在 dict/zh-CN.desktop.json；调研清单见 reports/desktop-main-strings.md。上游更新后重做方法见 patches/README.md。
+#
+diff --git a/apps/desktop/src/app/DesktopApp.ts b/apps/desktop/src/app/DesktopApp.ts
+index 08318bcd8da5303890bab865208bcb3a68c2bc2e..8885dd47f955978b48caf495fabb2b15bfa4759f 100644
+--- a/apps/desktop/src/app/DesktopApp.ts
++++ b/apps/desktop/src/app/DesktopApp.ts
+@@ -34,6 +34,7 @@ import * as DesktopUpdates from "../updates/DesktopUpdates.ts";
+ import * as DesktopSnapShot from "../snapShot/DesktopSnapShot.ts";
+ import * as DesktopWslBackend from "../wsl/DesktopWslBackend.ts";
+ import * as DesktopRendererHistory from "../telemetry/DesktopRendererHistory.ts";
++import { __t3zh_t } from "../t3zh/t3zh-desktop.ts";
+ 
+ const DEFAULT_DESKTOP_BACKEND_PORT = 3773;
+ const MAX_TCP_PORT = 65_535;
+@@ -134,8 +135,8 @@ const handleFatalStartupError = Effect.fn("desktop.startup.handleFatalStartupErr
+   const wasQuitting = yield* Ref.getAndSet(state.quitting, true);
+   if (!wasQuitting) {
+     yield* electronDialog.showErrorBox(
+-      "T3 Code failed to start",
+-      `Stage: ${stage}\n${message}${detail}`,
++      __t3zh_t("T3 Code failed to start"),
++      `${__t3zh_t(`Stage: ${stage}`)}\n${message}${detail}`,
+     );
+   }
+   yield* shutdown.request;
+diff --git a/apps/desktop/src/permissions/MacPermissionHelper.ts b/apps/desktop/src/permissions/MacPermissionHelper.ts
+index c02b338c556ba350c06ac4686d12529fea6d717e..7cdc3131b017e212e8f5593706c04719dfc0e053 100644
+--- a/apps/desktop/src/permissions/MacPermissionHelper.ts
++++ b/apps/desktop/src/permissions/MacPermissionHelper.ts
+@@ -9,6 +9,7 @@ import {
+ } from "./MacSettingsWindow.ts";
+ 
+ import { MAC_PERMISSION_TITLES, type MacPermission } from "./MacPermission.ts";
++import { __t3zh_t } from "../t3zh/t3zh-desktop.ts";
+ 
+ const permissionGranted = (permission: MacPermission) => {
+   if (permission === "screen-recording")
+@@ -40,10 +41,10 @@ const escapeHtml = (value: string) =>
+   });
+ 
+ function helperHtml(permission: MacPermission, icon: string) {
+-  const title = MAC_PERMISSION_TITLES[permission];
++  const title = __t3zh_t(MAC_PERMISSION_TITLES[permission]);
+   return `<!doctype html><html lang="en"><head><meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline'">
+-<title>Set up ${title}</title><style>
++<title>${escapeHtml(__t3zh_t(`Set up ${title}`))}</title><style>
+ :root { color-scheme: light dark; --base: #fff; --row: #e7e7e7; --text: #292929; --line: #e3e3e3; }
+ @media (prefers-color-scheme: dark) { :root { --base: #242424; --row: #383838; --text: #f5f5f5; --line: #484848; } }
+ * { box-sizing: border-box; }
+@@ -59,9 +60,9 @@ button:focus-visible { outline: 2px solid #007aff; outline-offset: 3px; }
+ #app:active { cursor: grabbing; }
+ img { width: 32px; height: 32px; pointer-events: none; }
+ </style></head><body><main id="panel">
+-<button id="close" aria-label="Close permission helper">×</button>
+-<header>↑ Drag T3 Code into the list above</header>
+-<button id="app" draggable="true" aria-label="Drag T3 Code to System Settings, or click to reveal in Finder"><img src="${escapeHtml(icon)}" alt="" draggable="false">T3 Code</button>
++<button id="close" aria-label="${escapeHtml(__t3zh_t("Close permission helper"))}">×</button>
++<header>${escapeHtml(__t3zh_t("↑ Drag T3 Code into the list above"))}</header>
++<button id="app" draggable="true" aria-label="${escapeHtml(__t3zh_t("Drag T3 Code to System Settings, or click to reveal in Finder"))}"><img src="${escapeHtml(icon)}" alt="" draggable="false">T3 Code</button>
+ </main></body></html>`;
+ }
+ 
+@@ -112,7 +113,7 @@ export class MacPermissionHelper {
+       fullscreenable: false,
+       alwaysOnTop: true,
+       skipTaskbar: true,
+-      title: `Set up ${MAC_PERMISSION_TITLES[permission]}`,
++      title: __t3zh_t(`Set up ${__t3zh_t(MAC_PERMISSION_TITLES[permission])}`),
+       webPreferences: { preload, sandbox: true, contextIsolation: true, nodeIntegration: false },
+     });
+     this.window = window;
+diff --git a/apps/desktop/src/preload.ts b/apps/desktop/src/preload.ts
+index a97f224a1b414144b5e07923bb979adc4d407a07..3aaa4739614e77f2f150aebc7fab2609c000ec6f 100644
+--- a/apps/desktop/src/preload.ts
++++ b/apps/desktop/src/preload.ts
+@@ -43,6 +43,25 @@ try {
+   // Best effort: the app still starts on the V2 profile's own storage.
+ }
+ 
++// t3code-zh：主进程把 app.getPreferredSystemLanguages() 经主窗口 webPreferences.additionalArguments 传进来
++// （t3zh/t3zh-desktop.ts 的 systemLanguagesArgument），这里暴露给 web 运行时（CONVENTIONS §5 语言来源第 1 级）。
++// oxlint-disable-next-line t3code/no-global-process-runtime -- additionalArguments 只能从 process.argv 读取。
++const t3zhSystemLanguagesArgument = process.argv.find((arg) =>
++  arg.startsWith("--t3zh-system-languages="),
++);
++if (t3zhSystemLanguagesArgument !== undefined) {
++  try {
++    const languages: unknown = JSON.parse(
++      t3zhSystemLanguagesArgument.slice("--t3zh-system-languages=".length),
++    );
++    if (Array.isArray(languages) && languages.every((item) => typeof item === "string")) {
++      contextBridge.exposeInMainWorld("__t3zhSystemLanguages", languages);
++    }
++  } catch {
++    // 参数不是合法 JSON 时不暴露，web 运行时退回 §5 的第 2 级来源。
++  }
++}
++
+ // oxlint-disable-next-line t3code/no-global-process-runtime -- Electron exposes the client platform in its sandboxed preload process.
+ const clientPlatform = process.platform;
+ 
+diff --git a/apps/desktop/src/preview/Manager.ts b/apps/desktop/src/preview/Manager.ts
+index f98694145b67b762be4eda7687af3f32f01563c3..f3b2674aace798228a40f48590d92d63cdfd90ed 100644
+--- a/apps/desktop/src/preview/Manager.ts
++++ b/apps/desktop/src/preview/Manager.ts
+@@ -80,6 +80,7 @@ import {
+ import { isPreviewAnnotationPayload } from "./PickedElementPayload.ts";
+ import { captureFavicon, safeHttpOrigin, selectFaviconCandidates } from "./FaviconCapture.ts";
+ import { DEFAULT_RECORDING_INPUT_OPTIONS, type RecordingInputOptions } from "./RecordingInput.ts";
++import { __t3zh_html, __t3zh_t } from "../t3zh/t3zh-desktop.ts";
+ 
+ export type PreviewNavStatus =
+   | { kind: "Idle" }
+@@ -181,7 +182,7 @@ const buildPreviewPictureInPictureDataUrl = (): string => {
+     </style>
+   </head>
+   <body>
+-    <img id="preview-frame" alt="Live browser preview">
++    <img id="preview-frame" alt="${__t3zh_html("Live browser preview")}">
+     <script>
+       const frame = document.getElementById("preview-frame");
+       window.previewPictureInPicture.onFrame((next) => {
+@@ -2840,7 +2841,8 @@ const makeNativeOperations = Effect.fn("PreviewManager.makeOperations")(function
+               height: PICTURE_IN_PICTURE_INITIAL_HEIGHT,
+               minWidth: PICTURE_IN_PICTURE_MIN_WIDTH,
+               minHeight: PICTURE_IN_PICTURE_MIN_HEIGHT,
+-              title: title.length > 0 ? `Preview · ${title}` : "Browser preview",
++              title:
++                title.length > 0 ? __t3zh_t(`Preview · ${title}`) : __t3zh_t("Browser preview"),
+               show: false,
+               alwaysOnTop: true,
+               autoHideMenuBar: true,
+diff --git a/apps/desktop/src/snapShot/SnapShotTransition.ts b/apps/desktop/src/snapShot/SnapShotTransition.ts
+index 01532d0e26c45263858a451b5416835df157bb7e..ce3a45f32ab373d4271df3f800363f0978a94f4a 100644
+--- a/apps/desktop/src/snapShot/SnapShotTransition.ts
++++ b/apps/desktop/src/snapShot/SnapShotTransition.ts
+@@ -3,6 +3,8 @@ import type * as Fiber from "effect/Fiber";
+ 
+ import * as Electron from "electron";
+ 
++import { __t3zh_js } from "../t3zh/t3zh-desktop.ts";
++
+ const MIN_DURATION_MS = 280;
+ const MAX_DURATION_MS = 680;
+ const DURATION_DISTANCE_SCALE = 2_000;
+@@ -163,7 +165,7 @@ const applyDetails=value=>{
+   if(!value)return;
+   details.dataset.ready="";
+   document.getElementById("app").textContent=value.appName;
+-  document.getElementById("title").textContent=value.windowTitle||"Captured window";
++  document.getElementById("title").textContent=value.windowTitle||${__t3zh_js("Captured window")};
+   document.getElementById("fallback").textContent=value.appName.slice(0,1);
+   if(value.appIconDataUrl){
+     const icon=document.getElementById("icon");icon.src=value.appIconDataUrl;icon.style.display="block";document.getElementById("fallback").style.display="none";
+diff --git a/apps/desktop/src/window/DesktopApplicationMenu.ts b/apps/desktop/src/window/DesktopApplicationMenu.ts
+index d3b8db89535274dd6d8973e49e17600bf228754c..d8a70e7047a8ed0a2d369d00f4136e8b6dc3ff3c 100644
+--- a/apps/desktop/src/window/DesktopApplicationMenu.ts
++++ b/apps/desktop/src/window/DesktopApplicationMenu.ts
+@@ -13,6 +13,7 @@ import * as ElectronMenu from "../electron/ElectronMenu.ts";
+ import * as DesktopEnvironment from "../app/DesktopEnvironment.ts";
+ import * as DesktopUpdates from "../updates/DesktopUpdates.ts";
+ import * as DesktopWindow from "./DesktopWindow.ts";
++import { __t3zh_t } from "../t3zh/t3zh-desktop.ts";
+ 
+ export class DesktopApplicationMenuActionError extends Schema.TaggedError<DesktopApplicationMenuActionError>()(
+   "DesktopApplicationMenuActionError",
+@@ -67,17 +68,19 @@ const checkForUpdatesFromMenu = Effect.gen(function* () {
+   if (updateState.status === "up-to-date") {
+     yield* electronDialog.showMessageBox({
+       type: "info",
+-      title: "You're up to date!",
+-      message: `T3 Code ${updateState.currentVersion} is currently the newest version available.`,
+-      buttons: ["OK"],
++      title: __t3zh_t("You're up to date!"),
++      message: __t3zh_t(
++        `T3 Code ${updateState.currentVersion} is currently the newest version available.`,
++      ),
++      buttons: [__t3zh_t("OK")],
+     });
+   } else if (updateState.status === "error") {
+     yield* electronDialog.showMessageBox({
+       type: "warning",
+-      title: "Update check failed",
+-      message: "Could not check for updates.",
+-      detail: updateState.message ?? "An unknown error occurred. Please try again later.",
+-      buttons: ["OK"],
++      title: __t3zh_t("Update check failed"),
++      message: __t3zh_t("Could not check for updates."),
++      detail: updateState.message ?? __t3zh_t("An unknown error occurred. Please try again later."),
++      buttons: [__t3zh_t("OK")],
+     });
+   }
+ }).pipe(Effect.withSpan("desktop.menu.checkForUpdates"));
+@@ -92,10 +95,10 @@ const handleCheckForUpdatesMenuClick = Effect.gen(function* () {
+     });
+     yield* electronDialog.showMessageBox({
+       type: "info",
+-      title: "Updates unavailable",
+-      message: "Automatic updates are not available right now.",
+-      detail: disabledReason.value,
+-      buttons: ["OK"],
++      title: __t3zh_t("Updates unavailable"),
++      message: __t3zh_t("Automatic updates are not available right now."),
++      detail: __t3zh_t(disabledReason.value),
++      buttons: [__t3zh_t("OK")],
+     });
+     return;
+   }
+@@ -154,85 +157,92 @@ export const make = Effect.gen(function* () {
+       runMenuEffect(`zoom-${direction}`, zoomMainWindow(direction));
+     };
+     const template: Electron.MenuItemConstructorOptions[] = [];
++    // t3code-zh：role 的默认标签由 Electron 按 app.name 生成，这里在同一时刻读取，en 时与默认标签一致。
++    const roleAppName = yield* electronApp.name;
+ 
+     if (environment.platform === "darwin") {
+       template.push({
+         label: appName,
+         submenu: [
+-          { role: "about" },
++          { role: "about", label: __t3zh_t(`About ${roleAppName}`) },
+           {
+-            label: "Check for Updates...",
++            label: __t3zh_t("Check for Updates..."),
+             click: checkForUpdatesClick,
+           },
+           { type: "separator" },
+           {
+-            label: "Settings...",
++            label: __t3zh_t("Settings..."),
+             accelerator: "CmdOrCtrl+,",
+             click: settingsClick,
+           },
+           { type: "separator" },
+-          { role: "services" },
++          { role: "services", label: __t3zh_t("Services") },
+           { type: "separator" },
+-          { role: "hide" },
+-          { role: "hideOthers" },
+-          { role: "unhide" },
++          { role: "hide", label: __t3zh_t(`Hide ${roleAppName}`) },
++          { role: "hideOthers", label: __t3zh_t("Hide Others") },
++          { role: "unhide", label: __t3zh_t("Show All") },
+           { type: "separator" },
+-          { role: "quit" },
++          { role: "quit", label: __t3zh_t(`Quit ${roleAppName}`) },
+         ],
+       });
+     }
+ 
+     template.push(
+       {
+-        label: "File",
++        label: __t3zh_t("File"),
+         submenu: [
+           ...(environment.platform === "darwin"
+             ? []
+             : [
+                 {
+-                  label: "Settings...",
++                  label: __t3zh_t("Settings..."),
+                   accelerator: "CmdOrCtrl+,",
+                   click: settingsClick,
+                 },
+                 { type: "separator" as const },
+               ]),
+-          { role: environment.platform === "darwin" ? "close" : "quit" },
++          environment.platform === "darwin"
++            ? { role: "close", label: __t3zh_t("Close Window") }
++            : { role: "quit" },
+         ],
+       },
+       {
+-        label: "Edit",
++        label: __t3zh_t("Edit"),
+         submenu: [
+-          { role: "undo" },
+-          { role: "redo" },
++          { role: "undo", label: __t3zh_t("Undo") },
++          { role: "redo", label: __t3zh_t("Redo") },
+           { type: "separator" },
+-          { role: "cut" },
+-          { role: "copy" },
+-          { role: "paste" },
++          { role: "cut", label: __t3zh_t("Cut") },
++          { role: "copy", label: __t3zh_t("Copy") },
++          { role: "paste", label: __t3zh_t("Paste") },
+           {
+-            label: "Paste as Text",
++            label: __t3zh_t("Paste as Text"),
+             accelerator: "CmdOrCtrl+Shift+V",
+             click: pasteAsTextClick,
+           },
+-          { role: "delete" },
++          { role: "delete", label: __t3zh_t("Delete") },
+           { type: "separator" },
+-          { role: "selectAll" },
++          { role: "selectAll", label: __t3zh_t("Select All") },
+           ...(environment.platform === "darwin"
+             ? [
+                 { type: "separator" as const },
+                 {
+-                  label: "Speech",
+-                  submenu: [{ role: "startSpeaking" as const }, { role: "stopSpeaking" as const }],
++                  label: __t3zh_t("Speech"),
++                  submenu: [
++                    { role: "startSpeaking" as const, label: __t3zh_t("Start Speaking") },
++                    { role: "stopSpeaking" as const, label: __t3zh_t("Stop Speaking") },
++                  ],
+                 },
+               ]
+             : []),
+         ],
+       },
+       {
+-        label: "View",
++        label: __t3zh_t("View"),
+         submenu: [
+-          { role: "reload" },
+-          { role: "forceReload" },
+-          { role: "toggleDevTools" },
++          { role: "reload", label: __t3zh_t("Reload") },
++          { role: "forceReload", label: __t3zh_t("Force Reload") },
++          { role: "toggleDevTools", label: __t3zh_t("Toggle Developer Tools") },
+           { type: "separator" },
+           /*
+             Not the zoom roles: those act on the focused webContents, so with
+@@ -240,25 +250,40 @@ export const make = Effect.gen(function* () {
+             page and the app UI appears stuck. These always zoom the main
+             window (see DesktopWindow.zoomMain).
+           */
+-          { label: "Actual Size", accelerator: "CmdOrCtrl+0", click: zoomClick("reset") },
+-          { label: "Zoom In", accelerator: "CmdOrCtrl+=", click: zoomClick("in") },
++          { label: __t3zh_t("Actual Size"), accelerator: "CmdOrCtrl+0", click: zoomClick("reset") },
++          { label: __t3zh_t("Zoom In"), accelerator: "CmdOrCtrl+=", click: zoomClick("in") },
+           {
+-            label: "Zoom In",
++            label: __t3zh_t("Zoom In"),
+             accelerator: "CmdOrCtrl+Plus",
+             visible: false,
+             click: zoomClick("in"),
+           },
+-          { label: "Zoom Out", accelerator: "CmdOrCtrl+-", click: zoomClick("out") },
++          { label: __t3zh_t("Zoom Out"), accelerator: "CmdOrCtrl+-", click: zoomClick("out") },
+           { type: "separator" },
+-          { role: "togglefullscreen" },
++          { role: "togglefullscreen", label: __t3zh_t("Toggle Full Screen") },
++        ],
++      },
++      // t3code-zh：与 Electron windowMenu 的默认子菜单相同，只是给各项加上标签。
++      {
++        role: "windowMenu",
++        label: __t3zh_t("Window"),
++        submenu: [
++          { role: "minimize", label: __t3zh_t("Minimize") },
++          { role: "zoom", label: __t3zh_t("Zoom") },
++          ...(environment.platform === "darwin"
++            ? [
++                { type: "separator" as const },
++                { role: "front" as const, label: __t3zh_t("Bring All to Front") },
++              ]
++            : [{ role: "close" as const, label: __t3zh_t("Close") }]),
+         ],
+       },
+-      { role: "windowMenu" },
+       {
+         role: "help",
++        label: __t3zh_t("Help"),
+         submenu: [
+           {
+-            label: "Check for Updates...",
++            label: __t3zh_t("Check for Updates..."),
+             click: checkForUpdatesClick,
+           },
+         ],
+diff --git a/apps/desktop/src/window/DesktopWindow.ts b/apps/desktop/src/window/DesktopWindow.ts
+index 4e8fb0969ad3f6ef120744d429a06799916989c4..b1a981b64f59594401c0112a07a17e89c4bfba50 100644
+--- a/apps/desktop/src/window/DesktopWindow.ts
++++ b/apps/desktop/src/window/DesktopWindow.ts
+@@ -31,6 +31,7 @@ import * as DesktopClientSettings from "../settings/DesktopClientSettings.ts";
+ import * as ElectronApp from "../electron/ElectronApp.ts";
+ import * as DesktopRendererHistory from "../telemetry/DesktopRendererHistory.ts";
+ import { makeQuitShortcutHandler } from "./QuitHold.ts";
++import { __t3zh_t, systemLanguagesArgument } from "../t3zh/t3zh-desktop.ts";
+ 
+ const TITLEBAR_HEIGHT = 40;
+ // Matches --workspace-topbar-height in apps/web/src/index.css. Native macOS
+@@ -420,6 +421,8 @@ export const make = Effect.gen(function* () {
+         nodeIntegration: false,
+         sandbox: true,
+         webviewTag: true,
++        // t3code-zh：把 app.getPreferredSystemLanguages() 传给 preload，暴露为 globalThis.__t3zhSystemLanguages。
++        additionalArguments: [systemLanguagesArgument()],
+       },
+     });
+ 
+@@ -555,7 +558,7 @@ export const make = Effect.gen(function* () {
+             });
+           }
+           if (params.dictionarySuggestions.length === 0) {
+-            menuTemplate.push({ label: "No suggestions", enabled: false });
++            menuTemplate.push({ label: __t3zh_t("No suggestions"), enabled: false });
+           }
+           menuTemplate.push({ type: "separator" });
+         }
+@@ -563,7 +566,7 @@ export const make = Effect.gen(function* () {
+         if (Option.isSome(ElectronShell.parseSafeExternalUrl(params.linkURL))) {
+           menuTemplate.push(
+             {
+-              label: "Copy Link",
++              label: __t3zh_t("Copy Link"),
+               click: () => {
+                 void runPromise(electronShell.copyText(params.linkURL));
+               },
+@@ -574,7 +577,7 @@ export const make = Effect.gen(function* () {
+ 
+         if (params.mediaType === "image") {
+           menuTemplate.push({
+-            label: "Copy Image",
++            label: __t3zh_t("Copy Image"),
+             click: () => {
+               if (!contents.isDestroyed()) contents.copyImageAt(params.x, params.y);
+             },
+@@ -583,10 +586,14 @@ export const make = Effect.gen(function* () {
+         }
+ 
+         menuTemplate.push(
+-          { role: "cut", enabled: params.editFlags.canCut },
+-          { role: "copy", enabled: params.editFlags.canCopy },
+-          { role: "paste", enabled: params.editFlags.canPaste },
+-          { role: "selectAll", enabled: params.editFlags.canSelectAll },
++          { role: "cut", label: __t3zh_t("Cut"), enabled: params.editFlags.canCut },
++          { role: "copy", label: __t3zh_t("Copy"), enabled: params.editFlags.canCopy },
++          { role: "paste", label: __t3zh_t("Paste"), enabled: params.editFlags.canPaste },
++          {
++            role: "selectAll",
++            label: __t3zh_t("Select All"),
++            enabled: params.editFlags.canSelectAll,
++          },
+         );
+ 
+         void runPromise(

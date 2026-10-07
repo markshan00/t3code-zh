@@ -1,0 +1,6 @@
+upstream/
+.build/
+release/
+node_modules/
+*.dmg
+.DS_Store

@@ -1,0 +1,33 @@
+# 文件右键菜单的平台标签：在原生菜单与浏览器 fallback 的最终显示入口补译。
+# 只扩展精确名单；标签定义、动作 id、路径与编辑器名称不变。
+# 在 0004 之后应用；对应主进程精确词条在 dict/zh-CN.desktop.json。
+diff --git a/apps/desktop/src/electron/ElectronMenu.ts b/apps/desktop/src/electron/ElectronMenu.ts
+index 57bfa44e5e356f9ed434934cd4c6a720842ce0c7..958d08aab20a63db3945727a4684a04df0e4c937 100644
+--- a/apps/desktop/src/electron/ElectronMenu.ts
++++ b/apps/desktop/src/electron/ElectronMenu.ts
+@@ -32,6 +32,10 @@ const TRANSLATABLE_MENU_LABELS = [
+   "Branch",
+   // Right-click on a project: the "Copy Path" action (see above).
+   "Copy Path",
++  // File chips and workspace files: labels selected by fileExplorerLabel.ts.
++  "Reveal in Finder",
++  "Reveal in File Explorer",
++  "Reveal in Files",
+ ];
+ const TRANSLATABLE_MENU_LABEL_SET = new Set(TRANSLATABLE_MENU_LABELS);
+ 
+diff --git a/apps/web/src/contextMenuFallback.ts b/apps/web/src/contextMenuFallback.ts
+index b5c6a53ae1148ef10227c5a5014f914c4efc9fcb..19d4b92b395e8c077e287ae69358e9778642855a 100644
+--- a/apps/web/src/contextMenuFallback.ts
++++ b/apps/web/src/contextMenuFallback.ts
+@@ -33,6 +33,10 @@ const TRANSLATABLE_MENU_LABELS = [
+   // argument (the plugin sees no literal at the definition), while the thread
+   // context menu has the label inline and is wrapped there.
+   "Copy Path",
++  // File chips and workspace files: labels selected by fileExplorerLabel.ts.
++  "Reveal in Finder",
++  "Reveal in File Explorer",
++  "Reveal in Files",
+ ];
+ const TRANSLATABLE_MENU_LABEL_SET = new Set(TRANSLATABLE_MENU_LABELS);
+ 

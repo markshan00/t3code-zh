@@ -1,0 +1,170 @@
+[
+  {
+    "text": "Recurring schedule object: {type:'interval', everyMs} or {type:'fixed_time', timeOfDay, weekdays?}. Never stringify it unless the provider requires the compatibility form.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/orchestratorMcp.ts",
+        "line": 67,
+        "category": "C",
+        "context": "OrchestratorMcpSchedule"
+      }
+    ]
+  },
+  {
+    "text": "Write-only headers JSON, e.g. {\"Authorization\":\"Bearer …\"}",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/settings/AcpSessionManagementSection.tsx",
+        "line": 555,
+        "category": "B",
+        "context": "AcpSessionManagementSection"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.529681 0.01551 326.299)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 405,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.530733 0.01795 323.79)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 532,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.532177 0.019333 325.784)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 786,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.532339 0.017796 331.748)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 659,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.549927 0.090215 323.149)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 278,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.657087 0.028226 307.985)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 338,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.706249 0.014508 306.607)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 846,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.721641 0.010192 281.271)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 592,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.723533 0.008741 4.515)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 719,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.739243 0.002222 223.225)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 465,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "text-blue-600 dark:text-blue-400",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/ui/collapsible-section-header.tsx",
+        "line": 7,
+        "category": "C",
+        "context": "label"
+      }
+    ]
+  },
+  {
+    "text": "{\n  \"version\": 1,\n  \"name\": \"Aurora\",\n  \"appearance\": \"light\",\n  \"colors\": { ... }\n}",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/settings/ThemeImportDialog.tsx",
+        "line": 134,
+        "category": "B",
+        "context": "ThemeJsonEditor"
+      }
+    ]
+  }
+]

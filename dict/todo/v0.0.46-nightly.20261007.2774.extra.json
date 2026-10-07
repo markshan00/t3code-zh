@@ -1,0 +1,792 @@
+[
+  {
+    "key": "Settled just now",
+    "section": "messages",
+    "zh": "刚刚收起",
+    "skip": "",
+    "why": "status-line-relative-time",
+    "where": [
+      "apps/web/src/components/ChatView.tsx（B，threadStatusLine）"
+    ]
+  },
+  {
+    "key": "Settled {0}m ago",
+    "section": "templates",
+    "zh": "{0} 分钟前收起",
+    "skip": "",
+    "why": "status-line-relative-time",
+    "where": [
+      "apps/web/src/components/ChatView.tsx（B，threadStatusLine）"
+    ]
+  },
+  {
+    "key": "Settled {0}h ago",
+    "section": "templates",
+    "zh": "{0} 小时前收起",
+    "skip": "",
+    "why": "status-line-relative-time",
+    "where": [
+      "apps/web/src/components/ChatView.tsx（B，threadStatusLine）"
+    ]
+  },
+  {
+    "key": "Settled {0}d ago",
+    "section": "templates",
+    "zh": "{0} 天前收起",
+    "skip": "",
+    "why": "status-line-relative-time",
+    "where": [
+      "apps/web/src/components/ChatView.tsx（B，threadStatusLine）"
+    ]
+  },
+  {
+    "key": "Snoozed, Expired",
+    "section": "messages",
+    "zh": "已暂缓，已到唤醒时间",
+    "skip": "",
+    "why": "status-line-relative-time",
+    "where": [
+      "apps/web/src/components/ChatView.tsx（B，threadStatusLine）"
+    ]
+  },
+  {
+    "key": "Snoozed, Soon",
+    "section": "messages",
+    "zh": "已暂缓，即将唤醒",
+    "skip": "",
+    "why": "status-line-relative-time",
+    "where": [
+      "apps/web/src/components/ChatView.tsx（B，threadStatusLine）"
+    ]
+  },
+  {
+    "key": "Snoozed, {0}s left",
+    "section": "templates",
+    "zh": "已暂缓，{0} 秒后唤醒",
+    "skip": "",
+    "why": "status-line-relative-time",
+    "where": [
+      "apps/web/src/components/ChatView.tsx（B，threadStatusLine）"
+    ]
+  },
+  {
+    "key": "Snoozed, {0}m left",
+    "section": "templates",
+    "zh": "已暂缓，{0} 分钟后唤醒",
+    "skip": "",
+    "why": "status-line-relative-time",
+    "where": [
+      "apps/web/src/components/ChatView.tsx（B，threadStatusLine）"
+    ]
+  },
+  {
+    "key": "Snoozed, {0}h left",
+    "section": "templates",
+    "zh": "已暂缓，{0} 小时后唤醒",
+    "skip": "",
+    "why": "status-line-relative-time",
+    "where": [
+      "apps/web/src/components/ChatView.tsx（B，threadStatusLine）"
+    ]
+  },
+  {
+    "key": "Snoozed, {0}d left",
+    "section": "templates",
+    "zh": "已暂缓，{0} 天后唤醒",
+    "skip": "",
+    "why": "status-line-relative-time",
+    "where": [
+      "apps/web/src/components/ChatView.tsx（B，threadStatusLine）"
+    ]
+  },
+  {
+    "key": "Summarize {0} tokens of history, then send",
+    "section": "templates",
+    "zh": "先总结 {0} 个 Token 的历史，再发送",
+    "skip": "",
+    "why": "new-display-path",
+    "where": [
+      "patches/0016-n2774-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Send with full history ({0} tokens)",
+    "section": "templates",
+    "zh": "保留完整历史发送（{0} 个 Token）",
+    "skip": "",
+    "why": "new-display-path",
+    "where": [
+      "patches/0016-n2774-display-strings.patch"
+    ]
+  },
+  {
+    "key": "{0} failed",
+    "section": "templates",
+    "zh": "{0} 项失败",
+    "skip": "",
+    "why": "new-display-path",
+    "where": [
+      "patches/0016-n2774-display-strings.patch"
+    ]
+  },
+  {
+    "key": "{0} (on settle)",
+    "section": "templates",
+    "zh": "{0}（收起时）",
+    "skip": "",
+    "why": "new-display-path",
+    "where": [
+      "patches/0016-n2774-display-strings.patch"
+    ]
+  },
+  {
+    "key": "{0} (setup, on settle)",
+    "section": "templates",
+    "zh": "{0}（初始化、收起时）",
+    "skip": "",
+    "why": "new-display-path",
+    "where": [
+      "patches/0016-n2774-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Open composer to compact and send",
+    "section": "messages",
+    "zh": "打开输入框以压缩并发送",
+    "skip": "",
+    "why": "T13-fix1-I1",
+    "where": [
+      "apps/web/src/components/chat/ChatComposer.tsx（B，collapsedComposerPrimaryActionLabel 的最终 aria-label）"
+    ]
+  },
+  {
+    "key": "Ultra",
+    "section": "messages",
+    "zh": "超高",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Ultrathink",
+    "section": "messages",
+    "zh": "",
+    "skip": "保留英文，要与输入框的 Ultrathink: 前缀一致。",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Ultracode",
+    "section": "messages",
+    "zh": "",
+    "skip": "保留英文，要与输入框的 Ultrathink: 前缀一致。",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Thinking On",
+    "section": "messages",
+    "zh": "思考已开启",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Thinking Off",
+    "section": "messages",
+    "zh": "思考已关闭",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Right Panel: New",
+    "section": "messages",
+    "zh": "右侧面板：新建",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Open user menu",
+    "section": "messages",
+    "zh": "打开用户菜单",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Close user menu",
+    "section": "messages",
+    "zh": "关闭用户菜单",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Static prefix",
+    "section": "messages",
+    "zh": "固定前缀",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Semantic prefix",
+    "section": "messages",
+    "zh": "语义前缀",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Preparing machine",
+    "section": "messages",
+    "zh": "正在准备设备",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Submitting message",
+    "section": "messages",
+    "zh": "正在发送消息",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Updating queued message",
+    "section": "messages",
+    "zh": "正在更新排队消息",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Checking snapshots…",
+    "section": "messages",
+    "zh": "正在检查截图…",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Not supported on this platform.",
+    "section": "messages",
+    "zh": "此平台不支持。",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Turn this on to set up snapshots.",
+    "section": "messages",
+    "zh": "开启后即可设置截图。",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Capture needs attention",
+    "section": "messages",
+    "zh": "截图需要处理",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Check capture access in setup",
+    "section": "messages",
+    "zh": "请在设置向导中检查截图权限",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Install the capture helper to continue",
+    "section": "messages",
+    "zh": "请安装截图辅助程序以继续",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Set up active-window snapshots",
+    "section": "messages",
+    "zh": "设置活动窗口截图",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Manual capture only — you'll choose a window each time",
+    "section": "messages",
+    "zh": "仅支持手动截图，每次需选择窗口",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Enable capture to continue",
+    "section": "messages",
+    "zh": "启用截图以继续",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Connecting your shortcut…",
+    "section": "messages",
+    "zh": "正在连接快捷键…",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Waiting for shortcut permission",
+    "section": "messages",
+    "zh": "正在等待快捷键权限",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Ready to capture",
+    "section": "messages",
+    "zh": "已就绪，可以截图",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Use your shortcut from another app",
+    "section": "messages",
+    "zh": "请在其他应用中使用快捷键",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Finish shortcut setup",
+    "section": "messages",
+    "zh": "完成快捷键设置",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Enable this environment to open simulators and emulators, whether they run here or on a remote device host.",
+    "section": "messages",
+    "zh": "启用后，此环境可以打开模拟器，无论它们运行在本机还是远程设备主机上。",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Allow new agent sessions in this environment to start and control local and remote devices, with required tools set up automatically.",
+    "section": "messages",
+    "zh": "启用后，此环境中的新 Agent 会话可以启动并控制本地和远程设备，所需工具将自动配置。",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "{0} client",
+    "section": "templates",
+    "zh": "{0} 个客户端",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "{0} clients",
+    "section": "templates",
+    "zh": "{0} 个客户端",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "{0} pairing link",
+    "section": "templates",
+    "zh": "{0} 个配对链接",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "{0} pairing links",
+    "section": "templates",
+    "zh": "{0} 个配对链接",
+    "skip": "",
+    "why": "T14-native-residual",
+    "where": [
+      "patches/0017-native-residual-display-strings.patch"
+    ]
+  },
+  {
+    "key": "Even faster, more expensive",
+    "section": "messages",
+    "zh": "更快，费用更高",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Cloning repository",
+    "section": "messages",
+    "zh": "正在克隆仓库",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Repository not cloned",
+    "section": "messages",
+    "zh": "仓库尚未克隆",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Select at least one model.",
+    "section": "messages",
+    "zh": "请至少选择一个模型。",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Attachment still uploading",
+    "section": "messages",
+    "zh": "附件仍在上传",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Attachments still uploading",
+    "section": "messages",
+    "zh": "附件仍在上传",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Retry or remove the failed attachment",
+    "section": "messages",
+    "zh": "请重试或移除上传失败的附件",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Retry or remove the failed attachments",
+    "section": "messages",
+    "zh": "请重试或移除上传失败的附件",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Update this server to send files with question answers",
+    "section": "messages",
+    "zh": "请更新此服务器，以便随问题回答发送文件",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Waiting for the server before file attachments can send",
+    "section": "messages",
+    "zh": "正在等待服务器就绪，以便发送文件附件",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "This server does not accept file attachments right now. Remove the files to send.",
+    "section": "messages",
+    "zh": "此服务器目前不接受文件附件。请移除文件后再发送。",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Install Antigravity in provider settings before sending.",
+    "section": "messages",
+    "zh": "请先在服务提供方设置中安装 Antigravity，再发送消息。",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Sign in to Antigravity in provider settings before sending.",
+    "section": "messages",
+    "zh": "请先在服务提供方设置中登录 Antigravity，再发送消息。",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Choose an Antigravity model before sending.",
+    "section": "messages",
+    "zh": "请先选择 Antigravity 模型，再发送消息。",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Refresh Antigravity models in provider settings before sending.",
+    "section": "messages",
+    "zh": "请先在服务提供方设置中刷新 Antigravity 模型，再发送消息。",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "That Antigravity model is no longer available. Choose another model.",
+    "section": "messages",
+    "zh": "该 Antigravity 模型已不可用。请选择其他模型。",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Simulators",
+    "section": "messages",
+    "zh": "模拟器",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "iOS support was not detected.",
+    "section": "messages",
+    "zh": "未检测到 iOS 支持。",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Android support was not detected.",
+    "section": "messages",
+    "zh": "未检测到 Android 支持。",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Xcode is installed, but no iOS Simulator is available. Install a runtime in Xcode Settings → Components.",
+    "section": "messages",
+    "zh": "已安装 Xcode，但没有可用的 iOS Simulator。请在 Xcode Settings → Components 中安装运行时。",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "The Android SDK is installed, but no virtual device exists. Create one in Android Studio → Device Manager.",
+    "section": "messages",
+    "zh": "已安装 Android SDK，但尚未创建虚拟设备。请在 Android Studio → Device Manager 中创建。",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Xcode and iOS Simulator are available.",
+    "section": "messages",
+    "zh": "Xcode 和 iOS Simulator 已可用。",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "The Android SDK and Emulator are available.",
+    "section": "messages",
+    "zh": "Android SDK 和 Emulator 已可用。",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Reasoning tier: Max",
+    "section": "messages",
+    "zh": "最大",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Reasoning tier: Ultra",
+    "section": "messages",
+    "zh": "极限",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Click to steer, Ctrl/⌘-click to queue",
+    "section": "messages",
+    "zh": "点击可调整当前运行，Ctrl/⌘-点击可排队发送",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Click to queue, Ctrl/⌘-click to steer",
+    "section": "messages",
+    "zh": "点击可排队发送，Ctrl/⌘-点击可调整当前运行",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Click to steer, Ctrl/⌘-click or {0} to queue",
+    "section": "templates",
+    "zh": "点击可调整当前运行，Ctrl/⌘-点击或 {0} 可排队发送",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Click to queue, Ctrl/⌘-click or {0} to steer",
+    "section": "templates",
+    "zh": "点击可排队发送，Ctrl/⌘-点击或 {0} 可调整当前运行",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  },
+  {
+    "key": "Show {0} older comment ({1} hidden)",
+    "section": "templates",
+    "zh": "显示较早的 {0} 条评论（隐藏了 {1} 条）",
+    "skip": "",
+    "why": "T14-fix1-r1",
+    "where": [
+      "0017 最终显示处"
+    ]
+  }
+]

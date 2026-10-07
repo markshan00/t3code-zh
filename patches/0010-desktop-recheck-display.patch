@@ -1,0 +1,241 @@
+# 0010-desktop-recheck-display.patch
+# Baseline v0.0.46-nightly.20261007.2774, after 0009. Fix zh.3 desktop recheck display call sites.
+# Payloads, provider/custom labels, command text and default webhook prompts remain unchanged.
+diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceDisplayStrings.ts
+index 4825f4271b30ad2f81bfa56c40f262691ed4aad9..912668e33bfd489594f6a11999c8d9a876a24e53 100644
+--- a/apps/web/src/acceptanceDisplayStrings.ts
++++ b/apps/web/src/acceptanceDisplayStrings.ts
+@@ -30,6 +30,30 @@ export const ACCEPTANCE_DISPLAY_LABELS: string[] = [
+   "Fast",
+   "2x speed, increased usage",
+   "Weekly",
++  "Session",
++  "Previous turn",
++  "Next turn",
++  "User message",
++  "Update available",
++  "Limited support",
++  "Unsupported version",
++  "Known broken version",
++  "Mon",
++  "Tue",
++  "Wed",
++  "Thu",
++  "Fri",
++  "Sat",
++  "Sun",
++  "now",
++  "Running",
++  "Failed",
++  "Declined",
++  "Stopped",
++  "Ran",
++  "Codex provider status has not been checked in this session yet.",
++  "Claude provider status has not been checked in this session yet.",
++  "OpenCode provider status has not been checked in this session yet.",
+   "Daily",
+   "Monthly",
+   "All environments",
+@@ -160,6 +184,13 @@ const knownLabels = new Set(ACCEPTANCE_DISPLAY_LABELS);
+ export function displayKnown<T>(value: T): T {
+   return (typeof value === "string" && knownLabels.has(value) ? translateFixed(value) : value) as T;
+ }
++// Only called for the built-in command branch, not reasoning or tool-supplied titles.
++export function displayLiveCommand(verb: string, program: string): string {
++  return displayKnown(verb) + " " + program;
++}
++export function displayProviderTitle(providerName: string): string {
++  return fillSlot("", providerName, " provider status");
++}
+ export function displayCount(count: number, singular: string, plural: string): string {
+   return fillSlot("", String(count), ` ${count === 1 ? singular : plural}`);
+ }
+diff --git a/apps/web/src/components/Sidebar.tsx b/apps/web/src/components/Sidebar.tsx
+index 95c25110f354e2d9f621bdfab67cbca451732c1c..8146bb6986995bf1399d67b1b39ba22f293b1b37 100644
+--- a/apps/web/src/components/Sidebar.tsx
++++ b/apps/web/src/components/Sidebar.tsx
+@@ -1,4 +1,5 @@
+ import { type EnvironmentId } from "@t3tools/contracts";
++import { displayDuration } from "~/acceptanceDisplayStrings";
+ import { ThreadHoverCard, ThreadHoverCardPopup } from "./ThreadHoverCard";
+ import { CollapsibleSectionHeader } from "./ui/collapsible-section-header";
+ import { setThreadChangeRequestSnapshot } from "./ThreadStatusIndicators";
+@@ -325,8 +326,8 @@ function checkThreadOperations(
+ }
+ 
+ function compactSidebarTimeLabel(label: string): string {
+-  if (label === "just now") return "now";
+-  return label.endsWith(" ago") ? label.slice(0, -4) : label;
++  if (label === "just now") return displayDuration("now");
++  return displayDuration(label.endsWith(" ago") ? label.slice(0, -4) : label);
+ }
+ 
+ function threadTimeLabel(thread: SidebarThreadSummary): string {
+diff --git a/apps/web/src/components/chat/MessagesTimeline.logic.ts b/apps/web/src/components/chat/MessagesTimeline.logic.ts
+index 7360650a3a998f6dafc0e56bed09ea27e1594f02..103b00b5b883d75d6e7612f7e8e49f1fa9fef730 100644
+--- a/apps/web/src/components/chat/MessagesTimeline.logic.ts
++++ b/apps/web/src/components/chat/MessagesTimeline.logic.ts
+@@ -198,6 +198,7 @@ export function liveWorkEntryLabel(
+   entry: WorkLogEntry,
+   workspaceRoot: string | undefined,
+   active: boolean,
++  displayCommand: (verb: string, program: string) => string = (verb, program) => `${verb} ${program}`,
+ ) {
+   const status = liveActivityToolStatus(entry.toolLifecycleStatus, active);
+   if (entry.itemType === "reasoning") {
+@@ -223,7 +224,7 @@ export function liveWorkEntryLabel(
+             : status === "stopped"
+               ? "Stopped"
+               : "Ran";
+-    return `${verb} ${commandProgramName(command) ?? "command"}`;
++    return displayCommand(verb, commandProgramName(command) ?? "command");
+   }
+   return workEntryDisplayLabel(entry, workspaceRoot);
+ }
+diff --git a/apps/web/src/components/chat/MessagesTimeline.tsx b/apps/web/src/components/chat/MessagesTimeline.tsx
+index b88605adb69e0bae0ce75a767ebf66cfc6022ae9..07e1df90810836445ddf5da55212522722cd69a2 100644
+--- a/apps/web/src/components/chat/MessagesTimeline.tsx
++++ b/apps/web/src/components/chat/MessagesTimeline.tsx
+@@ -1,3 +1,4 @@
++import { displayKnown, displayLiveCommand } from "~/acceptanceDisplayStrings";
+ import { displayFold, displayWorkSummary, displayFailedTool } from "~/acceptanceDisplayStrings";
+ import { ComputerUseAppIcon } from "~/components/Icons";
+ import { useChatCanvas } from "./ChatCanvasContext";
+@@ -1574,7 +1575,7 @@ function TimelineMinimap({
+             }}
+           />
+           <button
+-            aria-label={`Jump to message: ${activeItem?.userText ?? "User message"}`}
++            aria-label={`Jump to message: ${activeItem?.userText ?? displayKnown("User message")}`}
+             className="absolute inset-y-0 left-0 w-full cursor-pointer bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/70"
+             onBlur={() => setActiveIndex(null)}
+             onClick={(event) => {
+@@ -1673,7 +1674,7 @@ function TimelineMinimap({
+               >
+                 <span className="dropdown-glass block rounded-xl p-3 text-left text-popover-foreground shadow-xl shadow-black/25">
+                   <span className="block max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium leading-5">
+-                    {activeItem.userText ?? "User message"}
++                    {activeItem.userText ?? displayKnown("User message")}
+                   </span>
+                   {activeItem.assistantText ? (
+                     <span
+@@ -1717,7 +1718,7 @@ function TimelineMinimapNavigationButton({
+   onClick: () => void;
+ }) {
+   const previous = direction === "previous";
+-  const label = previous ? "Previous turn" : "Next turn";
++  const label = displayKnown(previous ? "Previous turn" : "Next turn");
+   const Icon = previous ? ChevronUpIcon : ChevronDownIcon;
+ 
+   return (
+@@ -3645,7 +3646,7 @@ function LiveWorkEntryTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "
+   const questionHeading = row.entry.questionAnswer
+     ? getQuestionTextPreview(row.entry.questionAnswer)
+     : "";
+-  const label = questionHeading || liveWorkEntryLabel(row.entry, ctx.workspaceRoot, row.active);
++  const label = questionHeading || liveWorkEntryLabel(row.entry, ctx.workspaceRoot, row.active, displayLiveCommand);
+   const failed = workEntryDisplayIndicatesToolFailure(row.entry);
+ 
+   return (
+diff --git a/apps/web/src/components/chat/ProviderStatusBanner.tsx b/apps/web/src/components/chat/ProviderStatusBanner.tsx
+index c83aef7caf5119eaf8b229c975ed39ce2bdc068b..dbbaf9c56f4f5d7717d9563cc0ba1a2c29445eeb 100644
+--- a/apps/web/src/components/chat/ProviderStatusBanner.tsx
++++ b/apps/web/src/components/chat/ProviderStatusBanner.tsx
+@@ -1,3 +1,4 @@
++import { displayKnown, displayProviderTitle } from "~/acceptanceDisplayStrings";
+ import { type ProviderInstanceId, type ServerProvider } from "@t3tools/contracts";
+ import { memo } from "react";
+ import { InfoIcon, XIcon } from "lucide-react";
+@@ -108,7 +109,7 @@ export const ProviderStatusBanner = memo(function ProviderStatusBanner({
+     ? `${providerName} is unauthenticated`
+     : incompatible
+       ? `${providerName} ${status.version ?? ""} is ${incompatible.status === "broken" ? "known to be broken" : "unsupported"}`
+-      : `${providerName} provider status`;
++      : displayProviderTitle(providerName);
+   const message = incompatible?.message ?? getProviderStatusMessage(status);
+   const isWarning =
+     incompatible?.status !== "broken" && (status.status === "warning" || incompatible !== null);
+@@ -125,9 +126,9 @@ export const ProviderStatusBanner = memo(function ProviderStatusBanner({
+         <AlertTitle>{title}</AlertTitle>
+         <AlertDescription>
+           <Tooltip>
+-            <TooltipTrigger render={<div className="line-clamp-3" />}>{message}</TooltipTrigger>
++            <TooltipTrigger render={<div className="line-clamp-3" />}>{displayKnown(message)}</TooltipTrigger>
+             <TooltipPopup side="top" className="whitespace-pre-wrap">
+-              {message}
++              {displayKnown(message)}
+             </TooltipPopup>
+           </Tooltip>
+           {onOpenProviderSetup && hasProviderSetup(status) ? (
+diff --git a/apps/web/src/components/settings/ProviderInstanceCard.tsx b/apps/web/src/components/settings/ProviderInstanceCard.tsx
+index 27879f0cd696aa0f4f48400ac11585346eb77abf..b7601b5a9b270035c7fcbfabcf2a599788c4d4a6 100644
+--- a/apps/web/src/components/settings/ProviderInstanceCard.tsx
++++ b/apps/web/src/components/settings/ProviderInstanceCard.tsx
+@@ -1,4 +1,5 @@
+ "use client";
++import { displayKnown } from "~/acceptanceDisplayStrings";
+
+ import { Spinner } from "~/components/ui/spinner";
+
+@@ -792,7 +793,7 @@ export function ProviderInstanceCard({
+                   size={mode === "list" ? "icon-micro" : "icon-xs"}
+                   variant="ghost-muted"
+                   className={mode === "list" ? "pointer-events-auto relative shrink-0" : undefined}
+-                  aria-label={`${versionAdvisory.title} — view details`}
++                  aria-label={`${displayKnown(versionAdvisory.title)} — view details`}
+                 >
+                   <VersionAdvisoryIcon
+                     className={cn(
+@@ -805,13 +806,13 @@ export function ProviderInstanceCard({
+             />
+           }
+         />
+-        <TooltipPopup side="top">{versionAdvisory.title}</TooltipPopup>
++        <TooltipPopup side="top">{displayKnown(versionAdvisory.title)}</TooltipPopup>
+       </Tooltip>
+-      <PopoverPopup side="bottom" align="end" width="md" aria-label={versionAdvisory.title}>
++      <PopoverPopup side="bottom" align="end" width="md" aria-label={displayKnown(versionAdvisory.title)}>
+         <div className="grid min-w-0 gap-3">
+           <div className="grid gap-0.5">
+             <p className="text-sm font-semibold leading-tight text-foreground">
+-              {versionAdvisory.title}
++              {displayKnown(versionAdvisory.title)}
+             </p>
+             <p
+               className={cn(
+diff --git a/apps/web/src/components/settings/ScheduledTasksSettings.tsx b/apps/web/src/components/settings/ScheduledTasksSettings.tsx
+index f035195d2b993cca12f1fcafc529707f997171f1..b4c2ea71f0d0fff7d6d8a30df11d8d3fb8d01c63 100644
+--- a/apps/web/src/components/settings/ScheduledTasksSettings.tsx
++++ b/apps/web/src/components/settings/ScheduledTasksSettings.tsx
+@@ -1,3 +1,4 @@
++import { displayKnown } from "~/acceptanceDisplayStrings";
+ import { useAtomValue } from "@effect/atom-react";
+ import {
+   Clock3Icon,
+@@ -1317,7 +1318,7 @@ function ScheduledTaskEditorDialog({
+                     }}
+                   >
+                     {WEEKDAY_ORDER.map((day) => (
+-                      <Toggle key={day} value={String(day)} aria-label={WEEKDAY_LABELS[day]}>
++                      <Toggle key={day} value={String(day)} aria-label={displayKnown(WEEKDAY_LABELS[day])}>
+                         {WEEKDAY_SHORT[day]}
+                       </Toggle>
+                     ))}
+diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/components/usage/UsageLimitsPooled.tsx
+index 9ebe499179b06590712bf9fc820cf43e3cd32b04..9c33b6c496aa170d4b3244f6618ea6fe7e30a848 100644
+--- a/apps/web/src/components/usage/UsageLimitsPooled.tsx
++++ b/apps/web/src/components/usage/UsageLimitsPooled.tsx
+@@ -1,3 +1,4 @@
++import { displayKnown } from "~/acceptanceDisplayStrings";
+ import {
+   CHATGPT_USAGE_URL,
+   collectLimitAccounts,
+@@ -507,7 +508,7 @@ function PoolWindowCard({
+   return (
+     <div className="grid items-center gap-x-6 gap-y-3 rounded-lg border border-border/60 p-4 md:grid-cols-[11rem_minmax(0,1fr)]">
+       <div className="flex flex-col gap-1">
+-        <span className="text-sm font-medium text-foreground">{label ?? pool.label}</span>
++        <span className="text-sm font-medium text-foreground">{label !== undefined ? label : displayKnown(pool.label)}</span>
+         <span className="flex items-baseline gap-2">
+           <span className="text-3xl font-semibold text-foreground tabular-nums">
+             {pool.remainingPercent}%
