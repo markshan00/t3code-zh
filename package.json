@@ -1,6 +1,6 @@
 {
   "name": "t3code-zh",
-  "version": "0.0.46-n2774.zh.4",
+  "version": "0.0.46-n2774.zh.6",
   "private": true,
   "type": "module",
   "description": "T3 Code 中文界面汉化层（非官方）：词库提取、构建时转换、运行时查表",

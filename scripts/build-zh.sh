@@ -11,6 +11,7 @@
 # 环境变量：
 #   T3ZH_PATCH_DIR   覆盖补丁目录（默认 <仓库>/patches）。只用于排查补丁问题，交付构建不要设。
 #   T3ZH_SKIP_REPORT=1  跳过第 12 步覆盖率报告（报告在审核中、不能改动 reports/ 时用）。
+#   RUSTFLAGS / CARGO_ENCODED_RUSTFLAGS  保留外部参数，追加 Cargo 与构建源码的路径映射。
 #
 # 任何一步失败都立即退出，并说明是哪一步。各步骤耗时和产物路径在最后打印。
 
@@ -36,6 +37,7 @@ DESKTOP_I18N_FILES=(
 DESKTOP_MAIN_GUARD_TEXT='检查更新...'
 DESKTOP_ARGUMENT_GUARD_TEXT='--t3zh-system-languages='
 DESKTOP_PRELOAD_GUARD_TEXT='__t3zhSystemLanguages'
+APP_LICENSE_NAME='T3-Code-LICENSE.txt'
 
 # ---- 构建链守卫的预期值（第 6 步）。上游改了构建链，这里要跟着更新 ----
 EXPECTED_SERVER_BUILD_COMMAND='node scripts/cli.ts build'
@@ -308,7 +310,19 @@ package_dmg() {
     log "删除同版本号的旧产物 ${RELEASE_DIR}"
     rm -rf "${RELEASE_DIR}"
   fi
-  (cd "${SRC}" && T3CODE_DESKTOP_VERSION="${VERSION}" T3CODE_DESKTOP_OUTPUT_DIR="${RELEASE_DIR}" vp run dist:desktop:dmg:arm64 --skip-build)
+  # Cargo 子进程继承这些参数；不复用 resource-monitor，确保此次映射经过实际编译。
+  # .build/src 的 target 已由第 2 步清除，依赖及主程序都会重新编译。
+  local cargo_remap="--remap-path-prefix=${CARGO_HOME:-${HOME}/.cargo}=/cargo"
+  local source_remap="--remap-path-prefix=${SRC}=/t3code"
+  (
+    export RUSTFLAGS="${RUSTFLAGS:+${RUSTFLAGS} }${cargo_remap} ${source_remap}"
+    # Cargo 优先读取 encoded 形式；存在时同样追加，保留其原有参数边界。
+    if [[ -n "${CARGO_ENCODED_RUSTFLAGS+x}" ]]; then
+      export CARGO_ENCODED_RUSTFLAGS="${CARGO_ENCODED_RUSTFLAGS:+${CARGO_ENCODED_RUSTFLAGS}$'\x1f'}${cargo_remap}"$'\x1f'"${source_remap}"
+    fi
+    cd "${SRC}"
+    T3CODE_DESKTOP_REUSE_RESOURCE_MONITOR=false T3CODE_DESKTOP_VERSION="${VERSION}" T3CODE_DESKTOP_OUTPUT_DIR="${RELEASE_DIR}" vp run dist:desktop:dmg:arm64 --skip-build --verbose
+  )
   ls "${RELEASE_DIR}"/*.dmg >/dev/null 2>&1 || die "${RELEASE_DIR} 里没有 dmg"
   guard_mac_localization
 }
@@ -341,6 +355,14 @@ run_report() {
 
 # ---- 第 13 步 ----
 check_tree_status() {
+  # 从实际 App 包读取许可证，不能只检查源码或 staging 文件。
+  local zip license_path
+  zip="$(find "${RELEASE_DIR}" -maxdepth 1 -type f -name '*.zip' | head -n 1 || true)"
+  [[ -n "${zip}" ]] || die "没有 zip，无法核对 App 许可证"
+  license_path="$(unzip -Z1 "${zip}" | grep -E "^[^/]+\\.app/Contents/Resources/${APP_LICENSE_NAME}$" | head -n 1 || true)"
+  [[ -n "${license_path}" ]] || die "App 里没有 ${APP_LICENSE_NAME}"
+  unzip -p "${zip}" "${license_path}" | cmp - "${SRC}/LICENSE" || die "App 许可证与基线 LICENSE 不一致"
+  log "App ${APP_LICENSE_NAME} 与基线 LICENSE 逐字节一致"
   # .env 被上游 Git 忽略，单独核对其字段和值，不能靠 git status 放行。
   node "${ZH_ROOT}/scripts/lib/t3-connect-config.ts" check-source "${SRC}"
   log "git -C .build/src status --porcelain："
@@ -390,7 +412,7 @@ step 9 "构建 server" build_server
 step 10 "构建 desktop" build_desktop
 step 11 "打包 dmg" package_dmg
 step 12 "覆盖率报告" run_report
-step 13 "检查工作树改动" check_tree_status
+step 13 "检查许可证与工作树改动" check_tree_status
 
 STEP_NO=14
 STEP_NAME="汇总"

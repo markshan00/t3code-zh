@@ -24,6 +24,8 @@
 | 0015 | `0015-connect-auth-recovery.patch` | 维护者授权的 T3 Connect 加载 / 失败 / 超时入口和手动重载 | `apps/web/src/components/clerk/T3ConnectSidebarSignIn.tsx` 及其行为测试 |
 | 0016 | `0016-n2774-display-strings.patch` | n2774 新增的混排显示文字：「压缩并发送」提示与菜单项、拉取请求检查失败计数、项目动作菜单名的角色后缀、移动端收起输入框的压缩发送读屏名 | `apps/web/src/components/chat/ComposerPrimaryActions.tsx`、`apps/web/src/components/pullRequest/PullRequestChecksPopover.tsx`、`apps/web/src/components/ProjectScriptsControl.tsx`、`apps/web/src/components/chat/ChatComposer.tsx` |
 | 0017 | `0017-native-residual-display-strings.patch` | T14 原生检查的旧残留：推理档位、分页、Clerk 读屏名、连接计数、设置选值与说明、发送状态、Agent 失败数 | 13 个 web 文件；见补丁和 T14 交接 |
+| 0018 | `0018-usage-account-columns.patch` | T15 额度面板按账号分列 | `apps/web/src/components/usage/UsageLimitsPooled.tsx` |
+| 0019 | `0019-bundle-t3-code-license.patch` | T16 在签名前打进基线 T3 Code MIT 许可证 | `scripts/build-desktop-artifact.ts` |
 
 ## 0011 minor-display-fixes
 
@@ -190,3 +192,18 @@ git -C ~/Projects/t3code worktree remove /tmp/t3zh-patchcheck
 - PR 的 `Show N older comment(s) (N hidden)` 用两个独立私有区槽位先翻译骨架再插入计数，复数复用已有模板，单数补专用模板。
 - Clerk 英文 / 无运行时不传 localization，未引入官方中文资源包。合并方式映射已由 E2 转换，0017 不再重复查表，测试按真实依赖模块转换后的值求值。
 - 继续修改 0017，因为同一基线、同一轮未提交增量，修复均属于 r1 范围，无需叠加 0018。
+
+## 0018 usage-account-columns
+
+- 基线保持 n2774，在 0017 后应用。按维护者的明确要求调整额度面板布局，中英文均采用新布局。
+- Codex、Claude 及其他支持额度查询的提供商按账号分列。每张卡片包含该账号自己的各额度窗口、剩余百分比和重置时间；不再显示跨账号平均值、编号条和另列图例。
+- 保留共享层的账号去重、环境过滤、数据快照及 Cursor 窗口选择。每张卡片用单账号窗口数据；同一账号经多个来源报告仍只显示一次。
+- 进度条保留原账号详情弹层和重置确认流程，点击区域高 24px。重置恢复值改为该账号自己的百分比，额度券用图标和数量显示。
+- 列宽按容器自动适配，最小 18rem；窄屏降为单列。补丁只修改 `UsageLimitsPooled.tsx`，不修改查询、账号配置、请求或共享计算代码。
+- 构建、浏览器模拟数据检查及安装包记录见 [T15 交接](../handoff/T15-usage-account-columns.md)。
+
+## 0019 bundle-t3-code-license
+
+- 在 0018 后应用，只修改打包脚本。staging 时将基线 `LICENSE` 逐字节复制为 `T3-Code-LICENSE.txt`，`extraResources` 将它放进 App 的 `Contents/Resources/`，发生在签名之前。
+- `build-zh.sh` 第 13 步从实际 ZIP 内的 App 读取许可证并与 `.build/src/LICENSE` 比对；最终 installer DMG 再核对同一文件和签名封存记录。
+- Rust 编译路径映射由 `build-zh.sh` 第 11 步注入，见 [T16 交接](../handoff/T16-release-hygiene.md)。

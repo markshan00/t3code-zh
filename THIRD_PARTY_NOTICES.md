@@ -1,6 +1,6 @@
 # 第三方声明
 
-`patches/` 里的补丁包含 [T3 Code](https://github.com/pingdotgg/t3code) 源码的上下文行和修改，`plugin/__tests__/` 的部分测试在运行时读取 T3 Code 源码。T3 Code 以 MIT 许可证发布，原文如下（取自上游仓库 `LICENSE`，基线 `v0.0.46-nightly.20261007.2774`）：
+`patches/` 里的补丁包含 [T3 Code](https://github.com/pingdotgg/t3code) 源码的上下文行和修改，`plugin/__tests__/` 的部分测试在运行时读取 T3 Code 源码。Releases 里的安装包是 T3 Code 的修改版，App 内附有同一份许可证（`Contents/Resources/T3-Code-LICENSE.txt`）。T3 Code 以 MIT 许可证发布，原文如下（取自上游仓库 `LICENSE`，基线 `v0.0.46-nightly.20261007.2774`）：
 
 ```
 MIT License

@@ -1,0 +1,32 @@
+# 0019-bundle-t3-code-license.patch
+#
+# T16：分发修改版时附上基线 LICENSE，逐字节复制，不改版权声明。
+# 基线 v0.0.46-nightly.20261007.2774；在 0018 后应用。
+# staging 时复制到资源目录，electron-builder 的 extraResources 在签名前
+# 放入 Contents/Resources/T3-Code-LICENSE.txt；build-zh.sh 第 13 步比对内容。
+# 只修改打包脚本 scripts/build-desktop-artifact.ts，不改应用运行逻辑。
+diff --git a/scripts/build-desktop-artifact.ts b/scripts/build-desktop-artifact.ts
+--- a/scripts/build-desktop-artifact.ts
++++ b/scripts/build-desktop-artifact.ts
+@@ -1077,6 +1077,10 @@ export const DESKTOP_EXTRA_RESOURCES = [
+     from: "apps/desktop/prod-resources/cursor-sdk",
+     to: "node_modules/@cursor",
+   },
++  {
++    from: "apps/desktop/prod-resources/T3-Code-LICENSE.txt",
++    to: "T3-Code-LICENSE.txt",
++  },
+   {
+     from: "apps/desktop/prod-resources/resource-monitor",
+     to: "resource-monitor",
+@@ -3592,6 +3596,10 @@ export const buildDesktopArtifact = Effect.fn("buildDesktopArtifact")(function* (
+   yield* Effect.log("[desktop-artifact] Staging release app...");
+   yield* fs.copy(distDirs.desktopDist, path.join(stageAppDir, "apps/desktop/dist-electron"));
+   yield* fs.copy(distDirs.desktopResources, stageResourcesDir);
++  yield* fs.copyFile(
++    path.join(repoRoot, "LICENSE"),
++    path.join(stageResourcesDir, "T3-Code-LICENSE.txt"),
++  );
+   if (options.platform === "linux") {
+     const extensionDir = path.join(stageAppDir, "apps/desktop/gnome-extension");
+     yield* fs.makeDirectory(extensionDir, { recursive: true });

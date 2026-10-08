@@ -26,7 +26,7 @@
 
 上游仓库位置可以用环境变量 `T3ZH_UPSTREAM_REPO` 改（`scripts/upgrade-check.sh`、`scripts/switch-baseline.sh` 读取），默认 `~/Projects/t3code`。
 
-TypeScript 脚本直接用 `node scripts/xxx.ts` 运行（本机 Node v24.14.0，支持类型擦除），只写可擦除的 TS 语法（不用 enum、namespace、参数属性）。依赖装在本仓库根目录的 `package.json`。
+TypeScript 脚本直接用 `node scripts/xxx.ts` 运行（验证环境 Node v24.14.0，支持类型擦除），只写可擦除的 TS 语法（不用 enum、namespace、参数属性）。依赖装在本仓库根目录的 `package.json`。
 
 ## 2. 硬规则（违反任何一条，审核结论直接是"不通过"）
 
@@ -135,7 +135,7 @@ A、B、C 的属性名、键名白名单，T03 可以根据调研扩充，扩充
   4. 都没命中，原样返回。
 - **语言偏好：**
   - 存在 `localStorage["t3code-zh.locale"]`，取值 `system`、`en`、`zh-CN`，默认 `system`。
-  - `system` 时的语言来源（2026-10-05 定案，原因：打包配置 `electronLanguages: ["en-US"]` 让 Electron 的 `navigator.languages` 第一项固定为 `en-US`，实测本机为 `["en-US","zh-Hans-CN"]`）：
+  - `system` 时的语言来源（2026-10-05 定案，原因：打包配置 `electronLanguages: ["en-US"]` 让 Electron 的 `navigator.languages` 第一项固定为 `en-US`，实测验证环境为 `["en-US","zh-Hans-CN"]`）：
     1. `globalThis.__t3zhSystemLanguages` 是非空字符串数组时用它（由 T07 在桌面版 preload 里通过 `contextBridge.exposeInMainWorld` 暴露，内容是主进程的 `app.getPreferredSystemLanguages()`）；
     2. 否则在 Electron 里（`navigator.userAgent` 含 `Electron/`）用 `navigator.languages` 去掉第一项后的列表（去掉后为空就用原列表）；
     3. 否则用 `navigator.languages`（为空就用 `navigator.language`）。

@@ -2,7 +2,7 @@
 /**
  * T02：从 0.0.45 中文版的打包产物里提取旧词库，转成 CONVENTIONS §3 格式。
  *
- * 输入（只读）：~/.t3/backups/app.asar.bak-0.0.45-zh.1-local.3
+ * 输入（只读）：<旧版 app.asar 路径>（由 T3ZH_BACKUP 或 --backup=<路径> 提供）
  *   打包后的 JS：apps/server/dist/client/assets/server-PkaaCpC9.js
  * 输出：
  *   dict/zh-CN.json        主词库
@@ -18,7 +18,8 @@
  *   4  d["zh-CN"] : 中文 key 式消息（与 3 同 key 顺序，配对得中英）
  *   5  p  : 覆盖表 {...c, High: "高", ...}，查表优先级最高
  *
- * 用法：node scripts/extract-dict.ts
+ * 用法：node scripts/extract-dict.ts --backup=<旧版 app.asar 路径>
+ *   或：T3ZH_BACKUP=<旧版 app.asar 路径> node scripts/extract-dict.ts
  * 两次运行输出必须完全一致（无时间戳、无随机性，抽样用固定种子）。
  */
 
@@ -36,7 +37,13 @@ const traverse = _traverse.default ?? _traverse;
 // ---------------------------------------------------------------- 常量
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const BACKUP = path.join(process.env.HOME, ".t3/backups/app.asar.bak-0.0.45-zh.1-local.3");
+const BACKUP_ARG = process.argv.slice(2).find((a) => a.startsWith("--backup="));
+const BACKUP_INPUT = BACKUP_ARG !== undefined ? BACKUP_ARG.slice("--backup=".length) : process.env.T3ZH_BACKUP;
+if (!BACKUP_INPUT?.trim()) {
+  console.error("必须提供 T3ZH_BACKUP 或 --backup=<旧版 app.asar 路径>");
+  process.exit(2);
+}
+const BACKUP = path.resolve(BACKUP_INPUT);
 const ASAR_TMP = "/tmp/t3zh-asar";
 const SERVER_JS = path.join(ASAR_TMP, "apps/server/dist/client/assets/server-PkaaCpC9.js");
 const BASELINE = "v0.0.46-nightly.20261004.2644";

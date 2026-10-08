@@ -8,7 +8,7 @@
   "allowSuspicious": 67,
   "prescan": {
     "files": 2097,
-    "valueUseLiterals": 24961
+    "valueUseLiterals": 24950
   },
   "pluginOrder": [
     "vite:optimized-deps",
@@ -73,18 +73,18 @@
     "skippedQueries": {}
   },
   "totals": {
-    "candidates": 7900,
-    "translate": 6635,
-    "skip": 1112,
+    "candidates": 7887,
+    "translate": 6634,
+    "skip": 1100,
     "suspicious": 153,
-    "edits": 6635,
-    "translateWithDictMessage": 5873
+    "edits": 6634,
+    "translateWithDictMessage": 5872
   },
   "byCategory": {
     "A": {
-      "skip": 583,
+      "skip": 571,
       "suspicious": 3,
-      "translate": 2166
+      "translate": 2165
     },
     "B": {
       "skip": 60,
@@ -108,7 +108,7 @@
       "call-arg": 143,
       "destructuring-default": 18,
       "jsx-expression": 900,
-      "jsx-text": 1082,
+      "jsx-text": 1081,
       "jsx-text-fragment": 182,
       "label-function-return": 423,
       "label-map": 160,
@@ -119,8 +119,8 @@
       "data-function": 16,
       "error-constructor": 51,
       "identifier-like": 30,
-      "mixed-jsx": 216,
-      "no-letters": 561,
+      "mixed-jsx": 211,
+      "no-letters": 554,
       "non-display-call": 235,
       "rpc-input": 1
     },

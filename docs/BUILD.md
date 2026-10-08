@@ -10,11 +10,11 @@
 
 > 本手册写于首个基线 2644，命令里的 tag / commit 是当时的值。**当前基线以 [CONVENTIONS.md](../CONVENTIONS.md) §1 为准**，照做时换成当前值即可；日常构建只需要 README 里的步骤。目录按 `~/Projects/t3code`（上游克隆）和 `~/Projects/t3code-zh`（本仓库）的布局书写，放在别处时替换路径。
 
-## 0. 本机环境版本（实测）
+## 0. 验证环境版本（实测）
 
 | 工具 | 版本 | 备注 |
 |---|---|---|
-| macOS | 26.6.2 (25G83) | |
+| macOS | 26.6.2 | |
 | Xcode Command Line Tools | `/Applications/Xcode.app/Contents/Developer` | clang 21.0.0 (clang-2100.3.34.2) |
 | Node | v24.14.0 | 上游 `engines.node` 为 `^24.13.1`，满足 |
 | package manager | pnpm v11.10.0 | 由 `vp` 管理 |
@@ -25,7 +25,7 @@
 ### 环境准备
 
 ```sh
-# vp（Vite+ CLI）。VP_NODE_MANAGER=no 跳过它自己的 Node 安装提示，改用本机 Node。
+# vp（Vite+ CLI）。VP_NODE_MANAGER=no 跳过它自己的 Node 安装提示，改用验证环境 Node。
 export VP_NODE_MANAGER=no
 curl -fsSL https://vite.plus | bash
 # 装完把环境加进当前 shell（zsh）
@@ -80,17 +80,17 @@ time T3CODE_DESKTOP_VERSION=0.0.46-n2644.base \
 
 ### 分阶段实际耗时（本次构建）
 
-数据源：构建脚本自身打的时间戳日志，见 `build-base.log`（本次实测完整输出，`[HH:MM:SS.mmm]` 为日志行的本地时间）。
+数据源：构建脚本日志，见 `build-base.log`（本次实测完整输出）；下面仅保留阶段耗时。
 
-| 阶段 | 开始 | 结束 | 耗时 | 证据来源 |
-|---|---|---|---|---|
-| web + server(server bundle) + desktop 构建（`vp run build:desktop`） | 22:26:27.330 | 22:26:51.073 | **23.7s** | 日志 `[desktop-artifact] Building desktop/server/web artifacts...` → `Applied production web client branding.` |
-| cargo 编译 resource-monitor（在上一阶段内） | 未单独计时 | 未单独计时 | **未单独计时**（`build:resource-monitor` 是 `vp run build:desktop` 的一部分，日志未为其单独打点） | 不适用；**不要用目标文件 mtime 代替耗时** |
-| staging 发布 app + 安装 staged 生产依赖 | 22:26:51.074 | 22:27:46.317 | **55.2s** | `Staging release app...` → `Building mac/dmg ...` |
-| electron-builder 打包（dmg/zip + blockmap） | 22:27:46.317 | 22:29:03.188 | **76.9s** | `Building mac/dmg (arch=arm64, version=0.0.46-n2644.base)...` → `Done. Artifacts:` |
-| **合计** | 22:26:27.330 | 22:29:03.188 | **155.9s（2m35.9s）**；`time` 报告的 `real` 为 2m37.7s，差值为脚本启动/收尾开销 | 同左 |
+| 阶段 | 耗时 | 证据来源 |
+|---|---|---|
+| web + server(server bundle) + desktop 构建（`vp run build:desktop`） | **23.7s** | 日志 `[desktop-artifact] Building desktop/server/web artifacts...` → `Applied production web client branding.` |
+| cargo 编译 resource-monitor（在上一阶段内） | **未单独计时**（`build:resource-monitor` 是 `vp run build:desktop` 的一部分，日志未为其单独打点） | 不适用；**不要用目标文件 mtime 代替耗时** |
+| staging 发布 app + 安装 staged 生产依赖 | **55.2s** | `Staging release app...` → `Building mac/dmg ...` |
+| electron-builder 打包（dmg/zip + blockmap） | **76.9s** | `Building mac/dmg (arch=arm64, version=0.0.46-n2644.base)...` → `Done. Artifacts:` |
+| **合计** | **155.9s（2m35.9s）**；`time` 报告的 `real` 为 2m37.7s，差值为脚本启动/收尾开销 | 同左 |
 
-注：这些时间戳是 T01 本次构建的真实日志；未为补文档重跑构建。
+注：这些耗时来自 T01 本次构建的真实日志；未为补文档重跑构建。
 
 ### 版本号 / 输出目录的两种传法
 
@@ -115,7 +115,7 @@ time T3CODE_DESKTOP_VERSION=0.0.46-n2644.base \
      vp run dist:desktop:dmg:arm64 --skip-build
 ```
 
-- **实测耗时：36.5s（`real 0m36.515s`），EXIT 0。** 跳过构建后各阶段：staging 22:30:01.108 → 22:30:02.076（1.0s）；安装 staged 生产依赖 → 22:30:02.710（0.6s）；electron-builder 打包 22:30:02.710 → 22:30:36.762（**34.1s**）。证据来源同 `build-skip.log`。
+- **实测耗时：36.5s（`real 0m36.515s`），EXIT 0。** 跳过构建后各阶段：staging 1.0s；安装 staged 生产依赖 0.6s；electron-builder 打包 **34.1s**。证据来源同 `build-skip.log`。
 - 机制：`:3472-3482` `if (!options.skipBuild)` 为 false 时不再 spawn `vp run build:desktop`，直接用已有的 `apps/desktop/dist-electron`、`apps/server/dist`、`apps/desktop/resources`（`:3484-3496` 校验三者存在，缺则报 `MissingDesktopBuildInputError`）。
 - 产物内容与全量构建**相同**（ZIP 内 109 个路径一致，plist/ASAR 内容一致）；不是逐字节相同（见 §10 说明）。
 
@@ -136,7 +136,7 @@ time T3CODE_DESKTOP_VERSION=0.0.46-n2644.base \
 +    deprecated: Glob versions prior to v9 are no longer supported
 ```
 
-原因：`vp i` 走 `pnpm install`，pnpm 会用本机解析器规范化 lockfile 元数据（补 `libc` 字段）并按 registry 实际返回刷新 `deprecated` 文本。与所用 npm 镜像无关（是 pnpm 自身行为）。
+原因：`vp i` 走 `pnpm install`，pnpm 会用验证环境的解析器规范化 lockfile 元数据（补 `libc` 字段）并按 registry 实际返回刷新 `deprecated` 文本。与所用 npm 镜像无关（是 pnpm 自身行为）。
 
 **结论：T03 的构建脚本一律用 `vp i --frozen-lockfile`。** 实测冷装后锁文件会变，加 `--frozen-lockfile` 后锁文件保持不变（实测 1.3s，EXIT 0，`git status` 干净）。若确需更新 lockfile，应显式安装并在 review 中说明，不要让构建脚本静默改写。
 
@@ -313,3 +313,15 @@ zh.4 起，第 7 步另外通过 `APP_VERSION=<交付版本>` 构建 web；包�
 zh.10 起，`build-zh.sh` 第 5 步从当前基线的 `.env.example` 读取四个官方公开标识（Clerk publishable key、JWT template、CLI OAuth client ID、relay URL），写入构建树 `.env`。不复制可选遥测项或服务端密钥，不需要填写个人账号凭据；不要直接修改 `.build/src`。上游加载器据此为 web、server 和 desktop 注入对应配置。
 
 构建前检查有效配置及覆盖层，web 包装配置核对实际 Vite define，桌面编译后核对三类编译产物。第 13 步另外检查被 Git 忽略的 `.env` 只能含这四项，值必须与当前基线一致。缺少配置或被环境变量、`.env.local` 改到另一个部署时立即失败。回归检查：`node --test scripts/lib/t3-connect-config.test.ts`。
+
+## T16：公开发布路径清理与许可证
+
+`scripts/build-zh.sh 0.0.46-n2774.zh.6` 执行全部 13 步。第 11 步保留外部 `RUSTFLAGS`，追加 `--remap-path-prefix=${CARGO_HOME:-$HOME/.cargo}=/cargo` 和构建源码目录到 `/t3code` 的映射；设置了优先级更高的 `CARGO_ENCODED_RUSTFLAGS` 时，也向它追加相同参数。第 2 步清除构建树的 Rust target，第 11 步关闭 resource-monitor 复用并启用打包详细日志，Cargo 日志应显示依赖和主程序重新编译。
+
+补丁 0019 在 staging 时将基线 `.build/src/LICENSE` 逐字节复制到资源目录，通过 `extraResources` 在签名前放入 `Contents/Resources/T3-Code-LICENSE.txt`。第 13 步从打包 ZIP 的实际 App 中读取该文件，与基线 `LICENSE` 用 `cmp` 比较，缺失或不同立即失败。
+
+最终交付沿用 T15 的做法：用 `ditto -x -k` 解出 App，在 `release/<版本>/app/` 下重新 ad-hoc 签名；将根目录 DMG 转为临时 UDRW，用签名后的 App 替换卷内 App，再转换为 `installer/` 下的 UDZO DMG。在整个最终卷上用 `LC_ALL=C grep -aF` 扫描 `$HOME`、`/Users/`、Git 邮箱和主机名，并检查许可证、严格签名、两个 plist 版本、DMG 完整性和 `SHA256.txt`。验收挂载使用 `-readonly -nobrowse -noautoopen`，不启动 Electron。具体命令及结果见 T16 交接。
+
+扫描结果不能只写“全部 0”：上游通用路径逻辑和供应商预编译二进制仍可能含 `/Users/`。T16 的 13 个命中文件、847 处字节命中已逐条列明，并核对供应商文件 / 基线来源。若 `git config user.email` 未配置，不能拿空字符串扫描或宣称该值为 0；如实记录未配置，并注明补扫的历史提交邮箱及上游固定身份命中。
+
+历史提取脚本 `extract-dict.ts` 必须显式提供 `T3ZH_BACKUP` 或 `--backup=<旧版 app.asar 路径>`；参数优先。它会写词库，T16 不运行该脚本。
