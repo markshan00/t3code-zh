@@ -3,6 +3,8 @@
 [T3 Code](https://github.com/pingdotgg/t3code) 桌面版的简体中文界面，可在「设置 → 常规 → 语言」里切换中文 / 英文。
 
 > 非官方项目，与 T3 Tools Inc. 无关。
+>
+> 基于 T3 Code 的 **nightly 版**翻译（当前 `v0.0.46-nightly.20261007.2774`），不是官方正式版：功能比正式版新，稳定性也以 nightly 为准。
 
 ## 安装
 
