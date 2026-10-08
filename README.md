@@ -50,4 +50,6 @@ scripts/build-zh.sh 0.0.46-n2774.zh.1
 
 初版词库来自 [ZhiweiXiao98/t3code](https://github.com/ZhiweiXiao98/t3code)（MIT），感谢原作者。
 
+开发过程中使用了 [Claude Code](https://claude.com/claude-code) 和 [Codex](https://openai.com/codex)。
+
 本仓库使用 [MIT](LICENSE) 许可证，上游许可证见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
