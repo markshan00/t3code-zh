@@ -1,14 +1,14 @@
 {
-  "baseline": "v0.0.46-nightly.20261007.2774",
+  "baseline": "v0.0.46-nightly.20261010.2935",
   "dict": {
     "path": "dict/zh-CN.json",
-    "messages": 5166,
-    "templates": 1100
+    "messages": 5314,
+    "templates": 1144
   },
   "allowSuspicious": 67,
   "prescan": {
-    "files": 2097,
-    "valueUseLiterals": 24950
+    "files": 2237,
+    "valueUseLiterals": 25686
   },
   "pluginOrder": [
     "vite:optimized-deps",
@@ -67,33 +67,33 @@
     "vite:import-analysis"
   ],
   "modules": {
-    "scanned": 1245,
-    "transformed": 422,
-    "transformCalls": 1271,
+    "scanned": 1303,
+    "transformed": 443,
+    "transformCalls": 1329,
     "skippedQueries": {}
   },
   "totals": {
-    "candidates": 7887,
-    "translate": 6634,
-    "skip": 1100,
-    "suspicious": 153,
-    "edits": 6634,
-    "translateWithDictMessage": 5872
+    "candidates": 8031,
+    "translate": 6760,
+    "skip": 1107,
+    "suspicious": 164,
+    "edits": 6760,
+    "translateWithDictMessage": 5989
   },
   "byCategory": {
     "A": {
-      "skip": 571,
+      "skip": 562,
       "suspicious": 3,
-      "translate": 2165
+      "translate": 2194
     },
     "B": {
-      "skip": 60,
-      "translate": 1652
+      "skip": 61,
+      "translate": 1682
     },
     "C": {
-      "skip": 469,
-      "suspicious": 147,
-      "translate": 2669
+      "skip": 484,
+      "suspicious": 158,
+      "translate": 2736
     },
     "D": {
       "suspicious": 3,
@@ -103,46 +103,46 @@
   "reasons": {
     "translate": {
       "allow-listed": 127,
-      "as-const-property": 300,
-      "attribute": 1643,
+      "as-const-property": 341,
+      "attribute": 1673,
       "call-arg": 143,
       "destructuring-default": 18,
-      "jsx-expression": 900,
-      "jsx-text": 1081,
-      "jsx-text-fragment": 182,
-      "label-function-return": 423,
-      "label-map": 160,
-      "property": 1657
+      "jsx-expression": 907,
+      "jsx-text": 1106,
+      "jsx-text-fragment": 179,
+      "label-function-return": 428,
+      "label-map": 154,
+      "property": 1684
     },
     "skip": {
       "brand-name": 2,
       "data-function": 16,
       "error-constructor": 51,
-      "identifier-like": 30,
-      "mixed-jsx": 211,
-      "no-letters": 554,
-      "non-display-call": 235,
+      "identifier-like": 31,
+      "mixed-jsx": 200,
+      "no-letters": 561,
+      "non-display-call": 245,
       "rpc-input": 1
     },
     "suspicious": {
-      "template-collision": 45,
-      "value-use": 108
+      "template-collision": 47,
+      "value-use": 117
     }
   },
   "byRule": {
     "E1": {
-      "skip": 25,
-      "suspicious": 6,
-      "translate": 313
+      "skip": 26,
+      "suspicious": 10,
+      "translate": 354
     },
     "E2": {
       "suspicious": 15,
-      "translate": 174
+      "translate": 168
     },
     "E3": {
-      "skip": 105,
-      "suspicious": 14,
-      "translate": 451
+      "skip": 109,
+      "suspicious": 15,
+      "translate": 456
     }
   },
   "suspicious": [
@@ -162,91 +162,91 @@
     },
     {
       "file": "apps/web/src/components/ChatView.tsx",
-      "line": 9311,
+      "line": 9461,
       "category": "D",
       "reason": "value-use",
       "key": "This connection cannot change threads."
     },
     {
       "file": "apps/web/src/components/GitActionsControl.logic.ts",
-      "line": 195,
+      "line": 194,
       "category": "C",
       "reason": "value-use",
       "key": "Commit"
     },
     {
       "file": "apps/web/src/components/GitActionsControl.logic.ts",
-      "line": 208,
+      "line": 207,
       "category": "C",
       "reason": "value-use",
       "key": "Push"
     },
     {
       "file": "apps/web/src/components/GitActionsControl.logic.ts",
-      "line": 242,
+      "line": 241,
       "category": "C",
       "reason": "value-use",
       "key": "Commit"
     },
     {
       "file": "apps/web/src/components/GitActionsControl.logic.ts",
-      "line": 247,
+      "line": 246,
       "category": "C",
       "reason": "value-use",
       "key": "Commit"
     },
     {
       "file": "apps/web/src/components/GitActionsControl.logic.ts",
-      "line": 265,
+      "line": 264,
       "category": "C",
       "reason": "value-use",
       "key": "Commit"
     },
     {
       "file": "apps/web/src/components/GitActionsControl.logic.ts",
-      "line": 274,
+      "line": 273,
       "category": "C",
       "reason": "value-use",
       "key": "Commit"
     },
     {
       "file": "apps/web/src/components/GitActionsControl.logic.ts",
-      "line": 298,
+      "line": 297,
       "category": "C",
       "reason": "value-use",
       "key": "Commit"
     },
     {
       "file": "apps/web/src/components/GitActionsControl.logic.ts",
-      "line": 305,
+      "line": 304,
       "category": "C",
       "reason": "value-use",
       "key": "Push"
     },
     {
       "file": "apps/web/src/components/GitActionsControl.logic.ts",
-      "line": 313,
+      "line": 312,
       "category": "C",
       "reason": "value-use",
       "key": "Push"
     },
     {
       "file": "apps/web/src/components/GitActionsControl.logic.ts",
-      "line": 347,
+      "line": 346,
       "category": "C",
       "reason": "value-use",
       "key": "Push"
     },
     {
       "file": "apps/web/src/components/GitActionsControl.logic.ts",
-      "line": 365,
+      "line": 364,
       "category": "C",
       "reason": "value-use",
       "key": "Commit"
     },
     {
       "file": "apps/web/src/components/GitActionsControl.logic.ts",
-      "line": 382,
+      "line": 381,
       "category": "C",
       "reason": "value-use",
       "key": "Commit"
@@ -274,14 +274,14 @@
     },
     {
       "file": "apps/web/src/components/RightPanelTabs.tsx",
-      "line": 346,
+      "line": 363,
       "category": "C",
       "reason": "value-use",
       "key": "Browser"
     },
     {
       "file": "apps/web/src/components/RightPanelTabs.tsx",
-      "line": 872,
+      "line": 950,
       "category": "C",
       "reason": "value-use",
       "key": "Browser"
@@ -337,14 +337,14 @@
     },
     {
       "file": "apps/web/src/components/Sidebar.tsx",
-      "line": 1299,
+      "line": 1302,
       "category": "C",
       "reason": "value-use",
       "key": "Working"
     },
     {
       "file": "apps/web/src/components/Sidebar.tsx",
-      "line": 1309,
+      "line": 1312,
       "category": "C",
       "reason": "value-use",
       "key": "Waiting"
@@ -362,6 +362,13 @@
       "category": "C",
       "reason": "value-use",
       "key": "Nightly"
+    },
+    {
+      "file": "apps/web/src/components/chat/ComposerPrimaryActions.tsx",
+      "line": 74,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Next"
     },
     {
       "file": "apps/web/src/components/chat/ComposerTasksBadge.tsx",
@@ -420,6 +427,13 @@
       "key": "This connection cannot change keyboard shortcuts."
     },
     {
+      "file": "apps/web/src/components/pullRequest/pullRequestDetail.logic.ts",
+      "line": 676,
+      "category": "C",
+      "reason": "value-use",
+      "key": "commented"
+    },
+    {
       "file": "apps/web/src/components/settings/DiagnosticsSettings.tsx",
       "line": 255,
       "category": "C",
@@ -458,14 +472,14 @@
     },
     {
       "file": "apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx",
-      "line": 136,
+      "line": 125,
       "category": "C",
       "reason": "value-use",
       "key": "GPU"
     },
     {
       "file": "apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx",
-      "line": 162,
+      "line": 151,
       "category": "C",
       "reason": "value-use",
       "key": "Unavailable"
@@ -480,7 +494,7 @@
     },
     {
       "file": "apps/web/src/components/settings/SettingsPanels.tsx",
-      "line": 206,
+      "line": 207,
       "category": "C",
       "reason": "template-collision",
       "key": "English",
@@ -488,14 +502,14 @@
     },
     {
       "file": "apps/web/src/components/settings/SettingsPanels.tsx",
-      "line": 2184,
+      "line": 2187,
       "category": "C",
       "reason": "value-use",
       "key": "Enter"
     },
     {
       "file": "apps/web/src/components/settings/SettingsPanels.tsx",
-      "line": 3295,
+      "line": 3298,
       "category": "C",
       "reason": "value-use",
       "key": "Mixed"
@@ -506,6 +520,13 @@
       "category": "C",
       "reason": "value-use",
       "key": "Mixed"
+    },
+    {
+      "file": "apps/web/src/components/settings/ThemeEditorPanel.tsx",
+      "line": 167,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Search"
     },
     {
       "file": "apps/web/src/components/settings/ThemePreviewCircles.tsx",
@@ -530,52 +551,24 @@
     },
     {
       "file": "apps/web/src/components/settings/providerDriverMeta.ts",
-      "line": 52,
+      "line": 19,
       "category": "C",
       "reason": "value-use",
       "key": "Codex"
     },
     {
       "file": "apps/web/src/components/settings/providerDriverMeta.ts",
-      "line": 57,
+      "line": 24,
       "category": "C",
       "reason": "value-use",
       "key": "Claude"
     },
     {
       "file": "apps/web/src/components/settings/providerDriverMeta.ts",
-      "line": 62,
-      "category": "C",
-      "reason": "value-use",
-      "key": "Cursor"
-    },
-    {
-      "file": "apps/web/src/components/settings/providerDriverMeta.ts",
-      "line": 76,
-      "category": "C",
-      "reason": "value-use",
-      "key": "Grok"
-    },
-    {
-      "file": "apps/web/src/components/settings/providerDriverMeta.ts",
-      "line": 81,
-      "category": "C",
-      "reason": "value-use",
-      "key": "OpenCode"
-    },
-    {
-      "file": "apps/web/src/components/settings/providerDriverMeta.ts",
-      "line": 86,
+      "line": 32,
       "category": "C",
       "reason": "value-use",
       "key": "Antigravity"
-    },
-    {
-      "file": "apps/web/src/components/settings/providerDriverMeta.ts",
-      "line": 91,
-      "category": "C",
-      "reason": "value-use",
-      "key": "Pi"
     },
     {
       "file": "apps/web/src/components/settings/providerStatus.ts",
@@ -583,6 +576,13 @@
       "category": "C",
       "reason": "value-use",
       "key": "Unavailable"
+    },
+    {
+      "file": "apps/web/src/components/settings/settingsSearch.ts",
+      "line": 535,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Version"
     },
     {
       "file": "apps/web/src/components/settings/themeInspector.ts",
@@ -676,6 +676,27 @@
       "key": "Antigravity"
     },
     {
+      "file": "apps/web/src/composer-code-languages.ts",
+      "line": 13,
+      "category": "C",
+      "reason": "value-use",
+      "key": "C"
+    },
+    {
+      "file": "apps/web/src/composer-code-languages.ts",
+      "line": 19,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Dockerfile"
+    },
+    {
+      "file": "apps/web/src/composer-code-languages.ts",
+      "line": 35,
+      "category": "C",
+      "reason": "value-use",
+      "key": "R"
+    },
+    {
       "file": "apps/web/src/keybindings.ts",
       "line": 192,
       "category": "C",
@@ -698,7 +719,7 @@
     },
     {
       "file": "packages/client-runtime/src/connection/routes.ts",
-      "line": 183,
+      "line": 198,
       "category": "C",
       "reason": "template-collision",
       "key": "SSH {0}{1}",
@@ -706,77 +727,77 @@
     },
     {
       "file": "packages/client-runtime/src/state/gitActions.ts",
-      "line": 78,
+      "line": 77,
       "category": "C",
       "reason": "value-use",
       "key": "Commit"
     },
     {
       "file": "packages/client-runtime/src/state/gitActions.ts",
-      "line": 86,
+      "line": 85,
       "category": "C",
       "reason": "value-use",
       "key": "Push"
     },
     {
       "file": "packages/client-runtime/src/state/gitActions.ts",
-      "line": 118,
+      "line": 117,
       "category": "C",
       "reason": "value-use",
       "key": "Commit"
     },
     {
       "file": "packages/client-runtime/src/state/gitActions.ts",
-      "line": 123,
+      "line": 122,
       "category": "C",
       "reason": "value-use",
       "key": "Commit"
     },
     {
       "file": "packages/client-runtime/src/state/gitActions.ts",
-      "line": 139,
+      "line": 138,
       "category": "C",
       "reason": "value-use",
       "key": "Commit"
     },
     {
       "file": "packages/client-runtime/src/state/gitActions.ts",
-      "line": 148,
+      "line": 147,
       "category": "C",
       "reason": "value-use",
       "key": "Commit"
     },
     {
       "file": "packages/client-runtime/src/state/gitActions.ts",
-      "line": 167,
+      "line": 166,
       "category": "C",
       "reason": "value-use",
       "key": "Push"
     },
     {
       "file": "packages/client-runtime/src/state/gitActions.ts",
-      "line": 178,
+      "line": 177,
       "category": "C",
       "reason": "value-use",
       "key": "Push"
     },
     {
       "file": "packages/client-runtime/src/state/gitActions.ts",
-      "line": 186,
+      "line": 185,
       "category": "C",
       "reason": "value-use",
       "key": "Push"
     },
     {
       "file": "packages/client-runtime/src/state/gitActions.ts",
-      "line": 220,
+      "line": 219,
       "category": "C",
       "reason": "value-use",
       "key": "Push"
     },
     {
       "file": "packages/client-runtime/src/state/gitActions.ts",
-      "line": 239,
+      "line": 238,
       "category": "C",
       "reason": "value-use",
       "key": "Commit"
@@ -818,14 +839,14 @@
     },
     {
       "file": "packages/contracts/src/editor.ts",
-      "line": 25,
+      "line": 31,
       "category": "C",
       "reason": "value-use",
       "key": "Cursor"
     },
     {
       "file": "packages/contracts/src/editor.ts",
-      "line": 64,
+      "line": 70,
       "category": "C",
       "reason": "value-use",
       "key": "Antigravity"
@@ -848,7 +869,7 @@
     },
     {
       "file": "packages/contracts/src/orchestratorMcp.ts",
-      "line": 559,
+      "line": 557,
       "category": "C",
       "reason": "template-collision",
       "key": "Public URL to give the sender. Absent when this environment has no T3 Connect managed tunnel; the user must enable T3 Connect remote access first.",
@@ -856,7 +877,7 @@
     },
     {
       "file": "packages/contracts/src/orchestratorMcp.ts",
-      "line": 574,
+      "line": 572,
       "category": "C",
       "reason": "template-collision",
       "key": "Only list this project's tasks. Omit for the calling thread's project, or for every project when the caller is not a T3 thread.",
@@ -864,7 +885,7 @@
     },
     {
       "file": "packages/contracts/src/orchestratorMcp.ts",
-      "line": 604,
+      "line": 602,
       "category": "C",
       "reason": "template-collision",
       "key": "One or two sentences on what it is for and where the user gets or also enters it.",
@@ -872,7 +893,7 @@
     },
     {
       "file": "packages/contracts/src/orchestratorMcp.ts",
-      "line": 611,
+      "line": 609,
       "category": "C",
       "reason": "template-collision",
       "key": "How long to wait for the user. Default 10 minutes.",
@@ -880,7 +901,7 @@
     },
     {
       "file": "packages/contracts/src/orchestratorMcp.ts",
-      "line": 614,
+      "line": 612,
       "category": "C",
       "reason": "template-collision",
       "key": "Reuse when retrying a call that lost its result, so the user sees one card and its answer is returned again. Use a new id to ask again after timed_out or cancelled.",
@@ -888,7 +909,7 @@
     },
     {
       "file": "packages/contracts/src/orchestratorMcp.ts",
-      "line": 624,
+      "line": 622,
       "category": "C",
       "reason": "template-collision",
       "key": "Pass it to a tool that accepts a secretRef; it works once, and you never see the value.",
@@ -896,7 +917,7 @@
     },
     {
       "file": "packages/contracts/src/orchestratorMcp.ts",
-      "line": 630,
+      "line": 628,
       "category": "C",
       "reason": "template-collision",
       "key": "declined: the user chose not to. cancelled: the request ended with the run. timed_out: the user did not answer in time; the card is closed, so ask again with a new clientRequestId if still needed.",
@@ -904,7 +925,23 @@
     },
     {
       "file": "packages/contracts/src/previewAutomation.ts",
-      "line": 137,
+      "line": 67,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Exact collaborative browser tab to target, including a tab the user opened (see preview_status tabs). Omit to use this agent session's current tab, or the user's visible tab when this session has none.",
+      "template": "{head} to {base}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 71,
+      "category": "C",
+      "reason": "template-collision",
+      "key": "Exact collaborative browser tab to target, including a tab the user opened (see preview_status tabs). Omit to use this agent session's current tab, or the user's visible tab when this session has none.",
+      "template": "{head} to {base}"
+    },
+    {
+      "file": "packages/contracts/src/previewAutomation.ts",
+      "line": 162,
       "category": "C",
       "reason": "template-collision",
       "key": "Optional text to submit when accepting a prompt dialog.",
@@ -912,7 +949,7 @@
     },
     {
       "file": "packages/contracts/src/previewAutomation.ts",
-      "line": 217,
+      "line": 247,
       "category": "C",
       "reason": "template-collision",
       "key": "Environment-relative target. Prefer {kind:'environment-port',port:5173} for a dev server in the current environment.",
@@ -920,7 +957,7 @@
     },
     {
       "file": "packages/contracts/src/previewAutomation.ts",
-      "line": 221,
+      "line": 251,
       "category": "C",
       "reason": "template-collision",
       "key": "Environment-relative target. Prefer {kind:'environment-port',port:5173} for a dev server in the current environment.",
@@ -928,7 +965,7 @@
     },
     {
       "file": "packages/contracts/src/previewAutomation.ts",
-      "line": 347,
+      "line": 377,
       "category": "C",
       "reason": "template-collision",
       "key": "Use locator='aria-ref=<ref>' with a ref from the latest server snapshot (including iframe elements), or a unique Playwright role/text selector. Refs expire on navigation, a new snapshot, or control handoff; refresh the snapshot after a stale-ref error.",
@@ -936,7 +973,7 @@
     },
     {
       "file": "packages/contracts/src/previewAutomation.ts",
-      "line": 363,
+      "line": 393,
       "category": "C",
       "reason": "template-collision",
       "key": "Use locator='aria-ref=<ref>' with a ref from the latest server snapshot (including iframe elements), or a unique Playwright role/text selector. Refs expire on navigation, a new snapshot, or control handoff; refresh the snapshot after a stale-ref error.",
@@ -944,7 +981,7 @@
     },
     {
       "file": "packages/contracts/src/previewAutomation.ts",
-      "line": 399,
+      "line": 429,
       "category": "C",
       "reason": "template-collision",
       "key": "Mouse button. Defaults to left; right opens the page's context menu.",
@@ -952,7 +989,7 @@
     },
     {
       "file": "packages/contracts/src/previewAutomation.ts",
-      "line": 404,
+      "line": 434,
       "category": "C",
       "reason": "template-collision",
       "key": "1 for a click, 2 for a double-click, 3 for a triple-click. Defaults to 1.",
@@ -960,7 +997,7 @@
     },
     {
       "file": "packages/contracts/src/previewAutomation.ts",
-      "line": 419,
+      "line": 449,
       "category": "C",
       "reason": "template-collision",
       "key": "Moves the mouse over one target. Provide exactly one of locator, selector, or the x/y coordinate pair.",
@@ -968,7 +1005,7 @@
     },
     {
       "file": "packages/contracts/src/previewAutomation.ts",
-      "line": 426,
+      "line": 456,
       "category": "C",
       "reason": "template-collision",
       "key": "Legacy CSS selector for a <select>. Prefer locator.",
@@ -976,7 +1013,7 @@
     },
     {
       "file": "packages/contracts/src/previewAutomation.ts",
-      "line": 429,
+      "line": 459,
       "category": "C",
       "reason": "template-collision",
       "key": "The <select> element, for example aria-ref=<ref> or role=combobox[name='Size'].",
@@ -984,7 +1021,7 @@
     },
     {
       "file": "packages/contracts/src/previewAutomation.ts",
-      "line": 433,
+      "line": 463,
       "category": "C",
       "reason": "template-collision",
       "key": "Option values or visible labels to select. Pass several for a multiple select, or an empty list to clear it.",
@@ -992,7 +1029,7 @@
     },
     {
       "file": "packages/contracts/src/previewAutomation.ts",
-      "line": 444,
+      "line": 474,
       "category": "C",
       "reason": "template-collision",
       "key": "Chooses options in one native <select> element.",
@@ -1000,7 +1037,7 @@
     },
     {
       "file": "packages/contracts/src/previewAutomation.ts",
-      "line": 449,
+      "line": 479,
       "category": "C",
       "reason": "template-collision",
       "key": "The values of the options now selected.",
@@ -1008,7 +1045,7 @@
     },
     {
       "file": "packages/contracts/src/previewAutomation.ts",
-      "line": 467,
+      "line": 497,
       "category": "C",
       "reason": "template-collision",
       "key": "Drags one element and drops it onto another.",
@@ -1016,7 +1053,7 @@
     },
     {
       "file": "packages/contracts/src/previewAutomation.ts",
-      "line": 474,
+      "line": 504,
       "category": "C",
       "reason": "template-collision",
       "key": "Absolute paths of files on the environment to give the page. An empty list cancels the open file picker.",
@@ -1024,7 +1061,7 @@
     },
     {
       "file": "packages/contracts/src/previewAutomation.ts",
-      "line": 477,
+      "line": 507,
       "category": "C",
       "reason": "template-collision",
       "key": "Legacy CSS selector for an <input type=file>. Prefer locator.",
@@ -1032,7 +1069,7 @@
     },
     {
       "file": "packages/contracts/src/previewAutomation.ts",
-      "line": 481,
+      "line": 511,
       "category": "C",
       "reason": "template-collision",
       "key": "Set files directly on this <input type=file> instead of answering the open file picker.",
@@ -1040,7 +1077,7 @@
     },
     {
       "file": "packages/contracts/src/previewAutomation.ts",
-      "line": 494,
+      "line": 524,
       "category": "C",
       "reason": "template-collision",
       "key": "Answers the page's open file picker, or sets files on a file input when locator/selector is given.",
@@ -1048,7 +1085,7 @@
     },
     {
       "file": "packages/contracts/src/previewAutomation.ts",
-      "line": 590,
+      "line": 620,
       "category": "C",
       "reason": "template-collision",
       "key": "JavaScript expression evaluated in the page's main frame, for example document.title or (() => ({href: location.href}))().",
@@ -1056,7 +1093,7 @@
     },
     {
       "file": "packages/contracts/src/previewAutomation.ts",
-      "line": 596,
+      "line": 626,
       "category": "C",
       "reason": "template-collision",
       "key": "JavaScript expression evaluated in the page's main frame, for example document.title or (() => ({href: location.href}))().",
@@ -1143,94 +1180,59 @@
     },
     {
       "file": "packages/contracts/src/settings.ts",
-      "line": 203,
-      "category": "C",
-      "reason": "value-use",
-      "key": "Shift"
-    },
-    {
-      "file": "packages/contracts/src/settings.ts",
       "line": 204,
       "category": "C",
       "reason": "value-use",
-      "key": "Command"
+      "key": "Shift"
     },
     {
       "file": "packages/contracts/src/settings.ts",
       "line": 205,
       "category": "C",
       "reason": "value-use",
-      "key": "Control"
+      "key": "Command"
     },
     {
       "file": "packages/contracts/src/settings.ts",
       "line": 206,
       "category": "C",
       "reason": "value-use",
+      "key": "Control"
+    },
+    {
+      "file": "packages/contracts/src/settings.ts",
+      "line": 207,
+      "category": "C",
+      "reason": "value-use",
       "key": "Option"
     },
     {
       "file": "packages/contracts/src/settings.ts",
-      "line": 209,
+      "line": 210,
       "category": "C",
       "reason": "value-use",
       "key": "Shift"
     },
     {
       "file": "packages/contracts/src/settings.ts",
-      "line": 212,
+      "line": 213,
       "category": "C",
       "reason": "value-use",
       "key": "Alt"
     },
     {
       "file": "packages/contracts/src/settings.ts",
-      "line": 601,
+      "line": 604,
       "category": "C",
       "reason": "value-use",
       "key": "codex"
     },
     {
       "file": "packages/contracts/src/settings.ts",
-      "line": 660,
+      "line": 663,
       "category": "C",
       "reason": "value-use",
       "key": "claude"
-    },
-    {
-      "file": "packages/contracts/src/settings.ts",
-      "line": 746,
-      "category": "C",
-      "reason": "value-use",
-      "key": "grok"
-    },
-    {
-      "file": "packages/contracts/src/settings.ts",
-      "line": 852,
-      "category": "C",
-      "reason": "value-use",
-      "key": "pi"
-    },
-    {
-      "file": "packages/contracts/src/settings.ts",
-      "line": 901,
-      "category": "C",
-      "reason": "value-use",
-      "key": "devin"
-    },
-    {
-      "file": "packages/contracts/src/settings.ts",
-      "line": 923,
-      "category": "C",
-      "reason": "value-use",
-      "key": "auto"
-    },
-    {
-      "file": "packages/contracts/src/settings.ts",
-      "line": 954,
-      "category": "C",
-      "reason": "value-use",
-      "key": "opencode"
     },
     {
       "file": "packages/contracts/src/t3ProjectFile.ts",
@@ -1247,6 +1249,83 @@
       "reason": "template-collision",
       "key": "Thread to update. Omit to update the calling thread.",
       "template": "{head} to {base}"
+    },
+    {
+      "file": "packages/provider-acp-registry/src/settings.ts",
+      "line": 38,
+      "category": "C",
+      "reason": "value-use",
+      "key": "devin"
+    },
+    {
+      "file": "packages/provider-acp-registry/src/settings.ts",
+      "line": 60,
+      "category": "C",
+      "reason": "value-use",
+      "key": "auto"
+    },
+    {
+      "file": "packages/provider-cursor/src/client.ts",
+      "line": 14,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Cursor"
+    },
+    {
+      "file": "packages/provider-grok/src/client.ts",
+      "line": 14,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Grok"
+    },
+    {
+      "file": "packages/provider-grok/src/settings.ts",
+      "line": 27,
+      "category": "C",
+      "reason": "value-use",
+      "key": "grok"
+    },
+    {
+      "file": "packages/provider-muse/src/client.ts",
+      "line": 14,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Muse Code"
+    },
+    {
+      "file": "packages/provider-muse/src/settings.ts",
+      "line": 26,
+      "category": "C",
+      "reason": "value-use",
+      "key": "muse"
+    },
+    {
+      "file": "packages/provider-opencode/src/client.ts",
+      "line": 14,
+      "category": "C",
+      "reason": "value-use",
+      "key": "OpenCode"
+    },
+    {
+      "file": "packages/provider-opencode/src/settings.ts",
+      "line": 29,
+      "category": "C",
+      "reason": "value-use",
+      "key": "opencode"
+    },
+    {
+      "file": "packages/provider-pi/src/client.ts",
+      "line": 14,
+      "category": "C",
+      "reason": "value-use",
+      "key": "Pi"
+    },
+    {
+      "file": "packages/provider-pi/src/settings.ts",
+      "line": 27,
+      "category": "C",
+      "reason": "value-use",
+      "key": "pi"
     },
     {
       "file": "packages/shared/src/thirdPartyLicenses.ts",

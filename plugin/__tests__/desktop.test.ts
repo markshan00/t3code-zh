@@ -133,6 +133,8 @@ const PATCHED_FILES = [
   // __t3zh_t 包裹时才被使用，所以一起计入「词库里每条都有出处」的核对，避免桌面词库出现
   // 无人引用的词条（下面直接从补丁后的源码解析名单，名单增删都会跟着核对）。
   DESKTOP_DISPLAY_FILE,
+  "apps/desktop/src/preview/BrowserSession.ts",
+  "apps/desktop/src/preview/Passkeys.ts",
   "apps/desktop/src/permissions/MacPermissionHelper.ts",
   "apps/desktop/src/preload.ts",
   "apps/desktop/src/preview/Manager.ts",
@@ -189,7 +191,10 @@ function wrappedArguments(code: string): Array<{ key: string | null; kind: "mess
     const arg = node.arguments[0];
     const line = node.loc.start.line;
     if (arg.type === "StringLiteral") result.push({ key: arg.value, kind: "message", line });
-    else if (arg.type === "TemplateLiteral" && arg.expressions.length === 0) result.push({ key: arg.quasis[0].value.cooked, kind: "message", line });
+    else if (arg.type === "TemplateLiteral" && arg.expressions.length === 0) {
+      const value = arg.quasis[0].value.cooked;
+      result.push({ key: value.replace("\uE000", "{0}"), kind: value.includes("\uE000") ? "template" : "message", line });
+    }
     else if (arg.type === "TemplateLiteral") {
       const key = arg.quasis.map((q: Node, i: number) => q.value.cooked + (i < arg.expressions.length ? `{${i}}` : "")).join("");
       result.push({ key, kind: "template", line });
@@ -378,4 +383,67 @@ test("归类附录与生成器输出一致（每条都有结论）", () => {
   assert.equal(appendix, fs.readFileSync(path.join(ZH_ROOT, "reports/desktop-main-strings-appendix.md"), "utf8"));
   // 条数随上游变化，不写死；附录与生成器输出逐字一致已经保证升级时新增条目都经过人工归类。
   assert.match(appendix, /\| 合计 \| \| \d+ \|/);
+});
+
+test("T17 C: real menu and external-dialog expressions preserve English, routes and dynamic values", () => {
+  const menu = "apps/desktop/src/window/DesktopApplicationMenu.ts";
+  const properties = (source: string, keys: string[]) => {
+    const result: Node[] = [];
+    walk(astOf(source), node => { if (node.type === "ObjectProperty" && keys.includes(node.key.name)) result.push(node.value); });
+    return result;
+  };
+  const before = COPIES.before.get(menu)!, after = COPIES.after.get(menu)!;
+  const clicks = (source: string) => properties(source, ["click"]).map(node => source.slice(node.start, node.end));
+  assert.deepEqual(clicks(after), clicks(before), "keep every upstream click route");
+  const newLabels = properties(after, ["label"]).filter(node => {
+    const expression = after.slice(node.start, node.end);
+    return expression.includes("environment.displayName") || /__t3zh_t\("(Reload|Force Reload|Toggle Developer Tools)"\)/.test(expression);
+  });
+  assert.equal(newLabels.length, 7); // app name plus three app roles and three main-window commands
+  const sourceLabels = properties(before, ["label"]).filter(node => {
+    const expression = before.slice(node.start, node.end);
+    return expression.includes("environment.displayName") || /^("Reload"|"Force Reload"|"Toggle Developer Tools")$/.test(expression);
+  });
+  assert.equal(sourceLabels.length, newLabels.length);
+  for (const locale of [null, "en", "zh-CN"] as const) {
+    const calls: string[] = [], translate = createTranslator(DESKTOP_DICT);
+    const __t3zh_t = (value: string) => { calls.push(value); return locale === "zh-CN" ? translate(value) : value; };
+    const environment = { displayName: "My $& app to test", platform: "darwin" };
+    const evaluate = (source: string, node: Node) => new Function("environment", "__t3zh_t", `return (${source.slice(node.start, node.end)});`)(environment, __t3zh_t);
+    for (let i = 0; i < newLabels.length; i++) {
+      const english = evaluate(before, sourceLabels[i]);
+      const actual = evaluate(after, newLabels[i]);
+      const expected = locale === "zh-CN" ? translate(english) : english;
+      assert.equal(actual, expected);
+    }
+    assert.ok(calls.every(value => !value.includes(environment.displayName)), "app name never reaches translator");
+    const dialog = "apps/desktop/src/preview/BrowserSession.ts", raw = COPIES.before.get(dialog)!, patched = COPIES.after.get(dialog)!;
+    const original = properties(raw, ["message", "detail", "buttons"]), changed = properties(patched, ["message", "detail", "buttons"]);
+    assert.equal(original.length, 3); assert.equal(changed.length, 3);
+    const url = "custom://path/to/main?x=$&", shownUrl = url;
+    const dialogValue = (source: string, node: Node) => new Function("url", "shownUrl", "__t3zh_t", `return (${source.slice(node.start, node.end)});`)(url, shownUrl, __t3zh_t);
+    assert.deepEqual(changed.map(n => dialogValue(patched, n)), locale === "zh-CN" ? [["打开", "取消"], "打开此 custom 链接？", `浏览器中的页面想要打开另一个应用：\n\n${url}`] : original.map(n => dialogValue(raw, n)));
+    assert.ok(calls.every(value => !value.includes(url) && !value.includes("custom")));
+  }
+});
+
+test("T18 passkey dialog: actual account fallback and prompt translate; arbitrary names and protocol errors stay intact", () => {
+  const file="apps/desktop/src/preview/Passkeys.ts", before=COPIES.before.get(file)!, after=COPIES.after.get(file)!;
+  const initializer=(source:string,name:string)=>{let found:Node;walk(astOf(source),n=>{if(n.type==="VariableDeclarator"&&n.id.name===name)found=n.init;});assert.ok(found);return source.slice(found.start,found.end);};
+  const label=(source:string,__t3zh_t:(s:string)=>string)=>new Function("__t3zh_t",stripTypeScriptTypes(`const label = ${initializer(source,"accountLabel")};`,{mode:"strip"})+"return label;")(__t3zh_t);
+  const properties=(source:string)=>{const nodes:Node[]=[];walk(astOf(source),n=>{if(n.type==="ObjectProperty"&&["message","buttons","detail"].includes(n.key.name))nodes.push(n.value);});return nodes;};
+  for(const locale of [null,"en","zh-CN"] as const){
+    const calls:string[]=[],translate=createTranslator(DESKTOP_DICT); const __t3zh_t=(s:string)=>{calls.push(s);return locale==="zh-CN"?translate(s):s;};
+    const raw=label(before,s=>s),patched=label(after,__t3zh_t);
+    for(const account of [{name:"Name $& to main",displayName:"Other"},{name:"Name $& to main"},{displayName:"Unnamed passkey"},{}]) {
+      const expected=locale==="zh-CN"&&!account.name&&!account.displayName?"未命名的通行密钥":raw(account);
+      assert.equal(patched(account),expected);
+    }
+    const details={accounts:[{name:"Name $& to main"},{}],relyingPartyId:"site.example.invalid"};
+    const values=(source:string,accountLabel:any)=>properties(source).map(n=>new Function("__t3zh_t","details","accountLabel",`return (${source.slice(n.start,n.end)});`)(__t3zh_t,details,accountLabel));
+    assert.deepEqual(values(after,patched),locale==="zh-CN"?["选择通行密钥",details.relyingPartyId,["Name $& to main","未命名的通行密钥","取消"]]:values(before,raw));
+    assert.ok(calls.every(s=>["Unnamed passkey","Choose a passkey","Cancel"].includes(s)));
+  }
+  const bridge="apps/desktop/src/preview/PasskeyBridge.ts";
+  assert.equal(execFileSync("git",["-C",UPSTREAM,"show",`HEAD:${bridge}`],{encoding:"utf8"}),fs.readFileSync(path.join(UPSTREAM,bridge),"utf8"));
 });

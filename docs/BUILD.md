@@ -325,3 +325,89 @@ zh.10 起，`build-zh.sh` 第 5 步从当前基线的 `.env.example` 读取四�
 扫描结果不能只写“全部 0”：上游通用路径逻辑和供应商预编译二进制仍可能含 `/Users/`。T16 的 13 个命中文件、847 处字节命中已逐条列明，并核对供应商文件 / 基线来源。若 `git config user.email` 未配置，不能拿空字符串扫描或宣称该值为 0；如实记录未配置，并注明补扫的历史提交邮箱及上游固定身份命中。
 
 历史提取脚本 `extract-dict.ts` 必须显式提供 `T3ZH_BACKUP` 或 `--backup=<旧版 app.asar 路径>`；参数优先。它会写词库，T16 不运行该脚本。
+
+## T17 / n2861 构建
+
+T17 当时源码基线为 `v0.0.46-nightly.20261009.2861` / `3b6af0bd1600f034b0466e1b8ff017fbabeba910`，交付版本 `0.0.46-n2861.zh.1`。升级后第一次安装依赖仍使用 `vp i --frozen-lockfile`；打包用 Electron 44.4.5。0014 已由上游合入，活动补丁 18 份（0001、0003–0013、0015–0020），新增 0020 不改 matcher。
+
+`build-zh.sh` 第 11 步会删除同版本的整个 `release/<版本>/` 目录。构建、测试及打包的运行日志先写到输出目录外，构建结束后再归档进 `acceptance/`；已有证据也须先备份到输出目录外。T17 最终日志在 `.build/T17-r2/`，已归档为 `acceptance/` 下 `*-final-r2.*` 文件；页面证据以 `web-last-` 前缀为准，归档与限制见交接。
+
+## T18 / n2908 上游生成文件守卫
+
+按 `tasks/T18-upgrade-2908.md`「主会话决定」第 2 条，第 13 步单独维护 `UPSTREAM_GENERATED_FILES`，仅含 `apps/desktop/src/preview/AnnotationStyles.generated.ts`，不扩大通用工作树白名单。2908 上游提交的输出仍含 `.static`，输入 `PickPreload.ts` 已不含对应候选；官方 desktop 构建同样会重生成并移除该样式。
+
+仅在以下条件全部成立时放行：`PickPreload.ts`、`Annotation.css` 和 `build-preview-annotation-css.mjs` 相对基线 HEAD 未改动；在系统临时目录使用从基线读取的干净输入与构建树解析到的同一 `tailwindcss` 独立运行生成器；独立输出与构建树输出逐字节一致。检查不写 `.build/src`，临时目录自动清理；任一条件不满足，第 13 步仍失败。日志记录路径、决定依据及实际检查结果。上游修正漂移后，没有改动的生成文件不会触发例外。
+
+自检：`node --test scripts/lib/upstream-generated.test.ts`。使用临时 Git 树和真实上游生成器，验证正常重生成通过、三份输入分别改动 / 输入模式改动 / 输出不一致 / 基线不符 / 名单外路径均拒绝；不改真实构建源码。
+
+T18 最终构建为 `scripts/build-zh.sh 0.0.46-n2908.zh.1`，13/13、85.0 秒，转换 6735 处。前段第 13 步失败的日志与产物已保留到 `release/backups/before-T18-resume-20261010T035531Z/`；恢复后首个 13/13 包因 WelcomeWizard 缺少 translateFixed import 被最终类型检查拦下，备份到 `release/backups/before-T18-import-fix-20261010T035917Z/`，补齐 0020 import 后再次重建。最终日志来自 `.build/T18/` 并归档到 `release/0.0.46-n2908.zh.1/acceptance/` 的 `*-final.*`。
+
+最终 installer 沿用重新 ad-hoc 签名方案，无 provisioning profile；`CFBundleLocalizations` 为 en / zh-Hans，上游 URL schemes 与 HTML / XHTML 文档类型均保留，受限的 keychain-access-groups / com.apple.developer.web-browser.public-key-credential 均不存在。内置浏览器 Touch ID 通行密钥在本构建中不可用，不改变签名方式或系统默认浏览器。指定双语网页检查已完成，真实 / 模拟 / 未触发分开记录，English 后切回 zh-CN；详情以 T18 交接为准。
+
+网页收尾补入 0020 的 PR 空描述固定回退后，另存第二个中间包及全部 acceptance 到 `release/backups/before-T18-pr-empty-description-20261010T043546Z/`，再次完整重建（13/13、85.0 秒）。最终插件 / 配置测试 835/835，两份 tsc 通过；最后 installer 和发布卫生再次从最后产物检查。历史 acceptance 恢复到最终 acceptance/history/ 独立子目录；顶层以 *-final 与 web-last 为准。新增 PR 显示点只包裹空正文的已存在精确词条，不改正文、数据或词库。
+
+
+## T19 / n2935
+
+活动补丁 19 份。0007 跟随 #17664 的 Combobox，只翻译显示 / 搜索标签；项目 key 和选中逻辑保持上游。0021 处理清理结果、上次运行、失败计数、固定理由、导入单复数按钮、拖动读屏播报及 Automatic 回退，任意环境名、路径、任务名和动态服务端理由不交给翻译器。m3 在生成文件守卫的 node 调用加 `</dev/null`。
+
+`NSLocalNetworkUsageDescription` 保留上游英文说明；不新增 `zh-Hans.lproj`。macOS 首次本地网络权限弹窗的说明文字仍为英文，和截屏权限说明的处理相同。CFBundleLocalizations 继续声明 en / zh-Hans，无描述文件、内置浏览器 Touch ID 通行密钥不可用。网页清理结果使用模拟 props，不开启清理规则或执行立即删除；原生 Electron 验收留给维护者安排。
+
+## 迭代脚本（T20）
+
+在本仓库根目录用 Node v24 直接运行。每次使用新的空输出目录；已有输出时拒绝覆盖，尤其不要覆盖已交付的 installer。标准输出每项一行、总计不超过 30 行，详细证据写入输出目录。运行时读取的 HOME、短主机名与 Git 邮箱只在内存中保留；日志及报告仅写标签和命中数，家目录显示为 `~`。
+
+| 脚本 | 用途 | 输出 |
+|---|---|---|
+| `scripts/run-checks.ts` | 依次运行插件 / 配置、词库自测与校验、回归、异形扫描、生成文件守卫及 web / desktop 类型检查 | `checks.json`、每项 `.log` / `.exit`、`output-audit.json` |
+| `scripts/make-installer.ts` | 从 ZIP 解出 App、核对许可证、重新 ad-hoc 签名、替换临时 DMG 的 App 并转为 UDZO，核对 ASAR 不变、摘要清单与镜像完整性 | DMG、`SHA256.txt`、`installer.json`、各步骤日志 |
+| `scripts/release-hygiene.ts` | 只读挂载，检查 App、封存许可证、plist、entitlements、整卷内容 / 路径 / 链接与来源证据，使用 `LC_ALL=C grep -aFl` 独立复核 | `hygiene.json`、`hygiene.md`、各步骤日志；报告含输出过滤收尾检查 |
+| `scripts/web-check/run.ts`（含 `sandbox.ts`） | 最终 server + 空沙盒 + 临时 profile 无头 Chrome，按累积清单检查双语真实 DOM / 模拟组件，并与交付 DMG 比对加载模块 | `web-last-<locale>-<名字>-<real\|simulated>.json`、模块哈希、fixture / 运行 / 清理明细、`web-check.json`、`output-audit.json` |
+
+```sh
+node scripts/run-checks.ts --out .build/<本轮>/checks
+# --next 可指定回归和异形扫描的源码树，默认 .build/next；tsc 始终只读 .build/src。
+node scripts/run-checks.ts --out .build/<本轮>/checks-next --next .build/next
+
+node scripts/make-installer.ts <版本> --out .build/<本轮>/installer
+# 省略 --out 时输出到 release/<版本>/installer/，该目录须为空。
+
+node scripts/release-hygiene.ts release/<版本>/installer/<安装包>.dmg \
+  --version <版本> --out .build/<本轮>/hygiene
+# 旧版本指定自己的源码基线；build-src 仅补充 ASAR 证据，仍用于供应商文件严格比对。
+node scripts/release-hygiene.ts <旧版安装包>.dmg --version <旧版本> \
+  --baseline <旧基线commit> --build-src .build/src --out .build/<本轮>/hygiene-old
+
+node --test scripts/lib/iteration-tooling.test.ts scripts/lib/release-hygiene.test.ts
+
+# 使用未被 T3 或其他进程占用的两个端口，server / helper 均只绑定 127.0.0.1。
+node scripts/web-check/run.ts --version <版本> --dmg <交付installer.dmg> \
+  --port 15182 --helper-port 15183 --out .build/<本轮>/web
+# 默认读取 .build/src；可传 --build-src、--checks。--phase real / simulated 用于分段定位。
+# 模拟项必须有交付 DMG；缺失 / 不同的资源会使模拟项失败。
+
+# 也可以单独管理沙盒；每份配对凭据只在内存转交一次。
+node scripts/web-check/sandbox.ts start --port 15182 --helper-port 15183 \
+  --state .build/<本轮>/web-state.json
+node scripts/web-check/sandbox.ts status --state .build/<本轮>/web-state.json
+node scripts/web-check/run.ts --state .build/<本轮>/web-state.json --version <版本> \
+  --dmg <交付installer.dmg> --out .build/<本轮>/web
+# run 的 finally 自动 stop；仅启动沙盒而未 run 时，显式 stop。
+node scripts/web-check/sandbox.ts stop --state .build/<本轮>/web-state.json
+
+node --test scripts/lib/web-check.test.ts
+```
+
+网页清单在 `scripts/web-check/checks/t17-t19.json`，目前 9 个 real、11 个 simulated；每项先 zh-CN、整组完成后 en，最后恢复 zh-CN。真实检查自建名为 `No project` 的项目，只读本沙盒 SQLite 核对原始 title；通过最终公开 client-settings API 完成首启门控，另行访问 `/welcome`。模拟只验证显示路径；PR、账号、子任务、重启、导入和清理的真实集成仍按 T19 交接的限制处理。
+
+新增真实项只改清单中的 path、区域、动作和双语 required / forbidden / exact_text；动作支持点击、输入、选择、等待、Escape 和 PointerEvent 拖动。模拟复用已登记组件时，在清单的 fixtures 填 props / tree / state，再引用它；新组件另外在 `modules.ts` 登记源码后缀、原符号及函数特征。找不到唯一符号或函数体被重写即失败。清单提供回归预期；版本预期使用 CLI 的 `--version`，编译文件和导出名从最终 source map / AST 推出，不写死 asset 哈希名。
+
+每个模拟结果关联 `web-last-final-module-hashes.json`：对全部实际加载 JavaScript（含依赖及追加 export 前的原模块）逐个记录 SHA-256，并与只读交付 DMG 的 ASAR 资源比对，缺失或不同均失败。原模块与重定向 import 后的组件 / helper 函数体逐字节相同；不比较两次构建的整个 ASAR。证据 URL 仅含 origin / pathname；配对 fragment、秘密字段和运行时个人值写入前过滤，收尾自查。
+
+每次 Chrome 使用系统临时目录中的新 profile，启动后核对调试 pipe 且没有调试端口。server / helper / 子进程记录 PID 和启动时间，结束前核对身份；PID 已复用时拒绝终止。finally 关闭 Chrome、检查记录进程、删除 profile、结束沙盒 PID、确认端口可重新绑定，再删除沙盒和状态文件。状态文件原子替换；中断后先查看 status 和交接进度，使用记录的 state 执行 stop。网页整套参考耗时见 T20 B 段最终交接；明显更慢时记录 `uptime` 后查看逐项 seconds，不盲等。
+
+参考耗时（2026-10-11 主会话复跑，机器空闲）：`run-checks.ts` 约 32 秒；`make-installer.ts` 约 21 秒；`release-hygiene.ts` 每个 DMG 约 20–26 秒；`web-check/run.ts` 整套 40 项约 31 秒。明显更久时先看机器负载，T20 A 段第三次验收在高负载下跑了 61 分钟。
+
+卫生检查的 `--baseline` 默认读取 `build-zh.sh` 的 `BASELINE_COMMIT`，通过只读 `git show` 读取原上游仓库。随版本变化的预期值均从该基线源码推出：`extendInfo` 键名读取该 commit 的 `scripts/build-desktop-artifact.ts`，读取或解析失败即报错，报告记录 commit、源码 SHA-256、预期和缺失键。`CFBundleLocalizations` 含 `zh-Hans` 仍单独检查，不要求上游源码声明。ASAR 的每处 `/Users/` 必须匹配 `release-hygiene-allowlist.ts` 中注明来源文件的通用写法，且指定基线的源文件必须包含该写法。`matches_build_src` 只补充记录编译项是否逐字节相同，不因旧版本缺失 / 不同而失败，也不比较两次构建的整个 ASAR。第三方文件必须与 `--build-src` 的 pnpm 同名原文件逐字节一致；Electron 必须与同版本缓存 ZIP 中的原始框架上下文字节一致。
+
+任何检查失败、来源无法分类、个人信息命中或输出过滤失败均返回非 0。Git user.email 未配置时如实记录「未配置、未扫描」，另扫历史作者 / 提交者邮箱；固定检查点身份仅在基线源码和实际编译字段均证明来源后放行，报告只保留标签。未分类 `/Users/` 或个人信息命中时按 T20 任务说明停下来问，不修改名单来凑通过。挂载与临时目录在 finally 中清理；若普通 / 强制卸载都失败，返回失败并保留目录，避免删除仍挂载的卷。

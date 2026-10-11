@@ -1,7 +1,7 @@
 # 0007-new-thread-display-strings.patch
 #
 # 新建任务页面上转换插件包不到的英文，只在显示处翻译（T09，维护者在 zh.1 手动验收时指出的四处）。
-# 基线 v0.0.46-nightly.20261007.2774；须在 0004（Sidebar.tsx、vite-env.d.ts 的
+# 基线 v0.0.46-nightly.20261010.2935；须在 0004（Sidebar.tsx、vite-env.d.ts 的
 # 全局 `var __t3zh` 声明）之后应用；ChatComposer 直接使用原版，不依赖已停用的 0002。
 #
 # 四处英文与原因：
@@ -47,18 +47,17 @@
 # 上游更新后重做方法见 patches/README.md。
 #
 diff --git a/apps/web/src/components/Sidebar.tsx b/apps/web/src/components/Sidebar.tsx
-index fc81b431e19a1b51ebfade0e08e19786b499c1ec..95c25110f354e2d9f621bdfab67cbca451732c1c 100644
 --- a/apps/web/src/components/Sidebar.tsx
 +++ b/apps/web/src/components/Sidebar.tsx
-@@ -171,6 +171,7 @@ import { formatRelativeTimeLabel, parseTimestampDate } from "../timestampFormat"
- import type { SidebarThreadSummary } from "../types";
+@@ -173,6 +173,7 @@
+ import { isScratchProject } from "@t3tools/client-runtime/state/projects";
  import type { EnvironmentProject } from "@t3tools/client-runtime/state/shell";
  import { cn } from "~/lib/utils";
 +import { displayDefaultName, fillSlot, translateFixed } from "~/newThreadDisplayStrings";
  import { EnvironmentMachineIcon } from "./EnvironmentMachineIcon";
  import { ProjectEnvironmentBadge } from "./ProjectEnvironmentBadge";
  import {
-@@ -464,7 +465,7 @@ function SidebarThreadTooltip({
+@@ -466,7 +467,7 @@
    return (
      <ThreadHoverCardPopup side="right" align="start" sideOffset={4}>
        <ThreadHoverCard
@@ -67,7 +66,7 @@ index fc81b431e19a1b51ebfade0e08e19786b499c1ec..95c25110f354e2d9f621bdfab67cbca4
          footer={
            supportsMultiplePullRequests && thread.pullRequests.length > 0 ? (
              <div className="border-t border-border/60 pt-2 pl-0.5 text-xs text-muted-foreground">
-@@ -476,7 +477,9 @@ function SidebarThreadTooltip({
+@@ -478,7 +479,9 @@
          {projectDisplayName ? (
            <div className="flex min-w-0 items-center gap-2">
              {project ? <ProjectFavicon project={project} className="size-3 shrink-0" /> : null}
@@ -78,7 +77,7 @@ index fc81b431e19a1b51ebfade0e08e19786b499c1ec..95c25110f354e2d9f621bdfab67cbca4
            </div>
          ) : null}
          {environmentLabel ? (
-@@ -859,7 +862,7 @@ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
+@@ -861,7 +864,7 @@
    const accessibility = resolveSidebarRowAccessibility({
      title: preview,
      statusLabel: "Unsent draft",
@@ -87,7 +86,7 @@ index fc81b431e19a1b51ebfade0e08e19786b499c1ec..95c25110f354e2d9f621bdfab67cbca4
      isActive: props.isActive,
    });
    const handleActivate = useCallback(() => onNavigate(draftId), [draftId, onNavigate]);
-@@ -919,7 +922,7 @@ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
+@@ -921,7 +924,7 @@
                <ProjectFavicon project={props.project} className="size-4 shrink-0" />
              ) : null}
              <span className="min-w-0 flex-1 truncate text-xs font-medium text-secondary-label">
@@ -96,9 +95,9 @@ index fc81b431e19a1b51ebfade0e08e19786b499c1ec..95c25110f354e2d9f621bdfab67cbca4
              </span>
              <span className="ml-auto flex h-5 min-w-5 shrink-0 items-center justify-end">
                <Tooltip>
-@@ -1638,9 +1641,9 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+@@ -1642,9 +1645,9 @@
      ) : null;
- 
+
    const accessibility = resolveSidebarRowAccessibility({
 -    title: thread.title,
 +    title: displayDefaultName(thread.title),
@@ -107,8 +106,8 @@ index fc81b431e19a1b51ebfade0e08e19786b499c1ec..95c25110f354e2d9f621bdfab67cbca4
 +    projectDisplayName: displayDefaultName(props.projectDisplayName),
      isActive: props.isActive,
    });
- 
-@@ -1688,10 +1691,12 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+
+@@ -1692,10 +1695,12 @@
            isRegeneratingTitle && "opacity-55",
          )}
        >
@@ -120,10 +119,10 @@ index fc81b431e19a1b51ebfade0e08e19786b499c1ec..95c25110f354e2d9f621bdfab67cbca4
 +  const accessibleTitle = isRenaming ? null : (
 +    <span className="sr-only">{displayDefaultName(thread.title)}</span>
 +  );
- 
+
    // Stacks show their layer count; multiple unrelated links show their total count.
    // Either opens the thread's pull requests tab; a single PR link opens that PR and still
-@@ -1995,7 +2000,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+@@ -1999,7 +2004,7 @@
                      shouldRecede ? "font-normal" : "font-medium",
                    )}
                  >
@@ -132,7 +131,7 @@ index fc81b431e19a1b51ebfade0e08e19786b499c1ec..95c25110f354e2d9f621bdfab67cbca4
                  </span>
                ) : (
                  <span className="flex-1" />
-@@ -2041,7 +2046,9 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+@@ -2045,7 +2050,9 @@
                                  )}
                                >
                                  <AlarmClockIcon aria-hidden className="size-4 shrink-0" />
@@ -143,7 +142,7 @@ index fc81b431e19a1b51ebfade0e08e19786b499c1ec..95c25110f354e2d9f621bdfab67cbca4
                                </button>
                              }
                            />
-@@ -2068,7 +2075,9 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+@@ -2072,7 +2079,9 @@
                            {/* The label alone is the live region: a role="status"
                              wrapper around the ticking duration would make
                              screen readers announce every second. */}
@@ -154,7 +153,7 @@ index fc81b431e19a1b51ebfade0e08e19786b499c1ec..95c25110f354e2d9f621bdfab67cbca4
                            {status === "working" ? (
                              <span aria-hidden>
                                <WorkingDuration startedAt={resolveWorkingStartedAt(thread)} />
-@@ -2230,9 +2239,9 @@ const SidebarSearchResultRow = memo(function SidebarSearchResultRow(props: {
+@@ -2245,9 +2254,9 @@
  }) {
    const { thread } = props;
    const accessibility = resolveSidebarRowAccessibility({
@@ -166,7 +165,7 @@ index fc81b431e19a1b51ebfade0e08e19786b499c1ec..95c25110f354e2d9f621bdfab67cbca4
      isActive: props.isRouteActive,
    });
    const threadRef = useMemo(
-@@ -2331,7 +2340,7 @@ const SidebarSearchResultRow = memo(function SidebarSearchResultRow(props: {
+@@ -2346,7 +2355,7 @@
            ) : null}
            <span className="flex min-w-0 flex-1 flex-col">
              <span className="flex min-w-0 items-center gap-2.5">
@@ -175,7 +174,7 @@ index fc81b431e19a1b51ebfade0e08e19786b499c1ec..95c25110f354e2d9f621bdfab67cbca4
                <span className="shrink-0 text-xs text-muted-foreground/55 tabular-nums">
                  {threadTimeLabel(thread)}
                </span>
-@@ -4744,7 +4753,7 @@ export default function Sidebar() {
+@@ -4773,7 +4782,7 @@
            case "archive": {
              if (confirmThreadArchive) {
                const confirmed = await settlePromise(() =>
@@ -184,7 +183,7 @@ index fc81b431e19a1b51ebfade0e08e19786b499c1ec..95c25110f354e2d9f621bdfab67cbca4
                );
                if (confirmed._tag === "Failure" || !confirmed.value) return;
              }
-@@ -4774,8 +4783,8 @@ export default function Sidebar() {
+@@ -4803,8 +4812,8 @@
                const confirmed = await settlePromise(() =>
                  api.dialogs.confirm(
                    [
@@ -196,10 +195,9 @@ index fc81b431e19a1b51ebfade0e08e19786b499c1ec..95c25110f354e2d9f621bdfab67cbca4
                    { variant: "destructive" },
                  ),
 diff --git a/apps/web/src/components/chat/ChatComposer.tsx b/apps/web/src/components/chat/ChatComposer.tsx
-index b3be7790bce47ba1baf2239108c2b771abb12daa..e5165d2a59f161b21731ade9d480d4f3fcce6352 100644
 --- a/apps/web/src/components/chat/ChatComposer.tsx
 +++ b/apps/web/src/components/chat/ChatComposer.tsx
-@@ -84,6 +84,7 @@ import {
+@@ -87,6 +87,7 @@
    replaceTextRange,
  } from "../../composer-logic";
  import { DISCONNECTED_COMPOSER_PLACEHOLDER } from "../../composerPlaceholder";
@@ -207,7 +205,7 @@ index b3be7790bce47ba1baf2239108c2b771abb12daa..e5165d2a59f161b21731ade9d480d4f3
  import { listContinuationForEnter, listIndentForTab } from "../../composer-list-continuation";
  import {
    deriveComposerSendState,
-@@ -7411,7 +7412,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+@@ -7527,7 +7528,7 @@
                                : showProviderUnavailable
                                  ? "Enable a provider in Settings to send a message"
                                  : phase === "disconnected"
@@ -217,36 +215,35 @@ index b3be7790bce47ba1baf2239108c2b771abb12daa..e5165d2a59f161b21731ade9d480d4f3
                      }
                      disabled={
 diff --git a/apps/web/src/components/chat/ChatHeader.tsx b/apps/web/src/components/chat/ChatHeader.tsx
-index 51c7ebb15f47bfac2fe4583469d76c60b43ecf71..34fb99e26ed1e857790d9f12becfd8e34c6ff6f1 100644
 --- a/apps/web/src/components/chat/ChatHeader.tsx
 +++ b/apps/web/src/components/chat/ChatHeader.tsx
-@@ -37,6 +37,7 @@ import {
-   WorkspaceBreadcrumbText,
+@@ -38,6 +38,7 @@
  } from "../WorkspaceBreadcrumb";
+ import { observeResize } from "~/lib/observeResize";
  import { cn } from "~/lib/utils";
 +import { displayDefaultName, translateAroundSlot } from "~/newThreadDisplayStrings";
- 
+ import { useClientSettings } from "../../hooks/useSettings";
+
  interface ChatHeaderProps {
-   activeThreadEnvironmentId: EnvironmentId;
-@@ -82,6 +83,8 @@ export const ChatHeader = memo(function ChatHeader({
+@@ -88,6 +89,8 @@
    onOpenProjectSettings,
  }: ChatHeaderProps) {
    const activeProjectName = activeProject?.title;
 +  // t3code-zh（patches/0007）：「New thread in <项目名>」提示的固定骨架；项目名在渲染处插入。
 +  const [newThreadInBefore, newThreadInAfter] = translateAroundSlot("New thread in ", "");
    const activeProjectCwd = activeProject?.workspaceRoot ?? null;
-   const activeThreadRef = useMemo(
-     () => scopeThreadRef(activeThreadEnvironmentId, activeThreadId),
-@@ -274,7 +277,7 @@ export const ChatHeader = memo(function ChatHeader({
+   const interfaceFont = useClientSettings((settings) => settings.fontFamilySans);
+   const breadcrumbContainerRef = useRef<HTMLDivElement>(null);
+@@ -321,7 +324,7 @@
                    render={
                      <button
                        type="button"
 -                      aria-label={`New thread in ${activeProjectName}`}
 +                      aria-label={`New thread in ${displayDefaultName(activeProjectName)}`}
                        onClick={onNewThreadInProject}
-                       className="inline-flex min-w-0 max-w-full cursor-pointer items-center gap-1.5 rounded-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
+                       className="inline-flex min-w-0 max-w-full cursor-pointer items-center gap-1.5 rounded-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
                      />
-@@ -282,10 +285,14 @@ export const ChatHeader = memo(function ChatHeader({
+@@ -329,10 +332,14 @@
                  >
                    <ProjectFavicon project={activeProject} className="size-3.5" />
                    <WorkspaceBreadcrumbText className="max-w-40">
@@ -263,7 +260,7 @@ index 51c7ebb15f47bfac2fe4583469d76c60b43ecf71..34fb99e26ed1e857790d9f12becfd8e3
                </Tooltip>
              </WorkspaceBreadcrumbItem>
              <WorkspaceBreadcrumbSeparator>
-@@ -323,7 +330,7 @@ export const ChatHeader = memo(function ChatHeader({
+@@ -404,7 +411,7 @@
                    <button
                      ref={titleButtonRef}
                      type="button"
@@ -272,7 +269,7 @@ index 51c7ebb15f47bfac2fe4583469d76c60b43ecf71..34fb99e26ed1e857790d9f12becfd8e3
                      aria-haspopup="menu"
                      onClick={openMenuFromTitle}
                      onDoubleClick={canOperateThread ? handleTitleDoubleClick : undefined}
-@@ -333,7 +340,9 @@ export const ChatHeader = memo(function ChatHeader({
+@@ -414,7 +421,9 @@
                  }
                >
                  <h2 className="min-w-0">
@@ -283,7 +280,7 @@ index 51c7ebb15f47bfac2fe4583469d76c60b43ecf71..34fb99e26ed1e857790d9f12becfd8e3
                  </h2>
                  <ChevronDownIcon
                    aria-hidden
-@@ -341,16 +350,23 @@ export const ChatHeader = memo(function ChatHeader({
+@@ -422,16 +431,23 @@
                    className="size-3.5 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover/thread-title:opacity-100 group-focus-visible/thread-title:opacity-100"
                  />
                </TooltipTrigger>
@@ -312,10 +309,9 @@ index 51c7ebb15f47bfac2fe4583469d76c60b43ecf71..34fb99e26ed1e857790d9f12becfd8e3
            )}
          </WorkspaceBreadcrumbItem>
 diff --git a/apps/web/src/components/chat/DraftHeroHeadline.tsx b/apps/web/src/components/chat/DraftHeroHeadline.tsx
-index ac995a47a67032aea115d2397790381ebfbb9486..fa3ec336f2536f1f74b8bf6e3658148b0c2ebbf9 100644
 --- a/apps/web/src/components/chat/DraftHeroHeadline.tsx
 +++ b/apps/web/src/components/chat/DraftHeroHeadline.tsx
-@@ -40,6 +40,12 @@ import {
+@@ -41,6 +41,12 @@
  import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
  import { InlineButton } from "../ui/button";
  import { resolveProjectSettings } from "@t3tools/shared/projectSettings";
@@ -325,10 +321,21 @@ index ac995a47a67032aea115d2397790381ebfbb9486..fa3ec336f2536f1f74b8bf6e3658148b
 +  translateAroundSlot,
 +  translateFixed,
 +} from "~/newThreadDisplayStrings";
- 
- // Menu value for "No project"; real entries are keyed by logical project key.
- const NO_PROJECT_VALUE = "no-project";
-@@ -242,11 +248,13 @@ export function DraftHeroHeadline({
+
+ // Picker value for the "Add project" row; real entries are keyed by logical
+ // project key.
+@@ -183,8 +189,8 @@
+   // a project, so it only trails the unfiltered list.
+   const pickerItems = useMemo<readonly PickerItem[]>(
+     () => [
+-      ...menuEntries.map(({ group }) => ({ value: group.projectKey, label: group.displayName })),
+-      { value: ADD_PROJECT_VALUE, label: "Add project" },
++      ...menuEntries.map(({ group }) => ({ value: group.projectKey, label: displayDefaultName(group.displayName) })),
++      { value: ADD_PROJECT_VALUE, label: translateFixed("Add project") },
+     ],
+     [menuEntries],
+   );
+@@ -309,11 +315,13 @@
            }
          >
            <span className="min-w-0 truncate">
@@ -343,20 +350,8 @@ index ac995a47a67032aea115d2397790381ebfbb9486..fa3ec336f2536f1f74b8bf6e3658148b
 +          <TooltipPopup side="top">{displayDefaultName(activeProjectDisplayName)}</TooltipPopup>
          ) : null}
        </Tooltip>
-       <MenuPopup align="center" className="max-h-80 overflow-y-auto">
-@@ -285,9 +293,9 @@ export function DraftHeroHeadline({
-                   <ProjectFavicon project={group} className="size-4 shrink-0" />
-                   <Tooltip>
-                     <TooltipTrigger render={<span className="block min-w-0 truncate" />}>
--                      {group.displayName}
-+                      {displayDefaultName(group.displayName)}
-                     </TooltipTrigger>
--                    <TooltipPopup side="top">{group.displayName}</TooltipPopup>
-+                    <TooltipPopup side="top">{displayDefaultName(group.displayName)}</TooltipPopup>
-                   </Tooltip>
-                   {showProjectEnvironments ? (
-                     <ProjectEnvironmentBadge
-@@ -322,13 +330,24 @@ export function DraftHeroHeadline({
+       <ComboboxPopup align="center" className="w-72 overflow-hidden">
+@@ -367,13 +375,24 @@
    // a complete sentence too. The project picker is a control rendered inline
    // in the h1; without an explicit label its widget state bleeds into the
    // announced phrase.
@@ -382,10 +377,10 @@ index ac995a47a67032aea115d2397790381ebfbb9486..fa3ec336f2536f1f74b8bf6e3658148b
 +        : translateFixed("Add a project to start");
 +  const [buildInBefore, buildInAfter] = translateAroundSlot("What should we build in ", "?");
 +  const [toStartBefore, toStartAfter] = translateAroundSlot("", " to start");
- 
+
    // One click out of the project, phrased as the alternative to the question
    // above it. Focus moves to the project picker once this line has gone.
-@@ -366,9 +385,17 @@ export function DraftHeroHeadline({
+@@ -411,9 +430,17 @@
          {isScratchDraft ? (
            <>What should we work on?</>
          ) : hasResolvedProject ? (
@@ -406,10 +401,9 @@ index ac995a47a67032aea115d2397790381ebfbb9486..fa3ec336f2536f1f74b8bf6e3658148b
            <>Add a project to start</>
          )}
 diff --git a/apps/web/src/components/settings/SettingsFontPreviews.tsx b/apps/web/src/components/settings/SettingsFontPreviews.tsx
-index 4715583e4005c3453bdc3164efb5001a12d59e21..357cb44f74fa41cb4ff986d91fd871e33992cce4 100644
 --- a/apps/web/src/components/settings/SettingsFontPreviews.tsx
 +++ b/apps/web/src/components/settings/SettingsFontPreviews.tsx
-@@ -5,6 +5,7 @@ import { EMPTY_COMPOSER_CONTEXT_RECORDS } from "../composerContextPresentation";
+@@ -5,6 +5,7 @@
  import { terminalThemeFromApp } from "../ThreadTerminalDrawer";
  import { useTheme } from "../../hooks/useTheme";
  import { DISCONNECTED_COMPOSER_PLACEHOLDER } from "../../composerPlaceholder";
@@ -417,7 +411,7 @@ index 4715583e4005c3453bdc3164efb5001a12d59e21..357cb44f74fa41cb4ff986d91fd871e3
  import { resolveDiffThemeName, type DiffThemeName } from "../../lib/diffRendering";
  import { PREFERRED_HIGHLIGHTER } from "../../lib/syntaxHighlighting";
  import { GhosttyTerminalSurface } from "~/terminal/ghostty/surface";
-@@ -46,7 +47,7 @@ export function PromptFontPreview() {
+@@ -46,7 +47,7 @@
          contextRecords={EMPTY_COMPOSER_CONTEXT_RECORDS}
          skills={EMPTY_SKILLS}
          disabled={false}
@@ -427,18 +421,17 @@ index 4715583e4005c3453bdc3164efb5001a12d59e21..357cb44f74fa41cb4ff986d91fd871e3
          onChange={onChange}
          onPaste={noop}
 diff --git a/apps/web/src/hooks/useThreadActionMenu.ts b/apps/web/src/hooks/useThreadActionMenu.ts
-index 2fda09240b6b27e2d426d98d37a5e8758715ecd4..b7e7be8f351844285593bc5a8eeedb1aa494799b 100644
 --- a/apps/web/src/hooks/useThreadActionMenu.ts
 +++ b/apps/web/src/hooks/useThreadActionMenu.ts
-@@ -47,6 +47,7 @@ import { useCopyToClipboard } from "./useCopyToClipboard";
+@@ -47,6 +47,7 @@
  import { useNewThreadHandler } from "./useHandleNewThread";
  import { useClientSettings } from "./useSettings";
  import { useThreadActions } from "./useThreadActions";
 +import { displayDefaultName, fillSlot, translateFixed } from "~/newThreadDisplayStrings";
- 
+
  function failureToast(title: string, error: unknown) {
    toastManager.add(
-@@ -291,7 +292,7 @@ export function useThreadActionMenu(input: {
+@@ -291,7 +292,7 @@
            case "archive": {
              if (confirmThreadArchive) {
                const confirmed = await settlePromise(() =>
@@ -447,7 +440,7 @@ index 2fda09240b6b27e2d426d98d37a5e8758715ecd4..b7e7be8f351844285593bc5a8eeedb1a
                );
                if (confirmed._tag === "Failure" || !confirmed.value) return;
              }
-@@ -314,8 +315,8 @@ export function useThreadActionMenu(input: {
+@@ -314,8 +315,8 @@
                const confirmed = await settlePromise(() =>
                  api.dialogs.confirm(
                    [
@@ -459,18 +452,17 @@ index 2fda09240b6b27e2d426d98d37a5e8758715ecd4..b7e7be8f351844285593bc5a8eeedb1a
                    { variant: "destructive" },
                  ),
 diff --git a/apps/web/src/hooks/useThreadActions.ts b/apps/web/src/hooks/useThreadActions.ts
-index cab4dde3dd204ae6ab7c11474c62d5a59373644e..c73660cefa8cb1031e886083efab5499b785acc2 100644
 --- a/apps/web/src/hooks/useThreadActions.ts
 +++ b/apps/web/src/hooks/useThreadActions.ts
-@@ -58,6 +58,7 @@ import { useClientSettings } from "./useSettings";
+@@ -59,6 +59,7 @@
  import * as ThreadUndo from "./threadUndo";
  import { showThreadUndoNotice } from "./showThreadUndoNotice";
  import { useAtomCommand } from "../state/use-atom-command";
 +import { displayDefaultName, fillSlot, translateFixed } from "~/newThreadDisplayStrings";
  import { useOrchestrationCommand } from "../state/use-orchestration-command";
  import { useAtomQueryRunner } from "../state/use-atom-query-runner";
- 
-@@ -985,8 +986,8 @@ export function useThreadActions() {
+
+@@ -988,8 +989,8 @@
          const confirmationResult = await settlePromise(() =>
            localApi.dialogs.confirm(
              [
@@ -483,7 +475,6 @@ index cab4dde3dd204ae6ab7c11474c62d5a59373644e..c73660cefa8cb1031e886083efab5499
            ),
 diff --git a/apps/web/src/newThreadDisplayStrings.ts b/apps/web/src/newThreadDisplayStrings.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..71aca95aeb32899b992c83704f74a5a37bf27651
 --- /dev/null
 +++ b/apps/web/src/newThreadDisplayStrings.ts
 @@ -0,0 +1,58 @@

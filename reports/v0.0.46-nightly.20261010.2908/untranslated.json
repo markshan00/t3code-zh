@@ -1,0 +1,854 @@
+[
+  {
+    "text": "HTML",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/composer-code-languages.ts",
+        "line": 24,
+        "category": "C",
+        "context": "label"
+      },
+      {
+        "file": "packages/shared/src/htmlRender.ts",
+        "line": 81,
+        "category": "C",
+        "context": "readHtmlRenderReference"
+      }
+    ]
+  },
+  {
+    "text": "T3 Code {0}",
+    "kind": "template",
+    "occurrences": [
+      {
+        "file": "packages/provider-opencode/src/server/textGeneration.ts",
+        "line": 190,
+        "category": "C",
+        "context": "runAgainstServer"
+      },
+      {
+        "file": "packages/provider-opencode/src/server/v2/textGeneration.ts",
+        "line": 130,
+        "category": "C",
+        "context": "runOnServer"
+      }
+    ]
+  },
+  {
+    "text": "The MCP server returned an error.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-acp/src/server/mcpOverAcpBridge.ts",
+        "line": 51,
+        "category": "C",
+        "context": "errorMessage"
+      },
+      {
+        "file": "packages/provider-acp/src/server/mcpOverAcpBridge.ts",
+        "line": 56,
+        "category": "C",
+        "context": "errorMessage"
+      }
+    ]
+  },
+  {
+    "text": "User input",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-opencode/src/server/adapter.ts",
+        "line": 1795,
+        "category": "C",
+        "context": "runtimeRequestTurnItem"
+      },
+      {
+        "file": "packages/provider-opencode/src/server/v2/adapter.ts",
+        "line": 2027,
+        "category": "C",
+        "context": "showRequest"
+      }
+    ]
+  },
+  {
+    "text": "Accept the pending browser dialog when true, or dismiss it when false.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/previewAutomation.ts",
+        "line": 159,
+        "category": "C",
+        "context": "PreviewAutomationDialogInput"
+      }
+    ]
+  },
+  {
+    "text": "Closed {0} pull request{1}",
+    "kind": "template",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/pullRequest/usePullRequestActions.ts",
+        "line": 229,
+        "category": "C",
+        "context": "close"
+      }
+    ]
+  },
+  {
+    "text": "Compacting context...",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-pi/src/server/adapter.ts",
+        "line": 286,
+        "category": "C",
+        "context": "compactionTitle"
+      }
+    ]
+  },
+  {
+    "text": "Could not reach the OpenCode server.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-opencode/src/server/v2/OpenCode2Server.ts",
+        "line": 86,
+        "category": "C",
+        "context": "describeInfoFailure"
+      }
+    ]
+  },
+  {
+    "text": "Cursor API key ({0})",
+    "kind": "template",
+    "occurrences": [
+      {
+        "file": "packages/provider-cursor/src/server/status.ts",
+        "line": 197,
+        "category": "C",
+        "context": "cursorSdkAuth"
+      }
+    ]
+  },
+  {
+    "text": "Delegated task{0} {1}",
+    "kind": "template",
+    "occurrences": [
+      {
+        "file": "packages/provider-core/src/server/notification.ts",
+        "line": 196,
+        "category": "C",
+        "context": "delegatedCompletionNotification"
+      }
+    ]
+  },
+  {
+    "text": "Empty value",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-pi/src/server/adapter.ts",
+        "line": 3222,
+        "category": "C",
+        "context": "piQuestion"
+      }
+    ]
+  },
+  {
+    "text": "GH_TOKEN",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/settings/GitHubTokenSettings.tsx",
+        "line": 72,
+        "category": "A",
+        "context": "GitHubTokenSettings"
+      }
+    ]
+  },
+  {
+    "text": "Go · Monthly",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-opencode/src/server/usageLimits.ts",
+        "line": 100,
+        "category": "C",
+        "context": "readOpenCodeGoUsageLimits"
+      }
+    ]
+  },
+  {
+    "text": "Go · Session",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-opencode/src/server/usageLimits.ts",
+        "line": 84,
+        "category": "C",
+        "context": "readOpenCodeGoUsageLimits"
+      }
+    ]
+  },
+  {
+    "text": "Go · Weekly",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-opencode/src/server/usageLimits.ts",
+        "line": 92,
+        "category": "C",
+        "context": "readOpenCodeGoUsageLimits"
+      }
+    ]
+  },
+  {
+    "text": "Grok account",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-grok/src/server/status.ts",
+        "line": 496,
+        "category": "C",
+        "context": "checkGrokProviderStatus"
+      }
+    ]
+  },
+  {
+    "text": "Hint inside the input, e.g. 'Paste your GitHub token'.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/orchestratorMcp.ts",
+        "line": 603,
+        "category": "C",
+        "context": "OrchestratorMcpRequestSecretInput"
+      }
+    ]
+  },
+  {
+    "text": "Monitor: {0}",
+    "kind": "template",
+    "occurrences": [
+      {
+        "file": "packages/provider-grok/src/server/xaiAcpExtension.ts",
+        "line": 605,
+        "category": "C",
+        "context": "resolveXAiAcpToolTitle"
+      }
+    ]
+  },
+  {
+    "text": "Muse retry",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-muse/src/server/adapter.ts",
+        "line": 1325,
+        "category": "C",
+        "context": "handleNotification"
+      }
+    ]
+  },
+  {
+    "text": "OpenCode could not generate the text.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-opencode/src/server/v2/textGeneration.ts",
+        "line": 106,
+        "category": "C",
+        "context": "runOnServer"
+      }
+    ]
+  },
+  {
+    "text": "OpenCode session failed without an error payload.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-opencode/src/server/adapter.ts",
+        "line": 875,
+        "category": "C",
+        "context": "openCodeErrorMessage"
+      }
+    ]
+  },
+  {
+    "text": "OpenCode stopped the generation.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-opencode/src/server/v2/textGeneration.ts",
+        "line": 112,
+        "category": "C",
+        "context": "runOnServer"
+      }
+    ]
+  },
+  {
+    "text": "Optional HMAC-SHA256 signature check over the raw request body.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/scheduledTask.ts",
+        "line": 74,
+        "category": "C",
+        "context": "ScheduledTaskWebhookSignature"
+      }
+    ]
+  },
+  {
+    "text": "Request header carrying the signature, such as x-hub-signature-256.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/scheduledTask.ts",
+        "line": 61,
+        "category": "C",
+        "context": "description"
+      }
+    ]
+  },
+  {
+    "text": "Session mode advertised by the ACP agent.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-acp/src/server/sessionConfig.ts",
+        "line": 142,
+        "category": "C",
+        "context": "acpProviderOptionDescriptors"
+      }
+    ]
+  },
+  {
+    "text": "Settled {0}",
+    "kind": "template",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/ChatView.tsx",
+        "line": 7637,
+        "category": "B",
+        "context": "threadStatusLine"
+      }
+    ]
+  },
+  {
+    "text": "Sign-in failed. Start again.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-core/src/server/providerAuthFlow.ts",
+        "line": 46,
+        "category": "C",
+        "context": "failureMessage"
+      }
+    ]
+  },
+  {
+    "text": "Skip requests the relay held longer than this many minutes while the environment was offline. Null runs every request.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/scheduledTask.ts",
+        "line": 84,
+        "category": "C",
+        "context": "WebhookMaxDeliveryAgeMinutes"
+      }
+    ]
+  },
+  {
+    "text": "Snoozed, {0}",
+    "kind": "template",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/ChatView.tsx",
+        "line": 7625,
+        "category": "B",
+        "context": "threadStatusLine"
+      }
+    ]
+  },
+  {
+    "text": "Structured trigger. Pass an object with type 'interval', 'fixed_time' or 'webhook'.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/scheduledTask.ts",
+        "line": 135,
+        "category": "C",
+        "context": "ScheduledTaskSchedule"
+      }
+    ]
+  },
+  {
+    "text": "Submit empty value",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-pi/src/server/adapter.ts",
+        "line": 3227,
+        "category": "C",
+        "context": "piQuestion"
+      }
+    ]
+  },
+  {
+    "text": "Subscription",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-grok/src/server/usageLimits.ts",
+        "line": 64,
+        "category": "C",
+        "context": "grokUsageResponseToLimits"
+      }
+    ]
+  },
+  {
+    "text": "Tailscale",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/client-runtime/src/connection/routes.ts",
+        "line": 192,
+        "category": "C",
+        "context": "connectionRouteLabel"
+      }
+    ]
+  },
+  {
+    "text": "Task output",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-grok/src/server/xaiAcpExtension.ts",
+        "line": 613,
+        "category": "C",
+        "context": "resolveXAiAcpToolTitle"
+      }
+    ]
+  },
+  {
+    "text": "The OpenCode event stream was lost.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-opencode/src/server/v2/textGeneration.ts",
+        "line": 123,
+        "category": "C",
+        "context": "runOnServer"
+      }
+    ]
+  },
+  {
+    "text": "The OpenCode server returned HTTP {0}.",
+    "kind": "template",
+    "occurrences": [
+      {
+        "file": "packages/provider-opencode/src/server/v2/OpenCode2Server.ts",
+        "line": 91,
+        "category": "C",
+        "context": "describeInfoFailure"
+      }
+    ]
+  },
+  {
+    "text": "Todo list",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-opencode/src/server/adapter.ts",
+        "line": 1749,
+        "category": "C",
+        "context": "emitTodo"
+      }
+    ]
+  },
+  {
+    "text": "Unsupported ACP update: {0}",
+    "kind": "template",
+    "occurrences": [
+      {
+        "file": "packages/provider-acp/src/server/adapter.ts",
+        "line": 4728,
+        "category": "C",
+        "context": "handleSessionUpdate"
+      }
+    ]
+  },
+  {
+    "text": "Webhook URL",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/settings/ScheduledTasksSettings.tsx",
+        "line": 720,
+        "category": "B",
+        "context": "WebhookEndpointField"
+      }
+    ]
+  },
+  {
+    "text": "What you need, shown as the card's title, e.g. 'GitHub webhook secret'.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/orchestratorMcp.ts",
+        "line": 596,
+        "category": "C",
+        "context": "OrchestratorMcpRequestSecretInput"
+      }
+    ]
+  },
+  {
+    "text": "Whether requests must carry a valid signature.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/orchestratorMcp.ts",
+        "line": 558,
+        "category": "C",
+        "context": "OrchestratorMcpScheduledTask"
+      }
+    ]
+  },
+  {
+    "text": "Writable trigger. Pass an object with type 'interval', 'fixed_time' or 'webhook'.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/scheduledTask.ts",
+        "line": 156,
+        "category": "C",
+        "context": "ScheduledTaskUpsertSchedule"
+      }
+    ]
+  },
+  {
+    "text": "Write-only headers JSON, e.g. {\"Authorization\":\"Bearer …\"}",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/settings/AcpSessionManagementSection.tsx",
+        "line": 574,
+        "category": "B",
+        "context": "AcpSessionManagementSection"
+      }
+    ]
+  },
+  {
+    "text": "[ACP audio ({0})]",
+    "kind": "template",
+    "occurrences": [
+      {
+        "file": "packages/provider-acp/src/server/runtimeModel.ts",
+        "line": 335,
+        "category": "C",
+        "context": "acpContentBlockDisplayText"
+      }
+    ]
+  },
+  {
+    "text": "[ACP binary resource{0}{1}]",
+    "kind": "template",
+    "occurrences": [
+      {
+        "file": "packages/provider-acp/src/server/runtimeModel.ts",
+        "line": 326,
+        "category": "C",
+        "context": "acpContentBlockDisplayText"
+      }
+    ]
+  },
+  {
+    "text": "[ACP image ({0}){1}]",
+    "kind": "template",
+    "occurrences": [
+      {
+        "file": "packages/provider-acp/src/server/runtimeModel.ts",
+        "line": 331,
+        "category": "C",
+        "context": "acpContentBlockDisplayText"
+      }
+    ]
+  },
+  {
+    "text": "[Historical {0}; {1}; thread={2}; run={3}; item={4}; provider-thread={5}; status={6}{7}]\n{8}",
+    "kind": "template",
+    "occurrences": [
+      {
+        "file": "packages/provider-core/src/server/handoffBudget.ts",
+        "line": 184,
+        "category": "C",
+        "context": "renderHistoricalMessage"
+      }
+    ]
+  },
+  {
+    "text": "[Unsupported ACP content: {0}]",
+    "kind": "template",
+    "occurrences": [
+      {
+        "file": "packages/provider-acp/src/server/runtimeModel.ts",
+        "line": 338,
+        "category": "C",
+        "context": "acpContentBlockDisplayText"
+      }
+    ]
+  },
+  {
+    "text": "base64",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/settings/ScheduledTasksSettings.tsx",
+        "line": 1257,
+        "category": "A",
+        "context": "ScheduledTaskEditorDialog"
+      }
+    ]
+  },
+  {
+    "text": "gh auth login",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/settings/GitHubAccountSettings.tsx",
+        "line": 79,
+        "category": "A",
+        "context": "GitHubAccountSettings"
+      }
+    ]
+  },
+  {
+    "text": "hex",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/settings/ScheduledTasksSettings.tsx",
+        "line": 1256,
+        "category": "A",
+        "context": "ScheduledTaskEditorDialog"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.529681 0.01551 326.299)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 427,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.530733 0.01795 323.79)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 562,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.532177 0.019333 325.784)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 832,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.532339 0.017796 331.748)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 697,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.549927 0.090215 323.149)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 292,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.657087 0.028226 307.985)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 356,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.706249 0.014508 306.607)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 896,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.721641 0.010192 281.271)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 626,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.723533 0.008741 4.515)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 761,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "oklch(0.739243 0.002222 223.225)",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/shared/src/themePalettes.ts",
+        "line": 491,
+        "category": "C",
+        "context": "placeholder"
+      }
+    ]
+  },
+  {
+    "text": "secretRef holds the value.",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/contracts/src/orchestratorMcp.ts",
+        "line": 617,
+        "category": "C",
+        "context": "OrchestratorMcpRequestSecretResult"
+      }
+    ]
+  },
+  {
+    "text": "t3 auth pairing create",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/auth/ConnectAgentSurface.tsx",
+        "line": 255,
+        "category": "A",
+        "context": "ConnectAgentSurface"
+      }
+    ]
+  },
+  {
+    "text": "text-blue-600 dark:text-blue-400",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/ui/collapsible-section-header.tsx",
+        "line": 7,
+        "category": "C",
+        "context": "label"
+      }
+    ]
+  },
+  {
+    "text": "xAI API key",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "packages/provider-grok/src/server/status.ts",
+        "line": 494,
+        "category": "C",
+        "context": "checkGrokProviderStatus"
+      }
+    ]
+  },
+  {
+    "text": "{\n  \"version\": 1,\n  \"name\": \"Aurora\",\n  \"appearance\": \"light\",\n  \"colors\": { ... }\n}",
+    "kind": "message",
+    "occurrences": [
+      {
+        "file": "apps/web/src/components/settings/ThemeImportDialog.tsx",
+        "line": 134,
+        "category": "B",
+        "context": "ThemeJsonEditor"
+      }
+    ]
+  },
+  {
+    "text": "{0} CLI (`{1}`)",
+    "kind": "template",
+    "occurrences": [
+      {
+        "file": "packages/provider-core/src/server/textGenerationUtils.ts",
+        "line": 86,
+        "category": "C",
+        "context": "cliLabel"
+      }
+    ]
+  },
+  {
+    "text": "{0} delegated tasks {1}{2}",
+    "kind": "template",
+    "occurrences": [
+      {
+        "file": "packages/provider-core/src/server/notification.ts",
+        "line": 207,
+        "category": "C",
+        "context": "delegatedCompletionNotification"
+      }
+    ]
+  },
+  {
+    "text": "{0} subagent {1}",
+    "kind": "template",
+    "occurrences": [
+      {
+        "file": "packages/provider-core/src/server/subagentProjection.ts",
+        "line": 36,
+        "category": "C",
+        "context": "subagentThreadTitle"
+      }
+    ]
+  }
+]

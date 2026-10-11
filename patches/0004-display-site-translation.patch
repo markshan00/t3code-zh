@@ -1,7 +1,7 @@
 # 0004-display-site-translation.patch
 #
 # 显示位置补译：给那些同时被代码当作「值」比较/查表、因而转换插件不能包裹的界面文字
-# 补一层只在渲染处生效的翻译。基线 v0.0.46-nightly.20261007.2774，须在 0001 之后应用
+# 补一层只在渲染处生效的翻译。基线 v0.0.46-nightly.20261010.2935，须在 0001 之后应用
 # （依赖 0001 给 Window 补的 __t3zh 声明，本补丁把它扩上 t() 并补一个全局 var 声明）。
 #
 # 背景（handoff/T05.md「已知问题」第 2 条、dict/T05-changes.md §5.2）：有 16 条文字既被渲染、
@@ -68,13 +68,13 @@
 #
 # 上游更新后重做方法见 patches/README.md。
 diff --git a/apps/desktop/src/electron/ElectronMenu.ts b/apps/desktop/src/electron/ElectronMenu.ts
-index 401e0c27ccd88e91c539448b32a2bfb7258a2169..57bfa44e5e356f9ed434934cd4c6a720842ce0c7 100644
 --- a/apps/desktop/src/electron/ElectronMenu.ts
 +++ b/apps/desktop/src/electron/ElectronMenu.ts
-@@ -8,6 +8,52 @@ import * as Schema from "effect/Schema";
- 
+@@ -8,6 +8,52 @@
+
  import * as Electron from "electron";
- 
+
++
 +import { __t3zh_t } from "../t3zh/t3zh-desktop.ts";
 +
 +/**
@@ -120,13 +120,12 @@ index 401e0c27ccd88e91c539448b32a2bfb7258a2169..57bfa44e5e356f9ed434934cd4c6a720
 +  if (!TRANSLATABLE_MENU_LABEL_SET.has(label)) return label;
 +  return __t3zh_t(label);
 +}
-+
  export interface ElectronMenuPosition {
    readonly x: number;
    readonly y: number;
-@@ -167,7 +213,7 @@ export const make = Effect.gen(function* () {
+@@ -167,7 +213,7 @@
        }
- 
+
        const itemOption: Electron.MenuItemConstructorOptions = {
 -        label: item.label,
 +        label: displayMenuLabel(item.label),
@@ -134,11 +133,10 @@ index 401e0c27ccd88e91c539448b32a2bfb7258a2169..57bfa44e5e356f9ed434934cd4c6a720
          ...(typeof item.checked === "boolean" ? { type: "checkbox", checked: item.checked } : {}),
        };
 diff --git a/apps/web/src/components/BranchToolbarBranchSelector.tsx b/apps/web/src/components/BranchToolbarBranchSelector.tsx
-index 1db0e3c993408a275fdd190ba21ce53df5823f34..77d55f57ac04b807d914c79960f3ba61a08b9fc4 100644
 --- a/apps/web/src/components/BranchToolbarBranchSelector.tsx
 +++ b/apps/web/src/components/BranchToolbarBranchSelector.tsx
-@@ -48,7 +48,7 @@ import {
- } from "./chat/threadDetailsPanelStyles";
+@@ -45,7 +45,7 @@
+ import { THREAD_DETAILS_PANEL_ICON_CLASS } from "./chat/threadDetailsPanelStyles";
  import { ThreadDetailsPrRows } from "./chat/ThreadDetailsPrRows";
  import { parsePullRequestReference } from "../pullRequestReference";
 -import { getSourceControlPresentation } from "../sourceControlPresentation";
@@ -146,7 +144,7 @@ index 1db0e3c993408a275fdd190ba21ce53df5823f34..77d55f57ac04b807d914c79960f3ba61
  import { useComposerMenuProps } from "./chat/composerEventScope";
  import {
    deriveLocalBranchNameFromRemoteRef,
-@@ -651,7 +651,10 @@ export function BranchToolbarBranchSelector({
+@@ -648,7 +648,10 @@
              <SourceControlIcon className="size-3.5 shrink-0 text-muted-foreground" />
              <span className="flex min-w-0 flex-col items-start">
                <span className="truncate font-medium">
@@ -159,22 +157,21 @@ index 1db0e3c993408a275fdd190ba21ce53df5823f34..77d55f57ac04b807d914c79960f3ba61
                <span className="truncate text-muted-foreground text-xs">{prReference}</span>
              </span>
 diff --git a/apps/web/src/components/GitActionsControl.tsx b/apps/web/src/components/GitActionsControl.tsx
-index 23cb11ea9c5ca68fd262bd289068a415bd2d2a40..0f4ea61dee11e3e654c71e14533aef47e2b00eec 100644
 --- a/apps/web/src/components/GitActionsControl.tsx
 +++ b/apps/web/src/components/GitActionsControl.tsx
-@@ -129,7 +129,7 @@ import {
+@@ -131,7 +131,7 @@
    THREAD_DETAILS_PANEL_SPLIT_GROUP_CLASS,
    THREAD_DETAILS_PANEL_SPLIT_SEPARATOR_CLASS,
  } from "./chat/threadDetailsPanelStyles";
 -import { getSourceControlPresentation } from "~/sourceControlPresentation";
 +import { getSourceControlPresentation, localizeTerminologyText } from "~/sourceControlPresentation";
  import { useOpenLink } from "~/browser/useOpenLink";
- 
+
  interface GitActionsControlProps {
-@@ -357,6 +357,59 @@ const COMMIT_DIALOG_TITLE = "Commit changes";
+@@ -363,6 +363,59 @@
+ const COMMIT_DIALOG_TITLE = "Commit changes";
  const COMMIT_DIALOG_DESCRIPTION =
    "Review and confirm your commit. Leave the message blank to auto-generate one.";
- 
 +/**
 + * Added by patches/0004-display-site-translation.patch. The progress line can
 + * carry any label the server sends (`phase_started.label` is
@@ -228,19 +225,19 @@ index 23cb11ea9c5ca68fd262bd289068a415bd2d2a40..0f4ea61dee11e3e654c71e14533aef47
 +    : value;
 +
 +
+
  function GitActionItemIcon({
    icon,
-   SourceControlIcon,
-@@ -451,7 +504,7 @@ function GitActionProgressButtonContent({
-       role="status"
-     >
-       <Spinner aria-hidden="true" className="row-start-1 -mx-0.5 shrink-0" />
--      <p className="row-start-1 min-w-0 truncate text-left">{progress.status}</p>
-+      <p className="row-start-1 min-w-0 truncate text-left">{progressLabel(progress.status)}</p>
+@@ -459,7 +512,7 @@
+           isPanel && THREAD_DETAILS_PANEL_LABEL_CLASS,
+         )}
+       >
+-        {progress.status}
++        {progressLabel(progress.status)}
+       </p>
        {!isPanel ? (
          <GitActionElapsedTime
-           startedAtMs={progress.startedAtMs}
-@@ -1276,7 +1329,7 @@ export default function GitActionsControl({
+@@ -1288,7 +1341,7 @@
    const quickActionDisabledReason = !canWriteSourceControl
      ? "This connection cannot change source control."
      : quickAction.disabled
@@ -249,7 +246,7 @@ index 23cb11ea9c5ca68fd262bd289068a415bd2d2a40..0f4ea61dee11e3e654c71e14533aef47
        : null;
    const gitActionProgress = resolveGitActionProgressPresentation(vcsActionState);
    const pendingDefaultBranchActionCopy = pendingDefaultBranchAction
-@@ -1581,7 +1634,7 @@ export default function GitActionsControl({
+@@ -1593,7 +1646,7 @@
      if (quickAction.kind === "show_hint") {
        toastManager.add({
          type: "info",
@@ -258,7 +255,7 @@ index 23cb11ea9c5ca68fd262bd289068a415bd2d2a40..0f4ea61dee11e3e654c71e14533aef47
          description: quickAction.hint,
          data: threadToastData,
        });
-@@ -1685,9 +1738,9 @@ export default function GitActionsControl({
+@@ -1697,9 +1750,9 @@
              <div key={`${item.id}-${item.label}`}>
                <MenuItem density={presentation === "menu" ? "touch" : "default"} disabled>
                  <GitActionItemIcon icon={item.icon} SourceControlIcon={SourceControlIcon} />
@@ -270,7 +267,7 @@ index 23cb11ea9c5ca68fd262bd289068a415bd2d2a40..0f4ea61dee11e3e654c71e14533aef47
              </div>
            );
          }
-@@ -1705,11 +1758,11 @@ export default function GitActionsControl({
+@@ -1717,11 +1770,11 @@
                    disabled
                  >
                    <GitActionItemIcon icon={item.icon} SourceControlIcon={SourceControlIcon} />
@@ -284,7 +281,7 @@ index 23cb11ea9c5ca68fd262bd289068a415bd2d2a40..0f4ea61dee11e3e654c71e14533aef47
                </PopoverPopup>
              </Popover>
            );
-@@ -1725,7 +1778,7 @@ export default function GitActionsControl({
+@@ -1737,7 +1790,7 @@
              }}
            >
              <GitActionItemIcon icon={item.icon} SourceControlIcon={SourceControlIcon} />
@@ -293,7 +290,7 @@ index 23cb11ea9c5ca68fd262bd289068a415bd2d2a40..0f4ea61dee11e3e654c71e14533aef47
            </MenuItem>
          );
        })}
-@@ -1787,7 +1840,7 @@ export default function GitActionsControl({
+@@ -1799,7 +1852,7 @@
                  quickAction={quickAction}
                  SourceControlIcon={SourceControlIcon}
                />
@@ -302,7 +299,7 @@ index 23cb11ea9c5ca68fd262bd289068a415bd2d2a40..0f4ea61dee11e3e654c71e14533aef47
              </MenuItem>
              {quickActionDisabledReason && (
                <p className="max-w-64 px-2 py-1.5 text-xs text-warning">
-@@ -1836,8 +1889,8 @@ export default function GitActionsControl({
+@@ -1848,8 +1901,8 @@
              <ThreadDetailsControl
                aria-label={
                  gitActionProgress.output
@@ -313,8 +310,8 @@ index 23cb11ea9c5ca68fd262bd289068a415bd2d2a40..0f4ea61dee11e3e654c71e14533aef47
                }
                part="primary"
                panel={isPanel}
-@@ -1878,7 +1931,7 @@ export default function GitActionsControl({
-                     isPanel && "not-sr-only ml-0 truncate",
+@@ -1890,7 +1943,7 @@
+                     isPanel && cn("not-sr-only ml-0 truncate", THREAD_DETAILS_PANEL_LABEL_CLASS),
                    )}
                  >
 -                  {quickAction.label}
@@ -322,8 +319,8 @@ index 23cb11ea9c5ca68fd262bd289068a415bd2d2a40..0f4ea61dee11e3e654c71e14533aef47
                  </span>
                </PopoverTrigger>
                <PopoverPopup tooltipStyle side="bottom" align="start">
-@@ -1905,7 +1958,7 @@ export default function GitActionsControl({
-                   isPanel && "not-sr-only ml-0 truncate",
+@@ -1917,7 +1970,7 @@
+                   isPanel && cn("not-sr-only ml-0 truncate", THREAD_DETAILS_PANEL_LABEL_CLASS),
                  )}
                >
 -                {quickAction.label}
@@ -331,7 +328,7 @@ index 23cb11ea9c5ca68fd262bd289068a415bd2d2a40..0f4ea61dee11e3e654c71e14533aef47
                </span>
              </ThreadDetailsControl>
            )}
-@@ -1999,7 +2052,7 @@ export default function GitActionsControl({
+@@ -2011,7 +2064,7 @@
            <DialogPanel>
              <div className="space-y-3 rounded-xl bg-zinc-25 p-3 text-sm ring-1 ring-black/5 dark:bg-white/[0.035] dark:ring-white/5">
                <div className="grid grid-cols-[auto_1fr] items-center gap-x-2 gap-y-1">
@@ -340,7 +337,7 @@ index 23cb11ea9c5ca68fd262bd289068a415bd2d2a40..0f4ea61dee11e3e654c71e14533aef47
                  <span className="flex items-center justify-between gap-2">
                    <span className="font-medium">
                      {gitStatusForActions?.refName ?? "(detached HEAD)"}
-@@ -2175,9 +2228,19 @@ export default function GitActionsControl({
+@@ -2187,9 +2240,19 @@
          <DialogPopup className="max-w-xl">
            <DialogHeader>
              <DialogTitle>
@@ -362,7 +359,7 @@ index 23cb11ea9c5ca68fd262bd289068a415bd2d2a40..0f4ea61dee11e3e654c71e14533aef47
            </DialogHeader>
            <DialogFooter variant="bare" className="sm:flex-wrap sm:items-center">
              <Button
-@@ -2195,7 +2258,10 @@ export default function GitActionsControl({
+@@ -2207,7 +2270,10 @@
                onClick={continuePendingDefaultBranchAction}
                disabled={!canWriteSourceControl}
              >
@@ -375,10 +372,9 @@ index 23cb11ea9c5ca68fd262bd289068a415bd2d2a40..0f4ea61dee11e3e654c71e14533aef47
              <Button
                className="w-full max-w-full sm:w-auto"
 diff --git a/apps/web/src/components/LegacySidebar.tsx b/apps/web/src/components/LegacySidebar.tsx
-index b78c6f955e2bdea4d4355ea45f60b4508eab124d..aa006438de071cc36110a1fd2511a009523af19a 100644
 --- a/apps/web/src/components/LegacySidebar.tsx
 +++ b/apps/web/src/components/LegacySidebar.tsx
-@@ -2467,7 +2467,7 @@ const SidebarProjectItem = memo(function SidebarProjectItem(props: SidebarProjec
+@@ -2467,7 +2467,7 @@
                <TooltipTrigger
                  render={
                    <span
@@ -387,7 +383,7 @@ index b78c6f955e2bdea4d4355ea45f60b4508eab124d..aa006438de071cc36110a1fd2511a009
                      className={`-ml-0.5 relative inline-flex size-3.5 shrink-0 items-center justify-center ${projectStatus.colorClass}`}
                    />
                  }
-@@ -2481,7 +2481,9 @@ const SidebarProjectItem = memo(function SidebarProjectItem(props: SidebarProjec
+@@ -2481,7 +2481,9 @@
                  </span>
                  <ChevronRightIcon className="absolute inset-0 m-auto size-3.5 text-icon-muted opacity-0 transition-opacity duration-150 group-hover/project-header:opacity-100" />
                </TooltipTrigger>
@@ -398,7 +394,7 @@ index b78c6f955e2bdea4d4355ea45f60b4508eab124d..aa006438de071cc36110a1fd2511a009
              </Tooltip>
            ) : (
              <ChevronRightIcon
-@@ -2781,7 +2783,9 @@ function LocalSecondaryStatus() {
+@@ -2781,7 +2783,9 @@
        {connecting.length > 0 ? (
          <Alert variant="sidebar">
            <Spinner />
@@ -410,10 +406,9 @@ index b78c6f955e2bdea4d4355ea45f60b4508eab124d..aa006438de071cc36110a1fd2511a009
        ) : null}
        {failed.length > 0 ? (
 diff --git a/apps/web/src/components/PullRequestThreadDialog.tsx b/apps/web/src/components/PullRequestThreadDialog.tsx
-index 47e4b361aaeeb386ba7d96b3caf1f26d7d2b605c..b5493ce69cad63bfaa786f0d56ecd25119f9b21b 100644
 --- a/apps/web/src/components/PullRequestThreadDialog.tsx
 +++ b/apps/web/src/components/PullRequestThreadDialog.tsx
-@@ -17,7 +17,7 @@ import {
+@@ -17,7 +17,7 @@
  } from "~/lib/sourceControlActions";
  import { cn } from "~/lib/utils";
  import { parsePullRequestReference } from "~/pullRequestReference";
@@ -422,7 +417,7 @@ index 47e4b361aaeeb386ba7d96b3caf1f26d7d2b605c..b5493ce69cad63bfaa786f0d56ecd251
  import { useEnvironmentQuery } from "~/state/query";
  import { readEnvironmentScope, useEnvironmentScope } from "~/state/session";
  import { vcsEnvironment } from "~/state/vcs";
-@@ -198,9 +198,15 @@ export function PullRequestThreadDialog({
+@@ -198,9 +198,15 @@
    const validationMessage = !referenceDirty
      ? null
      : reference.trim().length === 0
@@ -440,16 +435,16 @@ index 47e4b361aaeeb386ba7d96b3caf1f26d7d2b605c..b5493ce69cad63bfaa786f0d56ecd251
          : null;
    const errorMessage =
      validationMessage ??
-@@ -210,7 +216,7 @@ export function PullRequestThreadDialog({
+@@ -210,7 +216,7 @@
        : preparePullRequestThreadAction.error instanceof Error
          ? preparePullRequestThreadAction.error.message
          : preparePullRequestThreadAction.error
 -          ? `Failed to prepare ${terminology.singular} thread.`
 +          ? localizeTerminologyText(`Failed to prepare ${terminology.singular} thread.`, terminology)
            : null);
- 
+
    return (
-@@ -226,21 +232,31 @@ export function PullRequestThreadDialog({
+@@ -226,21 +232,31 @@
          <DialogHeader>
            <DialogTitle className="flex items-center">
              <SourceControlIcon className="me-2 size-4" />
@@ -486,7 +481,7 @@ index 47e4b361aaeeb386ba7d96b3caf1f26d7d2b605c..b5493ce69cad63bfaa786f0d56ecd251
                value={reference}
                onChange={(event) => {
                  setReferenceDirty(true);
-@@ -281,7 +297,7 @@ export function PullRequestThreadDialog({
+@@ -281,7 +297,7 @@
            {isResolving ? (
              <div className="flex items-center gap-2 text-muted-foreground text-xs">
                <Spinner size="sm" />
@@ -494,12 +489,12 @@ index 47e4b361aaeeb386ba7d96b3caf1f26d7d2b605c..b5493ce69cad63bfaa786f0d56ecd251
 +              {localizeTerminologyText(`Resolving ${terminology.singular}...`, terminology)}
              </div>
            ) : null}
- 
+
 diff --git a/apps/web/src/components/RightPanelTabs.tsx b/apps/web/src/components/RightPanelTabs.tsx
-index 4f6f3607f470c9c464431ed74eb3415ce24127ac..155aa76f832d54a27fb519a95259a395f6d133f6 100644
 --- a/apps/web/src/components/RightPanelTabs.tsx
 +++ b/apps/web/src/components/RightPanelTabs.tsx
-@@ -82,6 +82,11 @@ import { PierreEntryIcon } from "./chat/PierreEntryIcon";
+@@ -93,6 +93,11 @@
+ import { PierreEntryIcon } from "./chat/PierreEntryIcon";
  import { resolvePullRequestState } from "./pullRequest/pullRequestPresentation";
  import { PullRequestGlyph } from "~/components/pullRequest/pullRequestIcons";
 +
@@ -507,11 +502,10 @@ index 4f6f3607f470c9c464431ed74eb3415ce24127ac..155aa76f832d54a27fb519a95259a395
 + * values (`action.label === "Browser"` picks the browser submenu), so the plugin
 + * keeps the definitions English. Tag them at render time instead. */
 +const displayLabel = (value: string): string => globalThis.__t3zh?.t?.(value) ?? value;
- 
+ import { observeResize } from "~/lib/observeResize";
+
  interface RightPanelTabsProps {
-   mode: PreviewPanelMode;
-   maximized?: boolean;
-@@ -518,7 +523,7 @@ function RightPanelEmptyState(props: {
+@@ -535,7 +540,7 @@
                        action.label === "Browser" && props.browserProfiles.length > 1 && "pr-7",
                      )}
                    >
@@ -520,7 +514,7 @@ index 4f6f3607f470c9c464431ed74eb3415ce24127ac..155aa76f832d54a27fb519a95259a395
                    </span>
                    <Kbd>{action.shortcut}</Kbd>
                  </button>
-@@ -565,7 +570,7 @@ function RightPanelEmptyState(props: {
+@@ -582,7 +587,7 @@
                      className="flex h-8 w-full cursor-default items-center gap-2.5 rounded-(--control-radius) px-2.5 text-left text-sm opacity-50"
                    >
                      {actionIcon(action, "size-4")}
@@ -529,7 +523,7 @@ index 4f6f3607f470c9c464431ed74eb3415ce24127ac..155aa76f832d54a27fb519a95259a395
                      <Kbd>{action.shortcut}</Kbd>
                    </div>
                  }
-@@ -605,12 +610,12 @@ function surfaceTitle(
+@@ -622,12 +627,12 @@
        return surface.title ?? surface.target?.name ?? "Device";
      case "preview": {
        const snapshot = surface.resourceId ? sessions[surface.resourceId] : null;
@@ -545,7 +539,7 @@ index 4f6f3607f470c9c464431ed74eb3415ce24127ac..155aa76f832d54a27fb519a95259a395
        }
      }
    }
-@@ -1295,7 +1300,7 @@ export function RightPanelTabs(props: RightPanelTabsProps) {
+@@ -1376,7 +1381,7 @@
                              }}
                            >
                              <Icon />
@@ -554,7 +548,7 @@ index 4f6f3607f470c9c464431ed74eb3415ce24127ac..155aa76f832d54a27fb519a95259a395
                              <MenuShortcut>{action.shortcut}</MenuShortcut>
                            </MenuSubTrigger>
                            {/*
-@@ -1325,7 +1330,7 @@ export function RightPanelTabs(props: RightPanelTabsProps) {
+@@ -1406,7 +1411,7 @@
                          onClick={action.onClick}
                        >
                          <Icon />
@@ -564,10 +558,9 @@ index 4f6f3607f470c9c464431ed74eb3415ce24127ac..155aa76f832d54a27fb519a95259a395
                      );
                    })}
 diff --git a/apps/web/src/components/Sidebar.tsx b/apps/web/src/components/Sidebar.tsx
-index 43d1f8dacffb1c1bfb0e9cf674b1a2107b8ef3f4..fc81b431e19a1b51ebfade0e08e19786b499c1ec 100644
 --- a/apps/web/src/components/Sidebar.tsx
 +++ b/apps/web/src/components/Sidebar.tsx
-@@ -2041,7 +2041,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+@@ -2045,7 +2045,7 @@
                                  )}
                                >
                                  <AlarmClockIcon aria-hidden className="size-4 shrink-0" />
@@ -576,7 +569,7 @@ index 43d1f8dacffb1c1bfb0e9cf674b1a2107b8ef3f4..fc81b431e19a1b51ebfade0e08e19786
                                </button>
                              }
                            />
-@@ -2068,7 +2068,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+@@ -2072,7 +2072,7 @@
                            {/* The label alone is the live region: a role="status"
                              wrapper around the ticking duration would make
                              screen readers announce every second. */}
@@ -586,10 +579,9 @@ index 43d1f8dacffb1c1bfb0e9cf674b1a2107b8ef3f4..fc81b431e19a1b51ebfade0e08e19786
                              <span aria-hidden>
                                <WorkingDuration startedAt={resolveWorkingStartedAt(thread)} />
 diff --git a/apps/web/src/components/ThreadStatusIndicators.tsx b/apps/web/src/components/ThreadStatusIndicators.tsx
-index ad0c9c99a29212514c37d35b69478a801ad195b6..c895e5787f75a2fa19a0a04f3de927ea8005ccc6 100644
 --- a/apps/web/src/components/ThreadStatusIndicators.tsx
 +++ b/apps/web/src/components/ThreadStatusIndicators.tsx
-@@ -828,7 +828,7 @@ export function ThreadStatusLabel({
+@@ -833,7 +833,7 @@
            render={
              <span
                role="img"
@@ -598,7 +590,7 @@ index ad0c9c99a29212514c37d35b69478a801ad195b6..c895e5787f75a2fa19a0a04f3de927ea
                className={`inline-flex size-3.5 shrink-0 items-center justify-center ${status.colorClass}`}
              />
            }
-@@ -839,7 +839,9 @@ export function ThreadStatusLabel({
+@@ -844,7 +844,9 @@
              }`}
            />
          </TooltipTrigger>
@@ -609,7 +601,7 @@ index ad0c9c99a29212514c37d35b69478a801ad195b6..c895e5787f75a2fa19a0a04f3de927ea
        </Tooltip>
      );
    }
-@@ -850,7 +852,7 @@ export function ThreadStatusLabel({
+@@ -855,7 +857,7 @@
          render={
            <span
              role="img"
@@ -618,7 +610,7 @@ index ad0c9c99a29212514c37d35b69478a801ad195b6..c895e5787f75a2fa19a0a04f3de927ea
              className={`inline-flex items-center gap-1 text-3xs ${status.colorClass}`}
            />
          }
-@@ -860,9 +862,13 @@ export function ThreadStatusLabel({
+@@ -865,9 +867,13 @@
              status.pulse ? "animate-status-pulse" : ""
            }`}
          />
@@ -635,10 +627,9 @@ index ad0c9c99a29212514c37d35b69478a801ad195b6..c895e5787f75a2fa19a0a04f3de927ea
    );
  }
 diff --git a/apps/web/src/components/chat/ComposerTasksBadge.tsx b/apps/web/src/components/chat/ComposerTasksBadge.tsx
-index 3031924e44e339b121170840d83802da6b1d68c6..5e422fdf82c9581aef74940928049642e2d46f2a 100644
 --- a/apps/web/src/components/chat/ComposerTasksBadge.tsx
 +++ b/apps/web/src/components/chat/ComposerTasksBadge.tsx
-@@ -195,7 +195,9 @@ export const ComposerTasksContent = memo(function ComposerTasksContent({
+@@ -195,7 +195,9 @@
                          : "text-muted-foreground/70",
                    )}
                  >
@@ -650,10 +641,9 @@ index 3031924e44e339b121170840d83802da6b1d68c6..5e422fdf82c9581aef74940928049642
                  </ComposerBanner.Content>
                  <ComposerBanner.Actions>
 diff --git a/apps/web/src/components/chat/SubagentTooltipContent.tsx b/apps/web/src/components/chat/SubagentTooltipContent.tsx
-index 61408d61f639f834479c232189a604dc4c8b18be..2b203e50eb877dde482a35db9ef59a15a45040ce 100644
 --- a/apps/web/src/components/chat/SubagentTooltipContent.tsx
 +++ b/apps/web/src/components/chat/SubagentTooltipContent.tsx
-@@ -174,7 +174,7 @@ export function SubagentTooltipContent(props: {
+@@ -175,7 +175,7 @@
          return (
            <div key={label} className="flex min-w-0 items-center gap-2">
              <Icon aria-hidden className="size-3 shrink-0" />
@@ -663,19 +653,18 @@ index 61408d61f639f834479c232189a604dc4c8b18be..2b203e50eb877dde482a35db9ef59a15
            </div>
          );
 diff --git a/apps/web/src/components/onboarding/WelcomeWizard.tsx b/apps/web/src/components/onboarding/WelcomeWizard.tsx
-index 9d1c96e19eeda84d8fb636352832d2ec94341ce9..a9b60b5db4f97157de0e59ab314f639f0269c094 100644
 --- a/apps/web/src/components/onboarding/WelcomeWizard.tsx
 +++ b/apps/web/src/components/onboarding/WelcomeWizard.tsx
-@@ -70,7 +70,7 @@ import {
+@@ -73,7 +73,7 @@
  import { terminalEnvironment } from "../../state/terminal";
  import { useAtomCommand } from "../../state/use-atom-command";
  import { connectPairing } from "../../connection/onboarding";
 -import { getProviderSummary } from "../settings/providerStatus";
 +import { getProviderSummary, providerStatusLabel } from "../settings/providerStatus";
- import { getDriverOption } from "../settings/providerDriverMeta";
+ import { providerClients } from "../settings/providerDriverMeta";
  import { ChatGptWelcomeCoordinator } from "../settings/ChatGptWelcomeCoordinator";
  import { AddManagedCodexAccountDialog, CodexSetupSection } from "../settings/CodexSetupSection";
-@@ -980,7 +980,7 @@ function AgentCard({
+@@ -982,7 +982,7 @@
        <div className="min-w-0 flex-1">
          <span className="block text-sm font-medium text-foreground">{displayName}</span>
          <p className="mt-0.5 text-xs leading-relaxed break-words whitespace-pre-wrap text-muted-foreground">
@@ -684,7 +673,7 @@ index 9d1c96e19eeda84d8fb636352832d2ec94341ce9..a9b60b5db4f97157de0e59ab314f639f
            {providerState !== "ready" && summary.detail ? ` · ${summary.detail}` : ""}
          </p>
        </div>
-@@ -995,7 +995,9 @@ function AgentCard({
+@@ -997,7 +997,9 @@
          ) : providerState === "disabled" ? (
            <span className="text-xs text-muted-foreground">Disabled</span>
          ) : providerState === "attention" ? (
@@ -696,10 +685,9 @@ index 9d1c96e19eeda84d8fb636352832d2ec94341ce9..a9b60b5db4f97157de0e59ab314f639f
            <Button
              size="xs"
 diff --git a/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx b/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx
-index 61eeed0f0f3271b1eabc689f6044aba3ad54cc29..1d5e346a0fff8bacdf2938ffec52ffb6d169923a 100644
 --- a/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx
 +++ b/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx
-@@ -209,7 +209,9 @@ export function PullRequestStackMenu({
+@@ -213,7 +213,9 @@
            />
            <TooltipPopup>
              Merge stack through #{reference.number} into {stack.base} ({mergeLayers.length}{" "}
@@ -711,19 +699,18 @@ index 61eeed0f0f3271b1eabc689f6044aba3ad54cc29..1d5e346a0fff8bacdf2938ffec52ffb6
          </Tooltip>
        ) : null}
 diff --git a/apps/web/src/components/settings/CodexSetupSection.tsx b/apps/web/src/components/settings/CodexSetupSection.tsx
-index 415882dbacd9685a32d66dcd8a6101cf07f5e7c6..cd3e91333978a110203b115cf7e89efef9faf81c 100644
 --- a/apps/web/src/components/settings/CodexSetupSection.tsx
 +++ b/apps/web/src/components/settings/CodexSetupSection.tsx
-@@ -37,7 +37,7 @@ import { RedactedSensitiveText } from "./RedactedSensitiveText";
+@@ -37,7 +37,7 @@
  import { SettingsRow } from "./settingsLayout";
  import { AddCodexAccountDialog } from "./AddCodexAccountDialog";
  import { getOnboardingProviderState } from "../../onboarding/providerReadiness.logic";
 -import { getProviderSummary } from "./providerStatus";
 +import { getProviderSummary, providerStatusLabel } from "./providerStatus";
- 
+
  const noop = () => undefined;
- 
-@@ -88,7 +88,7 @@ export function CodexSetupSection(props: CodexSetupSectionProps) {
+
+@@ -88,7 +88,7 @@
            ) : existingChecking ? (
              "Checking your Codex CLI..."
            ) : props.provider?.installed ? (
@@ -732,7 +719,7 @@ index 415882dbacd9685a32d66dcd8a6101cf07f5e7c6..cd3e91333978a110203b115cf7e89efe
            ) : (
              "Code with your ChatGPT subscription."
            )
-@@ -102,7 +102,9 @@ export function CodexSetupSection(props: CodexSetupSectionProps) {
+@@ -102,7 +102,9 @@
            ) : existingChecking ? (
              <span className="text-xs text-muted-foreground">Checking...</span>
            ) : existingAuthenticated ? (
@@ -744,10 +731,9 @@ index 415882dbacd9685a32d66dcd8a6101cf07f5e7c6..cd3e91333978a110203b115cf7e89efe
              <ChatGptConnectionButton
                size="sm"
 diff --git a/apps/web/src/components/settings/ProjectDefaultsSettings.tsx b/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
-index bfd776855307cc291cdeb8915e6a7804a544e977..3600347b8a17c11c04812ce596f8dda0d8456192 100644
 --- a/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
 +++ b/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
-@@ -164,7 +164,7 @@ export function ProjectDefaultsSettings({ category }: { category: ProjectSetting
+@@ -164,7 +164,7 @@
                instanceEntries={entries}
                modelOptionsByInstance={modelOptions}
                triggerClassName={SETTINGS_PICKER_TRIGGER_CLASSNAME}
@@ -757,18 +743,17 @@ index bfd776855307cc291cdeb8915e6a7804a544e977..3600347b8a17c11c04812ce596f8dda0
                onOpenProviderSetup={(instanceId) => {
                  if (representative)
 diff --git a/apps/web/src/components/settings/ProviderInstanceCard.tsx b/apps/web/src/components/settings/ProviderInstanceCard.tsx
-index 381dcd864e425a115dab6c2ea8380920daceb223..27879f0cd696aa0f4f48400ac11585346eb77abf 100644
 --- a/apps/web/src/components/settings/ProviderInstanceCard.tsx
 +++ b/apps/web/src/components/settings/ProviderInstanceCard.tsx
-@@ -61,6 +61,7 @@ import {
+@@ -64,6 +64,7 @@
    PROVIDER_STATUS_STYLES,
    getProviderSummary,
    getProviderVersionLabel,
 +  providerStatusLabel,
    type ProviderStatusKey,
  } from "./providerStatus";
- 
-@@ -773,7 +774,7 @@ export function ProviderInstanceCard({
+
+@@ -788,7 +789,7 @@
      ) : (
        <>
          {statusDotNode}
@@ -777,20 +762,19 @@ index 381dcd864e425a115dab6c2ea8380920daceb223..27879f0cd696aa0f4f48400ac1158534
          {inlineStatusDetail ? (
            <span className="min-w-0 [overflow-wrap:anywhere]">· {inlineStatusDetail}</span>
          ) : null}
-@@ -916,7 +917,7 @@ export function ProviderInstanceCard({
-                   tabIndex={statusDiagnostic ? 0 : undefined}
-                   className="pointer-events-auto line-clamp-2 [overflow-wrap:anywhere]"
-                 >
--                  {summary.headline}
-+                  {providerStatusLabel(summary.headline)}
-                   {needsAttention && inlineStatusDetail ? ` · ${inlineStatusDetail}` : null}
-                 </span>
-               </ProviderStatusDiagnostic>
+@@ -954,7 +955,7 @@
+                     `Updating · ${updateProgress}`
+                   ) : (
+                     <>
+-                      {summary.headline}
++                      {providerStatusLabel(summary.headline)}
+                       {needsAttention && inlineStatusDetail ? ` · ${inlineStatusDetail}` : null}
+                     </>
+                   )}
 diff --git a/apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx b/apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx
-index ab721ef54f4c3172647293e9857edc1839bdcd49..167fd810189e2c6418b4f00e4b0e7393196379c5 100644
 --- a/apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx
 +++ b/apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx
-@@ -650,7 +650,10 @@ function ProcessTable({
+@@ -639,7 +639,10 @@
                  <td className="px-3 py-2 text-right font-mono tabular-nums text-muted-foreground">
                    <Tooltip>
                      <TooltipTrigger render={<span>{formatBytes(process.ioWriteBytes)}</span>} />
@@ -803,10 +787,9 @@ index ab721ef54f4c3172647293e9857edc1839bdcd49..167fd810189e2c6418b4f00e4b0e7393
                  </td>
                  <td className="px-3 py-2 text-right font-mono tabular-nums text-muted-foreground">
 diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/components/settings/SettingsPanels.tsx
-index 4d9a85935ac73fc84f0db6ceec0406381b772a82..87990539c2262b73d676e12f0ef1c151cb43d8f8 100644
 --- a/apps/web/src/components/settings/SettingsPanels.tsx
 +++ b/apps/web/src/components/settings/SettingsPanels.tsx
-@@ -3295,7 +3295,7 @@ export function GeneralSettingsPanel() {
+@@ -3298,7 +3298,7 @@
                    instanceEntries={textGenerationModelInstanceEntries}
                    modelOptionsByInstance={textGenerationModelOptionsByInstance}
                    triggerClassName={SETTINGS_PICKER_TRIGGER_CLASSNAME}
@@ -816,10 +799,9 @@ index 4d9a85935ac73fc84f0db6ceec0406381b772a82..87990539c2262b73d676e12f0ef1c151
                    {...(environmentId
                      ? {
 diff --git a/apps/web/src/components/settings/SourceControlWritingSettings.tsx b/apps/web/src/components/settings/SourceControlWritingSettings.tsx
-index a9932e1ac911d78b4f04dfcde77180b6372784a9..ce9a205a69f66b3fe06cbb6fb04e1fbb3cacc229 100644
 --- a/apps/web/src/components/settings/SourceControlWritingSettings.tsx
 +++ b/apps/web/src/components/settings/SourceControlWritingSettings.tsx
-@@ -308,7 +308,7 @@ export function SourceControlWritingSettingsSection() {
+@@ -308,7 +308,7 @@
                    modelOptionsByInstance={modelOptionsByInstance}
                    triggerClassName={SETTINGS_PICKER_TRIGGER_CLASSNAME}
                    triggerAriaLabel="Source control writer model"
@@ -829,13 +811,14 @@ index a9932e1ac911d78b4f04dfcde77180b6372784a9..ce9a205a69f66b3fe06cbb6fb04e1fbb
                      ? {
                          onOpenProviderSetup: (instanceId: ProviderInstanceId) => {
 diff --git a/apps/web/src/components/settings/providerStatus.ts b/apps/web/src/components/settings/providerStatus.ts
-index ad8494fac555c36fab15a631d84d064ca525dbf2..38670e802a5000300a91d736d44b1adb1ecf16f3 100644
 --- a/apps/web/src/components/settings/providerStatus.ts
 +++ b/apps/web/src/components/settings/providerStatus.ts
-@@ -104,6 +104,75 @@ export function getProviderVersionLabel(version: string | null | undefined) {
+@@ -102,6 +102,75 @@
+   }
+   // Only bare semver-like versions get a `v` prefix. Other tags are shown as-is.
    return /^\d/.test(version) ? `v${version}` : version;
- }
- 
++}
++
 +/**
 + * Added by patches/0004-display-site-translation.patch.
 + *
@@ -903,16 +886,13 @@ index ad8494fac555c36fab15a631d84d064ca525dbf2..38670e802a5000300a91d736d44b1adb
 +    return translated.includes(authLabel) ? translated : headline;
 +  }
 +  return headline;
-+}
-+
+ }
+
  const COMPATIBILITY_TITLES = {
-   graceful: "Limited support",
-   unsupported: "Unsupported version",
 diff --git a/apps/web/src/components/usage/UsagePriceOverrides.tsx b/apps/web/src/components/usage/UsagePriceOverrides.tsx
-index 4fe68f66c8a3a6e48fd51782f9fa4c17685aa311..e6e165401c503fb8c4ffdb23b9c138a1f64aaa94 100644
 --- a/apps/web/src/components/usage/UsagePriceOverrides.tsx
 +++ b/apps/web/src/components/usage/UsagePriceOverrides.tsx
-@@ -457,7 +457,12 @@ export function UsagePriceOverrides({
+@@ -457,7 +457,12 @@
                                    value={row.alias ?? aliasCell.value}
                                    aria-label={`Map ${row.model || "new model"} to model`}
                                    list="usage-alias-models"
@@ -926,7 +906,7 @@ index 4fe68f66c8a3a6e48fd51782f9fa4c17685aa311..e6e165401c503fb8c4ffdb23b9c138a1
                                    autoComplete="off"
                                    spellCheck={false}
                                    disabled={locked}
-@@ -486,7 +491,8 @@ export function UsagePriceOverrides({
+@@ -486,7 +491,8 @@
                                            ? field.optional
                                              ? "Input rate"
                                              : "0.00"
@@ -937,13 +917,13 @@ index 4fe68f66c8a3a6e48fd51782f9fa4c17685aa311..e6e165401c503fb8c4ffdb23b9c138a1
                                        autoComplete="off"
                                        disabled={locked}
 diff --git a/apps/web/src/contextMenuFallback.ts b/apps/web/src/contextMenuFallback.ts
-index db14ed8c860c26e0c1d9c1f0d7836c21dc35354d..b5c6a53ae1148ef10227c5a5014f914c4efc9fcb 100644
 --- a/apps/web/src/contextMenuFallback.ts
 +++ b/apps/web/src/contextMenuFallback.ts
-@@ -2,6 +2,60 @@ import type { ContextMenuItem } from "@t3tools/contracts";
- 
+@@ -2,6 +2,60 @@
+
  const SVG_NS = "http://www.w3.org/2000/svg";
- 
+
++
 +/**
 + * Menu labels the translation plugin leaves unwrapped, because the same string
 + * is compared as a value elsewhere in the app (`threadActionMenu.logic.ts`'s
@@ -997,11 +977,10 @@ index db14ed8c860c26e0c1d9c1f0d7836c21dc35354d..b5c6a53ae1148ef10227c5a5014f914c
 +  if (!TRANSLATABLE_MENU_LABEL_SET.has(label)) return label;
 +  return globalThis.__t3zh?.t?.(label) ?? label;
 +}
-+
  // Inline Lucide-style icon paths (stroke-based, viewBox 0 0 24 24, strokeWidth 2).
  const ICON_PATHS: Record<string, ReadonlyArray<{ tag: string; attrs: Record<string, string> }>> = {
    archive: [
-@@ -322,7 +376,7 @@ export function showContextMenuFallback<T extends string>(
+@@ -322,7 +376,7 @@
          if (item.header === true) {
            const header = document.createElement("div");
            header.className = "px-2 py-1.5 font-medium text-muted-foreground text-xs";
@@ -1010,23 +989,24 @@ index db14ed8c860c26e0c1d9c1f0d7836c21dc35354d..b5c6a53ae1148ef10227c5a5014f914c
            inner.appendChild(header);
            continue;
          }
-@@ -377,7 +431,7 @@ export function showContextMenuFallback<T extends string>(
- 
+@@ -377,7 +431,7 @@
+
          const label = document.createElement("span");
          label.className = "min-w-0 flex-1 truncate";
 -        label.textContent = item.label;
 +        label.textContent = displayMenuLabel(item.label);
          button.appendChild(label);
- 
+
          if (hasChildren) {
 diff --git a/apps/web/src/sourceControlPresentation.ts b/apps/web/src/sourceControlPresentation.ts
-index 7a8d2cab8fe516f1651c4f604e7c0fd26ab2555c..77b0cb043f9a78298d325d5926e3f9484cb00827 100644
 --- a/apps/web/src/sourceControlPresentation.ts
 +++ b/apps/web/src/sourceControlPresentation.ts
-@@ -27,6 +27,97 @@ export interface SourceControlPresentation {
+@@ -26,6 +26,97 @@
+   readonly providerName: string;
+   readonly terminology: ChangeRequestTerminology;
    readonly Icon: ElementType<{ className?: string }>;
- }
- 
++}
++
 +/**
 + * Added by patches/0004-display-site-translation.patch. Several display strings
 + * carry `terminology.singular` ("pull request" / "merge request" / "change
@@ -1116,16 +1096,13 @@ index 7a8d2cab8fe516f1651c4f604e7c0fd26ab2555c..77b0cb043f9a78298d325d5926e3f948
 +  // The second lookup restores the term to `{request}` where a whole-sentence
 +  // template wins, and is a no-op where only the term position matched.
 +  return t(replaced);
-+}
-+
+ }
+
  export function getSourceControlPresentation(
-   provider: SourceControlProviderInfo | null | undefined,
- ): SourceControlPresentation {
 diff --git a/apps/web/src/vite-env.d.ts b/apps/web/src/vite-env.d.ts
-index d3ecb559241378d1a6108873d2f2934377a14e2e..700221980da0225227d10898a960ca44b63706d2 100644
 --- a/apps/web/src/vite-env.d.ts
 +++ b/apps/web/src/vite-env.d.ts
-@@ -23,11 +23,27 @@ interface ImportMeta {
+@@ -23,11 +23,27 @@
  declare global {
    interface Window {
      desktopBridge?: DesktopBridge;

@@ -1,0 +1,338 @@
+# 0021 n2935 display strings
+# 基线 v0.0.46-nightly.20261010.2935；在 0020 后应用。
+# 清理结果、计数及精确理由名单，只在显示处翻译；Automatic 只包固定回退。
+diff --git a/apps/web/src/components/settings/StorageSettings.tsx b/apps/web/src/components/settings/StorageSettings.tsx
+--- a/apps/web/src/components/settings/StorageSettings.tsx
++++ b/apps/web/src/components/settings/StorageSettings.tsx
+@@ -1,3 +1,5 @@
++import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
++import { displayCleanupLastRun, displayCleanupSummary, displayCleanupReason } from "~/n2935DisplayStrings";
+ import type {
+   StorageCleanupReport,
+   StorageCleanupSettings,
+@@ -185,16 +187,20 @@
+             : entry.kind === "logs"
+               ? "Rotated logs"
+               : "Browser artifacts";
++        const displayName =
++          entry.kind === "worktree" && entry.path?.split(/[\\/]/).findLast(Boolean)
++            ? name
++            : translateFixed(name);
+         return (
+           <SettingsRow
+             key={`${entry.path ?? entry.kind}:${entry.threadId ?? index}`}
+-            title={environmentLabel ? `${environmentLabel}: ${name}` : name}
++            title={environmentLabel ? `${environmentLabel}: ${displayName}` : displayName}
+             description={
+               <span
+                 className={`wrap-anywhere ${entry.outcome === "failed" ? "text-destructive" : ""}`}
+               >
+                 {entry.threadTitle && entry.threadTitle !== name ? `${entry.threadTitle}. ` : ""}
+-                {entry.reason}
++                {displayCleanupReason(entry.reason)}
+               </span>
+             }
+             control={
+@@ -202,7 +208,7 @@
+                 <span className="text-xs text-muted-foreground">
+                   {[
+                     entry.kind !== "worktree" && entry.files !== null
+-                      ? `${entry.files.toLocaleString()} ${entry.files === 1 ? "file" : "files"}`
++                      ? fillSlot("", entry.files.toLocaleString(), entry.files === 1 ? " file" : " files")
+                       : null,
+                     entry.bytes !== null ? formatBytes(entry.bytes) : null,
+                   ]
+@@ -217,12 +223,12 @@
+       {report.omittedCount > 0 && (
+         <p className="px-3 py-2.5 text-xs text-muted-foreground sm:px-4">
+           {environmentLabel ? `${environmentLabel}: ` : ""}
+-          {report.omittedCount.toLocaleString()} more results.
++          {fillSlot("", report.omittedCount.toLocaleString(), " more results.")}
+         </p>
+       )}
+       {report.entries.length === 0 && report.omittedCount === 0 && (
+         <p className="px-3 py-2.5 text-xs text-muted-foreground sm:px-4">
+-          {environmentLabel ? `${environmentLabel}: ` : ""}Nothing needed cleanup.
++          {environmentLabel ? `${environmentLabel}: ` : ""}{translateFixed("Nothing needed cleanup.")}
+         </p>
+       )}
+     </>
+@@ -292,7 +298,7 @@
+       environment,
+       report,
+       description: report
+-        ? `Last run ${formatRelativeTimeLabel(report.finishedAt)}. ${formatBytes(report.bytesFreed)} recovered.${report.counts.failed > 0 ? ` ${report.counts.failed} ${report.counts.failed === 1 ? "item" : "items"} couldn't be removed.` : ""}`
++        ? displayCleanupLastRun(formatRelativeTimeLabel(report.finishedAt), formatBytes(report.bytesFreed), report.counts.failed)
+         : query?.failed
+           ? "Could not load the last run."
+           : query?.loading
+@@ -318,13 +324,13 @@
+               if (failures.length > 0)
+                 toastManager.add({
+                   type: "error",
+-                  title: `Cleanup failed on ${environment.label}`,
++                  title: fillSlot("Cleanup failed on ", environment.label, ""),
+                   description: failures[0]!.reason,
+                 });
+             } else if (!isAtomCommandInterrupted(result)) {
+               toastManager.add({
+                 type: "error",
+-                title: `Could not run cleanup on ${environment.label}`,
++                title: fillSlot("Could not run cleanup on ", environment.label, ""),
+                 description: String(squashAtomCommandFailure(result)),
+               });
+             }
+@@ -372,7 +378,7 @@
+             .flatMap(({ environment, report }) =>
+               report
+                 ? [
+-                    `${connectedEnvironments.length > 1 ? `${environment.label}: ` : ""}${report.counts.removed} removed, ${report.counts.kept} kept${report.counts.failed > 0 ? `, ${report.counts.failed} failed` : ""}`,
++                    `${connectedEnvironments.length > 1 ? `${environment.label}: ` : ""}${displayCleanupSummary(report.counts.removed, report.counts.kept, report.counts.failed)}`,
+                   ]
+                 : [],
+             )
+diff --git a/apps/web/src/components/settings/ProjectDefaultsSettings.tsx b/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
+--- a/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
++++ b/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
+@@ -147,7 +147,7 @@
+         unavailable || mixedModel || modelSource === "project"
+           ? undefined
+           : settings.defaultModelSelection === null
+-            ? "Automatic"
++            ? translateFixed("Automatic")
+             : undefined
+       }
+       resetAction={
+diff --git a/apps/web/src/components/settings/ProjectSettingsPanel.tsx b/apps/web/src/components/settings/ProjectSettingsPanel.tsx
+--- a/apps/web/src/components/settings/ProjectSettingsPanel.tsx
++++ b/apps/web/src/components/settings/ProjectSettingsPanel.tsx
+@@ -497,7 +497,7 @@
+                   ? `${projectIcon.text} · ${projectIcon.color}`
+                   : projectIcon?.kind === "emoji"
+                     ? projectIcon.emoji
+-                    : (faviconPath ?? "Automatic")
++                    : (faviconPath ?? translateFixed("Automatic"))
+             }
+             resetAction={
+               group.memberProjects.some(
+diff --git a/apps/web/src/components/settings/SettingInheritance.tsx b/apps/web/src/components/settings/SettingInheritance.tsx
+--- a/apps/web/src/components/settings/SettingInheritance.tsx
++++ b/apps/web/src/components/settings/SettingInheritance.tsx
+@@ -1,3 +1,4 @@
++import { translateFixed } from "~/newThreadDisplayStrings";
+ import {
+   DEFAULT_SERVER_SETTINGS,
+   PROJECT_FILE_BACKED_SETTINGS,
+@@ -42,7 +43,7 @@
+       : key === "sidebarAutoSettleAfterDays"
+         ? "Never"
+         : key === "defaultModelSelection"
+-          ? "Automatic"
++          ? translateFixed("Automatic")
+           : key === "sourceControlWriterModelSelection"
+             ? "Text generation model"
+             : key === "defaultThreadEnvMode" || key === "worktreeSubmodules"
+diff --git a/apps/web/src/n2935DisplayStrings.ts b/apps/web/src/n2935DisplayStrings.ts
+new file mode 100644
+--- /dev/null
++++ b/apps/web/src/n2935DisplayStrings.ts
+@@ -0,0 +1,85 @@
++import { fillSlot, translateFixed } from "./newThreadDisplayStrings";
++import { displayRelativeTime } from "./acceptanceDisplayStrings";
++
++// Translate a fixed skeleton, then insert data. The private markers never come from data.
++function fillCleanupSlots(skeleton: string, values: readonly string[]): string {
++  const translated = globalThis.__t3zh?.t?.(skeleton) ?? skeleton;
++  const markers = values.map((_, index) => String.fromCharCode(0xE000 + index));
++  const valid = markers.every((marker) => translated.split(marker).length === 2);
++  const result = valid ? translated : skeleton;
++  return result.split(/([\uE000-\uE002])/).map((part) => {
++    const index = markers.indexOf(part);
++    return index < 0 ? part : values[index];
++  }).join("");
++}
++
++export function displayCleanupLastRun(relative: string, bytes: string, failed: number): string {
++  const failure = failed > 0
++    ? fillSlot(" ", String(failed), failed === 1 ? " item couldn't be removed." : " items couldn't be removed.")
++    : "";
++  return fillCleanupSlots("Last run \uE000. \uE001 recovered.\uE002", [displayRelativeTime(relative), bytes, failure]);
++}
++
++export function displayCleanupSummary(removed: number, kept: number, failed: number): string {
++  return failed > 0
++    ? fillCleanupSlots("\uE000 removed, \uE001 kept, \uE002 failed", [String(removed), String(kept), String(failed)])
++    : fillCleanupSlots("\uE000 removed, \uE001 kept", [String(removed), String(kept)]);
++}
++
++const CLEANUP_REASONS: string[] = [
++  "No rules apply",
++  "Project is unavailable",
++  "Thread is running or has pending work",
++  "Open terminal",
++  "Worktree is a symbolic link",
++  "Outside the managed worktree folder",
++  "Contains a project checkout",
++  "Not a linked worktree",
++  "Repository or branch changed",
++  "Default branch is unavailable",
++  "Thread was deleted",
++  "No commits beyond the default branch",
++  "Provider session is still open",
++  "Repository or branch changed since check",
++  "Commit changed since check",
++  "Settings changed since check",
++  "Local changes exceed the inspection limit",
++  "Ignored files exceed the inspection limit",
++  "No expired files"
++];
++const cleanupReasons = new Set(CLEANUP_REASONS);
++export function displayCleanupReason(value: string): string {
++  if (value === "Open terminal") {
++    const translated = translateFixed("Cleanup reason: Open terminal");
++    return translated === "Cleanup reason: Open terminal" ? value : translated;
++  }
++  return cleanupReasons.has(value) ? translateFixed(value) : value;
++}
++
++// English/no runtime uses dnd-kit's defaults. Chinese changes only spoken display text.
++export function panelDragAccessibility(label: (id: string | number) => string) {
++  if (globalThis.__t3zh?.getResolvedLocale?.() !== "zh-CN") return undefined;
++  type Active = { active: { id: string | number } };
++  type Over = Active & { over: { id: string | number } | null };
++  return {
++    screenReaderInstructions: { draggable: translateFixed("\n    To pick up a draggable item, press the space bar.\n    While dragging, use the arrow keys to move the item.\n    Press space again to drop the item in its new position, or press escape to cancel.\n  ") },
++    announcements: {
++      onDragStart({ active }: Active) {
++        return fillSlot("Picked up draggable item ", label(active.id), ".");
++      },
++      onDragOver({ active, over }: Over) {
++        return over
++          ? fillCleanupSlots("Draggable item \uE000 was moved over droppable area \uE001.", [label(active.id), label(over.id)])
++          : fillSlot("Draggable item ", label(active.id), " is no longer over a droppable area.");
++      },
++      onDragEnd({ active, over }: Over) {
++        return over
++          ? fillCleanupSlots("Draggable item \uE000 was dropped over droppable area \uE001", [label(active.id), label(over.id)])
++          : fillSlot("Draggable item ", label(active.id), " was dropped.");
++      },
++      onDragCancel({ active }: Active) {
++        return fillSlot("Dragging was cancelled. Draggable item ", label(active.id), " was dropped.");
++      },
++    },
++  };
++}
+diff --git a/apps/web/src/components/onboarding/WelcomeWizard.tsx b/apps/web/src/components/onboarding/WelcomeWizard.tsx
+--- a/apps/web/src/components/onboarding/WelcomeWizard.tsx
++++ b/apps/web/src/components/onboarding/WelcomeWizard.tsx
+@@ -1563,7 +1563,7 @@
+         >
+           {isImporting
+             ? "Importing…"
+-            : `Import ${selected.length} ${selected.length === 1 ? "project" : "projects"}`}
++            : fillSlot("Import ", String(selected.length), selected.length === 1 ? " project" : " projects")}
+         </Button>
+       </div>
+     </StepShell>
+diff --git a/apps/web/src/components/RightPanelTabs.tsx b/apps/web/src/components/RightPanelTabs.tsx
+--- a/apps/web/src/components/RightPanelTabs.tsx
++++ b/apps/web/src/components/RightPanelTabs.tsx
+@@ -1,3 +1,4 @@
++import { panelDragAccessibility } from "~/n2935DisplayStrings";
+ import { pullRequestHostOf, type SourceControlProviderKind } from "@t3tools/contracts";
+ import type { EnvironmentThreadShell } from "@t3tools/client-runtime/state/shell";
+ import { useProjects, useServerConfigs, useThreadShells } from "~/state/entities";
+@@ -822,6 +823,7 @@
+ function SortableTabList(props: {
+   surfaces: readonly RightPanelSurface[];
+   onMove: ((surfaceId: string, toIndex: number) => void) | undefined;
++  getLabel: (surface: RightPanelSurface) => string;
+   children: ReactNode;
+ }) {
+   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
+@@ -837,6 +839,10 @@
+   );
+   return (
+     <DndContext
++      accessibility={panelDragAccessibility((id) => {
++        const surface = props.surfaces.find((surface) => surface.id === String(id));
++        return surface ? props.getLabel(surface) : String(id);
++      }) ?? {}}
+       sensors={sensors}
+       collisionDetection={closestCenter}
+       modifiers={TAB_DRAG_MODIFIERS}
+@@ -1193,7 +1199,11 @@
+           data-right-panel-tab-list
+         >
+           <div className="flex h-full w-max min-w-full items-center gap-1">
+-            <SortableTabList surfaces={props.surfaces} onMove={props.onMoveSurface}>
++            <SortableTabList
++              surfaces={props.surfaces}
++              onMove={props.onMoveSurface}
++              getLabel={(surface) => surfaceTitle(surface, props.previewSessions, props.terminalLabelsById)}
++            >
+               {props.surfaces.map((surface) => {
+                 const active = surface.id === props.activeSurfaceId;
+                 const pending = props.pendingSurfaceIds.has(surface.id);
+diff --git a/apps/web/src/components/CommandPaletteResults.tsx b/apps/web/src/components/CommandPaletteResults.tsx
+--- a/apps/web/src/components/CommandPaletteResults.tsx
++++ b/apps/web/src/components/CommandPaletteResults.tsx
+@@ -1,3 +1,4 @@
++import { translateFixed } from "~/newThreadDisplayStrings";
+ import { displayKnown, displayRelativeTime } from "~/acceptanceDisplayStrings";
+ import { type ResolvedKeybindingsConfig } from "@t3tools/contracts";
+ import { LegendList, type LegendListRef } from "@legendapp/list/react";
+@@ -168,7 +169,7 @@
+             {props.item.titleLeadingContent}
+             <span className="truncate">
+               {props.item.value.startsWith("action:add-project:")
+-                ? displayKnown(props.item.title)
++                ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
+                 : props.item.title}
+             </span>
+           </span>
+@@ -178,7 +179,7 @@
+           {props.item.description ? (
+             <span className="min-w-0 text-muted-foreground/70 text-xs">
+               {props.item.value.startsWith("action:add-project:")
+-                ? displayKnown(props.item.description)
++                ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.description === "Clone GitCafe owner/repo" ? translateFixed("Clone GitCafe owner/repo") : displayKnown(props.item.description))
+                 : props.item.description}
+             </span>
+           ) : null}
+@@ -188,7 +189,7 @@
+           {props.item.titleLeadingContent}
+           <span className="truncate">
+             {props.item.value.startsWith("action:add-project:")
+-              ? displayKnown(props.item.title)
++              ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
+               : props.item.title}
+           </span>
+         </span>
+@@ -228,7 +229,7 @@
+             {props.item.titleLeadingContent}
+             <span className="truncate">
+               {props.item.value.startsWith("action:add-project:")
+-                ? displayKnown(props.item.title)
++                ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
+                 : props.item.title}
+             </span>
+           </span>
+@@ -238,7 +239,7 @@
+           {props.item.description ? (
+             <span className="min-w-0 text-muted-foreground/70 text-xs">
+               {props.item.value.startsWith("action:add-project:")
+-                ? displayKnown(props.item.description)
++                ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.description === "Clone GitCafe owner/repo" ? translateFixed("Clone GitCafe owner/repo") : displayKnown(props.item.description))
+                 : props.item.description}
+             </span>
+           ) : null}
+@@ -248,7 +249,7 @@
+           {props.item.titleLeadingContent}
+           <span className="truncate">
+             {props.item.value.startsWith("action:add-project:")
+-              ? displayKnown(props.item.title)
++              ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
+               : props.item.title}
+           </span>
+         </span>

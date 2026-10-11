@@ -4,7 +4,7 @@
 
 > 非官方项目，与 T3 Tools Inc. 无关。
 >
-> 基于 T3 Code 的 **nightly 版**翻译（当前 `v0.0.46-nightly.20261007.2774`），不是官方正式版：功能比正式版新，稳定性也以 nightly 为准。
+> 基于 T3 Code 的 **nightly 版**翻译（当前 `v0.0.46-nightly.20261010.2935`），不是官方正式版：功能比正式版新，稳定性也以 nightly 为准。
 
 ## 安装
 
@@ -38,12 +38,12 @@ git clone --filter=blob:none https://github.com/pingdotgg/t3code.git ~/Projects/
 git clone https://github.com/markshan00/t3code-zh.git ~/Projects/t3code-zh
 cd ~/Projects/t3code-zh && npm ci
 
-TAG=v0.0.46-nightly.20261007.2774
+TAG=v0.0.46-nightly.20261010.2935
 git -C ~/Projects/t3code fetch origin tag "$TAG" --no-tags
 git -C ~/Projects/t3code worktree add --detach ~/Projects/t3code-zh/upstream   "$TAG"
 git -C ~/Projects/t3code worktree add --detach ~/Projects/t3code-zh/.build/src "$TAG"
 
-scripts/build-zh.sh 0.0.46-n2774.zh.1
+scripts/build-zh.sh 0.0.46-n2935.zh.1
 ```
 
 产物在 `release/<版本号>/`。详细步骤和常见问题见 [docs/BUILD.md](docs/BUILD.md)，跟进新 nightly 见 [docs/UPGRADE.md](docs/UPGRADE.md)，原理和约定见 [CONVENTIONS.md](CONVENTIONS.md)。

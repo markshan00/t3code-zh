@@ -1,7 +1,7 @@
 # 0008-inline-value-display-strings.patch
 #
 # 2702 新增的七处「英文句子中间嵌一个运行时值」的显示文字，只在显示处翻译（T10-fix1，reviews/T10-r1.md I3）。
-# 基线 v0.0.46-nightly.20261007.2774；复用 0007 新增的 apps/web/src/newThreadDisplayStrings.ts，须在 0007 之后应用。
+# 基线 v0.0.46-nightly.20261010.2935；复用 0007 新增的 apps/web/src/newThreadDisplayStrings.ts，须在 0007 之后应用。
 #
 # 原因：这些句子是文字与表达式混排的 JSX（其中一处还带复数后缀 `{n === 1 ? "" : "s"}`），插件按 CONVENTIONS §4
 # 记 mixed-jsx 跳过，交付包里直接显示英文。
@@ -29,11 +29,11 @@ index 9661f59249d9be3c4bf2511eeff8ef5c270954ed..a08501f0f8ad1b8e8f8c6d875aff70ea
 +++ b/apps/web/src/components/chat/HtmlRenderFrame.tsx
 @@ -9,6 +9,7 @@ import { Maximize2Icon } from "lucide-react";
  import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
- 
+
  import { useAssetUrlRefresh, useAssetUrlState } from "~/assets/assetUrls";
 +import { fillSlot } from "~/newThreadDisplayStrings";
  import type { ChatFileAttachment } from "~/types";
- 
+
  import { HtmlRenderDocument } from "../files/BrowserDocumentFrame";
 @@ -131,7 +132,7 @@ export function HtmlRenderFrame(props: {
          </>
@@ -83,7 +83,7 @@ index aa5d1802be12ec16ba52ce7a5af417b97838332a..60ce9d82406cdc230b5f83563aa5775a
  import { useClientSettings, useUpdateClientSettings } from "~/hooks/useSettings";
  import { cn } from "~/lib/utils";
 +import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
- 
+
  import { AudioPreview } from "./AudioPreview";
  import { BrowserDocumentFrame } from "./BrowserDocumentFrame";
 @@ -351,9 +352,15 @@ export function AttachmentFilePreview(props: {

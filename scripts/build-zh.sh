@@ -19,7 +19,7 @@ set -Eeuo pipefail
 
 ZH_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SRC="${ZH_ROOT}/.build/src"
-BASELINE_COMMIT="611132c171f3a821bd2e32f22261135cef6330ac"
+BASELINE_COMMIT="98beed1a226c42b85c52ff5ee9d5dbb67d776a77"
 STATS_FILE="${ZH_ROOT}/reports/transform-stats.json"
 WRAPPER_NAME="vite.zh.config.ts"
 
@@ -38,6 +38,12 @@ DESKTOP_MAIN_GUARD_TEXT='检查更新...'
 DESKTOP_ARGUMENT_GUARD_TEXT='--t3zh-system-languages='
 DESKTOP_PRELOAD_GUARD_TEXT='__t3zhSystemLanguages'
 APP_LICENSE_NAME='T3-Code-LICENSE.txt'
+
+# T18 主会话决定 §2：上游生成文件名单；不并入通用 allowed。
+# 每次出现改动，都须验证输入 / 生成器未改、干净基线独立重生成与构建文件字节一致。
+UPSTREAM_GENERATED_FILES=(
+  "apps/desktop/src/preview/AnnotationStyles.generated.ts"
+)
 
 # ---- 构建链守卫的预期值（第 6 步）。上游改了构建链，这里要跟着更新 ----
 EXPECTED_SERVER_BUILD_COMMAND='node scripts/cli.ts build'
@@ -367,7 +373,7 @@ check_tree_status() {
   node "${ZH_ROOT}/scripts/lib/t3-connect-config.ts" check-source "${SRC}"
   log "git -C .build/src status --porcelain："
   git -C "${SRC}" status --porcelain
-  local allowed unexpected="" line path entry desktop_files=""
+  local allowed unexpected="" line path entry desktop_files="" upstream_generated
   for entry in "${DESKTOP_I18N_FILES[@]}"; do
     desktop_files="${desktop_files}${DESKTOP_I18N_DIR}/${entry##*:}"$'\n'
   done
@@ -389,6 +395,17 @@ NODE
     path="${path##* -> }"
     path="${path#\"}"
     path="${path%\"}"
+    upstream_generated=0
+    for entry in "${UPSTREAM_GENERATED_FILES[@]}"; do
+      if [[ "${path}" == "${entry}" ]]; then
+        node "${ZH_ROOT}/scripts/lib/upstream-generated.ts" "${SRC}" "${BASELINE_COMMIT}" "${path}" </dev/null ||
+          die "上游生成文件 ${path} 不满足 T18 主会话决定 §2 的限定条件"
+        log "放行上游生成文件 ${path}：依据 T18 主会话决定 §2；输入与生成器相对基线 HEAD 未改动，干净基线输入在输出目录外使用同一 tailwindcss 独立生成，与构建文件逐字节一致"
+        upstream_generated=1
+        break
+      fi
+    done
+    [[ "${upstream_generated}" == 1 ]] && continue
     if ! grep -qxF -- "${path}" <<<"${allowed}"; then
       unexpected="${unexpected}  ${line}"$'\n'
     fi
@@ -397,7 +414,7 @@ NODE
     printf '%s' "${unexpected}" >&2
     die ".build/src 出现了补丁、包装配置、桌面汉化文件和 server 版本字段以外的改动"
   fi
-  log "仅有补丁文件、包装配置、${DESKTOP_I18N_DIR}/ 的 ${#DESKTOP_I18N_FILES[@]} 个文件及 server 版本字段有改动"
+  log "工作树改动守卫通过：补丁文件、包装配置、${DESKTOP_I18N_DIR}/ 的 ${#DESKTOP_I18N_FILES[@]} 个文件、server 版本字段，以及逐项验证的上游生成文件"
 }
 
 step 1 "校验基线 commit" check_baseline

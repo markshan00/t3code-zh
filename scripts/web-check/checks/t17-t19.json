@@ -1,0 +1,1931 @@
+{
+  "schema": 1,
+  "title": "T17–T19 累积网页检查",
+  "dataset": {
+    "directory": "No project",
+    "actions": [
+      {
+        "type": "click",
+        "target": {
+          "role": "button",
+          "name": {
+            "zh-CN": "添加项目",
+            "en": "Add project"
+          }
+        },
+        "first": true
+      },
+      {
+        "type": "click",
+        "target": {
+          "name": {
+            "zh-CN": "本地文件夹",
+            "en": "Local folder"
+          }
+        },
+        "first": false
+      },
+      {
+        "type": "fill",
+        "target": {
+          "selector": "input[placeholder^=\"Enter path\"]"
+        },
+        "value": "$project"
+      },
+      {
+        "type": "click",
+        "target": {
+          "selector": "button[aria-label=\"Add (Enter)\"]"
+        }
+      }
+    ]
+  },
+  "checks": [
+    {
+      "name": "wizard",
+      "kind": "real",
+      "path": "/welcome",
+      "region": "body",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "连接，第 1 步",
+            "Agent，第 2 步",
+            "项目，第 3 步",
+            "连接你的设备"
+          ],
+          "forbidden": [
+            "Connect, step 1",
+            "Agents, step 2",
+            "Projects, step 3",
+            "Connect your computers"
+          ]
+        },
+        "en": {
+          "required": [
+            "Connect, step 1",
+            "Agents, step 2",
+            "Projects, step 3",
+            "Connect your computers"
+          ],
+          "forbidden": [
+            "连接你的设备"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-wizard-real",
+        "comparison": "指定中文 / English 原文与旧证据一致；新空白 profile 和运行时背景内容不作整页逐字比较"
+      }
+    },
+    {
+      "name": "general",
+      "kind": "real",
+      "path": "/settings/general",
+      "region": "body",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "自动",
+            "$version"
+          ],
+          "forbidden": [
+            "Automatic"
+          ]
+        },
+        "en": {
+          "required": [
+            "Automatic",
+            "$version"
+          ],
+          "forbidden": [
+            "自动"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-general-real",
+        "comparison": "指定中文 / English 原文与旧证据一致；新空白 profile 和运行时背景内容不作整页逐字比较"
+      }
+    },
+    {
+      "name": "storage",
+      "kind": "real",
+      "path": "/settings/storage",
+      "region": "body",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "请先开启一条清理规则。",
+            "随任务删除工作树",
+            "保留有本地更改的工作树"
+          ],
+          "forbidden": [
+            "Turn on a cleanup rule to use this.",
+            "Delete worktrees with deleted threads",
+            "Keep worktrees with local changes"
+          ]
+        },
+        "en": {
+          "required": [
+            "Turn on a cleanup rule to use this.",
+            "Delete worktrees with deleted threads",
+            "Keep worktrees with local changes"
+          ],
+          "forbidden": [
+            "请先开启一条清理规则。",
+            "随任务删除工作树",
+            "保留有本地更改的工作树"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-storage-real",
+        "comparison": "指定中文 / English 原文与旧证据一致；新空白 profile 和运行时背景内容不作整页逐字比较"
+      },
+      "disabled": {
+        "zh-CN": "立即删除",
+        "en": "Delete now"
+      }
+    },
+    {
+      "name": "keep-options",
+      "kind": "real",
+      "path": "/settings/storage",
+      "region": "body",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "role": "combobox",
+            "name": {
+              "zh-CN": "保留有本地更改的工作树",
+              "en": "Keep worktrees with local changes"
+            }
+          },
+          "first": false
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "任何本地文件",
+            "未提交的更改",
+            "已编辑的已跟踪文件"
+          ],
+          "forbidden": [
+            "Any local files",
+            "Uncommitted changes",
+            "Edited tracked files"
+          ]
+        },
+        "en": {
+          "required": [
+            "Any local files",
+            "Uncommitted changes",
+            "Edited tracked files"
+          ],
+          "forbidden": [
+            "任何本地文件",
+            "未提交的更改",
+            "已编辑的已跟踪文件"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-keep-options-real",
+        "comparison": "指定中文 / English 原文与旧证据一致；新空白 profile 和运行时背景内容不作整页逐字比较"
+      }
+    },
+    {
+      "name": "source-control",
+      "kind": "real",
+      "path": "/settings/source-control",
+      "region": "body",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "GitCafe"
+          ],
+          "forbidden": []
+        },
+        "en": {
+          "required": [
+            "GitCafe"
+          ],
+          "forbidden": []
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-source-control-real",
+        "comparison": "指定中文 / English 原文与旧证据一致；新空白 profile 和运行时背景内容不作整页逐字比较"
+      }
+    },
+    {
+      "name": "project-picker-open",
+      "kind": "real",
+      "path": "/",
+      "region": "body",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "selector": "[data-draft-project-trigger]"
+          },
+          "first": true
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "无项目",
+            "添加项目",
+            "搜索项目"
+          ],
+          "forbidden": [
+            "No project",
+            "Add project",
+            "Search projects"
+          ]
+        },
+        "en": {
+          "required": [
+            "No project",
+            "Add project",
+            "Search projects"
+          ],
+          "forbidden": [
+            "无项目",
+            "添加项目",
+            "搜索项目"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-project-picker-open-real",
+        "comparison": "指定中文 / English 原文与旧证据一致；新空白 profile 和运行时背景内容不作整页逐字比较"
+      }
+    },
+    {
+      "name": "project-picker-search",
+      "kind": "real",
+      "path": "/",
+      "region": "body",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "selector": "[data-draft-project-trigger]"
+          },
+          "first": true
+        },
+        {
+          "type": "fill",
+          "target": {
+            "role": "combobox",
+            "name": {
+              "zh-CN": "搜索项目",
+              "en": "Search projects"
+            }
+          },
+          "value": {
+            "zh-CN": "无项目",
+            "en": "No project"
+          }
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "无项目"
+          ],
+          "forbidden": [
+            "No project"
+          ]
+        },
+        "en": {
+          "required": [
+            "No project"
+          ],
+          "forbidden": [
+            "无项目"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-project-picker-search-real",
+        "comparison": "指定中文 / English 原文与旧证据一致；新空白 profile 和运行时背景内容不作整页逐字比较"
+      }
+    },
+    {
+      "name": "project-picker-empty",
+      "kind": "real",
+      "path": "/",
+      "region": "body",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "selector": "[data-draft-project-trigger]"
+          },
+          "first": true
+        },
+        {
+          "type": "fill",
+          "target": {
+            "role": "combobox",
+            "name": {
+              "zh-CN": "搜索项目",
+              "en": "Search projects"
+            }
+          },
+          "value": "t3zh-no-match-xyz"
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "没有匹配的项目。"
+          ],
+          "forbidden": [
+            "No matching projects."
+          ]
+        },
+        "en": {
+          "required": [
+            "No matching projects."
+          ],
+          "forbidden": [
+            "没有匹配的项目。"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-project-picker-empty-real",
+        "comparison": "指定中文 / English 原文与旧证据一致；新空白 profile 和运行时背景内容不作整页逐字比较"
+      }
+    },
+    {
+      "name": "gitcafe-source",
+      "kind": "real",
+      "path": "/",
+      "region": "body",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "role": "button",
+            "name": {
+              "zh-CN": "添加项目",
+              "en": "Add project"
+            }
+          },
+          "first": true
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "GitCafe 仓库",
+            "克隆 GitCafe 所有者/仓库"
+          ],
+          "forbidden": [
+            "GitCafe repository",
+            "Clone GitCafe owner/repo"
+          ]
+        },
+        "en": {
+          "required": [
+            "GitCafe repository",
+            "Clone GitCafe owner/repo"
+          ],
+          "forbidden": [
+            "GitCafe 仓库",
+            "克隆 GitCafe 所有者/仓库"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-gitcafe-source-real",
+        "comparison": "指定中文 / English 原文与旧证据一致；新空白 profile 和运行时背景内容不作整页逐字比较"
+      }
+    },
+    {
+      "name": "cleanup-results",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "cleanup-results",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "上次运行于 1 小时前，已回收 1 MB。",
+            "上次运行于 1 小时前，已回收 1 MB。 1 个项目无法删除。",
+            "上次运行于 1 小时前，已回收 1 MB。 3 个项目无法删除。",
+            "轮转日志",
+            "浏览器产物",
+            "没有需要清理的内容。",
+            "1 个文件",
+            "3 个文件",
+            "另有 3 条结果。"
+          ],
+          "forbidden": [
+            "Last run 1h ago. 1 MB recovered.",
+            "Last run 1h ago. 1 MB recovered. 1 item couldn't be removed.",
+            "Last run 1h ago. 1 MB recovered. 3 items couldn't be removed.",
+            "Rotated logs",
+            "Browser artifacts",
+            "Nothing needed cleanup.",
+            "1 file",
+            "3 files",
+            "3 more results."
+          ],
+          "exact_text": "上次运行于 1 小时前，已回收 1 MB。\n\n已删除 2 个，保留 3 个\n\n上次运行于 1 小时前，已回收 1 MB。 1 个项目无法删除。\n\n已删除 2 个，保留 3 个，失败 1 个\n\n上次运行于 1 小时前，已回收 1 MB。 3 个项目无法删除。\n\n已删除 2 个，保留 3 个，失败 3 个\n\nT19 environment: 工作树\n\n终端仍处于打开状态。\n\nT19 environment: 轮转日志\n\n没有过期文件\n\n1 个文件 · 1.00 MB\nT19 environment: 浏览器产物\n\n没有过期文件\n\n3 个文件 · 1.00 MB\n\nT19 environment: 另有 3 条结果。\n\nT19 empty environment: 没有需要清理的内容。"
+        },
+        "en": {
+          "required": [
+            "Last run 1h ago. 1 MB recovered.",
+            "Last run 1h ago. 1 MB recovered. 1 item couldn't be removed.",
+            "Last run 1h ago. 1 MB recovered. 3 items couldn't be removed.",
+            "Rotated logs",
+            "Browser artifacts",
+            "Nothing needed cleanup.",
+            "1 file",
+            "3 files",
+            "3 more results."
+          ],
+          "forbidden": [
+            "上次运行于 1 小时前，已回收 1 MB。",
+            "上次运行于 1 小时前，已回收 1 MB。 1 个项目无法删除。",
+            "上次运行于 1 小时前，已回收 1 MB。 3 个项目无法删除。",
+            "轮转日志",
+            "浏览器产物",
+            "没有需要清理的内容。",
+            "1 个文件",
+            "3 个文件",
+            "另有 3 条结果。"
+          ],
+          "exact_text": "Last run 1h ago. 1 MB recovered.\n\n2 removed, 3 kept\n\nLast run 1h ago. 1 MB recovered. 1 item couldn't be removed.\n\n2 removed, 3 kept, 1 failed\n\nLast run 1h ago. 1 MB recovered. 3 items couldn't be removed.\n\n2 removed, 3 kept, 3 failed\n\nT19 environment: Worktrees\n\nOpen terminal\n\nT19 environment: Rotated logs\n\nNo expired files\n\n1 file · 1.00 MB\nT19 environment: Browser artifacts\n\nNo expired files\n\n3 files · 1.00 MB\n\nT19 environment: 3 more results.\n\nT19 empty environment: Nothing needed cleanup."
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-cleanup-results-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      },
+      "forbidden_all": [
+        "Worktrees. ",
+        "Rotated logs. ",
+        "Browser artifacts. "
+      ]
+    },
+    {
+      "name": "new-states-one",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "new-states-one",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "子 Agent 需要输入",
+            "打开问题",
+            "由 T3 Code 发送",
+            "导入项目",
+            "从所选设备上的 Claude Code 和 Codex 导入项目与对话。",
+            "不导入项目",
+            "导入 0 个项目"
+          ],
+          "forbidden": [
+            "Subagent needs input",
+            "Open question",
+            "Sent by T3 Code",
+            "Import your projects",
+            "Import projects and conversations from Claude Code and Codex on your selected computers.",
+            "Do not import projects",
+            "Import 0 projects"
+          ]
+        },
+        "en": {
+          "required": [
+            "Subagent needs input",
+            "Open question",
+            "Sent by T3 Code",
+            "Import your projects",
+            "Import projects and conversations from Claude Code and Codex on your selected computers.",
+            "Do not import projects",
+            "Import 0 projects"
+          ],
+          "forbidden": [
+            "子 Agent 需要输入",
+            "打开问题",
+            "由 T3 Code 发送",
+            "导入项目",
+            "从所选设备上的 Claude Code 和 Codex 导入项目与对话。",
+            "不导入项目",
+            "导入 0 个项目"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-new-states-one-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      }
+    },
+    {
+      "name": "new-states-many",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "new-states-many",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "3 个子 Agent 需要输入",
+            "打开问题",
+            "由 T3 Code 发送",
+            "导入项目",
+            "从所选设备上的 Claude Code 和 Codex 导入项目与对话。",
+            "不导入项目",
+            "导入 0 个项目"
+          ],
+          "forbidden": [
+            "3 subagents need input",
+            "Open question",
+            "Sent by T3 Code",
+            "Import your projects",
+            "Import projects and conversations from Claude Code and Codex on your selected computers.",
+            "Do not import projects",
+            "Import 0 projects"
+          ]
+        },
+        "en": {
+          "required": [
+            "3 subagents need input",
+            "Open question",
+            "Sent by T3 Code",
+            "Import your projects",
+            "Import projects and conversations from Claude Code and Codex on your selected computers.",
+            "Do not import projects",
+            "Import 0 projects"
+          ],
+          "forbidden": [
+            "3 个子 Agent 需要输入",
+            "打开问题",
+            "由 T3 Code 发送",
+            "导入项目",
+            "从所选设备上的 Claude Code 和 Codex 导入项目与对话。",
+            "不导入项目",
+            "导入 0 个项目"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-new-states-many-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      }
+    },
+    {
+      "name": "navigation",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "navigation",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "打开父任务：Projects to start",
+            "唯一一条评论已被筛选条件隐藏。",
+            "纯文本"
+          ],
+          "forbidden": [
+            "Open parent thread: Projects to start",
+            "The only comment is hidden by the filter.",
+            "Plain text"
+          ],
+          "exact_text": "T1\nT19 project\n/\nProjects to start\n/\nT19 child\n评审者\n无\n描述\n\n未提供说明。\n\n检查\n评论（1）\n1 个已隐藏\n最新优先\n\n唯一一条评论已被筛选条件隐藏。\n\n纯文本"
+        },
+        "en": {
+          "required": [
+            "Open parent thread: Projects to start",
+            "The only comment is hidden by the filter.",
+            "Plain text"
+          ],
+          "forbidden": [
+            "打开父任务：Projects to start",
+            "唯一一条评论已被筛选条件隐藏。",
+            "纯文本"
+          ],
+          "exact_text": "T1\nT19 project\n/\nProjects to start\n/\nT19 child\nReviewers\nNone\nDescription\n\nNo description provided.\n\nChecks\nComments (1)\n1 hidden\nNewest first\n\nThe only comment is hidden by the filter.\n\nPlain text"
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-navigation-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      }
+    },
+    {
+      "name": "navigation-many",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "navigation-many",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "打开父任务：Projects to start",
+            "全部 3 条评论已被筛选条件隐藏。"
+          ],
+          "forbidden": [
+            "Open parent thread: Projects to start",
+            "All 3 comments are hidden by the filter."
+          ],
+          "exact_text": "T1\nT19 project\n/\nProjects to start\n/\nT19 child\n评审者\n无\n描述\n\n未提供说明。\n\n检查\n评论（3）\n3 个已隐藏\n最新优先\n\n全部 3 条评论已被筛选条件隐藏。\n\n纯文本"
+        },
+        "en": {
+          "required": [
+            "Open parent thread: Projects to start",
+            "All 3 comments are hidden by the filter."
+          ],
+          "forbidden": [
+            "打开父任务：Projects to start",
+            "全部 3 条评论已被筛选条件隐藏。"
+          ],
+          "exact_text": "T1\nT19 project\n/\nProjects to start\n/\nT19 child\nReviewers\nNone\nDescription\n\nNo description provided.\n\nChecks\nComments (3)\n3 hidden\nNewest first\n\nAll 3 comments are hidden by the filter.\n\nPlain text"
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-navigation-many-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      }
+    },
+    {
+      "name": "pr-filter-menu",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "navigation-many",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "role": "button",
+            "name": {
+              "zh-CN": "筛选评论",
+              "en": "Filter comments"
+            }
+          }
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "机器人评论"
+          ],
+          "forbidden": [
+            "Bot comments"
+          ]
+        },
+        "en": {
+          "required": [
+            "Bot comments"
+          ],
+          "forbidden": [
+            "机器人评论"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-pr-filter-menu-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      },
+      "extra_regions": [
+        "[role=\"menu\"]"
+      ]
+    },
+    {
+      "name": "code-languages",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "navigation",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "role": "combobox",
+            "name": {
+              "zh-CN": "代码语言：纯文本",
+              "en": "Code language: Plain text"
+            }
+          }
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "纯文本",
+            "搜索语言"
+          ],
+          "forbidden": [
+            "Plain text",
+            "Search languages"
+          ]
+        },
+        "en": {
+          "required": [
+            "Plain text",
+            "Search languages"
+          ],
+          "forbidden": [
+            "纯文本",
+            "搜索语言"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-code-languages-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      },
+      "extra_regions": [
+        "[data-slot=\"combobox-popup\"]"
+      ]
+    },
+    {
+      "name": "tabs-before",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "tabs-before",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "文件",
+            "浏览器",
+            "差异"
+          ],
+          "forbidden": [
+            "Files",
+            "Browser",
+            "Diff"
+          ],
+          "exact_text": "差异\n文件\n浏览器\n\nT19 simulated panels"
+        },
+        "en": {
+          "required": [
+            "Files",
+            "Browser",
+            "Diff"
+          ],
+          "forbidden": [
+            "文件",
+            "浏览器",
+            "差异"
+          ],
+          "exact_text": "Diff\nFiles\nBrowser\n\nT19 simulated panels"
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-tabs-before-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      },
+      "tab_order": {
+        "zh-CN": [
+          "差异",
+          "文件",
+          "浏览器"
+        ],
+        "en": [
+          "Diff",
+          "Files",
+          "Browser"
+        ]
+      }
+    },
+    {
+      "name": "tabs-after",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "tabs-before",
+      "actions": [
+        {
+          "type": "drag",
+          "target": {
+            "role": "button",
+            "name": {
+              "zh-CN": "差异",
+              "en": "Diff"
+            }
+          },
+          "to": {
+            "role": "button",
+            "name": {
+              "zh-CN": "浏览器",
+              "en": "Browser"
+            }
+          }
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "可拖动项 差异 已放到区域 浏览器"
+          ],
+          "forbidden": [
+            "Draggable item diff was dropped over droppable area preview"
+          ],
+          "exact_text": "文件\n浏览器\n差异\n可拖动项 差异 已放到区域 浏览器\n\nT19 simulated panels"
+        },
+        "en": {
+          "required": [
+            "Draggable item diff was dropped over droppable area preview"
+          ],
+          "forbidden": [
+            "可拖动项 差异 已放到区域 浏览器"
+          ],
+          "exact_text": "Files\nBrowser\nDiff\nDraggable item diff was dropped over droppable area preview\n\nT19 simulated panels"
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-tabs-after-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      },
+      "tab_order": {
+        "zh-CN": [
+          "文件",
+          "浏览器",
+          "差异"
+        ],
+        "en": [
+          "Files",
+          "Browser",
+          "Diff"
+        ]
+      },
+      "expect_move": {
+        "id": "diff",
+        "to": 2
+      }
+    },
+    {
+      "name": "update-track",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "update-track",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "更新通道",
+            "$version"
+          ],
+          "forbidden": [
+            "Update track"
+          ],
+          "exact_text": "版本\n$version\n\n当前应用版本。\n\n检查更新\n更新通道\n\n使用稳定版或每日构建版，可随时切换。\n\n稳定版\nt3 命令\n\n在任意终端中使用 `t3` 运行 T3 Code CLI。\n\n安装"
+        },
+        "en": {
+          "required": [
+            "Update track",
+            "$version"
+          ],
+          "forbidden": [
+            "更新通道"
+          ],
+          "exact_text": "Version\n$version\n\nCurrent version of the application.\n\nCheck for Updates\nUpdate track\n\nUse stable releases or nightly builds. Switch back anytime.\n\nStable\nt3 command\n\nRun T3 Code's CLI as `t3` from any terminal.\n\nInstall"
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-update-track-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      }
+    },
+    {
+      "name": "usage",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "usage",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "T19 Codex 1",
+            "T19 Codex 2",
+            "T19 Claude 1",
+            "T19 Claude 2",
+            "80%",
+            "95%",
+            "85%",
+            "100%",
+            "45%",
+            "60%",
+            "74%",
+            "97%"
+          ],
+          "forbidden": [],
+          "exact_text": "所有服务提供方\nCodex\nTC\nT19 Codex 1\n会话\n80%\n剩余\n2 小时 0 分钟 后重置\n每周\n45%\n剩余\n2 天 0 小时 后重置\nTC\nT19 Codex 2\n会话\n95%\n剩余\n2 小时 0 分钟 后重置\n每周\n60%\n剩余\n2 天 0 小时 后重置\nClaude\nTC\nT19 Claude 1\n会话\n85%\n剩余\n2 小时 0 分钟 后重置\n每周\n74%\n剩余\n2 天 0 小时 后重置\nTC\nT19 Claude 2\n会话\n100%\n剩余\n2 小时 0 分钟 后重置\n每周\n97%\n剩余\n2 天 0 小时 后重置"
+        },
+        "en": {
+          "required": [
+            "T19 Codex 1",
+            "T19 Codex 2",
+            "T19 Claude 1",
+            "T19 Claude 2",
+            "80%",
+            "95%",
+            "85%",
+            "100%",
+            "45%",
+            "60%",
+            "74%",
+            "97%"
+          ],
+          "forbidden": [],
+          "exact_text": "All providers\nCodex\nTC\nT19 Codex 1\nSession\n80%\nleft\nresets in 2h 0m\nWeekly\n45%\nleft\nresets in 2d 0h\nTC\nT19 Codex 2\nSession\n95%\nleft\nresets in 2h 0m\nWeekly\n60%\nleft\nresets in 2d 0h\nClaude\nTC\nT19 Claude 1\nSession\n85%\nleft\nresets in 2h 0m\nWeekly\n74%\nleft\nresets in 2d 0h\nTC\nT19 Claude 2\nSession\n100%\nleft\nresets in 2h 0m\nWeekly\n97%\nleft\nresets in 2d 0h"
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-usage-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      },
+      "layout": {
+        "accounts": [
+          "T19 Codex 1",
+          "T19 Codex 2",
+          "T19 Claude 1",
+          "T19 Claude 2"
+        ],
+        "columns": 2,
+        "readings": {
+          "T19 Codex 1": [
+            "80%",
+            "45%"
+          ],
+          "T19 Codex 2": [
+            "95%",
+            "60%"
+          ],
+          "T19 Claude 1": [
+            "85%",
+            "74%"
+          ],
+          "T19 Claude 2": [
+            "100%",
+            "97%"
+          ]
+        }
+      }
+    }
+  ],
+  "fixtures": {
+    "cleanup-results": {
+      "modules": [
+        "cleanupResults",
+        "lastRun",
+        "summary"
+      ],
+      "tree": [
+        {
+          "component": "section",
+          "props": {},
+          "children": [
+            {
+              "component": "p",
+              "props": {},
+              "children": [
+                {
+                  "call": "lastRun",
+                  "args": [
+                    "1h ago",
+                    "1 MB",
+                    0
+                  ]
+                }
+              ]
+            },
+            {
+              "component": "p",
+              "props": {},
+              "children": [
+                {
+                  "call": "summary",
+                  "args": [
+                    2,
+                    3,
+                    0
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "component": "section",
+          "props": {},
+          "children": [
+            {
+              "component": "p",
+              "props": {},
+              "children": [
+                {
+                  "call": "lastRun",
+                  "args": [
+                    "1h ago",
+                    "1 MB",
+                    1
+                  ]
+                }
+              ]
+            },
+            {
+              "component": "p",
+              "props": {},
+              "children": [
+                {
+                  "call": "summary",
+                  "args": [
+                    2,
+                    3,
+                    1
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "component": "section",
+          "props": {},
+          "children": [
+            {
+              "component": "p",
+              "props": {},
+              "children": [
+                {
+                  "call": "lastRun",
+                  "args": [
+                    "1h ago",
+                    "1 MB",
+                    3
+                  ]
+                }
+              ]
+            },
+            {
+              "component": "p",
+              "props": {},
+              "children": [
+                {
+                  "call": "summary",
+                  "args": [
+                    2,
+                    3,
+                    3
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "component": "cleanupResults",
+          "props": {
+            "report": {
+              "entries": [
+                {
+                  "kind": "worktree",
+                  "path": null,
+                  "threadId": null,
+                  "threadTitle": "Worktrees",
+                  "outcome": "kept",
+                  "reason": "Open terminal",
+                  "files": null,
+                  "bytes": null
+                },
+                {
+                  "kind": "logs",
+                  "path": null,
+                  "threadId": null,
+                  "threadTitle": "Rotated logs",
+                  "outcome": "removed",
+                  "reason": "No expired files",
+                  "files": 1,
+                  "bytes": 1048576
+                },
+                {
+                  "kind": "artifacts",
+                  "path": null,
+                  "threadId": null,
+                  "threadTitle": "Browser artifacts",
+                  "outcome": "removed",
+                  "reason": "No expired files",
+                  "files": 3,
+                  "bytes": 1048576
+                }
+              ],
+              "omittedCount": 3,
+              "counts": {
+                "removed": 2,
+                "kept": 3,
+                "failed": 1
+              },
+              "bytesFreed": 1048576,
+              "finishedAt": "2026-10-10T00:00:00Z"
+            },
+            "environmentLabel": "T19 environment"
+          },
+          "children": []
+        },
+        {
+          "component": "cleanupResults",
+          "props": {
+            "report": {
+              "entries": [],
+              "omittedCount": 0,
+              "counts": {
+                "removed": 2,
+                "kept": 3,
+                "failed": 0
+              },
+              "bytesFreed": 1048576,
+              "finishedAt": "2026-10-10T00:00:00Z"
+            },
+            "environmentLabel": "T19 empty environment"
+          },
+          "children": []
+        }
+      ]
+    },
+    "new-states-one": {
+      "modules": [
+        "banner",
+        "timelineContext",
+        "userRow",
+        "importStep"
+      ],
+      "tree": [
+        {
+          "component": "banner",
+          "props": {
+            "items": [
+              {
+                "id": "input",
+                "variant": "info",
+                "priority": "activity",
+                "icon": null,
+                "title": {
+                  "$t": "Subagent needs input"
+                },
+                "actions": {
+                  "$element": {
+                    "component": "button",
+                    "props": {
+                      "onClick": {
+                        "$noop": true
+                      }
+                    },
+                    "children": [
+                      {
+                        "$t": "Open question"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "children": []
+        },
+        {
+          "provider": "timelineContext",
+          "value": {
+            "timestampFormat": "24-hour",
+            "resolvedTheme": "light",
+            "activeThreadEnvironmentId": "local",
+            "skills": [],
+            "providerStatuses": [],
+            "runs": [],
+            "onImageExpand": {
+              "$noop": true
+            },
+            "onFileOpen": {
+              "$noop": true
+            },
+            "onFileDownload": {
+              "$noop": true
+            },
+            "onOpenThread": {
+              "$noop": true
+            },
+            "findActive": false
+          },
+          "children": [
+            {
+              "component": "userRow",
+              "props": {
+                "row": {
+                  "kind": "message",
+                  "message": {
+                    "id": "t19-restart",
+                    "role": "user",
+                    "createdBy": "agent",
+                    "creationSource": "server",
+                    "text": "T19 resumed message",
+                    "createdAt": "2026-10-10T00:00:00Z",
+                    "attachments": []
+                  }
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "component": "importStep",
+          "props": {
+            "scans": [],
+            "isImporting": false,
+            "setIsImporting": {
+              "$noop": true
+            },
+            "onDone": {
+              "$noop": true
+            }
+          },
+          "children": []
+        }
+      ]
+    },
+    "new-states-many": {
+      "modules": [
+        "banner",
+        "timelineContext",
+        "userRow",
+        "importStep"
+      ],
+      "tree": [
+        {
+          "component": "banner",
+          "props": {
+            "items": [
+              {
+                "id": "input",
+                "variant": "info",
+                "priority": "activity",
+                "icon": null,
+                "title": {
+                  "$t": "3 subagents need input"
+                },
+                "actions": {
+                  "$element": {
+                    "component": "button",
+                    "props": {
+                      "onClick": {
+                        "$noop": true
+                      }
+                    },
+                    "children": [
+                      {
+                        "$t": "Open question"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "children": []
+        },
+        {
+          "provider": "timelineContext",
+          "value": {
+            "timestampFormat": "24-hour",
+            "resolvedTheme": "light",
+            "activeThreadEnvironmentId": "local",
+            "skills": [],
+            "providerStatuses": [],
+            "runs": [],
+            "onImageExpand": {
+              "$noop": true
+            },
+            "onFileOpen": {
+              "$noop": true
+            },
+            "onFileDownload": {
+              "$noop": true
+            },
+            "onOpenThread": {
+              "$noop": true
+            },
+            "findActive": false
+          },
+          "children": [
+            {
+              "component": "userRow",
+              "props": {
+                "row": {
+                  "kind": "message",
+                  "message": {
+                    "id": "t19-restart",
+                    "role": "user",
+                    "createdBy": "agent",
+                    "creationSource": "server",
+                    "text": "T19 resumed message",
+                    "createdAt": "2026-10-10T00:00:00Z",
+                    "attachments": []
+                  }
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "component": "importStep",
+          "props": {
+            "scans": [],
+            "isImporting": false,
+            "setIsImporting": {
+              "$noop": true
+            },
+            "onDone": {
+              "$noop": true
+            }
+          },
+          "children": []
+        }
+      ]
+    },
+    "navigation": {
+      "modules": [
+        "header",
+        "pr",
+        "language"
+      ],
+      "tree": [
+        {
+          "component": "header",
+          "props": {
+            "activeThreadEnvironmentId": "local",
+            "activeThreadId": "t19-child",
+            "activeThreadTitle": "T19 child",
+            "isServerThread": false,
+            "activeProject": {
+              "id": "t19-project",
+              "environmentId": "local",
+              "title": "T19 project",
+              "workspaceRoot": "/tmp/t19-demo"
+            },
+            "parentThreadLink": {
+              "threadId": "t19-parent",
+              "title": "Projects to start"
+            },
+            "onOpenThread": {
+              "$noop": true
+            },
+            "rightPanelOpen": false,
+            "onNewThreadInProject": {
+              "$noop": true
+            }
+          },
+          "children": []
+        },
+        {
+          "component": "pr",
+          "props": {
+            "environmentId": "local",
+            "threadRef": null,
+            "reference": {
+              "provider": "github",
+              "url": "https://example.invalid/pull/18"
+            },
+            "detail": {
+              "provider": "github",
+              "url": "https://example.invalid/pull/18",
+              "body": "",
+              "labels": [],
+              "reviewers": [],
+              "comments": [
+                {
+                  "id": "t19-comment-0",
+                  "author": {
+                    "login": "bot[bot]",
+                    "name": null,
+                    "isBot": true
+                  },
+                  "createdAt": "2026-10-10T00:00:00Z",
+                  "body": "T19 simulated comment",
+                  "url": null,
+                  "reviewState": null,
+                  "reactions": []
+                }
+              ],
+              "commentCount": 1,
+              "commits": [],
+              "reviewThreads": [],
+              "checks": [],
+              "commentsTruncated": false,
+              "capabilities": {
+                "labels": false,
+                "reviewers": {
+                  "request": false,
+                  "listCandidates": false
+                }
+              },
+              "viewerPermissions": {
+                "editDescription": false,
+                "requestReviewers": false
+              }
+            },
+            "activityPending": false,
+            "activityError": null,
+            "onRefresh": {
+              "$noop": true
+            }
+          },
+          "children": []
+        },
+        {
+          "component": "language",
+          "props": {
+            "language": "",
+            "theme": "light",
+            "disabled": false,
+            "onChange": {
+              "$noop": true
+            }
+          },
+          "children": []
+        }
+      ]
+    },
+    "navigation-many": {
+      "modules": [
+        "header",
+        "pr",
+        "language"
+      ],
+      "tree": [
+        {
+          "component": "header",
+          "props": {
+            "activeThreadEnvironmentId": "local",
+            "activeThreadId": "t19-child",
+            "activeThreadTitle": "T19 child",
+            "isServerThread": false,
+            "activeProject": {
+              "id": "t19-project",
+              "environmentId": "local",
+              "title": "T19 project",
+              "workspaceRoot": "/tmp/t19-demo"
+            },
+            "parentThreadLink": {
+              "threadId": "t19-parent",
+              "title": "Projects to start"
+            },
+            "onOpenThread": {
+              "$noop": true
+            },
+            "rightPanelOpen": false,
+            "onNewThreadInProject": {
+              "$noop": true
+            }
+          },
+          "children": []
+        },
+        {
+          "component": "pr",
+          "props": {
+            "environmentId": "local",
+            "threadRef": null,
+            "reference": {
+              "provider": "github",
+              "url": "https://example.invalid/pull/18"
+            },
+            "detail": {
+              "provider": "github",
+              "url": "https://example.invalid/pull/18",
+              "body": "",
+              "labels": [],
+              "reviewers": [],
+              "comments": [
+                {
+                  "id": "t19-comment-0",
+                  "author": {
+                    "login": "bot[bot]",
+                    "name": null,
+                    "isBot": true
+                  },
+                  "createdAt": "2026-10-10T00:00:00Z",
+                  "body": "T19 simulated comment",
+                  "url": null,
+                  "reviewState": null,
+                  "reactions": []
+                },
+                {
+                  "id": "t19-comment-1",
+                  "author": {
+                    "login": "bot[bot]",
+                    "name": null,
+                    "isBot": true
+                  },
+                  "createdAt": "2026-10-10T00:00:00Z",
+                  "body": "T19 simulated comment",
+                  "url": null,
+                  "reviewState": null,
+                  "reactions": []
+                },
+                {
+                  "id": "t19-comment-2",
+                  "author": {
+                    "login": "bot[bot]",
+                    "name": null,
+                    "isBot": true
+                  },
+                  "createdAt": "2026-10-10T00:00:00Z",
+                  "body": "T19 simulated comment",
+                  "url": null,
+                  "reviewState": null,
+                  "reactions": []
+                }
+              ],
+              "commentCount": 3,
+              "commits": [],
+              "reviewThreads": [],
+              "checks": [],
+              "commentsTruncated": false,
+              "capabilities": {
+                "labels": false,
+                "reviewers": {
+                  "request": false,
+                  "listCandidates": false
+                }
+              },
+              "viewerPermissions": {
+                "editDescription": false,
+                "requestReviewers": false
+              }
+            },
+            "activityPending": false,
+            "activityError": null,
+            "onRefresh": {
+              "$noop": true
+            }
+          },
+          "children": []
+        },
+        {
+          "component": "language",
+          "props": {
+            "language": "",
+            "theme": "light",
+            "disabled": false,
+            "onChange": {
+              "$noop": true
+            }
+          },
+          "children": []
+        }
+      ]
+    },
+    "tabs-before": {
+      "modules": [
+        "tabs"
+      ],
+      "state": {
+        "surfaces": [
+          {
+            "id": "diff",
+            "kind": "diff"
+          },
+          {
+            "id": "files",
+            "kind": "files"
+          },
+          {
+            "id": "preview",
+            "kind": "preview",
+            "resourceId": null
+          }
+        ]
+      },
+      "style": {
+        "height": 380
+      },
+      "tree": [
+        {
+          "component": "tabs",
+          "props": {
+            "mode": "inline",
+            "open": true,
+            "keybindings": [],
+            "getShortcutContext": {
+              "$noop": true
+            },
+            "surfaces": {
+              "$state": "surfaces"
+            },
+            "environmentId": null,
+            "activeSurfaceId": "diff",
+            "pendingSurfaceIds": {
+              "$set": []
+            },
+            "previewSessions": {},
+            "desktopByTabId": {},
+            "terminalLabelsById": {
+              "$map": []
+            },
+            "onActivate": {
+              "$noop": true
+            },
+            "onCloseSurface": {
+              "$noop": true
+            },
+            "onCloseOtherSurfaces": {
+              "$noop": true
+            },
+            "onCloseSurfacesToRight": {
+              "$noop": true
+            },
+            "onCloseAllSurfaces": {
+              "$noop": true
+            },
+            "onMoveSurface": {
+              "$handler": "moveSurface"
+            },
+            "onCopyFilePath": {
+              "$noop": true
+            },
+            "onAddBrowser": {
+              "$noop": true
+            },
+            "onAddBrowserInProfile": {
+              "$noop": true
+            },
+            "onAddTerminal": {
+              "$noop": true
+            },
+            "onAddDiff": {
+              "$noop": true
+            },
+            "onAddFiles": {
+              "$noop": true
+            },
+            "onAddPullRequest": {
+              "$noop": true
+            },
+            "onAddPullRequests": {
+              "$noop": true
+            },
+            "onAddDevice": {
+              "$noop": true
+            },
+            "browserAvailable": false,
+            "terminalAvailable": false,
+            "diffAvailable": false,
+            "filesAvailable": false,
+            "pullRequestAvailable": false,
+            "pullRequestsAvailable": false,
+            "deviceAvailable": false,
+            "children": {
+              "$element": {
+                "component": "p",
+                "props": {},
+                "children": [
+                  "T19 simulated panels"
+                ]
+              }
+            }
+          },
+          "children": []
+        }
+      ]
+    },
+    "update-track": {
+      "modules": [
+        "about"
+      ],
+      "desktopBridge": {},
+      "tree": [
+        {
+          "component": "about",
+          "props": {},
+          "children": []
+        }
+      ]
+    },
+    "usage": {
+      "modules": [
+        "filter",
+        "quota"
+      ],
+      "tree": [
+        {
+          "component": "filter",
+          "props": {
+            "hiddenProviders": {
+              "$set": []
+            },
+            "onChange": {
+              "$noop": true
+            }
+          },
+          "children": []
+        },
+        {
+          "component": "quota",
+          "props": {
+            "presentations": {
+              "$map": [
+                [
+                  "t19-fixture",
+                  {
+                    "entry": {
+                      "target": {
+                        "label": "T19 simulated environment"
+                      }
+                    },
+                    "serverConfig": {
+                      "providers": [
+                        {
+                          "instanceId": "codex-1",
+                          "driver": "codex",
+                          "displayName": "T19 Codex 1",
+                          "enabled": true,
+                          "installed": true,
+                          "status": "ready",
+                          "auth": {
+                            "status": "authenticated",
+                            "email": "codex-1@example.invalid",
+                            "label": "T19 fixture"
+                          },
+                          "checkedAt": "2026-10-10T00:00:00.000Z",
+                          "version": "0.1.0",
+                          "models": [],
+                          "slashCommands": [],
+                          "skills": [],
+                          "usageLimits": {
+                            "checkedAt": "2026-10-10T00:00:00.000Z",
+                            "windows": [
+                              {
+                                "id": "session",
+                                "kind": "session",
+                                "label": "Session",
+                                "usedPercent": 20,
+                                "windowDurationMins": 300,
+                                "resetsAt": "2026-10-10T02:00:00.000Z"
+                              },
+                              {
+                                "id": "weekly",
+                                "kind": "weekly",
+                                "label": "Weekly",
+                                "usedPercent": 55,
+                                "windowDurationMins": 10080,
+                                "resetsAt": "2026-10-12T00:00:00.000Z"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "instanceId": "codex-2",
+                          "driver": "codex",
+                          "displayName": "T19 Codex 2",
+                          "enabled": true,
+                          "installed": true,
+                          "status": "ready",
+                          "auth": {
+                            "status": "authenticated",
+                            "email": "codex-2@example.invalid",
+                            "label": "T19 fixture"
+                          },
+                          "checkedAt": "2026-10-10T00:00:00.000Z",
+                          "version": "0.1.0",
+                          "models": [],
+                          "slashCommands": [],
+                          "skills": [],
+                          "usageLimits": {
+                            "checkedAt": "2026-10-10T00:00:00.000Z",
+                            "windows": [
+                              {
+                                "id": "session",
+                                "kind": "session",
+                                "label": "Session",
+                                "usedPercent": 5,
+                                "windowDurationMins": 300,
+                                "resetsAt": "2026-10-10T02:00:00.000Z"
+                              },
+                              {
+                                "id": "weekly",
+                                "kind": "weekly",
+                                "label": "Weekly",
+                                "usedPercent": 40,
+                                "windowDurationMins": 10080,
+                                "resetsAt": "2026-10-12T00:00:00.000Z"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "instanceId": "claude-1",
+                          "driver": "claudeAgent",
+                          "displayName": "T19 Claude 1",
+                          "enabled": true,
+                          "installed": true,
+                          "status": "ready",
+                          "auth": {
+                            "status": "authenticated",
+                            "email": "claude-1@example.invalid",
+                            "label": "T19 fixture"
+                          },
+                          "checkedAt": "2026-10-10T00:00:00.000Z",
+                          "version": "0.1.0",
+                          "models": [],
+                          "slashCommands": [],
+                          "skills": [],
+                          "usageLimits": {
+                            "checkedAt": "2026-10-10T00:00:00.000Z",
+                            "windows": [
+                              {
+                                "id": "session",
+                                "kind": "session",
+                                "label": "Session",
+                                "usedPercent": 15,
+                                "windowDurationMins": 300,
+                                "resetsAt": "2026-10-10T02:00:00.000Z"
+                              },
+                              {
+                                "id": "weekly",
+                                "kind": "weekly",
+                                "label": "Weekly",
+                                "usedPercent": 26,
+                                "windowDurationMins": 10080,
+                                "resetsAt": "2026-10-12T00:00:00.000Z"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "instanceId": "claude-2",
+                          "driver": "claudeAgent",
+                          "displayName": "T19 Claude 2",
+                          "enabled": true,
+                          "installed": true,
+                          "status": "ready",
+                          "auth": {
+                            "status": "authenticated",
+                            "email": "claude-2@example.invalid",
+                            "label": "T19 fixture"
+                          },
+                          "checkedAt": "2026-10-10T00:00:00.000Z",
+                          "version": "0.1.0",
+                          "models": [],
+                          "slashCommands": [],
+                          "skills": [],
+                          "usageLimits": {
+                            "checkedAt": "2026-10-10T00:00:00.000Z",
+                            "windows": [
+                              {
+                                "id": "session",
+                                "kind": "session",
+                                "label": "Session",
+                                "usedPercent": 0,
+                                "windowDurationMins": 300,
+                                "resetsAt": "2026-10-10T02:00:00.000Z"
+                              },
+                              {
+                                "id": "weekly",
+                                "kind": "weekly",
+                                "label": "Weekly",
+                                "usedPercent": 3,
+                                "windowDurationMins": 10080,
+                                "resetsAt": "2026-10-12T00:00:00.000Z"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            },
+            "now": 1791590400000
+          },
+          "children": []
+        }
+      ]
+    }
+  }
+}

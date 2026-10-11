@@ -27,7 +27,7 @@ index 5e52b482789133c30d871f5e145a32f8c8c28338..4d9a85935ac73fc84f0db6ceec040638
 @@ -199,6 +199,13 @@ const TIMESTAMP_FORMAT_LABELS = {
    "24-hour": "24-hour",
  } as const;
- 
+
 +// Added by patches/0001-language-setting.patch.
 +const LANGUAGE_OPTIONS: ReadonlyArray<{ value: string; label: string }> = [
 +  { value: "system", label: "System" },
@@ -40,7 +40,7 @@ index 5e52b482789133c30d871f5e145a32f8c8c28338..4d9a85935ac73fc84f0db6ceec040638
    wide: "Wide",
 @@ -2480,6 +2487,32 @@ export function GeneralSettingsPanel() {
        </SettingsSection>
- 
+
        <SettingsSection id="behavior" title="Behavior">
 +        {typeof window !== "undefined" && window.__t3zh ? (
 +          <SettingsRow

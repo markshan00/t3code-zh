@@ -1,5 +1,5 @@
 # The maintainer explicitly authorized this functional recovery fix on 2026-10-07.
-# Baseline: v0.0.46-nightly.20261007.2774 / 611132c171f3a821bd2e32f22261135cef6330ac
+# Baseline: v0.0.46-nightly.20261010.2935 / 98beed1a226c42b85c52ff5ee9d5dbb67d776a77
 # Keep T3 Connect loading/failure visible and offer a manual renderer reload.
 # Does not change auth sessions, scopes, account state or SDK dependencies.
 diff --git a/apps/web/src/components/clerk/T3ConnectSidebarSignIn.behavior.test.tsx b/apps/web/src/components/clerk/T3ConnectSidebarSignIn.behavior.test.tsx
@@ -171,16 +171,16 @@ index e75ce33cea..f7bf3f9a61 100644
 +import { ClerkFailed, ClerkLoaded, ClerkLoading, UserButton, useAuth } from "@clerk/react";
 +import { LogInIcon, RotateCwIcon } from "lucide-react";
 +import { useEffect, useState } from "react";
- 
+
  import { hasCloudPublicConfig } from "../../cloud/publicConfig";
  import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 +import { Button } from "../ui/button";
  import { T3_CONNECT_ACCOUNT_PAGES } from "./T3ConnectAccountPages";
  import { useT3ConnectAuthPrompt } from "./useT3ConnectAuthPrompt";
- 
+
  export function T3ConnectSidebarSignIn() {
    if (!hasCloudPublicConfig()) return null;
- 
+
 -  return <ConfiguredT3ConnectSidebarSignIn />;
 +  return (
 +    <>
@@ -196,16 +196,16 @@ index e75ce33cea..f7bf3f9a61 100644
 +    </>
 +  );
  }
- 
+
  export function T3ConnectSidebarAvatar() {
 @@ -50,7 +64,8 @@ function ConfiguredT3ConnectSidebarSignIn() {
    const { isLoaded, isSignedIn } = useAuth();
    const { authPrompt, openAuthPrompt } = useT3ConnectAuthPrompt();
- 
+
 -  if (!isLoaded || isSignedIn) return null;
 +  if (!isLoaded) return <T3ConnectAuthRecovery loading />;
 +  if (isSignedIn) return null;
- 
+
    return (
      <>
 @@ -66,3 +81,44 @@ function ConfiguredT3ConnectSidebarSignIn() {

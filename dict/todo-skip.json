@@ -16,6 +16,22 @@
     "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
   },
   {
+    "key": "Action required",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "Allow all edits this session",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "Allow every {0} request this session",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "Allow {0} this session",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
     "key": "Answers the page's open file picker, or sets files on a file input when locator/selector is given.",
     "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
   },
@@ -28,6 +44,38 @@
     "reason": "复数后缀 {1}（\"\" / \"s\"）：由附加清单的 Closed {count} pull request / pull requests 两条具体模板覆盖"
   },
   {
+    "key": "Compacting context...",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "Compaction failed",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "Compaction interrupted",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "Context compaction failed",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "Context compaction stopped",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "Could not reach the OpenCode server.",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "Cursor API key ({0})",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "Delegated task{0} {1}",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
     "key": "Drags one element and drops it onto another.",
     "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
   },
@@ -36,12 +84,36 @@
     "reason": "词库校验拒收：含 {{…}} 嵌套花括号（同 T05 已知限制），界面保持英文"
   },
   {
+    "key": "Empty value",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
     "key": "Environment-relative target. Prefer {kind:'environment-port',port:5173} for a dev server in the current environment.",
     "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
   },
   {
+    "key": "Exact collaborative browser tab to target, including a tab the user opened (see preview_status tabs). Omit to use this agent session's current tab, or the user's visible tab when this session has none.",
+    "reason": "发给 Agent 的工具说明"
+  },
+  {
     "key": "GH_TOKEN",
     "reason": "命令或环境变量名，保持原文。"
+  },
+  {
+    "key": "Go · Monthly",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "Go · Session",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "Go · Weekly",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "Grok account",
+    "reason": "服务端代码，不进 web 构建"
   },
   {
     "key": "HTML",
@@ -72,6 +144,10 @@
     "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
   },
   {
+    "key": "Monitor: {0}",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
     "key": "Mouse button. Defaults to left; right opens the page's context menu.",
     "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
   },
@@ -80,12 +156,40 @@
     "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
   },
   {
+    "key": "Muse retry",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "OK",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
     "key": "One or two sentences on what it is for and where the user gets or also enters it.",
     "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
   },
   {
     "key": "Only list this project's tasks. Omit for the calling thread's project, or for every project when the caller is not a T3 thread.",
     "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "OpenCode could not generate the text.",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "OpenCode did not finish generating in time.",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "OpenCode ended the generation in a way this version cannot read.",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "OpenCode session failed without an error payload.",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "OpenCode stopped the generation.",
+    "reason": "服务端代码，不进 web 构建"
   },
   {
     "key": "Option values or visible labels to select. Pass several for a multiple select, or an empty list to clear it.",
@@ -132,6 +236,14 @@
     "reason": "保留英文：SSH + 用户名@主机名，原样显示即正确"
   },
   {
+    "key": "Send an empty string to the extension.",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "Session mode advertised by the ACP agent.",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
     "key": "Set files directly on this <input type=file> instead of answering the open file picker.",
     "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
   },
@@ -142,6 +254,10 @@
   {
     "key": "Shared signing secret. Omit to keep the stored secret.",
     "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Sign-in failed. Start again.",
+    "reason": "服务端代码，不进入 web 构建；在最终 web 产物核对不存在。"
   },
   {
     "key": "Signature check; omit or null to accept requests by URL token only.",
@@ -160,8 +276,36 @@
     "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
   },
   {
+    "key": "Submit empty value",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "Subscription",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "Summarize the conversation and reduce context usage",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "T3 Code {0}",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "T3 could not confirm whether conversation history reached the provider. Retry the turn to recover the session.",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
     "key": "Tailscale",
     "reason": "保留英文：产品名"
+  },
+  {
+    "key": "Task",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "Task output",
+    "reason": "服务端代码，不进 web 构建"
   },
   {
     "key": "Text before the digest in the header value, such as 'sha256='. Empty for none.",
@@ -172,12 +316,32 @@
     "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
   },
   {
+    "key": "The MCP server returned an error.",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "The OpenCode event stream was lost.",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "The OpenCode server returned HTTP {0}.",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "The server is not an OpenCode 2 server.",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
     "key": "The values of the options now selected.",
     "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
   },
   {
     "key": "Thread to update. Omit to update the calling thread.",
     "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
+  },
+  {
+    "key": "Todo list",
+    "reason": "服务端代码，不进 web 构建"
   },
   {
     "key": "Trigger object: {type:'interval', everyMs}, {type:'fixed_time', timeOfDay, weekdays?}, or {type:'webhook'} to run on each request to a generated URL. Never stringify it unless the provider requires the compatibility form.",
@@ -192,8 +356,20 @@
     "reason": "保留英文，要与输入框的 Ultrathink: 前缀一致。"
   },
   {
+    "key": "Unsupported ACP update: {0}",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "Update project changes",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
     "key": "Use locator='aria-ref=<ref>' with a ref from the latest server snapshot (including iframe elements), or a unique Playwright role/text selector. Refs expire on navigation, a new snapshot, or control handoff; refresh the snapshot after a stale-ref error.",
     "reason": "发给 Agent 的浏览器自动化工具/schema 说明，保持英文；不是界面文案。"
+  },
+  {
+    "key": "User input",
+    "reason": "服务端代码，不进 web 构建"
   },
   {
     "key": "Webhook URL",
@@ -218,6 +394,26 @@
   {
     "key": "Write-only headers JSON, e.g. {\"Authorization\":\"Bearer …\"}",
     "reason": "T05 已知限制：含花括号的输入示例，保持英文"
+  },
+  {
+    "key": "[ACP audio ({0})]",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "[ACP binary resource{0}{1}]",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "[ACP image ({0}){1}]",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "[Historical {0}; {1}; thread={2}; run={3}; item={4}; provider-thread={5}; status={6}{7}]\n{8}",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "[Unsupported ACP content: {0}]",
+    "reason": "服务端代码，不进 web 构建"
   },
   {
     "key": "base64",
@@ -280,6 +476,14 @@
     "reason": "不是界面文字：主题颜色值"
   },
   {
+    "key": "pi process closed stdout",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "pi process exited with code {0}",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
     "key": "secretRef holds the value.",
     "reason": "发给 AI 的 MCP 工具 / schema 说明（packages/contracts），不是界面文字，保留英文"
   },
@@ -292,7 +496,27 @@
     "reason": "不是界面文字：Tailwind 类名"
   },
   {
+    "key": "xAI API key",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
     "key": "{\n  \"version\": 1,\n  \"name\": \"Aurora\",\n  \"appearance\": \"light\",\n  \"colors\": { ... }\n}",
     "reason": "不是界面文字：主题 JSON 示例（T05 已知）"
+  },
+  {
+    "key": "{0} CLI (`{1}`)",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "{0} delegated tasks {1}{2}",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "{0} subagent {1}",
+    "reason": "服务端代码，不进 web 构建"
+  },
+  {
+    "key": "{0}{1}, tool call failed",
+    "reason": "由 0009 的 displayFailedTool 用单槽位骨架覆盖，动态前缀不交给 t()"
   }
 ]

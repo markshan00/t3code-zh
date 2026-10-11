@@ -8,22 +8,22 @@
 
 | 类别 | 含义 | 条数 |
 |---|---|---:|
-| N1 | 原生界面，已翻译（patches/0003，dict/zh-CN.desktop.json） | 28 |
+| N1 | 原生界面，已翻译（patches/0003，dict/zh-CN.desktop.json） | 33 |
 | N0 | 原生窗口标题，但窗口不可见 | 1 |
 | N2 | 原生界面，只在 Windows / Linux 出现（未翻译） | 3 |
 | I1 | 经 IPC 在 web 显示，已在 web 显示处翻译（patches/0006，dict/zh-CN.json） | 30 |
-| I2 | 经 IPC 在 web 显示，未处理（原因见说明） | 15 |
+| I2 | 经 IPC 在 web 显示，未处理（原因见说明） | 25 |
 | I3 | 经 IPC 传给 web，但 web 不显示，或是数据 | 9 |
-| W | 经 IPC 在 web 显示，只在 Windows / Linux 出现（未翻译） | 84 |
-| C | 命令行输出：经控制 socket 回给 `t3` 命令行，不在图形界面 | 10 |
+| W | 经 IPC 在 web 显示，只在 Windows / Linux 出现（未翻译） | 88 |
+| C | 命令行输出：经控制 socket 回给 `t3` 命令行，不在图形界面 | 12 |
 | P | 预览注释工具（注入被预览页面，报告第 5 节，未翻译） | 31 |
-| E | 错误消息：Error / TaggedError 的 message 及其参数（§4「从不转换」位置） | 264 |
-| L | 日志与观测 | 129 |
-| S | 脚本、命令、SQL、HTML/CSS 模板、样式类名、SVG | 172 |
+| E | 错误消息：Error / TaggedError 的 message 及其参数（§4「从不转换」位置） | 267 |
+| L | 日志与观测 | 127 |
+| S | 脚本、命令、SQL、HTML/CSS 模板、样式类名、SVG | 202 |
 | D | 数据：路径片段、应用 / 浏览器名、给 AI 或 MCP 的内容、协议载荷等 | 26 |
-| 合计 | | 802 |
+| 合计 | | 854 |
 
-## N1：原生界面，已翻译（patches/0003，dict/zh-CN.desktop.json）（28）
+## N1：原生界面，已翻译（patches/0003，dict/zh-CN.desktop.json）（33）
 
 | file:line | 文字 | 说明 |
 |---|---|---|
@@ -31,30 +31,35 @@
 | `permissions/MacPermission.ts:14` | "Full Disk Access" |  |
 | `permissions/MacPermissionHelper.ts:44` | "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\">\n<meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'none'; img-src …" | 权限助手面板的 HTML；其中 3 处界面文字已翻译（报告 1.5） |
 | `permissions/MacPermissionHelper.ts:115` | "Set up {0}" | 窗口标题 |
-| `preview/Manager.ts:168` | "<!doctype html>\n<html>\n  <head>\n    <meta charset=\"utf-8\">\n    <meta\n      http-equiv=\"Content-Security-Policy\"\n      content=\"default-src '…" | 画中画窗口的 HTML；alt 文字已翻译（报告 1.6，fix2） |
-| `preview/Manager.ts:2843` | "Browser preview" | 窗口标题 |
+| `preview/BrowserSession.ts:252` | "Open this {0} link?" | 外部协议确认对话框，0003；URL 和协议翻译后插入 |
+| `preview/BrowserSession.ts:253` | "A page in the browser wants to open another application:\n\n{0}" | 外部协议确认对话框，0003；URL 和协议翻译后插入 |
+| `preview/Manager.ts:171` | "<!doctype html>\n<html>\n  <head>\n    <meta charset=\"utf-8\">\n    <meta\n      http-equiv=\"Content-Security-Policy\"\n      content=\"default-src '…" | 画中画窗口的 HTML；alt 文字已翻译（报告 1.6，fix2） |
+| `preview/Manager.ts:2878` | "Browser preview" | 窗口标题 |
+| `preview/Passkeys.ts:74` | "Unnamed passkey" |  |
 | `snapShot/SnapShotTransition.ts:142` | "<!doctype html><style>\nhtml,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent}\n#card{position:absolute;left:{0}px;…" | 截图动画遮罩的 HTML；回退标题 Captured window 已翻译（报告 1.7，fix2） |
 | `updates/DesktopUpdates.ts:258` | "Automatic updates are not available because no update feed is configured." | 原生对话框 detail（0003）；也进远程更新失败原因（0006） |
 | `updates/DesktopUpdates.ts:261` | "Automatic updates are only available in packaged production builds." | 同上 |
 | `updates/DesktopUpdates.ts:264` | "Automatic updates are disabled by the T3CODE_DISABLE_AUTO_UPDATE setting." | 同上 |
 | `updates/DesktopUpdates.ts:267` | "Automatic updates on Linux require the AppImage or the .deb package." | 同上 |
-| `window/DesktopApplicationMenu.ts:70` | "You're up to date!" |  |
-| `window/DesktopApplicationMenu.ts:71` | "T3 Code {0} is currently the newest version available." |  |
-| `window/DesktopApplicationMenu.ts:77` | "Update check failed" |  |
-| `window/DesktopApplicationMenu.ts:78` | "Could not check for updates." |  |
-| `window/DesktopApplicationMenu.ts:79` | "An unknown error occurred. Please try again later." |  |
-| `window/DesktopApplicationMenu.ts:95` | "Updates unavailable" |  |
-| `window/DesktopApplicationMenu.ts:96` | "Automatic updates are not available right now." |  |
-| `window/DesktopApplicationMenu.ts:164` | "Check for Updates..." |  |
-| `window/DesktopApplicationMenu.ts:212` | "Paste as Text" |  |
-| `window/DesktopApplicationMenu.ts:243` | "Actual Size" |  |
-| `window/DesktopApplicationMenu.ts:244` | "Zoom In" |  |
-| `window/DesktopApplicationMenu.ts:246` | "Zoom In" |  |
-| `window/DesktopApplicationMenu.ts:251` | "Zoom Out" |  |
-| `window/DesktopApplicationMenu.ts:261` | "Check for Updates..." |  |
-| `window/DesktopWindow.ts:558` | "No suggestions" |  |
-| `window/DesktopWindow.ts:566` | "Copy Link" |  |
-| `window/DesktopWindow.ts:577` | "Copy Image" |  |
+| `window/DesktopApplicationMenu.ts:76` | "You're up to date!" |  |
+| `window/DesktopApplicationMenu.ts:77` | "T3 Code {0} is currently the newest version available." |  |
+| `window/DesktopApplicationMenu.ts:83` | "Update check failed" |  |
+| `window/DesktopApplicationMenu.ts:84` | "Could not check for updates." |  |
+| `window/DesktopApplicationMenu.ts:85` | "An unknown error occurred. Please try again later." |  |
+| `window/DesktopApplicationMenu.ts:101` | "Updates unavailable" |  |
+| `window/DesktopApplicationMenu.ts:102` | "Automatic updates are not available right now." |  |
+| `window/DesktopApplicationMenu.ts:171` | "Check for Updates..." |  |
+| `window/DesktopApplicationMenu.ts:219` | "Paste as Text" |  |
+| `window/DesktopApplicationMenu.ts:248` | "Force Reload" |  |
+| `window/DesktopApplicationMenu.ts:253` | "Toggle Developer Tools" |  |
+| `window/DesktopApplicationMenu.ts:258` | "Actual Size" |  |
+| `window/DesktopApplicationMenu.ts:259` | "Zoom In" |  |
+| `window/DesktopApplicationMenu.ts:261` | "Zoom In" |  |
+| `window/DesktopApplicationMenu.ts:266` | "Zoom Out" |  |
+| `window/DesktopApplicationMenu.ts:276` | "Check for Updates..." |  |
+| `window/DesktopWindow.ts:577` | "No suggestions" |  |
+| `window/DesktopWindow.ts:585` | "Copy Link" |  |
+| `window/DesktopWindow.ts:596` | "Copy Image" |  |
 
 ## N0：原生窗口标题，但窗口不可见（1）
 
@@ -68,7 +73,7 @@
 |---|---|---|
 | `ipc/methods/notificationBadge.ts:32` | "{0} threads with new notifications" | Windows 任务栏 overlay 图标说明 |
 | `ipc/methods/snapShot.ts:121` | "Desktop config" | Linux（Niri / Hyprland）打开文件对话框的过滤器名 |
-| `window/DesktopWindow.ts:210` | "<!doctype html><html><head><meta charset=\"utf-8\"><meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'none'; style-src 'unsafe-i…" | WSL 启动画面的 HTML（Connecting to WSL…），只在 Windows |
+| `window/DesktopWindow.ts:217` | "<!doctype html><html><head><meta charset=\"utf-8\"><meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'none'; style-src 'unsafe-i…" | WSL 启动画面的 HTML（Connecting to WSL…），只在 Windows |
 
 ## I1：经 IPC 在 web 显示，已在 web 显示处翻译（patches/0006，dict/zh-CN.json）（30）
 
@@ -78,11 +83,11 @@
 | `backend/DesktopServerExposure.ts:175` | "Local network" | 端点名 |
 | `backend/DesktopServerExposure.ts:191` | "Custom HTTPS" | 端点名 |
 | `backend/DesktopServerExposure.ts:191` | "Custom endpoint" | 端点名 |
-| `snapShot/DesktopSnapShot.ts:103` | "Allow Screen Recording in System Settings, then restart T3 Code." | macOS 权限提示 |
-| `snapShot/DesktopSnapShot.ts:105` | "Allow Accessibility in System Settings, then restart T3 Code." | macOS 权限提示 |
-| `snapShot/DesktopSnapShot.ts:107` | "Allow Accessibility and Screen Recording in System Settings, then restart T3 Code." | macOS 权限提示 |
-| `snapShot/DesktopSnapShot.ts:696` | "This shortcut is already used by the system or another app." | 快捷键检测 |
-| `snapShot/DesktopSnapShot.ts:702` | "The system could not register this shortcut." | 快捷键检测 |
+| `snapShot/DesktopSnapShot.ts:104` | "Allow Screen Recording in System Settings, then restart T3 Code." | macOS 权限提示 |
+| `snapShot/DesktopSnapShot.ts:106` | "Allow Accessibility in System Settings, then restart T3 Code." | macOS 权限提示 |
+| `snapShot/DesktopSnapShot.ts:108` | "Allow Accessibility and Screen Recording in System Settings, then restart T3 Code." | macOS 权限提示 |
+| `snapShot/DesktopSnapShot.ts:697` | "This shortcut is already used by the system or another app." | 快捷键检测 |
+| `snapShot/DesktopSnapShot.ts:703` | "The system could not register this shortcut." | 快捷键检测 |
 | `snapShot/snapShot.ts:44` | "{0} is not available on this system." | 快捷键检测；macOS 的 4 种修饰键逐条进名单 |
 | `snapShot/snapShot.ts:48` | "This shortcut is already used by the system or another app." | 快捷键检测 |
 | `snapShot/snapShot.ts:52` | "Select All" | COMMON_MOD_ACTIONS 的值，同上 |
@@ -105,19 +110,29 @@
 | `updates/remoteUpdateFlow.ts:92` | "The desktop app update failed." | 远程更新失败原因 |
 | `updates/remoteUpdateFlow.ts:100` | "The desktop app did not report an update result." | 远程更新失败原因 |
 
-## I2：经 IPC 在 web 显示，未处理（原因见说明）（15）
+## I2：经 IPC 在 web 显示，未处理（原因见说明）（25）
 
 | file:line | 文字 | 说明 |
 |---|---|---|
-| `app/DesktopClerk.ts:158` | "Could not receive hosted web ChatGPT sign-in. Retry or use the redirect URL in the web app." | 登录错误：经 IPC 抛错（Electron 加前缀）后以 failure.message 通用显示，见报告 4.2 |
+| `app/DesktopClerk.ts:164` | "Could not receive hosted web ChatGPT sign-in. Retry or use the redirect URL in the web app." | 登录错误：经 IPC 抛错（Electron 加前缀）后以 failure.message 通用显示，见报告 4.2 |
+| `app/DesktopCliCommand.ts:126` | "powershell exited with {0}" | t3 命令安装错误，经 IPC 任意错误通道显示，不交给 t() |
+| `app/DesktopCliCommand.ts:132` | "Could not read your PATH, so it was left unchanged." | t3 命令安装错误，经 IPC 任意错误通道显示，不交给 t() |
+| `app/DesktopCliCommand.ts:137` | "Could not update your PATH." | t3 命令安装错误，经 IPC 任意错误通道显示，不交给 t() |
+| `app/DesktopCliCommand.ts:196` | "Could not set up the t3 launcher at {0}." | t3 命令安装错误，经 IPC 任意错误通道显示，不交给 t() |
+| `app/DesktopCliCommand.ts:203` | "The t3 command needs an installed app." | t3 命令安装错误，经 IPC 任意错误通道显示，不交给 t() |
+| `app/DesktopCliCommand.ts:211` | "Added t3 to your PATH but could not record it." | t3 命令安装错误，经 IPC 任意错误通道显示，不交给 t() |
+| `app/DesktopCliCommand.ts:222` | "Could not replace {0}." | t3 命令安装错误，经 IPC 任意错误通道显示，不交给 t() |
+| `app/DesktopCliCommand.ts:228` | "Another t3 at {0} runs first in a new terminal. Remove it, or run the launcher directly at {1}." | t3 命令安装错误，经 IPC 任意错误通道显示，不交给 t() |
+| `app/DesktopCliCommand.ts:254` | "Another t3 command is already installed, or no folder on your PATH is writable. Run the launcher directly at {0}." | t3 命令安装错误，经 IPC 任意错误通道显示，不交给 t() |
+| `app/DesktopCliCommand.ts:271` | "Could not remove {0}." | t3 命令安装错误，经 IPC 任意错误通道显示，不交给 t() |
 | `backend/tailscaleEndpointProvider.ts:48` | "Tailscale IP" | 端点名，产品名 + 缩写，不译 |
 | `backend/tailscaleEndpointProvider.ts:89` | "Tailscale HTTPS" | 端点名，产品名 + 缩写，不译 |
 | `ipc/methods/providerAuth.ts:31` | "Could not receive ChatGPT sign-in on this computer. Try again or paste the redirect URL." | 登录错误，同上 |
 | `ipc/methods/providerAuth.ts:47` | "Invalid ChatGPT sign-in request." | 登录错误，同上 |
-| `preload.ts:72` | "SSH authentication cancelled." | SSH 错误：经通用连接错误通道显示，见报告 4.2 |
-| `snapShot/DesktopSnapShot.ts:681` | "{0} is observed and cannot be reserved exclusively." | 快捷键可用时才返回；web 只在不可用时显示 message，不会出现 |
-| `snapShot/DesktopSnapShot.ts:683` | "{0} This key can also open the system's own menu." | 同上，且只在非 macOS |
-| `snapShot/DesktopSnapShot.ts:686` | "{0} This key can also activate app menu bars." | 同上，且只在 Windows |
+| `preload.ts:73` | "SSH authentication cancelled." | SSH 错误：经通用连接错误通道显示，见报告 4.2 |
+| `snapShot/DesktopSnapShot.ts:682` | "{0} is observed and cannot be reserved exclusively." | 快捷键可用时才返回；web 只在不可用时显示 message，不会出现 |
+| `snapShot/DesktopSnapShot.ts:684` | "{0} This key can also open the system's own menu." | 同上，且只在非 macOS |
+| `snapShot/DesktopSnapShot.ts:687` | "{0} This key can also activate app menu bars." | 同上，且只在 Windows |
 | `ssh/DesktopSshEnvironment.ts:96` | "Secure randomness is unavailable." | SSH 错误：经 IPC 抛错（Electron 加前缀）后走通用连接错误通道 |
 | `ssh/DesktopSshEnvironment.ts:100` | "T3 Code window is not available for SSH authentication." | SSH 错误，同上 |
 | `ssh/DesktopSshEnvironment.ts:103` | "SSH authentication timed out for {0}." | SSH 错误，同上 |
@@ -129,7 +144,7 @@
 
 | file:line | 文字 | 说明 |
 |---|---|---|
-| `backend/DesktopBackendConfiguration.ts:963` | "Local environment" | 本机环境的默认名（数据） |
+| `backend/DesktopBackendConfiguration.ts:975` | "Local environment" | 本机环境的默认名（数据） |
 | `backend/DesktopLocalEnvironmentAuth.ts:107` | "T3 Code Desktop" | 客户端名，发给服务端保存（数据） |
 | `backend/DesktopServerExposure.ts:167` | "Loopback endpoint for this desktop app." | 端点说明，web 不显示 endpoint.description |
 | `backend/DesktopServerExposure.ts:180` | "Reachable from devices on the same network." | 端点说明，web 不显示 |
@@ -139,34 +154,38 @@
 | `backend/tailscaleEndpointProvider.ts:95` | "HTTPS endpoint served by Tailscale Serve." | 端点说明，web 不显示 |
 | `backend/tailscaleEndpointProvider.ts:96` | "MagicDNS hostname. Configure Tailscale Serve for HTTPS access." | 端点说明，web 不显示 |
 
-## W：经 IPC 在 web 显示，只在 Windows / Linux 出现（未翻译）（84）
+## W：经 IPC 在 web 显示，只在 Windows / Linux 出现（未翻译）（88）
 
 | file:line | 文字 | 说明 |
 |---|---|---|
-| `backend/DesktopBackendConfiguration.ts:349` | "WSL is not available on this system" | WSL 预检原因 |
-| `backend/DesktopBackendConfiguration.ts:361` | "Unable to list WSL distributions: {0}" | WSL 预检原因 |
-| `backend/DesktopBackendConfiguration.ts:376` | "WSL distro is not installed: {0}" | WSL 预检原因 |
-| `backend/DesktopBackendConfiguration.ts:378` | "WSL has no installed distributions" | WSL 预检原因 |
-| `backend/DesktopBackendConfiguration.ts:379` | "WSL has no default distribution" | WSL 预检原因 |
-| `backend/DesktopBackendConfiguration.ts:391` | "WSL node-pty unavailable: {0}" | WSL 预检原因 |
-| `backend/DesktopBackendConfiguration.ts:410` | "missing server entry at {0}" | WSL 预检原因 |
-| `backend/DesktopBackendConfiguration.ts:418` | "wslpath conversion failed for {0}" | WSL 预检原因 |
-| `backend/DesktopBackendConfiguration.ts:434` | "WSL runtime unavailable: {0}" | WSL 预检原因 |
-| `snapShot/CaptureShortcutConfig.ts:294` | "Config saved, but Hyprland couldn't reload it cleanly. Check hyprctl configerrors, then run hyprctl reload." | 只在 Windows / Linux 的文件 |
-| `snapShot/DesktopSnapShot.ts:96` | "Modifier-pair shortcuts aren't available in this Wayland session. Choose another shortcut or use Take snapshot from the command palette." | Wayland |
-| `snapShot/DesktopSnapShot.ts:478` | "Active window" | Linux 截图来源名的回退值 |
-| `snapShot/DesktopSnapShot.ts:1014` | "SnapShots are not supported on this platform." | 只在不支持截图的平台 |
-| `snapShot/DesktopSnapShot.ts:1019` | "Configure the capture shortcut in your Niri config, not in T3 Code." | Linux（Niri） |
-| `snapShot/DesktopSnapShot.ts:1025` | "Change the capture binding in your Hyprland config, then save it." | Linux（Hyprland） |
-| `snapShot/DesktopSnapShot.ts:1057` | "Your desktop will confirm this shortcut when you save it." | Linux（portal） |
-| `snapShot/DesktopSnapShot.ts:1061` | "Unsupported shortcut." | Linux（portal） |
-| `snapShot/DesktopSnapShot.ts:1142` | "SnapShots require a Wayland session. X11 capture is not supported." | Linux（X11） |
-| `snapShot/DesktopSnapShot.ts:1143` | "SnapShots are not supported on this platform." | 只在不支持截图的平台 |
-| `snapShot/DesktopSnapShot.ts:1169` | "The Niri capture endpoint disconnected. Restart T3 Code." | Linux（Niri） |
-| `snapShot/DesktopSnapShot.ts:1190` | "Set up the shortcut to add it to your Niri config." | Linux（Niri） |
-| `snapShot/DesktopSnapShot.ts:1191` | "Could not start the Niri capture endpoint. Another T3 Code instance may be using it." | Linux（Niri） |
-| `snapShot/DesktopSnapShot.ts:1250` | "Could not connect to your desktop's shortcut service." | Linux（portal） |
-| `snapShot/DesktopSnapShot.ts:1535` | "Could not check desktop capture support. Check your desktop session and try again." | Linux（portal 模式） |
+| `backend/DesktopBackendConfiguration.ts:350` | "WSL is not available on this system" | WSL 预检原因 |
+| `backend/DesktopBackendConfiguration.ts:362` | "Unable to list WSL distributions: {0}" | WSL 预检原因 |
+| `backend/DesktopBackendConfiguration.ts:377` | "WSL distro is not installed: {0}" | WSL 预检原因 |
+| `backend/DesktopBackendConfiguration.ts:379` | "WSL has no installed distributions" | WSL 预检原因 |
+| `backend/DesktopBackendConfiguration.ts:380` | "WSL has no default distribution" | WSL 预检原因 |
+| `backend/DesktopBackendConfiguration.ts:392` | "WSL node-pty unavailable: {0}" | WSL 预检原因 |
+| `backend/DesktopBackendConfiguration.ts:411` | "missing server entry at {0}" | WSL 预检原因 |
+| `backend/DesktopBackendConfiguration.ts:419` | "wslpath conversion failed for {0}" | WSL 预检原因 |
+| `backend/DesktopBackendConfiguration.ts:435` | "WSL runtime unavailable: {0}" | WSL 预检原因 |
+| `backend/DesktopBackendConfiguration.ts:457` | "The staged WSL runtime did not start; retrying from the mounted server tree." | WSL 预检原因，只在 Windows |
+| `backend/DesktopBackendConfiguration.ts:463` | "Could not stage the WSL runtime; launching from the mounted server tree instead." | WSL 预检原因，只在 Windows |
+| `backend/DesktopBackendConfiguration.ts:691` | "Ignoring the WSL runtime archive because its SHA-256 identity is missing or invalid; launching from the mounted server tree instead." | WSL 预检原因，只在 Windows |
+| `backend/DesktopBackendConfiguration.ts:967` | "WSL-only backend requested but WSL is unavailable; starting the Windows primary instead." | WSL 预检原因，只在 Windows |
+| `snapShot/CaptureShortcutConfig.ts:295` | "Config saved, but Hyprland couldn't reload it cleanly. Check hyprctl configerrors, then run hyprctl reload." | 只在 Windows / Linux 的文件 |
+| `snapShot/DesktopSnapShot.ts:97` | "Modifier-pair shortcuts aren't available in this Wayland session. Choose another shortcut or use Take snapshot from the command palette." | Wayland |
+| `snapShot/DesktopSnapShot.ts:479` | "Active window" | Linux 截图来源名的回退值 |
+| `snapShot/DesktopSnapShot.ts:1016` | "SnapShots are not supported on this platform." | 只在不支持截图的平台 |
+| `snapShot/DesktopSnapShot.ts:1021` | "Configure the capture shortcut in your Niri config, not in T3 Code." | Linux（Niri） |
+| `snapShot/DesktopSnapShot.ts:1027` | "Change the capture binding in your Hyprland config, then save it." | Linux（Hyprland） |
+| `snapShot/DesktopSnapShot.ts:1059` | "Your desktop will confirm this shortcut when you save it." | Linux（portal） |
+| `snapShot/DesktopSnapShot.ts:1063` | "Unsupported shortcut." | Linux（portal） |
+| `snapShot/DesktopSnapShot.ts:1144` | "SnapShots require a Wayland session. X11 capture is not supported." | Linux（X11） |
+| `snapShot/DesktopSnapShot.ts:1145` | "SnapShots are not supported on this platform." | 只在不支持截图的平台 |
+| `snapShot/DesktopSnapShot.ts:1171` | "The Niri capture endpoint disconnected. Restart T3 Code." | Linux（Niri） |
+| `snapShot/DesktopSnapShot.ts:1192` | "Set up the shortcut to add it to your Niri config." | Linux（Niri） |
+| `snapShot/DesktopSnapShot.ts:1193` | "Could not start the Niri capture endpoint. Another T3 Code instance may be using it." | Linux（Niri） |
+| `snapShot/DesktopSnapShot.ts:1252` | "Could not connect to your desktop's shortcut service." | Linux（portal） |
+| `snapShot/DesktopSnapShot.ts:1537` | "Could not check desktop capture support. Check your desktop session and try again." | Linux（portal 模式） |
 | `snapShot/GnomeCaptureSetup.ts:175` | "The bundled extension supports GNOME {0}. This session runs GNOME {1}." | 只在 Windows / Linux 的文件 |
 | `snapShot/GnomeCaptureSetup.ts:181` | "Install the bundled extension to capture the active window without a picker. No download or administrator password is needed." | 只在 Windows / Linux 的文件 |
 | `snapShot/GnomeCaptureSetup.ts:187` | "Installed. Save your work, sign out of GNOME and sign back in, then return here to enable the extension. Restarting T3 Code alone is not eno…" | 只在 Windows / Linux 的文件 |
@@ -176,10 +195,10 @@
 | `snapShot/GnomeCaptureSetup.ts:211` | "GNOME could not load the extension. Check GNOME Extensions for details, or sign out and back in." | 只在 Windows / Linux 的文件 |
 | `snapShot/GnomeCaptureSetup.ts:216` | "Enable the T3 Code extension to allow active-window snapshots. You can disable it here at any time." | 只在 Windows / Linux 的文件 |
 | `snapShot/GnomeCaptureSetup.ts:221` | "Could not check GNOME extension setup." | 只在 Windows / Linux 的文件 |
-| `snapShot/HyprlandSnapShot.ts:93` | "Install the bundled helper to capture the window you're using." | 只在 Windows / Linux 的文件 |
-| `snapShot/HyprlandSnapShot.ts:103` | "Update the bundled capture helper to continue." | 只在 Windows / Linux 的文件 |
-| `snapShot/HyprlandSnapShot.ts:108` | "Helper ready. Hyprland may ask for screen-sharing permission on your first capture." | 只在 Windows / Linux 的文件 |
-| `snapShot/HyprlandSnapShot.ts:114` | "Couldn't check Hyprland capture access." | 只在 Windows / Linux 的文件 |
+| `snapShot/HyprlandSnapShot.ts:94` | "Install the bundled helper to capture the window you're using." | 只在 Windows / Linux 的文件 |
+| `snapShot/HyprlandSnapShot.ts:104` | "Update the bundled capture helper to continue." | 只在 Windows / Linux 的文件 |
+| `snapShot/HyprlandSnapShot.ts:109` | "Helper ready. Hyprland may ask for screen-sharing permission on your first capture." | 只在 Windows / Linux 的文件 |
+| `snapShot/HyprlandSnapShot.ts:115` | "Couldn't check Hyprland capture access." | 只在 Windows / Linux 的文件 |
 | `snapShot/KdeSnapShot.ts:113` | "Install the bundled helper to capture the window you're using without a picker." | 只在 Windows / Linux 的文件 |
 | `snapShot/KdeSnapShot.ts:119` | "The capture helper is missing from this build. Update or reinstall T3 Code." | 只在 Windows / Linux 的文件 |
 | `snapShot/KdeSnapShot.ts:124` | "Update the bundled capture helper to continue." | 只在 Windows / Linux 的文件 |
@@ -228,7 +247,7 @@
 | `wsl/DesktopWslEnvironment.ts:1221` | "ensureNodePty stub not configured" | 只在 Windows / Linux 的文件 |
 | `wsl/DesktopWslServerTree.ts:219` | "WSL server files could not be extracted to {0}: {1}" | 只在 Windows / Linux 的文件 |
 
-## C：命令行输出：经控制 socket 回给 `t3` 命令行，不在图形界面（10）
+## C：命令行输出：经控制 socket 回给 `t3` 命令行，不在图形界面（12）
 
 | file:line | 文字 | 说明 |
 |---|---|---|
@@ -242,55 +261,57 @@
 | `app/DesktopAppActivationBroker.ts:93` | "The T3 Code window closed before it opened the project." |  |
 | `app/DesktopAppActivationBroker.ts:106` | "The command closed before T3 Code was ready." |  |
 | `app/DesktopAppActivationBroker.ts:115` | "T3 Code is shutting down." |  |
+| `app/DesktopCliShim.ts:17` | "Written by T3 Code: runs the desktop app's bundled t3 CLI." | CLI 启动器说明或错误，不在图形界面 |
+| `app/DesktopCliShim.ts:27` | "T3 Code has moved or been removed. Open the app once to update this command." | CLI 启动器说明或错误，不在图形界面 |
 
 ## P：预览注释工具（注入被预览页面，报告第 5 节，未翻译）（31）
 
 | file:line | 文字 | 说明 |
 |---|---|---|
 | `preview/PickPreload.ts:39` | "color-mix(in srgb, var(--t3-primary) 10%, transparent)" |  |
-| `preview/PickPreload.ts:320` | "translate({0}px, {1}px)" |  |
-| `preview/PickPreload.ts:350` | "translate({0}px, {1}px)" |  |
-| `preview/PickPreload.ts:441` | "Style value" |  |
-| `preview/PickPreload.ts:463` | "grid min-h-7 grid-cols-[82px_minmax(0,1fr)] items-center gap-2 font-sans text-xs font-medium text-muted-foreground" |  |
-| `preview/PickPreload.ts:562` | "pointer-events-auto fixed hidden max-h-[calc(100vh-16px)] w-[min(360px,calc(100vw-16px))] flex-col overflow-hidden rounded-xl border border-…" |  |
-| `preview/PickPreload.ts:569` | "Expand annotation editor" |  |
-| `preview/PickPreload.ts:570` | "Expand annotation editor" |  |
-| `preview/PickPreload.ts:579` | "Describe the change…" |  |
-| `preview/PickPreload.ts:588` | "Drag annotation editor" |  |
-| `preview/PickPreload.ts:593` | "Attach annotation and screenshot (Enter)" |  |
-| `preview/PickPreload.ts:596` | "Attach annotation and screenshot (Enter). Send with Cmd/Ctrl+Enter." | 注入被预览页面的注释工具按钮提示，沿用报告第 5 节的未翻译范围 |
-| `preview/PickPreload.ts:597` | "Attach annotation and screenshot (Enter)" | 同一注释按钮在不可发送时的提示，沿用报告第 5 节的未翻译范围 |
-| `preview/PickPreload.ts:607` | "hidden max-h-[min(176px,calc(100vh-180px))] overflow-auto border-t border-border bg-muted/40 px-3" |  |
-| `preview/PickPreload.ts:753` | "Font size" |  |
-| `preview/PickPreload.ts:763` | "Font weight" |  |
-| `preview/PickPreload.ts:771` | "Line height" |  |
-| `preview/PickPreload.ts:780` | "grid min-h-7 grid-cols-[82px_minmax(0,1fr)] items-center gap-2 font-sans text-xs font-medium text-muted-foreground" |  |
-| `preview/PickPreload.ts:785` | "grid h-7 grid-cols-[22px_minmax(0,1fr)] items-center gap-1 rounded-md border border-input bg-background px-1 shadow-xs" |  |
-| `preview/PickPreload.ts:812` | "Text color" |  |
-| `preview/PickPreload.ts:833` | "Border color" |  |
-| `preview/PickPreload.ts:844` | "Border width" |  |
-| `preview/PickPreload.ts:858` | "Lock aspect ratio" |  |
-| `preview/PickPreload.ts:955` | "Select elements (V)" |  |
-| `preview/PickPreload.ts:957` | "Draw freehand (D)" |  |
-| `preview/PickPreload.ts:958` | "Remove an annotation target (E)" |  |
-| `preview/PickPreload.ts:1054` | "Collapse annotation editor" |  |
-| `preview/PickPreload.ts:1055` | "Collapse annotation editor" |  |
-| `preview/PickPreload.ts:1063` | "Expand annotation editor" |  |
-| `preview/PickPreload.ts:1064` | "Expand annotation editor" |  |
-| `preview/PickPreload.ts:1269` | "color-mix(in srgb, var(--t3-primary) 6%, transparent)" |  |
+| `preview/PickPreload.ts:324` | "translate({0}px, {1}px)" |  |
+| `preview/PickPreload.ts:385` | "translate({0}px, {1}px)" |  |
+| `preview/PickPreload.ts:476` | "Style value" |  |
+| `preview/PickPreload.ts:498` | "grid min-h-7 grid-cols-[82px_minmax(0,1fr)] items-center gap-2 font-sans text-xs font-medium text-muted-foreground" |  |
+| `preview/PickPreload.ts:597` | "pointer-events-auto fixed hidden max-h-[calc(100vh-16px)] w-[min(360px,calc(100vw-16px))] flex-col overflow-hidden rounded-xl border border-…" |  |
+| `preview/PickPreload.ts:604` | "Expand annotation editor" |  |
+| `preview/PickPreload.ts:605` | "Expand annotation editor" |  |
+| `preview/PickPreload.ts:614` | "Describe the change…" |  |
+| `preview/PickPreload.ts:623` | "Drag annotation editor" |  |
+| `preview/PickPreload.ts:628` | "Attach annotation and screenshot (Enter)" |  |
+| `preview/PickPreload.ts:631` | "Attach annotation and screenshot (Enter). Send with Cmd/Ctrl+Enter." | 注入被预览页面的注释工具按钮提示，沿用报告第 5 节的未翻译范围 |
+| `preview/PickPreload.ts:632` | "Attach annotation and screenshot (Enter)" | 同一注释按钮在不可发送时的提示，沿用报告第 5 节的未翻译范围 |
+| `preview/PickPreload.ts:642` | "hidden max-h-[min(176px,calc(100vh-180px))] overflow-auto border-t border-border bg-muted/40 px-3" |  |
+| `preview/PickPreload.ts:788` | "Font size" |  |
+| `preview/PickPreload.ts:798` | "Font weight" |  |
+| `preview/PickPreload.ts:806` | "Line height" |  |
+| `preview/PickPreload.ts:815` | "grid min-h-7 grid-cols-[82px_minmax(0,1fr)] items-center gap-2 font-sans text-xs font-medium text-muted-foreground" |  |
+| `preview/PickPreload.ts:820` | "grid h-7 grid-cols-[22px_minmax(0,1fr)] items-center gap-1 rounded-md border border-input bg-background px-1 shadow-xs" |  |
+| `preview/PickPreload.ts:847` | "Text color" |  |
+| `preview/PickPreload.ts:868` | "Border color" |  |
+| `preview/PickPreload.ts:879` | "Border width" |  |
+| `preview/PickPreload.ts:893` | "Lock aspect ratio" |  |
+| `preview/PickPreload.ts:990` | "Select elements (V)" |  |
+| `preview/PickPreload.ts:992` | "Draw freehand (D)" |  |
+| `preview/PickPreload.ts:993` | "Remove an annotation target (E)" |  |
+| `preview/PickPreload.ts:1090` | "Collapse annotation editor" |  |
+| `preview/PickPreload.ts:1091` | "Collapse annotation editor" |  |
+| `preview/PickPreload.ts:1099` | "Expand annotation editor" |  |
+| `preview/PickPreload.ts:1100` | "Expand annotation editor" |  |
+| `preview/PickPreload.ts:1307` | "color-mix(in srgb, var(--t3-primary) 6%, transparent)" |  |
 
-## E：错误消息：Error / TaggedError 的 message 及其参数（§4「从不转换」位置）（264）
+## E：错误消息：Error / TaggedError 的 message 及其参数（§4「从不转换」位置）（267）
 
 | file:line | 文字 | 说明 |
 |---|---|---|
-| `app/DesktopApp.ts:56` | "No desktop backend port is available on hosts {0} between {1} and {2}." |  |
-| `app/DesktopApp.ts:65` | "T3CODE_PORT is required in desktop development." |  |
+| `app/DesktopApp.ts:58` | "No desktop backend port is available on hosts {0} between {1} and {2}." |  |
+| `app/DesktopApp.ts:67` | "T3CODE_PORT is required in desktop development." |  |
 | `app/DesktopAppActivation.ts:45` | "Could not start the desktop app control socket at {0}." |  |
 | `app/DesktopAppActivation.ts:86` | "{0} is not a directory." |  |
 | `app/DesktopAppActivation.ts:89` | "{0} is owned by another user." |  |
 | `app/DesktopAssets.ts:25` | "Failed to probe desktop asset \"{0}\" at {1}." |  |
-| `app/DesktopClerk.ts:33` | "Failed to initialize the desktop Clerk bridge for state directory \"{0}\" (development: {1})." |  |
-| `app/DesktopClerk.ts:46` | "Failed to clean up the desktop Clerk bridge for state directory \"{0}\" (development: {1})." |  |
+| `app/DesktopClerk.ts:35` | "Failed to initialize the desktop Clerk bridge for state directory \"{0}\" (development: {1})." |  |
+| `app/DesktopClerk.ts:48` | "Failed to clean up the desktop Clerk bridge for state directory \"{0}\" (development: {1})." |  |
 | `app/DesktopConnectionCatalogStore.ts:79` | "Desktop connection catalog write failed during {0} at {1}." |  |
 | `app/DesktopConnectionCatalogStore.ts:92` | "Failed to decode {0} for the desktop connection catalog at {1}." |  |
 | `app/DesktopConnectionCatalogStore.ts:104` | "Failed to read the desktop connection catalog at {0}." |  |
@@ -326,7 +347,7 @@
 | `app/chromiumLocalStorage.ts:375` | "Could not read Chromium Local Storage at {0}." |  |
 | `app/chromiumLocalStorage.ts:405` | "bad CURRENT" |  |
 | `app/chromiumLocalStorage.ts:447` | "database changed while reading" |  |
-| `backend/DesktopBackendConfiguration.ts:34` | "Failed to read persisted backend observability settings at {0}." |  |
+| `backend/DesktopBackendConfiguration.ts:35` | "Failed to read persisted backend observability settings at {0}." | 读取持久化后端观测设置失败的通用错误，不限 Windows 或 WSL |
 | `backend/DesktopBackendManager.ts:143` | "Timed out after {0}ms waiting for desktop backend readiness at {1}." |  |
 | `backend/DesktopBackendManager.ts:155` | "Failed to encode the desktop backend bootstrap payload for {0}." |  |
 | `backend/DesktopBackendManager.ts:167` | "Failed to spawn desktop backend entry {0} with {1}." |  |
@@ -381,26 +402,29 @@
 | `preview/BrowserImport/FirefoxCookies.ts:42` | "Could not read Firefox cookies at {0}." |  |
 | `preview/BrowserImport/SafariCookies.ts:58` | "Could not read Safari cookies: {0}." |  |
 | `preview/BrowserImport/SafariCookies.ts:59` | "Could not read Safari cookies at {0}: {1}." |  |
-| `preview/BrowserSession.ts:50` | "Failed to derive a desktop preview browser partition for scope {0}." |  |
-| `preview/BrowserSession.ts:63` | "Failed to create a desktop preview browser session for scope {0} (partition {1})." |  |
-| `preview/BrowserSession.ts:75` | "Failed to clear desktop preview browser storage for partition {0}." |  |
-| `preview/BrowserSession.ts:87` | "Failed to clear the desktop preview browser cache for partition {0}." |  |
+| `preview/BrowserSession.ts:91` | "Failed to derive a desktop preview browser partition for scope {0}." |  |
+| `preview/BrowserSession.ts:104` | "Failed to create a desktop preview browser session for scope {0} (partition {1})." |  |
+| `preview/BrowserSession.ts:116` | "Failed to clear desktop preview browser storage for partition {0}." |  |
+| `preview/BrowserSession.ts:128` | "Failed to clear the desktop preview browser cache for partition {0}." |  |
 | `preview/CdpRelay.ts:134` | "Only this preview tab's page can be attached." | CDP 命令协议校验错误，Error 消息保持原文 |
 | `preview/CdpRelay.ts:156` | "Not supported for a desktop preview tab: {0}" | 不受支持的 CDP 命令错误，Error 消息保持原文 |
-| `preview/Manager.ts:1075` | "WebContents was destroyed" |  |
-| `preview/Manager.ts:2954` | "Picture-in-picture session closed before it became visible." |  |
-| `preview/Manager.ts:2987` | "Preview webview changed while picture-in-picture was opening." |  |
-| `preview/Manager.ts:3404` | "Preview tab not found: {0}" |  |
-| `preview/Manager.ts:3413` | "WebContents {0} not found for preview tab {1}" |  |
-| `preview/Manager.ts:3422` | "Preview tab \"{0}\" has no webview registered" |  |
-| `preview/Manager.ts:3431` | "Cannot start preview frame capture while the main window is closed: {0}" |  |
-| `preview/Manager.ts:3444` | "Preview tab {0} is still claiming the capture stream, so recording could not start for tab {1}" |  |
-| `preview/Manager.ts:3456` | "Preview recording capture is unavailable for tab {0} in WebContents {1}" |  |
-| `preview/Manager.ts:3480` | "Desktop preview operation failed: {0}{1}" |  |
-| `preview/Manager.ts:3494` | "Preview artifact path {0} is outside {1}" |  |
-| `preview/Manager.ts:3503` | "Preview artifact could not be loaded as an image: {0}" |  |
-| `preview/Manager.ts:3512` | "Close preview DevTools before using agent browser control for WebContents {0}" |  |
-| `preview/Manager.ts:3521` | "Preview control cannot attach to WebContents {0} because another debugger owns it" |  |
+| `preview/Manager.ts:1077` | "WebContents was destroyed" |  |
+| `preview/Manager.ts:2989` | "Picture-in-picture session closed before it became visible." |  |
+| `preview/Manager.ts:3022` | "Preview webview changed while picture-in-picture was opening." |  |
+| `preview/Manager.ts:3451` | "Preview tab not found: {0}" |  |
+| `preview/Manager.ts:3460` | "WebContents {0} not found for preview tab {1}" |  |
+| `preview/Manager.ts:3469` | "Preview tab \"{0}\" has no webview registered" |  |
+| `preview/Manager.ts:3478` | "Cannot start preview frame capture while the main window is closed: {0}" |  |
+| `preview/Manager.ts:3491` | "Preview tab {0} is still claiming the capture stream, so recording could not start for tab {1}" |  |
+| `preview/Manager.ts:3503` | "Preview recording capture is unavailable for tab {0} in WebContents {1}" |  |
+| `preview/Manager.ts:3527` | "Desktop preview operation failed: {0}{1}" |  |
+| `preview/Manager.ts:3541` | "Preview artifact path {0} is outside {1}" |  |
+| `preview/Manager.ts:3550` | "Preview artifact could not be loaded as an image: {0}" |  |
+| `preview/Manager.ts:3559` | "Close preview DevTools before using agent browser control for WebContents {0}" |  |
+| `preview/Manager.ts:3568` | "Preview control cannot attach to WebContents {0} because another debugger owns it" |  |
+| `preview/PasskeyBridge.ts:19` | "The operation either timed out or was not allowed. See: https://www.w3.org/TR/webauthn-2/#sctn-privacy-considerations-client." | WebAuthn 标准拒绝 / 超时错误，交给网页脚本，保持原文 |
+| `preview/PasskeyBridge.ts:42` | "The passkey request options are invalid." |  |
+| `preview/PasskeyBridge.ts:205` | "The operation was aborted." |  |
 | `settings/DesktopAppSettings.ts:151` | "Desktop settings write failed during {0} at {1}." |  |
 | `settings/DesktopClientSettings.ts:39` | "Desktop client settings read failed during {0} at {1}." |  |
 | `settings/DesktopClientSettings.ts:61` | "Desktop client settings write failed during {0} at {1}." |  |
@@ -408,45 +432,45 @@
 | `settings/DesktopSavedEnvironments.ts:92` | "Failed to decode desktop saved environments at {0}." |  |
 | `settings/DesktopSavedEnvironments.ts:106` | "Failed to decode {0} for environment {1} at {2}." |  |
 | `settings/DesktopSavedEnvironments.ts:120` | "Desktop saved-environment secret protection failed during {0} for environment {1} at {2}." |  |
-| `shell/DesktopShellEnvironment.ts:47` | "Desktop shell environment {0} probe ({1}) failed." |  |
-| `shell/DesktopShellEnvironment.ts:59` | "Desktop shell environment {0} probe ({1}) timed out after {2}ms." |  |
-| `snapShot/CaptureShortcutConfig.ts:58` | "Choose a config file smaller than 1 MB." |  |
-| `snapShot/CaptureShortcutConfig.ts:60` | "Choose a config file smaller than 1 MB." |  |
-| `snapShot/CaptureShortcutConfig.ts:62` | "Choose a text config file." |  |
-| `snapShot/CaptureShortcutConfig.ts:78` | "Niri couldn't validate the proposed config. Nothing was changed. Check your config in Advanced." |  |
-| `snapShot/CaptureShortcutConfig.ts:92` | "Hyprland reported config errors." |  |
-| `snapShot/CaptureShortcutConfig.ts:111` | "Couldn't check Hyprland's current shortcuts. Try again from your Hyprland session." |  |
-| `snapShot/CaptureShortcutConfig.ts:122` | "{0} is already used by Hyprland. Choose another shortcut." |  |
-| `snapShot/CaptureShortcutConfig.ts:129` | "Wait for the current config change to finish." |  |
-| `snapShot/CaptureShortcutConfig.ts:132` | "Couldn't read your settings file. Choose a different file in Advanced." |  |
-| `snapShot/CaptureShortcutConfig.ts:135` | "Choose your own config, not system or Omarchy defaults." |  |
-| `snapShot/CaptureShortcutConfig.ts:147` | "Choose a .kdl Niri config or a .conf/.lua Hyprland config." |  |
-| `snapShot/CaptureShortcutConfig.ts:164` | "This config has too many included files. Use manual setup in Advanced." |  |
-| `snapShot/CaptureShortcutConfig.ts:167` | "This config uses a dynamic include. Use manual setup in Advanced." |  |
-| `snapShot/CaptureShortcutConfig.ts:180` | "Couldn't read an included Niri config. Check its location in Advanced." |  |
-| `snapShot/CaptureShortcutConfig.ts:191` | "{0} is already used in {1}. Choose another shortcut." |  |
-| `snapShot/CaptureShortcutConfig.ts:221` | "This preview expired. Review changes again before saving." |  |
-| `snapShot/CaptureShortcutConfig.ts:239` | "Your config changed since this preview. Review changes again before saving." |  |
-| `snapShot/CaptureShortcutConfig.ts:252` | "Your config changed since this preview. Nothing was saved. Review changes again before saving." |  |
-| `snapShot/DesktopSnapShot.ts:141` | "Could not list pending snapshots." |  |
-| `snapShot/DesktopSnapShot.ts:143` | "Could not read the snapshot." |  |
-| `snapShot/DesktopSnapShot.ts:145` | "Could not remove the snapshot." |  |
-| `snapShot/DesktopSnapShot.ts:147` | "SnapShots are not supported here." |  |
-| `snapShot/DesktopSnapShot.ts:149` | "Enable SnapShots in Settings first." |  |
-| `snapShot/DesktopSnapShot.ts:151` | "No window was selected." |  |
-| `snapShot/DesktopSnapShot.ts:153` | "The active window is not available for capture." |  |
-| `snapShot/DesktopSnapShot.ts:155` | "Could not capture the active window." |  |
-| `snapShot/DesktopSnapShot.ts:219` | "Config setup requires a Niri or Hyprland session." |  |
-| `snapShot/DesktopSnapShot.ts:221` | "Couldn't prepare your capture shortcut changes." |  |
-| `snapShot/DesktopSnapShot.ts:222` | "Couldn't save your capture shortcut." |  |
-| `snapShot/DesktopSnapShot.ts:229` | "Helper setup requires a Hyprland Wayland session outside a sandbox." |  |
-| `snapShot/DesktopSnapShot.ts:231` | "Helper setup requires a KDE Plasma Wayland session outside a sandbox." |  |
-| `snapShot/DesktopSnapShot.ts:232` | "Extension setup requires a GNOME Wayland session outside a sandbox." |  |
-| `snapShot/DesktopSnapShot.ts:233` | "Could not open shortcut permissions." |  |
-| `snapShot/DesktopSnapShot.ts:235` | "Could not set up Hyprland capture." |  |
-| `snapShot/DesktopSnapShot.ts:237` | "Could not set up KDE capture." |  |
-| `snapShot/DesktopSnapShot.ts:238` | "Could not set up the GNOME extension." |  |
-| `snapShot/DesktopSnapShot.ts:1338` | "No window is available to test capture." |  |
+| `shell/DesktopShellEnvironment.ts:48` | "Desktop shell environment {0} probe ({1}) failed." |  |
+| `shell/DesktopShellEnvironment.ts:60` | "Desktop shell environment {0} probe ({1}) timed out after {2}ms." |  |
+| `snapShot/CaptureShortcutConfig.ts:57` | "Choose a config file smaller than 1 MB." |  |
+| `snapShot/CaptureShortcutConfig.ts:59` | "Choose a config file smaller than 1 MB." |  |
+| `snapShot/CaptureShortcutConfig.ts:61` | "Choose a text config file." |  |
+| `snapShot/CaptureShortcutConfig.ts:77` | "Niri couldn't validate the proposed config. Nothing was changed. Check your config in Advanced." |  |
+| `snapShot/CaptureShortcutConfig.ts:91` | "Hyprland reported config errors." |  |
+| `snapShot/CaptureShortcutConfig.ts:112` | "Couldn't check Hyprland's current shortcuts. Try again from your Hyprland session." |  |
+| `snapShot/CaptureShortcutConfig.ts:123` | "{0} is already used by Hyprland. Choose another shortcut." |  |
+| `snapShot/CaptureShortcutConfig.ts:130` | "Wait for the current config change to finish." |  |
+| `snapShot/CaptureShortcutConfig.ts:133` | "Couldn't read your settings file. Choose a different file in Advanced." |  |
+| `snapShot/CaptureShortcutConfig.ts:136` | "Choose your own config, not system or Omarchy defaults." |  |
+| `snapShot/CaptureShortcutConfig.ts:148` | "Choose a .kdl Niri config or a .conf/.lua Hyprland config." |  |
+| `snapShot/CaptureShortcutConfig.ts:165` | "This config has too many included files. Use manual setup in Advanced." |  |
+| `snapShot/CaptureShortcutConfig.ts:168` | "This config uses a dynamic include. Use manual setup in Advanced." |  |
+| `snapShot/CaptureShortcutConfig.ts:181` | "Couldn't read an included Niri config. Check its location in Advanced." |  |
+| `snapShot/CaptureShortcutConfig.ts:192` | "{0} is already used in {1}. Choose another shortcut." |  |
+| `snapShot/CaptureShortcutConfig.ts:222` | "This preview expired. Review changes again before saving." |  |
+| `snapShot/CaptureShortcutConfig.ts:240` | "Your config changed since this preview. Review changes again before saving." |  |
+| `snapShot/CaptureShortcutConfig.ts:253` | "Your config changed since this preview. Nothing was saved. Review changes again before saving." |  |
+| `snapShot/DesktopSnapShot.ts:142` | "Could not list pending snapshots." |  |
+| `snapShot/DesktopSnapShot.ts:144` | "Could not read the snapshot." |  |
+| `snapShot/DesktopSnapShot.ts:146` | "Could not remove the snapshot." |  |
+| `snapShot/DesktopSnapShot.ts:148` | "SnapShots are not supported here." |  |
+| `snapShot/DesktopSnapShot.ts:150` | "Enable SnapShots in Settings first." |  |
+| `snapShot/DesktopSnapShot.ts:152` | "No window was selected." |  |
+| `snapShot/DesktopSnapShot.ts:154` | "The active window is not available for capture." |  |
+| `snapShot/DesktopSnapShot.ts:156` | "Could not capture the active window." |  |
+| `snapShot/DesktopSnapShot.ts:220` | "Config setup requires a Niri or Hyprland session." |  |
+| `snapShot/DesktopSnapShot.ts:222` | "Couldn't prepare your capture shortcut changes." |  |
+| `snapShot/DesktopSnapShot.ts:223` | "Couldn't save your capture shortcut." |  |
+| `snapShot/DesktopSnapShot.ts:230` | "Helper setup requires a Hyprland Wayland session outside a sandbox." |  |
+| `snapShot/DesktopSnapShot.ts:232` | "Helper setup requires a KDE Plasma Wayland session outside a sandbox." |  |
+| `snapShot/DesktopSnapShot.ts:233` | "Extension setup requires a GNOME Wayland session outside a sandbox." |  |
+| `snapShot/DesktopSnapShot.ts:234` | "Could not open shortcut permissions." |  |
+| `snapShot/DesktopSnapShot.ts:236` | "Could not set up Hyprland capture." |  |
+| `snapShot/DesktopSnapShot.ts:238` | "Could not set up KDE capture." |  |
+| `snapShot/DesktopSnapShot.ts:239` | "Could not set up the GNOME extension." |  |
+| `snapShot/DesktopSnapShot.ts:1340` | "No window is available to test capture." |  |
 | `snapShot/GlobalShiftShortcutProcess.ts:58` | "Snapshot shortcut helper exited with code {0}" |  |
 | `snapShot/GnomeCaptureSetup.ts:52` | "The extension installation is not a regular directory. Manage it in GNOME Extensions instead." |  |
 | `snapShot/GnomeCaptureSetup.ts:59` | "A newer extension is installed. Update T3 Code instead of replacing it." |  |
@@ -454,12 +478,12 @@
 | `snapShot/GnomeCaptureSetup.ts:130` | "GNOME returned no setup information." |  |
 | `snapShot/GnomeCaptureSetup.ts:244` | "GNOME has not loaded the extension. Sign out and back in, then try again." |  |
 | `snapShot/HyprlandSnapShot.ts:22` | "Invalid capture application ID." |  |
-| `snapShot/HyprlandSnapShot.ts:60` | "Hyprland capture did not respond. Check capture setup and try again." |  |
-| `snapShot/HyprlandSnapShot.ts:75` | "The capture helper must be a regular file, not a link." |  |
-| `snapShot/HyprlandSnapShot.ts:98` | "The Hyprland capture helper is missing from this build. Update or reinstall T3 Code." |  |
-| `snapShot/HyprlandSnapShot.ts:126` | "The capture helper directory must not be a link." |  |
-| `snapShot/HyprlandSnapShot.ts:133` | "The Hyprland capture helper is missing from this build." |  |
-| `snapShot/HyprlandSnapShot.ts:171` | "{0} Open Settings → SnapShots to continue setup." |  |
+| `snapShot/HyprlandSnapShot.ts:61` | "Hyprland capture did not respond. Check capture setup and try again." |  |
+| `snapShot/HyprlandSnapShot.ts:76` | "The capture helper must be a regular file, not a link." |  |
+| `snapShot/HyprlandSnapShot.ts:99` | "The Hyprland capture helper is missing from this build. Update or reinstall T3 Code." |  |
+| `snapShot/HyprlandSnapShot.ts:127` | "The capture helper directory must not be a link." |  |
+| `snapShot/HyprlandSnapShot.ts:134` | "The Hyprland capture helper is missing from this build." |  |
+| `snapShot/HyprlandSnapShot.ts:172` | "{0} Open Settings → SnapShots to continue setup." |  |
 | `snapShot/KdeSnapShot.ts:62` | "KDE couldn't register the capture helper. Make sure KDE's service tools (kbuildsycoca6) are installed, then reinstall the helper." |  |
 | `snapShot/KdeSnapShot.ts:70` | "KDE hasn't granted capture access. Reinstall the capture helper in setup, then try again." |  |
 | `snapShot/KdeSnapShot.ts:77` | "The KDE capture helper did not respond. Reopen capture setup and check access." |  |
@@ -541,40 +565,40 @@
 | `updates/DesktopUpdates.ts:124` | "Failed to handle desktop update {0} event." |  |
 | `updates/DesktopUpdates.ts:136` | "Desktop updater {0} operation reported an error." |  |
 | `updates/DesktopUpdates.ts:148` | "Desktop update {0} action failed unexpectedly." |  |
-| `window/DesktopApplicationMenu.ts:25` | "Desktop menu action \"{0}\" failed." |  |
+| `window/DesktopApplicationMenu.ts:24` | "Desktop menu action \"{0}\" failed." |  |
 | `wsl/DesktopWslBackend.ts:90` | "No loopback port available for WSL backend between {0} and {1}." |  |
 | `wsl/DesktopWslEnvironment.ts:1002` | "wsl.exe --list --verbose exited with code {0}" |  |
 | `wsl/DesktopWslEnvironment.ts:1012` | "Failed to run wsl.exe --list --verbose: {0}" |  |
 | `wsl/DesktopWslEnvironment.ts:1020` | "wsl.exe --list --verbose timed out" |  |
 | `wsl/DesktopWslServerTree.ts:42` | "Failed to extract the WSL server tree to {0}." |  |
 
-## L：日志与观测（129）
+## L：日志与观测（127）
 
 | file:line | 文字 | 说明 |
 |---|---|---|
-| `app/DesktopApp.ts:129` | "fatal startup error" |  |
-| `app/DesktopApp.ts:137` | "T3 Code failed to start" |  |
-| `app/DesktopApp.ts:169` | "bootstrap start" |  |
-| `app/DesktopApp.ts:183` | "bootstrap ipc handlers registered" |  |
-| `app/DesktopApp.ts:192` | "bootstrap skipping local environment (disabled in settings)" |  |
-| `app/DesktopApp.ts:212` | "selected backend port via sequential scan" |  |
-| `app/DesktopApp.ts:213` | "using configured backend port" |  |
-| `app/DesktopApp.ts:221` | "bootstrap restoring persisted server exposure mode" |  |
-| `app/DesktopApp.ts:227` | "bootstrap resolved backend endpoint" |  |
-| `app/DesktopApp.ts:231` | "bootstrap enabled network access" |  |
-| `app/DesktopApp.ts:239` | "bootstrap fell back to local-only because no advertised network host was available" |  |
-| `app/DesktopApp.ts:253` | "bootstrap backend start requested" |  |
-| `app/DesktopApp.ts:255` | "desktop app control socket ready" |  |
-| `app/DesktopApp.ts:256` | "desktop app control socket unavailable" |  |
-| `app/DesktopApp.ts:303` | "runtime logging configured" |  |
-| `app/DesktopApp.ts:307` | "linux password store configured" |  |
-| `app/DesktopApp.ts:324` | "app ready" |  |
-| `app/DesktopApp.ts:327` | "safe storage ready" |  |
+| `app/DesktopApp.ts:131` | "fatal startup error" |  |
+| `app/DesktopApp.ts:139` | "T3 Code failed to start" |  |
+| `app/DesktopApp.ts:171` | "bootstrap start" |  |
+| `app/DesktopApp.ts:185` | "bootstrap ipc handlers registered" |  |
+| `app/DesktopApp.ts:194` | "bootstrap skipping local environment (disabled in settings)" |  |
+| `app/DesktopApp.ts:214` | "selected backend port via sequential scan" |  |
+| `app/DesktopApp.ts:215` | "using configured backend port" |  |
+| `app/DesktopApp.ts:223` | "bootstrap restoring persisted server exposure mode" |  |
+| `app/DesktopApp.ts:229` | "bootstrap resolved backend endpoint" |  |
+| `app/DesktopApp.ts:233` | "bootstrap enabled network access" |  |
+| `app/DesktopApp.ts:241` | "bootstrap fell back to local-only because no advertised network host was available" |  |
+| `app/DesktopApp.ts:255` | "bootstrap backend start requested" |  |
+| `app/DesktopApp.ts:257` | "desktop app control socket ready" |  |
+| `app/DesktopApp.ts:258` | "desktop app control socket unavailable" |  |
+| `app/DesktopApp.ts:308` | "runtime logging configured" |  |
+| `app/DesktopApp.ts:312` | "linux password store configured" |  |
+| `app/DesktopApp.ts:329` | "app ready" |  |
+| `app/DesktopApp.ts:332` | "safe storage ready" |  |
 | `app/DesktopAppActivation.ts:335` | "failed to focus the desktop window" |  |
 | `app/DesktopAppActivation.ts:359` | "failed to restore the desktop app control socket" |  |
 | `app/DesktopAppActivation.ts:367` | "failed to close the desktop app control socket" |  |
-| `app/DesktopClerk.ts:162` | "Could not complete ChatGPT desktop handoff." |  |
-| `app/DesktopClerk.ts:179` | "Could not return to provider setup" |  |
+| `app/DesktopClerk.ts:168` | "Could not complete ChatGPT desktop handoff." |  |
+| `app/DesktopClerk.ts:185` | "Could not return to provider setup" |  |
 | `app/DesktopConnectionCatalogStore.ts:274` | "Could not remove a temporary connection catalog file." |  |
 | `app/DesktopConnectionCatalogStore.ts:508` | "Could not clear the desktop connection catalog." |  |
 | `app/DesktopLegacyLocalStorage.ts:79` | "Could not record the V1 Local Storage import" |  |
@@ -594,10 +618,6 @@
 | `app/DesktopObservability.ts:482` | "backend child process failure output start" |  |
 | `app/DesktopObservability.ts:494` | "backend child process output" |  |
 | `app/DesktopObservability.ts:506` | "backend child process failure output end" |  |
-| `backend/DesktopBackendConfiguration.ts:456` | "The staged WSL runtime did not start; retrying from the mounted server tree." |  |
-| `backend/DesktopBackendConfiguration.ts:462` | "Could not stage the WSL runtime; launching from the mounted server tree instead." |  |
-| `backend/DesktopBackendConfiguration.ts:683` | "Ignoring the WSL runtime archive because its SHA-256 identity is missing or invalid; launching from the mounted server tree instead." |  |
-| `backend/DesktopBackendConfiguration.ts:955` | "WSL-only backend requested but WSL is unavailable; starting the Windows primary instead." |  |
 | `backend/DesktopBackendManager.ts:539` | "ignored invalid desktop telemetry control message" |  |
 | `backend/DesktopBackendManager.ts:547` | "desktop telemetry control stream stopped" |  |
 | `backend/DesktopBackendManager.ts:574` | "desktop browser command stream stopped" | 浏览器控制流结束后的后台告警，不在界面显示 |
@@ -625,18 +645,20 @@
 | `permissions/MacPermissions.ts:40` | "Could not show permission helper" |  |
 | `preview/BrowserImport/BrowserImport.ts:161` | "Imported cookies could not be flushed to disk" |  |
 | `preview/BrowserImport/BrowserImport.ts:224` | "Reading browser cookie key from the keychain" |  |
-| `preview/Manager.ts:336` | "preview annotation screenshot timed out" |  |
-| `preview/Manager.ts:721` | "Failed to restore preview webview frame capture throttling." |  |
-| `preview/Manager.ts:815` | "Failed to restore preview frame capture throttling." |  |
-| `preview/Manager.ts:847` | "Desktop preview event listener failed." |  |
-| `preview/Manager.ts:1424` | "Favicon capture failed." |  |
-| `preview/Manager.ts:1977` | "Preview webview control session was not opened on attach." |  |
-| `preview/Manager.ts:2636` | "Picture-in-picture frame delivery failed." |  |
-| `preview/Manager.ts:2657` | "Background preview frame capture failed." |  |
-| `preview/Manager.ts:2732` | "Initial background preview frame was not ready; capture will retry." |  |
+| `preview/Manager.ts:718` | "Failed to restore preview webview frame capture throttling." |  |
+| `preview/Manager.ts:812` | "Failed to restore preview frame capture throttling." |  |
+| `preview/Manager.ts:849` | "Desktop preview event listener failed." |  |
+| `preview/Manager.ts:1430` | "Favicon capture failed." |  |
+| `preview/Manager.ts:1997` | "Preview webview control session was not opened on attach." |  |
+| `preview/Manager.ts:2269` | "preview annotation screenshot failed" |  |
+| `preview/Manager.ts:2671` | "Picture-in-picture frame delivery failed." |  |
+| `preview/Manager.ts:2692` | "Background preview frame capture failed." |  |
+| `preview/Manager.ts:2767` | "Initial background preview frame was not ready; capture will retry." |  |
+| `preview/Manager.ts:3733` | "preview download copy failed" |  |
+| `preview/Passkeys.ts:36` | "Failed to enable Touch ID passkeys for the in-app browser (keychain group {0})." | 通行密钥启用失败告警，仅进日志，保持原文 |
 | `settings/DesktopClientSettings.ts:85` | "Could not read desktop client settings." |  |
 | `settings/DesktopClientSettings.ts:106` | "Could not decode desktop client settings." |  |
-| `snapShot/DesktopSnapShot.ts:899` | "The compositor could not activate T3 Code after the snapshot" |  |
+| `snapShot/DesktopSnapShot.ts:901` | "The compositor could not activate T3 Code after the snapshot" |  |
 | `telemetry/DesktopRendererHistory.ts:92` | "Renderer incident history could not be opened." |  |
 | `telemetry/DesktopTelemetryPublisher.ts:300` | "Failed to sample Electron telemetry" |  |
 | `updates/DesktopRemoteUpdates.ts:180` | "remote update requested" |  |
@@ -659,16 +681,16 @@
 | `updates/DesktopUpdates.ts:878` | "update downloaded" |  |
 | `updates/DesktopUpdates.ts:942` | "Apple Silicon host detected while running Intel build; updates will switch to arm64 packages" |  |
 | `updates/DesktopUpdates.ts:948` | "looking for updates" |  |
-| `window/DesktopApplicationMenu.ts:90` | "manual update check requested, but updates are disabled" |  |
-| `window/DesktopWindow.ts:392` | "failed to read connected displays; using defaults" |  |
-| `window/DesktopWindow.ts:398` | "saved main window bounds could not be restored; using defaults" |  |
-| `window/DesktopWindow.ts:462` | "failed to persist main window bounds" |  |
-| `window/DesktopWindow.ts:771` | "main window failed to load" |  |
-| `window/DesktopWindow.ts:801` | "main window render process gone" |  |
-| `window/DesktopWindow.ts:853` | "main window created" |  |
-| `window/DesktopWindow.ts:923` | "connecting splash shown" |  |
-| `window/DesktopWindow.ts:927` | "failed to show connecting splash" |  |
-| `window/DesktopWindow.ts:991` | "backend ready" |  |
+| `window/DesktopApplicationMenu.ts:96` | "manual update check requested, but updates are disabled" |  |
+| `window/DesktopWindow.ts:400` | "failed to read connected displays; using defaults" |  |
+| `window/DesktopWindow.ts:406` | "saved main window bounds could not be restored; using defaults" |  |
+| `window/DesktopWindow.ts:474` | "failed to persist main window bounds" |  |
+| `window/DesktopWindow.ts:790` | "main window failed to load" |  |
+| `window/DesktopWindow.ts:820` | "main window render process gone" |  |
+| `window/DesktopWindow.ts:872` | "main window created" |  |
+| `window/DesktopWindow.ts:942` | "connecting splash shown" |  |
+| `window/DesktopWindow.ts:946` | "failed to show connecting splash" |  |
+| `window/DesktopWindow.ts:1010` | "backend ready" |  |
 | `wsl/DesktopWslBackend.ts:128` | "refusing to unregister primary as wsl instance" |  |
 | `wsl/DesktopWslBackend.ts:143` | "could not allocate port for WSL backend" |  |
 | `wsl/DesktopWslBackend.ts:155` | "registering WSL backend with pool" |  |
@@ -682,10 +704,40 @@
 | `wsl/DesktopWslServerTree.ts:169` | "[wsl-server-tree] Extraction complete at {0}." |  |
 | `wsl/DesktopWslServerTree.ts:192` | "[wsl-server-tree] Could not remove the legacy extraction cache." |  |
 
-## S：脚本、命令、SQL、HTML/CSS 模板、样式类名、SVG（172）
+## S：脚本、命令、SQL、HTML/CSS 模板、样式类名、SVG（202）
 
 | file:line | 文字 | 说明 |
 |---|---|---|
+| `app/DesktopCliCommand.ts:48` | "\n$ErrorActionPreference = 'Stop'\nif ($env:T3_SET -eq '1') {\n  $key = [Microsoft.Win32.Registry]::CurrentUser.CreateSubKey('Environment')\n  $…" | 安装 t3 命令使用的 PowerShell PATH 脚本，不是错误消息 |
+| `app/DesktopCliShim.ts:51` | "chcp %t3_codepage% >nul" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:53` | "@echo off" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:56` | "setlocal EnableExtensions DisableDelayedExpansion" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:62` | "for /f \"tokens=2 delims=:.\" %%c in ('chcp') do set \"t3_codepage=%%c\"" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:63` | "chcp 65001 >nul" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:66` | "set \"T3CODE_CLI_PATH={0}\"" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:67` | "if not defined T3CODE_HOME set \"T3CODE_HOME={0}\"" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:68` | "set \"ELECTRON_RUN_AS_NODE=1\"" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:70` | "if exist {0} goto run" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:76` | "set \"t3_exit=%ERRORLEVEL%\"" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:85` | "export T3CODE_CLI_PATH={0}" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:87` | "export T3CODE_HOME=\"${T3CODE_HOME:-$home}\"" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:88` | "export ELECTRON_RUN_AS_NODE=1" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:90` | "if [ ! -x \"$app\" ]; then" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:96` | "exec \"$app\" {0} \"$@\"" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:99` | "\"{0}/{1}\" \"{2}/resources/app.asar/{3}\" \"$@\"" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:103` | "unset APPIMAGE_EXTRACT_AND_RUN" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:106` | "work=$(mktemp -d) \|\| exit 1" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:107` | "\"$app\" --appimage-mount >\"$work/mount\" 2>/dev/null &" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:109` | "trap 'kill \"$mounter\" 2>/dev/null; rm -rf \"$work\"' EXIT" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:110` | "trap 'exit 130' INT TERM" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:112` | "while kill -0 \"$mounter\" 2>/dev/null; do" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:113` | "  mount=$(head -n 1 \"$work/mount\")" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:114` | "  [ -d \"$mount\" ] && break" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:119` | "if [ -z \"$mount\" ]; then" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:120` | "  (cd \"$work\" && \"$app\" --appimage-extract >/dev/null) \|\| { echo \"Could not open $app.\" >&2; exit 1; }" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:121` | "  mount=\"$work/squashfs-root\"" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:166` | "leaving a t3 launcher the app did not write" | CLI 启动脚本 |
+| `app/DesktopCliShim.ts:181` | "could not install t3 launcher" | CLI 启动脚本 |
 | `app/DesktopLinuxUrlHandler.ts:93` | "[Desktop Entry]" |  |
 | `electron/ElectronProtocol.ts:91` | "default-src 'self'" |  |
 | `electron/ElectronProtocol.ts:92` | "script-src {0}" |  |
@@ -706,54 +758,54 @@
 | `preview/BrowserImport/FirefoxCookies.ts:123` | "pragma user_version" |  |
 | `preview/BrowserImport/FirefoxCookies.ts:134` | "\n          select host, name, value, path, expiry, isSecure, isHttpOnly, sameSite, rawSameSite\n            from moz_cookies\n           where…" |  |
 | `preview/BrowserImport/FirefoxCookies.ts:139` | "\n          select host, name, value, path, expiry, isSecure, isHttpOnly, sameSite,\n                 null as rawSameSite\n            from moz…" |  |
-| `preview/BrowserImport/Sources.ts:390` | "select count(*) as count from moz_cookies where originAttributes = ''" |  |
-| `preview/BrowserImport/Sources.ts:391` | "select count(*) as count from cookies" |  |
-| `preview/BrowserImport/Sources.ts:430` | "\n      select title, external_uuid from bookmarks\n      where parent = 0 and type = 1 and subtype = 2 and deleted = 0\n      order by order_i…" |  |
-| `preview/BrowserImport/Sources.ts:754` | "import fcntl,os,sys\n" |  |
-| `preview/BrowserImport/Sources.ts:755` | "fd=os.open(sys.argv[1],os.O_WRONLY)\n" |  |
-| `preview/BrowserImport/Sources.ts:757` | "  fcntl.lockf(fd,fcntl.LOCK_EX\|fcntl.LOCK_NB)\n" |  |
-| `preview/BrowserImport/Sources.ts:758` | "except BlockingIOError:\n" |  |
-| `preview/BrowserImport/Sources.ts:759` | "  print('held')\n" |  |
-| `preview/BrowserImport/Sources.ts:761` | "  print('free')" |  |
+| `preview/BrowserImport/Sources.ts:385` | "select count(*) as count from moz_cookies where originAttributes = ''" |  |
+| `preview/BrowserImport/Sources.ts:386` | "select count(*) as count from cookies" |  |
+| `preview/BrowserImport/Sources.ts:425` | "\n      select title, external_uuid from bookmarks\n      where parent = 0 and type = 1 and subtype = 2 and deleted = 0\n      order by order_i…" |  |
+| `preview/BrowserImport/Sources.ts:749` | "import fcntl,os,sys\n" |  |
+| `preview/BrowserImport/Sources.ts:750` | "fd=os.open(sys.argv[1],os.O_WRONLY)\n" |  |
+| `preview/BrowserImport/Sources.ts:752` | "  fcntl.lockf(fd,fcntl.LOCK_EX\|fcntl.LOCK_NB)\n" |  |
+| `preview/BrowserImport/Sources.ts:753` | "except BlockingIOError:\n" |  |
+| `preview/BrowserImport/Sources.ts:754` | "  print('held')\n" |  |
+| `preview/BrowserImport/Sources.ts:756` | "  print('free')" |  |
 | `preview/FaviconCapture.ts:600` | "\n    (() => {\n      const rasterize = async () => {\n        try {\n          const source = Uint8Array.from(atob(\"{0}\"), (char) => char.charC…" |  |
-| `preview/Manager.ts:146` | "globalThis[{0}]?.({1}) === true" |  |
-| `preview/Manager.ts:163` | "system-ui, sans-serif" | 字体栈 |
-| `preview/Manager.ts:164` | "ui-monospace, monospace" | 字体栈 |
+| `preview/Manager.ts:149` | "globalThis[{0}]?.({1}) === true" |  |
+| `preview/Manager.ts:166` | "system-ui, sans-serif" | 字体栈 |
+| `preview/Manager.ts:167` | "ui-monospace, monospace" | 字体栈 |
 | `preview/PickPreload.ts:308` | "border:2px solid {0}" |  |
-| `preview/PickPreload.ts:329` | "fixed z-1 max-w-70 overflow-hidden rounded-md bg-primary px-2 py-1 font-sans text-xs font-semibold text-primary-foreground shadow-md" | 样式类名 |
-| `preview/PickPreload.ts:436` | "inline-flex h-7 cursor-pointer items-center justify-center rounded-md border border-transparent px-2 font-sans text-xs font-medium text-fore…" | 样式类名 |
-| `preview/PickPreload.ts:443` | "h-7 min-w-0 w-full appearance-none rounded-md border border-input bg-background px-2 font-mono text-xs text-foreground shadow-xs outline-non…" | 样式类名 |
-| `preview/PickPreload.ts:452` | "pointer-events-none absolute top-1/2 right-2 -translate-y-1/2 font-mono text-xs text-muted-foreground" | 样式类名 |
-| `preview/PickPreload.ts:476` | "grid gap-1 border-t border-border py-2" | 样式类名 |
-| `preview/PickPreload.ts:531` | "fixed inset-0 font-sans text-foreground" | 样式类名 |
-| `preview/PickPreload.ts:535` | "html[data-t3code-annotation-tool] body, html[data-t3code-annotation-tool] body * { cursor: crosshair !important; } [{0}], [{1}] * { cursor: …" |  |
-| `preview/PickPreload.ts:555` | "pointer-events-auto fixed top-2.5 left-1/2 flex -translate-x-1/2 gap-0.5 rounded-lg border border-border bg-popover/95 p-1 text-popover-fore…" | 样式类名 |
-| `preview/PickPreload.ts:567` | "flex items-start gap-2 p-2" | 样式类名 |
-| `preview/PickPreload.ts:573` | " h-8 w-8 shrink-0 bg-muted p-0 text-muted-foreground hover:bg-accent hover:text-accent-foreground" | 样式类名 |
-| `preview/PickPreload.ts:575` | "<svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" aria-hidden=\"true\"><path d=\"M4 5h12M4 10h12M4 15h12M7 3v4M13 8v4M9 13v4\" fill=\"none\" stroke=…" |  |
-| `preview/PickPreload.ts:582` | "min-h-8 max-h-24 min-w-0 flex-1 resize-none overflow-y-hidden border-0 border-b border-b-transparent bg-transparent px-0 py-1.5 font-sans te…" | 样式类名 |
-| `preview/PickPreload.ts:590` | "hidden h-8 w-6 shrink-0 cursor-grab select-none border-0 bg-transparent p-0 font-sans text-lg font-bold leading-5 text-muted-foreground" | 样式类名 |
-| `preview/PickPreload.ts:601` | " h-8 shrink-0 border-primary bg-primary px-3 text-primary-foreground shadow-sm hover:bg-primary/90" | 样式类名 |
-| `preview/PickPreload.ts:795` | "min-w-0 w-full border-0 bg-transparent font-mono text-xs text-foreground outline-none" | 样式类名 |
-| `preview/PickPreload.ts:848` | "display:grid;grid-template-columns:82px minmax(0,1fr);gap:8px;align-items:center" | 内联样式 |
-| `preview/PickPreload.ts:850` | "grid gap-2 font-sans text-xs font-medium text-muted-foreground" | 样式类名 |
-| `preview/PickPreload.ts:862` | " bg-primary/10 text-primary" | 样式类名 |
-| `preview/PickPreload.ts:875` | "<svg viewBox=\"0 0 20 20\" width=\"14\" height=\"14\" aria-hidden=\"true\"><path d=\"M8 6.5 9.5 5A3.5 3.5 0 0 1 14.5 10l-1.5 1.5M12 13.5 10.5 15A3.5 …" |  |
-| `preview/PickPreload.ts:876` | "<svg viewBox=\"0 0 20 20\" width=\"14\" height=\"14\" aria-hidden=\"true\"><path d=\"m6 6 8 8M8 6.5 9.5 5A3.5 3.5 0 0 1 14 9M12 13.5 10.5 15A3.5 3.5 …" |  |
-| `preview/PickPreload.ts:956` | "Draw a region or marquee-select elements (R)" |  |
-| `preview/PickPreload.ts:962` | " h-8 px-2.5 text-sm" | 样式类名 |
+| `preview/PickPreload.ts:360` | "fixed z-1 max-w-70 overflow-hidden rounded-md bg-primary px-2 py-1 font-sans text-xs font-semibold text-primary-foreground shadow-md" | 样式类名 |
+| `preview/PickPreload.ts:471` | "inline-flex h-7 cursor-pointer items-center justify-center rounded-md border border-transparent px-2 font-sans text-xs font-medium text-fore…" | 样式类名 |
+| `preview/PickPreload.ts:478` | "h-7 min-w-0 w-full appearance-none rounded-md border border-input bg-background px-2 font-mono text-xs text-foreground shadow-xs outline-non…" | 样式类名 |
+| `preview/PickPreload.ts:487` | "pointer-events-none absolute top-1/2 right-2 -translate-y-1/2 font-mono text-xs text-muted-foreground" | 样式类名 |
+| `preview/PickPreload.ts:511` | "grid gap-1 border-t border-border py-2" | 样式类名 |
+| `preview/PickPreload.ts:566` | "fixed inset-0 font-sans text-foreground" | 样式类名 |
+| `preview/PickPreload.ts:570` | "html[data-t3code-annotation-tool] body, html[data-t3code-annotation-tool] body * { cursor: crosshair !important; } [{0}], [{1}] * { cursor: …" |  |
+| `preview/PickPreload.ts:590` | "pointer-events-auto fixed top-2.5 left-1/2 flex -translate-x-1/2 gap-0.5 rounded-lg border border-border bg-popover/95 p-1 text-popover-fore…" | 样式类名 |
+| `preview/PickPreload.ts:602` | "flex items-start gap-2 p-2" | 样式类名 |
+| `preview/PickPreload.ts:608` | " h-8 w-8 shrink-0 bg-muted p-0 text-muted-foreground hover:bg-accent hover:text-accent-foreground" | 样式类名 |
+| `preview/PickPreload.ts:610` | "<svg viewBox=\"0 0 20 20\" width=\"15\" height=\"15\" aria-hidden=\"true\"><path d=\"M4 5h12M4 10h12M4 15h12M7 3v4M13 8v4M9 13v4\" fill=\"none\" stroke=…" |  |
+| `preview/PickPreload.ts:617` | "min-h-8 max-h-24 min-w-0 flex-1 resize-none overflow-y-hidden border-0 border-b border-b-transparent bg-transparent px-0 py-1.5 font-sans te…" | 样式类名 |
+| `preview/PickPreload.ts:625` | "hidden h-8 w-6 shrink-0 cursor-grab select-none border-0 bg-transparent p-0 font-sans text-lg font-bold leading-5 text-muted-foreground" | 样式类名 |
+| `preview/PickPreload.ts:636` | " h-8 shrink-0 border-primary bg-primary px-3 text-primary-foreground shadow-sm hover:bg-primary/90" | 样式类名 |
+| `preview/PickPreload.ts:830` | "min-w-0 w-full border-0 bg-transparent font-mono text-xs text-foreground outline-none" | 样式类名 |
+| `preview/PickPreload.ts:883` | "display:grid;grid-template-columns:82px minmax(0,1fr);gap:8px;align-items:center" | 内联样式 |
+| `preview/PickPreload.ts:885` | "grid gap-2 font-sans text-xs font-medium text-muted-foreground" | 样式类名 |
+| `preview/PickPreload.ts:897` | " bg-primary/10 text-primary" | 样式类名 |
+| `preview/PickPreload.ts:910` | "<svg viewBox=\"0 0 20 20\" width=\"14\" height=\"14\" aria-hidden=\"true\"><path d=\"M8 6.5 9.5 5A3.5 3.5 0 0 1 14.5 10l-1.5 1.5M12 13.5 10.5 15A3.5 …" |  |
+| `preview/PickPreload.ts:911` | "<svg viewBox=\"0 0 20 20\" width=\"14\" height=\"14\" aria-hidden=\"true\"><path d=\"m6 6 8 8M8 6.5 9.5 5A3.5 3.5 0 0 1 14 9M12 13.5 10.5 15A3.5 3.5 …" |  |
+| `preview/PickPreload.ts:991` | "Draw a region or marquee-select elements (R)" |  |
+| `preview/PickPreload.ts:997` | " h-8 px-2.5 text-sm" | 样式类名 |
 | `preview/RecordingCursor.ts:27` | "html, html * { cursor: none !important; } @media (prefers-reduced-motion: reduce) { [data-t3code-recording-agent-cursor] { transition: none …" |  |
 | `preview/RecordingCursor.ts:34` | "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"24\" viewBox=\"0 0 16 24\"><path d=\"M1 1v18l4-4 4 8 3-1.5-4-8H15Z\" fill=\"black\" stro…" |  |
 | `preview/RecordingCursor.ts:39` | "position:fixed;left:0;top:0;width:20px;height:20px;pointer-events:none;z-index:2147483647;display:none;filter:drop-shadow(0 1px 2px #0003);t…" | 内联样式 |
 | `preview/RecordingCursor.ts:42` | "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"var(--recording-cursor-background,white)\" stroke=\"v…" |  |
 | `preview/RecordingCursor.ts:48` | "translate({0}px, {1}px)" |  |
 | `preview/RecordingCursor.ts:116` | "translate({0}px, {1}px)" |  |
-| `shell/DesktopShellEnvironment.ts:220` | "printenv {0} \|\| true" |  |
-| `shell/DesktopShellEnvironment.ts:228` | "$ErrorActionPreference = 'Stop'" |  |
-| `shell/DesktopShellEnvironment.ts:231` | "Write-Output '{0}'" |  |
-| `shell/DesktopShellEnvironment.ts:232` | "$value = [Environment]::GetEnvironmentVariable('{0}')" |  |
-| `shell/DesktopShellEnvironment.ts:233` | "if ($null -ne $value -and $value.Length -gt 0) { Write-Output $value }" |  |
-| `shell/DesktopShellEnvironment.ts:234` | "Write-Output '{0}'" |  |
+| `shell/DesktopShellEnvironment.ts:202` | "printenv {0} \|\| true" |  |
+| `shell/DesktopShellEnvironment.ts:210` | "$ErrorActionPreference = 'Stop'" |  |
+| `shell/DesktopShellEnvironment.ts:213` | "Write-Output '{0}'" |  |
+| `shell/DesktopShellEnvironment.ts:214` | "$value = [Environment]::GetEnvironmentVariable('{0}')" |  |
+| `shell/DesktopShellEnvironment.ts:215` | "if ($null -ne $value -and $value.Length -gt 0) { Write-Output $value }" |  |
+| `shell/DesktopShellEnvironment.ts:216` | "Write-Output '{0}'" |  |
 | `snapShot/ActiveWindow.ts:55` | "\nObjC.import(\"CoreGraphics\");\nObjC.import(\"AppKit\");\nfunction run() {\n  const app = $.NSWorkspace.sharedWorkspace.frontmostApplication;\n  if…" |  |
 | `snapShot/HyprlandSnapShot.ts:25` | "hl.bind(\"CTRL + SHIFT + 2\", hl.dsp.global(\"{0}\"))" |  |
 | `snapShot/HyprlandSnapShot.ts:26` | "bind = CTRL SHIFT, 2, global, {0}" |  |
@@ -872,20 +924,20 @@
 | `app/DesktopUserData.ts:63` | "Local State" | Chromium 文件名 |
 | `app/DesktopUserData.ts:66` | "Local State" | Chromium 文件名 |
 | `preview/BrowserImport/BrowserImport.ts:286` | "Local State" | Chromium 文件名 |
-| `preview/BrowserImport/Sources.ts:69` | "Application Support" | 路径片段 |
-| `preview/BrowserImport/Sources.ts:120` | "Chrome Safe Storage" | 钥匙串服务名 |
-| `preview/BrowserImport/Sources.ts:128` | "Microsoft Edge" | 浏览器名（产品名） |
-| `preview/BrowserImport/Sources.ts:129` | "Microsoft Edge Safe Storage" | 钥匙串服务名 |
-| `preview/BrowserImport/Sources.ts:130` | "Microsoft Edge" | 钥匙串账户名 |
-| `preview/BrowserImport/Sources.ts:131` | "Microsoft Edge" | 路径片段 |
-| `preview/BrowserImport/Sources.ts:138` | "Brave Safe Storage" | 钥匙串服务名 |
-| `preview/BrowserImport/Sources.ts:147` | "Vivaldi Safe Storage" | 钥匙串服务名 |
-| `preview/BrowserImport/Sources.ts:156` | "Opera Safe Storage" | 钥匙串服务名 |
-| `preview/BrowserImport/Sources.ts:166` | "Arc Safe Storage" | 钥匙串服务名 |
-| `preview/BrowserImport/Sources.ts:168` | "User Data" | 路径片段 |
-| `preview/BrowserImport/Sources.ts:173` | "Helium Storage Key" | 钥匙串服务名 |
-| `preview/BrowserImport/Sources.ts:177` | "User Data" | 路径片段 |
-| `preview/BrowserImport/Sources.ts:538` | "Local State" | Chromium 文件名 |
+| `preview/BrowserImport/Sources.ts:64` | "Application Support" | 路径片段 |
+| `preview/BrowserImport/Sources.ts:115` | "Chrome Safe Storage" | 钥匙串服务名 |
+| `preview/BrowserImport/Sources.ts:123` | "Microsoft Edge" | 浏览器名（产品名） |
+| `preview/BrowserImport/Sources.ts:124` | "Microsoft Edge Safe Storage" | 钥匙串服务名 |
+| `preview/BrowserImport/Sources.ts:125` | "Microsoft Edge" | 钥匙串账户名 |
+| `preview/BrowserImport/Sources.ts:126` | "Microsoft Edge" | 路径片段 |
+| `preview/BrowserImport/Sources.ts:133` | "Brave Safe Storage" | 钥匙串服务名 |
+| `preview/BrowserImport/Sources.ts:142` | "Vivaldi Safe Storage" | 钥匙串服务名 |
+| `preview/BrowserImport/Sources.ts:151` | "Opera Safe Storage" | 钥匙串服务名 |
+| `preview/BrowserImport/Sources.ts:161` | "Arc Safe Storage" | 钥匙串服务名 |
+| `preview/BrowserImport/Sources.ts:163` | "User Data" | 路径片段 |
+| `preview/BrowserImport/Sources.ts:168` | "Helium Storage Key" | 钥匙串服务名 |
+| `preview/BrowserImport/Sources.ts:172` | "User Data" | 路径片段 |
+| `preview/BrowserImport/Sources.ts:533` | "Local State" | Chromium 文件名 |
 | `updates/releaseNotes.ts:89` | "whats changed" | 解析 release notes 用的小写标题标记 |
 | `updates/releaseNotes.ts:112` | "new contributors" | 同上 |
 | `updates/releaseNotes.ts:112` | "full changelog" | 同上 |

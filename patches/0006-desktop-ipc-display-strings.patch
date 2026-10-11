@@ -1,7 +1,7 @@
 # 0006-desktop-ipc-display-strings.patch
 #
 # 桌面主进程经 IPC 传给 web 显示的英文，在 web 的显示位置翻译（T07-fix1，对应 T07 已知问题 3）。
-# 基线 v0.0.46-nightly.20261007.2774；类型上依赖 0004 在 vite-env.d.ts 补的全局 `var __t3zh`（含 t），须在 0004 之后应用。
+# 基线 v0.0.46-nightly.20261010.2935；类型上依赖 0004 在 vite-env.d.ts 补的全局 `var __t3zh`（含 t），须在 0004 之后应用。
 #
 # 做法：新增 apps/web/src/desktopIpcStrings.ts 的 translateKnownDesktopString(x)。只有名单里的精确文字才交给
 # globalThis.__t3zh?.t?.(x) 查表（CONVENTIONS §5 全局 API），其余原样返回。名单外的文字不能交给 t()：
@@ -36,12 +36,12 @@ index e40d4f5d0792d2d1af1c39a6a210664328ceb76a..6b365600cac21c15e23ccd2d36b31ff5
  import { Tooltip, TooltipPopup, TooltipTrigger } from "./ui/tooltip";
 @@ -45,7 +46,7 @@ export function serverUpdateStageLabel(stage: ServerUpdateStage): string {
  }
- 
+
  function updateFailureMessage(error: unknown): string {
 -  return error instanceof Error ? error.message : "Server update failed.";
 +  return error instanceof Error ? translateKnownDesktopString(error.message) : "Server update failed.";
  }
- 
+
  export interface ServerUpdateTarget {
 @@ -185,8 +186,12 @@ export function ServerUpdateProgress({
        <div className="mt-1 flex min-w-0 items-center gap-2 text-xs text-destructive" role="alert">
@@ -67,9 +67,9 @@ index e7ac04b0d068d1ae280d9aa52b44cf542a3c06c0..fee5348a4fa7b1f8860f22306ce12e55
  import { readFileAsDataUrl } from "../ChatView.logic";
  import { stackedThreadToast, toastManager } from "../ui/toast";
 +import { translateKnownDesktopString } from "~/desktopIpcStrings";
- 
+
  type CaptureTarget = DraftId | ScopedThreadRef;
- 
+
 @@ -377,7 +378,7 @@ export function SnapShotCoordinator() {
                stackedThreadToast({
                  type: "error",

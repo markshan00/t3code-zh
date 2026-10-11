@@ -1,0 +1,47 @@
+[
+  {
+    "section": "messages",
+    "key": "Provider installation changed. Refresh and try again.",
+    "zh": "服务提供方的安装已发生变化。请刷新后重试。"
+  },
+  {
+    "section": "messages",
+    "key": "This version is no longer recommended or this installer cannot install a specific version. Refresh provider settings.",
+    "zh": "此版本已不再推荐，或此安装程序无法安装指定版本。请刷新服务提供方设置。"
+  },
+  {
+    "section": "messages",
+    "key": "The latest provider version is incompatible with this T3 Code release. Review provider settings.",
+    "zh": "服务提供方的最新版本与此 T3 Code 版本不兼容。请检查服务提供方设置。"
+  },
+  {
+    "section": "messages",
+    "key": "Update command completed, but T3 Code could not verify the provider version.",
+    "zh": "更新命令已完成，但 T3 Code 无法验证服务提供方的版本。"
+  },
+  {
+    "section": "messages",
+    "key": "Update command completed, but T3 Code still detects an outdated provider version.",
+    "zh": "更新命令已完成，但 T3 Code 仍检测到服务提供方的版本过旧。"
+  },
+  {
+    "section": "messages",
+    "key": "Update command failed.",
+    "zh": "更新命令失败。"
+  },
+  {
+    "section": "messages",
+    "key": "the selected environment",
+    "zh": "所选环境"
+  },
+  {
+    "section": "messages",
+    "key": "the primary environment",
+    "zh": "主环境"
+  },
+  {
+    "section": "messages",
+    "key": "Code language name: Plain text",
+    "zh": "纯文本"
+  }
+]

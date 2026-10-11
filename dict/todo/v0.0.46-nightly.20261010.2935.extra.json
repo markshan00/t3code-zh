@@ -1,0 +1,353 @@
+[
+  {
+    "key": "{0} item couldn't be removed.",
+    "section": "templates",
+    "zh": "{0} 个项目无法删除。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "{0} items couldn't be removed.",
+    "section": "templates",
+    "zh": "{0} 个项目无法删除。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "{0} more results.",
+    "section": "templates",
+    "zh": "另有 {0} 条结果。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "{0} file",
+    "section": "templates",
+    "zh": "{0} 个文件",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "{0} removed, {1} kept",
+    "section": "templates",
+    "zh": "已删除 {0} 个，保留 {1} 个",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "{0} removed, {1} kept, {2} failed",
+    "section": "templates",
+    "zh": "已删除 {0} 个，保留 {1} 个，失败 {2} 个",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "Nothing needed cleanup.",
+    "section": "messages",
+    "zh": "没有需要清理的内容。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "Rotated logs",
+    "section": "messages",
+    "zh": "轮转日志",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "Browser artifacts",
+    "section": "messages",
+    "zh": "浏览器产物",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "No rules apply",
+    "section": "messages",
+    "zh": "没有适用的规则。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "Project is unavailable",
+    "section": "messages",
+    "zh": "项目不可用。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "Thread is running or has pending work",
+    "section": "messages",
+    "zh": "任务正在运行或有待处理工作。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "Cleanup reason: Open terminal",
+    "section": "messages",
+    "zh": "终端仍处于打开状态。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "Worktree is a symbolic link",
+    "section": "messages",
+    "zh": "工作树是符号链接。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "Outside the managed worktree folder",
+    "section": "messages",
+    "zh": "位于受管理的工作树目录之外。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "Contains a project checkout",
+    "section": "messages",
+    "zh": "包含项目检出目录。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "Not a linked worktree",
+    "section": "messages",
+    "zh": "不是链接的工作树。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "Repository or branch changed",
+    "section": "messages",
+    "zh": "仓库或分支已更改。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "Default branch is unavailable",
+    "section": "messages",
+    "zh": "默认分支不可用。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "Thread was deleted",
+    "section": "messages",
+    "zh": "任务已删除。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "No commits beyond the default branch",
+    "section": "messages",
+    "zh": "没有超出默认分支的提交。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "Provider session is still open",
+    "section": "messages",
+    "zh": "服务提供方会话仍处于打开状态。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "Repository or branch changed since check",
+    "section": "messages",
+    "zh": "检查后仓库或分支已更改。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "Commit changed since check",
+    "section": "messages",
+    "zh": "检查后提交已更改。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "Settings changed since check",
+    "section": "messages",
+    "zh": "检查后设置已更改。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "Local changes exceed the inspection limit",
+    "section": "messages",
+    "zh": "本地更改超出检查上限。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "Ignored files exceed the inspection limit",
+    "section": "messages",
+    "zh": "已忽略的文件超出检查上限。",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "No expired files",
+    "section": "messages",
+    "zh": "没有过期文件",
+    "skip": "",
+    "where": [
+      "0021 清理显示层；固定理由核对 storageCleanup.ts"
+    ]
+  },
+  {
+    "key": "Import {0} project",
+    "section": "templates",
+    "zh": "导入 {0} 个项目",
+    "skip": "",
+    "where": [
+      "T19 最终模块网页检查：导入按钮 / 拖动读屏显示"
+    ]
+  },
+  {
+    "key": "Import {0} projects",
+    "section": "templates",
+    "zh": "导入 {0} 个项目",
+    "skip": "",
+    "where": [
+      "T19 最终模块网页检查：导入按钮 / 拖动读屏显示"
+    ]
+  },
+  {
+    "key": "Picked up draggable item {0}.",
+    "section": "templates",
+    "zh": "已拿起可拖动项 {0}。",
+    "skip": "",
+    "where": [
+      "T19 最终模块网页检查：导入按钮 / 拖动读屏显示"
+    ]
+  },
+  {
+    "key": "Draggable item {0} was moved over droppable area {1}.",
+    "section": "templates",
+    "zh": "可拖动项 {0} 已移至放置区域 {1}。",
+    "skip": "",
+    "where": [
+      "T19 最终模块网页检查：导入按钮 / 拖动读屏显示"
+    ]
+  },
+  {
+    "key": "Draggable item {0} is no longer over a droppable area.",
+    "section": "templates",
+    "zh": "可拖动项 {0} 已移出放置区域。",
+    "skip": "",
+    "where": [
+      "T19 最终模块网页检查：导入按钮 / 拖动读屏显示"
+    ]
+  },
+  {
+    "key": "Draggable item {0} was dropped over droppable area {1}",
+    "section": "templates",
+    "zh": "可拖动项 {0} 已放到区域 {1}",
+    "skip": "",
+    "where": [
+      "T19 最终模块网页检查：导入按钮 / 拖动读屏显示"
+    ]
+  },
+  {
+    "key": "Draggable item {0} was dropped.",
+    "section": "templates",
+    "zh": "可拖动项 {0} 已放下。",
+    "skip": "",
+    "where": [
+      "T19 最终模块网页检查：导入按钮 / 拖动读屏显示"
+    ]
+  },
+  {
+    "key": "Dragging was cancelled. Draggable item {0} was dropped.",
+    "section": "templates",
+    "zh": "已取消拖动，可拖动项 {0} 已放下。",
+    "skip": "",
+    "where": [
+      "T19 最终模块网页检查：导入按钮 / 拖动读屏显示"
+    ]
+  },
+  {
+    "key": "To pick up a draggable item, press the space bar.\n    While dragging, use the arrow keys to move the item.\n    Press space again to drop the item in its new position, or press escape to cancel.",
+    "section": "messages",
+    "zh": "按空格键拿起可拖动项。拖动时使用方向键移动；再次按空格键放下，或按 Esc 取消。",
+    "skip": "",
+    "where": [
+      "T19 最终模块网页检查：导入按钮 / 拖动读屏显示"
+    ]
+  },
+  {
+    "key": "GitCafe repository",
+    "section": "messages",
+    "zh": "GitCafe 仓库",
+    "skip": "",
+    "where": [
+      "CommandPaletteResults.tsx：只在添加 GitCafe 项目来源的显示入口"
+    ]
+  },
+  {
+    "key": "Clone GitCafe owner/repo",
+    "section": "messages",
+    "zh": "克隆 GitCafe 所有者/仓库",
+    "skip": "",
+    "where": [
+      "CommandPaletteResults.tsx：只在添加 GitCafe 项目来源的显示入口"
+    ]
+  }
+]

@@ -15,7 +15,7 @@ index 57bfa44e5e356f9ed434934cd4c6a720842ce0c7..958d08aab20a63db3945727a4684a04d
 +  "Reveal in Files",
  ];
  const TRANSLATABLE_MENU_LABEL_SET = new Set(TRANSLATABLE_MENU_LABELS);
- 
+
 diff --git a/apps/web/src/contextMenuFallback.ts b/apps/web/src/contextMenuFallback.ts
 index b5c6a53ae1148ef10227c5a5014f914c4efc9fcb..19d4b92b395e8c077e287ae69358e9778642855a 100644
 --- a/apps/web/src/contextMenuFallback.ts
@@ -30,4 +30,4 @@ index b5c6a53ae1148ef10227c5a5014f914c4efc9fcb..19d4b92b395e8c077e287ae69358e977
 +  "Reveal in Files",
  ];
  const TRANSLATABLE_MENU_LABEL_SET = new Set(TRANSLATABLE_MENU_LABELS);
- 
+

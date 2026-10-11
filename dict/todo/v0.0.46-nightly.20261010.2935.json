@@ -1,0 +1,363 @@
+[
+  {
+    "key": "Subagent needs input",
+    "section": "messages",
+    "zh": "子 Agent 需要输入",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/ChatView.tsx:7433（C，childInputBannerItem）"
+    ]
+  },
+  {
+    "key": "{0} subagents need input",
+    "section": "templates",
+    "zh": "{0} 个子 Agent 需要输入",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/ChatView.tsx:7434（C，childInputBannerItem）"
+    ]
+  },
+  {
+    "key": "Open question",
+    "section": "messages",
+    "zh": "打开问题",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/ChatView.tsx:7445（A，childInputBannerItem）"
+    ],
+    "collidesWith": "Open {0}",
+    "wrongResult": "打开 question"
+  },
+  {
+    "key": "GitCafe",
+    "section": "messages",
+    "zh": "GitCafe",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/CommandPalette.tsx:312（C，remoteProjectSourceLabel）",
+      "apps/web/src/components/GitActionsControl.tsx:246（C，label）"
+    ]
+  },
+  {
+    "key": "Sent by T3 Code",
+    "section": "messages",
+    "zh": "由 T3 Code 发送",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/MessagesTimeline.tsx:2385（A，UserTimelineRow）"
+    ]
+  },
+  {
+    "key": "Import your projects",
+    "section": "messages",
+    "zh": "导入项目",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/onboarding/WelcomeWizard.tsx:1456（B，ImportStep）"
+    ],
+    "collidesWith": "Import {0} {1}",
+    "wrongResult": "导入 your projects"
+  },
+  {
+    "key": "Import projects and conversations from Claude Code and Codex on your selected computers.",
+    "section": "messages",
+    "zh": "从所选设备上的 Claude Code 和 Codex 导入项目与对话。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/onboarding/WelcomeWizard.tsx:1457（B，ImportStep）"
+    ],
+    "collidesWith": "Import {0} {1}",
+    "wrongResult": "导入 projects and conversations from Claude Code and Codex on your selected computers."
+  },
+  {
+    "key": "Confirm auto-merge?",
+    "section": "messages",
+    "zh": "确认自动合并？",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:1904（B，PullRequestDetailPanel）",
+      "apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:1914（A，PullRequestDetailPanel）",
+      "apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:1920（A，PullRequestDetailPanel）",
+      "apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:1932（A，PullRequestDetailPanel）",
+      "apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:2149（B，PullRequestDetailPanel）"
+    ]
+  },
+  {
+    "key": "Confirm merge?",
+    "section": "messages",
+    "zh": "确认合并？",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:1973（B，PullRequestDetailPanel）",
+      "apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:1983（A，PullRequestDetailPanel）",
+      "apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:1989（A，PullRequestDetailPanel）",
+      "apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:2001（A，PullRequestDetailPanel）",
+      "apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:2121（B，PullRequestDetailPanel）"
+    ]
+  },
+  {
+    "key": "Confirm close?",
+    "section": "messages",
+    "zh": "确认关闭？",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:2236（B，PullRequestDetailPanel）",
+      "apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:2243（A，PullRequestDetailPanel）"
+    ]
+  },
+  {
+    "key": "Confirm revert?",
+    "section": "messages",
+    "zh": "确认还原？",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:2260（B，PullRequestDetailPanel）",
+      "apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:2267（A，PullRequestDetailPanel）"
+    ]
+  },
+  {
+    "key": "Confirm approve?",
+    "section": "messages",
+    "zh": "确认批准？",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:2604（B，PullRequestDetailPanel）",
+      "apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:2614（A，PullRequestDetailPanel）",
+      "apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:2620（A，PullRequestDetailPanel）",
+      "apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx:2632（A，PullRequestDetailPanel）"
+    ]
+  },
+  {
+    "key": "Open on GitCafe",
+    "section": "messages",
+    "zh": "在 GitCafe 上打开",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/pullRequestLinkContextMenu.ts:16（C，OPEN_ON_HOST_LABELS）"
+    ],
+    "collidesWith": "Open on {provider}",
+    "wrongResult": "在 GitCafe 上打开"
+  },
+  {
+    "key": "Any local files",
+    "section": "messages",
+    "zh": "任何本地文件",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:167（C，KEEP_WHEN_LABELS）",
+      "apps/web/src/components/settings/StorageSettings.tsx:602（A，StorageSettingsPanel）"
+    ],
+    "collidesWith": "{count} files",
+    "wrongResult": "Any local 个文件"
+  },
+  {
+    "key": "Uncommitted changes",
+    "section": "messages",
+    "zh": "未提交的更改",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:168（C，KEEP_WHEN_LABELS）",
+      "apps/web/src/components/settings/StorageSettings.tsx:603（A，StorageSettingsPanel）"
+    ],
+    "collidesWith": "{0}s",
+    "wrongResult": "Uncommitted change 秒"
+  },
+  {
+    "key": "Edited tracked files",
+    "section": "messages",
+    "zh": "已编辑的已跟踪文件",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:169（C，KEEP_WHEN_LABELS）",
+      "apps/web/src/components/settings/StorageSettings.tsx:604（A，StorageSettingsPanel）"
+    ],
+    "collidesWith": "{count} files",
+    "wrongResult": "Edited tracked 个文件"
+  },
+  {
+    "key": "Last run {0}. {1} recovered.{2}",
+    "section": "templates",
+    "zh": "上次运行于 {0}，已回收 {1}。{2}",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:295（C，summaries）"
+    ],
+    "collidesWith": "L{0}",
+    "wrongResult": "Last run {0}. {1} recovered.{2}"
+  },
+  {
+    "key": "Could not load the last run.",
+    "section": "messages",
+    "zh": "无法加载上次运行结果。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:297（C，summaries）"
+    ]
+  },
+  {
+    "key": "Loading last run…",
+    "section": "messages",
+    "zh": "正在加载上次运行结果…",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:299（C，summaries）"
+    ],
+    "collidesWith": "Loading {name}",
+    "wrongResult": "正在加载 last run…"
+  },
+  {
+    "key": "Cleanup hasn't run yet.",
+    "section": "messages",
+    "zh": "尚未运行清理。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:300（C，summaries）"
+    ]
+  },
+  {
+    "key": "Cleanup failed on {0}",
+    "section": "templates",
+    "zh": "在 {0} 上清理失败",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:321（C，deleteNow）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "{0}上的Cleanup failed"
+  },
+  {
+    "key": "Could not run cleanup on {0}",
+    "section": "templates",
+    "zh": "无法在 {0} 上运行清理",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:327（C，deleteNow）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "{0}上的Could not run cleanup"
+  },
+  {
+    "key": "Cleanup",
+    "section": "messages",
+    "zh": "清理",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:338（B，CleanupSection）"
+    ]
+  },
+  {
+    "key": "Turn on a cleanup rule to use this.",
+    "section": "messages",
+    "zh": "请先开启一条清理规则。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:345（A，CleanupSection）"
+    ],
+    "collidesWith": "Turn {0}",
+    "wrongResult": "第 on a cleanup rule to use this. 轮"
+  },
+  {
+    "key": "Deleting…",
+    "section": "messages",
+    "zh": "正在删除…",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:361（A，CleanupSection）"
+    ]
+  },
+  {
+    "key": "Delete now",
+    "section": "messages",
+    "zh": "立即删除",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:361（A，CleanupSection）",
+      "apps/web/src/components/settings/settingsSearch.ts:153（C，title）"
+    ]
+  },
+  {
+    "key": "Last run",
+    "section": "messages",
+    "zh": "上次运行",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:369（B，CleanupSection）"
+    ],
+    "collidesWith": "L{0}",
+    "wrongResult": "Last run"
+  },
+  {
+    "key": "Includes ignored files, except node_modules.",
+    "section": "messages",
+    "zh": "包含已忽略的文件，但不包含 node_modules。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:576（B，StorageSettingsPanel）"
+    ]
+  },
+  {
+    "key": "Deletes untracked and ignored files, including .env.",
+    "section": "messages",
+    "zh": "删除未跟踪和已忽略的文件，包括 .env。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:578（B，StorageSettingsPanel）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Deletes untracked 和 ignored files, including .env."
+  },
+  {
+    "key": "Keeps edits and untracked files. Deletes ignored files, including .env.",
+    "section": "messages",
+    "zh": "保留已编辑和未跟踪的文件；删除已忽略的文件，包括 .env。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:579（B，StorageSettingsPanel）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Keeps edits 和 untracked files. Deletes ignored files, including .env."
+  },
+  {
+    "key": "Keep worktrees with local changes",
+    "section": "messages",
+    "zh": "保留有本地更改的工作树",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:594（B，StorageSettingsPanel）",
+      "apps/web/src/components/settings/settingsSearch.ts:144（C，title）"
+    ],
+    "collidesWith": "{0}h {1}s",
+    "wrongResult": "Keep worktrees wit 小时 local change 秒"
+  }
+]

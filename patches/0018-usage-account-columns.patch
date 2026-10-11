@@ -1,8 +1,7 @@
 diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/components/usage/UsageLimitsPooled.tsx
-index 9c33b6c..9e8398a 100644
 --- a/apps/web/src/components/usage/UsageLimitsPooled.tsx
 +++ b/apps/web/src/components/usage/UsageLimitsPooled.tsx
-@@ -195,7 +195,7 @@ function SegmentPopover({
+@@ -197,7 +197,7 @@
            </Row>
          ) : null}
          {reset && reset.restoresPercent > 0 ? (
@@ -11,10 +10,10 @@ index 9c33b6c..9e8398a 100644
          ) : null}
        </div>
        {credits && redeem ? (
-@@ -218,28 +218,19 @@ function SegmentPopover({
+@@ -220,28 +220,19 @@
    );
  }
- 
+
 -/**
 - * One account's share of one pooled window: the segment, its popover, and the
 - * reset confirm. The confirm is a sibling of the popover, not a child: dialogs
@@ -41,14 +40,14 @@ index 9c33b6c..9e8398a 100644
  }) {
    const [open, setOpen] = useState(false);
    const remaining = remainingPercent(window);
-@@ -252,63 +243,28 @@ function PoolSegment({
+@@ -254,63 +245,28 @@
          render={
            <button
              type="button"
 -            style={{ gridColumn: index, gridRow: 1 }}
              aria-label={`${account.displayName ?? (account.email ? accountInitials(account.email) : account.driver)}: ${remaining}% left${resetsIn ? `, ${resetsIn}` : ""}${credits ? `, ${credits} reset ${credits === 1 ? "credit" : "credits"} banked` : ""}`}
--            className="relative h-5 min-w-0 cursor-pointer overflow-hidden rounded-md bg-muted text-start outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-[popup-open]:ring-1 data-[popup-open]:ring-border @2xl/pool:h-8"
-+            className="relative h-6 w-full min-w-0 cursor-pointer text-start outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-[popup-open]:ring-1 data-[popup-open]:ring-border"
+-            className="relative h-5 min-w-0 cursor-pointer overflow-hidden rounded-md bg-muted text-start outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-[popup-open]:ring-1 data-[popup-open]:ring-inset data-[popup-open]:ring-border @2xl/pool:h-8"
++            className="relative h-6 w-full min-w-0 cursor-pointer text-start outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-[popup-open]:ring-1 data-[popup-open]:ring-inset data-[popup-open]:ring-border"
            />
          }
        >
@@ -109,10 +108,13 @@ index 9c33b6c..9e8398a 100644
        {account.redeem ? (
          <RedeemableSegmentPopup
            account={account}
-@@ -334,66 +290,6 @@ function PoolSegment({
-   );
- }
- 
+@@ -333,66 +289,6 @@
+         </PopoverPopup>
+       )}
+     </Popover>
+-  );
+-}
+-
 -/**
 - * Below the strip at narrow widths: one row per account in bar order, carrying
 - * the text the segment has no room for. Tapping a row opens the same popover
@@ -170,16 +172,13 @@ index 9c33b6c..9e8398a 100644
 -        ) : null}
 -      </span>
 -    </PopoverTrigger>
--  );
--}
--
- /** Split out so the redeem hook only runs for accounts that can redeem. */
- function RedeemableSegmentPopup({
-   account,
-@@ -442,54 +338,7 @@ function RedeemableSegmentPopup({
    );
  }
- 
+
+@@ -444,54 +340,7 @@
+   );
+ }
+
 -/**
 - * One pooled window as equal-width segments, one per account, each filled by
 - * the share of that account's quota still open. Equal widths are honest: every
@@ -232,17 +231,13 @@ index 9c33b6c..9e8398a 100644
  function PoolWindowCard({
    pool,
    color,
-@@ -503,37 +352,49 @@ function PoolWindowCard({
+@@ -505,37 +354,49 @@
    readonly label?: string | undefined;
    readonly description?: string | undefined;
  }) {
 -  // The soonest reset that hands anything back; an untouched account resets to no effect.
 -  const nextRefill = pool.resets.find((reset) => reset.restoresPercent > 0);
-+  const member = pool.members[0]!;
-+  const reset = pool.resets.find((candidate) => candidate.member.account.key === member.account.key);
-+  const resetsIn = formatResetsIn(member.window, now);
-+  const credits = member.account.limits.resetCredits?.availableCount ?? 0;
-   return (
+-  return (
 -    <div className="grid items-center gap-x-6 gap-y-3 rounded-lg border border-border/60 p-4 md:grid-cols-[11rem_minmax(0,1fr)]">
 -      <div className="flex flex-col gap-1">
 -        <span className="text-sm font-medium text-foreground">{label !== undefined ? label : displayKnown(pool.label)}</span>
@@ -252,6 +247,11 @@ index 9c33b6c..9e8398a 100644
 -          </span>
 -          <span className="text-sm text-muted-foreground">left</span>
 -          {pool.pace ? <PaceIcon pace={pool.pace} /> : null}
++  const member = pool.members[0]!;
++  const reset = pool.resets.find((candidate) => candidate.member.account.key === member.account.key);
++  const resetsIn = formatResetsIn(member.window, now);
++  const credits = member.account.limits.resetCredits?.availableCount ?? 0;
++  return (
 +    <div className="flex min-w-0 flex-col gap-3 py-5 first:pt-0 last:pb-0">
 +      <span className="text-xs font-medium text-muted-foreground">
 +        {label !== undefined ? label : displayKnown(pool.label)}
@@ -293,16 +293,16 @@ index 9c33b6c..9e8398a 100644
      </div>
    );
  }
- 
+
 +/** Keep each account's windows together, regardless of which provider it uses. */
  function PoolSection({ pool, now }: { readonly pool: LimitPool; readonly now: number }) {
    const color = barColor(pool.driver);
-   const label = getDriverOption(pool.driver)?.label ?? String(pool.driver);
+   const label = providerClients.get(pool.driver)?.label ?? String(pool.driver);
 -  const windows = displayLimitWindows(pool);
    return (
      <section className="flex flex-col gap-3">
        <h2 className="flex items-center gap-2 text-sm font-medium text-foreground">
-@@ -546,27 +407,45 @@ function PoolSection({ pool, now }: { readonly pool: LimitPool; readonly now: nu
+@@ -548,27 +409,45 @@
          />
          {label}
        </h2>
@@ -355,7 +355,7 @@ index 9c33b6c..9e8398a 100644
      </section>
    );
  }
- 
+
  /**
 - * Accounts pooled per provider: what is open across all of them, who resets
 - * next, and how much of the pool that hands back. Answers "can I keep going"

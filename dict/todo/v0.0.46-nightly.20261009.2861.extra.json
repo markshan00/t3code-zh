@@ -1,0 +1,112 @@
+[
+  {
+    "key": "The {0} app was closed",
+    "section": "templates",
+    "zh": "{0} 应用已关闭"
+  },
+  {
+    "key": "The {0} app left its page and was stopped",
+    "section": "templates",
+    "zh": "{0} 应用离开了页面，已停止运行"
+  },
+  {
+    "key": "Unable to load the {0} app",
+    "section": "templates",
+    "zh": "无法加载 {0} 应用"
+  },
+  {
+    "key": "Not connected, so setup skips {0}. You can set it up later from Settings.",
+    "section": "templates",
+    "zh": "未连接，设置将跳过 {0}。以后可以在设置中配置。"
+  },
+  {
+    "key": "Not connected, so setup skips {0}. You can set them up later from Settings.",
+    "section": "templates",
+    "zh": "未连接，设置将跳过 {0}。以后可以在设置中配置。"
+  },
+  {
+    "key": "{0} from {1} was downloaded instead.",
+    "section": "templates",
+    "zh": "来自 {1} 的 {0} 已改为下载。"
+  },
+  {
+    "key": "No providers",
+    "section": "messages",
+    "zh": "没有服务提供方"
+  },
+  {
+    "key": "Search failed",
+    "section": "messages",
+    "zh": "搜索失败"
+  },
+  {
+    "key": "Replace",
+    "section": "messages",
+    "zh": "替换"
+  },
+  {
+    "key": "Replace all",
+    "section": "messages",
+    "zh": "全部替换"
+  },
+  {
+    "key": "No results",
+    "section": "messages",
+    "zh": "无匹配结果"
+  },
+  {
+    "key": " of ",
+    "section": "messages",
+    "zh": " / "
+  },
+  {
+    "key": "{0} providers",
+    "section": "templates",
+    "zh": "{0} 个服务提供方"
+  },
+  {
+    "key": "{0} results",
+    "section": "templates",
+    "zh": "共 {0} 项结果"
+  },
+  {
+    "section": "messages",
+    "key": "Starting update",
+    "zh": "正在开始更新"
+  },
+  {
+    "section": "messages",
+    "key": "Waiting for another provider update to finish.",
+    "zh": "正在等待其他服务提供方完成更新。"
+  },
+  {
+    "section": "messages",
+    "key": "Checking for the latest version",
+    "zh": "正在检查最新版本"
+  },
+  {
+    "section": "messages",
+    "key": "Verifying the installed version",
+    "zh": "正在验证已安装版本"
+  },
+  {
+    "section": "messages",
+    "key": "Run T3 Code's CLI as `t3` from any terminal.",
+    "zh": "在任意终端中使用 `t3` 运行 T3 Code CLI。"
+  },
+  {
+    "section": "templates",
+    "key": "Another t3 at {0} runs first in a new terminal. Remove it to use T3 Code's.",
+    "zh": "新终端会优先运行 {0} 处的其他 t3。移除它后即可使用 T3 Code 提供的命令。"
+  },
+  {
+    "section": "templates",
+    "key": "Installed at {0}. Open a new terminal to use it.",
+    "zh": "已安装于 {0}。打开新终端即可使用。"
+  },
+  {
+    "section": "templates",
+    "key": "Installed at {0}, which is not on your PATH yet. Add its folder to your PATH to run `t3`.",
+    "zh": "已安装于 {0}，其目录尚未加入 PATH。将该目录加入 PATH 后即可运行 `t3`。"
+  }
+]

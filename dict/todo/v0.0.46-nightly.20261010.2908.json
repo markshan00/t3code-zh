@@ -1,0 +1,102 @@
+[
+  {
+    "key": "Open parent thread: {0}",
+    "section": "templates",
+    "zh": "打开父任务：{0}",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/chat/ChatHeader.tsx:351（B，ChatHeader）"
+    ],
+    "collidesWith": "Open {0} {1}: {2}",
+    "wrongResult": "打开 parent thread：{0}"
+  },
+  {
+    "key": "Filter comments",
+    "section": "messages",
+    "zh": "筛选评论",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:876（B，PullRequestSummaryTab）"
+    ],
+    "collidesWith": "{count} comments",
+    "wrongResult": "Filter 条评论"
+  },
+  {
+    "key": "Filter",
+    "section": "messages",
+    "zh": "筛选",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:879（A，PullRequestSummaryTab）"
+    ]
+  },
+  {
+    "key": "Bot comments",
+    "section": "messages",
+    "zh": "机器人评论",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:889（A，PullRequestSummaryTab）"
+    ],
+    "collidesWith": "{count} comments",
+    "wrongResult": "Bot 条评论"
+  },
+  {
+    "key": "Resolved or dismissed",
+    "section": "messages",
+    "zh": "已解决或已忽略",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:898（A，PullRequestSummaryTab）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "Resolved or dismisse 天"
+  },
+  {
+    "key": "The only comment is hidden by the filter.",
+    "section": "messages",
+    "zh": "唯一一条评论已被筛选条件隐藏。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:936（A，PullRequestSummaryTab）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "The only comment 的状态为 hidden by the filter."
+  },
+  {
+    "key": "All {0} comments are hidden by the filter.",
+    "section": "templates",
+    "zh": "全部 {0} 条评论已被筛选条件隐藏。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:937（A，PullRequestSummaryTab）"
+    ]
+  },
+  {
+    "key": "VPN",
+    "section": "messages",
+    "zh": "VPN",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/client-runtime/src/connection/routes.ts:194（C，connectionRouteLabel）"
+    ]
+  },
+  {
+    "key": "Sign-in failed. Start again.",
+    "section": "messages",
+    "zh": "",
+    "skip": "服务端代码，不进入 web 构建；在最终 web 产物核对不存在。",
+    "why": "untranslated",
+    "where": [
+      "packages/provider-core/src/server/providerAuthFlow.ts:46（C，failureMessage）"
+    ]
+  }
+]

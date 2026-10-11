@@ -123,10 +123,10 @@ test("only exact permission messages translate; raw errors and state definitions
   assert.equal(elements(TEMP, FILES[4]).filter(c => c.some(n => t.isIdentifier(n, { name: "compactDisabledReason" }))).length, 0);
   for (const [file, variable] of [[FILES[10], "submitTooltip"], [FILES[11], "compactDisabledReason"], [FILES[12], "visibleImportError"], [FILES[16], "browseAccessError"]]) {
     const expected = variable === "submitTooltip" ? `displayRunningSendTooltip(displayConnectionPermissionError(${variable}), followUpBehavior, alternateAction, alternateShortcutLabel)` : `displayConnectionPermissionError(${variable})`;
-    const children = one(TEMP, file, c => c.length === 1 && t.isCallExpression(c[0]) && generate(c[0]).code === expected);
+    const children = one(TEMP, file, c => c.length === 1 && (variable === "submitTooltip" ? generate(c[0]).code.includes(expected) : t.isCallExpression(c[0]) && generate(c[0]).code === expected));
     for (const value of [...known, risky]) {
       const r = runtime("zh-CN");
-      try { assert.equal(render(children, { [variable]: value, followUpBehavior: "steer", alternateAction: "queue", alternateShortcutLabel: "" }), known.includes(value) ? dict.messages[value] : value); }
+      try { assert.equal(render(children, { [variable]: value, submitStatus: value, compactsBeforeSend: false, followUpBehavior: "steer", alternateAction: "queue", alternateShortcutLabel: "" }), known.includes(value) ? dict.messages[value] : value); }
       finally { r.restore(); }
     }
   }
@@ -140,12 +140,10 @@ test("only exact permission messages translate; raw errors and state definitions
       finally { r.restore(); }
     }
   }
-  for (const [file, key] of [[FILES[14], "This connection does not have permission to change environment settings."], [FILES[15], "This connection does not have permission to change these settings."]]) {
-    assert.ok(read(TEMP, file).includes(`? translateFixed("${key}")`));
-    const r = runtime("zh-CN");
-    try { assert.equal(helper.translateFixed(key), dict.messages[key]); assert.deepEqual(r.calls, [key]); }
-    finally { r.restore(); }
-  }
+  // n2861 adds environment labels to the permission notice; real slot expressions
+  // and the unchanged dynamic values are covered by n2861-display-strings.test.ts.
+  for (const file of [FILES[14], FILES[15]]) assert.ok(read(TEMP, file).includes('fillSlot("This connection lacks permission to change settings on ",'));
+
 });
 
 test("file retry message keeps raw errors and translates only known permission text and retry suffix", () => {

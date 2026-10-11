@@ -6,8 +6,8 @@
 
 ## 1. 基线与目录
 
-- 基线 tag：`v0.0.46-nightly.20261007.2774`
-- 基线 commit：`611132c171f3a821bd2e32f22261135cef6330ac`
+- 基线 tag：`v0.0.46-nightly.20261010.2935`
+- 基线 commit：`98beed1a226c42b85c52ff5ee9d5dbb67d776a77`
 - 上游仓库：`~/Projects/t3code`（远端 `pingdotgg/t3code`，blobless 部分克隆）
 
 ```

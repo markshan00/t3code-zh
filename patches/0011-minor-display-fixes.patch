@@ -1,5 +1,5 @@
 # 0011-minor-display-fixes.patch
-# Baseline v0.0.46-nightly.20261007.2774, apply after 0001–0010 (zh.5).
+# Baseline v0.0.46-nightly.20261010.2935, apply after 0001–0010 (zh.5).
 # Small display fixes found while reviewing zh.4; display boundaries only.
 #   * Sidebar row accessible name: the status part (Goal / Working / Waiting / Approval /
 #     Input / Limited / Failed / Woke / Done) and the draft row's "Unsent draft" go through
@@ -104,7 +104,7 @@ index 8146bb6986995bf1399d67b1b39ba22f293b1b37..422ec7251b5cb6af70ddf93f2349d3a3
      isActive: props.isActive,
    });
 @@ -1643,7 +1643,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
- 
+
    const accessibility = resolveSidebarRowAccessibility({
      title: displayDefaultName(thread.title),
 -    statusLabel: topStatus?.label ?? null,

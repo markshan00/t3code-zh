@@ -1,6 +1,7 @@
 {
-  "baseline": "v0.0.46-nightly.20261007.2774",
+  "baseline": "v0.0.46-nightly.20261010.2935",
   "messages": {
+    "A page in the browser wants to open another application:": "浏览器中的页面想要打开另一个应用：",
     "Accessibility": "辅助功能",
     "Actual Size": "实际大小",
     "An unknown error occurred. Please try again later.": "发生未知错误，请稍后重试。",
@@ -12,8 +13,10 @@
     "Branch": "分支",
     "Bring All to Front": "前置全部窗口",
     "Browser preview": "浏览器预览",
+    "Cancel": "取消",
     "Captured window": "已截取的窗口",
     "Check for Updates...": "检查更新...",
+    "Choose a passkey": "选择通行密钥",
     "Close": "关闭",
     "Close Window": "关闭窗口",
     "Close permission helper": "关闭权限助手",
@@ -35,6 +38,7 @@
     "Minimize": "最小化",
     "No suggestions": "没有拼写建议",
     "OK": "确定",
+    "Open": "打开",
     "Paste": "粘贴",
     "Paste as Text": "粘贴为纯文本",
     "Redo": "重做",
@@ -54,6 +58,7 @@
     "Toggle Developer Tools": "切换开发者工具",
     "Toggle Full Screen": "切换全屏",
     "Undo": "撤销",
+    "Unnamed passkey": "未命名的通行密钥",
     "Update check failed": "检查更新失败",
     "Updates unavailable": "暂时无法更新",
     "View": "查看",
@@ -67,6 +72,7 @@
   "templates": {
     "About {0}": "关于 {0}",
     "Hide {0}": "隐藏 {0}",
+    "Open this {0} link?": "打开此 {0} 链接？",
     "Preview · {0}": "预览 · {0}",
     "Quit {0}": "退出 {0}",
     "Set up {0}": "设置{0}",

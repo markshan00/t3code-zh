@@ -29,7 +29,9 @@ function tree(withPatch: boolean) {
     });
     fs.copyFileSync(path.join(UP, f), path.join(dir, f));
   }
-  for (const p of fs.readdirSync(path.join(ROOT, 'patches')).filter(x => x.endsWith('.patch')).sort()) if (withPatch || p !== PATCH) execFileSync('git', ['apply', path.join(ROOT, 'patches', p)], {
+  // 0020 now extends 0017's audited-label table and display callbacks.
+  // The before-0017 comparison must not apply that dependent patch.
+  for (const p of fs.readdirSync(path.join(ROOT, 'patches')).filter(x => x.endsWith('.patch')).sort()) if (withPatch || (p !== PATCH && p !== '0020-n2861-display-strings.patch' && p !== '0021-n2935-display-strings.patch')) execFileSync('git', ['apply', path.join(ROOT, 'patches', p)], {
     cwd: dir
   });
   return dir;
@@ -652,7 +654,7 @@ for (const locale of [null, 'en', 'zh-CN'] as const) {
       const display = select(s, 'CallExpression', p => p.node.callee.name === 'displayRunningSendTooltip');
       for (const followUpBehavior of ['steer', 'queue', risky]) for (const alternateShortcutLabel of ['', risky, '⌘↵']) {
         const alternateAction = followUpBehavior === 'steer' ? 'queue' : 'steer';
-        const scope = { submitStatus: null, isRunning: true, isEditingQueuedMessage: false, followUpBehavior, alternateAction, alternateShortcutLabel, submitLabel: 'Submit message' };
+        const scope = { submitStatus: null, compactsBeforeSend: false, isRunning: true, isEditingQueuedMessage: false, followUpBehavior, alternateAction, alternateShortcutLabel, submitLabel: 'Submit message' };
         const tooltip = evalExpr(originalInit, scope);
         const r = runtime(locale);
         try {

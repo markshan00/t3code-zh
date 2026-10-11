@@ -155,10 +155,6 @@ for (const locale of [null, "en", "zh-CN"] as const) {
 
 test("0016 JSX sites: English and no-runtime output equal the original element; Chinese inserts dynamic values after translation", () => {
   const cases = [
-    { file: COMPOSER, before: textChild("Summarize "), after: fillSlotCall("Summarize "), key: "tokens", values: ["120k", "1.2M", "850", risky],
-      skeleton: `Summarize ${SLOT} tokens of history, then send`, zh: (v: string) => `先总结 ${v} 个 Token 的历史，再发送` },
-    { file: COMPOSER, before: textChild("Send with full history ("), after: fillSlotCall("Send with full history ("), key: "tokens", values: ["120k", "1.2M", "850", risky],
-      skeleton: `Send with full history (${SLOT} tokens)`, zh: (v: string) => `保留完整历史发送（${v} 个 Token）` },
     { file: CHECKS, before: textChild(" failed"), after: (c: any[]) => c.length === 1 && t.isCallExpression(c[0]) && generate(c[0]).code === 'fillSlot("", String(failedCount), " failed")', key: "failedCount", values: [1, 3, 12],
       skeleton: `${SLOT} failed`, zh: (v: string) => `${v} 项失败` },
   ];
@@ -295,7 +291,7 @@ test("0016 only removes the expected mixed-jsx skips; no new candidates or value
   const summary = (root: string, file: string) =>
     scanModule(read(root, file), path.join(UPSTREAM, file), ctx).candidates.map(c => `${c.text}|${c.category}|${c.decision}|${c.reason}`).sort();
   const removedExpected: Record<string, string[]> = {
-    [COMPOSER]: ["Summarize |A|skip|mixed-jsx", " tokens of history, then send|A|skip|mixed-jsx", "Send with full history (|A|skip|mixed-jsx", " tokens)|A|skip|mixed-jsx"],
+    [COMPOSER]: [], // n2861: Summarize moved to submitTooltip; parity is covered by n2861-display-strings.test.ts.
     [CHECKS]: [" failed|A|skip|mixed-jsx"],
     [SCRIPTS]: [],
     [CHAT_COMPOSER]: [],

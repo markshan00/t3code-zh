@@ -11,14 +11,30 @@
 | 步 | 做什么 | 命令 / 产物 | 谁做 |
 |---|---|---|---|
 | 1 体检 | 拉新 tag、建 `.build/next`、补丁试打、构建链守卫、覆盖率报告、待译清单、异形调用扫描、测试对新源码 | `scripts/upgrade-check.sh <新 tag>` → `reports/upgrade/<新 tag>.md` | 主会话（脚本，约 20 秒） |
-| 2 补丁 | 体检里 ❌ 的补丁移植到新源码，只移植、不增删汉化内容；自检「+」行与旧补丁相同、全序 apply 通过 | `patches/README.md`「上游变化后怎么重做」 | DeepSeek（在 `/tmp` 里做，产出补丁文件，主会话复核后放进仓库） |
-| 3 翻译 | 填待译清单：界面文字填 `zh`；刻意不译的填 `skip` 写理由（以后不再列出）；复数后缀模板的单 / 复数两条、其他手加词条写进 `.extra.json` | `dict/todo/<新 tag>.json`（`scripts/dict-todo.ts` 生成，增量保留已填） → `node scripts/dict-merge.ts dict/todo/<新 tag>.json dict/todo/<新 tag>.extra.json`（先校验再写入，失败时词库不动）→ `node scripts/dict-regress.ts .build/next`（对比合并前词库：原本译好的文字有没有被新模板截走，「回归」必须为 0） | 主会话 / Opus |
-| 4 切换基线 | 改写基线标识（build-zh.sh、report.ts、CONVENTIONS §1、两份词库、补丁头），`upstream/`、`.build/src` 切到新 commit；重新生成桌面字符串附录、处理新增条目的归类 | `scripts/switch-baseline.sh <新 tag>`；`node plugin/desktop/survey-strings.ts > s.tsv && node plugin/desktop/classify-strings.ts s.tsv > reports/desktop-main-strings-appendix.md`；全套测试 | 主会话 |
-| 5 构建与实机 | 交付构建；沙盒启动、截图看主要页面 | `scripts/build-zh.sh 0.0.46-n<nightly 号>.zh.1`（CONVENTIONS §2 第 6 条的启动方式） | 主会话或 DeepSeek |
-| 6 审核 | 一轮全量审核增量 + 至多一轮窄审（见下面收敛规则） | `reviews/T<nn>-r1.md` | GPT-6.1 sol（codex exec） |
+| 2 补丁 | 体检里 ❌ 的补丁移植到新源码，只移植、不增删汉化内容；自检「+」行与旧补丁相同、全序 apply 通过 | `patches/README.md`「上游变化后怎么重做」 | 执行模型，A 段（在 `/tmp` 里做，产出补丁文件） |
+| 3 翻译 | 填待译清单：界面文字填 `zh`；刻意不译的填 `skip` 写理由（以后不再列出）；复数后缀模板的单 / 复数两条、其他手加词条写进 `.extra.json` | `dict/todo/<新 tag>.json`（`scripts/dict-todo.ts` 生成，增量保留已填） → `node scripts/dict-merge.ts dict/todo/<新 tag>.json dict/todo/<新 tag>.extra.json`（先校验再写入，失败时词库不动）→ `node scripts/dict-regress.ts .build/next`（对比合并前词库：原本译好的文字有没有被新模板截走，「回归」必须为 0） | 执行模型，A 段 |
+| 4 切换基线 | 改写基线标识（build-zh.sh、report.ts、CONVENTIONS §1、两份词库、补丁头），`upstream/`、`.build/src` 切到新 commit；重新生成桌面字符串附录、处理新增条目的归类 | `scripts/switch-baseline.sh <新 tag>`；`node plugin/desktop/survey-strings.ts > s.tsv && node plugin/desktop/classify-strings.ts s.tsv > reports/desktop-main-strings-appendix.md`；全套测试 | 执行模型，A 段 |
+| 5 构建与网页检查 | 交付构建、installer、发布卫生扫描（B 段）；网页沙盒中英文检查（C 段） | `scripts/build-zh.sh 0.0.46-n<nightly 号>.zh.1`；然后 `scripts/make-installer.ts`、`scripts/release-hygiene.ts`（B 段），`scripts/web-check/run.ts`（C 段），用法见 `docs/BUILD.md`「迭代脚本」 | 执行模型，B / C 段 |
+| 6 审核 | 一轮全量审核增量 + 至多一轮窄审（见下面收敛规则） | `reviews/T<nn>-r1.md` | 主会话（执行和审核换模型） |
 | 7 验收 | 在沙盒里手动检查主要页面，确认后再替换正式安装（见 README「安装到正式环境」） | | 维护者 |
 
 `T3ZH_UPSTREAM=<源码目录>` 可以让 plugin 测试和桌面字符串普查读任意源码目录（默认 `upstream/`），第 1 步就是这样在不切基线的情况下对新源码跑测试的。
+
+## 派活方式（2026-10-11 起）
+
+T19 的执行线程从头做到尾，一共 105 次工具调用，单次请求的上下文从 2.3 万 token 涨到 46 万；每步间隔的中位数从开头的 15 秒涨到最后的 100 秒，最慢一步超过 9 分钟。为此维护者定了下面的做法，推理档一律保持 xhigh，不为提速调低。
+
+1. **分三段派，每段一个新任务（新的上下文）**：
+   - **A 段**：补丁移植、翻译、切换基线、新补丁和测试、全套检查（第 2–4 步）；
+   - **B 段**：交付构建、installer、发布卫生扫描（第 5 步前半）；
+   - **C 段**：网页沙盒中英文检查、文档、交接（第 5 步后半）。
+
+   每段结束，在 `handoff/T<nn>.md` 写本段一节（做了什么、实际命令和结果、留给下一段的事），然后停下。主会话抽查后再派下一段；A 段的问题要在构建之前打回。三段共用同一份任务书，每段的派活提示词写明只做哪一段。
+2. **输出纪律**（写进每份任务书）：
+   - 长输出（测试、构建、扫描、整页 DOM）一律写进日志文件，只读结尾或摘要；
+   - 网页文字由页面脚本写进证据文件，工具只返回一两行摘要；
+   - 不要把整份日志或补丁读进对话。
+3. **重复的部分用脚本**（T20 已完成，2026-10-11）：全套检查用 `scripts/run-checks.ts`，installer 用 `scripts/make-installer.ts`，发布卫生用 `scripts/release-hygiene.ts`，网页检查用 `scripts/web-check/`；清单每轮只补新界面的项，旧项自动当回归。脚本的用法见 `docs/BUILD.md`「迭代脚本」。
 
 ## 判定口径（翻译时）
 

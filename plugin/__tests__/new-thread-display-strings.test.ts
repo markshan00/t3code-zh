@@ -410,7 +410,7 @@ test("转换判定：只有预期的几条跳过项（mixed-jsx 与纯标点）�
       .sort();
   const removedExpected: Record<string, string[]> = {
     // 「?」是混排句里的纯标点文本节点，原先按 no-letters 跳过，句子改成前后两段后一并消失。
-    [HEADLINE]: ["What should we build in |A|skip|mixed-jsx", " to start|A|skip|mixed-jsx", "?|A|skip|no-letters"],
+    [HEADLINE]: ["What should we build in |A|skip|mixed-jsx", " to start|A|skip|mixed-jsx", "?|A|skip|no-letters", "Add project|C|translate|property"],
     [HEADER]: ["New thread in |A|skip|mixed-jsx"],
   };
   for (const file of PATCHED_FILES) {
@@ -421,7 +421,10 @@ test("转换判定：只有预期的几条跳过项（mixed-jsx 与纯标点）�
     assert.deepEqual(added, [], `${file} 不应新增候选`);
     const expected = removedExpected[file] ?? [];
     assert.deepEqual(removed.sort(), [...expected].sort(), `${file} 只应去掉预期的 mixed-jsx 跳过项`);
-    for (const c of removed) assert.match(c, /\|skip\|(mixed-jsx|no-letters)$/, `${file} 去掉的只能是跳过项`);
+    for (const c of removed) {
+      if (file === HEADLINE && c === "Add project|C|translate|property") continue; // 2935 条目在构造显示标签时显式查表，已由真实表达式测试覆盖。
+      assert.match(c, /\|skip\|(mixed-jsx|no-letters)$/, `${file} 去掉的只能是跳过项`);
+    }
   }
   assert.deepEqual(scanModule(helperCode, HELPER, ctx).candidates, []);
 
@@ -542,8 +545,7 @@ test("调用点：组件与任务菜单 hook 里默认名的每个显示处都�
         "activeProjectDisplayName", // 选择器 tooltip
         "activeProjectDisplayName", // aria-label：What should we build in
         "activeProjectDisplayName", // aria-label：to start
-        "group.displayName", // 菜单项目名
-        "group.displayName", // 菜单项目名 tooltip
+        "group.displayName", // 2935 pickerItems：显示、tooltip 与搜索共用标签
       ].sort(),
       allowedRaw: [],
     },
