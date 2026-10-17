@@ -112,7 +112,7 @@ index 1d85211d..d2f1556a 100644
                        <span className="shrink-0 text-2xs font-normal tabular-nums empty:hidden">
                          <AgentElapsed agent={phaseElapsed(phase)} />
 diff --git a/apps/web/src/components/promptLinks/HostedPromptLinkLanding.tsx b/apps/web/src/components/promptLinks/HostedPromptLinkLanding.tsx
-index 77fca435..27688ef4 100644
+index 77fca435..06d8f05f 100644
 --- a/apps/web/src/components/promptLinks/HostedPromptLinkLanding.tsx
 +++ b/apps/web/src/components/promptLinks/HostedPromptLinkLanding.tsx
 @@ -1,3 +1,4 @@
@@ -120,6 +120,35 @@ index 77fca435..27688ef4 100644
  import {
    type LinkedPrompt,
    parseNewThreadLink,
+@@ -35,7 +36,7 @@ function summarize(
+   if (url.pathname !== "/new") {
+     const prompt = parseThreadLinkPrompt(url.search);
+     return prompt.ok
+-      ? { ok: true, value: { prompt: prompt.value, details: ["Opens one of your threads."] } }
++      ? { ok: true, value: { prompt: prompt.value, details: [translateFixed("Opens one of your threads.")] } }
+       : prompt;
+   }
+   const link = parseNewThreadLink(url.search);
+@@ -44,7 +45,7 @@ function summarize(
+     const { owner, name, number } = link.value.pullRequest;
+     return {
+       ok: true,
+-      value: { prompt: link.value.prompt, details: [`Pull request ${owner}/${name}#${number}`] },
++      value: { prompt: link.value.prompt, details: [fillSlot("Pull request ", `${owner}/${name}#${number}`, "")] },
+     };
+   }
+   const { repository, provider, model } = link.value;
+@@ -53,8 +54,8 @@ function summarize(
+     value: {
+       prompt: link.value.prompt,
+       details: [
+-        repository ? `Repository ${repository.owner}/${repository.name}` : "No project",
+-        ...(provider ? [`Model ${model ? `${provider} ${model}` : provider}`] : []),
++        repository ? fillSlot("Repository ", `${repository.owner}/${repository.name}`, "") : translateFixed("No project"),
++        ...(provider ? [fillSlot("Model ", model ? `${provider} ${model}` : provider, "")] : []),
+       ],
+     },
+   };
 @@ -146,8 +147,7 @@ function HostedPromptLinkLanding({
          <Alert className="mt-5" variant="error">
            <AlertTitle>This prompt had hidden characters, it may be malicious</AlertTitle>
@@ -352,15 +381,16 @@ index a3124ff4..7103a9f5 100644
                )}
              </div>
 diff --git a/apps/web/src/components/sidebar/SidebarUpdateCapsule.tsx b/apps/web/src/components/sidebar/SidebarUpdateCapsule.tsx
-index b8306c59..a8011181 100644
+index b8306c59..91d0ab0d 100644
 --- a/apps/web/src/components/sidebar/SidebarUpdateCapsule.tsx
 +++ b/apps/web/src/components/sidebar/SidebarUpdateCapsule.tsx
-@@ -1,3 +1,4 @@
+@@ -1,3 +1,5 @@
++import { translateFixed } from "~/newThreadDisplayStrings";
 +import { displayUpdateStatus } from "~/stableDisplayStrings";
  import { useAtomValue } from "@effect/atom-react";
  import { Atom } from "effect/reactivity";
  import { type ReactNode, useCallback, useMemo, useSyncExternalStore } from "react";
-@@ -117,7 +118,7 @@ export function SidebarUpdateCapsule({
+@@ -117,7 +119,7 @@ export function SidebarUpdateCapsule({
              <button
                type="button"
                aria-label={
@@ -369,7 +399,16 @@ index b8306c59..a8011181 100644
                }
                className="absolute inset-0 cursor-pointer rounded-full outline-hidden ring-ring hover:bg-sidebar-row-hover focus-visible:ring-2 focus-visible:ring-inset"
              />
-@@ -150,7 +151,7 @@ export function SidebarUpdateCapsule({
+@@ -136,7 +138,7 @@ export function SidebarUpdateCapsule({
+             className="relative shrink-0 cursor-pointer pr-3 pl-1.5 text-xs underline decoration-muted-foreground/60 underline-offset-3 hover:decoration-current"
+             onClick={runAction}
+           >
+-            {actionLabel}
++            {translateFixed(actionLabel)}
+           </button>
+         ) : (
+           <span className="pointer-events-none relative grid size-8 shrink-0 place-items-center">
+@@ -150,7 +152,7 @@ export function SidebarUpdateCapsule({
              <div className="flex items-center justify-between gap-3">
                <span>This app</span>
                <span className="text-muted-foreground tabular-nums">
@@ -378,7 +417,7 @@ index b8306c59..a8011181 100644
                </span>
              </div>
            ) : onRestart ? (
-@@ -171,7 +172,7 @@ export function SidebarUpdateCapsule({
+@@ -171,7 +173,7 @@ export function SidebarUpdateCapsule({
                      status === "failed" ? "text-destructive" : "text-muted-foreground",
                    )}
                  >
@@ -388,15 +427,16 @@ index b8306c59..a8011181 100644
                      ? ` ${formatUpdateElapsed(now - machine.startedAt)}`
                      : ""}
 diff --git a/apps/web/src/components/sidebar/UpdateEverythingDialog.tsx b/apps/web/src/components/sidebar/UpdateEverythingDialog.tsx
-index 51f4a369..bbe53eec 100644
+index 51f4a369..0537e2cd 100644
 --- a/apps/web/src/components/sidebar/UpdateEverythingDialog.tsx
 +++ b/apps/web/src/components/sidebar/UpdateEverythingDialog.tsx
-@@ -1,3 +1,4 @@
+@@ -1,3 +1,5 @@
++import { fillDisplaySlots, displayUpdateSkipReason } from "~/stableDisplayStrings";
 +import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
  import { useAtomValue } from "@effect/atom-react";
  import { EnvironmentId } from "@t3tools/contracts";
  import { Atom } from "effect/reactivity";
-@@ -93,7 +94,7 @@ function UpdateEverythingDialogContent({
+@@ -93,7 +95,7 @@ function UpdateEverythingDialogContent({
      ),
    );
    const running = stopped + continuing;
@@ -405,16 +445,26 @@ index 51f4a369..bbe53eec 100644
 
    return (
      <>
+@@ -113,7 +115,7 @@ function UpdateEverythingDialogContent({
+         ) : null}
+         {skipped.length > 0 ? (
+           <p className="whitespace-pre-line pt-2 text-sm">
+-            {skipped.map((machine) => `Skips ${machine.label}: ${machine.reason}`).join("\n")}
++            {skipped.map((machine) => fillDisplaySlots("Skips \uE000: \uE001", [machine.label, displayUpdateSkipReason(machine.reason)])).join("\n")}
+           </p>
+         ) : null}
+       </AlertDialogHeader>
 diff --git a/apps/web/src/components/sidebar/updateEverything.logic.ts b/apps/web/src/components/sidebar/updateEverything.logic.ts
-index ac80b406..3a86ef99 100644
+index ac80b406..53167d1d 100644
 --- a/apps/web/src/components/sidebar/updateEverything.logic.ts
 +++ b/apps/web/src/components/sidebar/updateEverything.logic.ts
-@@ -1,3 +1,4 @@
-+import { displayUpdateMachineFailure } from "~/stableDisplayStrings";
+@@ -1,3 +1,5 @@
++import { displayUpdateMachineFailure, displayUpdateSummary } from "~/stableDisplayStrings";
++import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
  import type { ServerUpdateState } from "@t3tools/client-runtime/state/server";
  import type { EnvironmentId, ServerConfig } from "@t3tools/contracts";
  import { cliReleaseChannelOf } from "@t3tools/shared/cliRelease";
-@@ -328,7 +329,7 @@ export function describeUpdateCapsule(
+@@ -328,7 +330,7 @@ export function describeUpdateCapsule(
    if (failed.length > 0) {
      return {
        tone: "failed",
@@ -423,6 +473,91 @@ index ac80b406..3a86ef99 100644
        action: failed.some(({ machine }) => machine.server !== null) ? "retry" : "dismiss",
      };
    }
+@@ -401,7 +403,7 @@ export function getUpdateEverythingToastView(
+   readonly description?: string;
+ } | null {
+   const parts = [
+-    result.localVersion !== null && result.localVersion === appVersion ? "this app" : null,
++    result.localVersion !== null && result.localVersion === appVersion ? translateFixed("this app") : null,
+     countLabel(result.updatedServers, "server"),
+     countLabel(result.updatedProviders, "provider"),
+   ].filter((part) => part !== null);
+@@ -409,19 +411,19 @@ export function getUpdateEverythingToastView(
+     result.restarting.length === 0
+       ? []
+       : [
+-          `${joinList(result.restarting)} ${result.restarting.length === 1 ? "is" : "are"} still restarting.`,
++          fillSlot("", joinList(result.restarting), result.restarting.length === 1 ? " is still restarting." : " are still restarting."),
+         ];
+   if (result.failures.length === 0) {
+     if (parts.length === 0) return null;
+     return {
+       type: "success",
+-      title: `Updated ${joinList(parts)}`,
++      title: displayUpdateSummary(joinList(parts), true),
+       ...(restarting.length === 0 ? {} : { description: restarting.join("\n") }),
+     };
+   }
+   return {
+     type: "error",
+-    title: parts.length === 0 ? "Update failed" : `Updated ${joinList(parts)}`,
++    title: parts.length === 0 ? "Update failed" : displayUpdateSummary(joinList(parts), true),
+     description: [...result.failures, ...restarting].join("\n"),
+   };
+ }
+@@ -441,10 +443,14 @@ export interface UpdateEverythingPlan {
+ }
+
+ function countLabel(count: number, noun: string): string | null {
+-  return count === 0 ? null : `${count} ${noun}${count === 1 ? "" : "s"}`;
++  if (count === 0) return null;
++  if (noun === "server") return fillSlot("", String(count), count === 1 ? " server" : " servers");
++  if (noun === "provider") return fillSlot("", String(count), count === 1 ? " provider" : " providers");
++  return `${count} ${noun}${count === 1 ? "" : "s"}`;
+ }
+
+ function joinList(parts: ReadonlyArray<string>): string {
++  if (globalThis.__t3zh?.getResolvedLocale() === "zh-CN") return parts.join("、");
+   if (parts.length <= 2) return parts.join(" and ");
+   return `${parts.slice(0, -1).join(", ")}, and ${parts.at(-1)}`;
+ }
+@@ -462,13 +468,13 @@ export function describeUpdateEverything(plan: UpdateEverythingPlan): {
+     (count, machine) => count + machine.providers.length,
+     0,
+   );
+-  const summary = `Update ${joinList(
++  const summary = displayUpdateSummary(joinList(
+     [
+-      plan.localVersion ? "this app" : null,
++      plan.localVersion ? translateFixed("this app") : null,
+       countLabel(plan.servers.length, "server"),
+       countLabel(providerCount, "provider"),
+     ].filter((part) => part !== null),
+-  )}`;
++  ));
+
+   const machines = new Map<EnvironmentId, { label: string; items: string[] }>();
+   const itemsFor = (environmentId: EnvironmentId, label: string) => {
+@@ -483,8 +489,8 @@ export function describeUpdateEverything(plan: UpdateEverythingPlan): {
+     // offers, so it has no target version to show.
+     itemsFor(server.environmentId, server.serverLabel).push(
+       server.selfUpdate === "desktop-managed"
+-        ? "desktop app update"
+-        : `server to ${server.targetVersion}`,
++        ? translateFixed("desktop app update")
++        : fillSlot("server to ", server.targetVersion, ""),
+     );
+   }
+   for (const machine of plan.providerMachines) {
+@@ -494,7 +500,7 @@ export function describeUpdateEverything(plan: UpdateEverythingPlan): {
+   return {
+     summary,
+     lines: [
+-      ...(plan.localVersion ? [`This app: ${plan.localVersion}, restarts last`] : []),
++      ...(plan.localVersion ? [fillSlot("This app: ", plan.localVersion, ", restarts last")] : []),
+       ...Array.from(machines.values(), ({ label, items }) => `${label}: ${items.join(", ")}`),
+     ],
+   };
 diff --git a/apps/web/src/n2935DisplayStrings.ts b/apps/web/src/n2935DisplayStrings.ts
 index 47907172..d50a480e 100644
 --- a/apps/web/src/n2935DisplayStrings.ts
@@ -449,10 +584,10 @@ index 47907172..d50a480e 100644
 +}
 diff --git a/apps/web/src/stableDisplayStrings.ts b/apps/web/src/stableDisplayStrings.ts
 new file mode 100644
-index 00000000..9984e6b8
+index 00000000..7f362ed4
 --- /dev/null
 +++ b/apps/web/src/stableDisplayStrings.ts
-@@ -0,0 +1,50 @@
+@@ -0,0 +1,70 @@
 +import { fillSlot, translateFixed } from "./newThreadDisplayStrings";
 +
 +// Only fixed display skeletons enter the translator; values are inserted afterwards.
@@ -502,4 +637,24 @@ index 00000000..9984e6b8
 +  const match = /^(downloading|Downloading)( \d+%)?$/.exec(value);
 +  if (match) return translateFixed(match[1]!) + (match[2] ?? "");
 +  return displayWorkflowStatus(value);
++}
++
++// Update summaries are actions/results, not the timestamp matched by "Updated {time}".
++export function displayUpdateSummary(parts: string, completed = false): string {
++  const skeleton = completed ? "Updated summary: \uE000" : "Update summary: \uE000";
++  const translated = translateFixed(skeleton);
++  return translated === skeleton
++    ? `${completed ? "Updated" : "Update"} ${parts}`
++    : translated.replace("\uE000", () => parts);
++}
++
++const UPDATE_SKIP_REASONS = [
++  "not connected", "no permission", "already updating",
++  "needs a manual update", "needs a newer desktop app",
++  "on the stable channel", "on the nightly channel",
++];
++export function displayUpdateSkipReason(reason: string): string {
++  if (UPDATE_SKIP_REASONS.includes(reason)) return translateFixed(reason);
++  const unpublished = /^t3@([0-9][0-9A-Za-z.+-]*) is not on npm yet$/.exec(reason);
++  return unpublished ? fillSlot("t3@", unpublished[1]!, " is not on npm yet") : reason;
 +}
