@@ -1,7 +1,7 @@
 # 0006-desktop-ipc-display-strings.patch
 #
 # 桌面主进程经 IPC 传给 web 显示的英文，在 web 的显示位置翻译（T07-fix1，对应 T07 已知问题 3）。
-# 基线 v0.0.46-nightly.20261010.2935；类型上依赖 0004 在 vite-env.d.ts 补的全局 `var __t3zh`（含 t），须在 0004 之后应用。
+# 基线 v0.1.0；类型上依赖 0004 在 vite-env.d.ts 补的全局 `var __t3zh`（含 t），须在 0004 之后应用。
 #
 # 做法：新增 apps/web/src/desktopIpcStrings.ts 的 translateKnownDesktopString(x)。只有名单里的精确文字才交给
 # globalThis.__t3zh?.t?.(x) 查表（CONVENTIONS §5 全局 API），其余原样返回。名单外的文字不能交给 t()：

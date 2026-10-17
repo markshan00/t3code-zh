@@ -1,0 +1,505 @@
+# v0.1.0 stable UI display strings; values and protocol identifiers remain unchanged.
+# New guide, prompt link, workflow, telemetry and update interfaces use fixed skeletons.
+# Also removes a Chinese cleanup spacing artifact and extracts the existing GitCafe predicate.
+diff --git a/apps/web/src/components/CommandPaletteResults.tsx b/apps/web/src/components/CommandPaletteResults.tsx
+index 60a5a10a..e96e8a77 100644
+--- a/apps/web/src/components/CommandPaletteResults.tsx
++++ b/apps/web/src/components/CommandPaletteResults.tsx
+@@ -1,3 +1,4 @@
++import { isGitCafeProjectSource } from "~/n2935DisplayStrings";
+ import { translateFixed } from "~/newThreadDisplayStrings";
+ import { displayKnown, displayRelativeTime } from "~/acceptanceDisplayStrings";
+ import { type ResolvedKeybindingsConfig } from "@t3tools/contracts";
+@@ -169,7 +170,7 @@ function DisabledCommandPaletteResultRow(props: {
+             {props.item.titleLeadingContent}
+             <span className="truncate">
+               {props.item.value.startsWith("action:add-project:")
+-                ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
++                ? (isGitCafeProjectSource(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
+                 : props.item.title}
+             </span>
+           </span>
+@@ -179,7 +180,7 @@ function DisabledCommandPaletteResultRow(props: {
+           {props.item.description ? (
+             <span className="min-w-0 text-muted-foreground/70 text-xs">
+               {props.item.value.startsWith("action:add-project:")
+-                ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.description === "Clone GitCafe owner/repo" ? translateFixed("Clone GitCafe owner/repo") : displayKnown(props.item.description))
++                ? (isGitCafeProjectSource(props.item.value) && props.item.description === "Clone GitCafe owner/repo" ? translateFixed("Clone GitCafe owner/repo") : displayKnown(props.item.description))
+                 : props.item.description}
+             </span>
+           ) : null}
+@@ -189,7 +190,7 @@ function DisabledCommandPaletteResultRow(props: {
+           {props.item.titleLeadingContent}
+           <span className="truncate">
+             {props.item.value.startsWith("action:add-project:")
+-              ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
++              ? (isGitCafeProjectSource(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
+               : props.item.title}
+           </span>
+         </span>
+@@ -229,7 +230,7 @@ function CommandPaletteResultRow(props: {
+             {props.item.titleLeadingContent}
+             <span className="truncate">
+               {props.item.value.startsWith("action:add-project:")
+-                ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
++                ? (isGitCafeProjectSource(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
+                 : props.item.title}
+             </span>
+           </span>
+@@ -239,7 +240,7 @@ function CommandPaletteResultRow(props: {
+           {props.item.description ? (
+             <span className="min-w-0 text-muted-foreground/70 text-xs">
+               {props.item.value.startsWith("action:add-project:")
+-                ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.description === "Clone GitCafe owner/repo" ? translateFixed("Clone GitCafe owner/repo") : displayKnown(props.item.description))
++                ? (isGitCafeProjectSource(props.item.value) && props.item.description === "Clone GitCafe owner/repo" ? translateFixed("Clone GitCafe owner/repo") : displayKnown(props.item.description))
+                 : props.item.description}
+             </span>
+           ) : null}
+@@ -249,7 +250,7 @@ function CommandPaletteResultRow(props: {
+           {props.item.titleLeadingContent}
+           <span className="truncate">
+             {props.item.value.startsWith("action:add-project:")
+-              ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
++              ? (isGitCafeProjectSource(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
+               : props.item.title}
+           </span>
+         </span>
+diff --git a/apps/web/src/components/chat/ThreadLineageWorkflowRow.tsx b/apps/web/src/components/chat/ThreadLineageWorkflowRow.tsx
+index 1d85211d..d2f1556a 100644
+--- a/apps/web/src/components/chat/ThreadLineageWorkflowRow.tsx
++++ b/apps/web/src/components/chat/ThreadLineageWorkflowRow.tsx
+@@ -1,3 +1,5 @@
++import { fillDisplaySlots, displayWorkflowStatus } from "~/stableDisplayStrings";
++import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
+ import type {
+   SubagentWorkflowGroup,
+   RuntimeSubagent,
+@@ -89,7 +91,7 @@ function WorkflowMemberRow({
+         >
+           <ThreadRelationshipIcon driver={driver} provider={provider} status={member.status} />
+           <span className="min-w-0 flex-1 truncate">{member.title}</span>
+-          <span className="sr-only">{member.status}</span>
++          <span className="sr-only">{displayWorkflowStatus(member.status)}</span>
+           {member.startedAt ? (
+             <span className="shrink-0 text-2xs font-normal tabular-nums text-muted-foreground">
+               <AgentElapsed agent={member} />
+@@ -183,7 +185,7 @@ export function ThreadLineageWorkflowRow({
+           variant="ghost"
+           part="secondary"
+           aria-expanded={expanded}
+-          aria-label={`${expanded ? "Collapse" : "Expand"} ${label}`}
++          aria-label={fillSlot(expanded ? "Collapse " : "Expand ", label, "")}
+           onClick={() => setExpanded((value) => !value)}
+         >
+           <ChevronDownIcon
+@@ -206,7 +208,7 @@ export function ThreadLineageWorkflowRow({
+                   variant="panel"
+                   tone={phase.state === "running" ? "emphasized" : "muted"}
+                   expanded={open}
+-                  aria-label={`${open ? "Collapse" : "Expand"} ${phase.title} phase, ${status}`}
++                  aria-label={fillDisplaySlots(open ? "Collapse \uE000 phase, \uE001" : "Expand \uE000 phase, \uE001", [phase.title, displayWorkflowStatus(status)])}
+                   onClick={() => setPhaseOpen((phases) => new Map(phases).set(phase.index, !open))}
+                   accessory={
+                     <>
+@@ -214,8 +216,7 @@ export function ThreadLineageWorkflowRow({
+                         <SectionHeaderStatus>Failed</SectionHeaderStatus>
+                       ) : null}
+                       <span className="shrink-0 text-2xs font-normal tabular-nums">
+-                        {phase.settledCount}/{phase.members.length}{" "}
+-                        {phase.members.length === 1 ? "agent" : "agents"}
++                        {fillDisplaySlots(phase.members.length === 1 ? "\uE000/\uE001 agent" : "\uE000/\uE001 agents", [phase.settledCount, phase.members.length])}
+                       </span>
+                       <span className="shrink-0 text-2xs font-normal tabular-nums empty:hidden">
+                         <AgentElapsed agent={phaseElapsed(phase)} />
+diff --git a/apps/web/src/components/promptLinks/HostedPromptLinkLanding.tsx b/apps/web/src/components/promptLinks/HostedPromptLinkLanding.tsx
+index 77fca435..27688ef4 100644
+--- a/apps/web/src/components/promptLinks/HostedPromptLinkLanding.tsx
++++ b/apps/web/src/components/promptLinks/HostedPromptLinkLanding.tsx
+@@ -1,3 +1,4 @@
++import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
+ import {
+   type LinkedPrompt,
+   parseNewThreadLink,
+@@ -146,8 +147,7 @@ function HostedPromptLinkLanding({
+         <Alert className="mt-5" variant="error">
+           <AlertTitle>This prompt had hidden characters, it may be malicious</AlertTitle>
+           <AlertDescription>
+-            T3 Code removed {prompt.hiddenCharacters} hidden character
+-            {prompt.hiddenCharacters === 1 ? "" : "s"}. Read the prompt before you send it.
++            {fillSlot("T3 Code removed ", String(prompt.hiddenCharacters), prompt.hiddenCharacters === 1 ? " hidden character. Read the prompt before you send it." : " hidden characters. Read the prompt before you send it.")}
+           </AlertDescription>
+         </Alert>
+       ) : null}
+diff --git a/apps/web/src/components/promptLinks/NewThreadLinkView.tsx b/apps/web/src/components/promptLinks/NewThreadLinkView.tsx
+index ab7cbc4b..079763dd 100644
+--- a/apps/web/src/components/promptLinks/NewThreadLinkView.tsx
++++ b/apps/web/src/components/promptLinks/NewThreadLinkView.tsx
+@@ -1,3 +1,5 @@
++import { fillDisplaySlots } from "~/stableDisplayStrings";
++import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
+ import { scopeProjectRef, scopeThreadRef } from "@t3tools/client-runtime/environment";
+ import { getCloneDestinationPath } from "@t3tools/client-runtime/operations/projects";
+ import {
+@@ -121,8 +123,8 @@ export function NewThreadLinkView({ link }: { readonly link: NewThreadLink }) {
+       if (resolved === null || !resolved.exact) {
+         notes.push(
+           resolved === null
+-            ? `The link asked for ${link.provider}, which is not set up here, so your default model is used.`
+-            : `The link asked for ${link.model}, which ${link.provider} does not offer here, so its default model is used.`,
++            ? fillSlot("The link asked for ", link.provider, ", which is not set up here, so your default model is used.")
++            : fillDisplaySlots("The link asked for \uE000, which \uE001 does not offer here, so its default model is used.", [String(link.model), link.provider]),
+         );
+       }
+     }
+@@ -291,7 +293,7 @@ export function NewThreadLinkView({ link }: { readonly link: NewThreadLink }) {
+           description="Clone it to work on it here, or start without a project."
+         >
+           <Button size="sm" onClick={() => void cloneRepository(state.repository)}>
+-            Clone {name}
++            {fillSlot("Clone ", name, "")}
+           </Button>
+           <Button size="sm" variant="outline" onClick={() => void openWithoutProject()}>
+             Use without project
+diff --git a/apps/web/src/components/promptLinks/linkedPrompt.ts b/apps/web/src/components/promptLinks/linkedPrompt.ts
+index 7334f591..581b2931 100644
+--- a/apps/web/src/components/promptLinks/linkedPrompt.ts
++++ b/apps/web/src/components/promptLinks/linkedPrompt.ts
+@@ -1,3 +1,4 @@
++import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
+ import type { LinkedPrompt } from "@t3tools/shared/promptLinks";
+
+ import { type ComposerThreadTarget, useComposerDraftStore } from "~/composerDraftStore";
+@@ -32,7 +33,7 @@ export function placeLinkedPrompt(
+     toastManager.add({
+       type: "info",
+       title: "Prompt added from a link",
+-      description: ["Read it before you send.", ...notes].join(" "),
++      description: [translateFixed("Read it before you send."), ...notes].join(" "),
+     });
+   };
+   const existing = useComposerDraftStore.getState().getComposerDraft(target)?.prompt ?? "";
+diff --git a/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx b/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx
+index 40fadb86..98694298 100644
+--- a/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx
++++ b/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx
+@@ -1,3 +1,4 @@
++import { displayMergeMethod } from "~/stableDisplayStrings";
+ import { Tooltip, TooltipTrigger, TooltipPopup } from "../ui/tooltip";
+ import type {
+   EnvironmentId,
+@@ -237,7 +238,7 @@ export function PullRequestStackMenu({
+             </DialogTitle>
+             <DialogDescription>
+               {confirmation === "merge"
+-                ? `Merge #${reference.number} and its unmerged layers below into ${stack.base} using ${mergeMethod}. ${hostLabel} checks their rules before merging or queueing them and rebases the remaining stack after merging.`
++                ? `Merge #${reference.number} and its unmerged layers below into ${stack.base} using ${displayMergeMethod(mergeMethod)}. ${hostLabel} checks their rules before merging or queueing them and rebases the remaining stack after merging.`
+                 : `Rebase the remote branches from bottom to top onto ${stack.base}. This rewrites branch history and may restart checks. If a layer fails, earlier updates remain.`}
+             </DialogDescription>
+           </DialogHeader>
+diff --git a/apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx b/apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx
+index 4b9747ec..63372e3b 100644
+--- a/apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx
++++ b/apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx
+@@ -1,3 +1,5 @@
++import { fillDisplaySlots, displayParts } from "~/stableDisplayStrings";
++import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
+ import type {
+   DiffLineAnnotation,
+   FileDiffContentsLoader,
+@@ -321,8 +323,7 @@ export function GuideExcerpt({
+             renderHeaderMetadata={() => (
+               <span className="flex items-center gap-2 text-xs text-muted-foreground">
+                 <span className="tabular-nums">
+-                  {excerpt.side === "old" ? "removed code, " : ""}showing {slice.shown} of{" "}
+-                  {slice.total} diff lines
++                  {fillDisplaySlots(excerpt.side === "old" ? "removed code, showing \uE000 of \uE001 diff lines" : "showing \uE000 of \uE001 diff lines", [slice.shown, slice.total])}
+                 </span>
+                 <Button
+                   size="icon-xs"
+@@ -338,13 +339,12 @@ export function GuideExcerpt({
+         </div>
+       ) : loading ? (
+         <p className="rounded-lg border border-border/60 px-3 py-2 text-xs text-muted-foreground">
+-          Loading {excerpt.path}...
++          {fillSlot("Loading ", excerpt.path, "...")}
+         </p>
+       ) : (
+         <div className="flex items-center justify-between gap-3 rounded-lg border border-border/60 px-3 py-2 text-xs text-muted-foreground">
+           <span className="min-w-0 truncate">
+-            <span className="font-mono text-foreground">{excerpt.path}</span> lines {excerpt.start}-
+-            {excerpt.end} are not in the loaded diff.
++            {displayParts("\uE000 lines \uE001-\uE002 are not in the loaded diff.", [<span key="path" className="font-mono text-foreground">{excerpt.path}</span>, excerpt.start, excerpt.end])}
+           </span>
+           <Button size="xs" variant="outline" onClick={() => onOpenFile(excerpt.path)}>
+             Open in Code
+diff --git a/apps/web/src/components/pullRequest/guide/GuideRail.tsx b/apps/web/src/components/pullRequest/guide/GuideRail.tsx
+index 8ff930af..45e3530e 100644
+--- a/apps/web/src/components/pullRequest/guide/GuideRail.tsx
++++ b/apps/web/src/components/pullRequest/guide/GuideRail.tsx
+@@ -1,3 +1,4 @@
++import { fillDisplaySlots, displayGuideSubline } from "~/stableDisplayStrings";
+ import type { PullRequestReviewGuideStop } from "@t3tools/contracts";
+ import { CheckIcon } from "lucide-react";
+
+@@ -37,7 +38,7 @@ export function GuideRail({
+                 Look closely
+               </Badge>
+             ) : null}
+-            <span>{stopSubline(stop)}</span>
++            <span>{displayGuideSubline(stopSubline(stop))}</span>
+           </>
+         }
+       />
+@@ -48,7 +49,7 @@ export function GuideRail({
+     <nav aria-label="Review tour" className="flex min-h-0 flex-col gap-4">
+       {/* Beside the stop only; narrow, the stop's own header says where the reader is. */}
+       <p className="text-xs text-muted-foreground tabular-nums @max-[56rem]/guide:hidden">
+-        {reviewed} of {stops.length} read
++        {fillDisplaySlots("\uE000 of \uE001 read", [reviewed, stops.length])}
+       </p>
+       <div className="flex flex-col gap-4">
+         <ol className="flex flex-col gap-0.5">{stops.map(renderStop)}</ol>
+diff --git a/apps/web/src/components/pullRequest/guide/GuideStop.tsx b/apps/web/src/components/pullRequest/guide/GuideStop.tsx
+index bfd1aed8..4037a9fc 100644
+--- a/apps/web/src/components/pullRequest/guide/GuideStop.tsx
++++ b/apps/web/src/components/pullRequest/guide/GuideStop.tsx
+@@ -1,3 +1,5 @@
++import { fillDisplaySlots } from "~/stableDisplayStrings";
++import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
+ import type { FileDiffContentsLoader, FileDiffMetadata } from "@pierre/diffs";
+ import type {
+   PullRequestReviewGuideAttention,
+@@ -101,7 +103,7 @@ export function GuideStop({
+         <Collapsible open={railOpen} onOpenChange={onRailOpenChange}>
+           <header className="flex items-center justify-between gap-2">
+             <p className="text-xs text-muted-foreground tabular-nums @max-[56rem]/guide:hidden">
+-              Stop {index + 1} of {stopCount}
++              {fillDisplaySlots("Stop \uE000 of \uE001", [index + 1, stopCount])}
+             </p>
+             <CollapsibleTrigger
+               render={
+@@ -109,7 +111,7 @@ export function GuideStop({
+               }
+             >
+               <span className="tabular-nums">
+-                Stop {index + 1} of {stopCount}
++                {fillDisplaySlots("Stop \uE000 of \uE001", [index + 1, stopCount])}
+               </span>
+               <ChevronDownIcon aria-hidden className={cn(railOpen && "rotate-180")} />
+             </CollapsibleTrigger>
+@@ -289,7 +291,7 @@ export function GuideStop({
+         <footer className="flex flex-wrap items-center justify-end gap-3 border-t border-border/60 pt-4">
+           {nextTitle !== null ? (
+             <Button className="min-w-0" onClick={() => onStep(1)}>
+-              <span className="min-w-0 truncate">Next: {nextTitle}</span>
++              <span className="min-w-0 truncate">{fillSlot("Next: ", nextTitle, "")}</span>
+               <ArrowRightIcon aria-hidden />
+             </Button>
+           ) : onFinish !== null ? (
+diff --git a/apps/web/src/components/pullRequest/guide/GuideTour.tsx b/apps/web/src/components/pullRequest/guide/GuideTour.tsx
+index 2c084664..5677a3cb 100644
+--- a/apps/web/src/components/pullRequest/guide/GuideTour.tsx
++++ b/apps/web/src/components/pullRequest/guide/GuideTour.tsx
+@@ -1,3 +1,4 @@
++import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
+ import type { EnvironmentId, PullRequestRef, PullRequestReviewGuide } from "@t3tools/contracts";
+ import { useEffect, useEffectEvent, useMemo, useRef, useState, type ReactNode } from "react";
+
+@@ -128,7 +129,7 @@ export function GuideTour({
+           {banner}
+           {diff.error !== null ? (
+             <p className="text-xs text-muted-foreground">
+-              The diff could not be loaded, so excerpts are missing: {diff.error}
++              {fillSlot("The diff could not be loaded, so excerpts are missing: ", diff.error, "")}
+             </p>
+           ) : null}
+           {stop === null ? (
+diff --git a/apps/web/src/components/settings/TelemetryExportSettings.tsx b/apps/web/src/components/settings/TelemetryExportSettings.tsx
+index a3124ff4..7103a9f5 100644
+--- a/apps/web/src/components/settings/TelemetryExportSettings.tsx
++++ b/apps/web/src/components/settings/TelemetryExportSettings.tsx
+@@ -1,3 +1,4 @@
++import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
+ import { useAtomValue } from "@effect/atom-react";
+ import type { OtlpEndpointCheckResult, OtlpSignal } from "@t3tools/contracts";
+ import { useEffect, useEffectEvent, useState } from "react";
+@@ -152,8 +153,7 @@ function TelemetryExportForm() {
+         </p>
+         {!canEdit && (
+           <p className="text-xs text-muted-foreground">
+-            This connection lacks permission to change settings on{" "}
+-            {environment?.label ?? "the selected environment"}.
++            {fillSlot("This connection lacks permission to change settings on ", environment?.label ?? translateFixed("the selected environment"), ".")}
+           </p>
+         )}
+         {SIGNALS.map(({ key, label, signal }) => {
+@@ -164,7 +164,7 @@ function TelemetryExportForm() {
+               <div className="flex items-center justify-between gap-3">
+                 <div className="flex items-center gap-1.5">
+                   {status && <ConnectionStatusDot dotClassName={status.dot} />}
+-                  <Label htmlFor={key}>{label} endpoint</Label>
++                  <Label htmlFor={key}>{fillSlot("", label, " endpoint")}</Label>
+                 </div>
+                 {status && <span className="text-xs text-muted-foreground">{status.label}</span>}
+               </div>
+@@ -204,7 +204,7 @@ function TelemetryExportForm() {
+               </div>
+               {saved[key] !== (running?.[key] ?? "") && (
+                 <p className="break-all text-xs text-muted-foreground">
+-                  Running: {running?.[key] || "Disabled"}
++                  {fillSlot("Running: ", running?.[key] || translateFixed("Disabled"), "")}
+                 </p>
+               )}
+             </div>
+diff --git a/apps/web/src/components/sidebar/SidebarUpdateCapsule.tsx b/apps/web/src/components/sidebar/SidebarUpdateCapsule.tsx
+index b8306c59..a8011181 100644
+--- a/apps/web/src/components/sidebar/SidebarUpdateCapsule.tsx
++++ b/apps/web/src/components/sidebar/SidebarUpdateCapsule.tsx
+@@ -1,3 +1,4 @@
++import { displayUpdateStatus } from "~/stableDisplayStrings";
+ import { useAtomValue } from "@effect/atom-react";
+ import { Atom } from "effect/reactivity";
+ import { type ReactNode, useCallback, useMemo, useSyncExternalStore } from "react";
+@@ -117,7 +118,7 @@ export function SidebarUpdateCapsule({
+             <button
+               type="button"
+               aria-label={
+-                view.slow ? `${view.label} ${view.slow.status} ${view.slow.elapsed}` : view.label
++                view.slow ? `${view.label} ${displayUpdateStatus(view.slow.status)} ${view.slow.elapsed}` : view.label
+               }
+               className="absolute inset-0 cursor-pointer rounded-full outline-hidden ring-ring hover:bg-sidebar-row-hover focus-visible:ring-2 focus-visible:ring-inset"
+             />
+@@ -150,7 +151,7 @@ export function SidebarUpdateCapsule({
+             <div className="flex items-center justify-between gap-3">
+               <span>This app</span>
+               <span className="text-muted-foreground tabular-nums">
+-                {localStatusLabel(run, local, now)}
++                {displayUpdateStatus(localStatusLabel(run, local, now))}
+               </span>
+             </div>
+           ) : onRestart ? (
+@@ -171,7 +172,7 @@ export function SidebarUpdateCapsule({
+                     status === "failed" ? "text-destructive" : "text-muted-foreground",
+                   )}
+                 >
+-                  {RUN_STATUS_LABELS[status]}
++                  {displayUpdateStatus(RUN_STATUS_LABELS[status])}
+                   {status !== "done" && status !== "failed" && status !== "waiting"
+                     ? ` ${formatUpdateElapsed(now - machine.startedAt)}`
+                     : ""}
+diff --git a/apps/web/src/components/sidebar/UpdateEverythingDialog.tsx b/apps/web/src/components/sidebar/UpdateEverythingDialog.tsx
+index 51f4a369..bbe53eec 100644
+--- a/apps/web/src/components/sidebar/UpdateEverythingDialog.tsx
++++ b/apps/web/src/components/sidebar/UpdateEverythingDialog.tsx
+@@ -1,3 +1,4 @@
++import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
+ import { useAtomValue } from "@effect/atom-react";
+ import { EnvironmentId } from "@t3tools/contracts";
+ import { Atom } from "effect/reactivity";
+@@ -93,7 +94,7 @@ function UpdateEverythingDialogContent({
+     ),
+   );
+   const running = stopped + continuing;
+-  const threads = `${running} running ${running === 1 ? "thread" : "threads"}`;
++  const threads = fillSlot("", String(running), running === 1 ? " running thread" : " running threads");
+
+   return (
+     <>
+diff --git a/apps/web/src/components/sidebar/updateEverything.logic.ts b/apps/web/src/components/sidebar/updateEverything.logic.ts
+index ac80b406..3a86ef99 100644
+--- a/apps/web/src/components/sidebar/updateEverything.logic.ts
++++ b/apps/web/src/components/sidebar/updateEverything.logic.ts
+@@ -1,3 +1,4 @@
++import { displayUpdateMachineFailure } from "~/stableDisplayStrings";
+ import type { ServerUpdateState } from "@t3tools/client-runtime/state/server";
+ import type { EnvironmentId, ServerConfig } from "@t3tools/contracts";
+ import { cliReleaseChannelOf } from "@t3tools/shared/cliRelease";
+@@ -328,7 +329,7 @@ export function describeUpdateCapsule(
+   if (failed.length > 0) {
+     return {
+       tone: "failed",
+-      label: failed.length === 1 ? `${failed[0]!.machine.label} failed` : `${failed.length} failed`,
++      label: failed.length === 1 ? displayUpdateMachineFailure(failed[0]!.machine.label) : `${failed.length} failed`,
+       action: failed.some(({ machine }) => machine.server !== null) ? "retry" : "dismiss",
+     };
+   }
+diff --git a/apps/web/src/n2935DisplayStrings.ts b/apps/web/src/n2935DisplayStrings.ts
+index 47907172..d50a480e 100644
+--- a/apps/web/src/n2935DisplayStrings.ts
++++ b/apps/web/src/n2935DisplayStrings.ts
+@@ -14,8 +14,9 @@ function fillCleanupSlots(skeleton: string, values: readonly string[]): string {
+ }
+
+ export function displayCleanupLastRun(relative: string, bytes: string, failed: number): string {
++  const failurePrefix = globalThis.__t3zh?.getResolvedLocale() === "zh-CN" ? "" : " ";
+   const failure = failed > 0
+-    ? fillSlot(" ", String(failed), failed === 1 ? " item couldn't be removed." : " items couldn't be removed.")
++    ? fillSlot(failurePrefix, String(failed), failed === 1 ? " item couldn't be removed." : " items couldn't be removed.")
+     : "";
+   return fillCleanupSlots("Last run \uE000. \uE001 recovered.\uE002", [displayRelativeTime(relative), bytes, failure]);
+ }
+@@ -83,3 +84,8 @@ export function panelDragAccessibility(label: (id: string | number) => string) {
+     },
+   };
+ }
++
++export function isGitCafeProjectSource(value: string): boolean {
++  return !value.startsWith("action:add-project:environment:")
++    && /:gitcafe(?::not-ready)?$/.test(value);
++}
+diff --git a/apps/web/src/stableDisplayStrings.ts b/apps/web/src/stableDisplayStrings.ts
+new file mode 100644
+index 00000000..9984e6b8
+--- /dev/null
++++ b/apps/web/src/stableDisplayStrings.ts
+@@ -0,0 +1,50 @@
++import { fillSlot, translateFixed } from "./newThreadDisplayStrings";
++
++// Only fixed display skeletons enter the translator; values are inserted afterwards.
++export function displayParts<T>(skeleton: string, values: readonly T[]): Array<string | T> {
++  const translated = globalThis.__t3zh?.t?.(skeleton) ?? skeleton;
++  const markers = values.map((_, index) => String.fromCharCode(0xE000 + index));
++  const valid = markers.every((marker) => translated.split(marker).length === 2);
++  return (valid ? translated : skeleton).split(/([\uE000-\uE00F])/).map((part) => {
++    const index = markers.indexOf(part);
++    return index < 0 ? part : values[index]!;
++  });
++}
++
++export function fillDisplaySlots(skeleton: string, values: readonly (string | number)[]): string {
++  return displayParts(skeleton, values).join("");
++}
++
++const WORKFLOW_STATUS = ["running", "failed", "stopped", "done", "not started", "completed", "pending", "waiting", "downloading", "restarting", "updating providers", "idle", "cancelled", "interrupted"];
++export function displayWorkflowStatus(value: string): string {
++  return WORKFLOW_STATUS.includes(value) ? translateFixed(value) : value;
++}
++
++// stopSubline is an upstream UI formatter. Its fixed label / numeric outputs are exhaustive.
++export function displayGuideSubline(value: string): string {
++  if (value === "Context, no code") return translateFixed("Context, no code");
++  const match = /^(\d+) (file|files)$/.exec(value);
++  return match ? fillSlot("", match[1]!, ` ${match[2]}`) : value;
++}
++
++export function displayUpdateMachineFailure(name: string): string {
++  const skeleton = "Update machine failed: \uE000";
++  const translated = translateFixed(skeleton);
++  return translated === skeleton ? `${name} failed` : translated.replace("\uE000", () => name);
++}
++
++export function displayMergeMethod(method: string): string {
++  if (globalThis.__t3zh?.getResolvedLocale() !== "zh-CN") return method;
++  switch (method) {
++    case "merge": return translateFixed("Merge");
++    case "squash": return translateFixed("Squash and merge");
++    case "rebase": return translateFixed("Rebase");
++    default: return method;
++  }
++}
++
++export function displayUpdateStatus(value: string): string {
++  const match = /^(downloading|Downloading)( \d+%)?$/.exec(value);
++  if (match) return translateFixed(match[1]!) + (match[2] ?? "");
++  return displayWorkflowStatus(value);
++}

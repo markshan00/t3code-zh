@@ -1,5 +1,5 @@
 # 0009-acceptance-display-strings.patch
-# Baseline: v0.0.46-nightly.20261010.2935, apply after 0001–0008.
+# Baseline: v0.1.0, apply after 0001–0008.
 # Fix UI observations in reviews/T10-acceptance-codex.md.
 # Finite labels use an exact allowlist at display boundaries; dynamic values are
 # inserted after translating a sentinel skeleton. User content and stored values
@@ -7,6 +7,7 @@
 # Tests: plugin/__tests__/acceptance-display-strings.test.ts.
 diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceDisplayStrings.ts
 new file mode 100644
+index 00000000..4825f427
 --- /dev/null
 +++ b/apps/web/src/acceptanceDisplayStrings.ts
 @@ -0,0 +1,238 @@
@@ -249,6 +250,7 @@ new file mode 100644
 +  );
 +}
 diff --git a/apps/web/src/components/CommandPalette.tsx b/apps/web/src/components/CommandPalette.tsx
+index 6596e451..e5978f21 100644
 --- a/apps/web/src/components/CommandPalette.tsx
 +++ b/apps/web/src/components/CommandPalette.tsx
 @@ -1,4 +1,5 @@
@@ -257,7 +259,7 @@ diff --git a/apps/web/src/components/CommandPalette.tsx b/apps/web/src/component
 
  import { threadPullRequestLinkMode } from "@t3tools/client-runtime/thread-pull-request-compatibility";
  import { visibleThreadPullRequests } from "@t3tools/shared/threadPullRequests";
-@@ -3485,7 +3486,7 @@
+@@ -3512,7 +3513,7 @@ function OpenCommandPaletteDialog(props: {
        key={`${viewStack.length}-${browseGeneration}-${isBrowsing}-${newProjectFlow ? "new-project" : (addProjectCloneFlow?.step ?? "none")}`}
        aria-label="Command palette"
        autoHighlight={autoHighlightsFirstRow ? "always" : false}
@@ -266,7 +268,7 @@ diff --git a/apps/web/src/components/CommandPalette.tsx b/apps/web/src/component
        footerTrailing={footerTrailing}
        inputAccessory={inputAccessory}
        inputProps={{
-@@ -3500,7 +3501,7 @@
+@@ -3528,7 +3529,7 @@ function OpenCommandPaletteDialog(props: {
                    hasHighlightedBrowseItem,
                  })
                : undefined,
@@ -276,6 +278,7 @@ diff --git a/apps/web/src/components/CommandPalette.tsx b/apps/web/src/component
            ? {
                startAddon: (
 diff --git a/apps/web/src/components/CommandPaletteResults.tsx b/apps/web/src/components/CommandPaletteResults.tsx
+index 8a00d8f4..1fe3972e 100644
 --- a/apps/web/src/components/CommandPaletteResults.tsx
 +++ b/apps/web/src/components/CommandPaletteResults.tsx
 @@ -1,3 +1,4 @@
@@ -283,7 +286,7 @@ diff --git a/apps/web/src/components/CommandPaletteResults.tsx b/apps/web/src/co
  import { type ResolvedKeybindingsConfig } from "@t3tools/contracts";
  import { LegendList, type LegendListRef } from "@legendapp/list/react";
  import { ChevronRightIcon } from "lucide-react";
-@@ -165,21 +166,31 @@
+@@ -165,21 +166,31 @@ function DisabledCommandPaletteResultRow(props: {
          <span className="flex min-w-0 flex-1 flex-col">
            <span className="flex min-w-0 items-center gap-1.5 text-sm text-foreground">
              {props.item.titleLeadingContent}
@@ -318,7 +321,7 @@ diff --git a/apps/web/src/components/CommandPaletteResults.tsx b/apps/web/src/co
          </span>
        )}
        {props.item.titleTrailingContent}
-@@ -215,27 +226,37 @@
+@@ -215,27 +226,37 @@ function CommandPaletteResultRow(props: {
          <span className="flex min-w-0 flex-1 flex-col">
            <span className="flex min-w-0 items-center gap-1.5 text-sm text-foreground">
              {props.item.titleLeadingContent}
@@ -361,6 +364,7 @@ diff --git a/apps/web/src/components/CommandPaletteResults.tsx b/apps/web/src/co
        ) : null}
        {shortcutLabel ? <CommandShortcut>{shortcutLabel}</CommandShortcut> : null}
 diff --git a/apps/web/src/components/DiffPanel.tsx b/apps/web/src/components/DiffPanel.tsx
+index 0c7a4a28..ac183f39 100644
 --- a/apps/web/src/components/DiffPanel.tsx
 +++ b/apps/web/src/components/DiffPanel.tsx
 @@ -1,3 +1,4 @@
@@ -368,7 +372,7 @@ diff --git a/apps/web/src/components/DiffPanel.tsx b/apps/web/src/components/Dif
  import { RefreshIcon } from "~/components/ui/refresh-icon";
  import { useAtomValue } from "@effect/atom-react";
  import type { FileDiffContentsLoader, FileDiffMetadata } from "@pierre/diffs";
-@@ -761,9 +762,9 @@
+@@ -741,9 +742,9 @@ export default function DiffPanel({
            <DropdownMenuTrigger
              render={<Button size="xs" variant="secondary" />}
              className="max-w-full"
@@ -381,6 +385,7 @@ diff --git a/apps/web/src/components/DiffPanel.tsx b/apps/web/src/components/Dif
            </DropdownMenuTrigger>
            <DropdownMenuContent align="start">
 diff --git a/apps/web/src/components/ThreadTerminalDrawer.tsx b/apps/web/src/components/ThreadTerminalDrawer.tsx
+index 4654f759..218f1274 100644
 --- a/apps/web/src/components/ThreadTerminalDrawer.tsx
 +++ b/apps/web/src/components/ThreadTerminalDrawer.tsx
 @@ -1,3 +1,4 @@
@@ -388,7 +393,7 @@ diff --git a/apps/web/src/components/ThreadTerminalDrawer.tsx b/apps/web/src/com
  import { useAtomValue } from "@effect/atom-react";
  import {
    isAtomCommandInterrupted,
-@@ -1539,7 +1540,7 @@
+@@ -1585,7 +1586,7 @@ export default function ThreadTerminalDrawer({
              onClick={onNewTerminalAction}
              disabled={!canOperateTerminal}
            >
@@ -397,7 +402,7 @@ diff --git a/apps/web/src/components/ThreadTerminalDrawer.tsx b/apps/web/src/com
            </Button>
          </div>
        </aside>
-@@ -1580,7 +1581,7 @@
+@@ -1626,7 +1627,7 @@ export default function ThreadTerminalDrawer({
                    : "hover:bg-accent"
                }`}
                onClick={onSplitTerminalAction}
@@ -406,7 +411,7 @@ diff --git a/apps/web/src/components/ThreadTerminalDrawer.tsx b/apps/web/src/com
              >
                <SquareSplitHorizontal className="size-3.25" />
              </TerminalActionButton>
-@@ -1593,7 +1594,7 @@
+@@ -1639,7 +1640,7 @@ export default function ThreadTerminalDrawer({
                    : "hover:bg-accent"
                }`}
                onClick={onSplitTerminalVerticalAction}
@@ -415,7 +420,7 @@ diff --git a/apps/web/src/components/ThreadTerminalDrawer.tsx b/apps/web/src/com
              >
                <SquareSplitVertical className="size-3.25" />
              </TerminalActionButton>
-@@ -1602,7 +1603,7 @@
+@@ -1648,7 +1649,7 @@ export default function ThreadTerminalDrawer({
                disabled={!canOperateTerminal}
                className="p-1 text-foreground/90 transition-colors hover:bg-accent"
                onClick={onNewTerminalAction}
@@ -424,7 +429,7 @@ diff --git a/apps/web/src/components/ThreadTerminalDrawer.tsx b/apps/web/src/com
              >
                <Plus className="size-3.25" />
              </TerminalActionButton>
-@@ -1611,7 +1612,7 @@
+@@ -1657,7 +1658,7 @@ export default function ThreadTerminalDrawer({
                disabled={!canOperateTerminal}
                className="p-1 text-foreground/90 transition-colors hover:bg-accent"
                onClick={() => confirmCloseTerminal(resolvedActiveTerminalId)}
@@ -433,7 +438,7 @@ diff --git a/apps/web/src/components/ThreadTerminalDrawer.tsx b/apps/web/src/com
              >
                <Trash2 className="size-3.25" />
              </TerminalActionButton>
-@@ -1729,7 +1730,7 @@
+@@ -1775,7 +1776,7 @@ export default function ThreadTerminalDrawer({
                          : "hover:bg-accent/70"
                      }`}
                      onClick={onSplitTerminalAction}
@@ -442,7 +447,7 @@ diff --git a/apps/web/src/components/ThreadTerminalDrawer.tsx b/apps/web/src/com
                    >
                      <SquareSplitHorizontal className="size-3.25" />
                    </TerminalActionButton>
-@@ -1741,7 +1742,7 @@
+@@ -1787,7 +1788,7 @@ export default function ThreadTerminalDrawer({
                          : "hover:bg-accent/70"
                      }`}
                      onClick={onSplitTerminalVerticalAction}
@@ -451,7 +456,7 @@ diff --git a/apps/web/src/components/ThreadTerminalDrawer.tsx b/apps/web/src/com
                    >
                      <SquareSplitVertical className="size-3.25" />
                    </TerminalActionButton>
-@@ -1749,7 +1750,7 @@
+@@ -1795,7 +1796,7 @@ export default function ThreadTerminalDrawer({
                      disabled={!canOperateTerminal}
                      className="inline-flex h-full items-center border-l border-border/70 px-1 text-foreground/90 transition-colors hover:bg-accent/70"
                      onClick={onNewTerminalAction}
@@ -460,7 +465,7 @@ diff --git a/apps/web/src/components/ThreadTerminalDrawer.tsx b/apps/web/src/com
                    >
                      <Plus className="size-3.25" />
                    </TerminalActionButton>
-@@ -1757,7 +1758,7 @@
+@@ -1803,7 +1804,7 @@ export default function ThreadTerminalDrawer({
                      disabled={!canOperateTerminal}
                      className="inline-flex h-full items-center border-l border-border/70 px-1 text-foreground/90 transition-colors hover:bg-accent/70"
                      onClick={() => confirmCloseTerminal(resolvedActiveTerminalId)}
@@ -470,6 +475,7 @@ diff --git a/apps/web/src/components/ThreadTerminalDrawer.tsx b/apps/web/src/com
                      <Trash2 className="size-3.25" />
                    </TerminalActionButton>
 diff --git a/apps/web/src/components/chat/ChangedFilesTree.tsx b/apps/web/src/components/chat/ChangedFilesTree.tsx
+index 779e4bc1..330d442a 100644
 --- a/apps/web/src/components/chat/ChangedFilesTree.tsx
 +++ b/apps/web/src/components/chat/ChangedFilesTree.tsx
 @@ -1,3 +1,4 @@
@@ -477,7 +483,7 @@ diff --git a/apps/web/src/components/chat/ChangedFilesTree.tsx b/apps/web/src/co
  import { type RunId } from "@t3tools/contracts";
  import { type MouseEvent, memo, useCallback, useMemo, useState } from "react";
  import { type TurnDiffFileChange } from "../../types";
-@@ -52,9 +53,7 @@
+@@ -52,9 +53,7 @@ export const ChangedFilesCard = memo(function ChangedFilesCard(props: {
          className="sticky top-2 z-10 flex items-center justify-between gap-2 rounded-t-lg bg-secondary px-3 py-2 dark:bg-background dark:bg-linear-to-b dark:from-input/20 dark:to-input/20"
        >
          <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-foreground">
@@ -489,6 +495,7 @@ diff --git a/apps/web/src/components/chat/ChangedFilesTree.tsx b/apps/web/src/co
              <DiffStatLabel
                additions={summaryStat.additions}
 diff --git a/apps/web/src/components/chat/ComposerPrimaryActions.tsx b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
+index fc811118..2eb7dbba 100644
 --- a/apps/web/src/components/chat/ComposerPrimaryActions.tsx
 +++ b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
 @@ -1,3 +1,4 @@
@@ -496,7 +503,7 @@ diff --git a/apps/web/src/components/chat/ComposerPrimaryActions.tsx b/apps/web/
  import { memo, type MouseEventHandler, type PointerEventHandler } from "react";
  import { CheckIcon, ChevronDownIcon, ChevronLeftIcon, Minimize2Icon, PlayIcon } from "lucide-react";
  import { CornerUpRight, ListPlus } from "lucide";
-@@ -325,7 +326,7 @@
+@@ -325,7 +326,7 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
          isEnvironmentUnavailable ||
          (!hasSendableContent && !showResume)
        }
@@ -506,6 +513,7 @@ diff --git a/apps/web/src/components/chat/ComposerPrimaryActions.tsx b/apps/web/
        {stageBackdropVariant ? (
          <span className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
 diff --git a/apps/web/src/components/chat/MessagesTimeline.tsx b/apps/web/src/components/chat/MessagesTimeline.tsx
+index 99cf5029..f05bdbf7 100644
 --- a/apps/web/src/components/chat/MessagesTimeline.tsx
 +++ b/apps/web/src/components/chat/MessagesTimeline.tsx
 @@ -1,6 +1,7 @@
@@ -513,10 +521,10 @@ diff --git a/apps/web/src/components/chat/MessagesTimeline.tsx b/apps/web/src/co
  import { shouldPreserveAssistantLineBreaks } from "@t3tools/shared/markdownPipeline";
  import { MarkdownFindContext, useFindRevealRef } from "./markdownFindContext";
 +import { displayFold, displayWorkSummary, displayFailedTool } from "~/acceptanceDisplayStrings";
- import { ComputerUseAppIcon } from "~/components/Icons";
  import { useChatCanvas } from "./ChatCanvasContext";
  import { WorkLogBlock, WorkLogButton, WorkLogDetails, WorkLogList, WorkLogRow } from "./WorkLog";
-@@ -2715,7 +2716,7 @@
+ import { PullRequestGlyph } from "../pullRequest/pullRequestIcons";
+@@ -2840,7 +2841,7 @@ function TurnFoldTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "turn-
          onClick={() => ctx.onToggleTurnFold(row.runId)}
          className="flex cursor-pointer select-none items-center gap-1 rounded-md px-1 text-sm leading-relaxed text-muted-foreground tabular-nums transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/70"
        >
@@ -525,7 +533,7 @@ diff --git a/apps/web/src/components/chat/MessagesTimeline.tsx b/apps/web/src/co
          <MorphIcon className="size-3.5" icon={row.expanded ? ChevronDown : ChevronRight} />
        </button>
        <TimelineRowTimestamp
-@@ -3986,7 +3987,7 @@
+@@ -4113,7 +4114,7 @@ function LiveWorkEntryTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "
        )}
        aria-label={
          failed
@@ -534,7 +542,7 @@ diff --git a/apps/web/src/components/chat/MessagesTimeline.tsx b/apps/web/src/co
            : undefined
        }
        aria-expanded={row.expanded}
-@@ -4104,7 +4105,7 @@
+@@ -4231,7 +4232,7 @@ function WorkGroupToggleTimelineRow({
    const ctx = use(TimelineRowCtx);
    return (
      <WorkGroupHeader
@@ -543,7 +551,7 @@ diff --git a/apps/web/src/components/chat/MessagesTimeline.tsx b/apps/web/src/co
        iconName={row.summaryToolIcon ?? row.toolSurface ?? toolGroupSummaryIconName(row.summaryKind)}
        toolIcon={row.toolIcon}
        failed={row.hasFailure}
-@@ -4130,7 +4131,7 @@
+@@ -4257,7 +4258,7 @@ function WorkGroupHeader(props: {
    return (
      <WorkLogButton
        ref={props.active && !props.failed ? observeVisibleAnimation : undefined}
@@ -552,7 +560,7 @@ diff --git a/apps/web/src/components/chat/MessagesTimeline.tsx b/apps/web/src/co
        aria-expanded={props.expanded}
        onClick={props.onToggle}
        icon={
-@@ -5594,7 +5595,7 @@
+@@ -5735,7 +5736,7 @@ function WorkEntryLogRow(props: WorkEntryRowProps) {
      .filter(Boolean)
      .join(": ");
    const accessibleDisplayText = showFailedIndicator
@@ -562,6 +570,7 @@ diff --git a/apps/web/src/components/chat/MessagesTimeline.tsx b/apps/web/src/co
    const rowToggleProps = canExpandProjectedItem
      ? {
 diff --git a/apps/web/src/components/chat/OpenInPicker.tsx b/apps/web/src/components/chat/OpenInPicker.tsx
+index 5cf20d95..c9f7219c 100644
 --- a/apps/web/src/components/chat/OpenInPicker.tsx
 +++ b/apps/web/src/components/chat/OpenInPicker.tsx
 @@ -1,3 +1,4 @@
@@ -569,7 +578,7 @@ diff --git a/apps/web/src/components/chat/OpenInPicker.tsx b/apps/web/src/compon
  import { ThreadDetailsControl } from "./ThreadDetailsControl";
  import {
    AuthOrchestrationOperateScope,
-@@ -395,7 +396,7 @@
+@@ -401,7 +402,7 @@ export const OpenInPicker = memo(function OpenInPicker({
          : {})}
      >
        <ThreadDetailsControl
@@ -578,7 +587,7 @@ diff --git a/apps/web/src/components/chat/OpenInPicker.tsx b/apps/web/src/compon
          size={isPanel ? "sm" : "xs"}
          variant={isPanel ? "ghost" : "outline"}
          part="primary"
-@@ -425,7 +426,7 @@
+@@ -431,7 +432,7 @@ export const OpenInPicker = memo(function OpenInPicker({
              isPanel && cn("not-sr-only ml-0 min-w-0 truncate", THREAD_DETAILS_PANEL_LABEL_CLASS),
            )}
          >
@@ -588,6 +597,7 @@ diff --git a/apps/web/src/components/chat/OpenInPicker.tsx b/apps/web/src/compon
        </ThreadDetailsControl>
        {isPanel ? (
 diff --git a/apps/web/src/components/chat/PanelLayoutControls.tsx b/apps/web/src/components/chat/PanelLayoutControls.tsx
+index 5809782a..cd2b6b9f 100644
 --- a/apps/web/src/components/chat/PanelLayoutControls.tsx
 +++ b/apps/web/src/components/chat/PanelLayoutControls.tsx
 @@ -1,3 +1,4 @@
@@ -595,7 +605,7 @@ diff --git a/apps/web/src/components/chat/PanelLayoutControls.tsx b/apps/web/src
  import { PanelBottomIcon, PanelRightIcon, SquareMenuIcon } from "lucide-react";
  import { Maximize2, Minimize2 } from "lucide";
  import { MorphIcon } from "~/components/MorphIcon";
-@@ -147,7 +148,7 @@
+@@ -147,7 +148,7 @@ export const RightPanelMaximizeControl = memo(function RightPanelMaximizeControl
              className="shrink-0 [-webkit-app-region:no-drag]"
              pressed={maximized}
              onPressedChange={onToggle}
@@ -604,7 +614,7 @@ diff --git a/apps/web/src/components/chat/PanelLayoutControls.tsx b/apps/web/src
              variant="ghost"
              size="sm"
            >
-@@ -155,7 +156,7 @@
+@@ -155,7 +156,7 @@ export const RightPanelMaximizeControl = memo(function RightPanelMaximizeControl
            </Toggle>
          }
        />
@@ -614,6 +624,7 @@ diff --git a/apps/web/src/components/chat/PanelLayoutControls.tsx b/apps/web/src
    );
  });
 diff --git a/apps/web/src/components/chat/TraitsPicker.tsx b/apps/web/src/components/chat/TraitsPicker.tsx
+index cfd900e8..d97a80c8 100644
 --- a/apps/web/src/components/chat/TraitsPicker.tsx
 +++ b/apps/web/src/components/chat/TraitsPicker.tsx
 @@ -1,3 +1,4 @@
@@ -621,7 +632,7 @@ diff --git a/apps/web/src/components/chat/TraitsPicker.tsx b/apps/web/src/compon
  import {
    type ModelSelection,
    type ProviderDriverKind,
-@@ -379,7 +380,7 @@
+@@ -379,7 +380,7 @@ export const TraitsMenuContent = memo(function TraitsMenuContentImpl({
                {index > 0 ? <MenuDivider /> : null}
                <MenuGroup>
                  <div className="px-2 pt-1.5 pb-1 font-medium text-muted-foreground text-xs">
@@ -630,7 +641,7 @@ diff --git a/apps/web/src/components/chat/TraitsPicker.tsx b/apps/web/src/compon
                  </div>
                  <div className="px-2 pb-1.5 text-muted-foreground/80 text-xs">{value}</div>
                </MenuGroup>
-@@ -403,7 +404,7 @@
+@@ -403,7 +404,7 @@ export const TraitsMenuContent = memo(function TraitsMenuContentImpl({
              {index > 0 ? <MenuDivider /> : null}
              <MenuGroup>
                <div className="px-2 pt-1.5 pb-1 font-medium text-muted-foreground text-xs">
@@ -639,7 +650,7 @@ diff --git a/apps/web/src/components/chat/TraitsPicker.tsx b/apps/web/src/compon
                </div>
                {ultrathinkInBodyText && descriptor.id === primarySelectDescriptor?.id ? (
                  <div className="px-2 pb-1.5 text-muted-foreground/80 text-xs">
-@@ -428,7 +429,7 @@
+@@ -428,7 +429,7 @@ export const TraitsMenuContent = memo(function TraitsMenuContentImpl({
                      <span className="flex w-full min-w-0 flex-col">
                        <span className="flex w-full min-w-0 items-center justify-between gap-3">
                          <span className="min-w-0 truncate">
@@ -648,7 +659,7 @@ diff --git a/apps/web/src/components/chat/TraitsPicker.tsx b/apps/web/src/compon
                            {option.isDefault ? (
                              <>
                                {" "}
-@@ -439,7 +440,7 @@
+@@ -439,7 +440,7 @@ export const TraitsMenuContent = memo(function TraitsMenuContentImpl({
                        </span>
                        {option.description ? (
                          <span className="max-w-56 text-pretty text-muted-foreground/80 text-xs">
@@ -657,7 +668,7 @@ diff --git a/apps/web/src/components/chat/TraitsPicker.tsx b/apps/web/src/compon
                          </span>
                        ) : null}
                      </span>
-@@ -458,7 +459,7 @@
+@@ -458,7 +459,7 @@ export const TraitsMenuContent = memo(function TraitsMenuContentImpl({
              {index > 0 || selectDescriptors.length > 0 ? <MenuDivider /> : null}
              <MenuGroup>
                <div className="px-2 py-1.5 font-medium text-muted-foreground text-xs">
@@ -667,6 +678,7 @@ diff --git a/apps/web/src/components/chat/TraitsPicker.tsx b/apps/web/src/compon
                <MenuRadioGroup
                  value={selectedValue}
 diff --git a/apps/web/src/components/settings/KeybindingsSettings.tsx b/apps/web/src/components/settings/KeybindingsSettings.tsx
+index cc2fc85f..bc80d378 100644
 --- a/apps/web/src/components/settings/KeybindingsSettings.tsx
 +++ b/apps/web/src/components/settings/KeybindingsSettings.tsx
 @@ -1,5 +1,6 @@
@@ -676,7 +688,7 @@ diff --git a/apps/web/src/components/settings/KeybindingsSettings.tsx b/apps/web
  import {
    ChevronDownIcon,
    CircleXIcon,
-@@ -816,7 +817,7 @@
+@@ -815,7 +816,7 @@ function KeybindingKeyControl({
          <button
            type="button"
            onClick={() => setDraft({ isRecording: true })}
@@ -685,7 +697,7 @@ diff --git a/apps/web/src/components/settings/KeybindingsSettings.tsx b/apps/web
            className={cn(
              "inline-flex h-8 cursor-pointer items-center rounded-md border border-transparent px-1.5 sm:h-7 outline-none transition-colors hover:border-border/70 hover:bg-accent focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-inset focus-visible:ring-ring/24",
              pillClassName,
-@@ -828,7 +829,7 @@
+@@ -827,7 +828,7 @@ function KeybindingKeyControl({
          <Input
            data-keybinding-capture=""
            autoFocus={isRecording}
@@ -694,7 +706,7 @@ diff --git a/apps/web/src/components/settings/KeybindingsSettings.tsx b/apps/web
            value={isRecording ? "" : keyDraft}
            placeholder={isRecording ? "Press shortcut" : "Unassigned"}
            size="sm"
-@@ -911,7 +912,7 @@
+@@ -910,7 +911,7 @@ function KeybindingRowMenu({
              variant="ghost-muted"
              size="icon-sm"
              disabled={isSaving}
@@ -703,7 +715,7 @@ diff --git a/apps/web/src/components/settings/KeybindingsSettings.tsx b/apps/web
            />
          }
        >
-@@ -937,7 +938,7 @@
+@@ -936,7 +937,7 @@ function KeybindingSourceBadge({ source }: { source: KeybindingRow["source"] })
    if (source === "Default") return null;
    return (
      <Badge variant="outline" size="sm">
@@ -712,7 +724,7 @@ diff --git a/apps/web/src/components/settings/KeybindingsSettings.tsx b/apps/web
      </Badge>
    );
  }
-@@ -946,7 +947,7 @@
+@@ -945,7 +946,7 @@ function KeybindingRowTitle({ row }: { row: KeybindingRow }) {
    return (
      <Tooltip>
        <TooltipTrigger render={<span className="flex items-center gap-2" />}>
@@ -721,7 +733,7 @@ diff --git a/apps/web/src/components/settings/KeybindingsSettings.tsx b/apps/web
          <KeybindingSourceBadge source={row.source} />
        </TooltipTrigger>
        <TooltipPopup side="top">{row.command}</TooltipPopup>
-@@ -967,7 +968,7 @@
+@@ -966,7 +967,7 @@ function KeybindingRowWhen({
      <span className="flex h-6 items-center gap-1.5">
        <span className="text-xs leading-none text-muted-foreground/70">When</span>
        <WhenClauseControl
@@ -730,7 +742,7 @@ diff --git a/apps/web/src/components/settings/KeybindingsSettings.tsx b/apps/web
          expression={editor.whenDraftExpression}
          value={editor.whenDraft}
          variables={variables}
-@@ -1046,7 +1047,9 @@
+@@ -1045,7 +1046,9 @@ function useNewKeybindingDraft({
      key: keyDraft,
      when: whenDraftExpression,
    });
@@ -741,7 +753,7 @@ diff --git a/apps/web/src/components/settings/KeybindingsSettings.tsx b/apps/web
    const canSave = Boolean(commandDraft) && keyDraft.trim().length > 0 && isWhenDraftValid;
 
    const save = () => {
-@@ -1118,7 +1121,7 @@
+@@ -1117,7 +1120,7 @@ function NewKeybindingCommandSelect({
        <SelectContent alignItemWithTrigger={false} matchTriggerWidth={false} className="max-h-72">
          {commandOptions.map((command) => (
            <SelectItem key={command} value={command} className="w-full">
@@ -751,6 +763,7 @@ diff --git a/apps/web/src/components/settings/KeybindingsSettings.tsx b/apps/web
          ))}
        </SelectContent>
 diff --git a/apps/web/src/components/settings/ProviderModelsSection.tsx b/apps/web/src/components/settings/ProviderModelsSection.tsx
+index 5c584bba..69f05eeb 100644
 --- a/apps/web/src/components/settings/ProviderModelsSection.tsx
 +++ b/apps/web/src/components/settings/ProviderModelsSection.tsx
 @@ -1,4 +1,5 @@
@@ -759,7 +772,7 @@ diff --git a/apps/web/src/components/settings/ProviderModelsSection.tsx b/apps/w
 
  import { ArrowDownIcon, ArrowUpIcon, PencilIcon, PlusIcon, StarIcon, XIcon } from "lucide-react";
  import { useEffect, useMemo, useRef, useState } from "react";
-@@ -497,7 +498,7 @@
+@@ -499,7 +500,7 @@ export function ProviderModelsSection({
          */}
          <span className="text-2xs text-muted-foreground/70">
            {capLabels.length > 0 ? (
@@ -768,7 +781,7 @@ diff --git a/apps/web/src/components/settings/ProviderModelsSection.tsx b/apps/w
            ) : null}
          </span>
          {rowActions(model, { isHidden, canMoveUp, canMoveDown })}
-@@ -508,7 +509,7 @@
+@@ -510,7 +511,7 @@ export function ProviderModelsSection({
 
    const groupLabel = (label: string, isFirst: boolean) => (
      <div className={cn("px-2 pb-1.5 text-2xs text-muted-foreground", isFirst ? "pt-1" : "pt-5")}>
@@ -777,7 +790,7 @@ diff --git a/apps/web/src/components/settings/ProviderModelsSection.tsx b/apps/w
      </div>
    );
 
-@@ -540,11 +541,9 @@
+@@ -545,11 +546,9 @@ export function ProviderModelsSection({
              </Button>
            ) : null}
            <span className="text-xs text-muted-foreground">
@@ -793,6 +806,7 @@ diff --git a/apps/web/src/components/settings/ProviderModelsSection.tsx b/apps/w
          </div>
          {driverKind !== "antigravity" && !isAdding ? (
 diff --git a/apps/web/src/components/settings/ProviderSettingsPanel.tsx b/apps/web/src/components/settings/ProviderSettingsPanel.tsx
+index 7941e252..2b743b51 100644
 --- a/apps/web/src/components/settings/ProviderSettingsPanel.tsx
 +++ b/apps/web/src/components/settings/ProviderSettingsPanel.tsx
 @@ -1,3 +1,4 @@
@@ -800,7 +814,7 @@ diff --git a/apps/web/src/components/settings/ProviderSettingsPanel.tsx b/apps/w
  import { SettingsGroup } from "./SettingsGroup";
  import { RefreshIcon } from "~/components/ui/refresh-icon";
  import {
-@@ -166,16 +167,24 @@
+@@ -162,16 +163,24 @@ function ProviderLastChecked({ lastCheckedAt }: { lastCheckedAt: string | null }
    if (lastCheckedRelative.status === "invalid") {
      return <span>Checked unavailable</span>;
    }
@@ -829,9 +843,10 @@ diff --git a/apps/web/src/components/settings/ProviderSettingsPanel.tsx b/apps/w
      </span>
    );
 diff --git a/apps/web/src/components/settings/SettingsFontPreviews.tsx b/apps/web/src/components/settings/SettingsFontPreviews.tsx
+index 357cb44f..5fef58ed 100644
 --- a/apps/web/src/components/settings/SettingsFontPreviews.tsx
 +++ b/apps/web/src/components/settings/SettingsFontPreviews.tsx
-@@ -31,8 +31,8 @@
+@@ -31,8 +31,8 @@ function noop() {}
  /** A live composer editor: type in it to feel the family and size. */
  export function PromptFontPreview() {
    const editorRef = useRef<ComposerPromptEditorHandle>(null);
@@ -843,6 +858,7 @@ diff --git a/apps/web/src/components/settings/SettingsFontPreviews.tsx b/apps/we
      setPrompt(nextValue);
      setCursor(nextCursor);
 diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/components/settings/SettingsPanels.tsx
+index 5437293d..725cbcc6 100644
 --- a/apps/web/src/components/settings/SettingsPanels.tsx
 +++ b/apps/web/src/components/settings/SettingsPanels.tsx
 @@ -1,3 +1,4 @@
@@ -850,7 +866,7 @@ diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/
  import { SettingsGroup } from "./SettingsGroup";
  import { useScopedSettingsWriteAllowed } from "./useScopedSettings";
  import { Spinner } from "~/components/ui/spinner";
-@@ -437,7 +438,7 @@
+@@ -437,7 +438,7 @@ function AboutVersionSection() {
        <SettingsRow
          id={searchableSetting("app-version").id}
          title={<AboutVersionTitle />}
@@ -859,7 +875,7 @@ diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/
          control={
            <Tooltip>
              <TooltipTrigger
-@@ -448,7 +449,7 @@
+@@ -448,7 +449,7 @@ function AboutVersionSection() {
                    disabled={buttonDisabled || isUpdateActionPending}
                    onClick={handleButtonClick}
                  >
@@ -868,7 +884,7 @@ diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/
                  </Button>
                }
              />
-@@ -2576,7 +2577,7 @@
+@@ -2610,7 +2611,7 @@ export function GeneralSettingsPanel() {
            description={
              mixedResponseStreamingMode
                ? "The selected targets use different streaming modes."
@@ -877,7 +893,7 @@ diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/
            }
            resetAction={
              settings.responseStreamingMode !== DEFAULT_UNIFIED_SETTINGS.responseStreamingMode ? (
-@@ -2874,12 +2875,7 @@
+@@ -2908,12 +2909,7 @@ export function GeneralSettingsPanel() {
 
          <SettingsRow
            {...searchableSetting("follow-up-behavior")}
@@ -891,7 +907,7 @@ diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/
            resetAction={
              settings.followUpBehavior !== DEFAULT_UNIFIED_SETTINGS.followUpBehavior ? (
                <SettingResetButton
-@@ -2995,7 +2991,7 @@
+@@ -3029,7 +3025,7 @@ export function GeneralSettingsPanel() {
                </PolicyTooltip>
              </span>
            }
@@ -900,7 +916,7 @@ diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/
            resetAction={
              canResetBackgroundActivity ? (
                <SettingResetButton
-@@ -3298,7 +3294,9 @@
+@@ -3333,7 +3329,9 @@ export function GeneralSettingsPanel() {
                    instanceEntries={textGenerationModelInstanceEntries}
                    modelOptionsByInstance={textGenerationModelOptionsByInstance}
                    triggerClassName={SETTINGS_PICKER_TRIGGER_CLASSNAME}
@@ -912,6 +928,7 @@ diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/
                    {...(environmentId
                      ? {
 diff --git a/apps/web/src/components/settings/ThemeSettings.tsx b/apps/web/src/components/settings/ThemeSettings.tsx
+index 8934b131..f7a18d85 100644
 --- a/apps/web/src/components/settings/ThemeSettings.tsx
 +++ b/apps/web/src/components/settings/ThemeSettings.tsx
 @@ -1,3 +1,4 @@
@@ -919,7 +936,7 @@ diff --git a/apps/web/src/components/settings/ThemeSettings.tsx b/apps/web/src/c
  import {
    CheckIcon,
    CopyIcon,
-@@ -725,7 +726,9 @@
+@@ -725,7 +726,9 @@ export function ThemeLibrary({
          const isActive = appearanceMode === mode;
          return (
            <button
@@ -931,14 +948,15 @@ diff --git a/apps/web/src/components/settings/ThemeSettings.tsx b/apps/web/src/c
              className={cn(
                "flex cursor-pointer flex-col items-stretch gap-1.5 rounded-xl border p-2 outline-none transition-colors focus-visible:outline-2 focus-visible:outline-solid focus-visible:-outline-offset-2 focus-visible:outline-ring",
 diff --git a/apps/web/src/components/sidebar/SidebarUpdatePill.tsx b/apps/web/src/components/sidebar/SidebarUpdatePill.tsx
+index bcee391e..de669fa0 100644
 --- a/apps/web/src/components/sidebar/SidebarUpdatePill.tsx
 +++ b/apps/web/src/components/sidebar/SidebarUpdatePill.tsx
 @@ -1,3 +1,4 @@
 +import { displayKnown } from "~/acceptanceDisplayStrings";
- import type { DesktopUpdateState } from "@t3tools/contracts";
+ import type { DesktopBridge, DesktopUpdateState } from "@t3tools/contracts";
  import { TriangleAlertIcon } from "lucide-react";
  import { type ComponentProps, useCallback, useEffect, useId, useRef, useState } from "react";
-@@ -300,7 +301,7 @@
+@@ -453,7 +454,7 @@ function SidebarUpdateControl() {
    const updateButton = (
      <button
        type="button"
@@ -947,16 +965,16 @@ diff --git a/apps/web/src/components/sidebar/SidebarUpdatePill.tsx b/apps/web/sr
        aria-disabled={isInteractionDisabled || undefined}
        className={cn(
          "inline-flex size-8 items-center justify-center rounded-full outline-hidden ring-ring transition-colors focus-visible:ring-2 focus-visible:ring-inset",
-@@ -385,7 +386,7 @@
+@@ -532,7 +533,7 @@ function SidebarUpdateControl() {
                side="top"
                variant={showUpdateDetails ? "glass" : "default"}
              >
--              {tooltip}
-+              {displayKnown(tooltip)}
+-              <span className="whitespace-pre-line">{tooltip}</span>
++              <span className="whitespace-pre-line">{displayKnown(tooltip)}</span>
              </TooltipPopup>
            ) : null}
          </Tooltip>
-@@ -409,7 +410,7 @@
+@@ -556,7 +557,7 @@ function SidebarUpdateControl() {
              <SidebarUpdateReleaseNotes
                shell={window.desktopBridge}
                state={state}
@@ -966,6 +984,7 @@ diff --git a/apps/web/src/components/sidebar/SidebarUpdatePill.tsx b/apps/web/sr
            </PopoverPopup>
          ) : null}
 diff --git a/apps/web/src/components/ui/sidebar.tsx b/apps/web/src/components/ui/sidebar.tsx
+index a22e3c44..baf7f7b3 100644
 --- a/apps/web/src/components/ui/sidebar.tsx
 +++ b/apps/web/src/components/ui/sidebar.tsx
 @@ -1,3 +1,4 @@
@@ -973,7 +992,7 @@ diff --git a/apps/web/src/components/ui/sidebar.tsx b/apps/web/src/components/ui
  import { mergeProps } from "@base-ui/react/merge-props";
  import { useRender } from "@base-ui/react/use-render";
  import { cva, type VariantProps } from "class-variance-authority";
-@@ -500,7 +501,7 @@
+@@ -521,7 +522,7 @@ function SidebarRail({
        <TooltipTrigger
          render={
            <button
@@ -983,6 +1002,7 @@ diff --git a/apps/web/src/components/ui/sidebar.tsx b/apps/web/src/components/ui
                /* disable pointer events only when offcanvas sidebar is collapsed, that's when the rail sits over the native scrollbar on windows and linux. icon mode stays fully clickable. */
                "-translate-x-1/2 group-data-[side=left]:-right-4 absolute inset-y-0 z-20 hidden w-4 after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-sidebar-border group-data-[side=right]:left-0 sm:flex [[data-collapsible=offcanvas][data-state=collapsed]_&]:pointer-events-none",
 diff --git a/apps/web/src/components/usage/UsageLimits.tsx b/apps/web/src/components/usage/UsageLimits.tsx
+index 45e567f3..ed4138de 100644
 --- a/apps/web/src/components/usage/UsageLimits.tsx
 +++ b/apps/web/src/components/usage/UsageLimits.tsx
 @@ -1,3 +1,4 @@
@@ -990,7 +1010,7 @@ diff --git a/apps/web/src/components/usage/UsageLimits.tsx b/apps/web/src/compon
  import {
    AuthProvidersManageScope,
    type EnvironmentId,
-@@ -98,7 +99,7 @@
+@@ -104,7 +105,7 @@ function WindowBar({
    const resetsAt = window.resetsAt
      ? formatUpcomingTimestamp(window.resetsAt, timestampFormat, now)
      : null;
@@ -999,7 +1019,7 @@ diff --git a/apps/web/src/components/usage/UsageLimits.tsx b/apps/web/src/compon
      timeLeft === null ? "" : `, ${timeLeft}% of the window left`
    }${resetsIn ? `, ${resetsIn}` : ""}`;
 
-@@ -179,7 +180,7 @@
+@@ -185,7 +186,7 @@ export function LimitWindows({
          return (
            <Fragment key={window.id}>
              <span className="flex min-w-0 items-center gap-2 text-xs">
@@ -1009,6 +1029,7 @@ diff --git a/apps/web/src/components/usage/UsageLimits.tsx b/apps/web/src/compon
                  {remainingPercent(window)}% left
                </span>
 diff --git a/apps/web/src/components/usage/UsagePage.tsx b/apps/web/src/components/usage/UsagePage.tsx
+index 08a07241..1ec1de41 100644
 --- a/apps/web/src/components/usage/UsagePage.tsx
 +++ b/apps/web/src/components/usage/UsagePage.tsx
 @@ -1,3 +1,4 @@
@@ -1016,7 +1037,7 @@ diff --git a/apps/web/src/components/usage/UsagePage.tsx b/apps/web/src/componen
  import { ChatGptUsageButton } from "../settings/ChatGptUsageButton";
  import { usesChatGptSharing } from "@t3tools/shared/usageLimits";
  import { RefreshIcon } from "~/components/ui/refresh-icon";
-@@ -1276,7 +1277,7 @@
+@@ -1270,7 +1271,7 @@ function UsageEnvironmentFilter({
    return (
      <Menu>
        <MenuTrigger render={<InlineButton />} className="group/usage-environment min-w-0 max-w-full">
@@ -1026,6 +1047,7 @@ diff --git a/apps/web/src/components/usage/UsagePage.tsx b/apps/web/src/componen
            {showUsageStatus && hasIssue ? (
              <CircleAlertIcon
 diff --git a/apps/web/src/terminal/ghostty/surface.ts b/apps/web/src/terminal/ghostty/surface.ts
+index 39ae0ebb..7efb2010 100644
 --- a/apps/web/src/terminal/ghostty/surface.ts
 +++ b/apps/web/src/terminal/ghostty/surface.ts
 @@ -1,3 +1,4 @@
@@ -1033,7 +1055,7 @@ diff --git a/apps/web/src/terminal/ghostty/surface.ts b/apps/web/src/terminal/gh
  import { isMacPlatform } from "../../lib/utils";
  import { SELECTION_MULTI_CLICK_INTERVAL_MS } from "../../lib/selectionActions";
  import { collectWrappedTerminalLinkLine, extractTerminalLinks } from "../../terminal-links";
-@@ -684,7 +685,7 @@
+@@ -693,7 +694,7 @@ export class GhosttyTerminalSurface {
 
      const input = document.createElement("textarea");
      input.className = "t3-ghostty-input";

@@ -19,7 +19,7 @@ set -Eeuo pipefail
 
 ZH_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SRC="${ZH_ROOT}/.build/src"
-BASELINE_COMMIT="98beed1a226c42b85c52ff5ee9d5dbb67d776a77"
+BASELINE_COMMIT="81493efb71e8e8244f95d3e9f71d8369654ab151"
 STATS_FILE="${ZH_ROOT}/reports/transform-stats.json"
 WRAPPER_NAME="vite.zh.config.ts"
 

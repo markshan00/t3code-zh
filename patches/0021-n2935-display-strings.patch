@@ -1,7 +1,169 @@
 # 0021 n2935 display strings
-# 基线 v0.0.46-nightly.20261010.2935；在 0020 后应用。
+# 基线 v0.1.0；在 0020 后应用。
 # 清理结果、计数及精确理由名单，只在显示处翻译；Automatic 只包固定回退。
+diff --git a/apps/web/src/components/CommandPaletteResults.tsx b/apps/web/src/components/CommandPaletteResults.tsx
+index 1fe3972e..60a5a10a 100644
+--- a/apps/web/src/components/CommandPaletteResults.tsx
++++ b/apps/web/src/components/CommandPaletteResults.tsx
+@@ -1,3 +1,4 @@
++import { translateFixed } from "~/newThreadDisplayStrings";
+ import { displayKnown, displayRelativeTime } from "~/acceptanceDisplayStrings";
+ import { type ResolvedKeybindingsConfig } from "@t3tools/contracts";
+ import { LegendList, type LegendListRef } from "@legendapp/list/react";
+@@ -168,7 +169,7 @@ function DisabledCommandPaletteResultRow(props: {
+             {props.item.titleLeadingContent}
+             <span className="truncate">
+               {props.item.value.startsWith("action:add-project:")
+-                ? displayKnown(props.item.title)
++                ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
+                 : props.item.title}
+             </span>
+           </span>
+@@ -178,7 +179,7 @@ function DisabledCommandPaletteResultRow(props: {
+           {props.item.description ? (
+             <span className="min-w-0 text-muted-foreground/70 text-xs">
+               {props.item.value.startsWith("action:add-project:")
+-                ? displayKnown(props.item.description)
++                ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.description === "Clone GitCafe owner/repo" ? translateFixed("Clone GitCafe owner/repo") : displayKnown(props.item.description))
+                 : props.item.description}
+             </span>
+           ) : null}
+@@ -188,7 +189,7 @@ function DisabledCommandPaletteResultRow(props: {
+           {props.item.titleLeadingContent}
+           <span className="truncate">
+             {props.item.value.startsWith("action:add-project:")
+-              ? displayKnown(props.item.title)
++              ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
+               : props.item.title}
+           </span>
+         </span>
+@@ -228,7 +229,7 @@ function CommandPaletteResultRow(props: {
+             {props.item.titleLeadingContent}
+             <span className="truncate">
+               {props.item.value.startsWith("action:add-project:")
+-                ? displayKnown(props.item.title)
++                ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
+                 : props.item.title}
+             </span>
+           </span>
+@@ -238,7 +239,7 @@ function CommandPaletteResultRow(props: {
+           {props.item.description ? (
+             <span className="min-w-0 text-muted-foreground/70 text-xs">
+               {props.item.value.startsWith("action:add-project:")
+-                ? displayKnown(props.item.description)
++                ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.description === "Clone GitCafe owner/repo" ? translateFixed("Clone GitCafe owner/repo") : displayKnown(props.item.description))
+                 : props.item.description}
+             </span>
+           ) : null}
+@@ -248,7 +249,7 @@ function CommandPaletteResultRow(props: {
+           {props.item.titleLeadingContent}
+           <span className="truncate">
+             {props.item.value.startsWith("action:add-project:")
+-              ? displayKnown(props.item.title)
++              ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
+               : props.item.title}
+           </span>
+         </span>
+diff --git a/apps/web/src/components/RightPanelTabs.tsx b/apps/web/src/components/RightPanelTabs.tsx
+index a4fa78eb..e39ccd98 100644
+--- a/apps/web/src/components/RightPanelTabs.tsx
++++ b/apps/web/src/components/RightPanelTabs.tsx
+@@ -1,3 +1,4 @@
++import { panelDragAccessibility } from "~/n2935DisplayStrings";
+ import { pullRequestHostOf, type SourceControlProviderKind } from "@t3tools/contracts";
+ import type { EnvironmentThreadShell } from "@t3tools/client-runtime/state/shell";
+ import { useProjects, useServerConfigs, useThreadShells } from "~/state/entities";
+@@ -822,6 +823,7 @@ function PullRequestSurfaceIcon({
+ function SortableTabList(props: {
+   surfaces: readonly RightPanelSurface[];
+   onMove: ((surfaceId: string, toIndex: number) => void) | undefined;
++  getLabel: (surface: RightPanelSurface) => string;
+   children: ReactNode;
+ }) {
+   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
+@@ -837,6 +839,10 @@ function SortableTabList(props: {
+   );
+   return (
+     <DndContext
++      accessibility={panelDragAccessibility((id) => {
++        const surface = props.surfaces.find((surface) => surface.id === String(id));
++        return surface ? props.getLabel(surface) : String(id);
++      }) ?? {}}
+       sensors={sensors}
+       collisionDetection={closestCenter}
+       modifiers={TAB_DRAG_MODIFIERS}
+@@ -1193,7 +1199,11 @@ export function RightPanelTabs(props: RightPanelTabsProps) {
+           data-right-panel-tab-list
+         >
+           <div className="flex h-full w-max min-w-full items-center gap-1">
+-            <SortableTabList surfaces={props.surfaces} onMove={props.onMoveSurface}>
++            <SortableTabList
++              surfaces={props.surfaces}
++              onMove={props.onMoveSurface}
++              getLabel={(surface) => surfaceTitle(surface, props.previewSessions, props.terminalLabelsById)}
++            >
+               {props.surfaces.map((surface) => {
+                 const active = surface.id === props.activeSurfaceId;
+                 const pending = props.pendingSurfaceIds.has(surface.id);
+diff --git a/apps/web/src/components/onboarding/WelcomeWizard.tsx b/apps/web/src/components/onboarding/WelcomeWizard.tsx
+index df2aca04..e9f75193 100644
+--- a/apps/web/src/components/onboarding/WelcomeWizard.tsx
++++ b/apps/web/src/components/onboarding/WelcomeWizard.tsx
+@@ -1567,7 +1567,7 @@ function ImportStep({
+         >
+           {isImporting
+             ? "Importing…"
+-            : `Import ${selected.length} ${selected.length === 1 ? "project" : "projects"}`}
++            : fillSlot("Import ", String(selected.length), selected.length === 1 ? " project" : " projects")}
+         </Button>
+       </div>
+     </StepShell>
+diff --git a/apps/web/src/components/settings/ProjectDefaultsSettings.tsx b/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
+index c5433e18..faff7d68 100644
+--- a/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
++++ b/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
+@@ -153,7 +153,7 @@ export function ProjectDefaultsSettings({ category }: { category: ProjectSetting
+         unavailable || mixedModel || modelSource === "project"
+           ? undefined
+           : settings.defaultModelSelection === null
+-            ? "Automatic"
++            ? translateFixed("Automatic")
+             : undefined
+       }
+       resetAction={
+diff --git a/apps/web/src/components/settings/ProjectSettingsPanel.tsx b/apps/web/src/components/settings/ProjectSettingsPanel.tsx
+index cd40f7a9..37be5cb3 100644
+--- a/apps/web/src/components/settings/ProjectSettingsPanel.tsx
++++ b/apps/web/src/components/settings/ProjectSettingsPanel.tsx
+@@ -498,7 +498,7 @@ function ProjectDetail({
+                   ? `${projectIcon.text} · ${projectIcon.color}`
+                   : projectIcon?.kind === "emoji"
+                     ? projectIcon.emoji
+-                    : (faviconPath ?? "Automatic")
++                    : (faviconPath ?? translateFixed("Automatic"))
+             }
+             resetAction={
+               group.memberProjects.some(
+diff --git a/apps/web/src/components/settings/SettingInheritance.tsx b/apps/web/src/components/settings/SettingInheritance.tsx
+index 4eb641ea..cd72777a 100644
+--- a/apps/web/src/components/settings/SettingInheritance.tsx
++++ b/apps/web/src/components/settings/SettingInheritance.tsx
+@@ -1,3 +1,4 @@
++import { translateFixed } from "~/newThreadDisplayStrings";
+ import {
+   DEFAULT_SERVER_SETTINGS,
+   PROJECT_FILE_BACKED_SETTINGS,
+@@ -42,7 +43,7 @@ function formatValue(key: keyof ServerSettings, value: unknown): string {
+       : key === "sidebarAutoSettleAfterDays"
+         ? "Never"
+         : key === "defaultModelSelection"
+-          ? "Automatic"
++          ? translateFixed("Automatic")
+           : key === "sourceControlWriterModelSelection"
+             ? "Text generation model"
+             : key === "reviewGuideModelSelection"
 diff --git a/apps/web/src/components/settings/StorageSettings.tsx b/apps/web/src/components/settings/StorageSettings.tsx
+index 92ca6ed1..6b558ec6 100644
 --- a/apps/web/src/components/settings/StorageSettings.tsx
 +++ b/apps/web/src/components/settings/StorageSettings.tsx
 @@ -1,3 +1,5 @@
@@ -10,7 +172,7 @@ diff --git a/apps/web/src/components/settings/StorageSettings.tsx b/apps/web/src
  import type {
    StorageCleanupReport,
    StorageCleanupSettings,
-@@ -185,16 +187,20 @@
+@@ -187,16 +189,20 @@ function CleanupResults({
              : entry.kind === "logs"
                ? "Rotated logs"
                : "Browser artifacts";
@@ -33,7 +195,7 @@ diff --git a/apps/web/src/components/settings/StorageSettings.tsx b/apps/web/src
                </span>
              }
              control={
-@@ -202,7 +208,7 @@
+@@ -204,7 +210,7 @@ function CleanupResults({
                  <span className="text-xs text-muted-foreground">
                    {[
                      entry.kind !== "worktree" && entry.files !== null
@@ -42,7 +204,7 @@ diff --git a/apps/web/src/components/settings/StorageSettings.tsx b/apps/web/src
                        : null,
                      entry.bytes !== null ? formatBytes(entry.bytes) : null,
                    ]
-@@ -217,12 +223,12 @@
+@@ -219,12 +225,12 @@ function CleanupResults({
        {report.omittedCount > 0 && (
          <p className="px-3 py-2.5 text-xs text-muted-foreground sm:px-4">
            {environmentLabel ? `${environmentLabel}: ` : ""}
@@ -57,7 +219,7 @@ diff --git a/apps/web/src/components/settings/StorageSettings.tsx b/apps/web/src
          </p>
        )}
      </>
-@@ -292,7 +298,7 @@
+@@ -295,7 +301,7 @@ function CleanupSection() {
        environment,
        report,
        description: report
@@ -66,7 +228,7 @@ diff --git a/apps/web/src/components/settings/StorageSettings.tsx b/apps/web/src
          : query?.failed
            ? "Could not load the last run."
            : query?.loading
-@@ -318,13 +324,13 @@
+@@ -321,13 +327,13 @@ function CleanupSection() {
                if (failures.length > 0)
                  toastManager.add({
                    type: "error",
@@ -82,7 +244,7 @@ diff --git a/apps/web/src/components/settings/StorageSettings.tsx b/apps/web/src
                  description: String(squashAtomCommandFailure(result)),
                });
              }
-@@ -372,7 +378,7 @@
+@@ -375,7 +381,7 @@ function CleanupSection() {
              .flatMap(({ environment, report }) =>
                report
                  ? [
@@ -91,49 +253,9 @@ diff --git a/apps/web/src/components/settings/StorageSettings.tsx b/apps/web/src
                    ]
                  : [],
              )
-diff --git a/apps/web/src/components/settings/ProjectDefaultsSettings.tsx b/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
---- a/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
-+++ b/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
-@@ -147,7 +147,7 @@
-         unavailable || mixedModel || modelSource === "project"
-           ? undefined
-           : settings.defaultModelSelection === null
--            ? "Automatic"
-+            ? translateFixed("Automatic")
-             : undefined
-       }
-       resetAction={
-diff --git a/apps/web/src/components/settings/ProjectSettingsPanel.tsx b/apps/web/src/components/settings/ProjectSettingsPanel.tsx
---- a/apps/web/src/components/settings/ProjectSettingsPanel.tsx
-+++ b/apps/web/src/components/settings/ProjectSettingsPanel.tsx
-@@ -497,7 +497,7 @@
-                   ? `${projectIcon.text} · ${projectIcon.color}`
-                   : projectIcon?.kind === "emoji"
-                     ? projectIcon.emoji
--                    : (faviconPath ?? "Automatic")
-+                    : (faviconPath ?? translateFixed("Automatic"))
-             }
-             resetAction={
-               group.memberProjects.some(
-diff --git a/apps/web/src/components/settings/SettingInheritance.tsx b/apps/web/src/components/settings/SettingInheritance.tsx
---- a/apps/web/src/components/settings/SettingInheritance.tsx
-+++ b/apps/web/src/components/settings/SettingInheritance.tsx
-@@ -1,3 +1,4 @@
-+import { translateFixed } from "~/newThreadDisplayStrings";
- import {
-   DEFAULT_SERVER_SETTINGS,
-   PROJECT_FILE_BACKED_SETTINGS,
-@@ -42,7 +43,7 @@
-       : key === "sidebarAutoSettleAfterDays"
-         ? "Never"
-         : key === "defaultModelSelection"
--          ? "Automatic"
-+          ? translateFixed("Automatic")
-           : key === "sourceControlWriterModelSelection"
-             ? "Text generation model"
-             : key === "defaultThreadEnvMode" || key === "worktreeSubmodules"
 diff --git a/apps/web/src/n2935DisplayStrings.ts b/apps/web/src/n2935DisplayStrings.ts
 new file mode 100644
+index 00000000..47907172
 --- /dev/null
 +++ b/apps/web/src/n2935DisplayStrings.ts
 @@ -0,0 +1,85 @@
@@ -222,117 +344,3 @@ new file mode 100644
 +    },
 +  };
 +}
-diff --git a/apps/web/src/components/onboarding/WelcomeWizard.tsx b/apps/web/src/components/onboarding/WelcomeWizard.tsx
---- a/apps/web/src/components/onboarding/WelcomeWizard.tsx
-+++ b/apps/web/src/components/onboarding/WelcomeWizard.tsx
-@@ -1563,7 +1563,7 @@
-         >
-           {isImporting
-             ? "Importing…"
--            : `Import ${selected.length} ${selected.length === 1 ? "project" : "projects"}`}
-+            : fillSlot("Import ", String(selected.length), selected.length === 1 ? " project" : " projects")}
-         </Button>
-       </div>
-     </StepShell>
-diff --git a/apps/web/src/components/RightPanelTabs.tsx b/apps/web/src/components/RightPanelTabs.tsx
---- a/apps/web/src/components/RightPanelTabs.tsx
-+++ b/apps/web/src/components/RightPanelTabs.tsx
-@@ -1,3 +1,4 @@
-+import { panelDragAccessibility } from "~/n2935DisplayStrings";
- import { pullRequestHostOf, type SourceControlProviderKind } from "@t3tools/contracts";
- import type { EnvironmentThreadShell } from "@t3tools/client-runtime/state/shell";
- import { useProjects, useServerConfigs, useThreadShells } from "~/state/entities";
-@@ -822,6 +823,7 @@
- function SortableTabList(props: {
-   surfaces: readonly RightPanelSurface[];
-   onMove: ((surfaceId: string, toIndex: number) => void) | undefined;
-+  getLabel: (surface: RightPanelSurface) => string;
-   children: ReactNode;
- }) {
-   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
-@@ -837,6 +839,10 @@
-   );
-   return (
-     <DndContext
-+      accessibility={panelDragAccessibility((id) => {
-+        const surface = props.surfaces.find((surface) => surface.id === String(id));
-+        return surface ? props.getLabel(surface) : String(id);
-+      }) ?? {}}
-       sensors={sensors}
-       collisionDetection={closestCenter}
-       modifiers={TAB_DRAG_MODIFIERS}
-@@ -1193,7 +1199,11 @@
-           data-right-panel-tab-list
-         >
-           <div className="flex h-full w-max min-w-full items-center gap-1">
--            <SortableTabList surfaces={props.surfaces} onMove={props.onMoveSurface}>
-+            <SortableTabList
-+              surfaces={props.surfaces}
-+              onMove={props.onMoveSurface}
-+              getLabel={(surface) => surfaceTitle(surface, props.previewSessions, props.terminalLabelsById)}
-+            >
-               {props.surfaces.map((surface) => {
-                 const active = surface.id === props.activeSurfaceId;
-                 const pending = props.pendingSurfaceIds.has(surface.id);
-diff --git a/apps/web/src/components/CommandPaletteResults.tsx b/apps/web/src/components/CommandPaletteResults.tsx
---- a/apps/web/src/components/CommandPaletteResults.tsx
-+++ b/apps/web/src/components/CommandPaletteResults.tsx
-@@ -1,3 +1,4 @@
-+import { translateFixed } from "~/newThreadDisplayStrings";
- import { displayKnown, displayRelativeTime } from "~/acceptanceDisplayStrings";
- import { type ResolvedKeybindingsConfig } from "@t3tools/contracts";
- import { LegendList, type LegendListRef } from "@legendapp/list/react";
-@@ -168,7 +169,7 @@
-             {props.item.titleLeadingContent}
-             <span className="truncate">
-               {props.item.value.startsWith("action:add-project:")
--                ? displayKnown(props.item.title)
-+                ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
-                 : props.item.title}
-             </span>
-           </span>
-@@ -178,7 +179,7 @@
-           {props.item.description ? (
-             <span className="min-w-0 text-muted-foreground/70 text-xs">
-               {props.item.value.startsWith("action:add-project:")
--                ? displayKnown(props.item.description)
-+                ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.description === "Clone GitCafe owner/repo" ? translateFixed("Clone GitCafe owner/repo") : displayKnown(props.item.description))
-                 : props.item.description}
-             </span>
-           ) : null}
-@@ -188,7 +189,7 @@
-           {props.item.titleLeadingContent}
-           <span className="truncate">
-             {props.item.value.startsWith("action:add-project:")
--              ? displayKnown(props.item.title)
-+              ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
-               : props.item.title}
-           </span>
-         </span>
-@@ -228,7 +229,7 @@
-             {props.item.titleLeadingContent}
-             <span className="truncate">
-               {props.item.value.startsWith("action:add-project:")
--                ? displayKnown(props.item.title)
-+                ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
-                 : props.item.title}
-             </span>
-           </span>
-@@ -238,7 +239,7 @@
-           {props.item.description ? (
-             <span className="min-w-0 text-muted-foreground/70 text-xs">
-               {props.item.value.startsWith("action:add-project:")
--                ? displayKnown(props.item.description)
-+                ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.description === "Clone GitCafe owner/repo" ? translateFixed("Clone GitCafe owner/repo") : displayKnown(props.item.description))
-                 : props.item.description}
-             </span>
-           ) : null}
-@@ -248,7 +249,7 @@
-           {props.item.titleLeadingContent}
-           <span className="truncate">
-             {props.item.value.startsWith("action:add-project:")
--              ? displayKnown(props.item.title)
-+              ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
-               : props.item.title}
-           </span>
-         </span>

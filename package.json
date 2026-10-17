@@ -1,12 +1,11 @@
 {
   "name": "t3code-zh",
-  "version": "0.0.46-n2935.zh.1",
+  "version": "0.0.46-n2644.zh.0",
   "private": true,
   "type": "module",
-  "description": "T3 Code 中文界面汉化层（非官方）：词库提取、构建时转换、运行时查表",
-  "license": "MIT",
+  "description": "T3 Code 中文界面汉化层：词库提取、构建时转换、运行时查表",
   "engines": {
-    "node": ">=24"
+    "node": ">=22"
   },
   "scripts": {
     "extract-dict": "node scripts/extract-dict.ts",

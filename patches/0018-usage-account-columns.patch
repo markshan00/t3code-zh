@@ -1,7 +1,8 @@
 diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/components/usage/UsageLimitsPooled.tsx
+index 318d6b68..529553b1 100644
 --- a/apps/web/src/components/usage/UsageLimitsPooled.tsx
 +++ b/apps/web/src/components/usage/UsageLimitsPooled.tsx
-@@ -197,7 +197,7 @@
+@@ -197,7 +197,7 @@ function SegmentPopover({
            </Row>
          ) : null}
          {reset && reset.restoresPercent > 0 ? (
@@ -10,7 +11,7 @@ diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/
          ) : null}
        </div>
        {credits && redeem ? (
-@@ -220,28 +220,19 @@
+@@ -220,28 +220,19 @@ function SegmentPopover({
    );
  }
 
@@ -40,7 +41,7 @@ diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/
  }) {
    const [open, setOpen] = useState(false);
    const remaining = remainingPercent(window);
-@@ -254,63 +245,28 @@
+@@ -254,63 +245,28 @@ function PoolSegment({
          render={
            <button
              type="button"
@@ -108,13 +109,10 @@ diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/
        {account.redeem ? (
          <RedeemableSegmentPopup
            account={account}
-@@ -333,66 +289,6 @@
-         </PopoverPopup>
-       )}
-     </Popover>
--  );
--}
--
+@@ -336,66 +292,6 @@ function PoolSegment({
+   );
+ }
+
 -/**
 - * Below the strip at narrow widths: one row per account in bar order, carrying
 - * the text the segment has no room for. Tapping a row opens the same popover
@@ -172,10 +170,13 @@ diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/
 -        ) : null}
 -      </span>
 -    </PopoverTrigger>
-   );
- }
-
-@@ -444,54 +340,7 @@
+-  );
+-}
+-
+ /** Split out so the redeem hook only runs for accounts that can redeem. */
+ function RedeemableSegmentPopup({
+   account,
+@@ -444,54 +340,7 @@ function RedeemableSegmentPopup({
    );
  }
 
@@ -231,13 +232,17 @@ diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/
  function PoolWindowCard({
    pool,
    color,
-@@ -505,37 +354,49 @@
+@@ -505,39 +354,51 @@ function PoolWindowCard({
    readonly label?: string | undefined;
    readonly description?: string | undefined;
  }) {
 -  // The soonest reset that hands anything back; an untouched account resets to no effect.
 -  const nextRefill = pool.resets.find((reset) => reset.restoresPercent > 0);
--  return (
++  const member = pool.members[0]!;
++  const reset = pool.resets.find((candidate) => candidate.member.account.key === member.account.key);
++  const resetsIn = formatResetsIn(member.window, now);
++  const credits = member.account.limits.resetCredits?.availableCount ?? 0;
+   return (
 -    <div className="grid items-center gap-x-6 gap-y-3 rounded-lg border border-border/60 p-4 md:grid-cols-[11rem_minmax(0,1fr)]">
 -      <div className="flex flex-col gap-1">
 -        <span className="text-sm font-medium text-foreground">{label !== undefined ? label : displayKnown(pool.label)}</span>
@@ -245,13 +250,10 @@ diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/
 -          <span className="text-3xl font-semibold text-foreground tabular-nums">
 -            {pool.remainingPercent}%
 -          </span>
--          <span className="text-sm text-muted-foreground">left</span>
--          {pool.pace ? <PaceIcon pace={pool.pace} /> : null}
-+  const member = pool.members[0]!;
-+  const reset = pool.resets.find((candidate) => candidate.member.account.key === member.account.key);
-+  const resetsIn = formatResetsIn(member.window, now);
-+  const credits = member.account.limits.resetCredits?.availableCount ?? 0;
-+  return (
+-          <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+-            <span>left</span>
+-            {pool.pace ? <PaceIcon pace={pool.pace} /> : null}
+-          </span>
 +    <div className="flex min-w-0 flex-col gap-3 py-5 first:pt-0 last:pb-0">
 +      <span className="text-xs font-medium text-muted-foreground">
 +        {label !== undefined ? label : displayKnown(pool.label)}
@@ -259,14 +261,16 @@ diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/
 +      <div className="flex items-baseline gap-2">
 +        <span className="text-3xl font-semibold text-foreground tabular-nums">
 +          {remainingPercent(member.window)}%
++        </span>
++        <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
++          <span>left</span>
++          {pool.pace ? <PaceIcon pace={pool.pace} /> : null}
          </span>
 -        {nextRefill && pool.columns.length > 1 ? (
 -          <span className="text-xs font-medium text-foreground tabular-nums">
 -            ↻ +{nextRefill.restoresPercent}%
 -          </span>
 -        ) : null}
-+        <span className="text-xs text-muted-foreground">left</span>
-+        {pool.pace ? <PaceIcon pace={pool.pace} /> : null}
        </div>
 -      <PoolBar pool={pool} color={color} now={now} />
 -      {description ? (
@@ -302,7 +306,7 @@ diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/
    return (
      <section className="flex flex-col gap-3">
        <h2 className="flex items-center gap-2 text-sm font-medium text-foreground">
-@@ -548,27 +409,45 @@
+@@ -550,27 +411,45 @@ function PoolSection({ pool, now }: { readonly pool: LimitPool; readonly now: nu
          />
          {label}
        </h2>

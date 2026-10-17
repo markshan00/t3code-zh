@@ -1,0 +1,56 @@
+# 0001-windows-zh-packaging.patch（仅 Windows 构建，T21-W）
+#
+# 由 scripts/windows/prepare-source.ts 在共享 patches/ 全部应用之后、仅当 --platform win 时应用；
+# Mac 交付构建（scripts/build-zh.sh）不使用本补丁。基线 v0.1.0（81493efb71e8e8244f95d3e9f71d8369654ab151）。
+#
+# 只改打包脚本 scripts/build-desktop-artifact.ts（不进 app），三处，都只影响 platform === "win"：
+#   1. electronLanguages 在 Windows 上额外保留 "zh-CN"：win-unpacked/locales/zh-CN.pak 打进包，
+#      中文 Windows 上 Chromium 自带文字（右键菜单、拼写检查、文件对话框等）显示中文。
+#      应用界面语言仍由 runtime 的 __t3zhSystemLanguages 决定（CONVENTIONS §5），不受影响。
+#   2. NSIS 单语简体中文安装器：installerLanguages ["zh_CN"]；language "2052" 让安装器版本资源也用 zh-CN。
+#      electron-builder 26.15.6 自带的 messages.yml 有 3 条罕见错误提示（decompressionFailed、
+#      uninstallFailed、appClosing）没有 zh_CN，会回退英文，属上游限制。
+#   3. WINDOWS_PACKAGED_PAYLOAD_FILE_LIMIT 80 → 80 + 2：汉化版比上游多两个文件
+#      （共享补丁 0019 的 T3-Code-LICENSE.txt、本补丁的 zh-CN.pak），保留上游原有余量。
+#
+# 上游改了这几处时：按 v0.1.0 原文重做，git apply --check 通过后再跑 scripts/windows/windows-ci.test.ts。
+#
+diff --git a/scripts/build-desktop-artifact.ts b/scripts/build-desktop-artifact.ts
+index 5dd431b..06123bd 100644
+--- a/scripts/build-desktop-artifact.ts
++++ b/scripts/build-desktop-artifact.ts
+@@ -1066,7 +1066,9 @@ export function resolveWindowsServerAsarIgnoreGlobs(arch: typeof BuildArch.Type)
+   ];
+ }
+ 
+-export const WINDOWS_PACKAGED_PAYLOAD_FILE_LIMIT = 80;
++// t3code-zh（仅 Windows 构建）：汉化版在 Windows 包里多出两个文件——共享补丁 0019 的
++// resources/T3-Code-LICENSE.txt 与本补丁保留的 locales/zh-CN.pak。上限同步 +2，保留上游原有余量。
++export const WINDOWS_PACKAGED_PAYLOAD_FILE_LIMIT = 80 + 2;
+ export const WINDOWS_SERVER_RESOURCE_SOURCE_DIR = "apps/desktop/prod-resources/windows-server";
+ export const WINDOWS_SERVER_EXTRA_RESOURCES = [
+   {
+@@ -2772,7 +2774,12 @@ export const createBuildConfig = Effect.fn("createBuildConfig")(function* (
+     appId: DESKTOP_APP_ID,
+     productName: resolveDesktopProductName(version),
+     artifactName: "T3-Code-${version}-${arch}.${ext}",
+-    electronLanguages: [...DESKTOP_ELECTRON_LANGUAGES],
++    // t3code-zh（仅 Windows 构建）：额外保留 Chromium 的 zh-CN locale pak，中文 Windows 上
++    // 右键菜单、拼写检查、文件对话框等 Chromium 自带文字随系统显示中文。
++    electronLanguages:
++      platform === "win"
++        ? [...DESKTOP_ELECTRON_LANGUAGES, "zh-CN"]
++        : [...DESKTOP_ELECTRON_LANGUAGES],
+     files: [
+       ...DESKTOP_FILE_EXCLUSIONS,
+       ...(platform === "mac"
+@@ -2947,7 +2954,8 @@ export const createBuildConfig = Effect.fn("createBuildConfig")(function* (
+     // Keep blockmap-based differential downloads enabled while changing the
+     // installed file topology. The optimization is in the payload shape, not
+     // in trading update bandwidth for install speed.
+-    buildConfig.nsis = { differentialPackage: true };
++    // t3code-zh（仅 Windows 构建）：单语简体中文安装器；安装器版本资源的语言也用 2052（zh-CN）。
++    buildConfig.nsis = { differentialPackage: true, installerLanguages: ["zh_CN"], language: "2052" };
+     const winConfig: Record<string, unknown> = {
+       target: [target],
+       icon: "icon.ico",

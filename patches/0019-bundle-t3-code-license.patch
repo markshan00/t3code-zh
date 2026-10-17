@@ -1,7 +1,7 @@
 # 0019-bundle-t3-code-license.patch
 #
 # T16：分发修改版时附上基线 LICENSE，逐字节复制，不改版权声明。
-# 基线 v0.0.46-nightly.20261010.2935；在 0018 后应用。
+# 基线 v0.1.0；在 0018 后应用。
 # staging 时复制到资源目录，electron-builder 的 extraResources 在签名前
 # 放入 Contents/Resources/T3-Code-LICENSE.txt；build-zh.sh 第 13 步比对内容。
 # 只修改打包脚本 scripts/build-desktop-artifact.ts，不改应用运行逻辑。

@@ -1,5 +1,5 @@
 {
-  "baseline": "v0.0.46-nightly.20261010.2935",
+  "baseline": "v0.1.0",
   "messages": {
     "A page in the browser wants to open another application:": "浏览器中的页面想要打开另一个应用：",
     "Accessibility": "辅助功能",
@@ -20,6 +20,7 @@
     "Close": "关闭",
     "Close Window": "关闭窗口",
     "Close permission helper": "关闭权限助手",
+    "Connecting to WSL…": "正在连接 WSL…",
     "Copy": "复制",
     "Copy Image": "复制图片",
     "Copy Link": "复制链接",
@@ -77,6 +78,7 @@
     "Quit {0}": "退出 {0}",
     "Set up {0}": "设置{0}",
     "Stage: {0}": "阶段：{0}",
-    "T3 Code {0} is currently the newest version available.": "T3 Code {0} 当前已是最新版本。"
+    "T3 Code {0} is currently the newest version available.": "T3 Code {0} 当前已是最新版本。",
+    "{0} threads with new notifications": "{0} 个任务有新通知"
   }
 }

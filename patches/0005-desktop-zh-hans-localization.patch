@@ -1,6 +1,6 @@
 # 0005-desktop-zh-hans-localization.patch
 #
-# 给桌面版 app 声明简体中文本地化（T07-fix1，CONVENTIONS §5 末尾 2026-10-05 的例外）。基线 v0.0.46-nightly.20261010.2935。
+# 给桌面版 app 声明简体中文本地化（T07-fix1，CONVENTIONS §5 末尾 2026-10-05 的例外）。基线 v0.1.0。
 #
 # 改动：scripts/build-desktop-artifact.ts 里 electron-builder 的 mac.extendInfo 加
 #   CFBundleLocalizations: ["en", "zh-Hans"]

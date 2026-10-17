@@ -1,0 +1,352 @@
+name: Build Windows x64 (T3 Code 中文版)
+
+# 构建 T3 Code 中文版的 Windows x64 unsigned NSIS 安装包，只上传 artifacts：
+# 不创建 Release、不推送任何分支、不发布到 npm，也不使用任何签名或部署密钥。
+#
+# 照上游 v0.1.0 官方流程（.github/workflows/release.yml + release-desktop.yml）分三段：
+#   bundle     Linux：上游源码 + 共享 patches/ + 构建时转换插件 → 中文 server/web/desktop JS bundle
+#   linux_cli  Linux：同一份 bundle 打 Linux x64 CLI 归档（WSL 后端运行的同版本 runtime）
+#   windows    Windows：同一份 bundle + CLI 归档 → unsigned NSIS，核对包内容，安装后实际启动烟测
+# 汉化输入（词库、插件、补丁、守卫阈值）与 Mac 交付构建 scripts/build-zh.sh 相同，常量从 build-zh.sh 读取。
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "交付版本号（不能是 -nightly.YYYYMMDD.N 或上游预览版形式）"
+        required: false
+        default: "0.1.0-zh.1"
+        type: string
+  # 首次运行：默认分支没有 workflow 时 workflow_dispatch 无法注册，由推送这个隔离分支触发。只匹配这一个精确分支。
+  push:
+    branches:
+      - "build/t21-v010-dual-platform"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-windows-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  T3ZH_VERSION: ${{ inputs.version || '0.1.0-zh.1' }}
+  UPSTREAM_TAG: v0.1.0
+  UPSTREAM_COMMIT: 81493efb71e8e8244f95d3e9f71d8369654ab151
+  # 汉化仓库检出到 zh/，上游源码取到同级的 src/：两者互不嵌套，上游代码不会从 zh/node_modules 解析到依赖。
+  ZH_DIR: zh
+  SRC_DIR: src
+
+jobs:
+  bundle:
+    name: Bundle (Linux, zh JS bundle)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Checkout t3code-zh
+        uses: actions/checkout@v6
+        with:
+          path: ${{ env.ZH_DIR }}
+          persist-credentials: false
+
+      - name: Fetch upstream ${{ env.UPSTREAM_TAG }}
+        shell: bash
+        run: bash "$ZH_DIR/scripts/windows/fetch-upstream.sh" "$SRC_DIR" "$UPSTREAM_TAG" "$UPSTREAM_COMMIT"
+
+      - name: Setup Vite+
+        uses: voidzero-dev/setup-vp@250f29ce396baf5e8f24498e17c0dfdebabc26eb # v1
+        with:
+          node-version-file: ${{ env.SRC_DIR }}/package.json
+          cache: false
+          run-install: false
+
+      - name: Install t3code-zh dependencies
+        working-directory: ${{ env.ZH_DIR }}
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Prepare localized source
+        shell: bash
+        run: >-
+          node "$ZH_DIR/scripts/windows/prepare-source.ts" prepare
+          --src "$SRC_DIR" --version "$T3ZH_VERSION" --platform linux
+          --expect-commit "$UPSTREAM_COMMIT" --evidence evidence/prepare.json
+
+      # apps/desktop 的 build 在 Linux 上编译浏览器密钥助手，需要 libsecret 头文件（同上游 build_bundle）。
+      - name: Install browser secret helper build libraries
+        run: sudo apt-get update && sudo apt-get install -y libsecret-1-dev pkg-config
+
+      - name: Install upstream dependencies
+        working-directory: ${{ env.SRC_DIR }}
+        run: vp install --frozen-lockfile --filter=t3... --filter=@t3tools/web... --filter=@t3tools/desktop... --filter=@t3tools/scripts...
+
+      - name: Build localized JS bundle
+        shell: bash
+        run: node "$ZH_DIR/scripts/windows/build-bundle.ts" --src "$SRC_DIR" --version "$T3ZH_VERSION" --evidence evidence/build-bundle.json
+
+      - name: Verify source tree changes
+        shell: bash
+        run: node "$ZH_DIR/scripts/windows/prepare-source.ts" verify-tree --src "$SRC_DIR" --version "$T3ZH_VERSION" --platform linux
+
+      - name: Collect bundle evidence
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p evidence
+          if [[ -f "$ZH_DIR/reports/transform-stats.json" ]]; then cp "$ZH_DIR/reports/transform-stats.json" evidence/; fi
+
+      # 上传两个 apps/ 下的路径，artifact 根是 apps/；下游解压到 src/apps 即回到原位（同上游 js-bundle）。
+      - name: Upload JS bundle
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: js-bundle
+          path: |
+            ${{ env.SRC_DIR }}/apps/server/dist
+            ${{ env.SRC_DIR }}/apps/desktop/dist-electron
+          if-no-files-found: error
+          retention-days: 3
+
+      - name: Upload bundle evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: evidence-bundle
+          path: evidence
+          if-no-files-found: warn
+
+  linux_cli:
+    name: Linux x64 CLI archive (WSL runtime)
+    needs: [bundle]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Checkout t3code-zh
+        uses: actions/checkout@v6
+        with:
+          path: ${{ env.ZH_DIR }}
+          persist-credentials: false
+
+      - name: Fetch upstream ${{ env.UPSTREAM_TAG }}
+        shell: bash
+        run: bash "$ZH_DIR/scripts/windows/fetch-upstream.sh" "$SRC_DIR" "$UPSTREAM_TAG" "$UPSTREAM_COMMIT"
+
+      - name: Setup Vite+
+        uses: voidzero-dev/setup-vp@250f29ce396baf5e8f24498e17c0dfdebabc26eb # v1
+        with:
+          node-version-file: ${{ env.SRC_DIR }}/package.json
+          cache: false
+          run-install: false
+
+      - name: Install t3code-zh dependencies
+        working-directory: ${{ env.ZH_DIR }}
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      # CLI 单文件（build-exe）从源码重新打包 server：必须用同一份打过补丁、写好版本和 T3 Connect .env 的源码。
+      - name: Prepare localized source
+        shell: bash
+        run: >-
+          node "$ZH_DIR/scripts/windows/prepare-source.ts" prepare
+          --src "$SRC_DIR" --version "$T3ZH_VERSION" --platform linux
+          --expect-commit "$UPSTREAM_COMMIT" --evidence evidence/prepare.json
+
+      - name: Install upstream dependencies
+        working-directory: ${{ env.SRC_DIR }}
+        run: vp install --frozen-lockfile --filter=@t3tools/desktop... --filter=t3... --filter=@t3tools/scripts...
+
+      - name: Download JS bundle
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: js-bundle
+          path: ${{ env.SRC_DIR }}/apps
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        with:
+          toolchain: stable
+          targets: x86_64-unknown-linux-gnu
+
+      - name: Build resource monitor
+        shell: bash
+        working-directory: ${{ env.SRC_DIR }}
+        run: |
+          set -euo pipefail
+          cargo build --locked --release --manifest-path native/resource-monitor/Cargo.toml --target x86_64-unknown-linux-gnu
+          mkdir -p "$RUNNER_TEMP/cli-resource-monitor/linux-x64"
+          cp native/resource-monitor/target/x86_64-unknown-linux-gnu/release/t3-resource-monitor "$RUNNER_TEMP/cli-resource-monitor/linux-x64/"
+
+      # 与上游相同：SEA 单文件用 26.8.2 的 Node 构建（与 apps/server/vite.config.ts 的 SEA_NODE_VERSION 一致）。
+      - name: Build CLI single-executable
+        shell: bash
+        working-directory: ${{ env.SRC_DIR }}
+        env:
+          VP_NODE_VERSION: "26.8.2"
+        run: node apps/server/scripts/cli.ts build-exe --verbose
+
+      # 输出放 RUNNER_TEMP：上游 .gitignore 不含 release-cli/，放在源码树里会触发工作树守卫。
+      - name: Build CLI archive
+        shell: bash
+        working-directory: ${{ env.SRC_DIR }}
+        run: >-
+          node scripts/build-cli-archive.ts --platform linux --arch x64 --version "$T3ZH_VERSION"
+          --resource-monitor-dir "$RUNNER_TEMP/cli-resource-monitor" --output-dir "$RUNNER_TEMP/release-cli"
+
+      - name: Smoke-test CLI archive (upstream)
+        shell: bash
+        working-directory: ${{ env.SRC_DIR }}
+        run: node scripts/smoke-cli-archive.ts --archive "$RUNNER_TEMP/release-cli/t3-$T3ZH_VERSION-linux-x64.tar.gz" --expect-version "$T3ZH_VERSION"
+
+      - name: Check CLI archive localization
+        shell: bash
+        run: >-
+          node "$ZH_DIR/scripts/windows/check-cli-archive.ts"
+          --archive "$RUNNER_TEMP/release-cli/t3-$T3ZH_VERSION-linux-x64.tar.gz"
+          --version "$T3ZH_VERSION" --src "$SRC_DIR" --evidence evidence/cli-archive.json
+
+      - name: Verify source tree changes
+        shell: bash
+        run: node "$ZH_DIR/scripts/windows/prepare-source.ts" verify-tree --src "$SRC_DIR" --version "$T3ZH_VERSION" --platform linux
+
+      - name: Upload CLI archive
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: cli-linux-x64
+          path: ${{ runner.temp }}/release-cli/t3-${{ env.T3ZH_VERSION }}-linux-x64.tar.gz
+          if-no-files-found: error
+          retention-days: 3
+
+      - name: Upload CLI evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: evidence-linux-cli
+          path: evidence
+          if-no-files-found: warn
+
+  windows:
+    name: Windows x64 NSIS (unsigned)
+    needs: [bundle, linux_cli]
+    runs-on: windows-2025
+    timeout-minutes: 90
+    steps:
+      # Windows runner 的 git 默认 core.autocrlf=true：补丁和 .sh 被转成 CRLF 后 git apply、bash 都会失败。
+      - name: Keep LF line endings
+        shell: bash
+        run: git config --global core.autocrlf false && git config --global core.eol lf
+
+      - name: Checkout t3code-zh
+        uses: actions/checkout@v6
+        with:
+          path: ${{ env.ZH_DIR }}
+          persist-credentials: false
+
+      - name: Fetch upstream ${{ env.UPSTREAM_TAG }}
+        shell: bash
+        run: bash "$ZH_DIR/scripts/windows/fetch-upstream.sh" "$SRC_DIR" "$UPSTREAM_TAG" "$UPSTREAM_COMMIT"
+
+      - name: Setup Vite+
+        uses: voidzero-dev/setup-vp@250f29ce396baf5e8f24498e17c0dfdebabc26eb # v1
+        with:
+          node-version-file: ${{ env.SRC_DIR }}/package.json
+          cache: false
+          run-install: false
+
+      - name: Install t3code-zh dependencies
+        working-directory: ${{ env.ZH_DIR }}
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      # --platform win 额外应用 scripts/windows/patches/（zh-CN.pak、中文 NSIS），只改打包脚本。
+      - name: Prepare localized source
+        shell: bash
+        run: >-
+          node "$ZH_DIR/scripts/windows/prepare-source.ts" prepare
+          --src "$SRC_DIR" --version "$T3ZH_VERSION" --platform win
+          --expect-commit "$UPSTREAM_COMMIT" --evidence evidence/prepare.json
+
+      - name: Install upstream dependencies
+        working-directory: ${{ env.SRC_DIR }}
+        run: vp install --frozen-lockfile --filter=@t3tools/desktop... --filter=t3... --filter=@t3tools/scripts...
+
+      - name: Download JS bundle
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: js-bundle
+          path: ${{ env.SRC_DIR }}/apps
+
+      - name: Download Linux CLI archive for WSL
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: cli-linux-x64
+          path: wsl-runtime
+
+      # resource monitor 的 MSVC 构建需要 Spectre 缓解库（同上游 release-desktop.yml）。
+      - name: Install Spectre-mitigated MSVC libs
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $installPath = & $vswhere -products * -latest -property installationPath
+          $setupExe = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\setup.exe"
+          $proc = Start-Process -FilePath $setupExe `
+            -ArgumentList "modify", "--installPath", "`"$installPath`"", "--add", `
+            "Microsoft.VisualStudio.Component.VC.Runtimes.x86.x64.Spectre", "--quiet", "--norestart" `
+            -Wait -PassThru -NoNewWindow
+          if ($null -eq $proc -or $proc.ExitCode -ne 0) {
+            $code = if ($null -ne $proc) { $proc.ExitCode } else { 1 }
+            Write-Error "Visual Studio Installer failed with exit code $code"
+            exit $code
+          }
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
+        with:
+          toolchain: stable
+          targets: x86_64-pc-windows-msvc
+
+      # 打包子进程会剥离 GITHUB_REPOSITORY 等变量：runner 自动注入的 GITHUB_REPOSITORY 会让上游脚本
+      # 生成指向本仓库的自动更新源。包内容（无 publish、无 app-update.yml、zh-CN.pak、中文 NSIS、
+      # 许可证、WSL runtime、中文 web client）在同一步核对。
+      - name: Package and verify Windows installer
+        shell: bash
+        run: >-
+          node "$ZH_DIR/scripts/windows/package-windows.ts"
+          --src "$SRC_DIR" --version "$T3ZH_VERSION"
+          --wsl-runtime "wsl-runtime/t3-$T3ZH_VERSION-linux-x64.tar.gz"
+          --out "$RUNNER_TEMP/t3zh-release" --evidence evidence/package
+          --stage-temp "$RUNNER_TEMP/t3zh-stage-temp"
+
+      - name: Verify source tree changes
+        shell: bash
+        run: node "$ZH_DIR/scripts/windows/prepare-source.ts" verify-tree --src "$SRC_DIR" --version "$T3ZH_VERSION" --platform win
+
+      - name: Upload Windows installer
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: t3code-zh-${{ env.T3ZH_VERSION }}-windows-x64
+          path: |
+            ${{ runner.temp }}/t3zh-release/T3-Code-${{ env.T3ZH_VERSION }}-x64.exe
+            ${{ runner.temp }}/t3zh-release/SHA256SUMS.txt
+          if-no-files-found: error
+
+      # 安装、隔离启动与原生后端烟测（scripts/windows/smoke-installed.ps1，主会话维护）；失败即本 job 失败。
+      - name: Installed smoke test
+        shell: pwsh
+        run: |
+          $exes = @(Get-ChildItem -LiteralPath (Join-Path $env:RUNNER_TEMP 't3zh-release') -File -Filter *.exe)
+          if ($exes.Count -ne 1) { throw "Expected exactly one installer, found $($exes.Count)." }
+          pwsh -NoProfile -File "$env:ZH_DIR/scripts/windows/smoke-installed.ps1" `
+            -Installer $exes[0].FullName -Version $env:T3ZH_VERSION -Out (Join-Path $env:RUNNER_TEMP 't3zh-smoke')
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Upload smoke evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: evidence-windows-smoke
+          path: ${{ runner.temp }}/t3zh-smoke
+          if-no-files-found: warn
+
+      - name: Upload Windows evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: evidence-windows
+          path: evidence
+          if-no-files-found: warn
