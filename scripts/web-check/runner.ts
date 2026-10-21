@@ -5,6 +5,7 @@ import { createRequire } from 'node:module';
 import { spawnSync } from 'node:child_process';
 import { descendants, owned, identity } from './sandbox-runtime.ts';
 import { type ModuleIndex, type ModuleSymbol } from './modules.ts';
+import { compareText } from '../lib/web-check.ts';
 
 export async function launchChrome(build: string, profile: string, executablePath: string) {
   const require=createRequire(path.join(build,'apps/server/package.json'));
@@ -54,14 +55,45 @@ export function locator(page:any, target:any, locale:string) {
   const name=typeof target.name==='string'?target.name:target.name[locale];
   return target.role?page.getByRole(target.role,{name,exact:target.exact!==false}):page.getByText(name,{exact:target.exact!==false});
 }
-export async function actions(page:any, rows:any[], locale:string, substitutions:Record<string,string>) {
+export async function actions(page:any, rows:any[], locale:string, substitutions:Record<string,string>, evidence:any[] = []) {
   for(const row of rows) {
     if(row.type==='escape'){await page.keyboard.press('Escape');continue;}
+    if(row.type==='fixture-state') {
+      await page.evaluate((state:any)=>(window as any).__webCheckSetState(state),row.value);
+      continue;
+    }
     const target=locator(page,row.target,locale); const selected=row.first?target.first():target;
     if(row.type==='click')await selected.click();
+    else if(row.type==='hover')await selected.hover();
+    else if(row.type==='press')await selected.press(row.value);
     else if(row.type==='fill')await selected.fill(typeof row.value==='string'?substitutions[row.value]??row.value:row.value[locale]);
     else if(row.type==='select')await selected.selectOption(row.value);
     else if(row.type==='wait')await selected.waitFor({state:'visible'});
+    else if(row.type==='assert') {
+      const expected=row.expected[locale]||row.expected;
+      // Poll the real DOM so animation, persisted settings and React publication can settle.
+      const deadline=Date.now()+10000;let observed:any,failures:string[]=[];
+      do {
+        observed=await selected.evaluateAll((nodes:HTMLElement[])=>nodes.map(node=>({
+          text:node.innerText,attributes:Object.fromEntries([...node.attributes].map(a=>[a.name,a.value])),
+          style:Object.fromEntries([...node.style].map(key=>[key,node.style.getPropertyValue(key)])),
+          height:node.getBoundingClientRect().height,value:(node as HTMLInputElement).value,
+        })));
+        failures=[];
+        if(expected.count!==undefined&&observed.length!==expected.count)failures.push('DOM 数量不符');
+        if(expected.text)failures.push(...compareText(observed.map((node:any)=>node.text).join('\n'),expected.text));
+        for(const node of observed) {
+          for(const [key,value] of Object.entries(expected.attributes||{}))if(node.attributes[key]!==value)failures.push('属性不符：'+key);
+          for(const [key,value] of Object.entries(expected.style||{}))if(node.style[key]!==value)failures.push('样式不符：'+key);
+          if(expected.height!==undefined&&node.height!==expected.height)failures.push('点击条高度不符');
+          if(expected.value!==undefined&&node.value!==expected.value)failures.push('输入原值不符');
+        }
+        if(!failures.length)break;
+        await new Promise(resolve=>setTimeout(resolve,50));
+      }while(Date.now()<deadline);
+      evidence.push({target:row.target,expected,observed,passed:failures.length===0});
+      assert.deepEqual(failures,[],JSON.stringify({target:row.target,observed}));
+    }
     else if(row.type==='drag') {
       const to=locator(page,row.to,locale); const fromBox=await selected.boundingBox(),toBox=await to.boundingBox();
       assert.ok(fromBox&&toBox,'拖动目标不可见');
@@ -70,6 +102,7 @@ export async function actions(page:any, rows:any[], locale:string, substitutions
       await page.mouse.move(toBox.x+toBox.width/2,toBox.y+toBox.height/2,{steps:20});await page.mouse.up();
     } else throw new Error('未知动作：'+row.type);
   }
+  return evidence;
 }
 export function recordChromeProcesses(profile:string) {
   const all=descendants(process.pid);

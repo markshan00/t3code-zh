@@ -6,9 +6,10 @@
 
 ## 1. 基线与目录
 
-- 基线 tag：`v0.0.46-nightly.20261010.2935`
-- 基线 commit：`98beed1a226c42b85c52ff5ee9d5dbb67d776a77`
+- 基线 tag：`v0.1.1`
+- 基线 commit：`fe27e8e3dc12dcbb108e9a28fd9b8cb65f34ae92`
 - 上游仓库：`~/Projects/t3code`（远端 `pingdotgg/t3code`，blobless 部分克隆）
+- 版本跟进渠道（2026-10-19 维护者定案）：只跟进官方正式 Release；版本检查、更新说明与汉化升级均以正式版为准，不主动跟进 Nightly / Preview。当前正式版基线为 `v0.1.1`。
 
 ```
 ~/Projects/t3code-zh/          本仓库（git，main 分支）
@@ -150,11 +151,12 @@ A、B、C 的属性名、键名白名单，T03 可以根据调研扩充，扩充
   6. 每个调用 `t()` 的补丁都配运行时测试：用真实主词库的 `createTranslator`，对每个可能取值断言译文，并对有代表性的名单外文字断言原样返回。
 - 语言只在页面加载时确定一次，切换语言必须刷新页面。原因：React Compiler 会缓存渲染结果，全局函数的返回值变了不会触发重渲染。
 - 设置 `document.documentElement.lang` 为解析后的语言。
-- `en` 模式下，界面输出必须和原版完全一致。例外（2026-10-05 定案）：桌面版 app 带 `zh-Hans.lproj` 本地化（让 macOS 自动插入的菜单项显示中文，与 0.0.45 中文版相同）。在系统语言为简体中文的 Mac 上，Electron 的应用 locale 因此变成 zh-Hans，日期、数字等 `Intl` 默认格式随之变化；在这类机器上把界面切到 English 时，这些格式与原版不同，这在允许范围内。英文系统不受影响。
+- `en` 模式下，界面输出必须和原版完全一致。macOS 本地化例外沿用 T18 定案：通过 `CFBundleLocalizations` 声明 en / zh-Hans，让系统自动插入的菜单项显示中文，不额外添加 `zh-Hans.lproj`。在系统语言为简体中文的 Mac 上，Electron 的应用 locale 因此变成 zh-Hans，日期、数字等 `Intl` 默认格式随之变化；在这类机器上把界面切到 English 时，这些格式与原版不同，这在允许范围内。英文系统不受影响。
 
 ## 6. 构建产物命名
 
-- 汉化版版本号：`0.0.46-n<nightly 号>.zh.<N>`（nightly 号取基线 tag 末段，如 `v0.0.46-nightly.20261007.2761` → `n2702`；基线 2644 时为 `0.0.46-n2644.zh.<N>`）。对外交付的构建同一基线每打一次 N 加 1；任务内部的验证性构建（如 T03 的幂等测试、审核复跑）可复用已有版本号或加 `-review` 后缀，不算交付。基线原版构建用 `0.0.46-n2644.base`。
+- 正式版基线采用 `<上游版本>-zh.<N>`，例如 `v0.1.0` → `0.1.0-zh.1`；macOS ARM64 与 Windows x64 使用相同版本号。`-check` 等后缀只用于任务内验证，不交付。
+- 汉化版版本号：`0.0.46-n<nightly 号>.zh.<N>`（nightly 号取基线 tag 末段，如 `v0.0.46-nightly.20261005.2702` → `n2702`；基线 2644 时为 `0.0.46-n2644.zh.<N>`）。对外交付的构建同一基线每打一次 N 加 1；任务内部的验证性构建（如 T03 的幂等测试、审核复跑）可复用已有版本号或加 `-review` 后缀，不算交付。基线原版构建用 `0.0.46-n2644.base`。
 - 版本号里不能出现 `-nightly.YYYYMMDD.N` 形式，否则产品名会变成 `T3 Code (Nightly)`，和官方版重名（依据：`scripts/build-desktop-artifact.ts` 的 `resolveDesktopProductName`）。
 - 产物输出到 `~/Projects/t3code-zh/release/`。
 

@@ -1,0 +1,425 @@
+[
+  {
+    "key": "What should we build?",
+    "section": "messages",
+    "zh": "想构建什么？",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/chat/DraftHeroProjectHeading.tsx；0007 响应式标题固定句，配对现有项目标题模板"
+    ]
+  },
+  {
+    "key": "{0} more reply",
+    "section": "templates",
+    "zh": "还有 {0} 条回复",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestMoreReplies.tsx:13；单复数完整显示模板，例如 1 more reply / 2 more replies"
+    ]
+  },
+  {
+    "key": "{0} more replies",
+    "section": "templates",
+    "zh": "还有 {0} 条回复",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestMoreReplies.tsx:13；单复数完整显示模板，例如 1 more reply / 2 more replies"
+    ]
+  },
+  {
+    "key": "Could not copy {0} file to {1}",
+    "section": "templates",
+    "zh": "无法将 {0} 个文件复制到 {1}",
+    "skip": "",
+    "where": [
+      "apps/web/src/lib/addProjectToMachine.ts:222；单复数完整标题，{1} 为目标设备名"
+    ]
+  },
+  {
+    "key": "+ {0} file",
+    "section": "templates",
+    "zh": "+ {0} 个文件",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:237；单复数已选文件数量"
+    ]
+  },
+  {
+    "key": "Could not copy {0} files to {1}",
+    "section": "templates",
+    "zh": "无法将 {0} 个文件复制到 {1}",
+    "skip": "",
+    "where": [
+      "apps/web/src/lib/addProjectToMachine.ts:222；单复数完整标题，{1} 为目标设备名"
+    ]
+  },
+  {
+    "key": "+ {0} files",
+    "section": "templates",
+    "zh": "+ {0} 个文件",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:237；单复数已选文件数量"
+    ]
+  },
+  {
+    "key": "Clone {0} and bring the local files git does not track.",
+    "section": "templates",
+    "zh": "克隆 {0}，并复制 Git 未跟踪的本地文件。",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:210；混排改为整句，{0} 为仓库或项目名"
+    ]
+  },
+  {
+    "key": "Folder on {0}",
+    "section": "templates",
+    "zh": "{0} 上的文件夹",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:299；混排标签，{0} 为目标设备名"
+    ]
+  },
+  {
+    "key": "the other machine",
+    "section": "messages",
+    "zh": "另一台设备",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:299；仅翻译目标设备名缺省分支"
+    ]
+  },
+  {
+    "key": "machine",
+    "section": "messages",
+    "zh": "设备",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:375；仅翻译克隆按钮目标设备缺省分支"
+    ]
+  },
+  {
+    "key": "Showing the first {0} files.",
+    "section": "templates",
+    "zh": "显示前 {0} 个文件。",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:358；截断文件列表说明"
+    ]
+  },
+  {
+    "key": "the access token saved here",
+    "section": "messages",
+    "zh": "此处保存的访问令牌",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:44；CREDENTIAL_SOURCES 仅供登录状态显示，需在最终显示处按枚举取值翻译"
+    ]
+  },
+  {
+    "key": "EXPO_TOKEN on the server",
+    "section": "messages",
+    "zh": "服务器上的 EXPO_TOKEN",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:45；CREDENTIAL_SOURCES 固定显示值"
+    ]
+  },
+  {
+    "key": "the server's eas login",
+    "section": "messages",
+    "zh": "服务器上的 eas login 登录凭据",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:46；CREDENTIAL_SOURCES 固定显示值"
+    ]
+  },
+  {
+    "key": "Idle minutes must be smaller than session minutes.",
+    "section": "messages",
+    "zh": "空闲超时时长必须小于会话时长。",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:196；固定表单校验文案"
+    ]
+  },
+  {
+    "key": "Give the host a label and limits within the ranges shown.",
+    "section": "messages",
+    "zh": "请填写主机名称，并在显示的范围内设置限额。",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:197；固定表单校验文案"
+    ]
+  },
+  {
+    "key": "Check account",
+    "section": "messages",
+    "zh": "检查账户",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:351；按钮混排文字"
+    ]
+  },
+  {
+    "key": "Sessions at once",
+    "section": "messages",
+    "zh": "并发会话数",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:396；limit() 调用的显示标签，键名保持英文"
+    ]
+  },
+  {
+    "key": "Session minutes",
+    "section": "messages",
+    "zh": "会话时长（分钟）",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:397；limit() 调用的显示标签"
+    ]
+  },
+  {
+    "key": "Idle minutes",
+    "section": "messages",
+    "zh": "空闲超时（分钟）",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:398；limit() 调用的显示标签"
+    ]
+  },
+  {
+    "key": "Expo allows sessions of up to 40 minutes on free accounts and 115 on paid ones, and ends one after the idle minutes without activity, so idle minutes must be smaller than session minutes.",
+    "section": "messages",
+    "zh": "Expo 免费账户的单次会话最长为 40 分钟，付费账户最长为 115 分钟。连续无操作达到空闲超时时长后，会话也会结束，因此空闲超时时长必须小于会话时长。",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:399；静态说明与条件尾句拆开显示翻译"
+    ]
+  },
+  {
+    "key": "Saving restarts this host, which stops its running sessions.",
+    "section": "messages",
+    "zh": "保存会重启此主机，并停止其正在运行的会话。",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:402；仅编辑已有主机时显示的固定尾句，前导空格由运行时保留"
+    ]
+  },
+  {
+    "key": "Up to {0} session at once, each stopped after {1} min or {2} idle min",
+    "section": "templates",
+    "zh": "最多同时运行 {0} 个会话，每个会话在运行 {1} 分钟或空闲 {2} 分钟后停止",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/easDeviceHostsSettings.logic.ts:33-36；easSessionLimits 的单复数完整显示骨架，参数为并发数/会话分钟/空闲分钟"
+    ]
+  },
+  {
+    "key": "Up to {0} sessions at once, each stopped after {1} min or {2} idle min",
+    "section": "templates",
+    "zh": "最多同时运行 {0} 个会话，每个会话在运行 {1} 分钟或空闲 {2} 分钟后停止",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/easDeviceHostsSettings.logic.ts:33-36；easSessionLimits 的单复数完整显示骨架，参数为并发数/会话分钟/空闲分钟"
+    ]
+  },
+  {
+    "key": "attempt {0}",
+    "section": "templates",
+    "zh": "第 {0} 次尝试",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/ConnectionDiagnosisDetails.tsx:97；连接重试计数混排"
+    ]
+  },
+  {
+    "key": "{0}% left by now",
+    "section": "templates",
+    "zh": "截至此刻应剩余 {0}%",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/usage/UsageLimitsPooled.tsx:193；Even pace 对应的匀速用量参考值"
+    ]
+  },
+  {
+    "key": "{0} reset credit banked",
+    "section": "templates",
+    "zh": "已储备 {0} 个重置额度",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/usage/UsageLimitsPooled.tsx:360,479；aria-label 与 sr-only 完整重置额度短语"
+    ]
+  },
+  {
+    "key": "Replay key must contain a valid request placeholder.",
+    "section": "messages",
+    "zh": "重放键必须包含有效的请求占位符。",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/scheduledTasksSettings.logic.ts:119；固定 label 插值的完整报错"
+    ]
+  },
+  {
+    "key": "Coalesce key must contain a valid request placeholder.",
+    "section": "messages",
+    "zh": "合并键必须包含有效的请求占位符。",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/scheduledTasksSettings.logic.ts:119；固定 label 插值的完整报错"
+    ]
+  },
+  {
+    "key": "Coalesced",
+    "section": "messages",
+    "zh": "已合并",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/scheduledTasksSettings.logic.ts:139；webhookDeliveryLabel 固定状态，仅显示处翻译"
+    ]
+  },
+  {
+    "key": "Filtered",
+    "section": "messages",
+    "zh": "已过滤",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/scheduledTasksSettings.logic.ts:140；webhookDeliveryLabel 固定状态，仅显示处翻译"
+    ]
+  },
+  {
+    "key": "Use at most {0} filters.",
+    "section": "templates",
+    "zh": "最多使用 {0} 个过滤条件。",
+    "skip": "",
+    "where": [
+      "packages/client-runtime/src/scheduledTaskWebhook.ts:81；固定客户端校验错误，需在 ScheduledTasksSettings submit 的最终显示处处理"
+    ]
+  },
+  {
+    "key": "Filter {0} needs a path under body, headers or query.",
+    "section": "templates",
+    "zh": "过滤条件 {0} 需要填写 body、headers 或 query 下的路径。",
+    "skip": "",
+    "where": [
+      "packages/client-runtime/src/scheduledTaskWebhook.ts:102-109；exists 操作的完整校验错误"
+    ]
+  },
+  {
+    "key": "Filter {0} needs a path under body, headers or query, and at least one value.",
+    "section": "templates",
+    "zh": "过滤条件 {0} 需要填写 body、headers 或 query 下的路径，以及至少一个值。",
+    "skip": "",
+    "where": [
+      "packages/client-runtime/src/scheduledTaskWebhook.ts:102-109；in 操作的完整校验错误"
+    ]
+  },
+  {
+    "key": "Filter {0} needs a path under body, headers or query, and a value.",
+    "section": "templates",
+    "zh": "过滤条件 {0} 需要填写 body、headers 或 query 下的路径和一个值。",
+    "skip": "",
+    "where": [
+      "packages/client-runtime/src/scheduledTaskWebhook.ts:102-109；其他比较操作的完整校验错误"
+    ]
+  },
+  {
+    "key": "Relay cannot provision the managed endpoint ({0}). Failed stage: {1}.",
+    "section": "templates",
+    "zh": "中继无法配置托管端点（{0}）。失败阶段：{1}。",
+    "skip": "",
+    "where": [
+      "packages/client-runtime/src/relay/errorPresentation.ts:62；带 provisioningStage 的完整分支，错误代码和阶段值保持原样"
+    ]
+  },
+  {
+    "key": "{0} could not establish a WebSocket connection.",
+    "section": "templates",
+    "zh": "{0} 无法建立 WebSocket 连接。",
+    "skip": "",
+    "where": [
+      "packages/client-runtime/src/rpc/session.ts:198；无网络提示的 direct 分支"
+    ]
+  },
+  {
+    "key": "{0} could not establish a WebSocket connection. Your DNS or firewall may be blocking T3 Connect. Try another network, such as a different Wi-Fi or mobile data.",
+    "section": "templates",
+    "zh": "{0} 无法建立 WebSocket 连接。你的 DNS 或防火墙可能阻止了 T3 Connect。请尝试其他网络，例如另一个 Wi-Fi 或移动数据。",
+    "skip": "",
+    "where": [
+      "packages/client-runtime/src/rpc/session.ts:198；relay 分支固定 NETWORK_BLOCKING_HINT 完整句"
+    ]
+  },
+  {
+    "key": "{0} stopped responding for {1}s. It may be overloaded, asleep, or off the network.",
+    "section": "templates",
+    "zh": "{0} 已有 {1} 秒未响应。它可能负载过高、处于睡眠状态或已断网。",
+    "skip": "",
+    "where": [
+      "packages/client-runtime/src/rpc/session.ts:200；固定 UNRESPONSIVE_HOST_HINT 完整句"
+    ]
+  },
+  {
+    "key": "Show {0} older conversation ({1} hidden)",
+    "section": "templates",
+    "zh": "显示 {0} 条更早的讨论（{1} 条已隐藏）",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:440-441；0017 迁移用 displayOlderComments，参数为显示的旧讨论数和 hiddenConversationCount"
+    ]
+  },
+  {
+    "key": "Show {0} older conversations ({1} hidden)",
+    "section": "templates",
+    "zh": "显示 {0} 条更早的讨论（{1} 条已隐藏）",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:440-441；0017 迁移用 displayOlderComments，参数为显示的旧讨论数和 hiddenConversationCount"
+    ]
+  },
+  {
+    "key": "Retry from {0}",
+    "section": "templates",
+    "zh": "从 {0} 重试",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/DeviceHostsSettings.tsx；新增设备重试菜单显示骨架"
+    ]
+  },
+  {
+    "key": "Retrying from {0}",
+    "section": "templates",
+    "zh": "正在从 {0} 重试",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/DeviceHostsSettings.tsx；新增设备重试菜单显示骨架"
+    ]
+  },
+  {
+    "key": "Copying files",
+    "section": "messages",
+    "zh": "正在复制文件",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/ChatView.tsx；新增复制文件阶段的发送阻止原因，仅最终显示名单"
+    ]
+  },
+  {
+    "key": "Enter an http or https URL containing %s. Searches use DuckDuckGo until then.",
+    "section": "messages",
+    "zh": "请输入包含 %s 的 http 或 https URL。在此之前，搜索会使用 DuckDuckGo。",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/IntegrationsSettings.tsx BrowserSearchEngineSetting.status；C实包Browser Custom错误提示窄修"
+    ]
+  },
+  {
+    "key": "Duplicate",
+    "section": "messages",
+    "zh": "重复投递",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/scheduledTasksSettings.logic.ts webhookDeliveryLabel；r1真实投递结果枚举窄修，0023按outcome/label成对门控"
+    ]
+  }
+]

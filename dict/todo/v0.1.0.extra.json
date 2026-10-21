@@ -1,0 +1,587 @@
+[
+  {
+    "key": "T3 Code removed {0} hidden character. Read the prompt before you send it.",
+    "section": "templates",
+    "zh": "T3 Code 已移除 {0} 个隐藏字符。发送前请先阅读提示词。",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/promptLinks/linkedPrompt.ts:13；HostedPromptLinkLanding.tsx:149；单复数具体模板"
+    ]
+  },
+  {
+    "key": "T3 Code removed {0} hidden characters. Read the prompt before you send it.",
+    "section": "templates",
+    "zh": "T3 Code 已移除 {0} 个隐藏字符。发送前请先阅读提示词。",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/promptLinks/linkedPrompt.ts:13；HostedPromptLinkLanding.tsx:149；单复数具体模板"
+    ]
+  },
+  {
+    "key": "Subagent needs input",
+    "section": "messages",
+    "zh": "子 Agent 需要输入",
+    "skip": "",
+    "where": [
+      "packages/client-runtime/src/state/threadShell.ts:98；固定 need 值完整消息"
+    ]
+  },
+  {
+    "key": "{0} subagents need input",
+    "section": "templates",
+    "zh": "{0} 个子 Agent 需要输入",
+    "skip": "",
+    "where": [
+      "packages/client-runtime/src/state/threadShell.ts:99；固定 need 值完整模板"
+    ]
+  },
+  {
+    "key": "Subagent needs approval",
+    "section": "messages",
+    "zh": "子 Agent 需要批准",
+    "skip": "",
+    "where": [
+      "packages/client-runtime/src/state/threadShell.ts:98；固定 need 值完整消息"
+    ]
+  },
+  {
+    "key": "{0} subagents need approval",
+    "section": "templates",
+    "zh": "{0} 个子 Agent 需要批准",
+    "skip": "",
+    "where": [
+      "packages/client-runtime/src/state/threadShell.ts:99；固定 need 值完整模板"
+    ]
+  },
+  {
+    "key": "Subagent needs you",
+    "section": "messages",
+    "zh": "子 Agent 需要你处理",
+    "skip": "",
+    "where": [
+      "packages/client-runtime/src/state/threadShell.ts:98；固定 need 值完整消息"
+    ]
+  },
+  {
+    "key": "{0} subagents need you",
+    "section": "templates",
+    "zh": "{0} 个子 Agent 需要你处理",
+    "skip": "",
+    "where": [
+      "packages/client-runtime/src/state/threadShell.ts:99；固定 need 值完整模板"
+    ]
+  },
+  {
+    "key": "Collapse {0} phase, {1}",
+    "section": "templates",
+    "zh": "收起“{0}”阶段，{1}",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/chat/ThreadLineageWorkflowRow.tsx:209；显示补丁先翻译固定 status，保持 phase.title 原样"
+    ]
+  },
+  {
+    "key": "Expand {0} phase, {1}",
+    "section": "templates",
+    "zh": "展开“{0}”阶段，{1}",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/chat/ThreadLineageWorkflowRow.tsx:209；显示补丁先翻译固定 status，保持 phase.title 原样"
+    ]
+  },
+  {
+    "key": "{0} running thread",
+    "section": "templates",
+    "zh": "{0} 个运行中的任务",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/sidebar/UpdateEverythingDialog.tsx:99；显示补丁固定计数短语"
+    ]
+  },
+  {
+    "key": "{0} running threads",
+    "section": "templates",
+    "zh": "{0} 个运行中的任务",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/sidebar/UpdateEverythingDialog.tsx:99；显示补丁固定计数短语"
+    ]
+  },
+  {
+    "key": "running",
+    "section": "messages",
+    "zh": "运行中",
+    "skip": "",
+    "where": [
+      "ThreadLineageWorkflowRow.tsx / SidebarUpdateCapsule.tsx / updateEverything.logic.ts；仅供固定状态显示，比较值保持英文"
+    ]
+  },
+  {
+    "key": "done",
+    "section": "messages",
+    "zh": "已完成",
+    "skip": "",
+    "where": [
+      "ThreadLineageWorkflowRow.tsx / SidebarUpdateCapsule.tsx / updateEverything.logic.ts；仅供固定状态显示，比较值保持英文"
+    ]
+  },
+  {
+    "key": "downloading",
+    "section": "messages",
+    "zh": "正在下载",
+    "skip": "",
+    "where": [
+      "ThreadLineageWorkflowRow.tsx / SidebarUpdateCapsule.tsx / updateEverything.logic.ts；仅供固定状态显示，比较值保持英文"
+    ]
+  },
+  {
+    "key": "Downloading",
+    "section": "messages",
+    "zh": "正在下载",
+    "skip": "",
+    "where": [
+      "ThreadLineageWorkflowRow.tsx / SidebarUpdateCapsule.tsx / updateEverything.logic.ts；仅供固定状态显示，比较值保持英文"
+    ]
+  },
+  {
+    "key": "restarting",
+    "section": "messages",
+    "zh": "正在重启",
+    "skip": "",
+    "where": [
+      "ThreadLineageWorkflowRow.tsx / SidebarUpdateCapsule.tsx / updateEverything.logic.ts；仅供固定状态显示，比较值保持英文"
+    ]
+  },
+  {
+    "key": "waiting",
+    "section": "messages",
+    "zh": "等待中",
+    "skip": "",
+    "where": [
+      "ThreadLineageWorkflowRow.tsx / SidebarUpdateCapsule.tsx / updateEverything.logic.ts；仅供固定状态显示，比较值保持英文"
+    ]
+  },
+  {
+    "key": "{0} of {1} read",
+    "section": "templates",
+    "zh": "已读 {0}/{1}",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/pullRequest/guide/GuideRail.tsx:51；混排显示骨架"
+    ]
+  },
+  {
+    "key": "Stop {0} of {1}",
+    "section": "templates",
+    "zh": "第 {0} 步，共 {1} 步",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/pullRequest/guide/GuideStop.tsx:104,112；混排显示骨架"
+    ]
+  },
+  {
+    "key": "The diff could not be loaded, so excerpts are missing: {0}",
+    "section": "templates",
+    "zh": "无法加载差异，因此无法显示代码摘录：{0}",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/pullRequest/guide/GuideTour.tsx:131；错误详情槽位保持原样"
+    ]
+  },
+  {
+    "key": "Clone {0}",
+    "section": "templates",
+    "zh": "克隆 {0}",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/promptLinks/NewThreadLinkView.tsx:294；仓库名槽位保持原样"
+    ]
+  },
+  {
+    "key": "showing {0} of {1} diff lines",
+    "section": "templates",
+    "zh": "显示 {0}/{1} 行差异",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx:324；混排显示骨架"
+    ]
+  },
+  {
+    "key": "removed code, showing {0} of {1} diff lines",
+    "section": "templates",
+    "zh": "已移除的代码，显示 {0}/{1} 行差异",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx:324；混排显示骨架"
+    ]
+  },
+  {
+    "key": "Loading {0}...",
+    "section": "templates",
+    "zh": "正在加载 {0}…",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx:341；路径槽位保持原样"
+    ]
+  },
+  {
+    "key": "{0} lines {1}-{2} are not in the loaded diff.",
+    "section": "templates",
+    "zh": "已加载的差异中没有 {0} 的第 {1}-{2} 行。",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx:346；路径与行号槽位保持原样"
+    ]
+  },
+  {
+    "key": "Next: {0}",
+    "section": "templates",
+    "zh": "下一步：{0}",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/pullRequest/guide/GuideStop.tsx:292；动态步骤标题保持原样"
+    ]
+  },
+  {
+    "key": "This connection lacks permission to change settings on {0}.",
+    "section": "templates",
+    "zh": "此连接没有更改 {0} 上设置的权限。",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/TelemetryExportSettings.tsx:155；动态环境名保持原样，固定回退 the selected environment 单独翻译"
+    ]
+  },
+  {
+    "key": "{0} endpoint",
+    "section": "templates",
+    "zh": "{0}端点",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/TelemetryExportSettings.tsx:167；signal 的固定 label 先翻译"
+    ]
+  },
+  {
+    "key": "Running: {0}",
+    "section": "templates",
+    "zh": "当前使用：{0}",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/settings/TelemetryExportSettings.tsx:207；端点 URL 保持原样，固定 Disabled 单独翻译"
+    ]
+  },
+  {
+    "key": "Read it before you send.",
+    "section": "messages",
+    "zh": "发送前请先阅读。",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/promptLinks/linkedPrompt.ts:35；显示补丁在与 notes 拼接之前翻译固定句"
+    ]
+  },
+  {
+    "key": "The link asked for {0}, which is not set up here, so your default model is used.",
+    "section": "templates",
+    "zh": "此链接指定的 {0} 尚未在此配置，因此已使用你的默认模型。",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/promptLinks/NewThreadLinkView.tsx:124；服务提供方原样插入"
+    ]
+  },
+  {
+    "key": "The link asked for {0}, which {1} does not offer here, so its default model is used.",
+    "section": "templates",
+    "zh": "此链接指定了 {0}，但 {1} 在此未提供该模型，因此已使用其默认模型。",
+    "skip": "",
+    "where": [
+      "apps/web/src/components/promptLinks/NewThreadLinkView.tsx:125；模型与服务提供方原样插入"
+    ]
+  },
+  {
+    "key": "Context, no code",
+    "section": "messages",
+    "zh": "上下文，无代码",
+    "skip": "",
+    "where": [
+      "packages/client-runtime/src/reviewGuideTour.ts:22；GuideRail.tsx 显示边界使用固定返回值"
+    ]
+  },
+  {
+    "section": "templates",
+    "key": "Update machine failed: {0}",
+    "zh": "{0} 更新失败",
+    "skip": "",
+    "where": [
+      "stableDisplayStrings.ts: exact failure display; English keeps the original machine failed form"
+    ]
+  },
+  {
+    "section": "templates",
+    "key": "{0}/{1} agent",
+    "zh": "{0}/{1} 个 Agent",
+    "skip": "",
+    "where": [
+      "ThreadLineageWorkflowRow.tsx settled members display"
+    ]
+  },
+  {
+    "section": "templates",
+    "key": "{0}/{1} agents",
+    "zh": "{0}/{1} 个 Agent",
+    "skip": "",
+    "where": [
+      "ThreadLineageWorkflowRow.tsx settled members display"
+    ]
+  },
+  {
+    "section": "messages",
+    "key": "completed",
+    "zh": "已完成",
+    "skip": "",
+    "where": [
+      "ThreadLineageWorkflowRow.tsx sr-only member status"
+    ]
+  },
+  {
+    "section": "messages",
+    "key": "pending",
+    "zh": "等待中",
+    "skip": "",
+    "where": [
+      "ThreadLineageWorkflowRow.tsx sr-only member status"
+    ]
+  },
+  {
+    "section": "messages",
+    "key": "cancelled",
+    "zh": "已取消",
+    "skip": "",
+    "where": [
+      "ThreadLineageWorkflowRow.tsx sr-only member status"
+    ]
+  },
+  {
+    "section": "messages",
+    "key": "interrupted",
+    "zh": "已中断",
+    "skip": "",
+    "where": [
+      "ThreadLineageWorkflowRow.tsx sr-only member status"
+    ]
+  },
+  {
+    "section": "messages",
+    "key": "this app",
+    "zh": "本应用",
+    "skip": "",
+    "where": [
+      "T21 C/r1窄修：批量更新摘要、确认列表与完成提示的最终显示骨架"
+    ]
+  },
+  {
+    "section": "messages",
+    "key": "desktop app update",
+    "zh": "桌面应用更新",
+    "skip": "",
+    "where": [
+      "T21 C/r1窄修：批量更新摘要、确认列表与完成提示的最终显示骨架"
+    ]
+  },
+  {
+    "section": "messages",
+    "key": "not connected",
+    "zh": "未连接",
+    "skip": "",
+    "where": [
+      "T21 C/r1窄修：批量更新摘要、确认列表与完成提示的最终显示骨架"
+    ]
+  },
+  {
+    "section": "messages",
+    "key": "no permission",
+    "zh": "没有权限",
+    "skip": "",
+    "where": [
+      "T21 C/r1窄修：批量更新摘要、确认列表与完成提示的最终显示骨架"
+    ]
+  },
+  {
+    "section": "messages",
+    "key": "already updating",
+    "zh": "正在更新",
+    "skip": "",
+    "where": [
+      "T21 C/r1窄修：批量更新摘要、确认列表与完成提示的最终显示骨架"
+    ]
+  },
+  {
+    "section": "messages",
+    "key": "needs a manual update",
+    "zh": "需要手动更新",
+    "skip": "",
+    "where": [
+      "T21 C/r1窄修：批量更新摘要、确认列表与完成提示的最终显示骨架"
+    ]
+  },
+  {
+    "section": "messages",
+    "key": "needs a newer desktop app",
+    "zh": "需要更新的桌面应用",
+    "skip": "",
+    "where": [
+      "T21 C/r1窄修：批量更新摘要、确认列表与完成提示的最终显示骨架"
+    ]
+  },
+  {
+    "section": "messages",
+    "key": "on the stable channel",
+    "zh": "使用正式版更新通道",
+    "skip": "",
+    "where": [
+      "T21 C/r1窄修：批量更新摘要、确认列表与完成提示的最终显示骨架"
+    ]
+  },
+  {
+    "section": "messages",
+    "key": "on the nightly channel",
+    "zh": "使用每夜版更新通道",
+    "skip": "",
+    "where": [
+      "T21 C/r1窄修：批量更新摘要、确认列表与完成提示的最终显示骨架"
+    ]
+  },
+  {
+    "section": "templates",
+    "key": "Update summary: {0}",
+    "zh": "更新 {0}",
+    "skip": "",
+    "where": [
+      "T21 C/r1窄修：批量更新摘要、确认列表与完成提示的最终显示骨架"
+    ]
+  },
+  {
+    "section": "templates",
+    "key": "Updated summary: {0}",
+    "zh": "已更新 {0}",
+    "skip": "",
+    "where": [
+      "T21 C/r1窄修：批量更新摘要、确认列表与完成提示的最终显示骨架"
+    ]
+  },
+  {
+    "section": "templates",
+    "key": "{0} servers",
+    "zh": "{0} 服务器",
+    "skip": "",
+    "where": [
+      "T21 C/r1窄修：批量更新摘要、确认列表与完成提示的最终显示骨架"
+    ]
+  },
+  {
+    "section": "templates",
+    "key": "{0} provider",
+    "zh": "{0} 个服务提供方",
+    "skip": "",
+    "where": [
+      "T21 C/r1窄修：批量更新摘要、确认列表与完成提示的最终显示骨架"
+    ]
+  },
+  {
+    "section": "templates",
+    "key": "server to {0}",
+    "zh": "服务器更新至 {0}",
+    "skip": "",
+    "where": [
+      "T21 C/r1窄修：批量更新摘要、确认列表与完成提示的最终显示骨架"
+    ]
+  },
+  {
+    "section": "templates",
+    "key": "This app: {0}, restarts last",
+    "zh": "本应用：{0}，最后重启",
+    "skip": "",
+    "where": [
+      "T21 C/r1窄修：批量更新摘要、确认列表与完成提示的最终显示骨架"
+    ]
+  },
+  {
+    "section": "templates",
+    "key": "{0} is still restarting.",
+    "zh": "{0} 仍在重启。",
+    "skip": "",
+    "where": [
+      "T21 C/r1窄修：批量更新摘要、确认列表与完成提示的最终显示骨架"
+    ]
+  },
+  {
+    "section": "templates",
+    "key": "{0} are still restarting.",
+    "zh": "{0} 仍在重启。",
+    "skip": "",
+    "where": [
+      "T21 C/r1窄修：批量更新摘要、确认列表与完成提示的最终显示骨架"
+    ]
+  },
+  {
+    "section": "templates",
+    "key": "Skips {0}: {1}",
+    "zh": "跳过 {0}：{1}",
+    "skip": "",
+    "where": [
+      "T21 C/r1窄修：批量更新摘要、确认列表与完成提示的最终显示骨架"
+    ]
+  },
+  {
+    "section": "templates",
+    "key": "t3@{0} is not on npm yet",
+    "zh": "t3@{0} 尚未发布到 npm",
+    "skip": "",
+    "where": [
+      "T21 C/r1窄修：批量更新摘要、确认列表与完成提示的最终显示骨架"
+    ]
+  },
+  {
+    "section": "messages",
+    "key": "Opens one of your threads.",
+    "zh": "打开你的一个任务。",
+    "skip": "",
+    "where": [
+      "T21 C窄修：提示词链接summary固定详情与批量更新动作标签"
+    ]
+  },
+  {
+    "section": "messages",
+    "key": "Later",
+    "zh": "稍后",
+    "skip": "",
+    "where": [
+      "T21 C窄修：提示词链接summary固定详情与批量更新动作标签"
+    ]
+  },
+  {
+    "section": "templates",
+    "key": "Pull request {0}",
+    "zh": "拉取请求 {0}",
+    "skip": "",
+    "where": [
+      "T21 C窄修：提示词链接summary固定详情与批量更新动作标签"
+    ]
+  },
+  {
+    "section": "templates",
+    "key": "Repository {0}",
+    "zh": "仓库 {0}",
+    "skip": "",
+    "where": [
+      "T21 C窄修：提示词链接summary固定详情与批量更新动作标签"
+    ]
+  },
+  {
+    "section": "templates",
+    "key": "Model {0}",
+    "zh": "模型 {0}",
+    "skip": "",
+    "where": [
+      "T21 C窄修：提示词链接summary固定详情与批量更新动作标签"
+    ]
+  }
+]

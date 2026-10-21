@@ -35,12 +35,14 @@ const PATCH = path.join(PATCHES, "0007-new-thread-display-strings.patch");
 const MAIN_DICT: T3zhDict = JSON.parse(fs.readFileSync(path.join(ZH_ROOT, "dict/zh-CN.json"), "utf8"));
 const HELPER = "apps/web/src/newThreadDisplayStrings.ts";
 const HEADLINE = "apps/web/src/components/chat/DraftHeroHeadline.tsx";
+const PROJECT_HEADING = "apps/web/src/components/chat/DraftHeroProjectHeading.tsx";
 const HEADER = "apps/web/src/components/chat/ChatHeader.tsx";
 const PATCHED_FILES = [
   "apps/web/src/components/Sidebar.tsx",
   "apps/web/src/components/chat/ChatComposer.tsx",
   HEADER,
   HEADLINE,
+  PROJECT_HEADING,
   "apps/web/src/components/settings/SettingsFontPreviews.tsx",
   "apps/web/src/hooks/useThreadActionMenu.ts",
   "apps/web/src/hooks/useThreadActions.ts",
@@ -262,93 +264,41 @@ test("en 模式与没有汉化运行时：全部原样", async () => {
   }
 });
 
-/** 从源码里取 `const headingLabel = ...` 的初始化表达式，包成以组件局部变量和 helper 为参数的函数。 */
-function headingLabelEvaluator(code: string): (vars: HeadingVars, helper: HelperModule) => string {
-  const ast = parse(code, { sourceType: "module", plugins: ["typescript", "jsx"] });
-  let source: string | null = null;
-  traverse(ast, {
-    VariableDeclarator(pathNode) {
-      const node = pathNode.node as Node;
-      if (node.id?.type === "Identifier" && node.id.name === "headingLabel" && node.init) {
-        source = generate(node.init).code;
-        pathNode.stop();
-      }
+/** v0.1.1 moved the responsive project heading into its own component. */
+function realHeadingExpression(source: string, variable: string): string {
+  let result = "";
+  traverse(parse(source, {sourceType: "module", plugins: ["typescript", "jsx"]}), {
+    VariableDeclarator(p: any) {
+      if (p.node.id.type === "ArrayPattern" && p.node.id.elements.some((n: any) => n?.name === variable)) result = generate(p.node.init).code;
     },
   });
-  assert.ok(source, "找不到 headingLabel");
-  const fn = new Function(
-    "isScratchDraft",
-    "hasResolvedProject",
-    "canChooseProject",
-    "activeProjectDisplayName",
-    "translateFixed",
-    "fillSlot",
-    "displayDefaultName",
-    `return (${source});`,
-  );
-  return (vars, helper) =>
-    fn(
-      vars.isScratchDraft,
-      vars.hasResolvedProject,
-      vars.canChooseProject,
-      vars.activeProjectDisplayName,
-      helper.translateFixed,
-      helper.fillSlot,
-      helper.displayDefaultName,
-    );
+  assert.ok(result, variable);
+  return result;
 }
-
-interface HeadingVars {
-  isScratchDraft: boolean;
-  hasResolvedProject: boolean;
-  canChooseProject: boolean;
-  activeProjectDisplayName: string | undefined;
-}
-
-function headingCombos(): HeadingVars[] {
-  const combos: HeadingVars[] = [];
-  for (const isScratchDraft of [true, false])
-    for (const hasResolvedProject of [true, false])
-      for (const canChooseProject of [true, false])
-        for (const activeProjectDisplayName of ["t3code", "No project", "New thread on main", undefined])
-          combos.push({ isScratchDraft, hasResolvedProject, canChooseProject, activeProjectDisplayName });
-  return combos;
-}
-
-test("h1 aria-label：en 模式与原版逐个相同，zh 模式是预期译文", async () => {
+test("响应式项目标题：真实新组件的槽位保留英文、中文整句和动态名称", async () => {
   const helper = await loadHelper();
-  const original = headingLabelEvaluator(read(BEFORE, HEADLINE));
-  const patched = headingLabelEvaluator(read(PATCHED, HEADLINE));
-
-  const en = installRuntime("en");
-  try {
-    for (const vars of headingCombos()) assert.equal(patched(vars, helper), original(vars, helper), JSON.stringify(vars));
-  } finally {
-    en.restore();
-  }
-
-  const zh = installRuntime("zh-CN");
-  try {
-    const expect = (vars: HeadingVars): string => {
-      if (vars.isScratchDraft) return "我们要做什么？";
-      if (vars.hasResolvedProject) {
-        const name = vars.activeProjectDisplayName === "No project" ? "无项目" : String(vars.activeProjectDisplayName);
-        return `想在 ${name} 中构建什么？`;
+  const source = read(PATCHED, PROJECT_HEADING);
+  const original = read(BEFORE, PROJECT_HEADING);
+  assert.ok(original.includes("<span>What should we build in</span>"));
+  assert.ok(original.includes('<span className="font-medium">{projectName}</span>?'));
+  const slots = new Function("translateAroundSlot", "return " + realHeadingExpression(source, "buildInBefore"));
+  const toStart = new Function("translateAroundSlot", "return " + realHeadingExpression(read(PATCHED, HEADLINE), "toStartBefore"));
+  for (const locale of ["en", "zh-CN"] as const) {
+    const r = installRuntime(locale);
+    try {
+      for (const name of ["t3code", "No project", "New thread on main", "feature/foo to main $&"]) {
+        r.calls.length = 0;
+        const [before, after] = slots(helper.translateAroundSlot);
+        assert.equal(before + name + after, locale === "zh-CN" ? `想在 ${name} 中构建什么？` : `What should we build in ${name}?`);
+        assert.deepEqual(r.calls, ["What should we build in " + SLOT + "?"]);
+        const [start, end] = toStart(helper.translateAroundSlot);
+        assert.equal(start + name + end, locale === "zh-CN" ? `${name}后开始` : `${name} to start`);
       }
-      if (vars.canChooseProject) {
-        const name =
-          vars.activeProjectDisplayName === undefined
-            ? "选择项目"
-            : vars.activeProjectDisplayName === "No project"
-              ? "无项目"
-              : vars.activeProjectDisplayName;
-        return `${name}后开始`;
-      }
-      return "添加项目后开始";
-    };
-    for (const vars of headingCombos()) assert.equal(patched(vars, helper), expect(vars), JSON.stringify(vars));
-  } finally {
-    zh.restore();
+      assert.ok(source.includes('translateFixed("What should we build?")'));
+      assert.equal(helper.translateFixed("What should we build?"), locale === "zh-CN" ? "想构建什么？" : "What should we build?");
+      assert.ok(source.includes("data-inline={fitsInline}"));
+      assert.ok(source.includes("inline.getBoundingClientRect().width <= container.getBoundingClientRect().width"));
+    } finally {r.restore();}
   }
 });
 
@@ -379,10 +329,9 @@ function jsxChildrenContaining(code: string, marker: string): string[][] {
 test("混排句改成「前段 + 组件 + 后段」，不再含英文文本节点", () => {
   const headline = read(PATCHED, HEADLINE);
   assert.deepEqual(jsxChildrenContaining(headline, "projectSelector").filter((c) => c.length === 3), [
-    ["expr:buildInBefore", "expr:projectSelector", "expr:buildInAfter"],
     ["expr:toStartBefore", "expr:projectSelector", "expr:toStartAfter"],
   ]);
-  assert.ok(headline.includes('translateAroundSlot("What should we build in ", "?")'));
+  assert.ok(read(PATCHED, PROJECT_HEADING).includes('translateAroundSlot("What should we build in ", "?")'));
   assert.ok(headline.includes('translateAroundSlot("", " to start")'));
   const header = read(PATCHED, HEADER);
   assert.deepEqual(jsxChildrenContaining(header, "newThreadInBefore"), [
@@ -410,7 +359,8 @@ test("转换判定：只有预期的几条跳过项（mixed-jsx 与纯标点）�
       .sort();
   const removedExpected: Record<string, string[]> = {
     // 「?」是混排句里的纯标点文本节点，原先按 no-letters 跳过，句子改成前后两段后一并消失。
-    [HEADLINE]: ["What should we build in |A|skip|mixed-jsx", " to start|A|skip|mixed-jsx", "?|A|skip|no-letters", "Add project|C|translate|property"],
+    [HEADLINE]: [" to start|A|skip|mixed-jsx", "Add project|C|translate|property"],
+    [PROJECT_HEADING]: ["What should we build in|A|translate|jsx-text", "What should we build|A|suspicious|template-collision", " in|A|translate|jsx-text", "?|A|skip|no-letters", "?|A|skip|no-letters", "?|A|skip|no-letters"],
     [HEADER]: ["New thread in |A|skip|mixed-jsx"],
   };
   for (const file of PATCHED_FILES) {
@@ -422,7 +372,7 @@ test("转换判定：只有预期的几条跳过项（mixed-jsx 与纯标点）�
     const expected = removedExpected[file] ?? [];
     assert.deepEqual(removed.sort(), [...expected].sort(), `${file} 只应去掉预期的 mixed-jsx 跳过项`);
     for (const c of removed) {
-      if (file === HEADLINE && c === "Add project|C|translate|property") continue; // 2935 条目在构造显示标签时显式查表，已由真实表达式测试覆盖。
+      if (file === PROJECT_HEADING || (file === HEADLINE && c === "Add project|C|translate|property")) continue; // 2935 条目在构造显示标签时显式查表，已由真实表达式测试覆盖。
       assert.match(c, /\|skip\|(mixed-jsx|no-letters)$/, `${file} 去掉的只能是跳过项`);
     }
   }
@@ -543,8 +493,8 @@ test("调用点：组件与任务菜单 hook 里默认名的每个显示处都�
       wrapped: [
         "activeProjectDisplayName", // 选择器文字
         "activeProjectDisplayName", // 选择器 tooltip
-        "activeProjectDisplayName", // aria-label：What should we build in
-        "activeProjectDisplayName", // aria-label：to start
+        "activeProjectDisplayName", // 传给新的项目标题组件
+        "activeProjectTitle", // 无选择器时的项目名
         "group.displayName", // 2935 pickerItems：显示、tooltip 与搜索共用标签
       ].sort(),
       allowedRaw: [],

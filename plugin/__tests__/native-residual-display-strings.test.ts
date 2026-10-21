@@ -31,7 +31,7 @@ function tree(withPatch: boolean) {
   }
   // 0020 now extends 0017's audited-label table and display callbacks.
   // The before-0017 comparison must not apply that dependent patch.
-  for (const p of fs.readdirSync(path.join(ROOT, 'patches')).filter(x => x.endsWith('.patch')).sort()) if (withPatch || (p !== PATCH && p !== '0020-n2861-display-strings.patch' && p !== '0021-n2935-display-strings.patch')) execFileSync('git', ['apply', path.join(ROOT, 'patches', p)], {
+  for (const p of fs.readdirSync(path.join(ROOT, 'patches')).filter(x => x.endsWith('.patch')).sort()) if (withPatch || (p !== PATCH && p !== '0020-n2861-display-strings.patch' && p !== '0021-n2935-display-strings.patch' && p !== '0022-stable-display-strings.patch' && p !== '0023-v011-display-strings.patch')) execFileSync('git', ['apply', path.join(ROOT, 'patches', p)], {
     cwd: dir
   });
   return dir;
@@ -143,7 +143,11 @@ const getProviderOptionCurrentLabel = fn(model, 'getProviderOptionCurrentLabel',
   getProviderOptionCurrentValue,
   getReportedOptionValue
 });
+const reasoningIdsSource = read(UP, 'packages/client-runtime/src/state/threadExecution.ts');
+const REASONING_EFFORT_OPTION_IDS = evalExpr(initializer(reasoningIdsSource, 'REASONING_EFFORT_OPTION_IDS'), {});
+const REASONING_SELECT_DESCRIPTOR_IDS = evalExpr(initializer(read(UP, base + 'components/chat/TraitsPicker.tsx'), 'REASONING_SELECT_DESCRIPTOR_IDS'), { REASONING_EFFORT_OPTION_IDS });
 const providerScope = {
+  REASONING_SELECT_DESCRIPTOR_IDS,
   getProviderOptionCurrentValue,
   getProviderOptionCurrentLabel
 };
@@ -590,7 +594,7 @@ for (const locale of [null, 'en', 'zh-CN'] as const) {
 }
 test('T14 新模板只匹配自己的计数骨架，不截走真实源码其他候选', () => {
   const tr = createTranslator(dict),
-    templates = ['{0} client', '{0} clients', '{0} pairing link', '{0} pairing links', 'Click to steer, Ctrl/⌘-click or {0} to queue', 'Click to queue, Ctrl/⌘-click or {0} to steer', 'Show {0} older comment ({1} hidden)'];
+    templates = ['{0} client', '{0} clients', '{0} pairing link', '{0} pairing links', 'Click to steer, Ctrl/⌘-click or {0} to queue', 'Click to queue, Ctrl/⌘-click or {0} to steer', 'Show {0} older conversation ({1} hidden)'];
   for (const k of templates) assert.equal(tr.matchTemplate(k.replace('{0}', SLOT).replace('{1}', '\uE001'))?.key, k);
   const hits: string[] = [];
   let total = 0;
@@ -654,7 +658,7 @@ for (const locale of [null, 'en', 'zh-CN'] as const) {
       const display = select(s, 'CallExpression', p => p.node.callee.name === 'displayRunningSendTooltip');
       for (const followUpBehavior of ['steer', 'queue', risky]) for (const alternateShortcutLabel of ['', risky, '⌘↵']) {
         const alternateAction = followUpBehavior === 'steer' ? 'queue' : 'steer';
-        const scope = { submitStatus: null, compactsBeforeSend: false, isRunning: true, isEditingQueuedMessage: false, followUpBehavior, alternateAction, alternateShortcutLabel, submitLabel: 'Submit message' };
+        const scope = { submitStatus: null, canSteer: true, compactsBeforeSend: false, isRunning: true, isEditingQueuedMessage: false, followUpBehavior, alternateAction, alternateShortcutLabel, submitLabel: 'Submit message' };
         const tooltip = evalExpr(originalInit, scope);
         const r = runtime(locale);
         try {
@@ -667,7 +671,7 @@ for (const locale of [null, 'en', 'zh-CN'] as const) {
       const reason = initializer(read(UP, base + 'components/ChatView.tsx'), 'projectCloneSendBlockReason');
       for (const cloneStatus of ['running', 'failed', 'pending', 'done', null]) {
         // Evaluate the real clone expression, including its null/non-clone branches.
-        const scope = { activeProjectClone: cloneStatus === null ? null : { phase: cloneStatus } };
+        const scope = { activeProjectFileCopy: null, activeProjectClone: cloneStatus === null ? null : { phase: cloneStatus } };
         const r = runtime(locale);
         try {
           const raw = evalExpr(reason, scope);
@@ -689,11 +693,14 @@ for (const locale of [null, 'en', 'zh-CN'] as const) {
       [base + 'components/ChatView.logic.ts', 'getAntigravitySendBlockReason'],
     ]) {
       const declaration = select(read(UP, file), 'FunctionDeclaration', p => p.node.id.name === name);
-      traverse(t.file(t.program([declaration])), { ReturnStatement(p: any) { if (p.node.argument) t.traverseFast(p.node.argument, (n: any) => { if (t.isStringLiteral(n) && n.value.length > 25 && !rawKeys.includes(n.value)) rawKeys.push(n.value); }); } });
+      traverse(t.file(t.program([declaration])), { ReturnStatement(p: any) { if (p.node.argument) t.traverseFast(p.node.argument, (n: any) => { if (t.isStringLiteral(n) && n.value.length > 0 && !rawKeys.includes(n.value)) rawKeys.push(n.value); }); } });
     }
     const attachment = select(read(UP, base + 'components/chat/ChatComposer.tsx'), 'VariableDeclarator', p => p.node.id.name === 'attachmentBlockReason');
     t.traverseFast(attachment.init, (n: any) => { if (t.isStringLiteral(n)) rawKeys.push(n.value); });
-    assert.ok(rawKeys.length >= 14);
+    assert.ok(rawKeys.includes('Attachment still uploading'));
+    assert.ok(rawKeys.includes('Attachments still uploading'));
+    assert.ok(rawKeys.includes('That Antigravity model is no longer available. Choose another model.'));
+    for (const key of rawKeys) assert.ok(dict.messages[key], key);
     for (const s of sources(base + 'components/chat/ComposerPrimaryActions.tsx')) {
       const aria = select(s, 'JSXAttribute', p => p.node.name.name === 'aria-label' && code(p.node).includes('submitStatus')).value.expression;
       const tooltip = select(s, 'CallExpression', p => p.node.callee.name === 'displayRunningSendTooltip');
@@ -719,7 +726,8 @@ for (const locale of [null, 'en', 'zh-CN'] as const) {
   });
   test(`T14-fix1 M6：设备步骤、平台检测和 PR 评论，${locale ?? '无运行时'}`, () => {
     const device = base + 'components/device/DeviceSetup.tsx';
-    const originalPlatform = fn(read(UP, device), 'platformSetupStatus', { platformName: (p: string) => p === 'ios' ? 'iOS' : 'Android' });
+    const isAndroidDiscoveryUncertain = evalExpr(initializer(read(UP, device), 'isAndroidDiscoveryUncertain'), {});
+    const originalPlatform = fn(read(UP, device), 'platformSetupStatus', { isAndroidDiscoveryUncertain, platformName: (p: string) => p === 'ios' ? 'iOS' : 'Android' });
     for (const s of sources(device)) {
       const display = attribute(s, 'WizardSteps', 'displayStep');
       const aria = attribute(s, 'WizardSteps', 'displayStepAria');
@@ -736,7 +744,7 @@ for (const locale of [null, 'en', 'zh-CN'] as const) {
       }
       const status = select(s, 'CallExpression', p => p.node.callee.name === 'displayKnown' && code(p.node.arguments[0]) === 'props.status.message');
       for (const platform of ['ios', 'android']) for (const mode of ['missing', 'noDevice', 'ready', 'arbitrary']) {
-        const state = { hostStatus: 'ready', hosts: [{ platforms: [{ platform, available: mode !== 'missing' && mode !== 'arbitrary', ...(mode === 'arbitrary' ? { reason: risky } : {}) }] }], devices: mode === 'ready' ? [{ platform }] : [] };
+        const state = { hostStatuses: {}, hostStatus: 'ready', hosts: [{ id: 'local', kind: 'local', platforms: [{ platform, available: mode !== 'missing' && mode !== 'arbitrary', ...(mode === 'arbitrary' ? { reason: risky } : {}) }] }], devices: mode === 'ready' ? [{ platform }] : [] };
         const raw = originalPlatform(state, platform);
         const r = runtime(locale);
         try {
@@ -746,14 +754,14 @@ for (const locale of [null, 'en', 'zh-CN'] as const) {
       }
     }
     const pr = base + 'components/pullRequest/PullRequestSummaryTab.tsx';
-    const original = children(read(UP, pr), ns => ns.some(n => code(n).includes('hiddenCommentCount')) && ns.some(n => t.isStringLiteral(n) && n.value.includes('older comment')));
-    for (const s of sources(pr)) for (const hiddenCommentCount of [1, 2, 99]) {
+    const original = children(read(UP, pr), ns => ns.some(n => code(n).includes('hiddenConversationCount')) && ns.some(n => t.isStringLiteral(n) && n.value.includes('older conversation')));
+    for (const s of sources(pr)) for (const hiddenConversationCount of [1, 2, 99]) {
       const n = select(s, 'CallExpression', p => p.node.callee.name === 'displayOlderComments');
-      const scope = { hiddenCommentCount, COMMENT_PAGE: 20, Math };
+      const scope = { hiddenConversationCount, COMMENT_PAGE: 20, Math };
       const r = runtime(locale);
       try {
-        assert.equal(evalExpr(code(n), { ...r.scope, ...scope }), locale === 'zh-CN' ? `显示较早的 ${Math.min(hiddenCommentCount, 20)} 条评论（隐藏了 ${hiddenCommentCount} 条）` : render(original, scope));
-        assert.deepEqual(r.calls, locale === null ? [] : [`Show ${SLOT} older comment${hiddenCommentCount === 1 ? '' : 's'} (\uE001 hidden)`]);
+        assert.equal(evalExpr(code(n), { ...r.scope, ...scope }), locale === 'zh-CN' ? `显示 ${Math.min(hiddenConversationCount, 20)} 条更早的讨论（${hiddenConversationCount} 条已隐藏）` : render(original, scope));
+        assert.deepEqual(r.calls, locale === null ? [] : [`Show ${SLOT} older conversation${hiddenConversationCount === 1 ? '' : 's'} (\uE001 hidden)`]);
       } finally { r.restore(); }
     }
   });

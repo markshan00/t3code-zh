@@ -128,6 +128,7 @@ const DESKTOP_DISPLAY_FILE = "apps/desktop/src/electron/ElectronMenu.ts";
 
 const PATCHED_FILES = [
   "apps/desktop/src/app/DesktopApp.ts",
+  "apps/desktop/src/ipc/methods/notificationBadge.ts",
   // 0004 的桌面原生显示入口：displayMenuLabel() 只翻审核过、有精确词条的菜单标签
   // （TRANSLATABLE_MENU_LABELS，含 Branch、Copy Path 与平台文件显示标签）。它们的词条在
   // __t3zh_t 包裹时才被使用，所以一起计入「词库里每条都有出处」的核对，避免桌面词库出现
@@ -446,4 +447,48 @@ test("T18 passkey dialog: actual account fallback and prompt translate; arbitrar
   }
   const bridge="apps/desktop/src/preview/PasskeyBridge.ts";
   assert.equal(execFileSync("git",["-C",UPSTREAM,"show",`HEAD:${bridge}`],{encoding:"utf8"}),fs.readFileSync(path.join(UPSTREAM,bridge),"utf8"));
+});
+
+test("T21 Windows: WSL splash translates only its label and preserves the full English HTML", async () => {
+  const file = "apps/desktop/src/window/DesktopWindow.ts";
+  const functionSource = (source: string) => {
+    let found: Node;
+    walk(astOf(source), (node) => {
+      if (node.type === "FunctionDeclaration" && node.id.name === "buildConnectingSplashDataUrl") found = node;
+    });
+    assert.ok(found!);
+    return stripTypeScriptTypes(source.slice(found!.start, found!.end));
+  };
+  for (const language of ["en", "zh-CN"] as const) {
+    const glue = await loadGlue([language]);
+    for (const dark of [false, true]) {
+      const evaluate = (source: string) => new Function("getInitialWindowBackgroundColor", "__t3zh_html",
+        `${functionSource(source)}; return buildConnectingSplashDataUrl(${dark});`)(
+          () => "#112233", glue.__t3zh_html);
+      const original = evaluate(COPIES.before.get(file)!);
+      const translated = evaluate(COPIES.after.get(file)!);
+      assert.equal(translated, language === "en" ? original
+        : original.replace(encodeURIComponent("Connecting to WSL…"), encodeURIComponent("正在连接 WSL…")));
+    }
+  }
+});
+
+test("T21 Windows: notification overlay keeps count and empty-label behavior", async () => {
+  const file = "apps/desktop/src/ipc/methods/notificationBadge.ts";
+  const expression = (source: string) => {
+    let found: Node;
+    walk(astOf(source), (node) => {
+      if (node.type === "CallExpression" && node.callee.property?.name === "setOverlayIcon") found = node.arguments[1];
+    });
+    assert.ok(found!);
+    return source.slice(found!.start, found!.end);
+  };
+  for (const language of ["en", "zh-CN"] as const) {
+    const glue = await loadGlue([language]);
+    for (const count of [0, 1, 12]) {
+      const evaluate = (source: string) => new Function("count", "__t3zh_t", `return ${expression(source)}`)(count, glue.__t3zh_t);
+      assert.equal(evaluate(COPIES.after.get(file)!), language === "en" || count === 0
+        ? evaluate(COPIES.before.get(file)!) : `${count} 个任务有新通知`);
+    }
+  }
 });

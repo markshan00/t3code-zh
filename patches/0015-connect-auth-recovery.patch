@@ -1,15 +1,14 @@
 # The maintainer explicitly authorized this functional recovery fix on 2026-10-07.
-# Baseline: v0.0.46-nightly.20261010.2935 / 98beed1a226c42b85c52ff5ee9d5dbb67d776a77
+# Baseline: v0.1.1 / fe27e8e3dc12dcbb108e9a28fd9b8cb65f34ae92
 # Keep T3 Connect loading/failure visible and offer a manual renderer reload.
 # Does not change auth sessions, scopes, account state or SDK dependencies.
-diff --git a/apps/web/src/components/clerk/T3ConnectSidebarSignIn.behavior.test.tsx b/apps/web/src/components/clerk/T3ConnectSidebarSignIn.behavior.test.tsx
+diff --git a/apps/web/src/components/clerk/T3ConnectSidebarSignIn.behavior.browser.test.tsx b/apps/web/src/components/clerk/T3ConnectSidebarSignIn.behavior.browser.test.tsx
 new file mode 100644
-index 0000000000..1e7fc921c6
 --- /dev/null
-+++ b/apps/web/src/components/clerk/T3ConnectSidebarSignIn.behavior.test.tsx
-@@ -0,0 +1,153 @@
-+import type { PropsWithChildren } from "react";
-+import { act, create, type ReactTestRenderer } from "react-test-renderer";
++++ b/apps/web/src/components/clerk/T3ConnectSidebarSignIn.behavior.browser.test.tsx
+@@ -0,0 +1,159 @@
++import type { ComponentProps, PropsWithChildren } from "react";
++import { act, render as renderDom, type Screen } from "../../../test/render";
 +import { afterEach, beforeEach, expect, it, vi } from "vite-plus/test";
 +
 +const auth = vi.hoisted(() => ({
@@ -19,19 +18,27 @@ index 0000000000..1e7fc921c6
 +  authLoaded: undefined as boolean | undefined,
 +  openSignIn: vi.fn(),
 +  reload: vi.fn(),
++  listeners: new Set<() => void>(),
++  reloadClick: undefined as (() => void) | undefined,
 +}));
 +
-+vi.mock("@clerk/react", () => {
++vi.mock("@clerk/react", async () => {
++  const { useSyncExternalStore } = await import("react");
++  // React Compiler can retain zero-prop children; the mocked SDK must publish auth changes just like Clerk.
++  const useSnapshot = () => useSyncExternalStore(
++    (listener) => { auth.listeners.add(listener); return () => { auth.listeners.delete(listener); }; },
++    () => `${auth.status}:${auth.signedIn}:${auth.authLoaded}`,
++  );
 +  const loaded = () => auth.status === "ready" || auth.status === "degraded";
 +  const UserButton = Object.assign(
 +    ({ children }: PropsWithChildren) => <button>Account menu{children}</button>,
 +    { UserProfilePage: () => null },
 +  );
 +  return {
-+    ClerkLoading: ({ children }: PropsWithChildren) => auth.status === "loading" ? children : null,
-+    ClerkFailed: ({ children }: PropsWithChildren) => auth.status === "error" ? children : null,
-+    ClerkLoaded: ({ children }: PropsWithChildren) => loaded() ? children : null,
-+    useAuth: () => ({ isLoaded: auth.authLoaded ?? loaded(), isSignedIn: auth.signedIn }),
++    ClerkLoading: ({ children }: PropsWithChildren) => { useSnapshot(); return auth.status === "loading" ? children : null; },
++    ClerkFailed: ({ children }: PropsWithChildren) => { useSnapshot(); return auth.status === "error" ? children : null; },
++    ClerkLoaded: ({ children }: PropsWithChildren) => { useSnapshot(); return loaded() ? children : null; },
++    useAuth: () => { useSnapshot(); return { isLoaded: auth.authLoaded ?? loaded(), isSignedIn: auth.signedIn }; },
 +    UserButton,
 +  };
 +});
@@ -43,38 +50,34 @@ index 0000000000..1e7fc921c6
 +vi.mock("../ui/sidebar", () => ({
 +  SidebarMenu: "ul", SidebarMenuItem: "li", SidebarMenuButton: "button",
 +}));
-+vi.mock("../ui/button", () => ({ Button: "button" }));
++vi.mock("../ui/button", () => ({
++  Button: ({ onClick, children }: ComponentProps<"button">) => {
++    auth.reloadClick = onClick as (() => void) | undefined;
++    return <button onClick={onClick}>{children}</button>;
++  },
++}));
 +
 +import { T3ConnectSidebarAvatar, T3ConnectSidebarSignIn } from "./T3ConnectSidebarSignIn";
 +
-+let tree: ReactTestRenderer | undefined;
++let tree: Screen | undefined;
 +const footer = () => <><T3ConnectSidebarSignIn /><T3ConnectSidebarAvatar /></>;
 +async function render() {
-+  await act(async () => {
-+    if (tree) tree.update(footer());
-+    else tree = create(footer());
-+  });
++  await act(() => { for (const listener of auth.listeners) listener(); });
++  if (tree) await tree.rerender(footer());
++  else tree = await renderDom(footer(), { router: false });
 +}
-+function text(): string {
-+  return tree!.root.findAllByType("p").map(p => p.children.join("")).join(" ") +
-+    tree!.root.findAllByType("span").map(p => p.children.join("")).join(" ") +
-+    tree!.root.findAllByType("button").flatMap(p => p.children.filter(c => typeof c === "string")).join(" ");
-+}
-+const reloadButton = () => tree!.root.findAllByType("button").find(b => b.props.onClick && !b.children.includes("Account menu"));
++const text = () => tree!.container.textContent ?? "";
++const reloadButton = () => Array.from(tree!.container.querySelectorAll("button"))
++  .find(button => button.textContent?.includes("Reload app"));
 +
 +beforeEach(() => {
 +  vi.useFakeTimers();
 +  auth.configured = true; auth.status = "loading"; auth.signedIn = false; auth.authLoaded = undefined;
 +  auth.openSignIn.mockReset(); auth.reload.mockReset();
-+  vi.stubGlobal("IS_REACT_ACT_ENVIRONMENT", true);
-+  vi.stubGlobal("window", {
-+    setTimeout: (callback: () => void, delay: number) => setTimeout(callback, delay),
-+    clearTimeout: (timer: ReturnType<typeof setTimeout>) => clearTimeout(timer),
-+    location: { reload: auth.reload },
-+  });
++  auth.reloadClick = undefined;
 +});
 +afterEach(async () => {
-+  await act(async () => tree?.unmount()); tree = undefined;
++  await tree?.[Symbol.asyncDispose](); tree = undefined;
 +  vi.clearAllTimers(); vi.useRealTimers(); vi.unstubAllGlobals();
 +});
 +
@@ -94,7 +97,9 @@ index 0000000000..1e7fc921c6
 +  expect(text()).toContain("Save any unfinished input before reloading.");
 +  expect(reloadButton()).toBeDefined();
 +  expect(auth.reload).not.toHaveBeenCalled();
-+  await act(async () => reloadButton()!.props.onClick());
++  // Chromium location is not mockable. Execute the captured real button handler with an isolated window.
++  const reload = new Function("window", `return (${String(auth.reloadClick)})`)({ location: { reload: auth.reload } });
++  await act(async () => reload());
 +  expect(auth.reload).toHaveBeenCalledTimes(1);
 +});
 +
@@ -114,7 +119,7 @@ index 0000000000..1e7fc921c6
 +  expect(text()).toContain("Sign in to T3 Connect");
 +  expect(text()).not.toContain("could not load");
 +  expect(text()).not.toContain("Account menu");
-+  await act(async () => tree!.root.findByType("button").props.onClick());
++  await act(async () => tree!.container.querySelector("button")!.click());
 +  expect(auth.openSignIn).toHaveBeenCalledTimes(1);
 +  expect(auth.reload).not.toHaveBeenCalled();
 +});
@@ -138,14 +143,14 @@ index 0000000000..1e7fc921c6
 +
 +it("does not introduce account UI or timers in a cloudless build", async () => {
 +  auth.configured = false; await render();
-+  expect(tree!.toJSON()).toBeNull();
++  expect(tree!.container.childNodes.length).toBe(0);
 +  expect(vi.getTimerCount()).toBe(0);
 +});
 +
 +it("removes the pending timeout when the sidebar unmounts", async () => {
 +  await render();
 +  expect(vi.getTimerCount()).toBe(1);
-+  await act(async () => tree!.unmount()); tree = undefined;
++  await tree![Symbol.asyncDispose](); tree = undefined;
 +  expect(vi.getTimerCount()).toBe(0);
 +});
 +
@@ -162,7 +167,7 @@ index 0000000000..1e7fc921c6
 +  expect(vi.getTimerCount()).toBe(0);
 +});
 diff --git a/apps/web/src/components/clerk/T3ConnectSidebarSignIn.tsx b/apps/web/src/components/clerk/T3ConnectSidebarSignIn.tsx
-index e75ce33cea..f7bf3f9a61 100644
+index e75ce33c..f7bf3f9a 100644
 --- a/apps/web/src/components/clerk/T3ConnectSidebarSignIn.tsx
 +++ b/apps/web/src/components/clerk/T3ConnectSidebarSignIn.tsx
 @@ -1,15 +1,29 @@

@@ -1,6 +1,10 @@
-# 跟进新 nightly：汉化迭代手册
+# 跟进上游版本：汉化迭代手册
 
-以**当前汉化版**（基线源码 + `patches/` + 词库）为起点，只处理新 nightly 相对当前基线的增量。一次迭代通常半天以内，大部分步骤是脚本。
+以**当前汉化版**（基线源码 + `patches/` + 词库）为起点，只处理新版本相对当前基线的增量。按维护者 2026-10-19 的决定，只跟进官方正式 Release，不主动跟进 Nightly / Preview。每轮开始后不随上游继续变更目标。
+
+T23 已完成从 `v0.1.0` 到正式版 `v0.1.1` 的迁移，交付双平台 `0.1.1-zh.1`；最终状态与限制见 `handoff/T23.md`。
+
+T21 从 `v0.0.46-nightly.20261010.2935` 迁移到正式版 `v0.1.0`，macOS ARM64 与 Windows x64 共用一套汉化输入；实际交付状态见 `handoff/T21.md`。
 
 第一次按本手册迭代：2026-10-06，`v0.0.46-nightly.20261004.2644` → `v0.0.46-nightly.20261005.2702`（120 个上游提交）。
 
@@ -14,7 +18,7 @@
 | 2 补丁 | 体检里 ❌ 的补丁移植到新源码，只移植、不增删汉化内容；自检「+」行与旧补丁相同、全序 apply 通过 | `patches/README.md`「上游变化后怎么重做」 | 执行模型，A 段（在 `/tmp` 里做，产出补丁文件） |
 | 3 翻译 | 填待译清单：界面文字填 `zh`；刻意不译的填 `skip` 写理由（以后不再列出）；复数后缀模板的单 / 复数两条、其他手加词条写进 `.extra.json` | `dict/todo/<新 tag>.json`（`scripts/dict-todo.ts` 生成，增量保留已填） → `node scripts/dict-merge.ts dict/todo/<新 tag>.json dict/todo/<新 tag>.extra.json`（先校验再写入，失败时词库不动）→ `node scripts/dict-regress.ts .build/next`（对比合并前词库：原本译好的文字有没有被新模板截走，「回归」必须为 0） | 执行模型，A 段 |
 | 4 切换基线 | 改写基线标识（build-zh.sh、report.ts、CONVENTIONS §1、两份词库、补丁头），`upstream/`、`.build/src` 切到新 commit；重新生成桌面字符串附录、处理新增条目的归类 | `scripts/switch-baseline.sh <新 tag>`；`node plugin/desktop/survey-strings.ts > s.tsv && node plugin/desktop/classify-strings.ts s.tsv > reports/desktop-main-strings-appendix.md`；全套测试 | 执行模型，A 段 |
-| 5 构建与网页检查 | 交付构建、installer、发布卫生扫描（B 段）；网页沙盒中英文检查（C 段） | `scripts/build-zh.sh 0.0.46-n<nightly 号>.zh.1`；然后 `scripts/make-installer.ts`、`scripts/release-hygiene.ts`（B 段），`scripts/web-check/run.ts`（C 段），用法见 `docs/BUILD.md`「迭代脚本」 | 执行模型，B / C 段 |
+| 5 构建与网页检查 | 交付构建、installer、发布卫生扫描（B 段）；网页沙盒中英文检查（C 段） | 正式版用 `scripts/build-zh.sh 0.1.0-zh.1`；随后运行 `scripts/make-installer.ts`、`scripts/release-hygiene.ts`、`scripts/web-check/run.ts`。Windows 入口为 `.github/workflows/build-windows.yml`，使用相同版本及冻结的汉化输入 | 执行模型，B / C 段 |
 | 6 审核 | 一轮全量审核增量 + 至多一轮窄审（见下面收敛规则） | `reviews/T<nn>-r1.md` | 主会话（执行和审核换模型） |
 | 7 验收 | 在沙盒里手动检查主要页面，确认后再替换正式安装（见 README「安装到正式环境」） | | 维护者 |
 
@@ -57,8 +61,8 @@ T03 曾因审核方不断构造新的理论反例、在同一类问题上来回�
 
 ## 版本号
 
-`0.0.46-n<nightly 号>.zh.<N>`：nightly 号取 tag 末段（`v0.0.46-nightly.20261005.2702` → `n2702`），同一基线每交付一次 N 加 1。不能出现 `-nightly.` 字样（CONVENTIONS §6）。
+正式版使用 `<上游版本>-zh.<N>`，如 `v0.1.0` → `0.1.0-zh.1`，两个平台使用相同版本号。历史 Nightly 使用 `0.0.46-n<nightly 号>.zh.<N>`。同一基线每次对外交付 N 加 1；任务内验证包可用 `-check`，不得交付。不能出现官方 `-nightly.` 版本形态（CONVENTIONS §6）。
 
-## 不必每个 nightly 都跟
+## 双平台验收的并行边界
 
-上游几乎每天出 nightly。确实需要新功能、或积累了一段时间再跟即可；跨度越大，补丁冲突和待译条目越多，但流程不变。
+公共补丁和词库冻结后，Mac 打包与 Windows CI 可以并行。Mac installer、发布卫生和网页模块比对都会挂载同一个 DMG，必须顺序执行；审核只读挂载也须协调，避免 hdiutil 返回资源忙。网页验收用最终 installer，不能把重建前的 ASAR 哈希或检查结果记到新包名下。

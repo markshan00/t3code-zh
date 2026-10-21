@@ -1,20 +1,21 @@
 # n2774 新增的混排显示文字：旧 Claude 任务「压缩并发送」按钮的提示与菜单项、拉取请求检查的失败计数、项目动作菜单名的角色后缀，以及移动端收起输入框的压缩发送读屏名。
-# 基线：v0.0.46-nightly.20261010.2935；按序在 0015 之后普通 git apply。依赖 0007 的 fillSlot（U+E000 槽位）与 ChatComposer 已导入的 translateFixed。
+# 基线：v0.1.1；按序在 0015 之后普通 git apply。依赖 0007 的 fillSlot（U+E000 槽位）与 ChatComposer 已导入的 translateFixed。
 # T13-fix1 I1：只在最终 aria-label 翻译 collapsedComposerPrimaryActionLabel；三个固定取值都有精确 messages 词条。
 # t() 只收到固定文字或固定骨架 + 槽位；Token 数、失败计数和用户起的脚本名在翻译后插入，英文显示与原版逐字一致。
 
 diff --git a/apps/web/src/components/ProjectScriptsControl.tsx b/apps/web/src/components/ProjectScriptsControl.tsx
+index b22da094..b55a75d6 100644
 --- a/apps/web/src/components/ProjectScriptsControl.tsx
 +++ b/apps/web/src/components/ProjectScriptsControl.tsx
-@@ -17,6 +17,7 @@
- import React, { useCallback, useMemo, useState } from "react";
+@@ -16,6 +16,7 @@ import { ChevronDownIcon, DownloadIcon, PlusIcon, SettingsIcon, WrenchIcon } fro
+ import React, { useState } from "react";
 
  import { commandForProjectScript, primaryProjectScript } from "~/projectScripts";
 +import { fillSlot } from "~/newThreadDisplayStrings";
  import { shortcutLabelForCommand } from "~/keybindings";
  import { serverEnvironment } from "~/state/server";
  import { readEnvironmentScope } from "~/state/session";
-@@ -76,6 +77,14 @@
+@@ -75,6 +76,14 @@ interface ProjectScriptsControlProps {
    onDeleteScript: (scriptId: string) => Promise<ProjectScriptActionResult>;
  }
 
@@ -29,7 +30,7 @@ diff --git a/apps/web/src/components/ProjectScriptsControl.tsx b/apps/web/src/co
  export default function ProjectScriptsControl({
    displayMode = "toolbar",
    presentation = "toolbar",
-@@ -204,7 +213,7 @@
+@@ -190,7 +199,7 @@ export default function ProjectScriptsControl({
              onClick={() => onRunScript?.(script)}
            >
              <ScriptIcon icon={script.icon} className="size-4" />
@@ -38,7 +39,21 @@ diff --git a/apps/web/src/components/ProjectScriptsControl.tsx b/apps/web/src/co
              <span className="relative ms-auto flex h-6 min-w-6 items-center justify-end">
                {shortcutLabel &&
                  (presentation === "menu" ? (
+diff --git a/apps/web/src/components/chat/ChatComposer.tsx b/apps/web/src/components/chat/ChatComposer.tsx
+index f4de2773..e7d56a2a 100644
+--- a/apps/web/src/components/chat/ChatComposer.tsx
++++ b/apps/web/src/components/chat/ChatComposer.tsx
+@@ -6639,7 +6639,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+                   data-chat-composer-transition-actions="true"
+                   className="flex size-8 shrink-0 items-center justify-center rounded-full bg-message-action text-message-action-foreground hover:bg-message-action-hover disabled:opacity-64"
+                   disabled={collapsedComposerPrimaryActionDisabled}
+-                  aria-label={collapsedComposerPrimaryActionLabel}
++                  aria-label={translateFixed(collapsedComposerPrimaryActionLabel)}
+                   onPointerDown={(event) => event.preventDefault()}
+                   onClick={(event) => {
+                     event.stopPropagation();
 diff --git a/apps/web/src/components/chat/ComposerPrimaryActions.tsx b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
+index 91d8ed2a..ddaf8e05 100644
 --- a/apps/web/src/components/chat/ComposerPrimaryActions.tsx
 +++ b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
 @@ -1,5 +1,6 @@
@@ -48,7 +63,7 @@ diff --git a/apps/web/src/components/chat/ComposerPrimaryActions.tsx b/apps/web/
  import { memo, type MouseEventHandler, type PointerEventHandler } from "react";
  import { CheckIcon, ChevronDownIcon, ChevronLeftIcon, Minimize2Icon, PlayIcon } from "lucide-react";
  import { CornerUpRight, ListPlus } from "lucide";
-@@ -359,7 +360,11 @@
+@@ -358,7 +359,11 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
    const submit = (
      <Tooltip key="submit">
        <TooltipTrigger render={<span className="inline-flex" />}>{sendButton}</TooltipTrigger>
@@ -62,9 +77,10 @@ diff --git a/apps/web/src/components/chat/ComposerPrimaryActions.tsx b/apps/web/
    );
    if (compactTokens === null) return submit;
 diff --git a/apps/web/src/components/pullRequest/PullRequestChecksPopover.tsx b/apps/web/src/components/pullRequest/PullRequestChecksPopover.tsx
+index 0677e02b..a93dc188 100644
 --- a/apps/web/src/components/pullRequest/PullRequestChecksPopover.tsx
 +++ b/apps/web/src/components/pullRequest/PullRequestChecksPopover.tsx
-@@ -10,6 +10,7 @@
+@@ -10,6 +10,7 @@ import { useState } from "react";
 
  import { useOpenLink } from "~/browser/useOpenLink";
  import { cn } from "~/lib/utils";
@@ -72,8 +88,8 @@ diff --git a/apps/web/src/components/pullRequest/PullRequestChecksPopover.tsx b/
  import { pullRequestEnvironment } from "~/state/pullRequests";
  import { useEnvironmentQuery } from "~/state/query";
 
-@@ -192,7 +193,7 @@
-                 {runningCount}/{checks.length}
+@@ -191,7 +192,7 @@ export function PullRequestChecksPopover({
+                 {checks.length - incompleteCount}/{checks.length}
                </span>
              ) : failedCount > 0 ? (
 -              <span className="tabular-nums">{failedCount} failed</span>
@@ -81,15 +97,3 @@ diff --git a/apps/web/src/components/pullRequest/PullRequestChecksPopover.tsx b/
              ) : null}
            </>
          ) : null}
-diff --git a/apps/web/src/components/chat/ChatComposer.tsx b/apps/web/src/components/chat/ChatComposer.tsx
---- a/apps/web/src/components/chat/ChatComposer.tsx
-+++ b/apps/web/src/components/chat/ChatComposer.tsx
-@@ -6944,7 +6944,7 @@
-                   data-chat-composer-transition-actions="true"
-                   className="flex size-8 shrink-0 items-center justify-center rounded-full bg-message-action text-message-action-foreground hover:bg-message-action-hover disabled:opacity-64"
-                   disabled={collapsedComposerPrimaryActionDisabled}
--                  aria-label={collapsedComposerPrimaryActionLabel}
-+                  aria-label={translateFixed(collapsedComposerPrimaryActionLabel)}
-                   onPointerDown={(event) => event.preventDefault()}
-                   onClick={(event) => {
-                     event.stopPropagation();

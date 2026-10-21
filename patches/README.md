@@ -2,14 +2,14 @@
 
 上游源码保持原样是本项目的路线，只有少数「必须改上游文件」的地方才做成补丁。补丁按文件名里的编号顺序，由 `scripts/build-zh.sh` 在干净的基线工作树里逐个 `git apply`。补丁打不上时构建会立即报错，不会悄悄产出半成品。
 
-所有补丁都在基线 tag `v0.0.46-nightly.20261010.2935`（commit `98beed1a226c42b85c52ff5ee9d5dbb67d776a77`）上验证过。
+所有补丁都在基线 tag `v0.1.1`（commit `fe27e8e3dc12dcbb108e9a28fd9b8cb65f34ae92`）上验证过。
 
 每个补丁文件开头有若干行 `#` 说明用途——`git apply` 会忽略 diff 之前的文字，所以那些行不会进源码。
 
 | 编号 | 文件 | 用途 | 涉及的上游文件 |
 |---|---|---|---|
 | 0001 | `0001-language-setting.patch` | 在设置「常规」页加一行语言选择（System / English / 简体中文） | `apps/web/src/components/settings/SettingsPanels.tsx`、`apps/web/src/components/settings/settingsSearch.ts`、`apps/web/src/vite-env.d.ts` |
-| 0003 | `0003-desktop-main-zh.patch` | 桌面主进程的界面文字（菜单栏、右键菜单、原生对话框、通行密钥选择等）；把系统语言暴露给 web 运行时（T07 / T18） | `apps/desktop/src/window/DesktopApplicationMenu.ts`、`apps/desktop/src/window/DesktopWindow.ts`、`apps/desktop/src/preload.ts`、`apps/desktop/src/app/DesktopApp.ts`、`apps/desktop/src/permissions/MacPermissionHelper.ts`、`apps/desktop/src/preview/Manager.ts`、`apps/desktop/src/preview/BrowserSession.ts`、`apps/desktop/src/snapShot/SnapShotTransition.ts`、`apps/desktop/src/preview/Passkeys.ts` |
+| 0003 | `0003-desktop-main-zh.patch` | 桌面主进程的界面文字（菜单栏、右键菜单、原生对话框、通行密钥选择等）；把系统语言暴露给 web 运行时（T07 / T18） | `apps/desktop/src/window/DesktopApplicationMenu.ts`、`apps/desktop/src/window/DesktopWindow.ts`、`apps/desktop/src/preload.ts`、`apps/desktop/src/app/DesktopApp.ts`、`apps/desktop/src/permissions/MacPermissionHelper.ts`、`apps/desktop/src/preview/Manager.ts`、`apps/desktop/src/preview/BrowserSession.ts`、`apps/desktop/src/snapShot/SnapShotTransition.ts`、`apps/desktop/src/preview/Passkeys.ts`、`apps/desktop/src/ipc/methods/notificationBadge.ts` |
 | 0004 | `0004-display-site-translation.patch` | 显示位置补译：同时被代码当作值比较的界面文字，只在渲染处翻译（T06，说明见补丁头和 `handoff/T06.md`「追加任务：0004」） | 19 个 `apps/web/src/…` 文件，见补丁头 |
 | 0005 | `0005-desktop-zh-hans-localization.patch` | 给 app 声明简体中文本地化，macOS 自动插入的菜单项跟随简体中文系统（T07-fix1） | `scripts/build-desktop-artifact.ts` |
 | 0006 | `0006-desktop-ipc-display-strings.patch` | 桌面主进程经 IPC 传给 web 显示的文字，在 web 显示处只按已知名单翻译（T07-fix1） | `apps/web/src/desktopIpcStrings.ts`（新文件）、`apps/web/src/components/settings/ConnectionsSettings.tsx`、`apps/web/src/components/settings/SnapShotSettings.tsx`、`apps/web/src/components/settings/SnapShotSetupDialog.tsx`、`apps/web/src/components/desktop/SnapShotCoordinator.tsx`、`apps/web/src/components/ServerUpdateAction.tsx` |
@@ -27,6 +27,9 @@
 | 0019 | `0019-bundle-t3-code-license.patch` | T16 在签名前打进基线 T3 Code MIT 许可证 | `scripts/build-desktop-artifact.ts` |
 | 0020 | `0020-n2861-display-strings.patch` | n2861 显示补译及 n2908 的 M1–M4：向导本地步骤回调、权限回退、provider 固定失败消息、代码语言显示；保留 MCP / 下载 / 用量筛选 / 线程与 diff 查找 / `t3` 说明 | `apps/web/src/` 下 13 个已有文件（`acceptanceDisplayStrings.ts`、`McpAppFrame.tsx`、`ThreadFindBar.tsx`、`StyledDiffCodeView.tsx`、`WelcomeWizard.tsx`、`PreviewUnreachable.tsx`、`CliCommandSettingsRow.tsx`、`ProviderInstanceCard.tsx`、`UsagePage.tsx`、`settingsLayout.tsx`、`hooks/useSettings.ts`、`ComposerCodeBlockLanguagePicker.tsx`、`PullRequestSummaryTab.tsx`），新文件 `n2861DisplayStrings.ts`、`diffSearchDisplayStrings.ts` |
 | 0021 | `0021-n2935-display-strings.patch` | n2935 清理结果、上次运行 / 计数 / 精确理由、Automatic、导入计数、拖动读屏播报与 GitCafe 来源文案 | `apps/web/src/components/settings/StorageSettings.tsx`、`ProjectDefaultsSettings.tsx`、`ProjectSettingsPanel.tsx`、`SettingInheritance.tsx`、`apps/web/src/components/onboarding/WelcomeWizard.tsx`、`apps/web/src/components/RightPanelTabs.tsx`、`apps/web/src/components/CommandPaletteResults.tsx`；新增 `apps/web/src/n2935DisplayStrings.ts` |
+| 0022 | `0022-stable-display-strings.patch` | v0.1.0 新指南、提示词链接、工作流状态、遥测、更新与堆叠 PR 的显示边界；T19 中文空格与 GitCafe 判断整理 | 15 个 web 组件 / helper 与新增 `apps/web/src/stableDisplayStrings.ts`，详见补丁 |
+| 0023 | `0023-v011-display-strings.patch` | v0.1.1 跨设备克隆、EAS 主机、额度时间进度读屏名、Webhook 过滤错误与新状态、设备重试和商店按钮 | 8 个组件 / helper 与跨设备复制标题；新增 `apps/web/src/v011DisplayStrings.ts` |
+| 0024 | `0024-antigravity-quota-identity.patch` | T24 修复 Antigravity 旧客户端标识读取到不完整/全 100% 额度；隐藏未使用额度的滚动占位倒计时 | `apps/server/src/provider/antigravityUsageLimits.ts` 及对应测试 |
 
 ## 0011 minor-display-fixes
 
@@ -132,7 +135,7 @@
    ```
    （0003 用上表列的九个 `apps/desktop/src/…` 文件。重做 0003 后跑 `node --test plugin/__tests__/desktop.test.ts`；0005 用 `scripts/build-desktop-artifact.ts`；0006 用上表列的五个组件文件，新文件 `apps/web/src/desktopIpcStrings.ts` 用 `git diff --no-index /dev/null <文件>` 导出，重做后跑 `node --test plugin/__tests__/desktop-ipc-strings.test.ts`；0008 用上表列的四个文件，重做后跑 `node --test plugin/__tests__/inline-value-display-strings.test.ts`。）
    导出的是纯 diff，把它接回对应补丁开头那段 `#` 说明文字之后即可。
-5. **把补丁开头说明里的基线 tag 也一起更新**（现在是 v0.0.46-nightly.20261010.2935），并同步 CONVENTIONS.md 的基线和 `dict/zh-CN.json` 的 `baseline`。
+5. **把补丁开头说明里的基线 tag 也一起更新**（现在是 v0.1.1），并同步 CONVENTIONS.md 的基线和 `dict/zh-CN.json` 的 `baseline`。
 6. 在**全新的**干净临时工作树里按顺序把整组补丁重新 `apply` 一遍，确认都能打上、改动的文件就是清单里的那些，再跑 `scripts/build-zh.sh` 验证；把重做经过写进当次的 handoff。
 
 `/tmp/t3zh-patchcheck` 用完记得删：
@@ -164,7 +167,7 @@ git -C ~/Projects/t3code worktree remove /tmp/t3zh-patchcheck
 
 - 向维护者说明加载失败入口隐藏的原因及拟修复行为后，维护者明确要求「修复」。采用已有 ClerkLoading / ClerkFailed / ClerkLoaded；加载和认证信息等待时保留状态，失败或加载超过 15 秒后提供手动「重新加载应用」。
 - 重载前提醒保存未完成输入；不自动刷新。正常登录按钮、已登录头像及无云配置路径保持。SDK、会话、权限、网络设置和输入框行为均未更改。
-- 新增 4 条精确 messages，配套 9 项行为测试。真实 SDK 故障夹具及最终 web 产物的失败/重载验证边界见 [T12 交接](../handoff/T12-connect-auth-recovery.md)。
+- 新增 4 条精确 messages，配套 9 项行为测试。真实 SDK 故障夹具及最终 web 产物的失败/重载验证边界见 T12 交接。
 
 ## 0016 n2774-display-strings
 
@@ -203,13 +206,13 @@ git -C ~/Projects/t3code worktree remove /tmp/t3zh-patchcheck
 - 保留共享层的账号去重、环境过滤、数据快照及 Cursor 窗口选择。每张卡片用单账号窗口数据；同一账号经多个来源报告仍只显示一次。
 - 进度条保留原账号详情弹层和重置确认流程，点击区域高 24px。重置恢复值改为该账号自己的百分比，额度券用图标和数量显示。
 - 列宽按容器自动适配，最小 18rem；窄屏降为单列。补丁只修改 `UsageLimitsPooled.tsx`，不修改查询、账号配置、请求或共享计算代码。
-- 构建、浏览器模拟数据检查及安装包记录见 [T15 交接](../handoff/T15-usage-account-columns.md)。
+- 构建、浏览器模拟数据检查及安装包记录见 T15 交接。
 
 ## 0019 bundle-t3-code-license
 
 - 在 0018 后应用，只修改打包脚本。staging 时将基线 `LICENSE` 逐字节复制为 `T3-Code-LICENSE.txt`，`extraResources` 将它放进 App 的 `Contents/Resources/`，发生在签名之前。
 - `build-zh.sh` 第 13 步从实际 ZIP 内的 App 读取许可证并与 `.build/src/LICENSE` 比对；最终 installer DMG 再核对同一文件和签名封存记录。
-- Rust 编译路径映射由 `build-zh.sh` 第 11 步注入，见 [T16 交接](../handoff/T16-release-hygiene.md)。
+- Rust 编译路径映射由 `build-zh.sh` 第 11 步注入，见 T16 交接。
 
 ## T17 / n2861 移植与 0020
 
@@ -222,7 +225,7 @@ git -C ~/Projects/t3code worktree remove /tmp/t3zh-patchcheck
 - 0020：三个 MCP 状态使用单槽位；向导单复数分别翻译完整骨架；下载提示以两个不同私有区槽位保留文件名 React 元素并插回任意 host。十一处文本 mixed-jsx 和两个代词条件分支被替换，没有扩大 matcher。测试：`n2861-display-strings.test.ts`，桌面适配另由 `desktop.test.ts` 覆盖。
 - T17 收尾网页检查补充 0020：用量 provider 筛选的全选 / 空选 / 多选标签、线程查找加载与失败状态、向导三步的显示与读屏名、压缩发送读屏名、`t3` 命令说明的四个路径分支及四条固定更新进度。所有数据初始化保留，路径、计数与任意更新输出不送入翻译。
 - Pierre 1.5.2 的 diff 查找控件在 Shadow DOM 内；`diffSearchDisplayStrings.ts` 通过 `CodeView.containerRef` 仅观察 `[data-diffs-search]` 的搜索控件标签与数字计数，不处理输入值或文件内容。English 不安装观察器；关闭控件或卸载视图时解除观察，同时转发原 `containerRef`。没有修改依赖或 matcher。
-- T17 当时基线为 n2861，历史 `.extra.json` 注册来源保持原文件名。详细改写与上游依据见 [T17 交接](../handoff/T17.md)。
+- T17 当时基线为 n2861，历史 `.extra.json` 注册来源保持原文件名。详细改写与上游依据见 T17 交接。
 
 ## T18 / n2908 移植与 M1–M4
 
@@ -234,7 +237,7 @@ git -C ~/Projects/t3code worktree remove /tmp/t3zh-patchcheck
 - 0020 M3：六条已核实的服务端固定更新失败 / 未完成消息加入已有精确名单；服务端代码与任意命令输出不改。
 - 0020 M4：`ComposerCodeBlockLanguagePicker.tsx` 在最终显示处把空语言 ID 的 Plain text 译为「纯文本」，Diff 原样；数据、语言 ID、全局旧词条不改。
 - 父任务读屏名、PR 筛选与隐藏提示、VPN 用新增精确词条 / 专用模板处理。主库新增 17、桌面库新增 2；旧词条没有改动。
-- 测试：`plugin/__tests__/n2861-display-strings.test.ts`、`desktop.test.ts` 与最终 web / desktop tsc；新增生成文件限定守卫及自检独立于补丁，见 `docs/BUILD.md` 和 [T18 交接](../handoff/T18.md)。
+- 测试：`plugin/__tests__/n2861-display-strings.test.ts`、`desktop.test.ts` 与最终 web / desktop tsc；新增生成文件限定守卫及自检独立于补丁，见 `docs/BUILD.md` 和 T18 交接。
 
 - T18 网页收尾：PR 空描述的 `_No description provided._` 原词条已存在，0020 仅在 `PullRequestSummaryTab.tsx` 的最终 `text` 字面量回退分支加 `translateFixed`。真实 PR 正文保持原样，含同名占位句的非空正文也不翻译；真实表达式测试覆盖 zh / en / 无运行时和动态值隔离。
 
@@ -253,3 +256,24 @@ git -C ~/Projects/t3code worktree remove /tmp/t3zh-patchcheck
 - GitCafe 来源行的新动态标题 / 描述在 CommandPaletteResults 的最终显示分支按来源 ID 后缀和原文共同门控；同名环境明确排除，数据对象、比较值和全局 displayKnown 名单保持原样。新增两条专用精确词条，n2935 测试覆盖四种 ID 和全部六处实际显示表达式。
 
 - T19 收尾保持 CleanupResults 的 `name` 为原始值，`threadTitle !== name` 比较逐字保持上游；另建仅用于 title 的 displayName，并只在真正使用三种固定回退名时查表。路径中与回退词同名的目录仍原样。配套真实比较表达式与标题显示测试。
+
+
+## T21 / v0.1.0 正式版迁移
+
+- 19 份既有补丁保留，冲突按正式版结构重新导出；`0004` 的源码控制显示接入新注册表，`0007` 跟随任务搜索标题的多行节点，`0009` 跟随更新 tooltip 的 span 包装，`0018` 保留按账号分列与上游 pace 标签布局。
+- `0003` 追加 Windows WSL 启动画面与任务栏通知说明的翻译；HTML 使用转义后的固定标签，通知数量保持原值。产品名沿用上游 `T3 Code (Beta)`。
+- `0022` 仅在显示位置将已知骨架交给词库，动态标题、模型、路径、错误、设备名与 React 节点随后插入。工作流原始状态、PR 合并方式、图标参数与服务端请求值不变。指南正文、代码、AI/schema 提示及任意错误通道不翻译。
+- 更新失败的单台设备文案使用独立 `Update machine failed: {0}` 骨架，避免被旧计数模板 `{0} failed` 译成「设备名 项失败」；英文保持上游原句。
+- T19 收尾：只在中文清理结果中去掉句号后的多余空格；GitCafe 来源判断提取为相同谓词，六处显示入口与原始数据不变。
+- 测试：新增 `stable-display-strings.test.ts`，覆盖真实原版 / 转换后表达式、中英与无运行时、动态值隔离和对象槽位；旧真实来源测试随注册表与子 Agent 标题迁移，桌面附录重新生成。扫描器仅将已核实的服务器 Undici 类名比较列为报告项，matcher 未改。
+
+
+## T23 / v0.1.1 正式版迁移
+
+- 20 份既有补丁逐份重新导出，新增 0023；21 份均能从固定基线普通顺序 apply。大部分冲突仅对齐上游上下文或缩进，没有扩大 matcher。
+- 0007：新建项目标题拆入 `DraftHeroProjectHeading.tsx`；单行、堆叠标题及测量副本都使用原有整句槽位。上游删除的旧 `headingLabel` 读屏属性不再还原，项目名和选择器 ID 保持原值。
+- 0009：更新胶囊读屏名保留新增 `idleTooltip.detail`，只翻已知 `tooltip`；0013 对齐上游取消 `useCallback` 后的项目错误显示入口。0017 跟随 PR 分页由 comment 改为 conversation；0021 跟随清理结果独立的设备、路径与任务标题行，原始任务标题不翻译。
+- 0018：保留按账号分列、24px 点击条、重置券图标与详情；同时保留 v0.1.1 新增的全页共享 popover、弹层失去锚点时卸载、重置确认、状态反馈、pace 刻度和 `refillPercent` 计算。仅将布局和恢复比例显示维持为账号自身；不修改查询或 provider 配置。
+- 0015：上游已移除 `react-test-renderer`，9 项行为测试迁移为 `.behavior.browser.test.tsx`，复用上游 `test/render` 和 Chromium；模拟 Clerk 用真实订阅通知适配 React Compiler 缓存。原登录恢复组件行为不变。浏览器不可重定义 `window.location`，手动重载断言执行实际捕获的按钮回调并注入隔离的 window。
+- 0023：仅在最终显示处使用精确标签、固定骨架和槽位；账户、项目、设备名、地址、任意错误、配置键和值不送入手写翻译调用。额度读屏名分别处理时间进度和重置额度，避免完整动态串被宽模板误匹配。Webhook 过滤错误只接受本地解析器已知的四种数字形态；新状态按 outcome 和精确标签共同门控。
+- `scripts/build-zh.sh <版本> --prepare-only` 执行原有步骤 1–6，供 A 迁移后的类型检查准备受控构建树；默认交付构建仍执行全部 13 步。详情、实际命令与未验证项见 T23 A 交接。

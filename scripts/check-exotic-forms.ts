@@ -16,6 +16,7 @@
  *   普通同名业务方法，不是 Function.prototype.apply——只报告明细，升级时计数变化需人工核对新命中）。
  * - 有文件解析失败时同样 1：失败文件未纳入扫描，此时无论报警类计数多少都不能下零命中结论。
  */
+import { isReviewedDispatcherClassCheck } from "./lib/reviewed-exotic.ts";
 import fs from "node:fs";
 import path from "node:path";
 import babelTypes from "@babel/types";
@@ -108,7 +109,8 @@ const ALARM_KINDS = [
 
 const KIND_NOTES: Record<string, string> = {
   regexConstructor: "(/x/).constructor（r7 问题 1；matcher 现按 *.constructor 整体保护）",
-  constructorAny: "任何 .constructor 成员引用（Kimi：基线运行时代码 0 处）",
+  constructorAny: "未核实的 .constructor 成员引用（已核实的服务器类名比较另列）",
+  reviewedDispatcherClass: "已核实：服务器检查 Undici 代理类名，不调用构造函数，不涉及显示转换（T21）",
   bindInvokeSpread: "X.bind.call/apply(...xs)（r7 问题 2；现按 mentionedTargets 保守处理）",
   applyArraySpread: "X.apply(T, [...xs, ...])（r7 问题 3；现参数映射记 unknown）",
   methodChains: ".bind.call/.call.apply 等两层以上 invoke 链（r6；现按 mentionedTargets 保守处理）",
@@ -141,10 +143,10 @@ function main(): void {
     const hit = (kind: string, node: AnyNode): void => {
       hits.get(kind)?.push({ file: rel, line: node.loc?.start?.line ?? 0, source: code.slice(node.start, node.end).slice(0, 200) });
     };
-    const walk = (node: AnyNode): void => {
+    const walk = (node: AnyNode, parent: AnyNode = null, grandparent: AnyNode = null): void => {
       if (!node?.type) return;
       if (isMember(node) && keyOf(node) === "constructor") {
-        hit("constructorAny", node);
+        hit(isReviewedDispatcherClassCheck(rel, node, parent, grandparent) ? "reviewedDispatcherClass" : "constructorAny", node);
         if (unwrap(node.object)?.type === "RegExpLiteral") hit("regexConstructor", node);
       }
       if (isInvocation(node)) {
@@ -195,8 +197,8 @@ function main(): void {
       }
       for (const key of (babelTypes.VISITOR_KEYS as Record<string, readonly string[]>)[node.type as string] ?? []) {
         const value = node[key];
-        if (Array.isArray(value)) for (const child of value) walk(child);
-        else walk(value);
+        if (Array.isArray(value)) for (const child of value) walk(child, node, parent);
+        else walk(value, node, parent);
       }
     };
     walk(ast);

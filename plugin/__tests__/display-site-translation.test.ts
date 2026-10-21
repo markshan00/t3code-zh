@@ -11,7 +11,7 @@
  *   - providerStatusLabel：真实 `getProviderSummary` + 真实运行时，静态 headline、认证骨架的
  *     接受/拒绝边界、参数逐字保留、查表次数；
  *   - `localizeTerminologyText`：整串优先、术语先行的受控替换、动态分支名，以及真实
- *     `shared → getSourceControlPresentation → 转换后 dialog 调用表达式` 链上的 providerName
+ *     `definition → registry → getSourceControlPresentation → 转换后 dialog 调用表达式` 链上的 providerName
  *     术语碰撞（完整译文逐字相等）；en / 缺运行时；
  *   - 菜单链：DOM fallback 与桌面原生入口的真实模块执行，固定标签中译、动态内容原样、
  *     已译中文标签 0 次查表、名单内外与 en 的查表 0/1 次数，以及 `LegacySidebar` 项目右键
@@ -30,7 +30,8 @@
  *   - 只测补丁新增/改写的显示入口，未覆盖 0004 之外的其他任务文件。
  *
  * 不复制模拟实现：显示函数体、名单、Set 与调用表达式都**逐字取自**补丁应用后 + 真实插件转换后的
- * 真实文件，改坏真实实现（含多查/少查一次表）就测不过。唯一的例外是桌面原生入口不从
+ * 真实文件，改坏真实实现（含多查/少查一次表）就测不过。源代码管理注册表只抽取本链使用的
+ * 显示字段与查询实现（详见 §3b），不加载无关设置 schema。桌面原生入口不从
  * `ElectronMenu.ts` 整模块 import —— 它的 class 定义在模块加载时就要构建树才有的 `effect` /
  * `@t3tools/*`，所以那侧逐字抽出 `TRANSLATABLE_MENU_LABELS` / `TRANSLATABLE_MENU_LABEL_SET` /
  * `displayMenuLabel`，并 `import` 真实 `t3zh-desktop.ts` glue（真实 `electron` 替身 + 真实桌面
@@ -677,24 +678,19 @@ const PROVIDERS: ReadonlyArray<{ name: string; providerName: string; terminology
   { name: "generic", providerName: "Bitbucket", terminology: { shortLabel: "change request", singular: "change request" } },
 ];
 
-const LOCALIZE_MODULE = await loadTransformedModule<{
-  localizeTerminologyText: (text: string, terminology: Terminology, preserve?: string | null) => string;
-}>("apps/web/src/sourceControlPresentation.ts");
-const localize = LOCALIZE_MODULE.localizeTerminologyText;
-
 // ---------------------------------------------------------------------------
-// 3b. 真实 shared → getSourceControlPresentation → 转换后 dialog 调用表达式
+// 3b. 真实 definition → registry → getSourceControlPresentation → 转换后 dialog 调用表达式
 // ---------------------------------------------------------------------------
 
 /**
  * 真实调用链的三个模块（都在 /tmp，改动只落在临时文件里）：
  *
- * - `shared/sourceControl.ts`：upstream `packages/shared/src/sourceControl.ts` 的逐字节副本。
- *   它只 `import type`，Node 的类型擦除会去掉，所以 `@t3tools/*` 不需要真实依赖。
+ * - `sourceControlClients.ts`：从各真实 definition 逐字抽出显示字段，接上真实
+ *   `makeSourceControlClientRegistry` 函数、内置注册顺序和注册调用。设置 schema、URL 和
+ *   checkout 等依赖与本链无关，不加载；kind 的品牌构造器用恒等替身，查询实现不模拟。
  * - `presentation.ts`：补丁后 + 真实转换后的 `sourceControlPresentation.ts`。它 import 的
- *   `@t3tools/shared/sourceControl` 被接回上面那份真实源码（`getChangeRequestTerminology` /
- *   `resolveChangeRequestPresentation` 都是真的），图标换成最小替身（只出现在返回对象里，
- *   测试不比较图标，也不渲染 UI）。
+ *   `sourceControlClients` 接回上面的真实注册表，图标换成最小替身并在顶层图标表之前
+ *   初始化（测试不比较图标，也不渲染 UI）。单独测试 localize 也复用这个真实模块。
  * - `dialog.ts`：只接真实 `presentation.ts`，里面嵌的是从**真实转换后**的
  *   `PullRequestThreadDialog.tsx` 里逐字抽出的那段 `localizeTerminologyText(...)` 调用表达式
  *   —— 生产接入（第三参 `sourceControlPresentation.providerName`）被改坏，这里就跟着变。
@@ -702,9 +698,60 @@ const localize = LOCALIZE_MODULE.localizeTerminologyText;
  *   图标与 `@t3tools/*` 也要构建树；这段表达式两样都不依赖。）
  */
 const DIALOG_CHAIN_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "t3zh-0004-dialog-"));
-const DIALOG_SHARED_FILE = path.join(DIALOG_CHAIN_DIR, "shared/sourceControl.ts");
+const DIALOG_CLIENTS_FILE = path.join(DIALOG_CHAIN_DIR, "sourceControlClients.ts");
 const DIALOG_PRESENTATION_FILE = path.join(DIALOG_CHAIN_DIR, "presentation.ts");
 const DIALOG_MODULE_FILE = path.join(DIALOG_CHAIN_DIR, "dialog.ts");
+
+/** 显示链只读取这四个字段；字段表达式逐字来自真实 definition，不重写标签或术语。 */
+function sourceControlDisplayDefinition(code: string, name: string): string {
+  const ast = parse(code, { sourceType: "module", plugins: ["typescript"] });
+  const declarations = ast.program.body.flatMap((node: any) => {
+    const declaration = node.type === "ExportNamedDeclaration" ? node.declaration : node;
+    return declaration?.type === "VariableDeclaration" ? declaration.declarations : [];
+  });
+  const initializer = declarations.find((node: any) => node.id?.name === name)?.init;
+  const object = initializer?.type === "CallExpression" ? initializer.arguments[0] : initializer;
+  assert.equal(object?.type, "ObjectExpression", `${name} 不再是 definition 对象`);
+  const fields = ["kind", "label", "icon", "changeRequest"].map((key) => {
+    const property = object.properties.find(
+      (node: any) => node.type === "ObjectProperty" && !node.computed && node.key?.name === key,
+    );
+    assert.ok(property, `${name} 缺少显示字段 ${key}`);
+    return code.slice(property.start, property.end);
+  });
+  const kind = declarations.some((node: any) => node.id?.name === "KIND")
+    ? extractDeclaration(code, "KIND")
+    : "";
+  return `(() => { ${kind}\nreturn { ${fields.join(",\n")} }; })()`;
+}
+
+function sourceControlClientsModuleSource(): string {
+  const core = upstream("packages/source-control-core/src/client/definition.ts");
+  const clients = upstream("packages/client-runtime/src/sourceControlClients.ts");
+  const ast = parse(clients, { sourceType: "module", plugins: ["typescript"] });
+  const definitions = ast.program.body.flatMap((node: any) => {
+    if (node.type !== "ImportDeclaration") return [];
+    const namespace = node.specifiers.find((specifier: any) => specifier.type === "ImportNamespaceSpecifier");
+    if (!namespace) return [];
+    const match = /^@t3tools\/(source-control-[a-z-]+)\/client\/definition$/.exec(node.source.value);
+    assert.ok(match, `意外的注册表 namespace import：${node.source.value}`);
+    const definition = sourceControlDisplayDefinition(
+      upstream(`packages/${match[1]}/src/client/definition.ts`),
+      "definition",
+    );
+    return [`const ${namespace.local.name} = { definition: ${definition} };`];
+  });
+  assert.ok(definitions.length > 0, "没有抽到内置源代码管理 definition");
+  return [
+    "const SourceControlProviderKind = { make: (kind: string) => kind };",
+    `const UNKNOWN_SOURCE_CONTROL_CLIENT = ${sourceControlDisplayDefinition(core, "UNKNOWN_SOURCE_CONTROL_CLIENT")};`,
+    extractFunction(core, "makeSourceControlClientRegistry"),
+    ...definitions,
+    extractDeclaration(clients, "BUILT_IN_SOURCE_CONTROL_CLIENTS"),
+    `export ${extractDeclaration(clients, "sourceControlClients")}`,
+    "",
+  ].join("\n");
+}
 
 /** 从转换后的 dialog 源码里逐字抽出 description 的那个 `localizeTerminologyText(...)` 调用。 */
 function extractDialogDescriptionCall(code: string): {
@@ -746,14 +793,11 @@ function extractDialogDescriptionCall(code: string): {
   };
 }
 
-fs.mkdirSync(path.dirname(DIALOG_SHARED_FILE), { recursive: true });
-fs.copyFileSync(path.join(UPSTREAM, "packages/shared/src/sourceControl.ts"), DIALOG_SHARED_FILE);
+fs.writeFileSync(DIALOG_CLIENTS_FILE, sourceControlClientsModuleSource());
 fs.writeFileSync(
   DIALOG_PRESENTATION_FILE,
   [
-    transformed("apps/web/src/sourceControlPresentation.ts"),
-    // 接回真实 shared 实现（补丁后的 presentation 只用这两个函数）。
-    `import { getChangeRequestTerminology, resolveChangeRequestPresentation } from ${JSON.stringify("./shared/sourceControl.ts")};`,
+    `import { sourceControlClients } from ${JSON.stringify("./sourceControlClients.ts")};`,
     // 图标只出现在返回对象的 `Icon` 字段里，本测试不渲染 UI、也不比较图标。
     "const IconStub = () => null;",
     "const PullRequestGlyph = { pullRequest: IconStub };",
@@ -762,6 +806,8 @@ fs.writeFileSync(
     "const ForgejoIcon = IconStub;",
     "const AzureDevOpsIcon = IconStub;",
     "const BitbucketIcon = IconStub;",
+    "const GitCafeIcon = IconStub;",
+    transformed("apps/web/src/sourceControlPresentation.ts"),
     "",
   ].join("\n"),
 );
@@ -793,11 +839,13 @@ function buildDialogModuleSource(): string {
 fs.writeFileSync(DIALOG_MODULE_FILE, buildDialogModuleSource());
 
 const PRESENTATION_MODULE = (await import(pathToFileURL(DIALOG_PRESENTATION_FILE).href)) as {
+  localizeTerminologyText: (text: string, terminology: Terminology, preserve?: string | null) => string;
   getSourceControlPresentation: (provider: any) => {
     providerName: string;
     terminology: Terminology;
   };
 };
+const localize = PRESENTATION_MODULE.localizeTerminologyText;
 const DIALOG_MODULE = (await import(pathToFileURL(DIALOG_MODULE_FILE).href)) as {
   renderDescription: (provider: any) => string;
   descriptionCall: string;
@@ -831,7 +879,7 @@ const TERM_COLLISION_PROVIDERS: ReadonlyArray<{
   },
 ];
 
-test("真实链：shared → getSourceControlPresentation → 转换后 dialog 调用的 providerName 术语碰撞", async () => {
+test("真实链：definition → registry → getSourceControlPresentation → 转换后 dialog 调用的 providerName 术语碰撞", async () => {
   // 生产接线：第三参必须是 `sourceControlPresentation.providerName`（不是 undefined、不是别的）。
   assert.match(
     DIALOG_MODULE.descriptionCall,
@@ -843,8 +891,8 @@ test("真实链：shared → getSourceControlPresentation → 转换后 dialog �
   try {
     for (const { kind, providerName, terminology, expected } of TERM_COLLISION_PROVIDERS) {
       const provider = { kind, name: providerName, baseUrl: "" };
-      // 术语与 providerName 都来自真实 shared（`resolveChangeRequestPresentation` /
-      // `getChangeRequestTerminology`），不是测试手写的常量。
+      // 术语来自真实 definition 与 registry，providerName 由真实 presentation 保留，
+      // 不是测试手写的查询或返回对象。
       const presentation = PRESENTATION_MODULE.getSourceControlPresentation(provider);
       assert.equal(presentation.providerName, providerName);
       assert.deepEqual(presentation.terminology, terminology, `${kind} 的术语变了`);
@@ -1066,7 +1114,7 @@ test("文件芯片菜单：真实平台标签与菜单表达式在 DOM / 原生�
     if (node.type === "CallExpression" && node.callee?.property?.name === "show") {
       const argument = node.arguments[0];
       const expression = source.slice(argument.start, argument.end);
-      if (expression.includes('id: "reveal"') && expression.includes('id: "copy-relative"')) {
+      if (expression.includes('id: "reveal"') && expression.includes('copyItems.map')) {
         assert.equal(menuExpression, "", "文件菜单表达式不唯一");
         menuExpression = expression;
       }
@@ -1078,9 +1126,13 @@ test("文件芯片菜单：真实平台标签与菜单表达式在 DOM / 原生�
     }
   }
   visit(ast);
+  const copyFunction = (ast.program.body.find((node: any) => node.type === "ExportNamedDeclaration" && node.declaration?.id?.name === "markdownFileCopyMenuItems") as any)?.declaration;
+  assert.ok(copyFunction, "真实复制菜单构造函数存在");
+  const copySource = source.slice(copyFunction.start, copyFunction.end);
+  const buildCopyItems = new Function("__t3zh_t", "splitFilePathPosition", stripTypeScriptTypes(copySource) + "; return markdownFileCopyMenuItems({targetPath: '/tmp/project/src/file.ts', workspaceRelativePath: 'src/file.ts'});");
   assert.ok(menuExpression, "没有找到实际文件菜单表达式");
   const buildMenu = new Function("__t3zh_t", "onOpenMedia", "onOpen", "openInEditorMenuLabel",
-    "onOpenInBrowser", "onReveal", "revealLabel",
+    "onOpenInBrowser", "onReveal", "revealLabel", "copyItems",
     `return ${stripTypeScriptTypes(`(${menuExpression})`)};`);
   const dom = await loadTransformedModule<{ displayMenuLabel: (label: string) => string }>(
     "apps/web/src/contextMenuFallback.ts",
@@ -1103,7 +1155,9 @@ test("文件芯片菜单：真实平台标签与菜单表达式在 DOM / 原生�
         [() => labels.revealInFileExplorerLabelForKind("files"), "Reveal in Files"],
       ] as const;
       for (const [label, english] of choices) {
-        const items = buildMenu(t, false, true, t("Open in editor"), false, true, label());
+        const copyItems = buildCopyItems(t, (value: string) => ({ path: value }));
+        assert.deepEqual(copyItems.map((item: any) => item.value), ["src/file.ts", "/tmp/project/src/file.ts"]);
+        const items = buildMenu(t, false, true, t("Open in editor"), false, true, label(), copyItems);
         assert.deepEqual(items.map((item: any) => item.id), ["open", "reveal", "copy-relative", "copy-full"]);
         const expected = ["Open in editor", english, "Copy relative path", "Copy full path"]
           .map(value => locale === "zh-CN" ? MAIN_DICT.messages[value] : value);
@@ -1459,7 +1513,9 @@ test("§5.3：数据对象生成处不含 __t3zh 调用", () => {
   assert.match(providerStatus, /headline: "Unavailable"/);
   assert.match(providerStatus, /export function providerStatusLabel\(headline: string\): string \{/);
   const sourceControl = read("apps/web/src/sourceControlPresentation.ts");
-  assert.match(sourceControl, /terminology: getChangeRequestTerminology\(provider\)/);
+  assert.match(sourceControl, /terminology: definition\.changeRequest/);
+  assert.match(sourceControl, /const definition = sourceControlClients\.get\(provider\?\.kind\)/);
+  assert.doesNotMatch(extractFunction(sourceControl, "presentDefinition"), /__t3zh/);
 });
 
 // ---------------------------------------------------------------------------

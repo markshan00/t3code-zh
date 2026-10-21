@@ -40,7 +40,7 @@ const CODE_LANGUAGES = "apps/web/src/composer-code-languages.ts";
 const CODE_PICKER = "apps/web/src/components/chat/ComposerCodeBlockLanguagePicker.tsx";
 const PR_SUMMARY = "apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx";
 const COMMAND_RESULTS = "apps/web/src/components/CommandPaletteResults.tsx";
-const FILES = [PR_SUMMARY,CODE_LANGUAGES, CODE_PICKER, COMMAND_RESULTS, MCP, WELCOME, PREVIEW, HELPER, NEW_HELPER, COMPOSER, TIMELINE, PERMISSIONS, SETTINGS, PROVIDER, USAGE, FIND, DIFF_HELPER, DIFF_VIEW, CLI, "apps/web/src/acceptanceDisplayStrings.ts", "apps/web/src/connectionPermissionDisplayStrings.ts"];
+const FILES = ["apps/web/src/n2935DisplayStrings.ts", PR_SUMMARY,CODE_LANGUAGES, CODE_PICKER, COMMAND_RESULTS, MCP, WELCOME, PREVIEW, HELPER, NEW_HELPER, COMPOSER, TIMELINE, PERMISSIONS, SETTINGS, PROVIDER, USAGE, FIND, DIFF_HELPER, DIFF_VIEW, CLI, "apps/web/src/acceptanceDisplayStrings.ts", "apps/web/src/connectionPermissionDisplayStrings.ts"];
 function tree(patches: readonly string[]) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "t3zh-n2861-"));
   for (const f of FILES) {
@@ -57,6 +57,10 @@ for (const f of ["apps/web/src/acceptanceDisplayStrings.ts", "apps/web/src/conne
   const file = path.join(TEMP, f);
   fs.writeFileSync(file, fs.readFileSync(file, "utf8").replace(/from "\.\/newThreadDisplayStrings"/g, 'from "./newThreadDisplayStrings.ts"'));
 }
+const cleanupFile = path.join(TEMP, "apps/web/src/n2935DisplayStrings.ts");
+fs.writeFileSync(cleanupFile, fs.readFileSync(cleanupFile, "utf8").replace(
+  /from "\.\/(newThreadDisplayStrings|acceptanceDisplayStrings)"/g, 'from "./$1.ts"'));
+const cleanup = await import(pathToFileURL(cleanupFile).href);
 const helper = await import(pathToFileURL(path.join(TEMP, HELPER)).href);
 const acceptance = await import(pathToFileURL(path.join(TEMP, "apps/web/src/acceptanceDisplayStrings.ts")).href);
 const permissions = await import(pathToFileURL(path.join(TEMP, "apps/web/src/connectionPermissionDisplayStrings.ts")).href);
@@ -355,7 +359,7 @@ test("T18 M1: real command-palette environment title stays intact and does not r
   for (const title of ["Projects", "Connect", "Agents", risky]) for (const locale of [null, "en", "zh-CN"] as const) {
     const r = runtime(locale);
     try {
-      for (const expr of expressions) assert.equal(evaluate(generate(expr).code, { props: { item: { value: "action:add-project:environment:test", title } }, ...acceptance }), title);
+      for (const expr of expressions) assert.equal(evaluate(generate(expr).code, { props: { item: { value: "action:add-project:environment:test", title } }, ...acceptance, ...cleanup }), title);
       assert.deepEqual(r.calls, []);
     } finally { r.restore(); }
   }

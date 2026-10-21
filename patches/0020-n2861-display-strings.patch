@@ -1,14 +1,15 @@
 # n2861 显示补丁；新增混排骨架及网页沙盒发现的固定标签。
-# 基线 v0.0.46-nightly.20261010.2935；在 0019 后应用，依赖 0007 / 0009 / 0017。
+# 基线 v0.1.1；在 0019 后应用，依赖 0007 / 0009 / 0017。
 # T18 / n2908：向导本地步骤翻译、权限回退、六条固定更新错误与代码语言语境标签；
 # 历史词条登记在 dict/todo/v0.0.46-nightly.20261009.2861.extra.json；T18 增量见 dict/todo/v0.0.46-nightly.20261010.2908.extra.json。
 # 新增涉及：settings/settingsLayout.tsx、hooks/useSettings.ts、chat/ComposerCodeBlockLanguagePicker.tsx。
 # 0017 的 displayDeviceStepAria 增加可选显示回调，原默认行为不变。
 #
 diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceDisplayStrings.ts
+index fd0a9402..7df343e5 100644
 --- a/apps/web/src/acceptanceDisplayStrings.ts
 +++ b/apps/web/src/acceptanceDisplayStrings.ts
-@@ -3,6 +3,17 @@
+@@ -3,6 +3,17 @@ import { fillSlot, translateAroundSlot, translateFixed } from "./newThreadDispla
  // Finite UI labels audited against baseline 2702. Never translate arbitrary errors,
  // project names, model names, script IDs, or option values.
  export const ACCEPTANCE_DISPLAY_LABELS: string[] = [
@@ -26,7 +27,7 @@ diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceD
    "Cloning repository",
    "Repository not cloned",
    "Select at least one model.",
-@@ -434,9 +445,10 @@
+@@ -434,9 +445,10 @@ export function displayDeviceStepAria(
    step: string,
    index: number,
    summary: string | null | undefined,
@@ -38,7 +39,60 @@ diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceD
      .replace("\uE001", String(index + 1))
      .replace("\uE002", () => summary ?? "");
  }
+diff --git a/apps/web/src/components/chat/ComposerCodeBlockLanguagePicker.tsx b/apps/web/src/components/chat/ComposerCodeBlockLanguagePicker.tsx
+index 762d2270..a9d790ed 100644
+--- a/apps/web/src/components/chat/ComposerCodeBlockLanguagePicker.tsx
++++ b/apps/web/src/components/chat/ComposerCodeBlockLanguagePicker.tsx
+@@ -1,3 +1,5 @@
++import { displayComposerCodeLanguage } from "~/n2861DisplayStrings";
++
+ import { CheckIcon, ChevronDownIcon } from "lucide-react";
+ import { useState } from "react";
+
+@@ -42,7 +44,7 @@ export function ComposerCodeBlockLanguagePicker(props: {
+   const needle = query.trim().toLowerCase();
+   const filteredItems = needle
+     ? items.filter(
+-        (entry) => entry.label.toLowerCase().includes(needle) || entry.id.includes(needle),
++        (entry) => displayComposerCodeLanguage(entry.id, entry.label).toLowerCase().includes(needle) || entry.id.includes(needle),
+       )
+     : items;
+   const selected = items.find((entry) => entry.id === current) ?? null;
+@@ -53,7 +55,7 @@ export function ComposerCodeBlockLanguagePicker(props: {
+         items={items}
+         filteredItems={filteredItems}
+         autoHighlight
+-        itemToStringLabel={(entry) => entry.label}
++        itemToStringLabel={(entry) => displayComposerCodeLanguage(entry.id, entry.label)}
+         isItemEqualToValue={(a, b) => a.id === b.id}
+         value={selected}
+         onOpenChange={(open) => {
+@@ -70,12 +72,12 @@ export function ComposerCodeBlockLanguagePicker(props: {
+               variant="ghost-muted"
+               size="xs"
+               disabled={props.disabled}
+-              aria-label={`Code language: ${codeLanguageLabel(props.language)}`}
++              aria-label={`Code language: ${displayComposerCodeLanguage(current, codeLanguageLabel(props.language))}`}
+             />
+           }
+         >
+           <LanguageIcon language={current} theme={props.theme} />
+-          <span className="max-w-40 truncate">{codeLanguageLabel(props.language)}</span>
++          <span className="max-w-40 truncate">{displayComposerCodeLanguage(current, codeLanguageLabel(props.language))}</span>
+           <ChevronDownIcon className="opacity-60" />
+         </ComboboxTrigger>
+         <ComboboxPopup align="start" className="w-56">
+@@ -90,7 +92,7 @@ export function ComposerCodeBlockLanguagePicker(props: {
+             {(entry: CodeBlockLanguage) => (
+               <ComboboxItem key={entry.id || "plain"} value={entry}>
+                 <LanguageIcon language={entry.id} theme={props.theme} />
+-                <span className="min-w-0 flex-1 truncate">{entry.label}</span>
++                <span className="min-w-0 flex-1 truncate">{displayComposerCodeLanguage(entry.id, entry.label)}</span>
+                 {entry.id === current ? <CheckIcon className="ml-auto" /> : null}
+               </ComboboxItem>
+             )}
 diff --git a/apps/web/src/components/chat/McpAppFrame.tsx b/apps/web/src/components/chat/McpAppFrame.tsx
+index ff54f219..acd242a0 100644
 --- a/apps/web/src/components/chat/McpAppFrame.tsx
 +++ b/apps/web/src/components/chat/McpAppFrame.tsx
 @@ -1,3 +1,4 @@
@@ -46,7 +100,7 @@ diff --git a/apps/web/src/components/chat/McpAppFrame.tsx b/apps/web/src/compone
  import type { EnvironmentId, ThreadId, TurnItemId } from "@t3tools/contracts";
  import {
    makeMcpAppHost,
-@@ -469,7 +470,7 @@
+@@ -440,7 +441,7 @@ export function McpAppFrame(props: {
    if (closed) {
      return (
        <div className="flex items-center justify-between gap-2 rounded-lg border border-border px-3 py-2 text-muted-foreground text-xs">
@@ -55,7 +109,7 @@ diff --git a/apps/web/src/components/chat/McpAppFrame.tsx b/apps/web/src/compone
          <Button
            size="xs"
            variant="ghost"
-@@ -524,7 +525,7 @@
+@@ -492,7 +493,7 @@ export function McpAppFrame(props: {
          ) : null}
          {navigatedAway ? (
            <p className="flex size-full items-center justify-center text-muted-foreground text-xs">
@@ -64,7 +118,7 @@ diff --git a/apps/web/src/components/chat/McpAppFrame.tsx b/apps/web/src/compone
            </p>
          ) : src !== null ? (
            <iframe
-@@ -540,7 +541,7 @@
+@@ -508,7 +509,7 @@ export function McpAppFrame(props: {
            />
          ) : asset._tag === "Failure" || mintFailed ? (
            <p className="flex size-full items-center justify-center text-muted-foreground text-xs">
@@ -74,6 +128,7 @@ diff --git a/apps/web/src/components/chat/McpAppFrame.tsx b/apps/web/src/compone
          ) : null}
        </div>
 diff --git a/apps/web/src/components/chat/ThreadFindBar.tsx b/apps/web/src/components/chat/ThreadFindBar.tsx
+index aca1d6ca..2145643f 100644
 --- a/apps/web/src/components/chat/ThreadFindBar.tsx
 +++ b/apps/web/src/components/chat/ThreadFindBar.tsx
 @@ -1,3 +1,4 @@
@@ -81,23 +136,24 @@ diff --git a/apps/web/src/components/chat/ThreadFindBar.tsx b/apps/web/src/compo
  import { useEffect, useRef, type KeyboardEvent } from "react";
  import { ChevronDownIcon, ChevronUpIcon, XIcon } from "lucide-react";
  import { Button } from "../ui/button";
-@@ -89,7 +90,11 @@
-             noResults ? "text-destructive" : "text-muted-foreground",
-           )}
-         >
--          {label}
-+          {props.status === "loading"
+@@ -93,7 +94,11 @@ export function ThreadFindBar(props: ThreadFindBarProps) {
+               noResults ? "text-destructive" : "text-muted-foreground",
+             )}
+           >
+-            {label}
++            {props.status === "loading"
 +            ? translateFixed("Searching…")
 +            : props.status === "error"
 +              ? translateFixed("Search failed")
 +              : label}
-         </span>
-         {props.status === "error" ? (
-           <Button size="xs" variant="ghost" onClick={props.onRetry}>
+           </span>
+           {props.status === "error" ? (
+             <Button size="xs" variant="ghost" onClick={props.onRetry}>
 diff --git a/apps/web/src/components/diffs/StyledDiffCodeView.tsx b/apps/web/src/components/diffs/StyledDiffCodeView.tsx
+index 00fb4356..d688c82b 100644
 --- a/apps/web/src/components/diffs/StyledDiffCodeView.tsx
 +++ b/apps/web/src/components/diffs/StyledDiffCodeView.tsx
-@@ -7,7 +7,8 @@
+@@ -7,7 +7,8 @@ import {
    type UncontrolledCodeViewProps,
  } from "@pierre/diffs/react";
  /* oxlint-enable eslint/no-restricted-imports */
@@ -107,7 +163,7 @@ diff --git a/apps/web/src/components/diffs/StyledDiffCodeView.tsx b/apps/web/src
 
  import { DIFF_SURFACE_THEME_UNSAFE_CSS } from "~/lib/diffRendering";
  import { DiffWorkerPoolProvider } from "../DiffWorkerPoolProvider";
-@@ -284,12 +285,21 @@
+@@ -222,12 +223,21 @@ export function StyledDiffCodeView<LAnnotation = undefined>({
    viewerRef,
    className,
    unsafeCSSExtra,
@@ -127,9 +183,10 @@ diff --git a/apps/web/src/components/diffs/StyledDiffCodeView.tsx b/apps/web/src
          {...props}
 +        containerRef={setContainer}
          {...(viewerRef ? { ref: viewerRef } : {})}
-         // The custom element itself is focusable for keyboard scrolling. Its native outline sits
-         // outside the panel clipping boundary; actual controls inside retain their own indicators.
+         className={
+           className
 diff --git a/apps/web/src/components/onboarding/WelcomeWizard.tsx b/apps/web/src/components/onboarding/WelcomeWizard.tsx
+index d849c144..13f4e0f9 100644
 --- a/apps/web/src/components/onboarding/WelcomeWizard.tsx
 +++ b/apps/web/src/components/onboarding/WelcomeWizard.tsx
 @@ -1,3 +1,5 @@
@@ -138,7 +195,7 @@ diff --git a/apps/web/src/components/onboarding/WelcomeWizard.tsx b/apps/web/src
  import { displayConnectionPermissionError } from "~/connectionPermissionDisplayStrings";
  import { useAuth } from "@clerk/react";
  import { useAtomValue } from "@effect/atom-react";
-@@ -113,6 +115,10 @@
+@@ -105,6 +107,10 @@ type WizardStep = "connection" | "agents" | "import";
  const NO_ENVIRONMENTS: readonly EnvironmentId[] = [];
 
  const AGENT_ONBOARDING_THREAD_ID = ThreadId.make("onboarding-agent-setup");
@@ -149,7 +206,7 @@ diff --git a/apps/web/src/components/onboarding/WelcomeWizard.tsx b/apps/web/src
  const ONBOARDING_STAGES = ["Connect", "Agents", "Projects"] as const;
  const SCAN_LIMIT_MESSAGE = "Scan limit reached. Some projects or conversations may be missing.";
 
-@@ -245,6 +251,10 @@
+@@ -244,6 +250,10 @@ export function WelcomeWizard({
          >
            <WizardSteps
              steps={ONBOARDING_STAGES}
@@ -160,7 +217,7 @@ diff --git a/apps/web/src/components/onboarding/WelcomeWizard.tsx b/apps/web/src
              currentStep={stageIndex}
              isStepDisabled={(index) => isImporting || index >= stageIndex}
              onStepChange={(index) => {
-@@ -423,8 +433,10 @@
+@@ -427,8 +437,10 @@ function ConnectionStep({
        </div>
        {skippedLabels.length > 0 ? (
          <p className="mt-4 text-xs text-muted-foreground">
@@ -174,6 +231,7 @@ diff --git a/apps/web/src/components/onboarding/WelcomeWizard.tsx b/apps/web/src
        ) : null}
        <div className="mt-6 flex flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
 diff --git a/apps/web/src/components/preview/PreviewUnreachable.tsx b/apps/web/src/components/preview/PreviewUnreachable.tsx
+index 635436ff..064eeb7c 100644
 --- a/apps/web/src/components/preview/PreviewUnreachable.tsx
 +++ b/apps/web/src/components/preview/PreviewUnreachable.tsx
 @@ -1,3 +1,4 @@
@@ -181,7 +239,7 @@ diff --git a/apps/web/src/components/preview/PreviewUnreachable.tsx b/apps/web/s
  import { useState } from "react";
 
  import { Button } from "~/components/ui/button";
-@@ -32,6 +33,7 @@
+@@ -24,6 +25,7 @@ export function PreviewFileNotShown({
    onOpen: () => void;
  }) {
    const host = safeHost(url) ?? url;
@@ -189,7 +247,7 @@ diff --git a/apps/web/src/components/preview/PreviewUnreachable.tsx b/apps/web/s
    return (
      <div className="scrollbar-gutter-both relative flex h-full min-h-0 w-full overflow-y-auto bg-background">
        <div className="mx-auto flex w-full max-w-xl flex-1 flex-col px-8 py-12 sm:py-16">
-@@ -40,8 +42,7 @@
+@@ -32,8 +34,7 @@ export function PreviewFileNotShown({
            This file can&rsquo;t be shown here
          </h1>
          <p className="text-sm leading-relaxed text-muted-foreground">
@@ -199,15 +257,35 @@ diff --git a/apps/web/src/components/preview/PreviewUnreachable.tsx b/apps/web/s
          </p>
          <div className="mt-auto flex items-center gap-2 pt-8">
            <div className="flex-1" />
+diff --git a/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx b/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx
+index 0e9d51fc..f4cfbe25 100644
+--- a/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx
++++ b/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx
+@@ -1,4 +1,5 @@
+ import { sourceControlClients } from "@t3tools/client-runtime/source-control-clients";
++import { translateFixed } from "~/newThreadDisplayStrings";
+ import { displayOlderComments } from "~/acceptanceDisplayStrings";
+ import { useAtomCommand } from "~/state/use-atom-command";
+ import type {
+@@ -779,7 +780,7 @@ export function PullRequestSummaryTab({
+             <div className="flex items-start gap-1">
+               <PullRequestMarkdown
+                 className="min-w-0 flex-1"
+-                text={detail.body.trim().length > 0 ? detail.body : "_No description provided._"}
++                text={detail.body.trim().length > 0 ? detail.body : translateFixed("_No description provided._")}
+                 cwd={detail.workspaceRoot}
+                 environmentId={environmentId}
+                 threadRef={threadRef}
 diff --git a/apps/web/src/components/settings/CliCommandSettingsRow.tsx b/apps/web/src/components/settings/CliCommandSettingsRow.tsx
+index b7d98628..a0aef52c 100644
 --- a/apps/web/src/components/settings/CliCommandSettingsRow.tsx
 +++ b/apps/web/src/components/settings/CliCommandSettingsRow.tsx
 @@ -1,3 +1,4 @@
 +import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
  import type { DesktopCliCommandState } from "@t3tools/contracts";
- import { useCallback, useEffect, useState } from "react";
+ import { useEffect, useState } from "react";
 
-@@ -62,7 +63,17 @@
+@@ -55,7 +56,17 @@ export function CliCommandSettingsRow() {
    return (
      <SettingsRow
        {...searchableSetting("cli-command")}
@@ -227,6 +305,7 @@ diff --git a/apps/web/src/components/settings/CliCommandSettingsRow.tsx b/apps/w
          <Button
            size="sm"
 diff --git a/apps/web/src/components/settings/ProviderInstanceCard.tsx b/apps/web/src/components/settings/ProviderInstanceCard.tsx
+index ac28afc0..2e8c9f67 100644
 --- a/apps/web/src/components/settings/ProviderInstanceCard.tsx
 +++ b/apps/web/src/components/settings/ProviderInstanceCard.tsx
 @@ -1,5 +1,6 @@
@@ -236,7 +315,7 @@ diff --git a/apps/web/src/components/settings/ProviderInstanceCard.tsx b/apps/we
 
  import { Spinner } from "~/components/ui/spinner";
 
-@@ -808,7 +809,7 @@
+@@ -879,7 +880,7 @@ export function ProviderInstanceCard({
                    size={mode === "list" ? "icon-micro" : "icon-xs"}
                    variant="ghost-muted"
                    className={mode === "list" ? "pointer-events-auto relative shrink-0" : undefined}
@@ -245,7 +324,7 @@ diff --git a/apps/web/src/components/settings/ProviderInstanceCard.tsx b/apps/we
                  >
                    {updateProgress ? (
                      <Spinner tone="muted" {...(mode === "list" ? { size: "sm" as const } : {})} />
-@@ -826,7 +827,7 @@
+@@ -897,7 +898,7 @@ export function ProviderInstanceCard({
            }
          />
          <TooltipPopup side="top">
@@ -254,7 +333,7 @@ diff --git a/apps/web/src/components/settings/ProviderInstanceCard.tsx b/apps/we
          </TooltipPopup>
        </Tooltip>
        <PopoverPopup side="bottom" align="end" width="md" aria-label={displayKnown(versionAdvisory.title)}>
-@@ -869,7 +870,7 @@
+@@ -940,7 +941,7 @@ export function ProviderInstanceCard({
                  updateProblem ? "text-warning" : "text-muted-foreground",
                )}
              >
@@ -263,7 +342,7 @@ diff --git a/apps/web/src/components/settings/ProviderInstanceCard.tsx b/apps/we
              </p>
            ) : null}
            {onRunVersionAction && updateCommand ? (
-@@ -953,7 +954,7 @@
+@@ -1023,7 +1024,7 @@ export function ProviderInstanceCard({
                    className="pointer-events-auto line-clamp-2 [overflow-wrap:anywhere]"
                  >
                    {updateProgress ? (
@@ -272,7 +351,23 @@ diff --git a/apps/web/src/components/settings/ProviderInstanceCard.tsx b/apps/we
                    ) : (
                      <>
                        {providerStatusLabel(summary.headline)}
+diff --git a/apps/web/src/components/settings/settingsLayout.tsx b/apps/web/src/components/settings/settingsLayout.tsx
+index 91e7553a..b18d6c2b 100644
+--- a/apps/web/src/components/settings/settingsLayout.tsx
++++ b/apps/web/src/components/settings/settingsLayout.tsx
+@@ -416,8 +416,8 @@ export function SettingsRow({
+                   ? context.connectedEnvironments
+                       .filter((target) => !writableIds.has(target.environmentId))
+                       .map((target) => target.label)
+-                      .join(", ") || "the selected environment"
+-                  : (primaryEnvironment?.label ?? "the primary environment")
++                      .join(", ") || translateFixed("the selected environment")
++                  : (primaryEnvironment?.label ?? translateFixed("the primary environment"))
+               , ".")
+             : context
+               ? "Reconnect the selected environment to change this setting."
 diff --git a/apps/web/src/components/usage/UsagePage.tsx b/apps/web/src/components/usage/UsagePage.tsx
+index dc37d2f9..6500ed6c 100644
 --- a/apps/web/src/components/usage/UsagePage.tsx
 +++ b/apps/web/src/components/usage/UsagePage.tsx
 @@ -1,4 +1,5 @@
@@ -281,7 +376,7 @@ diff --git a/apps/web/src/components/usage/UsagePage.tsx b/apps/web/src/componen
  import { ChatGptUsageButton } from "../settings/ChatGptUsageButton";
  import { usesChatGptSharing } from "@t3tools/shared/usageLimits";
  import { RefreshIcon } from "~/components/ui/refresh-icon";
-@@ -1398,7 +1399,15 @@
+@@ -1450,7 +1451,15 @@ function UsageProviderFilter({
    return (
      <Menu>
        <MenuTrigger render={<InlineButton />} className="group/usage-provider min-w-0 max-w-full">
@@ -300,6 +395,7 @@ diff --git a/apps/web/src/components/usage/UsagePage.tsx b/apps/web/src/componen
            aria-hidden
 diff --git a/apps/web/src/diffSearchDisplayStrings.ts b/apps/web/src/diffSearchDisplayStrings.ts
 new file mode 100644
+index 00000000..c040b91a
 --- /dev/null
 +++ b/apps/web/src/diffSearchDisplayStrings.ts
 @@ -0,0 +1,66 @@
@@ -369,8 +465,22 @@ new file mode 100644
 +  discover();
 +  return () => { observer.disconnect(); for (const child of panels.values()) child.disconnect(); panels.clear(); };
 +}
+diff --git a/apps/web/src/hooks/useSettings.ts b/apps/web/src/hooks/useSettings.ts
+index 21880829..7ce0e017 100644
+--- a/apps/web/src/hooks/useSettings.ts
++++ b/apps/web/src/hooks/useSettings.ts
+@@ -629,7 +629,7 @@ function useUpdateSettingsTarget(environmentId: EnvironmentId | null) {
+       toastManager.add({
+         type: "warning",
+         title: "Setting not saved",
+-        description: fillSlot("This connection lacks permission to change settings on ", environments.find((target) => target.environmentId === environmentId)?.label ?? "the selected environment", "."),
++        description: fillSlot("This connection lacks permission to change settings on ", environments.find((target) => target.environmentId === environmentId)?.label ?? translateFixed("the selected environment"), "."),
+       });
+     }
+     if (Object.keys(serverPatch).length > 0 && canWriteServerPatch) {
 diff --git a/apps/web/src/n2861DisplayStrings.ts b/apps/web/src/n2861DisplayStrings.ts
 new file mode 100644
+index 00000000..1046b367
 --- /dev/null
 +++ b/apps/web/src/n2861DisplayStrings.ts
 @@ -0,0 +1,18 @@
@@ -392,97 +502,3 @@ new file mode 100644
 +  if (language === "diff") return "Diff";
 +  return label;
 +}
-diff --git a/apps/web/src/components/settings/settingsLayout.tsx b/apps/web/src/components/settings/settingsLayout.tsx
---- a/apps/web/src/components/settings/settingsLayout.tsx
-+++ b/apps/web/src/components/settings/settingsLayout.tsx
-@@ -402,8 +402,8 @@
-                   ? context.connectedEnvironments
-                       .filter((target) => !writableIds.has(target.environmentId))
-                       .map((target) => target.label)
--                      .join(", ") || "the selected environment"
--                  : (primaryEnvironment?.label ?? "the primary environment")
-+                      .join(", ") || translateFixed("the selected environment")
-+                  : (primaryEnvironment?.label ?? translateFixed("the primary environment"))
-               , ".")
-             : context
-               ? "Reconnect the selected environment to change this setting."
-diff --git a/apps/web/src/hooks/useSettings.ts b/apps/web/src/hooks/useSettings.ts
---- a/apps/web/src/hooks/useSettings.ts
-+++ b/apps/web/src/hooks/useSettings.ts
-@@ -511,7 +511,7 @@
-         toastManager.add({
-           type: "warning",
-           title: "Setting not saved",
--          description: fillSlot("This connection lacks permission to change settings on ", environments.find((target) => target.environmentId === environmentId)?.label ?? "the selected environment", "."),
-+          description: fillSlot("This connection lacks permission to change settings on ", environments.find((target) => target.environmentId === environmentId)?.label ?? translateFixed("the selected environment"), "."),
-         });
-       }
-       if (Object.keys(serverPatch).length > 0 && canWriteServerPatch) {
-diff --git a/apps/web/src/components/chat/ComposerCodeBlockLanguagePicker.tsx b/apps/web/src/components/chat/ComposerCodeBlockLanguagePicker.tsx
---- a/apps/web/src/components/chat/ComposerCodeBlockLanguagePicker.tsx
-+++ b/apps/web/src/components/chat/ComposerCodeBlockLanguagePicker.tsx
-@@ -1,3 +1,5 @@
-+import { displayComposerCodeLanguage } from "~/n2861DisplayStrings";
-+
- import { CheckIcon, ChevronDownIcon } from "lucide-react";
- import { useMemo, useState } from "react";
-
-@@ -58,7 +60,7 @@
-     const needle = query.trim().toLowerCase();
-     if (!needle) return items;
-     return items.filter(
--      (entry) => entry.label.toLowerCase().includes(needle) || entry.id.includes(needle),
-+      (entry) => displayComposerCodeLanguage(entry.id, entry.label).toLowerCase().includes(needle) || entry.id.includes(needle),
-     );
-   }, [items, query]);
-   const selected = items.find((entry) => entry.id === current) ?? null;
-@@ -72,7 +74,7 @@
-         items={items}
-         filteredItems={filteredItems}
-         autoHighlight
--        itemToStringLabel={(entry) => entry.label}
-+        itemToStringLabel={(entry) => displayComposerCodeLanguage(entry.id, entry.label)}
-         isItemEqualToValue={(a, b) => a.id === b.id}
-         value={selected}
-         onOpenChange={(open) => {
-@@ -89,12 +91,12 @@
-               variant="ghost-muted"
-               size="xs"
-               disabled={props.disabled}
--              aria-label={`Code language: ${codeLanguageLabel(props.language)}`}
-+              aria-label={`Code language: ${displayComposerCodeLanguage(current, codeLanguageLabel(props.language))}`}
-             />
-           }
-         >
-           <LanguageIcon language={current} theme={props.theme} />
--          <span className="max-w-40 truncate">{codeLanguageLabel(props.language)}</span>
-+          <span className="max-w-40 truncate">{displayComposerCodeLanguage(current, codeLanguageLabel(props.language))}</span>
-           <ChevronDownIcon className="opacity-60" />
-         </ComboboxTrigger>
-         <ComboboxPopup align="start" className="w-56">
-@@ -109,7 +111,7 @@
-             {(entry: CodeBlockLanguage) => (
-               <ComboboxItem key={entry.id || "plain"} value={entry}>
-                 <LanguageIcon language={entry.id} theme={props.theme} />
--                <span className="min-w-0 flex-1 truncate">{entry.label}</span>
-+                <span className="min-w-0 flex-1 truncate">{displayComposerCodeLanguage(entry.id, entry.label)}</span>
-                 {entry.id === current ? <CheckIcon className="ml-auto" /> : null}
-               </ComboboxItem>
-             )}
-diff --git a/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx b/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx
---- a/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx
-+++ b/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx
-@@ -1,3 +1,4 @@
-+import { translateFixed } from "~/newThreadDisplayStrings";
- import { displayOlderComments } from "~/acceptanceDisplayStrings";
- import { useAtomCommand } from "~/state/use-atom-command";
- import type {
-@@ -792,7 +793,7 @@
-             <div className="flex items-start gap-1">
-               <PullRequestMarkdown
-                 className="min-w-0 flex-1"
--                text={detail.body.trim().length > 0 ? detail.body : "_No description provided._"}
-+                text={detail.body.trim().length > 0 ? detail.body : translateFixed("_No description provided._")}
-                 cwd={detail.workspaceRoot}
-                 environmentId={environmentId}
-                 threadRef={threadRef}

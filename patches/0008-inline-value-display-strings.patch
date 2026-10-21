@@ -1,7 +1,7 @@
 # 0008-inline-value-display-strings.patch
 #
 # 2702 新增的七处「英文句子中间嵌一个运行时值」的显示文字，只在显示处翻译（T10-fix1，reviews/T10-r1.md I3）。
-# 基线 v0.0.46-nightly.20261010.2935；复用 0007 新增的 apps/web/src/newThreadDisplayStrings.ts，须在 0007 之后应用。
+# 基线 v0.1.1；复用 0007 新增的 apps/web/src/newThreadDisplayStrings.ts，须在 0007 之后应用。
 #
 # 原因：这些句子是文字与表达式混排的 JSX（其中一处还带复数后缀 `{n === 1 ? "" : "s"}`），插件按 CONVENTIONS §4
 # 记 mixed-jsx 跳过，交付包里直接显示英文。
@@ -24,18 +24,15 @@
 # 测试：plugin/__tests__/inline-value-display-strings.test.ts。上游更新后重做方法见 patches/README.md。
 #
 diff --git a/apps/web/src/components/chat/HtmlRenderFrame.tsx b/apps/web/src/components/chat/HtmlRenderFrame.tsx
-index 9661f59249d9be3c4bf2511eeff8ef5c270954ed..a08501f0f8ad1b8e8f8c6d875aff70ea03d88b93 100644
+index 9989b5fe..d2878af3 100644
 --- a/apps/web/src/components/chat/HtmlRenderFrame.tsx
 +++ b/apps/web/src/components/chat/HtmlRenderFrame.tsx
-@@ -9,6 +9,7 @@ import { Maximize2Icon } from "lucide-react";
- import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-
- import { useAssetUrlRefresh, useAssetUrlState } from "~/assets/assetUrls";
+@@ -1,3 +1,4 @@
 +import { fillSlot } from "~/newThreadDisplayStrings";
- import type { ChatFileAttachment } from "~/types";
-
- import { HtmlRenderDocument } from "../files/BrowserDocumentFrame";
-@@ -131,7 +132,7 @@ export function HtmlRenderFrame(props: {
+ import type { EnvironmentId, ScopedThreadRef } from "@t3tools/contracts";
+ import {
+   HTML_RENDER_COLUMN_WIDTH,
+@@ -141,7 +142,7 @@ export function HtmlRenderFrame(props: {
          </>
        ) : failed ? (
          <p className="flex size-full items-center justify-center text-muted-foreground text-xs">
@@ -45,10 +42,10 @@ index 9661f59249d9be3c4bf2511eeff8ef5c270954ed..a08501f0f8ad1b8e8f8c6d875aff70ea
        ) : null}
      </div>
 diff --git a/apps/web/src/components/chat/V2ItemInspector.tsx b/apps/web/src/components/chat/V2ItemInspector.tsx
-index 8f92a511d6993572eed9d3a11872c152c7f96d62..d8b1910dfd88b9d0098159f74fa6c48eb8c0fa29 100644
+index 991ce50a..a6f87ea4 100644
 --- a/apps/web/src/components/chat/V2ItemInspector.tsx
 +++ b/apps/web/src/components/chat/V2ItemInspector.tsx
-@@ -21,6 +21,7 @@ import { getSyntaxHighlighterPromise } from "../../lib/syntaxHighlighting";
+@@ -23,6 +23,7 @@ import { getSyntaxHighlighterPromise } from "../../lib/syntaxHighlighting";
  import { useTurnItemDetail } from "../../state/queries";
  import { useV2ItemSupport } from "../../state/v2ItemSupport";
  import { formatWorkspaceRelativePath } from "../../filePathDisplay";
@@ -56,7 +53,7 @@ index 8f92a511d6993572eed9d3a11872c152c7f96d62..d8b1910dfd88b9d0098159f74fa6c48e
  import { Button } from "../ui/button";
  import ChatMarkdown, { ChatMarkdownAssetImage } from "../ChatMarkdown";
  import { RenderErrorBoundary } from "../RenderErrorBoundary";
-@@ -162,7 +163,7 @@ function ToolOutput(props: ToolOutputState) {
+@@ -171,7 +172,7 @@ function ToolOutput(props: ToolOutputState) {
    ) : props.pending ? (
      <div className="text-muted-foreground italic">Loading output…</div>
    ) : props.error ? (
@@ -65,9 +62,9 @@ index 8f92a511d6993572eed9d3a11872c152c7f96d62..d8b1910dfd88b9d0098159f74fa6c48e
    ) : props.empty && images.length === 0 ? (
      <div className="text-muted-foreground italic">No output.</div>
    ) : null;
-@@ -213,7 +214,7 @@ function ToolCallBody(
+@@ -227,7 +228,7 @@ function ToolCallBody(
        {call.argsText ? <StructuredValue value={call.argsText} highlightJson /> : null}
-       <ToolOutput {...props} />
+       {props.outputSlot ?? <ToolOutput {...props} />}
        {props.exitCode !== undefined && props.exitCode !== 0 ? (
 -        <div className="text-destructive">exit {props.exitCode}</div>
 +        <div className="text-destructive">{fillSlot("exit ", String(props.exitCode), "")}</div>
@@ -75,18 +72,18 @@ index 8f92a511d6993572eed9d3a11872c152c7f96d62..d8b1910dfd88b9d0098159f74fa6c48e
      </div>
    );
 diff --git a/apps/web/src/components/files/AttachmentFilePreview.tsx b/apps/web/src/components/files/AttachmentFilePreview.tsx
-index aa5d1802be12ec16ba52ce7a5af417b97838332a..60ce9d82406cdc230b5f83563aa5775a744f4502 100644
+index 16b8c279..093081e6 100644
 --- a/apps/web/src/components/files/AttachmentFilePreview.tsx
 +++ b/apps/web/src/components/files/AttachmentFilePreview.tsx
-@@ -15,6 +15,7 @@ import { toastManager } from "~/components/ui/toast";
+@@ -18,6 +18,7 @@ import { toastManager } from "~/components/ui/toast";
  import { useCopyToClipboard } from "~/hooks/useCopyToClipboard";
- import { useClientSettings, useUpdateClientSettings } from "~/hooks/useSettings";
+ import { useClientSettings, updateClientSettings } from "~/hooks/useSettings";
  import { cn } from "~/lib/utils";
 +import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
 
  import { AudioPreview } from "./AudioPreview";
  import { BrowserDocumentFrame } from "./BrowserDocumentFrame";
-@@ -351,9 +352,15 @@ export function AttachmentFilePreview(props: {
+@@ -328,9 +329,15 @@ export function AttachmentFilePreview(props: {
        </div>
        {content?.truncated ? (
          <FileSurfaceNotice>
@@ -106,10 +103,10 @@ index aa5d1802be12ec16ba52ce7a5af417b97838332a..60ce9d82406cdc230b5f83563aa5775a
        ) : null}
        {body}
 diff --git a/apps/web/src/components/settings/ScheduledTasksSettings.tsx b/apps/web/src/components/settings/ScheduledTasksSettings.tsx
-index 34c3896d87fca46edca7ee1e872461e909b3d64a..f035195d2b993cca12f1fcafc529707f997171f1 100644
+index 82d2092f..921d4842 100644
 --- a/apps/web/src/components/settings/ScheduledTasksSettings.tsx
 +++ b/apps/web/src/components/settings/ScheduledTasksSettings.tsx
-@@ -45,6 +45,7 @@ import {
+@@ -55,6 +55,7 @@ import {
  } from "../../providerInstances";
  import { usePrimaryCloudLinkState } from "../../cloud/primaryCloudLinkState";
  import { requestConfirmDialog } from "../../confirmDialog";
@@ -117,7 +114,7 @@ index 34c3896d87fca46edca7ee1e872461e909b3d64a..f035195d2b993cca12f1fcafc529707f
  import { webhookAddress } from "@t3tools/client-runtime/webhook-address";
  import { Link } from "@tanstack/react-router";
  import { useCopyToClipboard } from "../../hooks/useCopyToClipboard";
-@@ -559,7 +560,7 @@ function WebhookDeliveriesDialog({
+@@ -831,7 +832,7 @@ function WebhookDeliveriesDialog({
      >
        <DialogPopup className="max-w-2xl">
          <DialogHeader>
@@ -126,7 +123,7 @@ index 34c3896d87fca46edca7ee1e872461e909b3d64a..f035195d2b993cca12f1fcafc529707f
            <DialogDescription>Recent requests to this task's webhook URL.</DialogDescription>
          </DialogHeader>
          <DialogPanel>
-@@ -587,7 +588,7 @@ function WebhookDeliveriesDialog({
+@@ -878,7 +879,7 @@ function WebhookDeliveriesDialog({
                </DeliveryBlock>
                {selected.missingFields.length > 0 ? (
                  <p className="text-sm text-muted-foreground">
@@ -135,8 +132,8 @@ index 34c3896d87fca46edca7ee1e872461e909b3d64a..f035195d2b993cca12f1fcafc529707f
                  </p>
                ) : null}
                <DeliveryBlock title="Headers">
-@@ -626,8 +627,13 @@ function WebhookDeliveriesDialog({
-                     </span>
+@@ -924,8 +925,13 @@ function WebhookDeliveriesDialog({
+                     ) : null}
                      {delivery.missingFields.length > 0 ? (
                        <span className="text-muted-foreground">
 -                        {delivery.missingFields.length} empty placeholder

@@ -240,7 +240,7 @@ test("thread status line: the plugin wraps each label and every formatter output
   const settled = [
     [iso(-10 * S), "刚刚收起"], [iso(-5 * M - 30 * S), "5 分钟前收起"], [iso(-3 * H - 30 * M), "3 小时前收起"], [iso(-2 * D - 3 * H), "2 天前收起"], [null, "已收起"],
   ] as const;
-  const scopeFor = (shell: object) => ({ activeThreadShell: shell, formatRelativeTimeUntilLabel: timestamps.formatRelativeTimeUntilLabel, formatRelativeTimeLabel: timestamps.formatRelativeTimeLabel });
+  const scopeFor = (shell: object) => ({ ...shell, activeThreadShell: shell, formatRelativeTimeUntilLabel: timestamps.formatRelativeTimeUntilLabel, formatRelativeTimeLabel: timestamps.formatRelativeTimeLabel });
   for (const [codeIndex, field, rows] of [[0, "snoozedUntil", snoozed], [1, "settledAt", settled]] as const) {
     for (const [value, zh] of rows) {
       const shell = { [field]: value };
@@ -279,7 +279,11 @@ test("n2774 templates match their own skeletons and cannot intercept unrelated u
       total += 1;
       if (translate.lookupMessage(c.text) !== undefined) continue;
       const key = translate.matchTemplate(c.text)?.key;
-      if (key && templates.has(key)) hits.push(`${path.relative(UPSTREAM, file)}:${c.line} ${c.text}`);
+      // T21: the new update capsule uses the same count skeleton. Its single-machine
+      // branch is overridden by 0022 and covered by stable-display-strings.test.ts.
+      const reviewedUpdateFailure = path.relative(UPSTREAM, file) === "apps/web/src/components/sidebar/updateEverything.logic.ts"
+        && c.text === "{0} failed" && key === "{0} failed";
+      if (key && templates.has(key) && !reviewedUpdateFailure) hits.push(`${path.relative(UPSTREAM, file)}:${c.line} ${c.text}`);
     }
   }
   assert.ok(total > 5000, `translate candidates: ${total}`);

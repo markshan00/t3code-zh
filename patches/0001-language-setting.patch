@@ -1,3 +1,4 @@
+# 基线 v0.1.1 / fe27e8e3dc12dcbb108e9a28fd9b8cb65f34ae92；按编号顺序普通 apply。
 # 0001-language-setting.patch
 #
 # 在设置的「常规 / General」页加一行语言选择（System / English / 简体中文），
@@ -21,10 +22,10 @@
 # 词条见 dict/zh-CN.json。上游更新后重做方法见 patches/README.md。
 #
 diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/components/settings/SettingsPanels.tsx
-index 5e52b482789133c30d871f5e145a32f8c8c28338..4d9a85935ac73fc84f0db6ceec0406381b772a82 100644
+index 16c6ff3f..2b753b5c 100644
 --- a/apps/web/src/components/settings/SettingsPanels.tsx
 +++ b/apps/web/src/components/settings/SettingsPanels.tsx
-@@ -199,6 +199,13 @@ const TIMESTAMP_FORMAT_LABELS = {
+@@ -203,6 +203,13 @@ const TIMESTAMP_FORMAT_LABELS = {
    "24-hour": "24-hour",
  } as const;
 
@@ -38,7 +39,7 @@ index 5e52b482789133c30d871f5e145a32f8c8c28338..4d9a85935ac73fc84f0db6ceec040638
  const CHAT_WIDTH_LABELS: Record<ChatWidth, string> = {
    comfortable: "Comfortable",
    wide: "Wide",
-@@ -2480,6 +2487,32 @@ export function GeneralSettingsPanel() {
+@@ -2433,6 +2440,32 @@ export function GeneralSettingsPanel() {
        </SettingsSection>
 
        <SettingsSection id="behavior" title="Behavior">
@@ -72,10 +73,10 @@ index 5e52b482789133c30d871f5e145a32f8c8c28338..4d9a85935ac73fc84f0db6ceec040638
          <SettingsRow
            {...searchableSetting("in-app-notifications")}
 diff --git a/apps/web/src/components/settings/settingsSearch.ts b/apps/web/src/components/settings/settingsSearch.ts
-index 81b2d1248f19c32d325b828c03560f092525b902..72b58e5607a48bb6210c53e6f84b5559d51ef1c7 100644
+index 38737b26..e74b23e2 100644
 --- a/apps/web/src/components/settings/settingsSearch.ts
 +++ b/apps/web/src/components/settings/settingsSearch.ts
-@@ -351,6 +351,12 @@ export const SETTINGS_SEARCH_ITEMS = [
+@@ -372,6 +372,12 @@ export const SETTINGS_SEARCH_ITEMS = [
      to: "/settings/general",
      searchTerms: ["notification toast popup completion input approval failure"],
    },
@@ -89,10 +90,10 @@ index 81b2d1248f19c32d325b828c03560f092525b902..72b58e5607a48bb6210c53e6f84b5559
      id: "time-format",
      title: "Time format",
 diff --git a/apps/web/src/vite-env.d.ts b/apps/web/src/vite-env.d.ts
-index 31260c8ae666fcb7814d8e078f4dac4a930a0f6d..d3ecb559241378d1a6108873d2f2934377a14e2e 100644
+index acc73a39..07e5e492 100644
 --- a/apps/web/src/vite-env.d.ts
 +++ b/apps/web/src/vite-env.d.ts
-@@ -23,5 +23,11 @@ interface ImportMeta {
+@@ -24,5 +24,11 @@ interface ImportMeta {
  declare global {
    interface Window {
      desktopBridge?: DesktopBridge;

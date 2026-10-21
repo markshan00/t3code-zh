@@ -1,7 +1,7 @@
 # 0006-desktop-ipc-display-strings.patch
 #
 # 桌面主进程经 IPC 传给 web 显示的英文，在 web 的显示位置翻译（T07-fix1，对应 T07 已知问题 3）。
-# 基线 v0.0.46-nightly.20261010.2935；类型上依赖 0004 在 vite-env.d.ts 补的全局 `var __t3zh`（含 t），须在 0004 之后应用。
+# 基线 v0.1.1；类型上依赖 0004 在 vite-env.d.ts 补的全局 `var __t3zh`（含 t），须在 0004 之后应用。
 #
 # 做法：新增 apps/web/src/desktopIpcStrings.ts 的 translateKnownDesktopString(x)。只有名单里的精确文字才交给
 # globalThis.__t3zh?.t?.(x) 查表（CONVENTIONS §5 全局 API），其余原样返回。名单外的文字不能交给 t()：
@@ -23,10 +23,10 @@
 # reports/desktop-main-strings.md 第 4 节和 handoff/T07.md。上游更新后重做方法见 patches/README.md。
 #
 diff --git a/apps/web/src/components/ServerUpdateAction.tsx b/apps/web/src/components/ServerUpdateAction.tsx
-index e40d4f5d0792d2d1af1c39a6a210664328ceb76a..6b365600cac21c15e23ccd2d36b31ff5d62362f5 100644
+index 3d809655..b76ce3fd 100644
 --- a/apps/web/src/components/ServerUpdateAction.tsx
 +++ b/apps/web/src/components/ServerUpdateAction.tsx
-@@ -26,6 +26,7 @@ import { serverEnvironment, updateOutdatedServer } from "~/state/server";
+@@ -27,6 +27,7 @@ import { serverEnvironment, updateOutdatedServer } from "~/state/server";
  import { appAtomRegistry } from "~/rpc/atomRegistry";
  import { useAtomCommand } from "~/state/use-atom-command";
  import { manualServerUpdateCommand } from "~/versionSkew";
@@ -34,7 +34,7 @@ index e40d4f5d0792d2d1af1c39a6a210664328ceb76a..6b365600cac21c15e23ccd2d36b31ff5
  import { Button } from "./ui/button";
  import { toastManager } from "./ui/toast";
  import { Tooltip, TooltipPopup, TooltipTrigger } from "./ui/tooltip";
-@@ -45,7 +46,7 @@ export function serverUpdateStageLabel(stage: ServerUpdateStage): string {
+@@ -43,7 +44,7 @@ export function serverUpdateStageLabel(stage: ServerUpdateStage): string {
  }
 
  function updateFailureMessage(error: unknown): string {
@@ -43,7 +43,7 @@ index e40d4f5d0792d2d1af1c39a6a210664328ceb76a..6b365600cac21c15e23ccd2d36b31ff5
  }
 
  export interface ServerUpdateTarget {
-@@ -185,8 +186,12 @@ export function ServerUpdateProgress({
+@@ -184,8 +185,12 @@ export function ServerUpdateProgress({
        <div className="mt-1 flex min-w-0 items-center gap-2 text-xs text-destructive" role="alert">
          <span className="size-1.5 shrink-0 rounded-full bg-destructive" aria-hidden="true" />
          <Tooltip>
@@ -59,18 +59,18 @@ index e40d4f5d0792d2d1af1c39a6a210664328ceb76a..6b365600cac21c15e23ccd2d36b31ff5
        </div>
      );
 diff --git a/apps/web/src/components/desktop/SnapShotCoordinator.tsx b/apps/web/src/components/desktop/SnapShotCoordinator.tsx
-index e7ac04b0d068d1ae280d9aa52b44cf542a3c06c0..fee5348a4fa7b1f8860f22306ce12e556fa1ae1d 100644
+index 503572ba..85e3509a 100644
 --- a/apps/web/src/components/desktop/SnapShotCoordinator.tsx
 +++ b/apps/web/src/components/desktop/SnapShotCoordinator.tsx
-@@ -33,6 +33,7 @@ import {
- } from "../../lib/desktopSnapShot";
+@@ -40,6 +40,7 @@ import {
+ } from "../../questionAttachments";
  import { readFileAsDataUrl } from "../ChatView.logic";
  import { stackedThreadToast, toastManager } from "../ui/toast";
 +import { translateKnownDesktopString } from "~/desktopIpcStrings";
 
  type CaptureTarget = DraftId | ScopedThreadRef;
-
-@@ -377,7 +378,7 @@ export function SnapShotCoordinator() {
+ type CaptureFailure = "missing-project" | "delivery";
+@@ -464,7 +465,7 @@ export function SnapShotCoordinator() {
                stackedThreadToast({
                  type: "error",
                  title: "Snapshot failed",
@@ -80,18 +80,18 @@ index e7ac04b0d068d1ae280d9aa52b44cf542a3c06c0..fee5348a4fa7b1f8860f22306ce12e55
              );
            });
 diff --git a/apps/web/src/components/settings/ConnectionsSettings.tsx b/apps/web/src/components/settings/ConnectionsSettings.tsx
-index 5877f1bbda6c838828dc4df29ee38d9fa257eb6f..d01bb924b00017f20d902160f7a070ec3e238d70 100644
+index ee0328f6..73cc6705 100644
 --- a/apps/web/src/components/settings/ConnectionsSettings.tsx
 +++ b/apps/web/src/components/settings/ConnectionsSettings.tsx
-@@ -188,6 +188,7 @@ import {
+@@ -194,6 +194,7 @@ import {
    usePrimaryEnvironmentId,
  } from "~/state/environments";
  import { APP_VERSION } from "~/branding";
 +import { translateKnownDesktopString } from "~/desktopIpcStrings";
  import { requestConfirmDialog } from "~/confirmDialog";
  import { useAtomCommand } from "../../state/use-atom-command";
- import { primaryServerKeybindingsAtom, serverEnvironment } from "~/state/server";
-@@ -975,7 +976,7 @@ const PairingLinkListRow = memo(function PairingLinkListRow({
+ import { environmentIdsKey } from "~/state/environmentAtomList";
+@@ -874,7 +875,7 @@ const PairingLinkListRow = memo(function PairingLinkListRow({
                            isSelected ? "text-foreground" : "text-muted-foreground",
                          )}
                        >
@@ -100,7 +100,7 @@ index 5877f1bbda6c838828dc4df29ee38d9fa257eb6f..d01bb924b00017f20d902160f7a070ec
                        </span>
                        <span className="min-w-0 truncate text-2xs text-muted-foreground/70">
                          {option.detail}
-@@ -1424,7 +1425,7 @@ const AdvertisedEndpointListRow = memo(function AdvertisedEndpointListRow({
+@@ -1324,7 +1325,7 @@ const AdvertisedEndpointListRow = memo(function AdvertisedEndpointListRow({
        <div className="flex min-h-6 min-w-0 flex-col gap-2 sm:-my-0.5 sm:flex-row sm:items-center">
          <div className="flex min-w-0 items-baseline gap-3">
            <h3 className="shrink-0 text-sm leading-5 font-medium text-foreground">
@@ -110,10 +110,10 @@ index 5877f1bbda6c838828dc4df29ee38d9fa257eb6f..d01bb924b00017f20d902160f7a070ec
            {shouldShowEndpointUrl ? (
              <Tooltip>
 diff --git a/apps/web/src/components/settings/SnapShotSettings.tsx b/apps/web/src/components/settings/SnapShotSettings.tsx
-index 286d065b449f31e65565d46200bc449f6515b29a..ec60aa9222f66dd8425fdd1fb27c241f1e592243 100644
+index e9b54c48..2ce2a37b 100644
 --- a/apps/web/src/components/settings/SnapShotSettings.tsx
 +++ b/apps/web/src/components/settings/SnapShotSettings.tsx
-@@ -47,6 +47,7 @@ import { Switch } from "../ui/switch";
+@@ -50,6 +50,7 @@ import { Switch } from "../ui/switch";
  import { toastManager } from "../ui/toast";
  import { SnapShotSetupDialog } from "./SnapShotSetupDialog";
  import { useSnapShotShortcutRecorder } from "./useSnapShotShortcutRecorder";
@@ -121,7 +121,7 @@ index 286d065b449f31e65565d46200bc449f6515b29a..ec60aa9222f66dd8425fdd1fb27c241f
  import {
    captureSetupAccessReady,
    captureSetupInitialStep,
-@@ -269,7 +270,7 @@ export function SnapShotSettings() {
+@@ -297,7 +298,7 @@ export function SnapShotSettings() {
          : shortcutCheck.availability
            ? shortcutCheck.availability.available
              ? "Ready to save."
@@ -131,7 +131,7 @@ index 286d065b449f31e65565d46200bc449f6515b29a..ec60aa9222f66dd8425fdd1fb27c241f
                !state.shortcutLabel &&
                isModifierPairShortcut(displayShortcut)
 diff --git a/apps/web/src/components/settings/SnapShotSetupDialog.tsx b/apps/web/src/components/settings/SnapShotSetupDialog.tsx
-index c6003adc740f2682c2bc745a73f16de0d203e17b..ba45a12fbcf4c0ec402110082b3c70f0940b4e1e 100644
+index bf078c74..a7a0cb90 100644
 --- a/apps/web/src/components/settings/SnapShotSetupDialog.tsx
 +++ b/apps/web/src/components/settings/SnapShotSetupDialog.tsx
 @@ -11,6 +11,7 @@ import { CaptureShortcutConfig } from "./CaptureShortcutConfig";
@@ -142,7 +142,7 @@ index c6003adc740f2682c2bc745a73f16de0d203e17b..ba45a12fbcf4c0ec402110082b3c70f0
  import {
    captureSetupAccessReady,
    captureSetupBackend,
-@@ -351,7 +352,7 @@ export function SnapShotSetupDialog({
+@@ -348,7 +349,7 @@ export function SnapShotSetupDialog({
                  <div className="mt-3 space-y-3">
                    {details.map((detail) => (
                      <p key={detail} className="break-words">
@@ -153,7 +153,7 @@ index c6003adc740f2682c2bc745a73f16de0d203e17b..ba45a12fbcf4c0ec402110082b3c70f0
                    {step === "access" && (backend === "gnome" || helperBackend) ? (
 diff --git a/apps/web/src/desktopIpcStrings.ts b/apps/web/src/desktopIpcStrings.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..de5660388a1914790b8a2606ed4f77b201f523bd
+index 00000000..de566038
 --- /dev/null
 +++ b/apps/web/src/desktopIpcStrings.ts
 @@ -0,0 +1,94 @@

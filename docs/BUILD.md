@@ -1,5 +1,15 @@
 # 构建手册（T01 建立，后续任务据此复现）
 
+当前基线：正式版 `v0.1.1` / `fe27e8e3dc12dcbb108e9a28fd9b8cb65f34ae92`，当前交付 `0.1.1-zh.2`（macOS ARM64 + Windows x64）。已交付的版本号不再覆盖重建，修复一律升 `zh.<N>`。上游产品名为 `T3 Code (Beta)`。
+
+macOS ARM64 沿用 `scripts/build-zh.sh` → `scripts/make-installer.ts` → `scripts/release-hygiene.ts` → `scripts/web-check/run.ts`。只交付 `release/<版本>/installer/` 中完成检查的 DMG，根目录的同名 DMG 是打包中间产物。
+
+Windows x64 使用 `.github/workflows/build-windows.yml`：Linux 构建共用中文 JS bundle，再生成同版本 Linux x64 CLI 归档作为 WSL runtime，Windows runner 使用这些输入打 NSIS 包并运行 `smoke-installed.ps1`。补丁、词库和守卫阈值复用同一来源；仅 Windows 的语言资源/安装器配置在 `scripts/windows/patches/`。运行结果以 CI 证据为准，静态测试通过不代表 Windows 实际出包通过。
+
+两个平台共用版本号 `<上游版本>-zh.<N>`。Windows 安装器未做发布者签名；Mac 为 ad-hoc 签名，未公证，不含 Touch ID 通行密钥所需描述文件。两者均禁用官方自动更新源；产品名/标识及配置目录沿用上游，不能与同配置的官方或旧汉化实例同时运行。
+
+以下保留首次从零构建（基线 2644）的实测记录：
+
 基线：
 
 - tag `v0.0.46-nightly.20261004.2644`
@@ -385,6 +395,7 @@ node scripts/web-check/run.ts --version <版本> --dmg <交付installer.dmg> \
   --port 15182 --helper-port 15183 --out .build/<本轮>/web
 # 默认读取 .build/src；可传 --build-src、--checks。--phase real / simulated 用于分段定位。
 # 模拟项必须有交付 DMG；缺失 / 不同的资源会使模拟项失败。
+# 同一 DMG 的发布卫生扫描与网页检查须顺序执行，避免 hdiutil 同时挂载时报资源忙。
 
 # 也可以单独管理沙盒；每份配对凭据只在内存转交一次。
 node scripts/web-check/sandbox.ts start --port 15182 --helper-port 15183 \
@@ -398,11 +409,11 @@ node scripts/web-check/sandbox.ts stop --state .build/<本轮>/web-state.json
 node --test scripts/lib/web-check.test.ts
 ```
 
-网页清单在 `scripts/web-check/checks/t17-t19.json`，目前 9 个 real、11 个 simulated；每项先 zh-CN、整组完成后 en，最后恢复 zh-CN。真实检查自建名为 `No project` 的项目，只读本沙盒 SQLite 核对原始 title；通过最终公开 client-settings API 完成首启门控，另行访问 `/welcome`。模拟只验证显示路径；PR、账号、子任务、重启、导入和清理的真实集成仍按 T19 交接的限制处理。
+网页累积清单在 `scripts/web-check/checks/acceptance.json`，目前 13 个 real、22 个 simulated，双语共 70 项；每项先 zh-CN、整组完成后 en，最后恢复 zh-CN。真实检查自建名为 `No project` 的项目，只读本沙盒 SQLite 核对原始 title；通过最终公开 client-settings API 完成首启门控，另行访问 `/welcome`。遥测检查在空沙盒中选择自身环境，保持端点为空，不保存或测试外部端点。新增模拟项覆盖评审指南、提示词链接和更新侧栏，并检查动态标题、提示词正文和错误原文。模拟只验证显示路径；PR、账号、子任务、更新/重启、导入和清理的真实集成仍按 T19 交接的限制处理。
 
-新增真实项只改清单中的 path、区域、动作和双语 required / forbidden / exact_text；动作支持点击、输入、选择、等待、Escape 和 PointerEvent 拖动。模拟复用已登记组件时，在清单的 fixtures 填 props / tree / state，再引用它；新组件另外在 `modules.ts` 登记源码后缀、原符号及函数特征。找不到唯一符号或函数体被重写即失败。清单提供回归预期；版本预期使用 CLI 的 `--version`，编译文件和导出名从最终 source map / AST 推出，不写死 asset 哈希名。
+新增真实项只改清单中的 path、区域、动作和双语 required / forbidden / exact_text；动作支持点击、输入、选择、等待、Escape 和 PointerEvent 拖动。模拟复用已登记组件时，在清单的 fixtures 填 props / tree / state，再引用它；helper 的 `call` 可以用 `select` 读取返回对象的显示字段。新组件另外在 `modules.ts` 登记源码后缀、原符号及函数特征。找不到唯一符号或函数体被重写即失败。清单提供回归预期；版本预期使用 CLI 的 `--version`，编译文件和导出名从最终 source map / AST 推出，不写死 asset 哈希名。
 
-每个模拟结果关联 `web-last-final-module-hashes.json`：对全部实际加载 JavaScript（含依赖及追加 export 前的原模块）逐个记录 SHA-256，并与只读交付 DMG 的 ASAR 资源比对，缺失或不同均失败。原模块与重定向 import 后的组件 / helper 函数体逐字节相同；不比较两次构建的整个 ASAR。证据 URL 仅含 origin / pathname；配对 fragment、秘密字段和运行时个人值写入前过滤，收尾自查。
+每个模拟结果关联 `web-last-final-module-hashes.json`：对全部实际加载 JavaScript（含依赖及追加 export 前的原模块）逐个记录 SHA-256，并与只读交付 DMG 的 ASAR 资源比对，缺失或不同均失败。首次导航前，Chrome 当前页面路由仅在内存中提供重定向 import / 追加 export 的模块；保留原 URL 和模块缓存身份，避免组件迁入入口 chunk 后通过 blob 副本重复执行应用启动。原模块与重定向 import 后的组件 / helper 函数体逐字节相同，磁盘构建资源不变；不比较两次构建的整个 ASAR。证据 URL 仅含 origin / pathname；配对 fragment、秘密字段和运行时个人值写入前过滤，收尾自查。
 
 每次 Chrome 使用系统临时目录中的新 profile，启动后核对调试 pipe 且没有调试端口。server / helper / 子进程记录 PID 和启动时间，结束前核对身份；PID 已复用时拒绝终止。finally 关闭 Chrome、检查记录进程、删除 profile、结束沙盒 PID、确认端口可重新绑定，再删除沙盒和状态文件。状态文件原子替换；中断后先查看 status 和交接进度，使用记录的 state 执行 stop。网页整套参考耗时见 T20 B 段最终交接；明显更慢时记录 `uptime` 后查看逐项 seconds，不盲等。
 

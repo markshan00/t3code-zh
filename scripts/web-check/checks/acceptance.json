@@ -1,0 +1,3953 @@
+{
+  "schema": 1,
+  "title": "T17–T23 累积网页检查",
+  "dataset": {
+    "directory": "No project",
+    "actions": [
+      {
+        "type": "wait",
+        "target": {
+          "role": "button",
+          "name": {
+            "zh-CN": "不选择项目，直接开始",
+            "en": "Start without a project"
+          }
+        }
+      },
+      {
+        "type": "click",
+        "target": {
+          "role": "button",
+          "name": {
+            "zh-CN": "添加项目",
+            "en": "Add project"
+          }
+        },
+        "first": true
+      },
+      {
+        "type": "click",
+        "target": {
+          "name": {
+            "zh-CN": "本地文件夹",
+            "en": "Local folder"
+          }
+        },
+        "first": false
+      },
+      {
+        "type": "fill",
+        "target": {
+          "selector": "input[placeholder^=\"Enter path\"]"
+        },
+        "value": "$project"
+      },
+      {
+        "type": "click",
+        "target": {
+          "selector": "button[aria-label=\"Add (Enter)\"]"
+        }
+      }
+    ]
+  },
+  "checks": [
+    {
+      "name": "wizard",
+      "kind": "real",
+      "path": "/welcome",
+      "region": "body",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "连接，第 1 步",
+            "Agent，第 2 步",
+            "项目，第 3 步",
+            "连接你的设备"
+          ],
+          "forbidden": [
+            "Connect, step 1",
+            "Agents, step 2",
+            "Projects, step 3",
+            "Connect your computers"
+          ]
+        },
+        "en": {
+          "required": [
+            "Connect, step 1",
+            "Agents, step 2",
+            "Projects, step 3",
+            "Connect your computers"
+          ],
+          "forbidden": [
+            "连接你的设备"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-wizard-real",
+        "comparison": "指定中文 / English 原文与旧证据一致；新空白 profile 和运行时背景内容不作整页逐字比较"
+      }
+    },
+    {
+      "name": "general",
+      "kind": "real",
+      "path": "/settings/general",
+      "region": "body",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "自动",
+            "$version"
+          ],
+          "forbidden": [
+            "Automatic"
+          ]
+        },
+        "en": {
+          "required": [
+            "Automatic",
+            "$version"
+          ],
+          "forbidden": [
+            "自动"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-general-real",
+        "comparison": "指定中文 / English 原文与旧证据一致；新空白 profile 和运行时背景内容不作整页逐字比较"
+      }
+    },
+    {
+      "name": "storage",
+      "kind": "real",
+      "path": "/settings/storage",
+      "region": "body",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "请先开启一条清理规则。",
+            "随任务删除工作树",
+            "保留有本地更改的工作树"
+          ],
+          "forbidden": [
+            "Turn on a cleanup rule to use this.",
+            "Delete worktrees with deleted threads",
+            "Keep worktrees with local changes"
+          ]
+        },
+        "en": {
+          "required": [
+            "Turn on a cleanup rule to use this.",
+            "Delete worktrees with deleted threads",
+            "Keep worktrees with local changes"
+          ],
+          "forbidden": [
+            "请先开启一条清理规则。",
+            "随任务删除工作树",
+            "保留有本地更改的工作树"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-storage-real",
+        "comparison": "指定中文 / English 原文与旧证据一致；新空白 profile 和运行时背景内容不作整页逐字比较"
+      },
+      "disabled": {
+        "zh-CN": "立即删除",
+        "en": "Delete now"
+      }
+    },
+    {
+      "name": "keep-options",
+      "kind": "real",
+      "path": "/settings/storage",
+      "region": "body",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "role": "combobox",
+            "name": {
+              "zh-CN": "保留有本地更改的工作树",
+              "en": "Keep worktrees with local changes"
+            }
+          },
+          "first": false
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "任何本地文件",
+            "未提交的更改",
+            "已编辑的已跟踪文件"
+          ],
+          "forbidden": [
+            "Any local files",
+            "Uncommitted changes",
+            "Edited tracked files"
+          ]
+        },
+        "en": {
+          "required": [
+            "Any local files",
+            "Uncommitted changes",
+            "Edited tracked files"
+          ],
+          "forbidden": [
+            "任何本地文件",
+            "未提交的更改",
+            "已编辑的已跟踪文件"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-keep-options-real",
+        "comparison": "指定中文 / English 原文与旧证据一致；新空白 profile 和运行时背景内容不作整页逐字比较"
+      }
+    },
+    {
+      "name": "source-control",
+      "kind": "real",
+      "path": "/settings/source-control",
+      "region": "body",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "GitCafe"
+          ],
+          "forbidden": []
+        },
+        "en": {
+          "required": [
+            "GitCafe"
+          ],
+          "forbidden": []
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-source-control-real",
+        "comparison": "指定中文 / English 原文与旧证据一致；新空白 profile 和运行时背景内容不作整页逐字比较"
+      }
+    },
+    {
+      "name": "project-picker-open",
+      "kind": "real",
+      "path": "/",
+      "region": "body",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "selector": "[data-draft-project-trigger]"
+          },
+          "first": true
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "无项目",
+            "添加项目",
+            "搜索项目"
+          ],
+          "forbidden": [
+            "No project",
+            "Add project",
+            "Search projects"
+          ]
+        },
+        "en": {
+          "required": [
+            "No project",
+            "Add project",
+            "Search projects"
+          ],
+          "forbidden": [
+            "无项目",
+            "添加项目",
+            "搜索项目"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-project-picker-open-real",
+        "comparison": "指定中文 / English 原文与旧证据一致；新空白 profile 和运行时背景内容不作整页逐字比较"
+      }
+    },
+    {
+      "name": "project-picker-search",
+      "kind": "real",
+      "path": "/",
+      "region": "body",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "selector": "[data-draft-project-trigger]"
+          },
+          "first": true
+        },
+        {
+          "type": "fill",
+          "target": {
+            "role": "combobox",
+            "name": {
+              "zh-CN": "搜索项目",
+              "en": "Search projects"
+            }
+          },
+          "value": {
+            "zh-CN": "无项目",
+            "en": "No project"
+          }
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "无项目"
+          ],
+          "forbidden": [
+            "No project"
+          ]
+        },
+        "en": {
+          "required": [
+            "No project"
+          ],
+          "forbidden": [
+            "无项目"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-project-picker-search-real",
+        "comparison": "指定中文 / English 原文与旧证据一致；新空白 profile 和运行时背景内容不作整页逐字比较"
+      }
+    },
+    {
+      "name": "project-picker-empty",
+      "kind": "real",
+      "path": "/",
+      "region": "body",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "selector": "[data-draft-project-trigger]"
+          },
+          "first": true
+        },
+        {
+          "type": "fill",
+          "target": {
+            "role": "combobox",
+            "name": {
+              "zh-CN": "搜索项目",
+              "en": "Search projects"
+            }
+          },
+          "value": "t3zh-no-match-xyz"
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "没有匹配的项目。"
+          ],
+          "forbidden": [
+            "No matching projects."
+          ]
+        },
+        "en": {
+          "required": [
+            "No matching projects."
+          ],
+          "forbidden": [
+            "没有匹配的项目。"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-project-picker-empty-real",
+        "comparison": "指定中文 / English 原文与旧证据一致；新空白 profile 和运行时背景内容不作整页逐字比较"
+      }
+    },
+    {
+      "name": "gitcafe-source",
+      "kind": "real",
+      "path": "/",
+      "region": "body",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "role": "button",
+            "name": {
+              "zh-CN": "添加项目",
+              "en": "Add project"
+            }
+          },
+          "first": true
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "GitCafe 仓库",
+            "克隆 GitCafe 所有者/仓库"
+          ],
+          "forbidden": [
+            "GitCafe repository",
+            "Clone GitCafe owner/repo"
+          ]
+        },
+        "en": {
+          "required": [
+            "GitCafe repository",
+            "Clone GitCafe owner/repo"
+          ],
+          "forbidden": [
+            "GitCafe 仓库",
+            "克隆 GitCafe 所有者/仓库"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-gitcafe-source-real",
+        "comparison": "指定中文 / English 原文与旧证据一致；新空白 profile 和运行时背景内容不作整页逐字比较"
+      }
+    },
+    {
+      "name": "cleanup-results",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "cleanup-results",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "上次运行于 1 小时前，已回收 1 MB。",
+            "上次运行于 1 小时前，已回收 1 MB。1 个项目无法删除。",
+            "上次运行于 1 小时前，已回收 1 MB。3 个项目无法删除。",
+            "轮转日志",
+            "浏览器产物",
+            "没有需要清理的内容。",
+            "1 个文件",
+            "3 个文件",
+            "另有 3 条结果。",
+            "Worktrees",
+            "Rotated logs",
+            "Browser artifacts"
+          ],
+          "forbidden": [
+            "Last run 1h ago. 1 MB recovered.",
+            "Last run 1h ago. 1 MB recovered. 1 item couldn't be removed.",
+            "Last run 1h ago. 1 MB recovered. 3 items couldn't be removed.",
+            "Nothing needed cleanup.",
+            "1 file",
+            "3 files",
+            "3 more results."
+          ],
+          "exact_text": "上次运行于 1 小时前，已回收 1 MB。\n\n已删除 2 个，保留 3 个\n\n上次运行于 1 小时前，已回收 1 MB。1 个项目无法删除。\n\n已删除 2 个，保留 3 个，失败 1 个\n\n上次运行于 1 小时前，已回收 1 MB。3 个项目无法删除。\n\n已删除 2 个，保留 3 个，失败 3 个\n\n工作树\n\n终端仍处于打开状态。\n设备\nT19 environment\n任务\nWorktrees\n\n轮转日志\n\n没有过期文件\n设备\nT19 environment\n任务\nRotated logs\n\n1 个文件 · 1.00 MB\n浏览器产物\n\n没有过期文件\n设备\nT19 environment\n任务\nBrowser artifacts\n\n3 个文件 · 1.00 MB\n\nT19 environment: 另有 3 条结果。\n\nT19 empty environment: 没有需要清理的内容。"
+        },
+        "en": {
+          "required": [
+            "Last run 1h ago. 1 MB recovered.",
+            "Last run 1h ago. 1 MB recovered. 1 item couldn't be removed.",
+            "Last run 1h ago. 1 MB recovered. 3 items couldn't be removed.",
+            "Rotated logs",
+            "Browser artifacts",
+            "Nothing needed cleanup.",
+            "1 file",
+            "3 files",
+            "3 more results.",
+            "Worktrees",
+            "Rotated logs",
+            "Browser artifacts"
+          ],
+          "forbidden": [
+            "上次运行于 1 小时前，已回收 1 MB。",
+            "上次运行于 1 小时前，已回收 1 MB。 1 个项目无法删除。",
+            "上次运行于 1 小时前，已回收 1 MB。 3 个项目无法删除。",
+            "轮转日志",
+            "浏览器产物",
+            "没有需要清理的内容。",
+            "1 个文件",
+            "3 个文件",
+            "另有 3 条结果。"
+          ],
+          "exact_text": "Last run 1h ago. 1 MB recovered.\n\n2 removed, 3 kept\n\nLast run 1h ago. 1 MB recovered. 1 item couldn't be removed.\n\n2 removed, 3 kept, 1 failed\n\nLast run 1h ago. 1 MB recovered. 3 items couldn't be removed.\n\n2 removed, 3 kept, 3 failed\n\nWorktrees\n\nOpen terminal\nMachine\nT19 environment\nThread\nWorktrees\n\nRotated logs\n\nNo expired files\nMachine\nT19 environment\nThread\nRotated logs\n\n1 file · 1.00 MB\nBrowser artifacts\n\nNo expired files\nMachine\nT19 environment\nThread\nBrowser artifacts\n\n3 files · 1.00 MB\n\nT19 environment: 3 more results.\n\nT19 empty environment: Nothing needed cleanup."
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-cleanup-results-simulated",
+        "comparison": "v0.1.1 清理结果改为设备 / 任务独立行；保留整段 exact 和全部固定显示断言，并新增原始英文任务名必须保留的断言。"
+      },
+      "forbidden_all": [
+        "Worktrees. ",
+        "Rotated logs. ",
+        "Browser artifacts. "
+      ]
+    },
+    {
+      "name": "new-states-one",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "new-states-one",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "子 Agent 需要输入",
+            "打开问题",
+            "由 T3 Code 发送",
+            "导入项目",
+            "从所选设备上的 Claude Code 和 Codex 导入项目与对话。",
+            "不导入项目",
+            "导入 0 个项目"
+          ],
+          "forbidden": [
+            "Subagent needs input",
+            "Open question",
+            "Sent by T3 Code",
+            "Import your projects",
+            "Import projects and conversations from Claude Code and Codex on your selected computers.",
+            "Do not import projects",
+            "Import 0 projects"
+          ]
+        },
+        "en": {
+          "required": [
+            "Subagent needs input",
+            "Open question",
+            "Sent by T3 Code",
+            "Import your projects",
+            "Import projects and conversations from Claude Code and Codex on your selected computers.",
+            "Do not import projects",
+            "Import 0 projects"
+          ],
+          "forbidden": [
+            "子 Agent 需要输入",
+            "打开问题",
+            "由 T3 Code 发送",
+            "导入项目",
+            "从所选设备上的 Claude Code 和 Codex 导入项目与对话。",
+            "不导入项目",
+            "导入 0 个项目"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-new-states-one-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      }
+    },
+    {
+      "name": "new-states-many",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "new-states-many",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "3 个子 Agent 需要输入",
+            "打开问题",
+            "由 T3 Code 发送",
+            "导入项目",
+            "从所选设备上的 Claude Code 和 Codex 导入项目与对话。",
+            "不导入项目",
+            "导入 0 个项目"
+          ],
+          "forbidden": [
+            "3 subagents need input",
+            "Open question",
+            "Sent by T3 Code",
+            "Import your projects",
+            "Import projects and conversations from Claude Code and Codex on your selected computers.",
+            "Do not import projects",
+            "Import 0 projects"
+          ]
+        },
+        "en": {
+          "required": [
+            "3 subagents need input",
+            "Open question",
+            "Sent by T3 Code",
+            "Import your projects",
+            "Import projects and conversations from Claude Code and Codex on your selected computers.",
+            "Do not import projects",
+            "Import 0 projects"
+          ],
+          "forbidden": [
+            "3 个子 Agent 需要输入",
+            "打开问题",
+            "由 T3 Code 发送",
+            "导入项目",
+            "从所选设备上的 Claude Code 和 Codex 导入项目与对话。",
+            "不导入项目",
+            "导入 0 个项目"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-new-states-many-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      }
+    },
+    {
+      "name": "navigation",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "navigation",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "打开父任务：Projects to start",
+            "唯一一条评论已被筛选条件隐藏。",
+            "纯文本"
+          ],
+          "forbidden": [
+            "Open parent thread: Projects to start",
+            "The only comment is hidden by the filter.",
+            "Plain text"
+          ],
+          "exact_text": "T1\nT19 project\n/\nProjects to start\n/\nT19 child\n评审者\n无\n描述\n\n未提供说明。\n\n检查\n评论（1）\n1 个已隐藏\n最新优先\n\n唯一一条评论已被筛选条件隐藏。\n\n纯文本"
+        },
+        "en": {
+          "required": [
+            "Open parent thread: Projects to start",
+            "The only comment is hidden by the filter.",
+            "Plain text"
+          ],
+          "forbidden": [
+            "打开父任务：Projects to start",
+            "唯一一条评论已被筛选条件隐藏。",
+            "纯文本"
+          ],
+          "exact_text": "T1\nT19 project\n/\nProjects to start\n/\nT19 child\nReviewers\nNone\nDescription\n\nNo description provided.\n\nChecks\nComments (1)\n1 hidden\nNewest first\n\nThe only comment is hidden by the filter.\n\nPlain text"
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-navigation-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      }
+    },
+    {
+      "name": "navigation-many",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "navigation-many",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "打开父任务：Projects to start",
+            "全部 3 条评论已被筛选条件隐藏。"
+          ],
+          "forbidden": [
+            "Open parent thread: Projects to start",
+            "All 3 comments are hidden by the filter."
+          ],
+          "exact_text": "T1\nT19 project\n/\nProjects to start\n/\nT19 child\n评审者\n无\n描述\n\n未提供说明。\n\n检查\n评论（3）\n3 个已隐藏\n最新优先\n\n全部 3 条评论已被筛选条件隐藏。\n\n纯文本"
+        },
+        "en": {
+          "required": [
+            "Open parent thread: Projects to start",
+            "All 3 comments are hidden by the filter."
+          ],
+          "forbidden": [
+            "打开父任务：Projects to start",
+            "全部 3 条评论已被筛选条件隐藏。"
+          ],
+          "exact_text": "T1\nT19 project\n/\nProjects to start\n/\nT19 child\nReviewers\nNone\nDescription\n\nNo description provided.\n\nChecks\nComments (3)\n3 hidden\nNewest first\n\nAll 3 comments are hidden by the filter.\n\nPlain text"
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-navigation-many-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      }
+    },
+    {
+      "name": "pr-filter-menu",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "navigation-many",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "role": "button",
+            "name": {
+              "zh-CN": "筛选评论",
+              "en": "Filter comments"
+            }
+          }
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "机器人评论"
+          ],
+          "forbidden": [
+            "Bot comments"
+          ]
+        },
+        "en": {
+          "required": [
+            "Bot comments"
+          ],
+          "forbidden": [
+            "机器人评论"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-pr-filter-menu-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      },
+      "extra_regions": [
+        "[role=\"menu\"]"
+      ]
+    },
+    {
+      "name": "code-languages",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "navigation",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "role": "combobox",
+            "name": {
+              "zh-CN": "代码语言：纯文本",
+              "en": "Code language: Plain text"
+            }
+          }
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "纯文本",
+            "搜索语言"
+          ],
+          "forbidden": [
+            "Plain text",
+            "Search languages"
+          ]
+        },
+        "en": {
+          "required": [
+            "Plain text",
+            "Search languages"
+          ],
+          "forbidden": [
+            "纯文本",
+            "搜索语言"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-code-languages-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      },
+      "extra_regions": [
+        "[data-slot=\"combobox-popup\"]"
+      ]
+    },
+    {
+      "name": "tabs-before",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "tabs-before",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "文件",
+            "浏览器",
+            "差异"
+          ],
+          "forbidden": [
+            "Files",
+            "Browser",
+            "Diff"
+          ],
+          "exact_text": "差异\n文件\n浏览器\n\nT19 simulated panels"
+        },
+        "en": {
+          "required": [
+            "Files",
+            "Browser",
+            "Diff"
+          ],
+          "forbidden": [
+            "文件",
+            "浏览器",
+            "差异"
+          ],
+          "exact_text": "Diff\nFiles\nBrowser\n\nT19 simulated panels"
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-tabs-before-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      },
+      "tab_order": {
+        "zh-CN": [
+          "差异",
+          "文件",
+          "浏览器"
+        ],
+        "en": [
+          "Diff",
+          "Files",
+          "Browser"
+        ]
+      }
+    },
+    {
+      "name": "tabs-after",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "tabs-before",
+      "actions": [
+        {
+          "type": "drag",
+          "target": {
+            "role": "button",
+            "name": {
+              "zh-CN": "差异",
+              "en": "Diff"
+            }
+          },
+          "to": {
+            "role": "button",
+            "name": {
+              "zh-CN": "浏览器",
+              "en": "Browser"
+            }
+          }
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "可拖动项 差异 已放到区域 浏览器"
+          ],
+          "forbidden": [
+            "Draggable item diff was dropped over droppable area preview"
+          ],
+          "exact_text": "文件\n浏览器\n差异\n可拖动项 差异 已放到区域 浏览器\n\nT19 simulated panels"
+        },
+        "en": {
+          "required": [
+            "Draggable item diff was dropped over droppable area preview"
+          ],
+          "forbidden": [
+            "可拖动项 差异 已放到区域 浏览器"
+          ],
+          "exact_text": "Files\nBrowser\nDiff\nDraggable item diff was dropped over droppable area preview\n\nT19 simulated panels"
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-tabs-after-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      },
+      "tab_order": {
+        "zh-CN": [
+          "文件",
+          "浏览器",
+          "差异"
+        ],
+        "en": [
+          "Files",
+          "Browser",
+          "Diff"
+        ]
+      },
+      "expect_move": {
+        "id": "diff",
+        "to": 2
+      }
+    },
+    {
+      "name": "update-track",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "update-track",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "更新通道",
+            "$version"
+          ],
+          "forbidden": [
+            "Update track"
+          ],
+          "exact_text": "版本\n$version\n\n当前应用版本。\n\n检查更新\n更新通道\n\n使用稳定版或每日构建版，可随时切换。\n\n稳定版\nt3 命令\n\n在任意终端中使用 `t3` 运行 T3 Code CLI。\n\n安装"
+        },
+        "en": {
+          "required": [
+            "Update track",
+            "$version"
+          ],
+          "forbidden": [
+            "更新通道"
+          ],
+          "exact_text": "Version\n$version\n\nCurrent version of the application.\n\nCheck for Updates\nUpdate track\n\nUse stable releases or nightly builds. Switch back anytime.\n\nStable\nt3 command\n\nRun T3 Code's CLI as `t3` from any terminal.\n\nInstall"
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-update-track-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      }
+    },
+    {
+      "name": "usage",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "usage",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "T19 Codex 1",
+            "T19 Codex 2",
+            "T19 Claude 1",
+            "T19 Claude 2",
+            "80%",
+            "95%",
+            "85%",
+            "100%",
+            "45%",
+            "60%",
+            "74%",
+            "97%"
+          ],
+          "forbidden": [],
+          "exact_text": "所有服务提供方\nCodex\nTC\nT19 Codex 1\n会话\n80%\n剩余\n2 小时 0 分钟 后重置\n每周\n45%\n剩余\n2 天 0 小时 后重置\nTC\nT19 Codex 2\n会话\n95%\n剩余\n2 小时 0 分钟 后重置\n每周\n60%\n剩余\n2 天 0 小时 后重置\nClaude\nTC\nT19 Claude 1\n会话\n85%\n剩余\n2 小时 0 分钟 后重置\n每周\n74%\n剩余\n2 天 0 小时 后重置\nTC\nT19 Claude 2\n会话\n100%\n剩余\n2 小时 0 分钟 后重置\n每周\n97%\n剩余\n2 天 0 小时 后重置"
+        },
+        "en": {
+          "required": [
+            "T19 Codex 1",
+            "T19 Codex 2",
+            "T19 Claude 1",
+            "T19 Claude 2",
+            "80%",
+            "95%",
+            "85%",
+            "100%",
+            "45%",
+            "60%",
+            "74%",
+            "97%"
+          ],
+          "forbidden": [],
+          "exact_text": "All providers\nCodex\nTC\nT19 Codex 1\nSession\n80%\nleft\nresets in 2h 0m\nWeekly\n45%\nleft\nresets in 2d 0h\nTC\nT19 Codex 2\nSession\n95%\nleft\nresets in 2h 0m\nWeekly\n60%\nleft\nresets in 2d 0h\nClaude\nTC\nT19 Claude 1\nSession\n85%\nleft\nresets in 2h 0m\nWeekly\n74%\nleft\nresets in 2d 0h\nTC\nT19 Claude 2\nSession\n100%\nleft\nresets in 2h 0m\nWeekly\n97%\nleft\nresets in 2d 0h"
+        }
+      },
+      "migration": {
+        "source": "T19 web-last-usage-simulated",
+        "comparison": "目标区域文字与 T19 一致；不保留旧 harness 标题、底层设置页或运行时日期；模拟 props 保持原测试内容"
+      },
+      "layout": {
+        "accounts": [
+          "T19 Codex 1",
+          "T19 Codex 2",
+          "T19 Claude 1",
+          "T19 Claude 2"
+        ],
+        "columns": 2,
+        "readings": {
+          "T19 Codex 1": [
+            "80%",
+            "45%"
+          ],
+          "T19 Codex 2": [
+            "95%",
+            "60%"
+          ],
+          "T19 Claude 1": [
+            "85%",
+            "74%"
+          ],
+          "T19 Claude 2": [
+            "100%",
+            "97%"
+          ]
+        }
+      }
+    },
+    {
+      "name": "review-guide",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "review-guide",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "评审导览",
+            "已读 1/3",
+            "上下文，无代码",
+            "仔细检查",
+            "1 个文件",
+            "2 个文件",
+            "第 1 步，已读"
+          ],
+          "forbidden": [
+            "Review tour",
+            "1 of 3 read",
+            "Context, no code",
+            "Look closely",
+            "Stop 1, read"
+          ],
+          "exact_text": "已读 1/3\nReview\n上下文，无代码\n2\nNo project\n仔细检查\n1 个文件\n3\nReady to merge\n2 个文件"
+        },
+        "en": {
+          "required": [
+            "Review tour",
+            "1 of 3 read",
+            "Context, no code",
+            "Look closely",
+            "1 file",
+            "2 files",
+            "Stop 1, read"
+          ],
+          "forbidden": [
+            "评审导览",
+            "已读",
+            "仔细检查"
+          ],
+          "exact_text": "1 of 3 read\nReview\nContext, no code\n2\nNo project\nLook closely\n1 file\n3\nReady to merge\n2 files"
+        }
+      },
+      "migration": {
+        "source": "T21 stable 0022",
+        "comparison": "最终编译组件；模拟输入，仅验证显示边界，不执行真实外部操作"
+      }
+    },
+    {
+      "name": "prompt-link",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "prompt-link",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "打开此提示词",
+            "T3 Code 已移除 2 个隐藏字符。发送前请先阅读提示词。",
+            "No project",
+            "无项目",
+            "记住我的选择"
+          ],
+          "forbidden": [
+            "Open this prompt",
+            "T3 Code removed 2 hidden characters.",
+            "Remember my choice"
+          ],
+          "exact_text": "T3 CODE (BETA)\n打开此提示词\n将以草稿形式打开。按下“发送”后才会运行。\n此提示词含有隐藏字符，可能存在恶意内容\nT3 Code 已移除 2 个隐藏字符。发送前请先阅读提示词。\nNo project\n无项目\n在桌面应用中打开\n在此继续\n获取 T3 Code\n记住我的选择"
+        },
+        "en": {
+          "required": [
+            "Open this prompt",
+            "T3 Code removed 2 hidden characters. Read the prompt before you send it.",
+            "No project",
+            "Remember my choice"
+          ],
+          "forbidden": [
+            "打开此提示词",
+            "已移除",
+            "无项目"
+          ],
+          "exact_text": "T3 CODE (BETA)\nOpen this prompt\nIt opens as a draft. Nothing runs until you press Send.\nThis prompt had hidden characters, it may be malicious\nT3 Code removed 2 hidden characters. Read the prompt before you send it.\nNo project\nNo project\nOpen in desktop app\nContinue here\nGet T3 Code\nRemember my choice"
+        }
+      },
+      "migration": {
+        "source": "T21 stable 0022",
+        "comparison": "最终编译组件；模拟输入，仅验证显示边界，不执行真实外部操作"
+      }
+    },
+    {
+      "name": "telemetry-export",
+      "kind": "real",
+      "path": "/settings/diagnostics",
+      "region": "#telemetry-export",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "selector": "#telemetry-export button:has-text(\"127.0.0.1:\")"
+          },
+          "first": true
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "OpenTelemetry 导出",
+            "追踪端点",
+            "指标端点",
+            "日志端点",
+            "将追踪、指标和日志发送到 OTLP HTTP 接收端。重启服务器后生效。环境变量会覆盖这些设置。",
+            "测试",
+            "保存"
+          ],
+          "forbidden": [
+            "OpenTelemetry export",
+            "Traces endpoint",
+            "Metrics endpoint",
+            "Logs endpoint",
+            "Send traces, metrics, and logs to an OTLP HTTP receiver."
+          ]
+        },
+        "en": {
+          "required": [
+            "OpenTelemetry export",
+            "Traces endpoint",
+            "Metrics endpoint",
+            "Logs endpoint",
+            "Send traces, metrics, and logs to an OTLP HTTP receiver. Restart the server to apply. Environment variables override these settings.",
+            "Test",
+            "Save"
+          ],
+          "forbidden": [
+            "OpenTelemetry 导出",
+            "追踪端点",
+            "指标端点",
+            "日志端点"
+          ]
+        }
+      },
+      "disabled": {
+        "zh-CN": "保存",
+        "en": "Save"
+      },
+      "migration": {
+        "source": "T21 stable 0022",
+        "comparison": "真实空沙盒诊断页，通过 UI 选择自身环境；端点留空，不发送测试请求、不保存遥测设置"
+      }
+    },
+    {
+      "name": "update-sidebar",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "update-sidebar",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "role": "button",
+            "name": {
+              "zh-CN": "T21 device 更新失败",
+              "en": "T21 device failed"
+            }
+          }
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "更新 1 个服务提供方",
+            "T21 device 更新失败",
+            "T21 device",
+            "失败",
+            "关闭",
+            "Cannot access No project"
+          ],
+          "forbidden": [
+            "Update 1 provider",
+            "T21 device failed",
+            "Dismiss"
+          ]
+        },
+        "en": {
+          "required": [
+            "Update 1 provider",
+            "T21 device failed",
+            "T21 device",
+            "failed",
+            "Dismiss",
+            "Cannot access No project"
+          ],
+          "forbidden": [
+            "更新 1 个服务提供方",
+            "更新失败",
+            "关闭"
+          ]
+        }
+      },
+      "migration": {
+        "source": "T21 stable 0022",
+        "comparison": "最终编译组件；模拟输入，仅验证显示边界，不执行真实外部操作"
+      },
+      "extra_regions": [
+        "[data-slot=\"popover-popup\"]"
+      ]
+    },
+    {
+      "name": "browser-search-options",
+      "kind": "real",
+      "path": "/settings/integrations",
+      "region": "#browser",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "name": {
+              "zh-CN": "搜索引擎",
+              "en": "Search engine"
+            },
+            "role": "combobox"
+          }
+        },
+        {
+          "type": "click",
+          "target": {
+            "role": "option",
+            "name": {
+              "zh-CN": "DuckDuckGo",
+              "en": "DuckDuckGo"
+            }
+          }
+        },
+        {
+          "type": "click",
+          "target": {
+            "name": {
+              "zh-CN": "搜索引擎",
+              "en": "Search engine"
+            },
+            "role": "combobox"
+          }
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "搜索引擎",
+            "DuckDuckGo",
+            "Google",
+            "Bing",
+            "Brave Search",
+            "Kagi",
+            "Ecosia",
+            "自定义",
+            "仅在桌面应用中可用。"
+          ],
+          "forbidden": [
+            "Custom",
+            "Only available in the desktop app."
+          ]
+        },
+        "en": {
+          "required": [
+            "Search engine",
+            "DuckDuckGo",
+            "Google",
+            "Bing",
+            "Brave Search",
+            "Kagi",
+            "Ecosia",
+            "Custom",
+            "Only available in the desktop app."
+          ],
+          "forbidden": [
+            "自定义",
+            "仅在桌面应用中可用。"
+          ]
+        }
+      },
+      "extra_regions": [
+        "[role=\"listbox\"]"
+      ]
+    },
+    {
+      "name": "browser-custom-invalid",
+      "kind": "real",
+      "path": "/settings/integrations",
+      "region": "#browser",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "name": {
+              "zh-CN": "搜索引擎",
+              "en": "Search engine"
+            },
+            "role": "combobox"
+          }
+        },
+        {
+          "type": "click",
+          "target": {
+            "role": "option",
+            "name": {
+              "zh-CN": "自定义",
+              "en": "Custom"
+            }
+          }
+        },
+        {
+          "type": "fill",
+          "target": {
+            "name": {
+              "zh-CN": "自定义搜索 URL",
+              "en": "Custom search URL"
+            },
+            "role": "textbox"
+          },
+          "value": "https://example.invalid/search?q=missing-placeholder"
+        },
+        {
+          "type": "press",
+          "target": {
+            "name": {
+              "zh-CN": "自定义搜索 URL",
+              "en": "Custom search URL"
+            },
+            "role": "textbox"
+          },
+          "value": "Tab"
+        },
+        {
+          "type": "assert",
+          "target": {
+            "selector": "#browser input[placeholder=\"https://example.com/search?q=%s\"]"
+          },
+          "expected": {
+            "count": 1,
+            "value": "https://example.invalid/search?q=missing-placeholder"
+          }
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "自定义搜索 URL",
+            "用 %s 表示搜索词的位置。",
+            "仅在桌面应用中可用。",
+            "请输入包含 %s 的 http 或 https URL。在此之前，搜索会使用 DuckDuckGo。"
+          ],
+          "forbidden": [
+            "Enter an http or https URL containing %s. Searches use DuckDuckGo until then.",
+            "Only available in the desktop app."
+          ]
+        },
+        "en": {
+          "required": [
+            "Custom search URL",
+            "Use %s where the search terms go.",
+            "Enter an http or https URL containing %s. Searches use DuckDuckGo until then.",
+            "Only available in the desktop app."
+          ],
+          "forbidden": [
+            "仅在桌面应用中可用。"
+          ]
+        }
+      }
+    },
+    {
+      "name": "browser-custom-valid",
+      "kind": "real",
+      "path": "/settings/integrations",
+      "region": "#browser",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "name": {
+              "zh-CN": "搜索引擎",
+              "en": "Search engine"
+            },
+            "role": "combobox"
+          }
+        },
+        {
+          "type": "click",
+          "target": {
+            "role": "option",
+            "name": {
+              "zh-CN": "自定义",
+              "en": "Custom"
+            }
+          }
+        },
+        {
+          "type": "fill",
+          "target": {
+            "name": {
+              "zh-CN": "自定义搜索 URL",
+              "en": "Custom search URL"
+            },
+            "role": "textbox"
+          },
+          "value": "https://example.invalid/search?q=%s"
+        },
+        {
+          "type": "press",
+          "target": {
+            "name": {
+              "zh-CN": "自定义搜索 URL",
+              "en": "Custom search URL"
+            },
+            "role": "textbox"
+          },
+          "value": "Tab"
+        },
+        {
+          "type": "assert",
+          "target": {
+            "selector": "#browser input[placeholder=\"https://example.com/search?q=%s\"]"
+          },
+          "expected": {
+            "count": 1,
+            "value": "https://example.invalid/search?q=%s"
+          }
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "自定义搜索 URL",
+            "用 %s 表示搜索词的位置。",
+            "仅在桌面应用中可用。"
+          ],
+          "forbidden": [
+            "Enter an http or https URL containing %s. Searches use DuckDuckGo until then.",
+            "Only available in the desktop app.",
+            "请输入包含 %s 的 http 或 https URL。在此之前，搜索会使用 DuckDuckGo。"
+          ]
+        },
+        "en": {
+          "required": [
+            "Custom search URL",
+            "Use %s where the search terms go.",
+            "Only available in the desktop app."
+          ],
+          "forbidden": [
+            "Enter an http or https URL containing %s. Searches use DuckDuckGo until then.",
+            "仅在桌面应用中可用。"
+          ]
+        }
+      }
+    },
+    {
+      "name": "usage-interactions",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "usage-interactions",
+      "actions": [
+        {
+          "type": "assert",
+          "target": {
+            "selector": "[data-web-check-root]"
+          },
+          "expected": {
+            "count": 1,
+            "text": {
+              "required": [
+                "T23 source: Cannot access No project"
+              ],
+              "forbidden": [
+                "无法访问 无项目"
+              ]
+            }
+          }
+        },
+        {
+          "type": "assert",
+          "target": {
+            "selector": "[data-web-check-root] button[aria-label^=\"No project:\"]"
+          },
+          "expected": {
+            "count": 2,
+            "height": 24
+          }
+        },
+        {
+          "type": "assert",
+          "target": {
+            "selector": "[data-web-check-root] button[aria-label^=\"No project:\"]"
+          },
+          "first": true,
+          "expected": {
+            "zh-CN": {
+              "count": 1,
+              "attributes": {
+                "aria-label": "No project: 剩余 80%, 2 小时 0 分钟 后重置, 此时间窗口剩余 40%, 已储备 2 个重置额度"
+              }
+            },
+            "en": {
+              "count": 1,
+              "attributes": {
+                "aria-label": "No project: 80% left, resets in 2h 0m, 40% of the window left, 2 reset credits banked"
+              }
+            }
+          }
+        },
+        {
+          "type": "assert",
+          "target": {
+            "selector": "[data-web-check-root] article:first-of-type > div > div:first-child button > span[style]"
+          },
+          "expected": {
+            "count": 2,
+            "style": {
+              "left": "clamp(3px, 40%, 100% - 3px)"
+            }
+          }
+        },
+        {
+          "type": "click",
+          "target": {
+            "selector": "[data-web-check-root] button[aria-label^=\"No project:\"]"
+          },
+          "first": true
+        },
+        {
+          "type": "assert",
+          "target": {
+            "selector": "[data-slot=\"popover-popup\"]"
+          },
+          "expected": {
+            "zh-CN": {
+              "count": 1,
+              "text": {
+                "required": [
+                  "No project",
+                  "剩余",
+                  "80%",
+                  "匀速用量参考",
+                  "截至此刻应剩余 40%",
+                  "+20%",
+                  "使用重置"
+                ]
+              }
+            },
+            "en": {
+              "count": 1,
+              "text": {
+                "required": [
+                  "No project",
+                  "Left",
+                  "80%",
+                  "Even pace",
+                  "40% left by now",
+                  "+20%",
+                  "Use reset"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "hover",
+          "target": {
+            "selector": "[data-web-check-root] button[aria-label^=\"T19 Codex 2:\"]"
+          },
+          "first": true
+        },
+        {
+          "type": "assert",
+          "target": {
+            "selector": "[data-slot=\"popover-popup\"]"
+          },
+          "expected": {
+            "zh-CN": {
+              "count": 1,
+              "text": {
+                "required": [
+                  "T19 Codex 2",
+                  "95%",
+                  "+5%"
+                ],
+                "forbidden": [
+                  "No project"
+                ]
+              }
+            },
+            "en": {
+              "count": 1,
+              "text": {
+                "required": [
+                  "T19 Codex 2",
+                  "95%",
+                  "+5%"
+                ],
+                "forbidden": [
+                  "No project"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "fixture-state",
+          "value": {
+            "presentations": {
+              "$map": []
+            }
+          }
+        },
+        {
+          "type": "assert",
+          "target": {
+            "selector": "[data-slot=\"popover-popup\"]"
+          },
+          "expected": {
+            "count": 0
+          }
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "所选环境中的提供商均未报告订阅限额。"
+          ]
+        },
+        "en": {
+          "required": [
+            "No provider on the selected environments reports subscription limits."
+          ]
+        }
+      }
+    },
+    {
+      "name": "usage-weekly-blocked",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "usage-weekly-blocked",
+      "actions": [
+        {
+          "type": "assert",
+          "target": {
+            "selector": "[data-web-check-root] article > div > div:first-child button > span[style]"
+          },
+          "expected": {
+            "count": 0
+          }
+        },
+        {
+          "type": "assert",
+          "target": {
+            "selector": "[data-web-check-root] article > div > div:first-child button div[style*=\"repeating-linear-gradient\"]"
+          },
+          "expected": {
+            "count": 1,
+            "style": {
+              "width": "80%"
+            }
+          }
+        },
+        {
+          "type": "click",
+          "target": {
+            "selector": "[data-web-check-root] button[aria-label^=\"No project:\"]"
+          },
+          "first": true
+        },
+        {
+          "type": "assert",
+          "target": {
+            "selector": "[data-slot=\"popover-popup\"]"
+          },
+          "expected": {
+            "zh-CN": {
+              "count": 1,
+              "text": {
+                "required": [
+                  "No project",
+                  "0%",
+                  "+80%"
+                ],
+                "forbidden": [
+                  "匀速用量参考"
+                ]
+              }
+            },
+            "en": {
+              "count": 1,
+              "text": {
+                "required": [
+                  "No project",
+                  "0%",
+                  "+80%"
+                ],
+                "forbidden": [
+                  "Even pace"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "No project",
+            "0%",
+            "剩余",
+            "1 小时 0 分钟 后重置"
+          ]
+        },
+        "en": {
+          "required": [
+            "No project",
+            "0%",
+            "left",
+            "resets in 1h 0m"
+          ]
+        }
+      }
+    },
+    {
+      "name": "v011-display-helpers",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "v011-helpers",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "No project: 剩余 25%",
+            "Ready to merge: 剩余 75%",
+            "UNKNOWN RAW RESET",
+            "此时间窗口剩余 50%",
+            "已储备 1 个重置额度",
+            "已储备 2 个重置额度",
+            "最多同时运行 1 个会话，每个会话在运行 40 分钟或空闲 10 分钟后停止",
+            "最多同时运行 3 个会话，每个会话在运行 115 分钟或空闲 20 分钟后停止",
+            "最多使用 8 个过滤条件。",
+            "过滤条件 1 需要填写 body、headers 或 query 下的路径。",
+            "过滤条件 2 需要填写 body、headers 或 query 下的路径，以及至少一个值。",
+            "过滤条件 3 需要填写 body、headers 或 query 下的路径和一个值。",
+            "Cannot access No project",
+            "已合并",
+            "已过滤",
+            "UNKNOWN RAW STATUS"
+          ],
+          "forbidden": [
+            "无项目",
+            "Coalesced",
+            "Filtered"
+          ]
+        },
+        "en": {
+          "required": [
+            "No project: 25% left, 1 reset credit banked",
+            "Ready to merge: 75% left, UNKNOWN RAW RESET, 50% of the window left, 2 reset credits banked",
+            "Up to 1 session at once, each stopped after 40 min or 10 idle min",
+            "Up to 3 sessions at once, each stopped after 115 min or 20 idle min",
+            "Use at most 8 filters.",
+            "Filter 1 needs a path under body, headers or query.",
+            "Filter 2 needs a path under body, headers or query, and at least one value.",
+            "Filter 3 needs a path under body, headers or query, and a value.",
+            "Cannot access No project",
+            "Coalesced",
+            "Filtered",
+            "UNKNOWN RAW STATUS"
+          ]
+        }
+      }
+    },
+    {
+      "name": "connection-attempt",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "connection-attempt",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "Cannot access No project",
+            "第 3 次尝试",
+            "详情"
+          ],
+          "forbidden": [
+            "attempt 3",
+            "无项目"
+          ]
+        },
+        "en": {
+          "required": [
+            "Cannot access No project",
+            "attempt 3",
+            "Details"
+          ],
+          "forbidden": [
+            "第 3 次尝试"
+          ]
+        }
+      }
+    },
+    {
+      "name": "mobile-ios",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "mobile-apps",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "selector": "[data-web-check-root] button:has-text(\"iPhone\")"
+          }
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "打开 App Store"
+          ]
+        },
+        "en": {
+          "required": [
+            "Open App Store"
+          ]
+        }
+      },
+      "extra_regions": [
+        "[data-slot=\"popover-popup\"]"
+      ]
+    },
+    {
+      "name": "mobile-android",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "mobile-apps",
+      "actions": [
+        {
+          "type": "click",
+          "target": {
+            "selector": "[data-web-check-root] button:has-text(\"Android\")"
+          }
+        }
+      ],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "打开 Google Play"
+          ]
+        },
+        "en": {
+          "required": [
+            "Open Google Play"
+          ]
+        }
+      },
+      "extra_regions": [
+        "[data-slot=\"popover-popup\"]"
+      ]
+    },
+    {
+      "name": "reset-credit-confirmation",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[role=\"alertdialog\"]",
+      "fixture": "reset-credit-dialog",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "使用一个重置额度？",
+            "取消",
+            "使用额度"
+          ]
+        },
+        "en": {
+          "required": [
+            "Use a reset credit?",
+            "Cancel",
+            "Use credit"
+          ]
+        }
+      }
+    },
+    {
+      "name": "webhook-delivery-status",
+      "kind": "simulated",
+      "path": "/settings/general",
+      "region": "[data-web-check-root]",
+      "fixture": "webhook-delivery-status",
+      "actions": [],
+      "expected": {
+        "zh-CN": {
+          "required": [
+            "dispatch_failed | dispatch_failed | 运行失败",
+            "duplicate | duplicate | 重复投递",
+            "coalesced | coalesced | 已合并",
+            "filtered | filtered | 已过滤",
+            "rejected_signature | rejected_signature | 签名无效",
+            "disabled | disabled | 定时任务已暂停",
+            "rate_limited | rate_limited | 已限流",
+            "expired | expired | 已过期",
+            "accepted-run | accepted | 已运行",
+            "accepted-window | accepted | 已开启窗口",
+            "unknown-fallback | unknown_future_state | unknown future state",
+            "user-content-fallback | No_project | No project",
+            "unknown-known-label | future_state | Run failed",
+            "forged-known-label | duplicate | Filtered",
+            "forged-unknown-label | dispatch_failed | Cannot access No project",
+            "wrong-case-outcome | Dispatch_Failed | Run failed"
+          ],
+          "exact_text": "dispatch_failed | dispatch_failed | 运行失败\n\nduplicate | duplicate | 重复投递\n\ncoalesced | coalesced | 已合并\n\nfiltered | filtered | 已过滤\n\nrejected_signature | rejected_signature | 签名无效\n\ndisabled | disabled | 定时任务已暂停\n\nrate_limited | rate_limited | 已限流\n\nexpired | expired | 已过期\n\naccepted-run | accepted | 已运行\n\naccepted-window | accepted | 已开启窗口\n\nunknown-fallback | unknown_future_state | unknown future state\n\nuser-content-fallback | No_project | No project\n\nunknown-known-label | future_state | Run failed\n\nforged-known-label | duplicate | Filtered\n\nforged-unknown-label | dispatch_failed | Cannot access No project\n\nwrong-case-outcome | Dispatch_Failed | Run failed"
+        },
+        "en": {
+          "required": [
+            "dispatch_failed | dispatch_failed | Run failed",
+            "duplicate | duplicate | Duplicate",
+            "coalesced | coalesced | Coalesced",
+            "filtered | filtered | Filtered",
+            "rejected_signature | rejected_signature | Bad signature",
+            "disabled | disabled | Task paused",
+            "rate_limited | rate_limited | Rate limited",
+            "expired | expired | Too old",
+            "accepted-run | accepted | Ran",
+            "accepted-window | accepted | Opened window",
+            "unknown-fallback | unknown_future_state | unknown future state",
+            "user-content-fallback | No_project | No project",
+            "unknown-known-label | future_state | Run failed",
+            "forged-known-label | duplicate | Filtered",
+            "forged-unknown-label | dispatch_failed | Cannot access No project",
+            "wrong-case-outcome | Dispatch_Failed | Run failed"
+          ],
+          "exact_text": "dispatch_failed | dispatch_failed | Run failed\n\nduplicate | duplicate | Duplicate\n\ncoalesced | coalesced | Coalesced\n\nfiltered | filtered | Filtered\n\nrejected_signature | rejected_signature | Bad signature\n\ndisabled | disabled | Task paused\n\nrate_limited | rate_limited | Rate limited\n\nexpired | expired | Too old\n\naccepted-run | accepted | Ran\n\naccepted-window | accepted | Opened window\n\nunknown-fallback | unknown_future_state | unknown future state\n\nuser-content-fallback | No_project | No project\n\nunknown-known-label | future_state | Run failed\n\nforged-known-label | duplicate | Filtered\n\nforged-unknown-label | dispatch_failed | Cannot access No project\n\nwrong-case-outcome | Dispatch_Failed | Run failed"
+        }
+      },
+      "migration": {
+        "source": "T23 r1 Webhook fixed status regression",
+        "comparison": "8个固定outcome及accepted两分支通过实际最终webhookDeliveryLabel再调用汉化helper；未知outcome/伪造label原样；两层调用前后协议参数逐字JSON一致并写入fixture checked_calls。"
+      }
+    }
+  ],
+  "fixtures": {
+    "cleanup-results": {
+      "modules": [
+        "cleanupResults",
+        "lastRun",
+        "summary"
+      ],
+      "tree": [
+        {
+          "component": "section",
+          "props": {},
+          "children": [
+            {
+              "component": "p",
+              "props": {},
+              "children": [
+                {
+                  "call": "lastRun",
+                  "args": [
+                    "1h ago",
+                    "1 MB",
+                    0
+                  ]
+                }
+              ]
+            },
+            {
+              "component": "p",
+              "props": {},
+              "children": [
+                {
+                  "call": "summary",
+                  "args": [
+                    2,
+                    3,
+                    0
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "component": "section",
+          "props": {},
+          "children": [
+            {
+              "component": "p",
+              "props": {},
+              "children": [
+                {
+                  "call": "lastRun",
+                  "args": [
+                    "1h ago",
+                    "1 MB",
+                    1
+                  ]
+                }
+              ]
+            },
+            {
+              "component": "p",
+              "props": {},
+              "children": [
+                {
+                  "call": "summary",
+                  "args": [
+                    2,
+                    3,
+                    1
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "component": "section",
+          "props": {},
+          "children": [
+            {
+              "component": "p",
+              "props": {},
+              "children": [
+                {
+                  "call": "lastRun",
+                  "args": [
+                    "1h ago",
+                    "1 MB",
+                    3
+                  ]
+                }
+              ]
+            },
+            {
+              "component": "p",
+              "props": {},
+              "children": [
+                {
+                  "call": "summary",
+                  "args": [
+                    2,
+                    3,
+                    3
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "component": "cleanupResults",
+          "props": {
+            "report": {
+              "entries": [
+                {
+                  "kind": "worktree",
+                  "path": null,
+                  "threadId": null,
+                  "threadTitle": "Worktrees",
+                  "outcome": "kept",
+                  "reason": "Open terminal",
+                  "files": null,
+                  "bytes": null
+                },
+                {
+                  "kind": "logs",
+                  "path": null,
+                  "threadId": null,
+                  "threadTitle": "Rotated logs",
+                  "outcome": "removed",
+                  "reason": "No expired files",
+                  "files": 1,
+                  "bytes": 1048576
+                },
+                {
+                  "kind": "artifacts",
+                  "path": null,
+                  "threadId": null,
+                  "threadTitle": "Browser artifacts",
+                  "outcome": "removed",
+                  "reason": "No expired files",
+                  "files": 3,
+                  "bytes": 1048576
+                }
+              ],
+              "omittedCount": 3,
+              "counts": {
+                "removed": 2,
+                "kept": 3,
+                "failed": 1
+              },
+              "bytesFreed": 1048576,
+              "finishedAt": "2026-10-10T00:00:00Z"
+            },
+            "environmentLabel": "T19 environment"
+          },
+          "children": []
+        },
+        {
+          "component": "cleanupResults",
+          "props": {
+            "report": {
+              "entries": [],
+              "omittedCount": 0,
+              "counts": {
+                "removed": 2,
+                "kept": 3,
+                "failed": 0
+              },
+              "bytesFreed": 1048576,
+              "finishedAt": "2026-10-10T00:00:00Z"
+            },
+            "environmentLabel": "T19 empty environment"
+          },
+          "children": []
+        }
+      ]
+    },
+    "new-states-one": {
+      "modules": [
+        "banner",
+        "timelineContext",
+        "userRow",
+        "importStep"
+      ],
+      "tree": [
+        {
+          "component": "banner",
+          "props": {
+            "items": [
+              {
+                "id": "input",
+                "variant": "info",
+                "priority": "activity",
+                "icon": null,
+                "title": {
+                  "$t": "Subagent needs input"
+                },
+                "actions": {
+                  "$element": {
+                    "component": "button",
+                    "props": {
+                      "onClick": {
+                        "$noop": true
+                      }
+                    },
+                    "children": [
+                      {
+                        "$t": "Open question"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "children": []
+        },
+        {
+          "provider": "timelineContext",
+          "value": {
+            "timestampFormat": "24-hour",
+            "resolvedTheme": "light",
+            "activeThreadEnvironmentId": "local",
+            "skills": [],
+            "providerStatuses": [],
+            "runs": [],
+            "onImageExpand": {
+              "$noop": true
+            },
+            "onFileOpen": {
+              "$noop": true
+            },
+            "onFileDownload": {
+              "$noop": true
+            },
+            "onOpenThread": {
+              "$noop": true
+            },
+            "findActive": false
+          },
+          "children": [
+            {
+              "component": "userRow",
+              "props": {
+                "row": {
+                  "kind": "message",
+                  "message": {
+                    "id": "t19-restart",
+                    "role": "user",
+                    "createdBy": "agent",
+                    "creationSource": "server",
+                    "text": "T19 resumed message",
+                    "createdAt": "2026-10-10T00:00:00Z",
+                    "attachments": []
+                  }
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "component": "importStep",
+          "props": {
+            "scans": [],
+            "isImporting": false,
+            "setIsImporting": {
+              "$noop": true
+            },
+            "onDone": {
+              "$noop": true
+            }
+          },
+          "children": []
+        }
+      ]
+    },
+    "new-states-many": {
+      "modules": [
+        "banner",
+        "timelineContext",
+        "userRow",
+        "importStep"
+      ],
+      "tree": [
+        {
+          "component": "banner",
+          "props": {
+            "items": [
+              {
+                "id": "input",
+                "variant": "info",
+                "priority": "activity",
+                "icon": null,
+                "title": {
+                  "$t": "3 subagents need input"
+                },
+                "actions": {
+                  "$element": {
+                    "component": "button",
+                    "props": {
+                      "onClick": {
+                        "$noop": true
+                      }
+                    },
+                    "children": [
+                      {
+                        "$t": "Open question"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "children": []
+        },
+        {
+          "provider": "timelineContext",
+          "value": {
+            "timestampFormat": "24-hour",
+            "resolvedTheme": "light",
+            "activeThreadEnvironmentId": "local",
+            "skills": [],
+            "providerStatuses": [],
+            "runs": [],
+            "onImageExpand": {
+              "$noop": true
+            },
+            "onFileOpen": {
+              "$noop": true
+            },
+            "onFileDownload": {
+              "$noop": true
+            },
+            "onOpenThread": {
+              "$noop": true
+            },
+            "findActive": false
+          },
+          "children": [
+            {
+              "component": "userRow",
+              "props": {
+                "row": {
+                  "kind": "message",
+                  "message": {
+                    "id": "t19-restart",
+                    "role": "user",
+                    "createdBy": "agent",
+                    "creationSource": "server",
+                    "text": "T19 resumed message",
+                    "createdAt": "2026-10-10T00:00:00Z",
+                    "attachments": []
+                  }
+                }
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "component": "importStep",
+          "props": {
+            "scans": [],
+            "isImporting": false,
+            "setIsImporting": {
+              "$noop": true
+            },
+            "onDone": {
+              "$noop": true
+            }
+          },
+          "children": []
+        }
+      ]
+    },
+    "navigation": {
+      "modules": [
+        "header",
+        "pr",
+        "language"
+      ],
+      "tree": [
+        {
+          "component": "header",
+          "props": {
+            "activeThreadEnvironmentId": "local",
+            "activeThreadId": "t19-child",
+            "activeThreadTitle": "T19 child",
+            "isServerThread": false,
+            "activeProject": {
+              "id": "t19-project",
+              "environmentId": "local",
+              "title": "T19 project",
+              "workspaceRoot": "/tmp/t19-demo"
+            },
+            "parentThreadLink": {
+              "threadId": "t19-parent",
+              "title": "Projects to start"
+            },
+            "onOpenThread": {
+              "$noop": true
+            },
+            "rightPanelOpen": false,
+            "onNewThreadInProject": {
+              "$noop": true
+            }
+          },
+          "children": []
+        },
+        {
+          "component": "pr",
+          "props": {
+            "environmentId": "local",
+            "threadRef": null,
+            "reference": {
+              "provider": "github",
+              "url": "https://example.invalid/pull/18"
+            },
+            "detail": {
+              "provider": "github",
+              "url": "https://example.invalid/pull/18",
+              "body": "",
+              "labels": [],
+              "reviewers": [],
+              "comments": [
+                {
+                  "id": "t19-comment-0",
+                  "author": {
+                    "login": "bot[bot]",
+                    "name": null,
+                    "isBot": true
+                  },
+                  "createdAt": "2026-10-10T00:00:00Z",
+                  "body": "T19 simulated comment",
+                  "url": null,
+                  "reviewState": null,
+                  "reactions": []
+                }
+              ],
+              "commentCount": 1,
+              "commits": [],
+              "reviewThreads": [],
+              "checks": [],
+              "commentsTruncated": false,
+              "capabilities": {
+                "labels": false,
+                "reviewers": {
+                  "request": false,
+                  "listCandidates": false
+                }
+              },
+              "viewerPermissions": {
+                "editDescription": false,
+                "requestReviewers": false
+              }
+            },
+            "activityPending": false,
+            "activityError": null,
+            "onRefresh": {
+              "$noop": true
+            }
+          },
+          "children": []
+        },
+        {
+          "component": "language",
+          "props": {
+            "language": "",
+            "theme": "light",
+            "disabled": false,
+            "onChange": {
+              "$noop": true
+            }
+          },
+          "children": []
+        }
+      ]
+    },
+    "navigation-many": {
+      "modules": [
+        "header",
+        "pr",
+        "language"
+      ],
+      "tree": [
+        {
+          "component": "header",
+          "props": {
+            "activeThreadEnvironmentId": "local",
+            "activeThreadId": "t19-child",
+            "activeThreadTitle": "T19 child",
+            "isServerThread": false,
+            "activeProject": {
+              "id": "t19-project",
+              "environmentId": "local",
+              "title": "T19 project",
+              "workspaceRoot": "/tmp/t19-demo"
+            },
+            "parentThreadLink": {
+              "threadId": "t19-parent",
+              "title": "Projects to start"
+            },
+            "onOpenThread": {
+              "$noop": true
+            },
+            "rightPanelOpen": false,
+            "onNewThreadInProject": {
+              "$noop": true
+            }
+          },
+          "children": []
+        },
+        {
+          "component": "pr",
+          "props": {
+            "environmentId": "local",
+            "threadRef": null,
+            "reference": {
+              "provider": "github",
+              "url": "https://example.invalid/pull/18"
+            },
+            "detail": {
+              "provider": "github",
+              "url": "https://example.invalid/pull/18",
+              "body": "",
+              "labels": [],
+              "reviewers": [],
+              "comments": [
+                {
+                  "id": "t19-comment-0",
+                  "author": {
+                    "login": "bot[bot]",
+                    "name": null,
+                    "isBot": true
+                  },
+                  "createdAt": "2026-10-10T00:00:00Z",
+                  "body": "T19 simulated comment",
+                  "url": null,
+                  "reviewState": null,
+                  "reactions": []
+                },
+                {
+                  "id": "t19-comment-1",
+                  "author": {
+                    "login": "bot[bot]",
+                    "name": null,
+                    "isBot": true
+                  },
+                  "createdAt": "2026-10-10T00:00:00Z",
+                  "body": "T19 simulated comment",
+                  "url": null,
+                  "reviewState": null,
+                  "reactions": []
+                },
+                {
+                  "id": "t19-comment-2",
+                  "author": {
+                    "login": "bot[bot]",
+                    "name": null,
+                    "isBot": true
+                  },
+                  "createdAt": "2026-10-10T00:00:00Z",
+                  "body": "T19 simulated comment",
+                  "url": null,
+                  "reviewState": null,
+                  "reactions": []
+                }
+              ],
+              "commentCount": 3,
+              "commits": [],
+              "reviewThreads": [],
+              "checks": [],
+              "commentsTruncated": false,
+              "capabilities": {
+                "labels": false,
+                "reviewers": {
+                  "request": false,
+                  "listCandidates": false
+                }
+              },
+              "viewerPermissions": {
+                "editDescription": false,
+                "requestReviewers": false
+              }
+            },
+            "activityPending": false,
+            "activityError": null,
+            "onRefresh": {
+              "$noop": true
+            }
+          },
+          "children": []
+        },
+        {
+          "component": "language",
+          "props": {
+            "language": "",
+            "theme": "light",
+            "disabled": false,
+            "onChange": {
+              "$noop": true
+            }
+          },
+          "children": []
+        }
+      ]
+    },
+    "tabs-before": {
+      "modules": [
+        "tabs"
+      ],
+      "state": {
+        "surfaces": [
+          {
+            "id": "diff",
+            "kind": "diff"
+          },
+          {
+            "id": "files",
+            "kind": "files"
+          },
+          {
+            "id": "preview",
+            "kind": "preview",
+            "resourceId": null
+          }
+        ]
+      },
+      "style": {
+        "height": 380
+      },
+      "tree": [
+        {
+          "component": "tabs",
+          "props": {
+            "mode": "inline",
+            "open": true,
+            "keybindings": [],
+            "getShortcutContext": {
+              "$noop": true
+            },
+            "surfaces": {
+              "$state": "surfaces"
+            },
+            "environmentId": null,
+            "activeSurfaceId": "diff",
+            "pendingSurfaceIds": {
+              "$set": []
+            },
+            "previewSessions": {},
+            "desktopByTabId": {},
+            "terminalLabelsById": {
+              "$map": []
+            },
+            "onActivate": {
+              "$noop": true
+            },
+            "onCloseSurface": {
+              "$noop": true
+            },
+            "onCloseOtherSurfaces": {
+              "$noop": true
+            },
+            "onCloseSurfacesToRight": {
+              "$noop": true
+            },
+            "onCloseAllSurfaces": {
+              "$noop": true
+            },
+            "onMoveSurface": {
+              "$handler": "moveSurface"
+            },
+            "onCopyFilePath": {
+              "$noop": true
+            },
+            "onAddBrowser": {
+              "$noop": true
+            },
+            "onAddBrowserInProfile": {
+              "$noop": true
+            },
+            "onAddTerminal": {
+              "$noop": true
+            },
+            "onAddDiff": {
+              "$noop": true
+            },
+            "onAddFiles": {
+              "$noop": true
+            },
+            "onAddPullRequest": {
+              "$noop": true
+            },
+            "onAddPullRequests": {
+              "$noop": true
+            },
+            "onAddDevice": {
+              "$noop": true
+            },
+            "browserAvailable": false,
+            "terminalAvailable": false,
+            "diffAvailable": false,
+            "filesAvailable": false,
+            "pullRequestAvailable": false,
+            "pullRequestsAvailable": false,
+            "deviceAvailable": false,
+            "children": {
+              "$element": {
+                "component": "p",
+                "props": {},
+                "children": [
+                  "T19 simulated panels"
+                ]
+              }
+            }
+          },
+          "children": []
+        }
+      ]
+    },
+    "update-track": {
+      "modules": [
+        "about"
+      ],
+      "desktopBridge": {},
+      "tree": [
+        {
+          "component": "about",
+          "props": {},
+          "children": []
+        }
+      ]
+    },
+    "usage": {
+      "modules": [
+        "filter",
+        "quota"
+      ],
+      "tree": [
+        {
+          "component": "filter",
+          "props": {
+            "hiddenProviders": {
+              "$set": []
+            },
+            "onChange": {
+              "$noop": true
+            }
+          },
+          "children": []
+        },
+        {
+          "component": "quota",
+          "props": {
+            "presentations": {
+              "$map": [
+                [
+                  "t19-fixture",
+                  {
+                    "entry": {
+                      "target": {
+                        "label": "T19 simulated environment"
+                      }
+                    },
+                    "serverConfig": {
+                      "providers": [
+                        {
+                          "instanceId": "codex-1",
+                          "driver": "codex",
+                          "displayName": "T19 Codex 1",
+                          "enabled": true,
+                          "installed": true,
+                          "status": "ready",
+                          "auth": {
+                            "status": "authenticated",
+                            "email": "codex-1@example.invalid",
+                            "label": "T19 fixture"
+                          },
+                          "checkedAt": "2026-10-10T00:00:00.000Z",
+                          "version": "0.1.0",
+                          "models": [],
+                          "slashCommands": [],
+                          "skills": [],
+                          "usageLimits": {
+                            "checkedAt": "2026-10-10T00:00:00.000Z",
+                            "windows": [
+                              {
+                                "id": "session",
+                                "kind": "session",
+                                "label": "Session",
+                                "usedPercent": 20,
+                                "windowDurationMins": 300,
+                                "resetsAt": "2026-10-10T02:00:00.000Z"
+                              },
+                              {
+                                "id": "weekly",
+                                "kind": "weekly",
+                                "label": "Weekly",
+                                "usedPercent": 55,
+                                "windowDurationMins": 10080,
+                                "resetsAt": "2026-10-12T00:00:00.000Z"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "instanceId": "codex-2",
+                          "driver": "codex",
+                          "displayName": "T19 Codex 2",
+                          "enabled": true,
+                          "installed": true,
+                          "status": "ready",
+                          "auth": {
+                            "status": "authenticated",
+                            "email": "codex-2@example.invalid",
+                            "label": "T19 fixture"
+                          },
+                          "checkedAt": "2026-10-10T00:00:00.000Z",
+                          "version": "0.1.0",
+                          "models": [],
+                          "slashCommands": [],
+                          "skills": [],
+                          "usageLimits": {
+                            "checkedAt": "2026-10-10T00:00:00.000Z",
+                            "windows": [
+                              {
+                                "id": "session",
+                                "kind": "session",
+                                "label": "Session",
+                                "usedPercent": 5,
+                                "windowDurationMins": 300,
+                                "resetsAt": "2026-10-10T02:00:00.000Z"
+                              },
+                              {
+                                "id": "weekly",
+                                "kind": "weekly",
+                                "label": "Weekly",
+                                "usedPercent": 40,
+                                "windowDurationMins": 10080,
+                                "resetsAt": "2026-10-12T00:00:00.000Z"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "instanceId": "claude-1",
+                          "driver": "claudeAgent",
+                          "displayName": "T19 Claude 1",
+                          "enabled": true,
+                          "installed": true,
+                          "status": "ready",
+                          "auth": {
+                            "status": "authenticated",
+                            "email": "claude-1@example.invalid",
+                            "label": "T19 fixture"
+                          },
+                          "checkedAt": "2026-10-10T00:00:00.000Z",
+                          "version": "0.1.0",
+                          "models": [],
+                          "slashCommands": [],
+                          "skills": [],
+                          "usageLimits": {
+                            "checkedAt": "2026-10-10T00:00:00.000Z",
+                            "windows": [
+                              {
+                                "id": "session",
+                                "kind": "session",
+                                "label": "Session",
+                                "usedPercent": 15,
+                                "windowDurationMins": 300,
+                                "resetsAt": "2026-10-10T02:00:00.000Z"
+                              },
+                              {
+                                "id": "weekly",
+                                "kind": "weekly",
+                                "label": "Weekly",
+                                "usedPercent": 26,
+                                "windowDurationMins": 10080,
+                                "resetsAt": "2026-10-12T00:00:00.000Z"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "instanceId": "claude-2",
+                          "driver": "claudeAgent",
+                          "displayName": "T19 Claude 2",
+                          "enabled": true,
+                          "installed": true,
+                          "status": "ready",
+                          "auth": {
+                            "status": "authenticated",
+                            "email": "claude-2@example.invalid",
+                            "label": "T19 fixture"
+                          },
+                          "checkedAt": "2026-10-10T00:00:00.000Z",
+                          "version": "0.1.0",
+                          "models": [],
+                          "slashCommands": [],
+                          "skills": [],
+                          "usageLimits": {
+                            "checkedAt": "2026-10-10T00:00:00.000Z",
+                            "windows": [
+                              {
+                                "id": "session",
+                                "kind": "session",
+                                "label": "Session",
+                                "usedPercent": 0,
+                                "windowDurationMins": 300,
+                                "resetsAt": "2026-10-10T02:00:00.000Z"
+                              },
+                              {
+                                "id": "weekly",
+                                "kind": "weekly",
+                                "label": "Weekly",
+                                "usedPercent": 3,
+                                "windowDurationMins": 10080,
+                                "resetsAt": "2026-10-12T00:00:00.000Z"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            },
+            "now": 1791590400000
+          },
+          "children": []
+        }
+      ]
+    },
+    "review-guide": {
+      "modules": [
+        "guideRail"
+      ],
+      "tree": [
+        {
+          "component": "guideRail",
+          "props": {
+            "position": 1,
+            "seen": {
+              "$set": [
+                0
+              ]
+            },
+            "onSelect": {
+              "$noop": true
+            },
+            "stops": [
+              {
+                "title": "Review",
+                "attention": null,
+                "excerpts": [],
+                "files": []
+              },
+              {
+                "title": "No project",
+                "attention": "Inspect this boundary",
+                "excerpts": [
+                  {
+                    "path": "src/a.ts"
+                  }
+                ],
+                "files": [
+                  {
+                    "path": "src/a.ts"
+                  }
+                ]
+              },
+              {
+                "title": "Ready to merge",
+                "attention": null,
+                "excerpts": [],
+                "files": [
+                  {
+                    "path": "src/a.ts"
+                  },
+                  {
+                    "path": "src/b.ts"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "prompt-link": {
+      "modules": [
+        "promptLanding"
+      ],
+      "tree": [
+        {
+          "component": "promptLanding",
+          "props": {
+            "appPath": "/new?prompt=No%20project%E2%80%8B%E2%80%8B",
+            "canContinue": true,
+            "openInAppRemembered": false,
+            "onChoose": {
+              "$noop": true
+            }
+          }
+        }
+      ]
+    },
+    "update-sidebar": {
+      "modules": [
+        "updateSummary",
+        "updateCapsule"
+      ],
+      "tree": [
+        {
+          "component": "p",
+          "props": {
+            "data-summary": true
+          },
+          "children": [
+            {
+              "call": "updateSummary",
+              "args": [
+                {
+                  "localVersion": null,
+                  "servers": [],
+                  "providerMachines": [
+                    {
+                      "environmentId": "t21-synthetic-environment",
+                      "label": "T21 device",
+                      "providers": [
+                        "Codex"
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "select": "summary"
+            }
+          ]
+        },
+        {
+          "component": "updateCapsule",
+          "props": {
+            "run": {
+              "phase": "servers",
+              "localVersion": null,
+              "restartAt": null,
+              "machines": [
+                {
+                  "environmentId": "t21-synthetic-environment",
+                  "label": "T21 device",
+                  "updatesProviders": true,
+                  "server": null,
+                  "handedOffVersion": null,
+                  "startedAt": 0,
+                  "result": "failed",
+                  "failure": "Cannot access No project",
+                  "providerFailure": "Cannot access No project"
+                }
+              ]
+            },
+            "local": null,
+            "icon": null
+          }
+        }
+      ]
+    },
+    "usage-interactions": {
+      "modules": [
+        "filter",
+        "quota"
+      ],
+      "tree": [
+        {
+          "component": "filter",
+          "props": {
+            "hiddenProviders": {
+              "$set": []
+            },
+            "onChange": {
+              "$noop": true
+            }
+          },
+          "children": []
+        },
+        {
+          "component": "quota",
+          "props": {
+            "presentations": {
+              "$state": "presentations"
+            },
+            "now": 1791590400000
+          },
+          "children": []
+        }
+      ],
+      "state": {
+        "presentations": {
+          "$map": [
+            [
+              "t19-fixture",
+              {
+                "entry": {
+                  "target": {
+                    "label": "T19 simulated environment"
+                  }
+                },
+                "serverConfig": {
+                  "providers": [
+                    {
+                      "instanceId": "codex-1",
+                      "driver": "codex",
+                      "displayName": "No project",
+                      "enabled": true,
+                      "installed": true,
+                      "status": "ready",
+                      "auth": {
+                        "status": "authenticated",
+                        "email": "codex-1@example.invalid",
+                        "label": "T19 fixture"
+                      },
+                      "checkedAt": "2026-10-10T00:00:00.000Z",
+                      "version": "0.1.0",
+                      "models": [],
+                      "slashCommands": [],
+                      "skills": [],
+                      "usageLimits": {
+                        "checkedAt": "2026-10-10T00:00:00.000Z",
+                        "windows": [
+                          {
+                            "id": "session",
+                            "kind": "session",
+                            "label": "Session",
+                            "usedPercent": 20,
+                            "windowDurationMins": 300,
+                            "resetsAt": "2026-10-10T02:00:00.000Z"
+                          },
+                          {
+                            "id": "weekly",
+                            "kind": "weekly",
+                            "label": "Weekly",
+                            "usedPercent": 55,
+                            "windowDurationMins": 10080,
+                            "resetsAt": "2026-10-12T00:00:00.000Z"
+                          }
+                        ],
+                        "resetCredits": {
+                          "availableCount": 2
+                        }
+                      }
+                    },
+                    {
+                      "instanceId": "codex-2",
+                      "driver": "codex",
+                      "displayName": "T19 Codex 2",
+                      "enabled": true,
+                      "installed": true,
+                      "status": "ready",
+                      "auth": {
+                        "status": "authenticated",
+                        "email": "codex-2@example.invalid",
+                        "label": "T19 fixture"
+                      },
+                      "checkedAt": "2026-10-10T00:00:00.000Z",
+                      "version": "0.1.0",
+                      "models": [],
+                      "slashCommands": [],
+                      "skills": [],
+                      "usageLimits": {
+                        "checkedAt": "2026-10-10T00:00:00.000Z",
+                        "windows": [
+                          {
+                            "id": "session",
+                            "kind": "session",
+                            "label": "Session",
+                            "usedPercent": 5,
+                            "windowDurationMins": 300,
+                            "resetsAt": "2026-10-10T02:00:00.000Z"
+                          },
+                          {
+                            "id": "weekly",
+                            "kind": "weekly",
+                            "label": "Weekly",
+                            "usedPercent": 40,
+                            "windowDurationMins": 10080,
+                            "resetsAt": "2026-10-12T00:00:00.000Z"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "instanceId": "claude-1",
+                      "driver": "claudeAgent",
+                      "displayName": "T19 Claude 1",
+                      "enabled": true,
+                      "installed": true,
+                      "status": "ready",
+                      "auth": {
+                        "status": "authenticated",
+                        "email": "claude-1@example.invalid",
+                        "label": "T19 fixture"
+                      },
+                      "checkedAt": "2026-10-10T00:00:00.000Z",
+                      "version": "0.1.0",
+                      "models": [],
+                      "slashCommands": [],
+                      "skills": [],
+                      "usageLimits": {
+                        "checkedAt": "2026-10-10T00:00:00.000Z",
+                        "windows": [
+                          {
+                            "id": "session",
+                            "kind": "session",
+                            "label": "Session",
+                            "usedPercent": 15,
+                            "windowDurationMins": 300,
+                            "resetsAt": "2026-10-10T02:00:00.000Z"
+                          },
+                          {
+                            "id": "weekly",
+                            "kind": "weekly",
+                            "label": "Weekly",
+                            "usedPercent": 26,
+                            "windowDurationMins": 10080,
+                            "resetsAt": "2026-10-12T00:00:00.000Z"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "instanceId": "claude-2",
+                      "driver": "claudeAgent",
+                      "displayName": "T19 Claude 2",
+                      "enabled": true,
+                      "installed": true,
+                      "status": "ready",
+                      "auth": {
+                        "status": "authenticated",
+                        "email": "claude-2@example.invalid",
+                        "label": "T19 fixture"
+                      },
+                      "checkedAt": "2026-10-10T00:00:00.000Z",
+                      "version": "0.1.0",
+                      "models": [],
+                      "slashCommands": [],
+                      "skills": [],
+                      "usageLimits": {
+                        "checkedAt": "2026-10-10T00:00:00.000Z",
+                        "windows": [
+                          {
+                            "id": "session",
+                            "kind": "session",
+                            "label": "Session",
+                            "usedPercent": 0,
+                            "windowDurationMins": 300,
+                            "resetsAt": "2026-10-10T02:00:00.000Z"
+                          },
+                          {
+                            "id": "weekly",
+                            "kind": "weekly",
+                            "label": "Weekly",
+                            "usedPercent": 3,
+                            "windowDurationMins": 10080,
+                            "resetsAt": "2026-10-12T00:00:00.000Z"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "usageLimitSources": [
+                    {
+                      "id": "t23-unknown",
+                      "label": "T23 source",
+                      "accounts": [],
+                      "error": "Cannot access No project"
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "usage-weekly-blocked": {
+      "modules": [
+        "filter",
+        "quota"
+      ],
+      "tree": [
+        {
+          "component": "filter",
+          "props": {
+            "hiddenProviders": {
+              "$set": []
+            },
+            "onChange": {
+              "$noop": true
+            }
+          },
+          "children": []
+        },
+        {
+          "component": "quota",
+          "props": {
+            "presentations": {
+              "$map": [
+                [
+                  "t19-fixture",
+                  {
+                    "entry": {
+                      "target": {
+                        "label": "T19 simulated environment"
+                      }
+                    },
+                    "serverConfig": {
+                      "providers": [
+                        {
+                          "instanceId": "codex-1",
+                          "driver": "codex",
+                          "displayName": "No project",
+                          "enabled": true,
+                          "installed": true,
+                          "status": "ready",
+                          "auth": {
+                            "status": "authenticated",
+                            "email": "codex-1@example.invalid",
+                            "label": "T19 fixture"
+                          },
+                          "checkedAt": "2026-10-10T00:00:00.000Z",
+                          "version": "0.1.0",
+                          "models": [],
+                          "slashCommands": [],
+                          "skills": [],
+                          "usageLimits": {
+                            "checkedAt": "2026-10-10T00:00:00.000Z",
+                            "windows": [
+                              {
+                                "id": "session",
+                                "kind": "session",
+                                "label": "Session",
+                                "usedPercent": 20,
+                                "windowDurationMins": 300,
+                                "resetsAt": "2026-10-10T02:00:00.000Z"
+                              },
+                              {
+                                "id": "weekly",
+                                "kind": "weekly",
+                                "label": "Weekly",
+                                "usedPercent": 100,
+                                "windowDurationMins": 10080,
+                                "resetsAt": "2026-10-10T01:00:00.000Z"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            },
+            "now": 1791590400000
+          },
+          "children": []
+        }
+      ]
+    },
+    "v011-helpers": {
+      "modules": [
+        "usageAccountSummary",
+        "easSessionLimits",
+        "webhookFilterError",
+        "webhookDeliveryStatus"
+      ],
+      "tree": [
+        {
+          "component": "p",
+          "children": [
+            {
+              "call": "usageAccountSummary",
+              "args": [
+                "No project",
+                25,
+                null,
+                null,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "children": [
+            {
+              "call": "usageAccountSummary",
+              "args": [
+                "Ready to merge",
+                75,
+                "UNKNOWN RAW RESET",
+                50,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "children": [
+            {
+              "call": "easSessionLimits",
+              "args": [
+                1,
+                40,
+                10
+              ]
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "children": [
+            {
+              "call": "easSessionLimits",
+              "args": [
+                3,
+                115,
+                20
+              ]
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "children": [
+            {
+              "call": "webhookFilterError",
+              "args": [
+                "Use at most 8 filters."
+              ]
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "children": [
+            {
+              "call": "webhookFilterError",
+              "args": [
+                "Filter 1 needs a path under body, headers or query."
+              ]
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "children": [
+            {
+              "call": "webhookFilterError",
+              "args": [
+                "Filter 2 needs a path under body, headers or query, and at least one value."
+              ]
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "children": [
+            {
+              "call": "webhookFilterError",
+              "args": [
+                "Filter 3 needs a path under body, headers or query, and a value."
+              ]
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "children": [
+            {
+              "call": "webhookFilterError",
+              "args": [
+                "Cannot access No project"
+              ]
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "children": [
+            {
+              "call": "webhookDeliveryStatus",
+              "args": [
+                "coalesced",
+                "Coalesced"
+              ]
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "children": [
+            {
+              "call": "webhookDeliveryStatus",
+              "args": [
+                "filtered",
+                "Filtered"
+              ]
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "children": [
+            {
+              "call": "webhookDeliveryStatus",
+              "args": [
+                "unknown",
+                "Cannot access No project"
+              ]
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "children": [
+            {
+              "call": "webhookDeliveryStatus",
+              "args": [
+                "coalesced",
+                "UNKNOWN RAW STATUS"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "connection-attempt": {
+      "modules": [
+        "connectionSummary"
+      ],
+      "tree": [
+        {
+          "component": "connectionSummary",
+          "props": {
+            "diagnosis": {
+              "headline": "Cannot access No project"
+            },
+            "retryAt": null,
+            "attempt": 3,
+            "expanded": false,
+            "onToggle": {
+              "$noop": true
+            }
+          }
+        }
+      ]
+    },
+    "mobile-apps": {
+      "modules": [
+        "mobileApps"
+      ],
+      "tree": [
+        {
+          "component": "mobileApps"
+        }
+      ]
+    },
+    "reset-credit-dialog": {
+      "modules": [
+        "resetCreditDialog"
+      ],
+      "tree": [
+        {
+          "component": "resetCreditDialog",
+          "props": {
+            "open": true,
+            "onOpenChange": {
+              "$noop": true
+            },
+            "onConfirm": {
+              "$noop": true
+            },
+            "disabled": false
+          }
+        }
+      ]
+    },
+    "webhook-delivery-status": {
+      "modules": [
+        "webhookDeliveryLabel",
+        "webhookDeliveryStatus"
+      ],
+      "tree": [
+        {
+          "component": "p",
+          "props": {
+            "data-webhook-case": "dispatch_failed"
+          },
+          "children": [
+            "dispatch_failed | dispatch_failed | ",
+            {
+              "call": "webhookDeliveryStatus",
+              "args": [
+                "dispatch_failed",
+                {
+                  "$element": {
+                    "call": "webhookDeliveryLabel",
+                    "args": [
+                      {
+                        "outcome": "dispatch_failed"
+                      }
+                    ],
+                    "assert_unchanged_args": true
+                  }
+                }
+              ],
+              "assert_unchanged_args": true
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "props": {
+            "data-webhook-case": "duplicate"
+          },
+          "children": [
+            "duplicate | duplicate | ",
+            {
+              "call": "webhookDeliveryStatus",
+              "args": [
+                "duplicate",
+                {
+                  "$element": {
+                    "call": "webhookDeliveryLabel",
+                    "args": [
+                      {
+                        "outcome": "duplicate"
+                      }
+                    ],
+                    "assert_unchanged_args": true
+                  }
+                }
+              ],
+              "assert_unchanged_args": true
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "props": {
+            "data-webhook-case": "coalesced"
+          },
+          "children": [
+            "coalesced | coalesced | ",
+            {
+              "call": "webhookDeliveryStatus",
+              "args": [
+                "coalesced",
+                {
+                  "$element": {
+                    "call": "webhookDeliveryLabel",
+                    "args": [
+                      {
+                        "outcome": "coalesced"
+                      }
+                    ],
+                    "assert_unchanged_args": true
+                  }
+                }
+              ],
+              "assert_unchanged_args": true
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "props": {
+            "data-webhook-case": "filtered"
+          },
+          "children": [
+            "filtered | filtered | ",
+            {
+              "call": "webhookDeliveryStatus",
+              "args": [
+                "filtered",
+                {
+                  "$element": {
+                    "call": "webhookDeliveryLabel",
+                    "args": [
+                      {
+                        "outcome": "filtered"
+                      }
+                    ],
+                    "assert_unchanged_args": true
+                  }
+                }
+              ],
+              "assert_unchanged_args": true
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "props": {
+            "data-webhook-case": "rejected_signature"
+          },
+          "children": [
+            "rejected_signature | rejected_signature | ",
+            {
+              "call": "webhookDeliveryStatus",
+              "args": [
+                "rejected_signature",
+                {
+                  "$element": {
+                    "call": "webhookDeliveryLabel",
+                    "args": [
+                      {
+                        "outcome": "rejected_signature"
+                      }
+                    ],
+                    "assert_unchanged_args": true
+                  }
+                }
+              ],
+              "assert_unchanged_args": true
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "props": {
+            "data-webhook-case": "disabled"
+          },
+          "children": [
+            "disabled | disabled | ",
+            {
+              "call": "webhookDeliveryStatus",
+              "args": [
+                "disabled",
+                {
+                  "$element": {
+                    "call": "webhookDeliveryLabel",
+                    "args": [
+                      {
+                        "outcome": "disabled"
+                      }
+                    ],
+                    "assert_unchanged_args": true
+                  }
+                }
+              ],
+              "assert_unchanged_args": true
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "props": {
+            "data-webhook-case": "rate_limited"
+          },
+          "children": [
+            "rate_limited | rate_limited | ",
+            {
+              "call": "webhookDeliveryStatus",
+              "args": [
+                "rate_limited",
+                {
+                  "$element": {
+                    "call": "webhookDeliveryLabel",
+                    "args": [
+                      {
+                        "outcome": "rate_limited"
+                      }
+                    ],
+                    "assert_unchanged_args": true
+                  }
+                }
+              ],
+              "assert_unchanged_args": true
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "props": {
+            "data-webhook-case": "expired"
+          },
+          "children": [
+            "expired | expired | ",
+            {
+              "call": "webhookDeliveryStatus",
+              "args": [
+                "expired",
+                {
+                  "$element": {
+                    "call": "webhookDeliveryLabel",
+                    "args": [
+                      {
+                        "outcome": "expired"
+                      }
+                    ],
+                    "assert_unchanged_args": true
+                  }
+                }
+              ],
+              "assert_unchanged_args": true
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "props": {
+            "data-webhook-case": "accepted-run"
+          },
+          "children": [
+            "accepted-run | accepted | ",
+            {
+              "call": "webhookDeliveryStatus",
+              "args": [
+                "accepted",
+                {
+                  "$element": {
+                    "call": "webhookDeliveryLabel",
+                    "args": [
+                      {
+                        "outcome": "accepted",
+                        "pendingWindow": false
+                      }
+                    ],
+                    "assert_unchanged_args": true
+                  }
+                }
+              ],
+              "assert_unchanged_args": true
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "props": {
+            "data-webhook-case": "accepted-window"
+          },
+          "children": [
+            "accepted-window | accepted | ",
+            {
+              "call": "webhookDeliveryStatus",
+              "args": [
+                "accepted",
+                {
+                  "$element": {
+                    "call": "webhookDeliveryLabel",
+                    "args": [
+                      {
+                        "outcome": "accepted",
+                        "pendingWindow": true
+                      }
+                    ],
+                    "assert_unchanged_args": true
+                  }
+                }
+              ],
+              "assert_unchanged_args": true
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "props": {
+            "data-webhook-case": "unknown-fallback"
+          },
+          "children": [
+            "unknown-fallback | unknown_future_state | ",
+            {
+              "call": "webhookDeliveryStatus",
+              "args": [
+                "unknown_future_state",
+                {
+                  "$element": {
+                    "call": "webhookDeliveryLabel",
+                    "args": [
+                      {
+                        "outcome": "unknown_future_state"
+                      }
+                    ],
+                    "assert_unchanged_args": true
+                  }
+                }
+              ],
+              "assert_unchanged_args": true
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "props": {
+            "data-webhook-case": "user-content-fallback"
+          },
+          "children": [
+            "user-content-fallback | No_project | ",
+            {
+              "call": "webhookDeliveryStatus",
+              "args": [
+                "No_project",
+                {
+                  "$element": {
+                    "call": "webhookDeliveryLabel",
+                    "args": [
+                      {
+                        "outcome": "No_project"
+                      }
+                    ],
+                    "assert_unchanged_args": true
+                  }
+                }
+              ],
+              "assert_unchanged_args": true
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "props": {
+            "data-webhook-case": "unknown-known-label"
+          },
+          "children": [
+            "unknown-known-label | future_state | ",
+            {
+              "call": "webhookDeliveryStatus",
+              "args": [
+                "future_state",
+                "Run failed"
+              ],
+              "assert_unchanged_args": true
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "props": {
+            "data-webhook-case": "forged-known-label"
+          },
+          "children": [
+            "forged-known-label | duplicate | ",
+            {
+              "call": "webhookDeliveryStatus",
+              "args": [
+                "duplicate",
+                "Filtered"
+              ],
+              "assert_unchanged_args": true
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "props": {
+            "data-webhook-case": "forged-unknown-label"
+          },
+          "children": [
+            "forged-unknown-label | dispatch_failed | ",
+            {
+              "call": "webhookDeliveryStatus",
+              "args": [
+                "dispatch_failed",
+                "Cannot access No project"
+              ],
+              "assert_unchanged_args": true
+            }
+          ]
+        },
+        {
+          "component": "p",
+          "props": {
+            "data-webhook-case": "wrong-case-outcome"
+          },
+          "children": [
+            "wrong-case-outcome | Dispatch_Failed | ",
+            {
+              "call": "webhookDeliveryStatus",
+              "args": [
+                "Dispatch_Failed",
+                "Run failed"
+              ],
+              "assert_unchanged_args": true
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -10,7 +10,7 @@ import { startSandbox } from './sandbox.ts';
 import { expandPath, identity, loadState, signalOwned, stopSandbox } from './sandbox-runtime.ts';
 import { ModuleIndex, sharedSymbols } from './modules.ts';
 import { actions, assertChromeTransport, completeOnboarding, launchChrome, readRegion, recordChromeProcesses, setLocale, waitForWorkspace } from './runner.ts';
-import { renderFixture } from './fixture.ts';
+import { prepareFixtureModules, renderFixture } from './fixture.ts';
 import { verifyPackageModules } from './package-modules.ts';
 
 const here=path.dirname(fileURLToPath(import.meta.url));
@@ -24,7 +24,7 @@ export async function main() {
   if(computerName.status===0&&computerName.stdout.trim())patterns.push({label:'computer_name',value:computerName.stdout.trim()});
   const save=(name:string,value:any)=>writeJson(path.join(out,name),filterEvidence(value,patterns),patterns);
   const build=path.resolve(options['build-src']||path.join(ROOT,'.build/src'));assertSafePath(build);
-  const checksPath=path.resolve(options.checks||path.join(here,'checks/t17-t19.json'));
+  const checksPath=path.resolve(options.checks||path.join(here,'checks/acceptance.json'));
   const manifest=JSON.parse(fs.readFileSync(checksPath,'utf8'));
   const phase=options.phase||'all';assert.ok(['all','real','simulated'].includes(phase));
   const checks=manifest.checks.filter((item:any)=>phase==='all'||item.kind===phase);
@@ -49,6 +49,10 @@ export async function main() {
     chromeProcesses=recordChromeProcesses(profile);assert.ok(chromeProcesses.length,'Chrome PID 未记录');save('chrome-runtime.json',{profile,processes:chromeProcesses,headless:true,new_empty_profile:true,debugging_transport:'pipe'});
     const page=context.pages()[0]||await context.newPage();page.setDefaultTimeout(10000);page.setDefaultNavigationTimeout(20000);
     page.on('request',(req:any)=>{const url=new URL(req.url());if(url.origin===state.origin&&url.pathname.startsWith('/assets/')&&url.pathname.endsWith('.js'))loadedModules.add(path.basename(url.pathname));});
+    const fixtures=checks.filter((check:any)=>check.kind==='simulated').map((check:any)=>
+      typeof check.fixture==='string'?manifest.fixtures[check.fixture]:check.fixture);
+    assert.ok(fixtures.every(Boolean),'清单引用的 fixture 不存在');
+    const preparedFixtures=await prepareFixtureModules(page,index,fixtures,state.origin);
     const pairing=await (await fetch(state.helper_origin+'/pair')).json() as any;
     assert.ok(typeof pairing.credential==='string'&&pairing.credential,'配对凭据未就绪或已转交');
     patterns.push({label:'pairing',value:pairing.credential});
@@ -76,6 +80,7 @@ export async function main() {
       }
       for(const check of checks) {
         const stamp=performance.now();const failures:string[]=[];let capture:any={text:'',labels:[],inputs:[],buttons:[]};
+        const actionEvidence:any[]=[];
         try {
           await page.keyboard.press('Escape');
           await page.goto(state.origin+'/settings/general');
@@ -86,11 +91,11 @@ export async function main() {
           if(check.kind==='simulated') {
             const fixture=typeof check.fixture==='string'?manifest.fixtures[check.fixture]:check.fixture;
             assert.ok(fixture,'清单引用的 fixture 不存在');
-            const fixtureEvidence=await renderFixture(page,index,shared,fixture);
+            const fixtureEvidence=await renderFixture(page,preparedFixtures,shared,fixture);
             for(const entry of Object.values(fixtureEvidence.components) as any)loadedModules.add(entry.file);
             save(`fixture-${locale}-${check.name}.json`,fixtureEvidence);
           }
-          await actions(page,check.actions||[],locale,substitutions);
+          await actions(page,check.actions||[],locale,substitutions,actionEvidence);
           if(check.wait)await actions(page,[{type:'wait',target:check.wait}],locale,substitutions);
           const expected=JSON.parse(JSON.stringify(check.expected[locale]).replaceAll('$version',options.version||''));
           await page.waitForFunction(({required,regions}:any)=> {
@@ -125,7 +130,7 @@ export async function main() {
           failures.push(String(error));
           try {capture=await readRegion(page,'body');}catch{}
         }
-        const row={name:check.name,kind:check.kind,locale,lang:await page.locator('html').getAttribute('lang'),url:page.url(),...capture,
+        const row={name:check.name,kind:check.kind,locale,lang:await page.locator('html').getAttribute('lang'),url:page.url(),...capture,action_evidence:actionEvidence,
           passed:failures.length===0,failures,seconds:Number(((performance.now()-stamp)/1000).toFixed(3)),migration:check.migration};
         rows.push(row);save(`web-last-${locale}-${check.name}-${check.kind}.json`,row);
       }
@@ -167,9 +172,10 @@ export async function main() {
       results:rows.map(({text,labels,inputs,buttons,...row})=>row),errors,email_configured:emailConfigured});
     const audit=auditOutputs(out,patterns);save('output-audit.json',audit);
     console.log('项目 | 中文 | English');
-    for(const check of checks) console.log(redact(check.name+' | '+['zh-CN','en'].map(locale=>{
+    const summaries=checks.map((check:any)=>redact(check.name+' | '+['zh-CN','en'].map(locale=>{
       const row=rows.find(row=>row.name===check.name&&row.locale===locale);return row?(row.passed?'PASS':'FAIL '+row.failures.map((value:string)=>value.split('\n')[0]).join('; ').slice(0,180)):'未执行';
     }).join(' | '),patterns));
+    for(let i=0;i<summaries.length;i+=2)console.log(summaries.slice(i,i+2).join(' ; '));
     console.log(`total: ${passed&&audit.passed?'PASS':'FAIL'} ${rows.filter(row=>row.passed).length}/${checks.length*2} logs=${redact(out,patterns)}`);
     for(const error of errors.slice(0,3))console.error(filterEvidence(error.split('\n')[0]!,patterns));
     process.exitCode=passed&&audit.passed?0:1;

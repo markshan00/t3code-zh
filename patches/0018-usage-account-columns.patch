@@ -1,83 +1,87 @@
+# 基线 v0.1.1 / fe27e8e3dc12dcbb108e9a28fd9b8cb65f34ae92；按编号顺序普通 apply。
 diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/components/usage/UsageLimitsPooled.tsx
+index 03ab85cc..f16bdd1b 100644
 --- a/apps/web/src/components/usage/UsageLimitsPooled.tsx
 +++ b/apps/web/src/components/usage/UsageLimitsPooled.tsx
-@@ -197,7 +197,7 @@
-           </Row>
+@@ -193,7 +193,7 @@ function SegmentPopover({
          ) : null}
+         {timeLeft !== null ? <Row label="Even pace">{timeLeft}% left by now</Row> : null}
          {reset && reset.restoresPercent > 0 ? (
 -          <Row label="Restores">+{reset.restoresPercent}% of pool</Row>
 +          <Row label="Restores">+{reset.restoresPercent}%</Row>
          ) : null}
        </div>
        {credits && redeem ? (
-@@ -220,28 +220,19 @@
-   );
- }
-
--/**
-- * One account's share of one pooled window: the segment, its popover, and the
-- * reset confirm. The confirm is a sibling of the popover, not a child: dialogs
-- * stack under popovers, and the popover closes as the confirm opens.
-- */
-+/** One account's quota bar, with its existing detail and reset-credit controls. */
- function PoolSegment({
-   account,
-   window,
-   reset,
+@@ -286,8 +286,6 @@ function PoolSegment({
+   readonly refillPercent: number;
+   readonly color: string;
+   readonly now: number;
+-  readonly index: number;
+-  readonly showAccountName: boolean;
+ }) {
+   return account.redeem ? (
+     <RedeemableSegment account={account} redeemAt={account.redeem} {...props} />
+@@ -331,14 +329,10 @@ function SegmentTriggers({
+   refillPercent,
    color,
    now,
 -  index,
 -  showAccountName,
- }: {
-   readonly account: LimitAccount;
-   readonly window: LimitPoolMember["window"];
-   readonly reset: LimitPoolWindow["resets"][number] | undefined;
+ }: SegmentPayload & {
+   readonly refillPercent: number;
    readonly color: string;
    readonly now: number;
--  /** 1-based position in the bar, shown on the strip and its legend row to tie them together. */
 -  readonly index: number;
 -  readonly showAccountName: boolean;
  }) {
-   const [open, setOpen] = useState(false);
-   const remaining = remainingPercent(window);
-@@ -254,63 +245,28 @@
-         render={
+   const popover = use(SegmentPopoverContext) ?? undefined;
+   const payload: SegmentPayload = { account, window, reset, redeem };
+@@ -357,24 +351,24 @@ function SegmentTriggers({
            <button
+             ref={segmentRef}
              type="button"
--            style={{ gridColumn: index, gridRow: 1 }}
-             aria-label={`${account.displayName ?? (account.email ? accountInitials(account.email) : account.driver)}: ${remaining}% left${resetsIn ? `, ${resetsIn}` : ""}${credits ? `, ${credits} reset ${credits === 1 ? "credit" : "credits"} banked` : ""}`}
--            className="relative h-5 min-w-0 cursor-pointer overflow-hidden rounded-md bg-muted text-start outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-[popup-open]:ring-1 data-[popup-open]:ring-inset data-[popup-open]:ring-border @2xl/pool:h-8"
+-            style={{ gridColumn: index, gridRow: 1, ...paceMark?.gappedTrack }}
++            style={paceMark?.gappedTrack}
+             aria-label={`${account.displayName ?? (account.email ? accountInitials(account.email) : account.driver)}: ${remaining}% left${resetsIn ? `, ${resetsIn}` : ""}${timeLeft === null ? "" : `, ${timeLeft}% of the window left`}${credits ? `, ${credits} reset ${credits === 1 ? "credit" : "credits"} banked` : ""}`}
+-            className="relative h-5 min-w-0 cursor-pointer rounded-md bg-muted text-start outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-[popup-open]:ring-1 data-[popup-open]:ring-inset data-[popup-open]:ring-border @2xl/pool:h-8"
 +            className="relative h-6 w-full min-w-0 cursor-pointer text-start outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-[popup-open]:ring-1 data-[popup-open]:ring-inset data-[popup-open]:ring-border"
            />
          }
        >
--        {/* Translucent so the label reads over the fill for any provider colour and theme. */}
-+        <div aria-hidden className="absolute inset-x-0 inset-y-2 rounded-full bg-muted" />
-         <div
-           aria-hidden
--          className="absolute inset-y-0 left-0 rounded-md opacity-35"
-+          className="absolute inset-y-2 left-0 rounded-full opacity-70"
-           style={{ width: `${remaining}%`, backgroundColor: color }}
-         />
--        {/* The spent share is hatched, not blank: it is what the countdown restores. */}
-         {remaining < 100 && reset ? (
-           <div
+-        <div aria-hidden className="absolute inset-0 overflow-hidden rounded-md">
++        <div aria-hidden className="absolute inset-x-0 inset-y-2 overflow-hidden rounded-full bg-muted">
+           {/* Clipped inside the rounded clip so the bar's own corners keep their antialiasing. */}
+           <div className="absolute inset-0" style={paceMark?.gap}>
+             <div
+               aria-hidden
+-              className="absolute inset-y-0 left-0 rounded-md opacity-35"
++              className="absolute inset-y-0 left-0 rounded-full opacity-70"
+               style={{ width: `${remaining}%`, backgroundColor: color }}
+             />
+             {remaining < 100 && reset && refillPercent > 0 ? (
+               <div
+                 aria-hidden
+-                className="absolute inset-y-0 right-0 opacity-20"
++                className="absolute inset-y-0 right-0 rounded-full opacity-20"
+                 style={{
+                   width: `${Math.min(100 - remaining, refillPercent)}%`,
+                   backgroundImage: `repeating-linear-gradient(135deg, ${color} 0 1px, transparent 1px 5px)`,
+@@ -386,142 +380,16 @@ function SegmentTriggers({
+         {paceMark ? (
+           <span
              aria-hidden
--            className="absolute inset-y-0 right-0 opacity-20"
-+            className="absolute inset-y-2 right-0 rounded-full opacity-20"
-             style={{
-               width: `${100 - remaining}%`,
-               backgroundImage: `repeating-linear-gradient(135deg, ${color} 0 1px, transparent 1px 5px)`,
-             }}
+-            className="absolute inset-y-0.5 w-0.5 -translate-x-1/2 rounded-full bg-foreground"
++            className="absolute inset-y-1.5 w-0.5 -translate-x-1/2 rounded-full bg-foreground"
+             style={paceMark.tick}
            />
          ) : null}
 -        <span
 -          aria-hidden
--          className="absolute inset-0 flex items-center justify-center text-3xs leading-none font-semibold text-foreground/80 tabular-nums @2xl/pool:hidden"
+-          className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-md text-3xs leading-none font-semibold text-foreground/80 tabular-nums @2xl/pool:hidden"
 -        >
 -          {index}
 -        </span>
--        <div className="relative hidden h-full min-w-0 items-center gap-1.5 px-2 text-xs @2xl/pool:flex">
+-        <div className="relative hidden h-full min-w-0 items-center gap-1.5 overflow-hidden rounded-md px-2 text-xs @2xl/pool:flex">
 -          {showAccountName ? (
 -            <AccountName
 -              account={account}
@@ -85,59 +89,51 @@ diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/
 -            />
 -          ) : null}
 -          <span className="shrink-0 font-semibold text-foreground tabular-nums">{remaining}%</span>
--          {/* Countdown and badge get their own plate: fill and hatching run under them otherwise. */}
--          <span className="ms-auto flex shrink-0 items-center gap-1.5 rounded-sm bg-background/85 px-1.5 py-0.5 text-2xs text-foreground tabular-nums">
--            {resetsIn?.replace("resets in ", "↻ ") ?? ""}
--            {credits ? (
--              <>
--                {resetsIn ? (
--                  <span aria-hidden className="text-muted-foreground">
--                    ·
+-          {resetsIn || credits ? (
+-            <span className="ms-auto flex min-w-0 items-center gap-1.5 overflow-hidden rounded-sm bg-background/85 px-1.5 py-0.5 text-2xs whitespace-nowrap text-foreground tabular-nums">
+-              {resetsIn?.replace("resets in ", "↻ ") ?? ""}
+-              {credits ? (
+-                <>
+-                  {resetsIn ? (
+-                    <span aria-hidden className="text-muted-foreground">
+-                      ·
+-                    </span>
+-                  ) : null}
+-                  <span aria-hidden className="inline-flex items-center gap-0.5 font-semibold">
+-                    <TicketIcon className="size-3" aria-hidden />
+-                    {credits}
 -                  </span>
--                ) : null}
--                <span aria-hidden className="inline-flex items-center gap-0.5 font-semibold">
--                  <TicketIcon className="size-3" aria-hidden />
--                  {credits}
--                </span>
--              </>
--            ) : null}
--          </span>
+-                </>
+-              ) : null}
+-            </span>
+-          ) : null}
 -        </div>
        </PopoverTrigger>
--      <LegendRow account={account} window={window} color={color} now={now} index={index} />
-       {account.redeem ? (
-         <RedeemableSegmentPopup
-           account={account}
-@@ -333,66 +289,6 @@
-         </PopoverPopup>
-       )}
-     </Popover>
--  );
--}
--
--/**
-- * Below the strip at narrow widths: one row per account in bar order, carrying
-- * the text the segment has no room for. Tapping a row opens the same popover
-- * as its segment, so the two are one control with two handles.
-- */
+-      <LegendRow payload={payload} color={color} now={now} index={index} />
+     </>
+   );
+ }
+
 -function LegendRow({
--  account,
--  window,
+-  payload,
 -  color,
 -  now,
 -  index,
 -}: {
--  readonly account: LimitAccount;
--  readonly window: LimitPoolMember["window"];
+-  readonly payload: SegmentPayload;
 -  readonly color: string;
 -  readonly now: number;
 -  readonly index: number;
 -}) {
+-  const popover = use(SegmentPopoverContext) ?? undefined;
+-  const { account, window } = payload;
 -  const remaining = remainingPercent(window);
 -  const resetsIn = formatResetsIn(window, now);
 -  const credits = account.limits.resetCredits?.availableCount ?? 0;
 -  return (
 -    <PopoverTrigger
+-      handle={popover}
+-      payload={payload}
 -      style={{ gridColumn: "1 / -1", gridRow: index + 1 }}
 -      render={<Button variant="ghost" size="compact" />}
 -      className="min-w-0 @2xl/pool:hidden"
@@ -172,22 +168,9 @@ diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/
 -        ) : null}
 -      </span>
 -    </PopoverTrigger>
-   );
- }
-
-@@ -444,54 +340,7 @@
-   );
- }
-
--/**
-- * One pooled window as equal-width segments, one per account, each filled by
-- * the share of that account's quota still open. Equal widths are honest: every
-- * account contributes the same share of the pool, whatever its plan.
-- *
-- * Wide, each segment carries its own label. Narrow, the bar is a bare strip
-- * and a legend below lists the accounts in the same order; both open the
-- * same popover.
-- */
+-  );
+-}
+-
 -function PoolBar({
 -  pool,
 -  color,
@@ -211,6 +194,7 @@ diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/
 -              account={member.account}
 -              window={member.window}
 -              reset={restores.get(member.account.key)}
+-              refillPercent={member.refillPercent}
 -              color={color}
 -              now={now}
 -              index={position + 1}
@@ -223,21 +207,20 @@ diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/
 -  );
 -}
 -
--/**
-- * Big pooled number and the segment bar. Accounts keep the same column across
-- * windows; each segment's popover shows its own reset time and share restored.
-- */
-+/** A window belonging to one account, using the same detail and redeem controls. */
++/** A window belonging to one account, with the shared detail and redeem controls. */
  function PoolWindowCard({
    pool,
    color,
-@@ -505,37 +354,49 @@
+@@ -535,38 +403,52 @@ function PoolWindowCard({
    readonly label?: string | undefined;
    readonly description?: string | undefined;
  }) {
--  // The soonest reset that hands anything back; an untouched account resets to no effect.
 -  const nextRefill = pool.resets.find((reset) => reset.restoresPercent > 0);
--  return (
++  const member = pool.members[0]!;
++  const reset = pool.resets.find((candidate) => candidate.member.account.key === member.account.key);
++  const resetsIn = formatResetsIn(member.window, now);
++  const credits = member.account.limits.resetCredits?.availableCount ?? 0;
+   return (
 -    <div className="grid items-center gap-x-6 gap-y-3 rounded-lg border border-border/60 p-4 md:grid-cols-[11rem_minmax(0,1fr)]">
 -      <div className="flex flex-col gap-1">
 -        <span className="text-sm font-medium text-foreground">{label !== undefined ? label : displayKnown(pool.label)}</span>
@@ -245,13 +228,10 @@ diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/
 -          <span className="text-3xl font-semibold text-foreground tabular-nums">
 -            {pool.remainingPercent}%
 -          </span>
--          <span className="text-sm text-muted-foreground">left</span>
--          {pool.pace ? <PaceIcon pace={pool.pace} /> : null}
-+  const member = pool.members[0]!;
-+  const reset = pool.resets.find((candidate) => candidate.member.account.key === member.account.key);
-+  const resetsIn = formatResetsIn(member.window, now);
-+  const credits = member.account.limits.resetCredits?.availableCount ?? 0;
-+  return (
+-          <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+-            <span>left</span>
+-            {pool.pace ? <PaceIcon pace={pool.pace} /> : null}
+-          </span>
 +    <div className="flex min-w-0 flex-col gap-3 py-5 first:pt-0 last:pb-0">
 +      <span className="text-xs font-medium text-muted-foreground">
 +        {label !== undefined ? label : displayKnown(pool.label)}
@@ -259,14 +239,16 @@ diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/
 +      <div className="flex items-baseline gap-2">
 +        <span className="text-3xl font-semibold text-foreground tabular-nums">
 +          {remainingPercent(member.window)}%
++        </span>
++        <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
++          <span>left</span>
++          {pool.pace ? <PaceIcon pace={pool.pace} /> : null}
          </span>
 -        {nextRefill && pool.columns.length > 1 ? (
 -          <span className="text-xs font-medium text-foreground tabular-nums">
 -            ↻ +{nextRefill.restoresPercent}%
 -          </span>
 -        ) : null}
-+        <span className="text-xs text-muted-foreground">left</span>
-+        {pool.pace ? <PaceIcon pace={pool.pace} /> : null}
        </div>
 -      <PoolBar pool={pool} color={color} now={now} />
 -      {description ? (
@@ -275,6 +257,7 @@ diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/
 +        account={member.account}
 +        window={member.window}
 +        reset={reset}
++        refillPercent={member.refillPercent}
 +        color={color}
 +        now={now}
 +      />
@@ -302,7 +285,7 @@ diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/
    return (
      <section className="flex flex-col gap-3">
        <h2 className="flex items-center gap-2 text-sm font-medium text-foreground">
-@@ -548,27 +409,45 @@
+@@ -579,19 +461,39 @@ function PoolSection({ pool, now }: { readonly pool: LimitPool; readonly now: nu
          />
          {label}
        </h2>
@@ -355,12 +338,3 @@ diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/
      </section>
    );
  }
-
- /**
-- * Accounts pooled per provider: what is open across all of them, who resets
-- * next, and how much of the pool that hands back. Answers "can I keep going"
-- * before "on which account".
-+ * Provider groups with a separate column for each account's own quota and resets.
-  */
- export function UsageLimitsPooled({
-   presentations,

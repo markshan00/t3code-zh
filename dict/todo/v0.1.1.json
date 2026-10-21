@@ -1,0 +1,2436 @@
+[
+  {
+    "key": "PDF document",
+    "section": "messages",
+    "zh": "PDF 文档",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/browser/ServerBrowserSurface.tsx:743（B，ServerBrowserSurface）"
+    ]
+  },
+  {
+    "key": "Choose a folder on the other machine.",
+    "section": "messages",
+    "zh": "请选择另一台设备上的文件夹。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:164（D，submit）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "the other machine.上的Choose a folder"
+  },
+  {
+    "key": "Could not start the clone.",
+    "section": "messages",
+    "zh": "无法开始克隆。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:187（D，submit）"
+    ],
+    "collidesWith": "Could not start {0}",
+    "wrongResult": "无法启动 the clone."
+  },
+  {
+    "key": "Add to another machine",
+    "section": "messages",
+    "zh": "添加到另一台设备",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:208（A，AddProjectToMachineDialog）",
+      "apps/web/src/components/BranchToolbar.tsx:382（A，RunContextSelector）",
+      "apps/web/src/components/BranchToolbarEnvironmentSelector.tsx:63（C，BranchToolbarEnvironmentSelector）",
+      "apps/web/src/components/BranchToolbarEnvironmentSelector.tsx:168（A，BranchToolbarEnvironmentSelector）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Add 到 another machine"
+  },
+  {
+    "key": "git clone",
+    "section": "messages",
+    "zh": "",
+    "skip": "命令名称 git clone 保持英文。",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:229（A，AddProjectToMachineDialog）"
+    ]
+  },
+  {
+    "key": "no files",
+    "section": "messages",
+    "zh": "无文件",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:236（A，AddProjectToMachineDialog）"
+    ],
+    "collidesWith": "{count} files",
+    "wrongResult": "no 个文件"
+  },
+  {
+    "key": "Machine to add the project to",
+    "section": "messages",
+    "zh": "要添加项目的设备",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:249（B，AddProjectToMachineDialog）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Machine 到 add the project to"
+  },
+  {
+    "key": "No machine available",
+    "section": "messages",
+    "zh": "没有可用设备",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:271（A，AddProjectToMachineDialog）"
+    ]
+  },
+  {
+    "key": "Clone over",
+    "section": "messages",
+    "zh": "克隆方式",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:281（A，AddProjectToMachineDialog）"
+    ],
+    "collidesWith": "Clone {0}",
+    "wrongResult": "克隆 over"
+  },
+  {
+    "key": "Clone protocol",
+    "section": "messages",
+    "zh": "克隆协议",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:284（B，AddProjectToMachineDialog）"
+    ],
+    "collidesWith": "{0} protocol",
+    "wrongResult": "Clone 协议"
+  },
+  {
+    "key": "Copy ignored files",
+    "section": "messages",
+    "zh": "复制已忽略的文件",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:312（A，AddProjectToMachineDialog）"
+    ],
+    "collidesWith": "{count} files",
+    "wrongResult": "Copy ignored 个文件"
+  },
+  {
+    "key": "No ignored files to copy.",
+    "section": "messages",
+    "zh": "没有要复制的已忽略文件。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:341（A，AddProjectToMachineDialog）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "No ignored files 到 copy."
+  },
+  {
+    "key": "Finding ignored files…",
+    "section": "messages",
+    "zh": "正在查找已忽略的文件…",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:342（A，AddProjectToMachineDialog）"
+    ]
+  },
+  {
+    "key": "Files are copied after the clone finishes. Folders git ignores whole, like node_modules, are left out.",
+    "section": "messages",
+    "zh": "克隆完成后会复制文件。Git 整体忽略的文件夹（如 node_modules）不会复制。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:362（A，AddProjectToMachineDialog）"
+    ]
+  },
+  {
+    "key": "Clone to {0}",
+    "section": "templates",
+    "zh": "克隆到 {0}",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:375（A，AddProjectToMachineDialog）"
+    ],
+    "collidesWith": "Clone {provider} {path}",
+    "wrongResult": "克隆 to {0}"
+  },
+  {
+    "key": "Over 1 MB",
+    "section": "messages",
+    "zh": "超过 1 MB",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/AddProjectToMachineDialog.tsx:422（A，IgnoredFileRow）"
+    ],
+    "collidesWith": "{0} MB",
+    "wrongResult": "Over 1 MB"
+  },
+  {
+    "key": "Start from remote",
+    "section": "messages",
+    "zh": "从远程开始",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/BranchPicker.tsx:232（A，BranchPicker）",
+      "apps/web/src/components/settings/settingsSearch.ts:483（C，title）"
+    ]
+  },
+  {
+    "key": "Start worktree from remote",
+    "section": "messages",
+    "zh": "从远程创建工作树",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/BranchPicker.tsx:238（B，BranchPicker）"
+    ]
+  },
+  {
+    "key": "Uses the latest commit of the base branch’s tracked remote branch, even if its name differs. Otherwise uses the same-named branch on origin. Uses your local branch if that remote branch is missing.",
+    "section": "messages",
+    "zh": "使用基础分支所跟踪的远程分支的最新提交，即使两者名称不同。未设置跟踪分支时，使用 origin 上的同名分支；如果该远程分支不存在，则使用本地分支。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/BranchPicker.tsx:245（A，BranchPicker）",
+      "apps/web/src/components/settings/SettingsPanels.tsx:3001（B，GeneralSettingsPanel）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "Uses the latest commit of the base branch’s tracked remote branch, even if its name differs. Otherwise uses the same-named branch on origin. Uses your local branch if that remote branch 的状态为 missing."
+  },
+  {
+    "key": "From {0} (remote)",
+    "section": "templates",
+    "zh": "基于 {0}（远程）",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/BranchToolbar.logic.ts:224（C，resolveBranchTriggerLabel）"
+    ],
+    "collidesWith": "From {0}",
+    "wrongResult": "基于 {0} (remote)"
+  },
+  {
+    "key": "Full path",
+    "section": "messages",
+    "zh": "完整路径",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/ChatMarkdown.tsx:305（C，markdownFileCopyMenuItems）"
+    ],
+    "collidesWith": "{0}h",
+    "wrongResult": "Full pat 小时"
+  },
+  {
+    "key": "Relative path",
+    "section": "messages",
+    "zh": "相对路径",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/ChatMarkdown.tsx:313（C，markdownFileCopyMenuItems）"
+    ],
+    "collidesWith": "{0}h",
+    "wrongResult": "Relative pat 小时"
+  },
+  {
+    "key": "This thread is no longer available",
+    "section": "messages",
+    "zh": "此任务已不可用",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/ChatView.tsx:5289（C，onOpenRelatedThread）"
+    ],
+    "collidesWith": "This thread is {0}",
+    "wrongResult": "此任务已no longer available"
+  },
+  {
+    "key": "No machine can read every attached thread. Choose a machine in the composer or remove the threads.",
+    "section": "messages",
+    "zh": "没有设备能读取所有附加的任务。请在输入框中选择设备，或移除这些任务。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/ChatView.tsx:6270（C，onSend）"
+    ],
+    "collidesWith": "{0} in {1}",
+    "wrongResult": "No machine can read every attached thread. Choose a machine，用时 the composer or remove the threads."
+  },
+  {
+    "key": "Attached thread is on another machine",
+    "section": "messages",
+    "zh": "附加的任务位于另一台设备",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/ChatView.tsx:6366（C，onSend）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "Attached thread 的状态为 on another machine"
+  },
+  {
+    "key": "This machine's agent can't read \"{0}\". Remove it, or switch back to {1} to send.",
+    "section": "templates",
+    "zh": "此设备上的 Agent 无法读取“{0}”。请将其移除，或切回 {1} 后发送。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/ChatView.tsx:6367（C，onSend）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "This machine's agent can't read \"{0}\". Remove it, or switch back 到 {1} to send."
+  },
+  {
+    "key": "Could not start thread",
+    "section": "messages",
+    "zh": "无法启动任务",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/ChatView.tsx:7384（C，onSend）"
+    ],
+    "collidesWith": "Could not start {0}",
+    "wrongResult": "无法启动 thread"
+  },
+  {
+    "key": "This computer is off",
+    "section": "messages",
+    "zh": "此设备已关机",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/HostedEmptyState.tsx:39（A，HostedEmptyState）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "This computer 的状态为 off"
+  },
+  {
+    "key": "No computer connected",
+    "section": "messages",
+    "zh": "没有已连接的设备",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/HostedEmptyState.tsx:39（A，HostedEmptyState）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "No computer connecte 天"
+  },
+  {
+    "key": "Turn it back on, or connect a different computer.",
+    "section": "messages",
+    "zh": "请重新开机，或连接其他设备。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/HostedEmptyState.tsx:43（A，HostedEmptyState）"
+    ],
+    "collidesWith": "Turn {0}",
+    "wrongResult": "第 it back on, or connect a different computer. 轮"
+  },
+  {
+    "key": "Your agents run on your computer.",
+    "section": "messages",
+    "zh": "你的 Agent 在你的设备上运行。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/HostedEmptyState.tsx:45（A，HostedEmptyState）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "your computer.上的Your agents run"
+  },
+  {
+    "key": "Your agents run on your computer. Start T3 Code there first.",
+    "section": "messages",
+    "zh": "你的 Agent 在你的设备上运行。请先在该设备上启动 T3 Code。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/HostedEmptyState.tsx:46（A，HostedEmptyState）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "your computer. Start T3 Code there first.上的Your agents run"
+  },
+  {
+    "key": "Waiting for your computer…",
+    "section": "messages",
+    "zh": "正在等待你的设备…",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/HostedEmptyState.tsx:109（A，T3ConnectSteps）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "your computer… 的 Waiting"
+  },
+  {
+    "key": "Add pairing link",
+    "section": "messages",
+    "zh": "添加配对链接",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/HostedEmptyState.tsx:126（A，PairingSteps）"
+    ],
+    "collidesWith": "{0} pairing link",
+    "wrongResult": "Add 个配对链接"
+  },
+  {
+    "key": "Run on your computer:",
+    "section": "messages",
+    "zh": "在你的设备上运行：",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/HostedEmptyState.tsx:151（A，RunOnComputer）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "your computer:上的Run"
+  },
+  {
+    "key": "Or download the desktop app",
+    "section": "messages",
+    "zh": "或下载桌面应用",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/HostedEmptyState.tsx:159（A，RunOnComputer）"
+    ],
+    "collidesWith": "{0} app",
+    "wrongResult": "Or download the desktop 应用"
+  },
+  {
+    "key": "On another machine, so this machine's agent can't read it. Remove it or switch back to send.",
+    "section": "messages",
+    "zh": "位于另一台设备，因此此设备上的 Agent 无法读取。请将其移除，或切回原设备后发送。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/ThreadContextChip.tsx:36（A，ThreadContextChip）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "On another machine, so this machine's agent can't read it. Remove it or switch back 到 send."
+  },
+  {
+    "key": "Folders can only be referenced in the local desktop environment",
+    "section": "messages",
+    "zh": "只能在本地桌面环境中引用文件夹",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/chat/ChatComposer.tsx:5810（C，addComposerFolders）"
+    ],
+    "collidesWith": "{0} in {1}",
+    "wrongResult": "Folders can only be referenced，用时 the local desktop environment"
+  },
+  {
+    "key": "Unable to add folder",
+    "section": "messages",
+    "zh": "无法添加文件夹",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/chat/ChatComposer.tsx:5830（C，addComposerFolders）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Unable 到 add folder"
+  },
+  {
+    "key": "Rewind chat to before this message. Your prompt and attachments return to the composer. “Revert files too” also undoes your own edits.",
+    "section": "messages",
+    "zh": "将对话回退到此消息之前。提示词和附件会返回输入框。“同时还原文件”还会撤销你自己的编辑。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/chat/ChatOverlayHosts.tsx:215（A，RevertConfirmHost）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Rewind chat to before this message. Your prompt 和 attachments return to the composer. “Revert files too” also undoes your own edits."
+  },
+  {
+    "key": "Earlier output not shown",
+    "section": "messages",
+    "zh": "更早的输出未显示",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/CommandOutputPanel.tsx:58（A，CommandOutputPanel）"
+    ]
+  },
+  {
+    "key": "Next send keeps all {0} tokens.",
+    "section": "templates",
+    "zh": "下次发送时保留全部 {0} 个 Token。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/ComposerPrimaryActions.tsx:392（A，ComposerPrimaryActions）"
+    ]
+  },
+  {
+    "key": "Next send compacts {0} tokens first.",
+    "section": "templates",
+    "zh": "下次发送前先压缩 {0} 个 Token 的上下文。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/ComposerPrimaryActions.tsx:393（A，ComposerPrimaryActions）"
+    ]
+  },
+  {
+    "key": "Click to compact first",
+    "section": "messages",
+    "zh": "点击以先压缩上下文",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/chat/ComposerPrimaryActions.tsx:395（A，ComposerPrimaryActions）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Click 到 compact first"
+  },
+  {
+    "key": "Click to keep full history",
+    "section": "messages",
+    "zh": "点击以保留完整历史",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/chat/ComposerPrimaryActions.tsx:395（A，ComposerPrimaryActions）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Click 到 keep full history"
+  },
+  {
+    "key": "Compacts automatically at about {0} tokens.",
+    "section": "templates",
+    "zh": "约 {0} 个 Token 时自动压缩上下文。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/chat/ContextWindowMeter.logic.ts:107（C，formatContextWindowCompactionMessage）"
+    ],
+    "collidesWith": "Compacts automatically at {tokens} tokens.",
+    "wrongResult": "达到 about {0} 个 Token 后自动压缩。"
+  },
+  {
+    "key": "What should we build in",
+    "section": "messages",
+    "zh": "",
+    "skip": "DraftHeroProjectHeading 已由 0007 补丁改为整句 What should we build in {project}? / What should we build?，不保留拆分词条。",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/DraftHeroProjectHeading.tsx:41（A，DraftHeroProjectHeading）"
+    ]
+  },
+  {
+    "key": "What should we build",
+    "section": "messages",
+    "zh": "",
+    "skip": "DraftHeroProjectHeading 已由 0007 补丁改为整句 What should we build in {project}? / What should we build?，不保留拆分词条。",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/chat/DraftHeroProjectHeading.tsx:49（A，DraftHeroProjectHeading）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "What should we buil 天"
+  },
+  {
+    "key": "in",
+    "section": "messages",
+    "zh": "",
+    "skip": "DraftHeroProjectHeading 已由 0007 补丁改为整句 What should we build in {project}? / What should we build?，不保留拆分词条。",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/DraftHeroProjectHeading.tsx:51（A，DraftHeroProjectHeading）"
+    ]
+  },
+  {
+    "key": "Display equation",
+    "section": "messages",
+    "zh": "独立公式",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/MarkdownMath.tsx:34（B，MarkdownMath）"
+    ]
+  },
+  {
+    "key": "Inline equation",
+    "section": "messages",
+    "zh": "行内公式",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/MarkdownMath.tsx:35（B，MarkdownMath）"
+    ]
+  },
+  {
+    "key": "Scroll display equation",
+    "section": "messages",
+    "zh": "滚动查看独立公式",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/MarkdownMath.tsx:45（B，MarkdownMath）"
+    ]
+  },
+  {
+    "key": "Scroll inline equation",
+    "section": "messages",
+    "zh": "滚动查看行内公式",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/MarkdownMath.tsx:46（B，MarkdownMath）"
+    ]
+  },
+  {
+    "key": "· next",
+    "section": "messages",
+    "zh": "· 下次",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/ThreadAutomationsPanel.tsx:46（A，taskScheduleLine）"
+    ]
+  },
+  {
+    "key": "Could not snooze thread",
+    "section": "messages",
+    "zh": "无法暂缓任务",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/chat/UsageLimitRecoveryBanner.tsx:61（C，toggle）",
+      "apps/web/src/components/chat/UsageLimitRecoveryBanner.tsx:77（C，toggle）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "Could not snooze threa 天"
+  },
+  {
+    "key": "Could not change auto-resume",
+    "section": "messages",
+    "zh": "无法更改自动继续设置",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/UsageLimitRecoveryBanner.tsx:77（C，toggle）"
+    ]
+  },
+  {
+    "key": "Workflow started: {0}",
+    "section": "templates",
+    "zh": "工作流已启动：{0}",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/WorkflowOpeningBlock.tsx:62（B，WorkflowOpeningBlock）"
+    ]
+  },
+  {
+    "key": "Workflow started",
+    "section": "messages",
+    "zh": "工作流已启动",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/chat/WorkflowOpeningBlock.tsx:69（A，WorkflowOpeningBlock）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "Workflow starte 天"
+  },
+  {
+    "key": "{0} phase",
+    "section": "templates",
+    "zh": "{0} 阶段",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/chat/WorkflowOpeningBlock.tsx:86（B，WorkflowOpeningBlock）"
+    ]
+  },
+  {
+    "key": "Show full script",
+    "section": "messages",
+    "zh": "显示完整脚本",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/chat/WorkflowOpeningBlock.tsx:236（A，WorkflowScript）"
+    ],
+    "collidesWith": "Show {model}",
+    "wrongResult": "显示 full script"
+  },
+  {
+    "key": "This SSH verification prompt expired. Try connecting again.",
+    "section": "messages",
+    "zh": "此 SSH 验证提示已过期。请重新连接。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/desktop/SshPasswordPromptDialog.tsx:30（C，getPromptErrorMessage）"
+    ]
+  },
+  {
+    "key": "SSH verification required",
+    "section": "messages",
+    "zh": "需要 SSH 验证",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/desktop/SshPasswordPromptDialog.tsx:161（A，ActiveSshPasswordPrompt）"
+    ],
+    "collidesWith": "SSH {0}",
+    "wrongResult": "SSH verification required"
+  },
+  {
+    "key": "Enter the password or verification code required by",
+    "section": "messages",
+    "zh": "请输入以下主机所需的密码或验证码：",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/desktop/SshPasswordPromptDialog.tsx:163（A，ActiveSshPasswordPrompt）"
+    ]
+  },
+  {
+    "key": ". T3 Code passes your response to the local SSH process and keeps it in memory to reuse for this host. T3 Code does not write it to disk.",
+    "section": "messages",
+    "zh": "。T3 Code 会将你的输入传给本地 SSH 进程，并保存在内存中，以便连接此主机时复用。T3 Code 不会将其写入磁盘。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/desktop/SshPasswordPromptDialog.tsx:163（A，ActiveSshPasswordPrompt）"
+    ],
+    "collidesWith": "{0} process {1}",
+    "wrongResult": ". T3 Code passes your response to the local SSH 进程 and keeps it in memory to reuse for this host. T3 Code does not write it to disk."
+  },
+  {
+    "key": "SSH keys may replace a password, but your server can still require a verification code.",
+    "section": "messages",
+    "zh": "SSH 密钥可以替代密码，但服务器仍可能要求验证码。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/desktop/SshPasswordPromptDialog.tsx:206（A，ActiveSshPasswordPrompt）"
+    ],
+    "collidesWith": "SSH {0}",
+    "wrongResult": "SSH keys may replace a password, but your server can still require a verification code."
+  },
+  {
+    "key": "Updates unavailable",
+    "section": "messages",
+    "zh": "无法获取更新",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/desktopUpdate.logic.ts:164（C，getDesktopUpdateIdleTooltip）"
+    ]
+  },
+  {
+    "key": "Dismiss device warning",
+    "section": "messages",
+    "zh": "关闭设备警告",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/device/DevicePanel.tsx:371（B，DeviceNotice）"
+    ]
+  },
+  {
+    "key": "File path",
+    "section": "messages",
+    "zh": "文件路径",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/files/FileBreadcrumbs.tsx:309（B，FileBreadcrumbs）"
+    ],
+    "collidesWith": "{0}h",
+    "wrongResult": "File pat 小时"
+  },
+  {
+    "key": "Tests",
+    "section": "messages",
+    "zh": "测试",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestChangeBreakdownStat.tsx:13（C，KIND_LABELS）"
+    ],
+    "collidesWith": "{0}s",
+    "wrongResult": "Test 秒"
+  },
+  {
+    "key": "Mocks",
+    "section": "messages",
+    "zh": "模拟数据",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestChangeBreakdownStat.tsx:14（C，KIND_LABELS）"
+    ],
+    "collidesWith": "{0}s",
+    "wrongResult": "Mock 秒"
+  },
+  {
+    "key": "Generated",
+    "section": "messages",
+    "zh": "生成的代码",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestChangeBreakdownStat.tsx:15（C，KIND_LABELS）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "Generate 天"
+  },
+  {
+    "key": "Loading breakdown",
+    "section": "messages",
+    "zh": "正在加载分类统计",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestChangeBreakdownStat.tsx:67（A，PullRequestChangeBreakdownStat）"
+    ],
+    "collidesWith": "Loading {name}",
+    "wrongResult": "正在加载 breakdown"
+  },
+  {
+    "key": "Technical details",
+    "section": "messages",
+    "zh": "技术详情",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestDiffUnavailableState.tsx:50（A，PullRequestDiffUnavailableState）"
+    ],
+    "collidesWith": "{label} details",
+    "wrongResult": "查看Technical详情"
+  },
+  {
+    "key": "{0} more {1}",
+    "section": "templates",
+    "zh": "",
+    "skip": "第二个占位符是 reply/replies；已在 v0.1.1.extra.json 补全单复数具体模板，避免将英文名词插入译文。",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestMoreReplies.tsx:13（A，PullRequestMoreReplies）"
+    ]
+  },
+  {
+    "key": "More replies",
+    "section": "messages",
+    "zh": "更多回复",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestMoreReplies.tsx:14（A，PullRequestMoreReplies）"
+    ],
+    "collidesWith": "{0}s",
+    "wrongResult": "More replie 秒"
+  },
+  {
+    "key": "View on host",
+    "section": "messages",
+    "zh": "在托管服务上查看",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestMoreReplies.tsx:23（A，PullRequestMoreReplies）"
+    ],
+    "collidesWith": "View {request}",
+    "wrongResult": "查看on host"
+  },
+  {
+    "key": "reply",
+    "section": "messages",
+    "zh": "条回复",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:238（A，CollapsedComment）",
+      "apps/web/src/components/pullRequest/PullRequestTimelineTab.tsx:424（A，ReviewThreadEvent）"
+    ]
+  },
+  {
+    "key": "replies",
+    "section": "messages",
+    "zh": "条回复",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx:238（A，CollapsedComment）",
+      "apps/web/src/components/pullRequest/PullRequestTimelineTab.tsx:424（A，ReviewThreadEvent）"
+    ],
+    "collidesWith": "{0}s",
+    "wrongResult": "replie 秒"
+  },
+  {
+    "key": "· synced",
+    "section": "messages",
+    "zh": "· 已同步",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/ThreadPullRequestsPanel.tsx:483（A，EnabledThreadPullRequestsPanel）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": " · synce 天 "
+  },
+  {
+    "key": "Checked out, but not confirmed on the latest commit",
+    "section": "messages",
+    "zh": "已检出，但尚未确认是否为最新提交",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/pullRequestCheckoutToast.ts:3（C，title）"
+    ],
+    "collidesWith": "Checked {time}",
+    "wrongResult": "out, but not confirmed on the latest commit检查"
+  },
+  {
+    "key": "This checkout could not be confirmed at the pull request's latest commit, so its code may differ. Local commits or uncommitted work keep a checkout where it is.",
+    "section": "messages",
+    "zh": "无法确认此检出目录是否处于拉取请求的最新提交，因此代码可能不同。存在本地提交或未提交的更改时，检出目录会保持当前状态。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/pullRequestCheckoutToast.ts:5（C，description）"
+    ],
+    "collidesWith": "{0} at {1}",
+    "wrongResult": "This checkout could not be confirmed the pull request's latest commit, so its code may differ. Local commits or uncommitted work keep a checkout where it is."
+  },
+  {
+    "key": "{0} rate limit reached",
+    "section": "templates",
+    "zh": "已达到 {0} 的请求频率限制",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/pullRequestDiffError.ts:5（C，describePullRequestDiffError）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "{0} rate limit reache 天"
+  },
+  {
+    "key": "{0} is temporarily limiting requests, so this diff couldn't be loaded. Try again after the limit resets, or view the changes on {1}.",
+    "section": "templates",
+    "zh": "{0} 暂时限制了请求，因此无法加载此差异。请在限制重置后重试，或在 {1} 上查看更改。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/pullRequestDiffError.ts:6（C，describePullRequestDiffError）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "{1}.上的{0} is temporarily limiting requests, so this diff couldn't be loaded. Try again after the limit resets, or view the changes"
+  },
+  {
+    "key": "Couldn't load the changes",
+    "section": "messages",
+    "zh": "无法加载更改",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/pullRequestDiffError.ts:11（C，describePullRequestDiffError）"
+    ],
+    "collidesWith": "{0}s",
+    "wrongResult": "Couldn't load the change 秒"
+  },
+  {
+    "key": "The environment couldn't load this pull request's diff. Try again, or view the changes on {0}.",
+    "section": "templates",
+    "zh": "此环境无法加载此拉取请求的差异。请重试，或在 {0} 上查看更改。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/pullRequest/pullRequestDiffError.ts:12（C，describePullRequestDiffError）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "{0}.上的The environment couldn't load this pull request's diff. Try again, or view the changes"
+  },
+  {
+    "key": "retrying in {0}s",
+    "section": "templates",
+    "zh": "{0} 秒后重试",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionDiagnosisDetails.tsx:74（A，RetryCountdown）"
+    ],
+    "collidesWith": "{0} in {1}",
+    "wrongResult": "retrying，用时 {0}s"
+  },
+  {
+    "key": "retrying",
+    "section": "messages",
+    "zh": "正在重试",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ConnectionDiagnosisDetails.tsx:74（A，RetryCountdown）"
+    ]
+  },
+  {
+    "key": "Diagnostics copied",
+    "section": "messages",
+    "zh": "已复制诊断信息",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionDiagnosisDetails.tsx:133（C，ConnectionDiagnosisPanel）"
+    ],
+    "collidesWith": "{0} copied",
+    "wrongResult": "Diagnostics 已复制"
+  },
+  {
+    "key": "Could not copy diagnostics",
+    "section": "messages",
+    "zh": "无法复制诊断信息",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionDiagnosisDetails.tsx:138（C，ConnectionDiagnosisPanel）"
+    ],
+    "collidesWith": "Could not copy {target}",
+    "wrongResult": "无法复制diagnostics"
+  },
+  {
+    "key": "What to try",
+    "section": "messages",
+    "zh": "可尝试的操作",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionDiagnosisDetails.tsx:163（A，ConnectionDiagnosisPanel）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "What 到 try"
+  },
+  {
+    "key": "More info",
+    "section": "messages",
+    "zh": "更多信息",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ConnectionDiagnosisDetails.tsx:176（A，ConnectionDiagnosisPanel）",
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:1872（A，ConfiguredCloudLinkRow）"
+    ]
+  },
+  {
+    "key": "Retry now",
+    "section": "messages",
+    "zh": "立即重试",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ConnectionDiagnosisDetails.tsx:190（A，ConnectionDiagnosisPanel）"
+    ]
+  },
+  {
+    "key": "Copy diagnostics",
+    "section": "messages",
+    "zh": "复制诊断信息",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionDiagnosisDetails.tsx:201（A，ConnectionDiagnosisPanel）"
+    ],
+    "collidesWith": "{0}s",
+    "wrongResult": "Copy diagnostic 秒"
+  },
+  {
+    "key": "Add direct route",
+    "section": "messages",
+    "zh": "添加直连路由",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ConnectionDiagnosisDetails.tsx:205（A，ConnectionDiagnosisPanel）"
+    ]
+  },
+  {
+    "key": "Turn on Network access to detect Tailscale.",
+    "section": "messages",
+    "zh": "请开启网络访问以检测 Tailscale。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.logic.ts:66（C，missingTailscaleEndpointDescription）"
+    ],
+    "collidesWith": "Turn {0}",
+    "wrongResult": "第 on Network access to detect Tailscale. 轮"
+  },
+  {
+    "key": "Downloading update {0}",
+    "section": "templates",
+    "zh": "正在下载更新 {0}",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.logic.ts:90（C，resolveLocalVersionStatusLabel）"
+    ],
+    "collidesWith": "Downloading{0}",
+    "wrongResult": "正在下载 update {0}"
+  },
+  {
+    "key": "Downloading update",
+    "section": "messages",
+    "zh": "正在下载更新",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.logic.ts:91（C，resolveLocalVersionStatusLabel）"
+    ],
+    "collidesWith": "Downloading{0}",
+    "wrongResult": "正在下载 update"
+  },
+  {
+    "key": "Update {0} downloaded",
+    "section": "templates",
+    "zh": "更新 {0} 已下载",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.logic.ts:100（C，resolveLocalVersionStatusLabel）"
+    ],
+    "collidesWith": "Update {0} {1}",
+    "wrongResult": "更新 {0} downloaded"
+  },
+  {
+    "key": "Update {0} available",
+    "section": "templates",
+    "zh": "有可用更新 {0}",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.logic.ts:104（C，resolveLocalVersionStatusLabel）"
+    ],
+    "collidesWith": "Update {0} {1}",
+    "wrongResult": "更新 {0} available"
+  },
+  {
+    "key": "T3 Connect is on, but other devices cannot reach this environment.",
+    "section": "messages",
+    "zh": "T3 Connect 已开启，但其他设备无法访问此环境。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:1952（B，ConfiguredCloudLinkRow）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "T3 Connect 的状态为 on, but other devices cannot reach this environment."
+  },
+  {
+    "key": "T3 Connect is on. Reachability has not been checked yet.",
+    "section": "messages",
+    "zh": "T3 Connect 已开启，尚未检查是否可访问。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ConnectionsSettings.tsx:1955（B，ConfiguredCloudLinkRow）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "T3 Connect 的状态为 on. Reachability has not been checked yet."
+  },
+  {
+    "key": "Reclaim {0} GiB on {1}",
+    "section": "templates",
+    "zh": "在 {1} 上回收 {0} GiB 空间",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/DatabaseStorageNotice.tsx:33（B，DatabaseStorageNotice）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "{1}上的Reclaim {0} GiB"
+  },
+  {
+    "key": "{0}. Per-machine results",
+    "section": "templates",
+    "zh": "{0}。各设备的结果",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/DeviceHostEditor.tsx:200（B，DeviceHostEditorForm）"
+    ],
+    "collidesWith": "{0} results",
+    "wrongResult": "共 {0}. Per-machine 项结果"
+  },
+  {
+    "key": "No device hosts",
+    "section": "messages",
+    "zh": "没有设备主机",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/DeviceHostsSettings.tsx:182（B，DeviceHostsSettings）"
+    ],
+    "collidesWith": "{0}s",
+    "wrongResult": "No device host 秒"
+  },
+  {
+    "key": "Checking connections",
+    "section": "messages",
+    "zh": "正在检查连接",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/DeviceHostsSettings.tsx:360（C，DeviceHostList）"
+    ],
+    "collidesWith": "Checking {browser}",
+    "wrongResult": "正在检查 connections"
+  },
+  {
+    "key": "Connection not checked",
+    "section": "messages",
+    "zh": "尚未检查连接",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/DeviceHostsSettings.tsx:363（C，DeviceHostList）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "Connection not checke 天"
+  },
+  {
+    "key": "Checking connections…",
+    "section": "messages",
+    "zh": "正在检查连接…",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/DeviceHostsSettings.tsx:383（C，DeviceHostList）"
+    ],
+    "collidesWith": "Checking {browser}",
+    "wrongResult": "正在检查 connections…"
+  },
+  {
+    "key": "Connected or available locally on each listed machine",
+    "section": "messages",
+    "zh": "已连接，或可在列出的各台设备上本地使用",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/DeviceHostsSettings.tsx:385（C，DeviceHostList）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "each listed machine上的Connected or available locally"
+  },
+  {
+    "key": "Test the connection to check access from each machine",
+    "section": "messages",
+    "zh": "测试连接以检查各台设备的访问情况",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/DeviceHostsSettings.tsx:387（C，DeviceHostList）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Test the connection 到 check access from each machine"
+  },
+  {
+    "key": "The Android device list may be incomplete. Refresh devices to try again.",
+    "section": "messages",
+    "zh": "Android 设备列表可能不完整。请刷新设备后重试。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/DeviceHostsSettings.tsx:444（A，DeviceHostList）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "The Android device list may be incomplete. Refresh devices 到 try again."
+  },
+  {
+    "key": "{0} machine details",
+    "section": "templates",
+    "zh": "{0} 的设备详情",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/DeviceHostsSettings.tsx:451（B，DeviceHostList）"
+    ],
+    "collidesWith": "{label} details",
+    "wrongResult": "查看{0} machine详情"
+  },
+  {
+    "key": "EAS host not removed",
+    "section": "messages",
+    "zh": "未移除 EAS 主机",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:83（C，save）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "EAS host not remove 天"
+  },
+  {
+    "key": "EAS host not saved",
+    "section": "messages",
+    "zh": "未保存 EAS 主机",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:83（C，save）"
+    ],
+    "collidesWith": "{theme} saved",
+    "wrongResult": "已保存主题“EAS host not”"
+  },
+  {
+    "key": "EAS Simulator",
+    "section": "messages",
+    "zh": "",
+    "skip": "EAS Simulator 为 Expo 的产品/服务名，且用于新主机默认名称，保持英文。",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:91（B，EasDeviceHostsSettings）",
+      "apps/web/src/components/settings/easDeviceHostsSettings.logic.ts:12（C，newEasDeviceHost）"
+    ]
+  },
+  {
+    "key": "Run iOS Simulators in Expo's cloud from this environment. Sessions bill the Expo account until they stop, so each host limits how many run and for how long. Editing or removing a host stops its running sessions.",
+    "section": "messages",
+    "zh": "从此环境在 Expo 云端运行 iOS 模拟器。会话停止前会持续向 Expo 账户计费，因此每台主机都限制并发会话数和运行时长。编辑或移除主机会停止其正在运行的会话。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:94（B，EasDeviceHostsSettings）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Run iOS Simulators in Expo's cloud from this environment. Sessions bill the Expo account until they stop, so each host limits how many run 和 for how long. Editing or removing a host stops its running sessions."
+  },
+  {
+    "key": "Add EAS host",
+    "section": "messages",
+    "zh": "添加 EAS 主机",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:102（A，EasDeviceHostsSettings）",
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:272（A，EasDeviceHostEditor）"
+    ]
+  },
+  {
+    "key": "No EAS hosts.",
+    "section": "messages",
+    "zh": "没有 EAS 主机。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:108（A，EasDeviceHostsSettings）"
+    ]
+  },
+  {
+    "key": "Edit EAS host",
+    "section": "messages",
+    "zh": "编辑 EAS 主机",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:272（A，EasDeviceHostEditor）"
+    ],
+    "collidesWith": "Edit {theme}",
+    "wrongResult": "编辑EAS host"
+  },
+  {
+    "key": "The environment's server signs in to Expo and starts the sessions. Without a token here it uses EXPO_TOKEN, then its eas login.",
+    "section": "messages",
+    "zh": "此环境的服务器会登录 Expo 并启动会话。如果此处未填写令牌，则先使用 EXPO_TOKEN，再尝试服务器上的 eas login 登录凭据。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:274（A，EasDeviceHostEditor）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "The environment's server signs in to Expo 和 starts the sessions. Without a token here it uses EXPO_TOKEN, then its eas login."
+  },
+  {
+    "key": "Expo access token",
+    "section": "messages",
+    "zh": "Expo 访问令牌",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:294（A，EasDeviceHostEditor）"
+    ]
+  },
+  {
+    "key": "Clear access token",
+    "section": "messages",
+    "zh": "清除访问令牌",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:323（B，EasDeviceHostEditor）"
+    ],
+    "collidesWith": "Clear {0}",
+    "wrongResult": "清除 access token"
+  },
+  {
+    "key": "Signed in as {0} with {1}.",
+    "section": "templates",
+    "zh": "已使用{1}以 {0} 的身份登录。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:337（A，EasDeviceHostEditor）"
+    ],
+    "collidesWith": "{0} in {1}",
+    "wrongResult": "Signed，用时 as {0} with {1}."
+  },
+  {
+    "key": "Checking the Expo account…",
+    "section": "messages",
+    "zh": "正在检查 Expo 账户…",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:341（A，EasDeviceHostEditor）"
+    ],
+    "collidesWith": "Checking {browser}",
+    "wrongResult": "正在检查 the Expo account…"
+  },
+  {
+    "key": "Check the Expo account before choosing a project.",
+    "section": "messages",
+    "zh": "请先检查 Expo 账户，再选择项目。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:342（A，EasDeviceHostEditor）"
+    ]
+  },
+  {
+    "key": "EAS project",
+    "section": "messages",
+    "zh": "EAS 项目",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:355（A，EasDeviceHostEditor）",
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:367（B，EasDeviceHostEditor）"
+    ]
+  },
+  {
+    "key": "From the thread's project",
+    "section": "messages",
+    "zh": "使用任务所属项目",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:377（A，EasDeviceHostEditor）"
+    ],
+    "collidesWith": "From {0}",
+    "wrongResult": "基于 the thread's project"
+  },
+  {
+    "key": "Sessions bill the project's Expo account. \"From the thread's project\" reads extra.eas.projectId from the project's app config.",
+    "section": "messages",
+    "zh": "会话会向项目的 Expo 账户计费。“使用任务所属项目”会读取该项目应用配置中的 extra.eas.projectId。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/EasDeviceHostsSettings.tsx:389（A，EasDeviceHostEditor）"
+    ]
+  },
+  {
+    "key": "DuckDuckGo",
+    "section": "messages",
+    "zh": "",
+    "skip": "搜索引擎产品名，保持英文。",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/IntegrationsSettings.tsx:692（C，SEARCH_ENGINE_LABELS）"
+    ]
+  },
+  {
+    "key": "Google",
+    "section": "messages",
+    "zh": "",
+    "skip": "搜索引擎产品名，保持英文。",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/IntegrationsSettings.tsx:693（C，SEARCH_ENGINE_LABELS）"
+    ]
+  },
+  {
+    "key": "Bing",
+    "section": "messages",
+    "zh": "",
+    "skip": "搜索引擎产品名，保持英文。",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/IntegrationsSettings.tsx:694（C，SEARCH_ENGINE_LABELS）"
+    ]
+  },
+  {
+    "key": "Brave Search",
+    "section": "messages",
+    "zh": "",
+    "skip": "搜索引擎产品名，保持英文。",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/IntegrationsSettings.tsx:695（C，SEARCH_ENGINE_LABELS）"
+    ],
+    "collidesWith": "{0}h",
+    "wrongResult": "Brave Searc 小时"
+  },
+  {
+    "key": "Kagi",
+    "section": "messages",
+    "zh": "",
+    "skip": "搜索引擎产品名，保持英文。",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/IntegrationsSettings.tsx:696（C，SEARCH_ENGINE_LABELS）"
+    ]
+  },
+  {
+    "key": "Ecosia",
+    "section": "messages",
+    "zh": "",
+    "skip": "搜索引擎产品名，保持英文。",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/IntegrationsSettings.tsx:697（C，SEARCH_ENGINE_LABELS）"
+    ]
+  },
+  {
+    "key": "What the address bar searches when you type something that isn't a URL.",
+    "section": "messages",
+    "zh": "在地址栏输入非 URL 内容时使用的搜索引擎。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/IntegrationsSettings.tsx:710（B，BrowserSearchEngineSetting）"
+    ]
+  },
+  {
+    "key": "search engine",
+    "section": "messages",
+    "zh": "搜索引擎",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/IntegrationsSettings.tsx:714（B，BrowserSearchEngineSetting）"
+    ]
+  },
+  {
+    "key": "Search engine",
+    "section": "messages",
+    "zh": "搜索引擎",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/IntegrationsSettings.tsx:734（B，BrowserSearchEngineSetting）",
+      "apps/web/src/components/settings/settingsSearch.ts:763（C，title）"
+    ]
+  },
+  {
+    "key": "Custom search URL",
+    "section": "messages",
+    "zh": "自定义搜索 URL",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/IntegrationsSettings.tsx:749（B，BrowserSearchEngineSetting）",
+      "apps/web/src/components/settings/IntegrationsSettings.tsx:761（B，BrowserSearchEngineSetting）"
+    ]
+  },
+  {
+    "key": "Use %s where the search terms go.",
+    "section": "messages",
+    "zh": "用 %s 表示搜索词的位置。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/IntegrationsSettings.tsx:750（B，BrowserSearchEngineSetting）"
+    ],
+    "collidesWith": "Use {theme}",
+    "wrongResult": "使用%s where the search terms go."
+  },
+  {
+    "key": "iPhone and iPad",
+    "section": "messages",
+    "zh": "iPhone 和 iPad",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/MobileAppSettingsRow.tsx:10（C，label）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "iPhone 和 iPad"
+  },
+  {
+    "key": "Connect to your server from your phone or tablet.",
+    "section": "messages",
+    "zh": "通过手机或平板电脑连接你的服务器。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/MobileAppSettingsRow.tsx:27（B，MobileAppSettingsRow）"
+    ],
+    "collidesWith": "Connect {0}",
+    "wrongResult": "连接 to your server from your phone or tablet."
+  },
+  {
+    "key": "Scan with your phone camera.",
+    "section": "messages",
+    "zh": "用手机相机扫描。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/MobileAppSettingsRow.tsx:39（A，MobileAppSettingsRow）"
+    ]
+  },
+  {
+    "key": "{0} link",
+    "section": "templates",
+    "zh": "{0} 链接",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/MobileAppSettingsRow.tsx:46（B，MobileAppSettingsRow）"
+    ],
+    "collidesWith": "{0}k",
+    "wrongResult": "{0} link"
+  },
+  {
+    "key": "Show all environments",
+    "section": "messages",
+    "zh": "显示所有环境",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ProjectsSettings.tsx:25（A，ProjectsSettings）"
+    ],
+    "collidesWith": "Show {model}",
+    "wrongResult": "显示 all environments"
+  },
+  {
+    "key": "Run only when every filter matches. Other requests are logged as filtered. Separate “is one of” values with commas; a value can't contain a comma.",
+    "section": "messages",
+    "zh": "仅在所有过滤条件都匹配时运行。其他请求会记录为已过滤。“属于其中之一”的多个值用逗号分隔，单个值不能包含逗号。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:178（A，WebhookFiltersField）"
+    ],
+    "collidesWith": "Run {0}",
+    "wrongResult": "运行 only when every filter matches. Other requests are logged as filtered. Separate “is one of” values with commas; a value can't contain a comma."
+  },
+  {
+    "key": "Add filter",
+    "section": "messages",
+    "zh": "添加过滤条件",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:190（A，WebhookFiltersField）"
+    ]
+  },
+  {
+    "key": "Filter {0} path",
+    "section": "templates",
+    "zh": "过滤条件 {0} 的路径",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:201（B，WebhookFiltersField）"
+    ],
+    "collidesWith": "{0}h",
+    "wrongResult": "Filter {0} pat 小时"
+  },
+  {
+    "key": "Remove filter {0}",
+    "section": "templates",
+    "zh": "移除过滤条件 {0}",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:210（B，WebhookFiltersField）"
+    ],
+    "collidesWith": "Remove {theme}",
+    "wrongResult": "移除filter {0}"
+  },
+  {
+    "key": "Filter {0} test",
+    "section": "templates",
+    "zh": "过滤条件 {0} 的比较方式",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:225（B，WebhookFiltersField）"
+    ]
+  },
+  {
+    "key": "Filter {0} value",
+    "section": "templates",
+    "zh": "过滤条件 {0} 的值",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:242（B，WebhookFiltersField）"
+    ]
+  },
+  {
+    "key": "opened, reopened",
+    "section": "messages",
+    "zh": "",
+    "skip": "Webhook 请求状态的示例协议值 opened, reopened，保持原样。",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:243（B，WebhookFiltersField）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "opened, reopene 天"
+  },
+  {
+    "key": "Next run",
+    "section": "messages",
+    "zh": "下次运行",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:726（A，ScheduledTaskRow）"
+    ]
+  },
+  {
+    "key": "Scheduled run",
+    "section": "messages",
+    "zh": "已安排运行",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:872（B，WebhookDeliveriesDialog）"
+    ]
+  },
+  {
+    "key": "Run scheduled when the window closes; no run started yet.",
+    "section": "messages",
+    "zh": "将在时间窗口结束时运行，目前尚未启动。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:876（A，WebhookDeliveriesDialog）"
+    ],
+    "collidesWith": "Run {0}",
+    "wrongResult": "运行 scheduled when the window closes; no run started yet."
+  },
+  {
+    "key": "Invalid filter",
+    "section": "messages",
+    "zh": "过滤条件无效",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1197（D，submit）"
+    ]
+  },
+  {
+    "key": "Replay key",
+    "section": "messages",
+    "zh": "重放键",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1550（B，ScheduledTaskEditorForm）"
+    ]
+  },
+  {
+    "key": "template, optional",
+    "section": "messages",
+    "zh": "模板，可选",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1551（B，ScheduledTaskEditorForm）",
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1565（B，ScheduledTaskEditorForm）"
+    ]
+  },
+  {
+    "key": "Coalesce key",
+    "section": "messages",
+    "zh": "合并键",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1564（B，ScheduledTaskEditorForm）"
+    ]
+  },
+  {
+    "key": "Coalesce window",
+    "section": "messages",
+    "zh": "合并窗口",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1578（B，ScheduledTaskEditorForm）"
+    ]
+  },
+  {
+    "key": "seconds, 10–3600",
+    "section": "messages",
+    "zh": "秒，10–3600",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1579（B，ScheduledTaskEditorForm）"
+    ]
+  },
+  {
+    "key": "Replay keys suppress repeat deliveries for 7 days. Coalescing runs the latest payload once when the window from the first delivery closes. Empty keys run normally.",
+    "section": "messages",
+    "zh": "重放键会在 7 天内阻止重复投递。合并功能会在首次投递开启的时间窗口结束时，仅用最新载荷运行一次。键为空时正常运行。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/ScheduledTasksSettings.tsx:1599（A，ScheduledTaskEditorForm）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "7 days. Coalescing runs the latest payload once when the window from the first delivery closes. Empty keys run normally. 的 Replay keys suppress repeat deliveries"
+  },
+  {
+    "key": "Same on all machines",
+    "section": "messages",
+    "zh": "所有设备上相同",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/SettingInheritance.tsx:370（A，SettingInheritance）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "all machines上的Same"
+  },
+  {
+    "key": "Typeset LaTeX math, such as $x^2$ or \\[x^2\\], in messages and Markdown previews. The composer keeps TeX source editable.",
+    "section": "messages",
+    "zh": "在消息和 Markdown 预览中排版显示 LaTeX 数学公式，例如 $x^2$ 或 \\[x^2\\]。输入框中的 TeX 源码仍可编辑。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/SettingsPanels.tsx:1383（B，AppearanceSettingsPanel）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Typeset LaTeX math, such as $x^2$ or \\[x^2\\], in messages 和 Markdown previews. The composer keeps TeX source editable."
+  },
+  {
+    "key": "math rendering",
+    "section": "messages",
+    "zh": "数学公式渲染",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/SettingsPanels.tsx:1387（B，AppearanceSettingsPanel）"
+    ]
+  },
+  {
+    "key": "Render math",
+    "section": "messages",
+    "zh": "渲染数学公式",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/SettingsPanels.tsx:1402（B，AppearanceSettingsPanel）",
+      "apps/web/src/components/settings/settingsSearch.ts:243（C，title）"
+    ],
+    "collidesWith": "{0}h",
+    "wrongResult": "Render mat 小时"
+  },
+  {
+    "key": "Compact long idle Claude threads just before their prompt cache expires, so coming back costs less.",
+    "section": "messages",
+    "zh": "在提示词缓存即将过期前，为长时间空闲的 Claude 任务压缩上下文，以降低回来继续使用时的费用。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/SettingsPanels.tsx:2310（B，GeneralSettingsPanel）"
+    ]
+  },
+  {
+    "key": "compact idle Claude threads",
+    "section": "messages",
+    "zh": "压缩空闲 Claude 任务的上下文",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/SettingsPanels.tsx:2314（B，GeneralSettingsPanel）"
+    ],
+    "collidesWith": "{0}s",
+    "wrongResult": "compact idle Claude thread 秒"
+  },
+  {
+    "key": "Compact idle Claude threads (beta)",
+    "section": "messages",
+    "zh": "压缩空闲 Claude 任务的上下文（测试版）",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/SettingsPanels.tsx:2330（B，GeneralSettingsPanel）",
+      "apps/web/src/components/settings/settingsSearch.ts:341（C，title）"
+    ]
+  },
+  {
+    "key": "new worktrees start from remote",
+    "section": "messages",
+    "zh": "从远程创建新工作树",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/SettingsPanels.tsx:3006（B，GeneralSettingsPanel）"
+    ]
+  },
+  {
+    "key": "Start new worktrees from remote by default",
+    "section": "messages",
+    "zh": "默认从远程创建新工作树",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/SettingsPanels.tsx:3023（B，GeneralSettingsPanel）"
+    ]
+  },
+  {
+    "key": "No matches found.",
+    "section": "messages",
+    "zh": "未找到匹配项。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/SettingsScopeSentence.tsx:174（A，ScopeMenu）"
+    ]
+  },
+  {
+    "key": "Search environments",
+    "section": "messages",
+    "zh": "搜索环境",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/SettingsScopeSentence.tsx:263（B，EnvironmentScopeMenu）"
+    ],
+    "collidesWith": "{0}h {1}s",
+    "wrongResult": "Searc 小时 environment 秒"
+  },
+  {
+    "key": "Machine",
+    "section": "messages",
+    "zh": "设备",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:218（A，CleanupResults）"
+    ]
+  },
+  {
+    "key": "Folder",
+    "section": "messages",
+    "zh": "文件夹",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/StorageSettings.tsx:228（A，CleanupResults）"
+    ]
+  },
+  {
+    "key": "Installed · Sign-in not checked",
+    "section": "messages",
+    "zh": "已安装 · 尚未检查登录状态",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/providerStatus.ts:76（C，getProviderSummary）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "Installed · Sign-in not checke 天"
+  },
+  {
+    "key": "Enter whole minutes from 1 to {0}, or leave it blank.",
+    "section": "templates",
+    "zh": "请输入 1 到 {0} 之间的整数分钟数，或留空。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/scheduledTasksSettings.logic.ts:108（C，webhookDraftErrors）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Enter whole minutes from 1 到 {0}, or leave it blank."
+  },
+  {
+    "key": "Invalid webhook settings",
+    "section": "messages",
+    "zh": "Webhook 设置无效",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/scheduledTasksSettings.logic.ts:118（C，webhookDraftErrors）",
+      "apps/web/src/components/settings/scheduledTasksSettings.logic.ts:125（C，webhookDraftErrors）"
+    ],
+    "collidesWith": "{0}s",
+    "wrongResult": "Invalid webhook setting 秒"
+  },
+  {
+    "key": "{0} must contain a valid request placeholder.",
+    "section": "templates",
+    "zh": "{0}必须包含有效的请求占位符。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/scheduledTasksSettings.logic.ts:119（C，webhookDraftErrors）"
+    ]
+  },
+  {
+    "key": "Coalesce window must be whole seconds from 10 to 3600.",
+    "section": "messages",
+    "zh": "合并窗口必须是 10 到 3600 之间的整数秒数。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/settings/scheduledTasksSettings.logic.ts:126（C，webhookDraftErrors）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Coalesce window must be whole seconds from 10 到 3600."
+  },
+  {
+    "key": "Opened window",
+    "section": "messages",
+    "zh": "已开启窗口",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/settings/scheduledTasksSettings.logic.ts:135（C，webhookDeliveryLabel）"
+    ]
+  },
+  {
+    "key": "Even pace",
+    "section": "messages",
+    "zh": "匀速用量参考",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/usage/UsageLimitsPooled.tsx:193（B，SegmentPopover）"
+    ]
+  },
+  {
+    "key": "Using reset credit…",
+    "section": "messages",
+    "zh": "正在使用重置额度…",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/usage/UsageLimitsPooled.tsx:318（A，RedeemableSegment）"
+    ]
+  },
+  {
+    "key": "{0}: {1}% left{2}{3}{4}",
+    "section": "templates",
+    "zh": "{0}：剩余 {1}%{2}{3}{4}",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "apps/web/src/components/usage/UsageLimitsPooled.tsx:360（B，SegmentTriggers）"
+    ],
+    "collidesWith": "{0}: {1}% left{2}{3}",
+    "wrongResult": "{0}：剩余 {1}%{2}{3}{4}"
+  },
+  {
+    "key": "Usage breakdown by time",
+    "section": "messages",
+    "zh": "按时间查看用量明细",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "apps/web/src/components/usage/UsagePage.tsx:1004（B，UsageOverview）"
+    ]
+  },
+  {
+    "key": "Could not copy {0} {1} to {2}",
+    "section": "templates",
+    "zh": "",
+    "skip": "第二个占位符是 file/files；已在 v0.1.1.extra.json 补全单复数具体模板，避免英文名词残留。",
+    "why": "collision",
+    "where": [
+      "apps/web/src/lib/addProjectToMachine.ts:222（C，addProjectToMachine）"
+    ],
+    "collidesWith": "Could not copy {target}",
+    "wrongResult": "无法复制{0} {1} to {2}"
+  },
+  {
+    "key": "{0} tunnel",
+    "section": "templates",
+    "zh": "{0} 隧道",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/client-runtime/src/connection/diagnosis.ts:276（C，hopLabel）"
+    ]
+  },
+  {
+    "key": "T3 Code on {0}",
+    "section": "templates",
+    "zh": "{0} 上的 T3 Code",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/client-runtime/src/connection/diagnosis.ts:278（C，hopLabel）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "{0}上的T3 Code"
+  },
+  {
+    "key": "{0} froze for {1}s",
+    "section": "templates",
+    "zh": "{0} 卡顿了 {1} 秒",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/client-runtime/src/connection/hostFreeze.ts:19（C，hostFreezeNotice）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "{1}s 的 {0} froze"
+  },
+  {
+    "key": "Its CPU is overloaded (load {0} on {1} cores).",
+    "section": "templates",
+    "zh": "其 CPU 负载过高（{1} 个核心的负载为 {0}）。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/client-runtime/src/connection/hostFreeze.ts:22（C，hostFreezeNotice）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "Its CPU 的状态为 overloaded (load {0} on {1} cores)."
+  },
+  {
+    "key": "T3 Code on {0} was too busy to answer.",
+    "section": "templates",
+    "zh": "{0} 上的 T3 Code 过于繁忙，无法响应。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/client-runtime/src/connection/hostFreeze.ts:23（C，hostFreezeNotice）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "{0} was too busy to answer.上的T3 Code"
+  },
+  {
+    "key": "Relay cannot provision the managed endpoint ({0}).{1}",
+    "section": "templates",
+    "zh": "中继无法配置托管端点（{0}）。{1}",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/client-runtime/src/relay/errorPresentation.ts:62（C，relayProtectedErrorMessage）"
+    ]
+  },
+  {
+    "key": "{0} could not establish a WebSocket connection.{1}",
+    "section": "templates",
+    "zh": "{0} 无法建立 WebSocket 连接。{1}",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/client-runtime/src/rpc/session.ts:198（C，hooks）"
+    ]
+  },
+  {
+    "key": "{0} stopped responding for {1}s. {2}",
+    "section": "templates",
+    "zh": "{0} 已有 {1} 秒未响应。{2}",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/client-runtime/src/rpc/session.ts:200（C，hooks）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "{1}s. {2} 的 {0} stopped responding"
+  },
+  {
+    "key": "{0} disconnected.",
+    "section": "templates",
+    "zh": "{0} 已断开连接。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/client-runtime/src/rpc/session.ts:201（C，hooks）"
+    ]
+  },
+  {
+    "key": "does not equal",
+    "section": "messages",
+    "zh": "不等于",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/client-runtime/src/scheduledTaskWebhook.ts:38（C，label）"
+    ]
+  },
+  {
+    "key": "is one of",
+    "section": "messages",
+    "zh": "属于其中之一",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/client-runtime/src/scheduledTaskWebhook.ts:39（C，label）"
+    ]
+  },
+  {
+    "key": "starts with",
+    "section": "messages",
+    "zh": "开头为",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/client-runtime/src/scheduledTaskWebhook.ts:40（C，label）"
+    ],
+    "collidesWith": "{0}h",
+    "wrongResult": "starts wit 小时"
+  },
+  {
+    "key": "Model options from orchestrator_capabilities. For the same provider instance and model, overrides individual inherited values; [] or {} clears them. Claude: {effort: 'max', fastMode: true}; Codex: {reasoningEffort: 'max', serviceTier: 'priority'}. Only use options advertised by the selected model.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具/schema 说明，不属于界面文案，保持英文。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/orchestratorMcp.ts:119（C，OrchestratorMcpTarget）"
+    ],
+    "collidesWith": "Model {0}",
+    "wrongResult": "模型 options from orchestrator_capabilities. For the same provider instance and model, overrides individual inherited values; [] or {} clears them. Claude: {effort: 'max', fastMode: true}; Codex: {reasoningEffort: 'max', serviceTier: 'priority'}. Only use options advertised by the selected model."
+  },
+  {
+    "key": "Defaults to async. Use wait only when this turn needs the child's result before you can continue. A blocking question or a pending approval in the child ends the wait early with the task still running.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具/schema 说明，不属于界面文案，保持英文。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/orchestratorMcp.ts:180（C，OrchestratorMcpDelegateTaskInput）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Defaults 到 async. Use wait only when this turn needs the child's result before you can continue. A blocking question or a pending approval in the child ends the wait early with the task still running."
+  },
+  {
+    "key": "Stored model option selections for the child run, or its thread before a run starts. Omitted selections use provider defaults.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具/schema 说明，不属于界面文案，保持英文。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/orchestratorMcp.ts:215（C，OrchestratorMcpDelegateTaskResult）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "the child run, or its thread before a run starts. Omitted selections use provider defaults. 的 Stored model option selections"
+  },
+  {
+    "key": "Identity of the oldest pending live approval for this task's own unfinished work, or null. Ends mode=wait without cancelling the child; completion still wakes this thread. This grants no approval authority. Read the fresh full request in childThreadId before responding: the record can outlive its provider callback. Decisions remain with the child's existing approval holder; pending request tools answer questions only.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具/schema 说明，不属于界面文案，保持英文。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/orchestratorMcp.ts:228（C，OrchestratorMcpDelegateTaskResult）"
+    ],
+    "collidesWith": "{0} for {1}",
+    "wrongResult": "this task's own unfinished work, or null. Ends mode=wait without cancelling the child; completion still wakes this thread. This grants no approval authority. Read the fresh full request in childThreadId before responding: the record can outlive its provider callback. Decisions remain with the child's existing approval holder; pending request tools answer questions only. 的 Identity of the oldest pending live approval"
+  },
+  {
+    "key": "Replay key template (7 days), coalesce key template, and fixed window in seconds (default 120).",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具/schema 说明，不属于界面文案，保持英文。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/scheduledTask.ts:103（C，ScheduledTaskWebhookDedupe）"
+    ],
+    "collidesWith": "{leading}, and {last}",
+    "wrongResult": "Replay key template (7 days), coalesce key template 和 fixed window in seconds (default 120)."
+  },
+  {
+    "key": "Request value to test, in placeholder syntax without braces: headers.x-github-event, body.action, query.source.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具/schema 说明，不属于界面文案，保持英文。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/scheduledTask.ts:112（C，WebhookFilterPath）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Request value 到 test, in placeholder syntax without braces: headers.x-github-event, body.action, query.source."
+  },
+  {
+    "key": "Non-empty, without commas or surrounding whitespace.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具/schema 说明，不属于界面文案，保持英文。",
+    "why": "untranslated",
+    "where": [
+      "packages/contracts/src/scheduledTask.ts:121（C，WebhookFilterListValue）"
+    ]
+  },
+  {
+    "key": "Scalars compare as strings; objects and arrays only satisfy 'exists'. Every op but 'exists' fails when the path is missing.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具/schema 说明，不属于界面文案，保持英文。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/scheduledTask.ts:137（C，ScheduledTaskWebhookFilter）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Scalars compare as strings; objects 和 arrays only satisfy 'exists'. Every op but 'exists' fails when the path is missing."
+  },
+  {
+    "key": "Run only when every filter matches the request; other requests are logged as filtered. Up to 16. Omit to keep the stored filters; pass [] to clear them.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具/schema 说明，不属于界面文案，保持英文。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/scheduledTask.ts:146（C，ScheduledTaskWebhookFilters）"
+    ],
+    "collidesWith": "{head} to {base}",
+    "wrongResult": "Run only when every filter matches the request; other requests are logged as filtered. Up 到 16. Omit to keep the stored filters; pass [] to clear them."
+  },
+  {
+    "key": "Fetch the remote baseRef belongs to and start the worktree branch from its remote-tracking commit instead of the local ref. Defaults to the server's 'new worktrees start from remote' setting.",
+    "section": "messages",
+    "zh": "",
+    "skip": "发给 AI 的 MCP 工具/schema 说明，不属于界面文案，保持英文。",
+    "why": "collision",
+    "where": [
+      "packages/contracts/src/worktreeMcp.ts:24（C，WorktreeMcpHandoffInput）"
+    ],
+    "collidesWith": "{first} and {second}",
+    "wrongResult": "Fetch the remote baseRef belongs to 和 start the worktree branch from its remote-tracking commit instead of the local ref. Defaults to the server's 'new worktrees start from remote' setting."
+  },
+  {
+    "key": "The provider could not start this turn",
+    "section": "messages",
+    "zh": "服务提供方无法启动本轮",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/provider-core/src/server/failure.ts:38（C，summary）"
+    ]
+  },
+  {
+    "key": "The provider event stream closed unexpectedly",
+    "section": "messages",
+    "zh": "服务提供方事件流意外关闭",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/provider-core/src/server/failure.ts:42（C，summary）"
+    ]
+  },
+  {
+    "key": "The provider session could not be opened",
+    "section": "messages",
+    "zh": "无法打开服务提供方会话",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/provider-core/src/server/failure.ts:46（C，summary）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "The provider session could not be opene 天"
+  },
+  {
+    "key": "The provider conversation could not be resumed",
+    "section": "messages",
+    "zh": "无法恢复服务提供方对话",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/provider-core/src/server/failure.ts:50（C，summary）"
+    ],
+    "collidesWith": "{0}d",
+    "wrongResult": "The provider conversation could not be resume 天"
+  },
+  {
+    "key": "Version {0} is out. T3 Code runs {1}; update it with the app or tool that installed it.",
+    "section": "templates",
+    "zh": "版本 {0} 已发布。T3 Code 当前使用 {1}；请通过最初安装它的应用或工具进行更新。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/provider-core/src/server/maintenanceResolver.ts:790（C，manualUpdateMessage）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "Version {0} 的状态为 out. T3 Code runs {1}; update it with the app or tool that installed it."
+  },
+  {
+    "key": "Version {0} is out. Update it with the app or tool that installed it.",
+    "section": "templates",
+    "zh": "版本 {0} 已发布。请通过最初安装它的应用或工具进行更新。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/provider-core/src/server/maintenanceResolver.ts:791（C，manualUpdateMessage）"
+    ],
+    "collidesWith": "{0} {1} is {2}",
+    "wrongResult": "Version {0} 的状态为 out. Update it with the app or tool that installed it."
+  },
+  {
+    "key": "Cursor Agent SDK {0} failed: {1}",
+    "section": "templates",
+    "zh": "Cursor Agent SDK {0} 失败：{1}",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/provider-cursor/src/server/CursorAgentSdk.ts:44（C，cursorSdkFailureMessage）"
+    ]
+  },
+  {
+    "key": "Stored separately on the host.",
+    "section": "messages",
+    "zh": "单独存储在主机上。",
+    "skip": "",
+    "why": "collision",
+    "where": [
+      "packages/provider-opencode/src/settings.ts:47（C，OpenCodeSettings）"
+    ],
+    "collidesWith": "{failure} on {environment}",
+    "wrongResult": "the host.上的Stored separately"
+  },
+  {
+    "key": "Required check pattern cannot be evaluated.",
+    "section": "messages",
+    "zh": "无法匹配必需检查的模式。",
+    "skip": "",
+    "why": "untranslated",
+    "where": [
+      "packages/source-control-forgejo/src/server/forgejoRequiredChecks.ts:36（C，markRequiredForgejoChecks）"
+    ]
+  }
+]

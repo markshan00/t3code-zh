@@ -1,5 +1,5 @@
 # 0011-minor-display-fixes.patch
-# Baseline v0.0.46-nightly.20261010.2935, apply after 0001–0010 (zh.5).
+# Baseline v0.1.1, apply after 0001–0010 (zh.5).
 # Small display fixes found while reviewing zh.4; display boundaries only.
 #   * Sidebar row accessible name: the status part (Goal / Working / Waiting / Approval /
 #     Input / Limited / Failed / Woke / Done) and the draft row's "Unsent draft" go through
@@ -12,7 +12,7 @@
 # Dictionary-only wording changes in the same release: "Checked {0}", the follow-up
 # shortcut sentence. Tests: plugin/__tests__/acceptance-display-strings.test.ts.
 diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceDisplayStrings.ts
-index 912668e33bfd489594f6a11999c8d9a876a24e53..3ed7657babe8624201c2fd4375db6dc1709638e5 100644
+index 912668e3..3ed7657b 100644
 --- a/apps/web/src/acceptanceDisplayStrings.ts
 +++ b/apps/web/src/acceptanceDisplayStrings.ts
 @@ -177,8 +177,17 @@ export const ACCEPTANCE_DISPLAY_LABELS: string[] = [
@@ -84,17 +84,17 @@ index 912668e33bfd489594f6a11999c8d9a876a24e53..3ed7657babe8624201c2fd4375db6dc1
  export function displayScope(value: string): string {
    const turn = /^Turn (\d+|\?)$/.exec(value);
 diff --git a/apps/web/src/components/Sidebar.tsx b/apps/web/src/components/Sidebar.tsx
-index 8146bb6986995bf1399d67b1b39ba22f293b1b37..422ec7251b5cb6af70ddf93f2349d3a3ca1ad4c4 100644
+index aed645ad..b75dfebe 100644
 --- a/apps/web/src/components/Sidebar.tsx
 +++ b/apps/web/src/components/Sidebar.tsx
 @@ -1,5 +1,5 @@
- import { type EnvironmentId } from "@t3tools/contracts";
+ import { type EnvironmentId, type ScopedProjectRef } from "@t3tools/contracts";
 -import { displayDuration } from "~/acceptanceDisplayStrings";
 +import { displayDuration, displayKnown } from "~/acceptanceDisplayStrings";
+ import type { EnvironmentServerConfig } from "@t3tools/client-runtime/connection";
  import { ThreadHoverCard, ThreadHoverCardPopup } from "./ThreadHoverCard";
  import { CollapsibleSectionHeader } from "./ui/collapsible-section-header";
- import { setThreadChangeRequestSnapshot } from "./ThreadStatusIndicators";
-@@ -862,7 +862,7 @@ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
+@@ -1342,7 +1342,7 @@ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
        : `${attachmentCount} attachment${attachmentCount === 1 ? "" : "s"}`;
    const accessibility = resolveSidebarRowAccessibility({
      title: preview,
@@ -103,7 +103,7 @@ index 8146bb6986995bf1399d67b1b39ba22f293b1b37..422ec7251b5cb6af70ddf93f2349d3a3
      projectDisplayName: displayDefaultName(props.projectDisplayName),
      isActive: props.isActive,
    });
-@@ -1643,7 +1643,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+@@ -1976,7 +1976,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
 
    const accessibility = resolveSidebarRowAccessibility({
      title: displayDefaultName(thread.title),
@@ -113,7 +113,7 @@ index 8146bb6986995bf1399d67b1b39ba22f293b1b37..422ec7251b5cb6af70ddf93f2349d3a3
      isActive: props.isActive,
    });
 diff --git a/apps/web/src/components/chat/ProviderStatusBanner.tsx b/apps/web/src/components/chat/ProviderStatusBanner.tsx
-index dbbaf9c56f4f5d7717d9563cc0ba1a2c29445eeb..e377460bc4bf9814ba1e2fdf399ad8f26285ddf1 100644
+index 4abbdb7e..6b8a2674 100644
 --- a/apps/web/src/components/chat/ProviderStatusBanner.tsx
 +++ b/apps/web/src/components/chat/ProviderStatusBanner.tsx
 @@ -1,4 +1,4 @@
@@ -122,7 +122,7 @@ index dbbaf9c56f4f5d7717d9563cc0ba1a2c29445eeb..e377460bc4bf9814ba1e2fdf399ad8f2
  import { type ProviderInstanceId, type ServerProvider } from "@t3tools/contracts";
  import { memo } from "react";
  import { InfoIcon, XIcon } from "lucide-react";
-@@ -139,7 +139,7 @@ export const ProviderStatusBanner = memo(function ProviderStatusBanner({
+@@ -137,7 +137,7 @@ export const ProviderStatusBanner = memo(function ProviderStatusBanner({
          </AlertDescription>
          <AlertAction>
            <Button
