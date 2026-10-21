@@ -197,6 +197,28 @@ index f067848a..805907fb 100644
              </Button>
            </DialogFooter>
          </form>
+diff --git a/apps/web/src/components/settings/IntegrationsSettings.tsx b/apps/web/src/components/settings/IntegrationsSettings.tsx
+index 49027ff..6c3688f 100644
+--- a/apps/web/src/components/settings/IntegrationsSettings.tsx
++++ b/apps/web/src/components/settings/IntegrationsSettings.tsx
+@@ -752,7 +752,7 @@ function BrowserSearchEngineSetting() {
+           status={
+             isValidSearchUrlTemplate(customUrl)
+               ? undefined
+-              : "Enter an http or https URL containing %s. Searches use DuckDuckGo until then."
++              : translateFixed("Enter an http or https URL containing %s. Searches use DuckDuckGo until then.")
+           }
+           control={
+             <DraftInput
+@@ -1632,7 +1632,7 @@ export function IntegrationsSettingsPanel() {
+       <SettingsSection id="browser" title="Browser">
+         <AgentBrowserAccessSetting />
+         {previewDefaultsDisabled ? (
+-          <SettingsUnavailableGroup message="Only available in the desktop app.">
++          <SettingsUnavailableGroup message={translateFixed("Only available in the desktop app.")}>
+             {previewDefaults}
+           </SettingsUnavailableGroup>
+         ) : (
 diff --git a/apps/web/src/components/settings/MobileAppSettingsRow.tsx b/apps/web/src/components/settings/MobileAppSettingsRow.tsx
 index 62f4332a..20c76d53 100644
 --- a/apps/web/src/components/settings/MobileAppSettingsRow.tsx

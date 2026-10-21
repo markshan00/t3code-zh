@@ -1631,6 +1631,7 @@
     "Enter a repository path and press Enter to look it up.": "输入仓库路径，然后按 Enter 查找。",
     "Enter a workspace path": "请输入工作区路径",
     "Enter an HTTP or HTTPS endpoint, or leave empty to disable export.": "输入 HTTP 或 HTTPS 端点，留空可停用导出。",
+    "Enter an http or https URL containing %s. Searches use DuckDuckGo until then.": "请输入包含 %s 的 http 或 https URL。在此之前，搜索会使用 DuckDuckGo。",
     "Enter an official registry ID and any local executable or auth override.": "输入官方注册表 ID，以及需要覆盖的本地可执行文件或认证设置。",
     "Enter code": "请在浏览器中输入代码",
     "Enter manually": "手动输入",

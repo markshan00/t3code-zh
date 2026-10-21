@@ -143,6 +143,14 @@ const goodStagePackage = () => ({
 test("staging build 配置：通过与各类不符", () => {
   const expected = { version: VERSION, productName: "T3 Code (Beta)" };
   assert.deepEqual(checkStageBuildConfig(goodStagePackage(), expected), []);
+  const disabledPublish = goodStagePackage() as any;
+  disabledPublish.build.publish = null;
+  assert.deepEqual(checkStageBuildConfig(disabledPublish, expected), []);
+  for (const value of [{ provider: "github" }, [], "github", false]) {
+    const configuredPublish = goodStagePackage() as any;
+    configuredPublish.build.publish = value;
+    assert.match(checkStageBuildConfig(configuredPublish, expected).join("\n"), /publish/);
+  }
   const withPublish = goodStagePackage() as any;
   withPublish.build.publish = [{ provider: "github", owner: "o", repo: "r" }];
   assert.match(checkStageBuildConfig(withPublish, expected).join("\n"), /publish/);

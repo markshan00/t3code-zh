@@ -9,7 +9,7 @@
  *    --platform win --target nsis --arch x64 --skip-build --keep-stage --wsl-runtime …；
  *    子进程环境去掉 GITHUB_REPOSITORY 等更新源 / 签名变量（lib/common.ts PACKAGING_ENV_DENYLIST），
  *    否则 runner 自动注入的 GITHUB_REPOSITORY 会让包带上指向公开仓库的自动更新配置。
- * 2. 读 --keep-stage 留下的 staging：核对 electron-builder 实际收到的 build 配置（无 publish、zh-CN.pak、
+ * 2. 读 --keep-stage 留下的 staging：核对 electron-builder 实际收到的 build 配置（无有效 publish、zh-CN.pak、
  *    单语中文 NSIS、未签名）和 win-unpacked 内容（许可证逐字节、无 app-update.yml、WSL runtime 哈希、
  *    server.asar 里的中文 web client 与版本、app.asar 里的桌面汉化守卫文字、文件数上限）。
  * 3. 输出目录只应有安装包和 electron-builder 的调试 / blockmap 文件，不应有 latest*.yml 等更新清单。
@@ -55,7 +55,9 @@ export function checkStageBuildConfig(
   const build = stagePackage.build ?? {};
   if (stagePackage.version !== expected.version) problems.push(`staging version 是 ${stagePackage.version}，不是 ${expected.version}`);
   if (build.productName !== expected.productName) problems.push(`productName 是 ${build.productName}，不是 ${expected.productName}`);
-  if ("publish" in build) problems.push(`build 配置含 publish（会生成自动更新源）：${JSON.stringify(build.publish)}`);
+  // v0.1.1 explicitly sets null to disable electron-builder's inferred GitHub feed.
+  // Reject every other present value; absence remains supported for older baselines.
+  if ("publish" in build && build.publish !== null) problems.push(`build 配置含有效或未知 publish：${JSON.stringify(build.publish)}`);
   const languages: unknown = build.electronLanguages;
   if (!Array.isArray(languages) || !languages.includes("en-US") || !languages.includes("zh-CN")) {
     problems.push(`electronLanguages 应含 en-US 与 zh-CN：${JSON.stringify(languages)}`);
@@ -227,7 +229,7 @@ if (isMainModule(import.meta.url)) {
     const stagePackage = JSON.parse(fs.readFileSync(path.join(stageApp, "package.json"), "utf8"));
     const configProblems = checkStageBuildConfig(stagePackage, { version, productName });
     check(configProblems.length === 0, `electron-builder 配置不符：\n${configProblems.join("\n")}`);
-    log("electron-builder 配置：无 publish、zh-CN.pak、单语中文 NSIS（2052）、未签名");
+    log("electron-builder 配置：无有效 publish、zh-CN.pak、单语中文 NSIS（2052）、未签名");
 
     const unpacked = path.join(stageApp, "dist/win-unpacked");
     check(fs.existsSync(unpacked), `找不到 ${unpacked}`);
