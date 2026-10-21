@@ -28,7 +28,7 @@ import {
 } from "./package-windows.ts";
 import { listPatches, porcelainPath, WINDOWS_PATCH_DIR } from "./prepare-source.ts";
 
-const VERSION = "0.1.1-zh.1";
+const VERSION = "0.1.1-zh.2";
 const UPSTREAM_TAG = "v0.1.1";
 const UPSTREAM_COMMIT = "fe27e8e3dc12dcbb108e9a28fd9b8cb65f34ae92";
 const WORKFLOW = path.join(ZH_ROOT, ".github/workflows/build-windows.yml");
@@ -168,7 +168,7 @@ test("staging build 配置：通过与各类不符", () => {
 
 test("输出目录：只有一个安装包、没有更新清单", () => {
   const exe = installerName(VERSION);
-  assert.equal(exe, "T3-Code-0.1.1-zh.1-x64.exe");
+  assert.equal(exe, "T3-Code-0.1.1-zh.2-x64.exe");
   assert.deepEqual(checkOutputEntries([exe, `${exe}.blockmap`, "builder-debug.yml", "builder-effective-config.yaml"], VERSION), []);
   assert.match(checkOutputEntries([exe, "latest.yml"], VERSION).join("\n"), /更新清单/);
   assert.match(checkOutputEntries([exe, "nightly.yml"], VERSION).join("\n"), /更新清单/);
@@ -203,7 +203,7 @@ test("win-unpacked 文件清单：语言包、许可证、WSL runtime、无更�
 
 test("CLI 归档结构检查", () => {
   const stem = cliArchiveStem(VERSION);
-  assert.equal(stem, "t3-0.1.1-zh.1-linux-x64");
+  assert.equal(stem, "t3-0.1.1-zh.2-linux-x64");
   const listing = [`./${stem}/`, `${stem}/t3`, `${stem}/client/`, `${stem}/client/index.html`, `${stem}/node_modules/`, `${stem}/node_modules/node-pty/build/Release/pty.node`].join("\n");
   const members = normalizeTarMembers(listing);
   assert.deepEqual(checkCliArchiveMembers(members, VERSION), []);
@@ -299,7 +299,7 @@ test("workflow：触发、权限、版本与基线", (t) => {
   // YAML 1.1 把裸写的 on 解析成 true。
   const on = wf.on ?? wf.true;
   assert.deepEqual(Object.keys(on).sort(), ["push", "workflow_dispatch"]);
-  assert.deepEqual(on.push, { branches: ["build/t23-v011-dual-platform"] });
+  assert.deepEqual(on.push, { branches: ["build/t24-antigravity-quota"] });
   assert.equal(on.workflow_dispatch.inputs.version.default, VERSION);
   assert.deepEqual(wf.permissions, { contents: "read" });
   assert.equal(wf.env.UPSTREAM_TAG, UPSTREAM_TAG);

@@ -1,0 +1,206 @@
+# T24: Query measured Antigravity quotas with the Hub compatibility identity.
+# Suppress rolling full-window reset placeholders for untouched buckets.
+# Baseline: v0.1.1 fe27e8e3dc12dcbb108e9a28fd9b8cb65f34ae92.
+diff --git a/apps/server/src/provider/antigravityUsageLimits.test.ts b/apps/server/src/provider/antigravityUsageLimits.test.ts
+index 6fa7f65f84..834ca8af52 100644
+--- a/apps/server/src/provider/antigravityUsageLimits.test.ts
++++ b/apps/server/src/provider/antigravityUsageLimits.test.ts
+@@ -1,6 +1,8 @@
+ import * as NodeServices from "@effect/platform-node/NodeServices";
++import * as HostProcess from "@t3tools/shared/HostProcess";
+ import { describe, expect, it } from "@effect/vitest";
+ import * as Context from "effect/Context";
++import * as DateTime from "effect/DateTime";
+ import * as Effect from "effect/Effect";
+ import * as FileSystem from "effect/FileSystem";
+ import * as Path from "effect/Path";
+@@ -61,6 +63,9 @@ const fixture = Effect.fn("AntigravityUsageTest.fixture")(function* (
+     userId?: string;
+     missingToken?: boolean;
+     authMethod?: "oauth-personal" | "gemini-api-key";
++    platform?: NodeJS.Platform;
++    architecture?: NodeJS.Architecture;
++    expectedUserAgent?: string;
+   } = {},
+ ) {
+   const fs = yield* FileSystem.FileSystem;
+@@ -107,6 +112,11 @@ const fixture = Effect.fn("AntigravityUsageTest.fixture")(function* (
+         );
+       }
+       expect(JSON.parse(body)).toEqual({ project: "project-id" });
++      // The old aidev_client identity returns unmetered Gemini buckets even
++      // when this account has consumed quota in the official application.
++      expect(request.headers["user-agent"]).toBe(
++        options.expectedUserAgent ?? "antigravity/hub/2.9.1 darwin/arm64",
++      );
+       return HttpClientResponse.fromWeb(
+         request,
+         request.url.endsWith(":retrieveUserQuotaSummary")
+@@ -120,11 +130,92 @@ const fixture = Effect.fn("AntigravityUsageTest.fixture")(function* (
+   const usage = yield* makeAntigravityUsageProbe({
+     profileDirectory,
+     authMethod: options.authMethod ?? "oauth-personal",
+-  }).pipe(Effect.provideService(HttpClient.HttpClient, http));
++  }).pipe(
++    Effect.provideService(HttpClient.HttpClient, http),
++    Effect.provideService(HostProcess.Platform, options.platform ?? "darwin"),
++    Effect.provideService(HostProcess.Architecture, options.architecture ?? "arm64"),
++  );
+   return { ...usage, requests, writeToken, tokenPath };
+ });
+ 
+ describe("Antigravity subscription limits", () => {
++  it.effect("uses Hub platform names for Windows and Linux quota requests", () =>
++    Effect.gen(function* () {
++      for (const options of [
++        {
++          platform: "win32",
++          architecture: "x64",
++          expectedUserAgent: "antigravity/hub/2.9.1 windows/amd64",
++        },
++        {
++          platform: "linux",
++          architecture: "x64",
++          expectedUserAgent: "antigravity/hub/2.9.1 linux/amd64",
++        },
++      ] as const) {
++        const { probe } = yield* fixture(options);
++        expect((yield* probe).windows).toHaveLength(4);
++      }
++    }).pipe(Effect.scoped, Effect.provide(NodeServices.layer)),
++  );
++
++  it.effect("omits rolling reset placeholders for unused buckets but keeps measured resets", () =>
++    Effect.gen(function* () {
++      const now = yield* DateTime.now;
++      const resetAfter = (minutes: number) => DateTime.formatIso(DateTime.add(now, { minutes }));
++      const { probe } = yield* fixture({
++        summary: {
++          buckets: [
++            {
++              bucketId: "gemini-weekly",
++              window: "weekly",
++              remainingFraction: 0.97561556,
++              resetTime: resetAfter(10080),
++            },
++            {
++              bucketId: "gemini-5h",
++              window: "5h",
++              remainingFraction: 0.9033314,
++              resetTime: resetAfter(266),
++            },
++            {
++              bucketId: "3p-weekly",
++              window: "weekly",
++              remainingFraction: 1,
++              resetTime: resetAfter(10080),
++            },
++            { bucketId: "3p-5h", window: "5h", remainingFraction: 1, resetTime: resetAfter(300) },
++            {
++              bucketId: "active-full",
++              window: "5h",
++              remainingFraction: 1,
++              resetTime: resetAfter(200),
++            },
++            {
++              bucketId: "described-full",
++              window: "5h",
++              remainingFraction: 1,
++              resetTime: resetAfter(300),
++              description: "Resets in 5 hours.",
++            },
++          ],
++        },
++      });
++      const limits = yield* probe;
++      const byId = new Map(limits.windows.map((window) => [window.id, window]));
++      expect(byId.get("gemini-weekly")?.usedPercent).toBeCloseTo(2.438444);
++      expect(byId.get("gemini-weekly")?.resetsAt).toBe(resetAfter(10080));
++      expect(byId.get("gemini-5h")?.usedPercent).toBeCloseTo(9.66686);
++      expect(byId.get("gemini-5h")?.resetsAt).toBe(resetAfter(266));
++      for (const id of ["3p-weekly", "3p-5h"]) {
++        expect(byId.get(id)?.usedPercent).toBe(0);
++        expect(byId.get(id)?.resetsAt).toBeUndefined();
++      }
++      expect(byId.get("active-full")?.resetsAt).toBe(resetAfter(200));
++      expect(byId.get("described-full")?.resetsAt).toBe(resetAfter(300));
++    }).pipe(Effect.scoped, Effect.provide(NodeServices.layer)),
++  );
++
+   it.effect("reports separate Gemini and shared Claude/GPT five-hour and weekly limits", () =>
+     Effect.gen(function* () {
+       const { probe, requests } = yield* fixture();
+diff --git a/apps/server/src/provider/antigravityUsageLimits.ts b/apps/server/src/provider/antigravityUsageLimits.ts
+index 55ef357994..485aece999 100644
+--- a/apps/server/src/provider/antigravityUsageLimits.ts
++++ b/apps/server/src/provider/antigravityUsageLimits.ts
+@@ -40,6 +40,7 @@ const Bucket = Schema.Struct({
+   bucketId: Schema.NonEmptyString,
+   window: Schema.optional(Schema.String),
+   displayName: Schema.optional(Schema.String),
++  description: Schema.optional(Schema.String),
+   disabled: Schema.optional(Schema.Boolean),
+ });
+ const Summary = Schema.Struct({
+@@ -96,7 +97,7 @@ function quotaWindow(
+   };
+ }
+ 
+-function summaryWindows(summary: typeof Summary.Type) {
++function summaryWindows(summary: typeof Summary.Type, checkedAt: string) {
+   const windows = new Map<string, ServerProviderUsageWindow>();
+   const groups = summary.groups?.some((group) => group.buckets?.length)
+     ? summary.groups
+@@ -118,7 +119,23 @@ function summaryWindows(summary: typeof Summary.Type) {
+         weekly ? "weekly" : session ? "session" : "other",
+         weekly ? 7 * 24 * 60 : session ? 5 * 60 : undefined,
+       );
+-      if (window) windows.set(window.id, window);
++      if (!window) continue;
++      // Unused buckets report now + a full window on every request. That is
++      // a rolling placeholder, not an account's scheduled quota reset.
++      const unusedReset =
++        bucket.remainingFraction === 1 &&
++        !bucket.description?.trim() &&
++        window.resetsAt !== undefined &&
++        window.windowDurationMins !== undefined &&
++        Math.abs(
++          Date.parse(window.resetsAt) - Date.parse(checkedAt) - window.windowDurationMins * 60_000,
++        ) <= 60_000;
++      if (unusedReset) {
++        const { resetsAt: _placeholder, ...withoutReset } = window;
++        windows.set(window.id, withoutReset);
++      } else {
++        windows.set(window.id, window);
++      }
+     }
+   }
+   return [...windows.values()];
+@@ -167,6 +184,9 @@ export const makeAntigravityUsageProbe = Effect.fn("makeAntigravityUsageProbe")(
+   const crypto = yield* Crypto.Crypto;
+   const platform = yield* HostProcess.Platform;
+   const architecture = yield* HostProcess.Architecture;
++  // Google routes the legacy aidev_client identity to incomplete/unmetered
++  // quotas. Use the Hub compatibility identity for the account's real limits.
++  const userAgent = `antigravity/hub/2.9.1 ${platform === "win32" ? "windows" : platform}/${architecture === "x64" ? "amd64" : architecture}`;
+   const tokenPath = path.join(input.profileDirectory, "antigravity-acp", "acp_token.json");
+   let cached:
+     | { fingerprint: string; account: string; accessToken: string; expiresAt: number }
+@@ -260,7 +280,7 @@ export const makeAntigravityUsageProbe = Effect.fn("makeAntigravityUsageProbe")(
+             HttpClientRequest.post(`${endpoint}/v1internal:${operation}`).pipe(
+               HttpClientRequest.setHeaders({
+                 Authorization: `Bearer ${accessToken}`,
+-                "User-Agent": `antigravity/hub/1.0.0 (aidev_client; os_type=${platform}; arch=${architecture}; cl=963137146)`,
++                "User-Agent": userAgent,
+               }),
+               HttpClientRequest.bodyJsonUnsafe(
+                 token.project_id ? { project: token.project_id } : {},
+@@ -280,7 +300,7 @@ export const makeAntigravityUsageProbe = Effect.fn("makeAntigravityUsageProbe")(
+       return [...windows.values()];
+     });
+     const summary = yield* fetchWindows("retrieveUserQuotaSummary", (response) =>
+-      decodeSummary(response).pipe(Effect.map(summaryWindows)),
++      decodeSummary(response).pipe(Effect.map((summary) => summaryWindows(summary, checkedAt))),
+     );
+     const windows = summary.length
+       ? summary

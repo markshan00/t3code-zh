@@ -15,12 +15,12 @@ on:
       version:
         description: "交付版本号（不能是 -nightly.YYYYMMDD.N 或上游预览版形式）"
         required: false
-        default: "0.1.1-zh.1"
+        default: "0.1.1-zh.2"
         type: string
   # 首次运行：默认分支没有 workflow 时 workflow_dispatch 无法注册，由推送这个隔离分支触发。只匹配这一个精确分支。
   push:
     branches:
-      - "build/t23-v011-dual-platform"
+      - "build/t24-antigravity-quota"
 
 permissions:
   contents: read
@@ -30,7 +30,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  T3ZH_VERSION: ${{ inputs.version || '0.1.1-zh.1' }}
+  T3ZH_VERSION: ${{ inputs.version || '0.1.1-zh.2' }}
   UPSTREAM_TAG: v0.1.1
   UPSTREAM_COMMIT: fe27e8e3dc12dcbb108e9a28fd9b8cb65f34ae92
   # 汉化仓库检出到 zh/，上游源码取到同级的 src/：两者互不嵌套，上游代码不会从 zh/node_modules 解析到依赖。
