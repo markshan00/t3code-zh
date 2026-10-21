@@ -1,7 +1,7 @@
 # 0007-new-thread-display-strings.patch
 #
 # 新建任务页面上转换插件包不到的英文，只在显示处翻译（T09，Mark 在 zh.1 手动验收时指出的四处）。
-# 基线 v0.1.0；须在 0004（Sidebar.tsx、vite-env.d.ts 的
+# 基线 v0.1.1；须在 0004（Sidebar.tsx、vite-env.d.ts 的
 # 全局 `var __t3zh` 声明）之后应用；ChatComposer 直接使用原版，不依赖已停用的 0002。
 #
 # 四处英文与原因：
@@ -47,10 +47,10 @@
 # 上游更新后重做方法见 patches/README.md。
 #
 diff --git a/apps/web/src/components/Sidebar.tsx b/apps/web/src/components/Sidebar.tsx
-index 4b51fce8..27bf95d1 100644
+index 5970c99b..d64e10b0 100644
 --- a/apps/web/src/components/Sidebar.tsx
 +++ b/apps/web/src/components/Sidebar.tsx
-@@ -182,6 +182,7 @@ import type { SidebarThreadSummary } from "../types";
+@@ -180,6 +180,7 @@ import type { SidebarThreadSummary } from "../types";
  import { isScratchProject } from "@t3tools/client-runtime/state/projects";
  import type { EnvironmentProject } from "@t3tools/client-runtime/state/shell";
  import { cn } from "~/lib/utils";
@@ -58,7 +58,7 @@ index 4b51fce8..27bf95d1 100644
  import { EnvironmentMachineIcon } from "./EnvironmentMachineIcon";
  import { ProjectEnvironmentBadge } from "./ProjectEnvironmentBadge";
  import {
-@@ -475,7 +476,7 @@ function SidebarThreadTooltip({
+@@ -973,7 +974,7 @@ function SidebarThreadTooltip({
    return (
      <ThreadHoverCardPopup side="right" align="start" sideOffset={4}>
        <ThreadHoverCard
@@ -67,7 +67,7 @@ index 4b51fce8..27bf95d1 100644
          footer={
            supportsMultiplePullRequests && thread.pullRequests.length > 0 ? (
              <div className="border-t border-border/60 pt-2 pl-0.5 text-xs text-muted-foreground">
-@@ -487,7 +488,9 @@ function SidebarThreadTooltip({
+@@ -985,7 +986,9 @@ function SidebarThreadTooltip({
          {projectDisplayName ? (
            <div className="flex min-w-0 items-center gap-2">
              {project ? <ProjectFavicon project={project} className="size-3 shrink-0" /> : null}
@@ -78,7 +78,7 @@ index 4b51fce8..27bf95d1 100644
            </div>
          ) : null}
          {environmentLabel ? (
-@@ -870,7 +873,7 @@ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
+@@ -1339,7 +1342,7 @@ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
    const accessibility = resolveSidebarRowAccessibility({
      title: preview,
      statusLabel: "Unsent draft",
@@ -86,8 +86,8 @@ index 4b51fce8..27bf95d1 100644
 +    projectDisplayName: displayDefaultName(props.projectDisplayName),
      isActive: props.isActive,
    });
-   const handleActivate = useCallback(() => onNavigate(draftId), [draftId, onNavigate]);
-@@ -930,7 +933,7 @@ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
+   const handleActivate = () => onNavigate(draftId);
+@@ -1390,7 +1393,7 @@ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
                <ProjectFavicon project={props.project} className="size-4 shrink-0" />
              ) : null}
              <span className="min-w-0 flex-1 truncate text-xs font-medium text-secondary-label">
@@ -96,7 +96,7 @@ index 4b51fce8..27bf95d1 100644
              </span>
              <span className="ml-auto flex h-5 min-w-5 shrink-0 items-center justify-end">
                <Tooltip>
-@@ -1651,9 +1654,9 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+@@ -1971,9 +1974,9 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
      ) : null;
 
    const accessibility = resolveSidebarRowAccessibility({
@@ -108,7 +108,7 @@ index 4b51fce8..27bf95d1 100644
      isActive: props.isActive,
    });
 
-@@ -1701,10 +1704,12 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+@@ -2021,10 +2024,12 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
            isRegeneratingTitle && "opacity-55",
          )}
        >
@@ -121,9 +121,9 @@ index 4b51fce8..27bf95d1 100644
 +    <span className="sr-only">{displayDefaultName(thread.title)}</span>
 +  );
 
-   // Stacks show their layer count; multiple unrelated links show their total count.
-   // Either opens the thread's pull requests tab; a single PR link opens that PR and still
-@@ -2002,7 +2007,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+   const prBadgeShape = supportsMultiplePullRequests
+     ? resolveThreadPullRequestBadge(thread.pullRequests)
+@@ -2311,7 +2316,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
                      shouldRecede ? "font-normal" : "font-medium",
                    )}
                  >
@@ -132,7 +132,7 @@ index 4b51fce8..27bf95d1 100644
                  </span>
                ) : (
                  <span className="flex-1" />
-@@ -2048,7 +2053,9 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+@@ -2349,7 +2354,9 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
                                  )}
                                >
                                  <AlarmClockIcon aria-hidden className="size-4 shrink-0" />
@@ -143,7 +143,7 @@ index 4b51fce8..27bf95d1 100644
                                </button>
                              }
                            />
-@@ -2077,7 +2084,9 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+@@ -2378,7 +2385,9 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
                            {/* The label alone is the live region: a role="status"
                              wrapper around the ticking duration would make
                              screen readers announce every second. */}
@@ -154,7 +154,7 @@ index 4b51fce8..27bf95d1 100644
                            {status === "working" ? (
                              <span aria-hidden>
                                <WorkingDuration startedAt={resolveWorkingStartedAt(thread)} />
-@@ -2261,9 +2270,9 @@ const SidebarSearchResultRow = memo(function SidebarSearchResultRow(props: {
+@@ -2552,9 +2561,9 @@ const SidebarSearchResultRow = memo(function SidebarSearchResultRow(props: {
  }) {
    const { thread } = props;
    const accessibility = resolveSidebarRowAccessibility({
@@ -165,8 +165,8 @@ index 4b51fce8..27bf95d1 100644
 +    projectDisplayName: displayDefaultName(props.projectDisplayName),
      isActive: props.isRouteActive,
    });
-   const threadRef = useMemo(
-@@ -2382,7 +2391,7 @@ const SidebarSearchResultRow = memo(function SidebarSearchResultRow(props: {
+   const threadRef = scopeThreadRef(thread.environmentId, thread.id);
+@@ -2664,7 +2673,7 @@ const SidebarSearchResultRow = memo(function SidebarSearchResultRow(props: {
                    thread.titleRegeneration != null && "opacity-55",
                  )}
                >
@@ -175,7 +175,7 @@ index 4b51fce8..27bf95d1 100644
                </span>
                <span id={`${props.resultId}-pr`} className="contents">
                  <ThreadSearchPullRequestNumber
-@@ -4804,7 +4813,7 @@ export default function Sidebar() {
+@@ -4400,7 +4409,7 @@ export default function Sidebar() {
            case "archive": {
              if (confirmThreadArchive) {
                const confirmed = await settlePromise(() =>
@@ -184,7 +184,7 @@ index 4b51fce8..27bf95d1 100644
                );
                if (confirmed._tag === "Failure" || !confirmed.value) return;
              }
-@@ -4834,8 +4843,8 @@ export default function Sidebar() {
+@@ -4430,8 +4439,8 @@ export default function Sidebar() {
                const confirmed = await settlePromise(() =>
                  api.dialogs.confirm(
                    [
@@ -196,10 +196,10 @@ index 4b51fce8..27bf95d1 100644
                    { variant: "destructive" },
                  ),
 diff --git a/apps/web/src/components/chat/ChatComposer.tsx b/apps/web/src/components/chat/ChatComposer.tsx
-index 822e79da..aa0bbabc 100644
+index b62812f2..a7fc1dee 100644
 --- a/apps/web/src/components/chat/ChatComposer.tsx
 +++ b/apps/web/src/components/chat/ChatComposer.tsx
-@@ -94,6 +94,7 @@ import {
+@@ -96,6 +96,7 @@ import {
    replaceTextRange,
  } from "../../composer-logic";
  import { DISCONNECTED_COMPOSER_PLACEHOLDER } from "../../composerPlaceholder";
@@ -207,7 +207,7 @@ index 822e79da..aa0bbabc 100644
  import { listContinuationForEnter, listIndentForTab } from "../../composer-list-continuation";
  import {
    deriveComposerSendState,
-@@ -7469,7 +7470,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+@@ -7199,7 +7200,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
                                : showProviderUnavailable
                                  ? "Enable a provider in Settings to send a message"
                                  : phase === "disconnected"
@@ -217,10 +217,10 @@ index 822e79da..aa0bbabc 100644
                      }
                      disabled={
 diff --git a/apps/web/src/components/chat/ChatHeader.tsx b/apps/web/src/components/chat/ChatHeader.tsx
-index c2b1a805..59dc52f2 100644
+index 3e1b0bdd..ee66bb6a 100644
 --- a/apps/web/src/components/chat/ChatHeader.tsx
 +++ b/apps/web/src/components/chat/ChatHeader.tsx
-@@ -38,6 +38,7 @@ import {
+@@ -35,6 +35,7 @@ import {
  } from "../WorkspaceBreadcrumb";
  import { observeResize } from "~/lib/observeResize";
  import { cn } from "~/lib/utils";
@@ -228,16 +228,16 @@ index c2b1a805..59dc52f2 100644
  import { useClientSettings } from "../../hooks/useSettings";
 
  interface ChatHeaderProps {
-@@ -88,6 +89,8 @@ export const ChatHeader = memo(function ChatHeader({
+@@ -78,6 +79,8 @@ export const ChatHeader = memo(function ChatHeader({
    onOpenProjectSettings,
  }: ChatHeaderProps) {
-   const activeProjectName = activeProject?.title;
+   const activeProjectName = activeProject?.isScratch ? "No project" : activeProject?.title;
 +  // t3code-zh（patches/0007）：「New thread in <项目名>」提示的固定骨架；项目名在渲染处插入。
 +  const [newThreadInBefore, newThreadInAfter] = translateAroundSlot("New thread in ", "");
    const activeProjectCwd = activeProject?.workspaceRoot ?? null;
    const interfaceFont = useClientSettings((settings) => settings.fontFamilySans);
    const breadcrumbContainerRef = useRef<HTMLDivElement>(null);
-@@ -321,7 +324,7 @@ export const ChatHeader = memo(function ChatHeader({
+@@ -285,7 +288,7 @@ export const ChatHeader = memo(function ChatHeader({
                    render={
                      <button
                        type="button"
@@ -246,7 +246,7 @@ index c2b1a805..59dc52f2 100644
                        onClick={onNewThreadInProject}
                        className="inline-flex min-w-0 max-w-full cursor-pointer items-center gap-1.5 rounded-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
                      />
-@@ -329,10 +332,14 @@ export const ChatHeader = memo(function ChatHeader({
+@@ -293,10 +296,14 @@ export const ChatHeader = memo(function ChatHeader({
                  >
                    <ProjectFavicon project={activeProject} className="size-3.5" />
                    <WorkspaceBreadcrumbText className="max-w-40">
@@ -263,7 +263,7 @@ index c2b1a805..59dc52f2 100644
                </Tooltip>
              </WorkspaceBreadcrumbItem>
              <WorkspaceBreadcrumbSeparator>
-@@ -404,7 +411,7 @@ export const ChatHeader = memo(function ChatHeader({
+@@ -366,7 +373,7 @@ export const ChatHeader = memo(function ChatHeader({
                    <button
                      ref={titleButtonRef}
                      type="button"
@@ -272,7 +272,7 @@ index c2b1a805..59dc52f2 100644
                      aria-haspopup="menu"
                      onClick={openMenuFromTitle}
                      onDoubleClick={canOperateThread ? handleTitleDoubleClick : undefined}
-@@ -414,7 +421,9 @@ export const ChatHeader = memo(function ChatHeader({
+@@ -376,7 +383,9 @@ export const ChatHeader = memo(function ChatHeader({
                  }
                >
                  <h2 className="min-w-0">
@@ -283,7 +283,7 @@ index c2b1a805..59dc52f2 100644
                  </h2>
                  <ChevronDownIcon
                    aria-hidden
-@@ -422,16 +431,23 @@ export const ChatHeader = memo(function ChatHeader({
+@@ -384,16 +393,23 @@ export const ChatHeader = memo(function ChatHeader({
                    className="size-3.5 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover/thread-title:opacity-100 group-focus-visible/thread-title:opacity-100"
                  />
                </TooltipTrigger>
@@ -312,42 +312,40 @@ index c2b1a805..59dc52f2 100644
            )}
          </WorkspaceBreadcrumbItem>
 diff --git a/apps/web/src/components/chat/DraftHeroHeadline.tsx b/apps/web/src/components/chat/DraftHeroHeadline.tsx
-index e9bd7c99..4dcc2989 100644
+index cf57c9e6..776d7284 100644
 --- a/apps/web/src/components/chat/DraftHeroHeadline.tsx
 +++ b/apps/web/src/components/chat/DraftHeroHeadline.tsx
-@@ -41,6 +41,12 @@ import {
- import { Tooltip, TooltipPopup, TooltipTrigger } from "../ui/tooltip";
- import { InlineButton } from "../ui/button";
+@@ -43,6 +43,11 @@ import { InlineButton } from "../ui/button";
+ import { DraftProjectName } from "./DraftProjectName";
+ import { DraftHeroProjectHeading } from "./DraftHeroProjectHeading";
  import { resolveProjectSettings } from "@t3tools/shared/projectSettings";
 +import {
 +  displayDefaultName,
-+  fillSlot,
 +  translateAroundSlot,
 +  translateFixed,
 +} from "~/newThreadDisplayStrings";
 
- // Picker value for the "Add project" row; real entries are keyed by logical
- // project key.
-@@ -183,8 +189,8 @@ export function DraftHeroHeadline({
-   // a project, so it only trails the unfiltered list.
-   const pickerItems = useMemo<readonly PickerItem[]>(
-     () => [
--      ...menuEntries.map(({ group }) => ({ value: group.projectKey, label: group.displayName })),
--      { value: ADD_PROJECT_VALUE, label: "Add project" },
-+      ...menuEntries.map(({ group }) => ({ value: group.projectKey, label: displayDefaultName(group.displayName) })),
-+      { value: ADD_PROJECT_VALUE, label: translateFixed("Add project") },
-     ],
-     [menuEntries],
-   );
-@@ -309,11 +315,13 @@ export function DraftHeroHeadline({
+ const ADD_PROJECT_VALUE = "add-project";
+
+@@ -145,8 +150,8 @@ export function DraftHeroHeadline({
+     activeProject !== null && isScratchProject(activeProject, scratchWorkspaceRoot);
+
+   const pickerItems: readonly PickerItem[] = [
+-    ...menuEntries.map(({ group }) => ({ value: group.projectKey, label: group.displayName })),
+-    { value: ADD_PROJECT_VALUE, label: "Add project" },
++    ...menuEntries.map(({ group }) => ({ value: group.projectKey, label: displayDefaultName(group.displayName) })),
++    { value: ADD_PROJECT_VALUE, label: translateFixed("Add project") },
+   ];
+   const pickerSearch = pickerQuery.trim();
+   const filteredPickerItems =
+@@ -260,12 +265,12 @@ export function DraftHeroHeadline({
            }
          >
-           <span className="min-w-0 truncate">
--            {isScratchDraft ? "No project" : (activeProjectDisplayName ?? "Choose a project")}
-+            {isScratchDraft
-+              ? "No project"
-+              : (displayDefaultName(activeProjectDisplayName) ?? "Choose a project")}
-           </span>
+           <DraftProjectName
+-            value={isScratchDraft ? "No project" : (activeProjectDisplayName ?? "Choose a project")}
++            value={isScratchDraft ? translateFixed("No project") : (displayDefaultName(activeProjectDisplayName) ?? translateFixed("Choose a project"))}
+             singleLine
+           />
          </TooltipTrigger>
          {activeProjectDisplayName && !isScratchDraft ? (
 -          <TooltipPopup side="top">{activeProjectDisplayName}</TooltipPopup>
@@ -355,70 +353,103 @@ index e9bd7c99..4dcc2989 100644
          ) : null}
        </Tooltip>
        <ComboboxPopup align="center" className="w-72 overflow-hidden">
-@@ -367,13 +375,24 @@ export function DraftHeroHeadline({
-   // a complete sentence too. The project picker is a control rendered inline
-   // in the h1; without an explicit label its widget state bleeds into the
-   // announced phrase.
-+  // t3code-zh（patches/0007）：这个标签只用作下面 h1 的 aria-label，各分支在这里按显示译文拼出。
-   const headingLabel = isScratchDraft
--    ? "What should we work on?"
-+    ? translateFixed("What should we work on?")
-     : hasResolvedProject
--      ? `What should we build in ${activeProjectDisplayName}?`
-+      ? fillSlot(
-+          "What should we build in ",
-+          String(displayDefaultName(activeProjectDisplayName)),
-+          "?",
-+        )
-       : canChooseProject
--        ? `${activeProjectDisplayName ?? "Choose a project"} to start`
--        : "Add a project to start";
-+        ? fillSlot(
-+            "",
-+            displayDefaultName(activeProjectDisplayName) ?? translateFixed("Choose a project"),
-+            " to start",
-+          )
-+        : translateFixed("Add a project to start");
-+  const [buildInBefore, buildInAfter] = translateAroundSlot("What should we build in ", "?");
-+  const [toStartBefore, toStartAfter] = translateAroundSlot("", " to start");
+@@ -311,10 +316,11 @@ export function DraftHeroHeadline({
+       onClick={openAddProject}
+       className="pointer-events-auto inline min-w-0 max-w-full cursor-pointer border-muted-foreground/35 border-b border-dotted text-muted-foreground/60 transition-colors hover:border-muted-foreground/60 hover:text-muted-foreground/80 focus-visible:rounded-sm focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
+     >
+-      <DraftProjectName value={activeProjectTitle ?? "Add a project"} singleLine />
++      <DraftProjectName value={displayDefaultName(activeProjectTitle) ?? translateFixed("Add a project")} singleLine />
+     </button>
+   );
 
-   // One click out of the project, phrased as the alternative to the question
-   // above it. Focus moves to the project picker once this line has gone.
-@@ -411,9 +430,17 @@ export function DraftHeroHeadline({
-         {isScratchDraft ? (
-           <>What should we work on?</>
-         ) : hasResolvedProject ? (
--          <>What should we build in {projectSelector}?</>
-+          <>
-+            {buildInBefore}
-+            {projectSelector}
-+            {buildInAfter}
-+          </>
-         ) : canChooseProject ? (
--          <>{projectSelector} to start</>
-+          <>
-+            {toStartBefore}
-+            {projectSelector}
-+            {toStartAfter}
-+          </>
-         ) : (
-           <>Add a project to start</>
-         )}
++  const [toStartBefore, toStartAfter] = translateAroundSlot("", " to start");
+   const noProjectShortcut = shortcutLabelForCommand(keybindings, "chat.newWithoutProject");
+   const orStartWithoutProject =
+     scratchWorkspaceRoot !== null && !isScratchDraft && (hasResolvedProject || canChooseProject) ? (
+@@ -343,7 +349,7 @@ export function DraftHeroHeadline({
+   return (
+     <div className="mx-auto flex w-full max-w-5xl flex-col items-center">
+       {hasResolvedProject && !isScratchDraft ? (
+-        <DraftHeroProjectHeading projectName={activeProjectDisplayName ?? "Choose a project"}>
++        <DraftHeroProjectHeading projectName={displayDefaultName(activeProjectDisplayName) ?? translateFixed("Choose a project")}>
+           {projectSelector}
+         </DraftHeroProjectHeading>
+       ) : (
+@@ -351,7 +357,11 @@ export function DraftHeroHeadline({
+           {isScratchDraft ? (
+             <>What should we work on?</>
+           ) : canChooseProject ? (
+-            <>{projectSelector} to start</>
++            <>
++              {toStartBefore}
++              {projectSelector}
++              {toStartAfter}
++            </>
+           ) : (
+             <>Add a project to start</>
+           )}
+diff --git a/apps/web/src/components/chat/DraftHeroProjectHeading.tsx b/apps/web/src/components/chat/DraftHeroProjectHeading.tsx
+index a0c5754e..d214ae96 100644
+--- a/apps/web/src/components/chat/DraftHeroProjectHeading.tsx
++++ b/apps/web/src/components/chat/DraftHeroProjectHeading.tsx
+@@ -1,5 +1,7 @@
+ import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
+
++import { translateAroundSlot, translateFixed } from "~/newThreadDisplayStrings";
++
+ import { observeResize } from "~/lib/observeResize";
+
+ export function DraftHeroProjectHeading({
+@@ -9,6 +11,7 @@ export function DraftHeroProjectHeading({
+   children: ReactNode;
+   projectName: string;
+ }) {
++  const [buildInBefore, buildInAfter] = translateAroundSlot("What should we build in ", "?");
+   const containerRef = useRef<HTMLDivElement>(null);
+   const inlineRef = useRef<HTMLSpanElement>(null);
+   const [fitsInline, setFitsInline] = useState(false);
+@@ -38,21 +41,20 @@ export function DraftHeroProjectHeading({
+           ref={inlineRef}
+           className="flex w-max items-baseline gap-2 whitespace-nowrap font-normal text-3xl tracking-tight"
+         >
+-          <span>What should we build in</span>
++          <span>{buildInBefore.trimEnd()}</span>
+           <span>
+-            <span className="font-medium">{projectName}</span>?
++            <span className="font-medium">{projectName}</span>{buildInAfter}
+           </span>
+         </span>
+       </span>
+       <h1 className="flex w-full flex-col items-center justify-center gap-2 text-center font-normal text-2xl text-foreground tracking-tight sm:text-3xl lg:group-data-[inline=true]/draft-hero:flex-row">
+         <span className="max-w-full lg:group-data-[inline=true]/draft-hero:shrink-0">
+-          What should we build
+-          <span className="lg:group-data-[inline=true]/draft-hero:hidden">?</span>
+-          <span className="hidden lg:group-data-[inline=true]/draft-hero:inline"> in</span>
++          <span className="lg:group-data-[inline=true]/draft-hero:hidden">{translateFixed("What should we build?")}</span>
++          <span className="hidden lg:group-data-[inline=true]/draft-hero:inline">{buildInBefore.trimEnd()}</span>
+         </span>
+         <span className="flex min-w-0 max-w-full items-baseline justify-center text-base tracking-normal lg:group-data-[inline=true]/draft-hero:text-3xl lg:group-data-[inline=true]/draft-hero:tracking-tight">
+           <span className="min-w-0">{children}</span>
+-          <span className="hidden shrink-0 lg:group-data-[inline=true]/draft-hero:inline">?</span>
++          <span className="hidden shrink-0 lg:group-data-[inline=true]/draft-hero:inline">{buildInAfter}</span>
+         </span>
+       </h1>
+     </div>
 diff --git a/apps/web/src/components/settings/SettingsFontPreviews.tsx b/apps/web/src/components/settings/SettingsFontPreviews.tsx
-index 4715583e..357cb44f 100644
+index 4b4e345c..6342b36d 100644
 --- a/apps/web/src/components/settings/SettingsFontPreviews.tsx
 +++ b/apps/web/src/components/settings/SettingsFontPreviews.tsx
-@@ -5,6 +5,7 @@ import { EMPTY_COMPOSER_CONTEXT_RECORDS } from "../composerContextPresentation";
+@@ -6,6 +6,7 @@ import { EMPTY_COMPOSER_CONTEXT_RECORDS } from "../composerContextPresentation";
  import { terminalThemeFromApp } from "../ThreadTerminalDrawer";
- import { useTheme } from "../../hooks/useTheme";
+ import { useRenderedAppearance, useTheme } from "../../hooks/useTheme";
  import { DISCONNECTED_COMPOSER_PLACEHOLDER } from "../../composerPlaceholder";
 +import { translateFixed } from "~/newThreadDisplayStrings";
  import { resolveDiffThemeName, type DiffThemeName } from "../../lib/diffRendering";
  import { PREFERRED_HIGHLIGHTER } from "../../lib/syntaxHighlighting";
  import { GhosttyTerminalSurface } from "~/terminal/ghostty/surface";
-@@ -46,7 +47,7 @@ export function PromptFontPreview() {
+@@ -39,7 +40,7 @@ export function PromptFontPreview() {
          contextRecords={EMPTY_COMPOSER_CONTEXT_RECORDS}
-         skills={EMPTY_SKILLS}
+         skills={PREVIEW_SKILLS}
          disabled={false}
 -        placeholder={DISCONNECTED_COMPOSER_PLACEHOLDER}
 +        placeholder={translateFixed(DISCONNECTED_COMPOSER_PLACEHOLDER)}
@@ -426,10 +457,10 @@ index 4715583e..357cb44f 100644
          onChange={onChange}
          onPaste={noop}
 diff --git a/apps/web/src/hooks/useThreadActionMenu.ts b/apps/web/src/hooks/useThreadActionMenu.ts
-index 2fda0924..b7e7be8f 100644
+index 08ed2b24..5cacc11c 100644
 --- a/apps/web/src/hooks/useThreadActionMenu.ts
 +++ b/apps/web/src/hooks/useThreadActionMenu.ts
-@@ -47,6 +47,7 @@ import { useCopyToClipboard } from "./useCopyToClipboard";
+@@ -46,6 +46,7 @@ import { useCopyToClipboard } from "./useCopyToClipboard";
  import { useNewThreadHandler } from "./useHandleNewThread";
  import { useClientSettings } from "./useSettings";
  import { useThreadActions } from "./useThreadActions";
@@ -437,31 +468,31 @@ index 2fda0924..b7e7be8f 100644
 
  function failureToast(title: string, error: unknown) {
    toastManager.add(
-@@ -291,7 +292,7 @@ export function useThreadActionMenu(input: {
-           case "archive": {
-             if (confirmThreadArchive) {
-               const confirmed = await settlePromise(() =>
--                api.dialogs.confirm(`Archive thread "${thread.title}"?`),
-+                api.dialogs.confirm(`Archive thread "${displayDefaultName(thread.title)}"?`),
-               );
-               if (confirmed._tag === "Failure" || !confirmed.value) return;
-             }
-@@ -314,8 +315,8 @@ export function useThreadActionMenu(input: {
-               const confirmed = await settlePromise(() =>
-                 api.dialogs.confirm(
-                   [
--                    `Delete thread "${thread.title}"?`,
--                    "This permanently clears conversation history for this thread.",
-+                    fillSlot('Delete thread "', displayDefaultName(thread.title), '"?'),
-+                    translateFixed("This permanently clears conversation history for this thread."),
-                   ].join("\n"),
-                   { variant: "destructive" },
-                 ),
+@@ -269,7 +270,7 @@ export function useThreadActionMenu(input: {
+         case "archive": {
+           if (confirmThreadArchive) {
+             const confirmed = await settlePromise(() =>
+-              api.dialogs.confirm(`Archive thread "${thread.title}"?`),
++              api.dialogs.confirm(`Archive thread "${displayDefaultName(thread.title)}"?`),
+             );
+             if (confirmed._tag === "Failure" || !confirmed.value) return;
+           }
+@@ -292,8 +293,8 @@ export function useThreadActionMenu(input: {
+             const confirmed = await settlePromise(() =>
+               api.dialogs.confirm(
+                 [
+-                  `Delete thread "${thread.title}"?`,
+-                  "This permanently clears conversation history for this thread.",
++                  fillSlot('Delete thread "', displayDefaultName(thread.title), '"?'),
++                  translateFixed("This permanently clears conversation history for this thread."),
+                 ].join("\n"),
+                 { variant: "destructive" },
+               ),
 diff --git a/apps/web/src/hooks/useThreadActions.ts b/apps/web/src/hooks/useThreadActions.ts
-index b0093f4a..c1574afd 100644
+index 1c2f1f0f..dc406754 100644
 --- a/apps/web/src/hooks/useThreadActions.ts
 +++ b/apps/web/src/hooks/useThreadActions.ts
-@@ -59,6 +59,7 @@ import { useClientSettings } from "./useSettings";
+@@ -57,6 +57,7 @@ import { useClientSettings } from "./useSettings";
  import * as ThreadUndo from "./threadUndo";
  import { showThreadUndoNotice } from "./showThreadUndoNotice";
  import { useAtomCommand } from "../state/use-atom-command";
@@ -469,17 +500,17 @@ index b0093f4a..c1574afd 100644
  import { useOrchestrationCommand } from "../state/use-orchestration-command";
  import { useAtomQueryRunner } from "../state/use-atom-query-runner";
 
-@@ -988,8 +989,8 @@ export function useThreadActions() {
-         const confirmationResult = await settlePromise(() =>
-           localApi.dialogs.confirm(
-             [
--              `Delete thread "${title}"?`,
--              "This permanently clears conversation history for this thread.",
-+              fillSlot('Delete thread "', displayDefaultName(title), '"?'),
-+              translateFixed("This permanently clears conversation history for this thread."),
-             ].join("\n"),
-             { variant: "destructive" },
-           ),
+@@ -875,8 +876,8 @@ export function useThreadActions() {
+       const confirmationResult = await settlePromise(() =>
+         localApi.dialogs.confirm(
+           [
+-            `Delete thread "${title}"?`,
+-            "This permanently clears conversation history for this thread.",
++            fillSlot('Delete thread "', displayDefaultName(title), '"?'),
++            translateFixed("This permanently clears conversation history for this thread."),
+           ].join("\n"),
+           { variant: "destructive" },
+         ),
 diff --git a/apps/web/src/newThreadDisplayStrings.ts b/apps/web/src/newThreadDisplayStrings.ts
 new file mode 100644
 index 00000000..71aca95a

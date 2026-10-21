@@ -1,0 +1,334 @@
+# 0023-v011-display-strings.patch
+# v0.1.1 新增显示位置；复用固定骨架与槽位，不改协议、用户内容或设置数据。
+# 依赖0007、0009、0022，按文件名顺序应用。
+
+diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceDisplayStrings.ts
+index 7df343e5..fc1ce386 100644
+--- a/apps/web/src/acceptanceDisplayStrings.ts
++++ b/apps/web/src/acceptanceDisplayStrings.ts
+@@ -17,6 +17,7 @@ export const ACCEPTANCE_DISPLAY_LABELS: string[] = [
+   "Cloning repository",
+   "Repository not cloned",
+   "Select at least one model.",
++  "Copying files",
+   "Attachment still uploading",
+   "Attachments still uploading",
+   "Retry or remove the failed attachment",
+diff --git a/apps/web/src/components/AddProjectToMachineDialog.tsx b/apps/web/src/components/AddProjectToMachineDialog.tsx
+index 7d1748f9..349cfc8a 100644
+--- a/apps/web/src/components/AddProjectToMachineDialog.tsx
++++ b/apps/web/src/components/AddProjectToMachineDialog.tsx
+@@ -1,3 +1,5 @@
++import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
++import { fillDisplaySlots } from "~/stableDisplayStrings";
+ import { useParams } from "@tanstack/react-router";
+ import { scopeProjectRef } from "@t3tools/client-runtime/environment";
+ import {
+@@ -207,8 +209,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
+           <DialogHeader>
+             <DialogTitle>Add to another machine</DialogTitle>
+             <DialogDescription>
+-              Clone {project?.repositoryIdentity?.displayName ?? project?.title} and bring the local
+-              files git does not track.
++              {fillSlot("Clone ", project?.repositoryIdentity?.displayName ?? project?.title ?? "", " and bring the local files git does not track.")}
+             </DialogDescription>
+           </DialogHeader>
+           <DialogPanel>
+@@ -234,7 +235,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
+                 <span>
+                   {selectedFiles.size === 0
+                     ? "no files"
+-                    : `+ ${selectedFiles.size} ${selectedFiles.size === 1 ? "file" : "files"}`}
++                    : fillSlot("+ ", String(selectedFiles.size), selectedFiles.size === 1 ? " file" : " files")}
+                 </span>
+               </div>
+               <div className="flex min-w-0 flex-col gap-1">
+@@ -296,7 +297,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
+             </div>
+
+             <div className="flex flex-col gap-1.5">
+-              <Label htmlFor={`${id}-path`}>Folder on {target?.label ?? "the other machine"}</Label>
++              <Label htmlFor={`${id}-path`}>{fillSlot("Folder on ", target?.label ?? translateFixed("the other machine"), "")}</Label>
+               <Input
+                 id={`${id}-path`}
+                 value={destinationPath}
+@@ -313,7 +314,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
+                   {copyable.length > 0 ? (
+                     <>
+                       <span className="text-muted-foreground text-xs">
+-                        {selectedFiles.size} of {files.length}
++                        {fillDisplaySlots("\uE000 of \uE001", [selectedFiles.size, files.length])}
+                         {selectedBytes > 0 ? ` · ${formatBytes(selectedBytes)}` : ""}
+                       </span>
+                       <Button
+@@ -355,7 +356,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
+                 )}
+                 {ignoredFiles.data?.truncated ? (
+                   <p className="text-muted-foreground text-xs">
+-                    Showing the first {files.length} files.
++                    {fillSlot("Showing the first ", String(files.length), " files.")}
+                   </p>
+                 ) : null}
+                 <p className="text-muted-foreground text-xs">
+@@ -372,7 +373,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
+               Cancel
+             </Button>
+             <Button type="submit" disabled={unavailable || submitting}>
+-              {submitting ? "Starting…" : `Clone to ${target?.label ?? "machine"}`}
++              {submitting ? "Starting…" : fillSlot("Clone to ", target?.label ?? translateFixed("machine"), "")}
+             </Button>
+           </DialogFooter>
+         </form>
+diff --git a/apps/web/src/components/settings/ConnectionDiagnosisDetails.tsx b/apps/web/src/components/settings/ConnectionDiagnosisDetails.tsx
+index 6de31791..593d8fd9 100644
+--- a/apps/web/src/components/settings/ConnectionDiagnosisDetails.tsx
++++ b/apps/web/src/components/settings/ConnectionDiagnosisDetails.tsx
+@@ -1,3 +1,4 @@
++import { fillSlot } from "~/newThreadDisplayStrings";
+ import { useAtomValue } from "@effect/atom-react";
+ import {
+   AVAILABLE_CONNECTION_STATE,
+@@ -94,7 +95,7 @@ export function ConnectionDiagnosisSummary({
+       <p className="flex flex-wrap items-center gap-1 text-muted-foreground">
+         {retryAt !== null ? <RetryCountdown retryAt={retryAt} /> : null}
+         {retryAt !== null && attempt > 0 ? <span aria-hidden>·</span> : null}
+-        {attempt > 0 ? <span>attempt {attempt}</span> : null}
++        {attempt > 0 ? <span>{fillSlot("attempt ", String(attempt), "")}</span> : null}
+         {retryAt !== null || attempt > 0 ? <span aria-hidden>·</span> : null}
+         <button
+           type="button"
+diff --git a/apps/web/src/components/settings/DeviceHostsSettings.tsx b/apps/web/src/components/settings/DeviceHostsSettings.tsx
+index fb5a1b25..ca39e063 100644
+--- a/apps/web/src/components/settings/DeviceHostsSettings.tsx
++++ b/apps/web/src/components/settings/DeviceHostsSettings.tsx
+@@ -1,3 +1,4 @@
++import { fillSlot } from "~/newThreadDisplayStrings";
+ import { DeviceToolVersions } from "../device/DeviceToolVersions";
+ import { DeviceHostAvailability } from "../device/DeviceHostAvailability";
+ import { useAtomValue } from "@effect/atom-react";
+@@ -560,8 +561,7 @@ function DeviceHostList({
+                           retryHost(result.environmentId, result.host.id, result.environmentId)
+                         }
+                       >
+-                        {retrying === result.environmentId ? "Retrying" : "Retry"} from{" "}
+-                        {result.label}
++                        {fillSlot(retrying === result.environmentId ? "Retrying from " : "Retry from ", result.label, "")}
+                         {result.address ? ` (${result.address})` : null}
+                       </MenuItem>
+                     ))
+diff --git a/apps/web/src/components/settings/EasDeviceHostsSettings.tsx b/apps/web/src/components/settings/EasDeviceHostsSettings.tsx
+index f067848a..805907fb 100644
+--- a/apps/web/src/components/settings/EasDeviceHostsSettings.tsx
++++ b/apps/web/src/components/settings/EasDeviceHostsSettings.tsx
+@@ -1,3 +1,5 @@
++import { translateFixed } from "~/newThreadDisplayStrings";
++import { displayEasSessionLimits } from "~/v011DisplayStrings";
+ import { useEffect, useEffectEvent, useId, useRef, useState } from "react";
+ import * as Cause from "effect/Cause";
+ import * as Option from "effect/Option";
+@@ -29,7 +31,6 @@ import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "../
+ import { Spinner } from "../ui/spinner";
+ import { toastManager } from "../ui/toast";
+ import {
+-  easSessionLimits,
+   newEasDeviceHost,
+   parseEasDeviceHostDraft,
+   updateEasDeviceHosts,
+@@ -114,7 +115,7 @@ export function EasDeviceHostsSettings(props: { environmentId: EnvironmentId | n
+                   <p className="flex items-center gap-1.5 truncate font-medium">
+                     <CloudIcon className="size-3.5 shrink-0" /> {host.label}
+                   </p>
+-                  <p className="truncate text-xs text-muted-foreground">{easSessionLimits(host)}</p>
++                  <p className="truncate text-xs text-muted-foreground">{displayEasSessionLimits(host.maxConcurrentSessions, host.maxSessionMinutes, host.idleMinutes)}</p>
+                 </div>
+                 <div className="flex shrink-0 gap-1">
+                   <Button
+@@ -238,7 +239,7 @@ function EasDeviceHostEditor(props: {
+     max: number,
+   ) => (
+     <label className="block space-y-1.5">
+-      <span>{label}</span>
++      <span>{translateFixed(label)}</span>
+       <Input
+         type="number"
+         min={1}
+@@ -334,7 +335,7 @@ function EasDeviceHostEditor(props: {
+             <div className="flex items-center justify-between gap-3 rounded-lg border border-border/60 px-3 py-2.5">
+               <p role="status" className="min-w-0 text-xs text-muted-foreground">
+                 {account.status === "signed-in"
+-                  ? `Signed in as ${account.account.signedInAs} with ${CREDENTIAL_SOURCES[account.account.credentialSource]}.`
++                  ? `Signed in as ${account.account.signedInAs} with ${translateFixed(CREDENTIAL_SOURCES[account.account.credentialSource])}.`
+                   : account.status === "failed"
+                     ? account.error
+                     : account.status === "checking"
+@@ -348,7 +349,7 @@ function EasDeviceHostEditor(props: {
+                 disabled={props.busy || account.status === "checking"}
+                 onClick={() => void checkAccount()}
+               >
+-                {account.status === "checking" ? <Spinner size="xs" /> : null} Check account
++                {account.status === "checking" ? <Spinner size="xs" /> : null} {translateFixed("Check account")}
+               </Button>
+             </div>
+             <div className="space-y-1.5 text-sm">
+@@ -396,14 +397,12 @@ function EasDeviceHostEditor(props: {
+               {limit("idleMinutes", "Idle minutes", 60)}
+             </div>
+             <p className="text-xs text-muted-foreground">
+-              Expo allows sessions of up to 40 minutes on free accounts and 115 on paid ones, and
+-              ends one after the idle minutes without activity, so idle minutes must be smaller than
+-              session minutes.
+-              {props.isNew ? null : " Saving restarts this host, which stops its running sessions."}
++              {translateFixed("Expo allows sessions of up to 40 minutes on free accounts and 115 on paid ones, and ends one after the idle minutes without activity, so idle minutes must be smaller than session minutes.")}
++              {props.isNew ? null : translateFixed(" Saving restarts this host, which stops its running sessions.")}
+             </p>
+             {problem === null ? null : (
+               <p className="text-xs text-destructive" role="alert">
+-                {problem}
++                {translateFixed(problem)}
+               </p>
+             )}
+           </DialogPanel>
+@@ -412,7 +411,7 @@ function EasDeviceHostEditor(props: {
+               Cancel
+             </Button>
+             <Button type="submit" disabled={props.busy || !valid}>
+-              {props.busy ? <Spinner size="xs" /> : null} Save host
++              {props.busy ? <Spinner size="xs" /> : null} {translateFixed("Save host")}
+             </Button>
+           </DialogFooter>
+         </form>
+diff --git a/apps/web/src/components/settings/MobileAppSettingsRow.tsx b/apps/web/src/components/settings/MobileAppSettingsRow.tsx
+index 62f4332a..20c76d53 100644
+--- a/apps/web/src/components/settings/MobileAppSettingsRow.tsx
++++ b/apps/web/src/components/settings/MobileAppSettingsRow.tsx
+@@ -1,3 +1,4 @@
++import { fillSlot } from "~/newThreadDisplayStrings";
+ import { AndroidIcon, AppleIcon } from "../Icons";
+ import { Button } from "../ui/button";
+ import { Popover, PopoverPopup, PopoverTitle, PopoverTrigger } from "../ui/popover";
+@@ -51,7 +52,7 @@ export function MobileAppSettingsRow() {
+                     variant="outline"
+                     render={<a href={url} target="_blank" rel="noreferrer noopener" />}
+                   >
+-                    Open {store}
++                    {fillSlot("Open ", store, "")}
+                   </Button>
+                 </div>
+               </PopoverPopup>
+diff --git a/apps/web/src/components/settings/ScheduledTasksSettings.tsx b/apps/web/src/components/settings/ScheduledTasksSettings.tsx
+index 3180be82..56460806 100644
+--- a/apps/web/src/components/settings/ScheduledTasksSettings.tsx
++++ b/apps/web/src/components/settings/ScheduledTasksSettings.tsx
+@@ -1,3 +1,4 @@
++import { displayWebhookFilterError, displayWebhookDeliveryStatus } from "~/v011DisplayStrings";
+ import { displayKnown } from "~/acceptanceDisplayStrings";
+ import { useAtomValue } from "@effect/atom-react";
+ import { connectionStatusTitle } from "@t3tools/client-runtime/connection";
+@@ -850,7 +851,7 @@ function WebhookDeliveriesDialog({
+                     selected.pendingWindow ? "coalesced" : selected.outcome,
+                   )}
+                 >
+-                  {webhookDeliveryLabel(selected)}
++                  {displayWebhookDeliveryStatus(selected.outcome, webhookDeliveryLabel(selected))}
+                 </Badge>
+                 <span>
+                   {selected.method} · <ScheduledRelativeLabel value={selected.receivedAt} />
+@@ -915,7 +916,7 @@ function WebhookDeliveriesDialog({
+                         delivery.pendingWindow ? "coalesced" : delivery.outcome,
+                       )}
+                     >
+-                      {webhookDeliveryLabel(delivery)}
++                      {displayWebhookDeliveryStatus(delivery.outcome, webhookDeliveryLabel(delivery))}
+                     </Badge>
+                     <span>{delivery.method}</span>
+                     <span className="text-muted-foreground">
+@@ -1201,7 +1202,7 @@ function ScheduledTaskEditorForm({
+     }
+     const parsedFilters = parseWebhookFilterDrafts(draft.filters);
+     if (draft.scheduleMode === "webhook" && "error" in parsedFilters) {
+-      reportFailure("Invalid filter", parsedFilters.error);
++      reportFailure("Invalid filter", displayWebhookFilterError(parsedFilters.error));
+       return;
+     }
+     const schedule = scheduleFromDraft(draft);
+diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/components/usage/UsageLimitsPooled.tsx
+index f16bdd1b..18914955 100644
+--- a/apps/web/src/components/usage/UsageLimitsPooled.tsx
++++ b/apps/web/src/components/usage/UsageLimitsPooled.tsx
+@@ -1,3 +1,5 @@
++import { fillSlot } from "~/newThreadDisplayStrings";
++import { displayUsageAccountSummary } from "~/v011DisplayStrings";
+ import { displayKnown } from "~/acceptanceDisplayStrings";
+ import {
+   CHATGPT_USAGE_URL,
+@@ -191,7 +193,7 @@ function SegmentPopover({
+             {resetsIn ? ` · ${resetsIn.replace("resets in ", "in ")}` : ""}
+           </Row>
+         ) : null}
+-        {timeLeft !== null ? <Row label="Even pace">{timeLeft}% left by now</Row> : null}
++        {timeLeft !== null ? <Row label="Even pace">{fillSlot("", String(timeLeft), "% left by now")}</Row> : null}
+         {reset && reset.restoresPercent > 0 ? (
+           <Row label="Restores">+{reset.restoresPercent}%</Row>
+         ) : null}
+@@ -352,7 +354,7 @@ function SegmentTriggers({
+             ref={segmentRef}
+             type="button"
+             style={paceMark?.gappedTrack}
+-            aria-label={`${account.displayName ?? (account.email ? accountInitials(account.email) : account.driver)}: ${remaining}% left${resetsIn ? `, ${resetsIn}` : ""}${timeLeft === null ? "" : `, ${timeLeft}% of the window left`}${credits ? `, ${credits} reset ${credits === 1 ? "credit" : "credits"} banked` : ""}`}
++            aria-label={displayUsageAccountSummary(account.displayName ?? (account.email ? accountInitials(account.email) : account.driver), remaining, resetsIn, timeLeft, credits)}
+             className="relative h-6 w-full min-w-0 cursor-pointer text-start outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-[popup-open]:ring-1 data-[popup-open]:ring-inset data-[popup-open]:ring-border"
+           />
+         }
+diff --git a/apps/web/src/lib/addProjectToMachine.ts b/apps/web/src/lib/addProjectToMachine.ts
+index 367420c4..8636ecaf 100644
+--- a/apps/web/src/lib/addProjectToMachine.ts
++++ b/apps/web/src/lib/addProjectToMachine.ts
+@@ -219,7 +219,9 @@ export async function addProjectToMachine(input: AddProjectToMachineInput): Prom
+         ? null
+         : {
+             phase: "failed",
+-            title: `Could not copy ${failed.length} ${failed.length === 1 ? "file" : "files"} to ${input.target.label}`,
++            title: failed.length === 1
++              ? `Could not copy ${failed.length} file to ${input.target.label}`
++              : `Could not copy ${failed.length} files to ${input.target.label}`,
+             failures: failed,
+           },
+     );
+diff --git a/apps/web/src/v011DisplayStrings.ts b/apps/web/src/v011DisplayStrings.ts
+new file mode 100644
+index 00000000..0f3692e3
+--- /dev/null
++++ b/apps/web/src/v011DisplayStrings.ts
+@@ -0,0 +1,32 @@
++import { fillSlot, translateFixed } from "./newThreadDisplayStrings";
++import { fillDisplaySlots } from "./stableDisplayStrings";
++
++// All arguments remain raw data. Only fixed display fragments enter the dictionary.
++export function displayUsageAccountSummary(
++  account: string, remaining: number, resetsIn: string | null, timeLeft: number | null, credits: number,
++): string {
++  return `${account}: ${fillSlot("", String(remaining), "% left")}${resetsIn ? `, ${resetsIn}` : ""}${timeLeft === null ? "" : `, ${fillSlot("", String(timeLeft), "% of the window left")}`}${credits ? `, ${fillSlot("", String(credits), credits === 1 ? " reset credit banked" : " reset credits banked")}` : ""}`;
++}
++
++export function displayEasSessionLimits(sessions: number, minutes: number, idleMinutes: number): string {
++  return fillDisplaySlots(
++    sessions === 1
++      ? "Up to \uE000 session at once, each stopped after \uE001 min or \uE002 idle min"
++      : "Up to \uE000 sessions at once, each stopped after \uE001 min or \uE002 idle min",
++    [sessions, minutes, idleMinutes],
++  );
++}
++
++// Only the four numeric forms emitted by the local parseWebhookFilterDrafts validator.
++export function displayWebhookFilterError(value: string): string {
++  const limit = /^Use at most (\d+) filters\.$/.exec(value);
++  if (limit) return fillSlot("Use at most ", limit[1]!, " filters.");
++  const row = /^Filter (\d+) needs a path under body, headers or query(\.|, and at least one value\.|, and a value\.)$/.exec(value);
++  return row ? fillSlot("Filter ", row[1]!, ` needs a path under body, headers or query${row[2]}`) : value;
++}
++
++export function displayWebhookDeliveryStatus(outcome: string, label: string): string {
++  return (outcome === "coalesced" && label === "Coalesced") || (outcome === "filtered" && label === "Filtered")
++    ? translateFixed(label)
++    : label;
++}

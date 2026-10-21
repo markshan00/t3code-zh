@@ -1,13 +1,13 @@
 # n2761 新增显示路径：文件上传、外部 Agent 登录、GitHub 账户、权限错误与浏览器资料清理。
-# 基线：v0.1.0；按序在 0012 之后普通 git apply。
+# 基线：v0.1.1；按序在 0012 之后普通 git apply。
 # 任意主机名、账户错误、环境变量和资料名不交给 t()；英文显示与原版一致。
 # n2774 移植：上游删除了 ChatView 的「Resume with less context」横幅，原先包在其提示里的 compactDisabledReason 显示点随之去掉；同一文字仍在 ContextWindowMeter 显示处翻译。
 
 diff --git a/apps/web/src/browser/ServerBrowserSurface.tsx b/apps/web/src/browser/ServerBrowserSurface.tsx
-index b8f40359..918140ca 100644
+index 27ae15e5..18c037f2 100644
 --- a/apps/web/src/browser/ServerBrowserSurface.tsx
 +++ b/apps/web/src/browser/ServerBrowserSurface.tsx
-@@ -40,6 +40,7 @@ import { Button } from "~/components/ui/button";
+@@ -39,6 +39,7 @@ import { Button } from "~/components/ui/button";
  import { Input } from "~/components/ui/input";
  import { toastManager } from "~/components/ui/toast";
  import { cn } from "~/lib/utils";
@@ -15,7 +15,7 @@ index b8f40359..918140ca 100644
  import { refreshPreviewStreamAccess, usePreviewStreamAccess } from "~/state/previewStream";
  import { observeResize } from "~/lib/observeResize";
 
-@@ -819,7 +820,7 @@ export function ServerBrowserSurface(props: {
+@@ -799,7 +800,7 @@ export function ServerBrowserSurface(props: {
              aria-label="Choose files for the page"
            >
              <p className="text-sm">
@@ -24,7 +24,7 @@ index b8f40359..918140ca 100644
              </p>
              <input
                ref={fileInputRef}
-@@ -838,7 +839,7 @@ export function ServerBrowserSurface(props: {
+@@ -818,7 +819,7 @@ export function ServerBrowserSurface(props: {
                  Cancel
                </Button>
                <Button size="sm" onClick={() => fileInputRef.current?.click()}>
@@ -34,17 +34,18 @@ index b8f40359..918140ca 100644
              </div>
            </div>
 diff --git a/apps/web/src/components/ChatView.tsx b/apps/web/src/components/ChatView.tsx
-index f8766398..56dbaef1 100644
+index 1f9eb813..04c7df83 100644
 --- a/apps/web/src/components/ChatView.tsx
 +++ b/apps/web/src/components/ChatView.tsx
-@@ -1,5 +1,6 @@
+@@ -2,6 +2,7 @@ import { formatFilePathForClipboard } from "@t3tools/client-runtime/media-action
+ import { resolvePathLinkTarget } from "@t3tools/shared/fileLinks";
  import { ThreadFind, ThreadFindCanvas, type ThreadFindControls } from "./chat/ThreadFindProvider";
  import { THREAD_FIND_BAR_RESERVED_HEIGHT } from "./chat/ThreadFindBar";
 +import { displayConnectionPermissionError } from "~/connectionPermissionDisplayStrings";
  import { usageLimitRecoveryBannerItem } from "./chat/UsageLimitRecoveryBanner";
  import {
-   resolveBackgroundDraftWorkspaceOptions,
-@@ -11236,7 +11237,7 @@ export default function ChatView(props: ChatViewProps) {
+   isThreadWokeUnseen,
+@@ -8192,7 +8193,7 @@ export default function ChatView(props: ChatViewProps) {
                  onOpenProviderSetup={openProviderSetupStable}
                />
                <ThreadErrorBanner
@@ -54,7 +55,7 @@ index f8766398..56dbaef1 100644
                    localServerError === null && visibleThreadError === serverRuntime?.lastError
                      ? (serverRuntime?.lastErrorClass ?? null)
 diff --git a/apps/web/src/components/CommandPalette.tsx b/apps/web/src/components/CommandPalette.tsx
-index e5978f21..a763048a 100644
+index 0e17a59b..cfa8580d 100644
 --- a/apps/web/src/components/CommandPalette.tsx
 +++ b/apps/web/src/components/CommandPalette.tsx
 @@ -1,4 +1,5 @@
@@ -63,7 +64,7 @@ index e5978f21..a763048a 100644
  import { displayKnown } from "~/acceptanceDisplayStrings";
 
  import { threadPullRequestLinkMode } from "@t3tools/client-runtime/thread-pull-request-compatibility";
-@@ -3598,7 +3599,7 @@ function OpenCommandPaletteDialog(props: {
+@@ -3321,7 +3322,7 @@ function OpenCommandPaletteDialog(props: {
        ) : null}
        {browseAccessError ? (
          <div role="alert" className="px-4 py-3 text-sm text-muted-foreground">
@@ -73,11 +74,11 @@ index e5978f21..a763048a 100644
        ) : isBrowsePending && browseResult === null ? (
          <div role="status" className="px-4 py-3 text-sm text-muted-foreground">
 diff --git a/apps/web/src/components/GitActionsControl.tsx b/apps/web/src/components/GitActionsControl.tsx
-index 2fcc25aa..8c46239a 100644
+index 332f2e60..97f2f023 100644
 --- a/apps/web/src/components/GitActionsControl.tsx
 +++ b/apps/web/src/components/GitActionsControl.tsx
-@@ -1255,7 +1255,7 @@ export default function GitActionsControl({
-     [gitStatusForActions, hasPrimaryRemote, isDefaultRef, isGitActionRunning],
+@@ -1201,7 +1201,7 @@ export default function GitActionsControl({
+     hasPrimaryRemote,
    );
    const quickActionDisabledReason = !canWriteSourceControl
 -    ? "This connection cannot change source control."
@@ -86,10 +87,10 @@ index 2fcc25aa..8c46239a 100644
        ? localizeTerminologyText(quickAction.hint ?? "This action is currently unavailable.", changeRequestTerminology)
        : null;
 diff --git a/apps/web/src/components/auth/ConnectAgentSurface.tsx b/apps/web/src/components/auth/ConnectAgentSurface.tsx
-index b3ad9cd1..dd89dc80 100644
+index f56a65e9..cf484be2 100644
 --- a/apps/web/src/components/auth/ConnectAgentSurface.tsx
 +++ b/apps/web/src/components/auth/ConnectAgentSurface.tsx
-@@ -16,6 +16,7 @@ import { type ReactNode, useCallback, useEffect, useState } from "react";
+@@ -16,6 +16,7 @@ import { type ReactNode, useEffect, useState } from "react";
  import { PrimaryEnvironmentHttpClient } from "~/environments/primary/httpClient";
  import { runPrimaryHttp } from "~/lib/runtime";
  import { cn } from "~/lib/utils";
@@ -97,7 +98,7 @@ index b3ad9cd1..dd89dc80 100644
  import { runtimeModeConfig } from "../chat/runtimeModeConfig";
  import { Alert, AlertDescription } from "../ui/alert";
  import { Button } from "../ui/button";
-@@ -196,8 +197,7 @@ export function ConnectAgentSurface() {
+@@ -179,8 +180,7 @@ export function ConnectAgentSurface() {
        <p className="mt-2 text-xs text-muted-foreground">
          {redirectsToThisComputer(details.redirectHost) ? (
            <>
@@ -108,16 +109,16 @@ index b3ad9cd1..dd89dc80 100644
          ) : (
            <>
 diff --git a/apps/web/src/components/chat/ChatComposer.tsx b/apps/web/src/components/chat/ChatComposer.tsx
-index aa0bbabc..0ddbaa47 100644
+index a7fc1dee..f4de2773 100644
 --- a/apps/web/src/components/chat/ChatComposer.tsx
 +++ b/apps/web/src/components/chat/ChatComposer.tsx
 @@ -1,4 +1,5 @@
  import { formatProviderSkillDisplayName } from "@t3tools/shared/inlineSkills";
 +import { displayConnectionPermissionError } from "~/connectionPermissionDisplayStrings";
  import { useComposerTypingGuard } from "./useComposerTypingGuard";
+ import { insertAttachmentReferencesForDraft } from "./composerAttachmentReferences";
  import { DESKTOP_PASTE_AS_TEXT_EVENT } from "../../lib/desktopPasteAsText";
- import { runtimeModeConfig, runtimeModeOptions as runtimeModes } from "./runtimeModeConfig";
-@@ -7165,7 +7166,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+@@ -6897,7 +6898,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
                                  >
                                    <RefreshIcon />
                                  </TooltipTrigger>
@@ -125,8 +126,8 @@ index aa0bbabc..0ddbaa47 100644
 +                                <TooltipPopup side="top">{displayConnectionPermissionError(upload.reason)}</TooltipPopup>
                                </Tooltip>
                              )}
-                             {/* Snap-shot frames reveal their remove button on hover or focus. */}
-@@ -7265,7 +7266,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+                             <span
+@@ -6996,7 +6997,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
                                >
                                  <RefreshIcon />
                                </TooltipTrigger>
@@ -135,7 +136,7 @@ index aa0bbabc..0ddbaa47 100644
                              </Tooltip>
                            )}
                            <Button
-@@ -7344,7 +7345,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+@@ -7075,7 +7076,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
                                >
                                  <RefreshIcon />
                                </TooltipTrigger>
@@ -145,7 +146,7 @@ index aa0bbabc..0ddbaa47 100644
                            ) : null}
                            <Button
 diff --git a/apps/web/src/components/chat/ComposerPrimaryActions.tsx b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
-index 2eb7dbba..9a8a8f1f 100644
+index 14ae5d26..91d8ed2a 100644
 --- a/apps/web/src/components/chat/ComposerPrimaryActions.tsx
 +++ b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
 @@ -1,3 +1,4 @@
@@ -153,7 +154,7 @@ index 2eb7dbba..9a8a8f1f 100644
  import { displayKnown } from "~/acceptanceDisplayStrings";
  import { memo, type MouseEventHandler, type PointerEventHandler } from "react";
  import { CheckIcon, ChevronDownIcon, ChevronLeftIcon, Minimize2Icon, PlayIcon } from "lucide-react";
-@@ -326,7 +327,7 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
+@@ -325,7 +326,7 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
          isEnvironmentUnavailable ||
          (!hasSendableContent && !showResume)
        }
@@ -162,7 +163,7 @@ index 2eb7dbba..9a8a8f1f 100644
      >
        {stageBackdropVariant ? (
          <span className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-@@ -358,7 +359,7 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
+@@ -357,7 +358,7 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
    const submit = (
      <Tooltip key="submit">
        <TooltipTrigger render={<span className="inline-flex" />}>{sendButton}</TooltipTrigger>
@@ -172,7 +173,7 @@ index 2eb7dbba..9a8a8f1f 100644
    );
    if (compactTokens === null) return submit;
 diff --git a/apps/web/src/components/chat/ContextWindowMeter.tsx b/apps/web/src/components/chat/ContextWindowMeter.tsx
-index 5c9fc8bb..4fe33b74 100644
+index e7f4042f..6daa3fba 100644
 --- a/apps/web/src/components/chat/ContextWindowMeter.tsx
 +++ b/apps/web/src/components/chat/ContextWindowMeter.tsx
 @@ -1,3 +1,4 @@
@@ -190,7 +191,7 @@ index 5c9fc8bb..4fe33b74 100644
                ) : null}
              </>
 diff --git a/apps/web/src/components/files/FileBrowserPanel.tsx b/apps/web/src/components/files/FileBrowserPanel.tsx
-index d9722303..c8847ddc 100644
+index 94b36844..0971b5da 100644
 --- a/apps/web/src/components/files/FileBrowserPanel.tsx
 +++ b/apps/web/src/components/files/FileBrowserPanel.tsx
 @@ -1,3 +1,5 @@
@@ -199,7 +200,7 @@ index d9722303..c8847ddc 100644
  import { RefreshIcon } from "~/components/ui/refresh-icon";
  import type {
    ContextMenuItem as TreeContextMenuItem,
-@@ -550,7 +552,7 @@ export default function FileBrowserPanel({
+@@ -557,7 +559,7 @@ export default function FileBrowserPanel({
            onClick={handleRefresh}
            className="p-4 text-left text-xs leading-relaxed text-destructive"
          >
@@ -209,7 +210,7 @@ index d9722303..c8847ddc 100644
        ) : null}
        {query.trim() && pathSearch.truncated && !pathSearch.isPending ? (
 diff --git a/apps/web/src/components/onboarding/WelcomeWizard.tsx b/apps/web/src/components/onboarding/WelcomeWizard.tsx
-index 0ff28b81..942aee8c 100644
+index 409423e3..d849c144 100644
 --- a/apps/web/src/components/onboarding/WelcomeWizard.tsx
 +++ b/apps/web/src/components/onboarding/WelcomeWizard.tsx
 @@ -1,3 +1,4 @@
@@ -217,7 +218,7 @@ index 0ff28b81..942aee8c 100644
  import { useAuth } from "@clerk/react";
  import { useAtomValue } from "@effect/atom-react";
  import type {
-@@ -1541,7 +1542,7 @@ function ImportStep({
+@@ -1506,7 +1507,7 @@ function ImportStep({
          </div>
        </ScrollArea>
        {visibleImportError ? (
@@ -227,7 +228,7 @@ index 0ff28b81..942aee8c 100644
        <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
          <Button variant="ghost-muted" disabled={isImporting} onClick={finishAfterImport}>
 diff --git a/apps/web/src/components/projectScriptEditor.tsx b/apps/web/src/components/projectScriptEditor.tsx
-index 6db7e296..73036255 100644
+index b3ea5301..7489d03f 100644
 --- a/apps/web/src/components/projectScriptEditor.tsx
 +++ b/apps/web/src/components/projectScriptEditor.tsx
 @@ -19,6 +19,7 @@ import {
@@ -238,17 +239,17 @@ index 6db7e296..73036255 100644
  import React, {
    type FormEvent,
    type KeyboardEvent,
-@@ -468,7 +469,7 @@ export function ProjectScriptEditorDialog({
-                     onCheckedChange={(checked) => setAutoOpenPreview(Boolean(checked))}
-                   />
-                 </label>
--                {validationError && <p className="text-sm text-destructive">{validationError}</p>}
-+                {validationError && <p className="text-sm text-destructive">{displayConnectionPermissionError(validationError)}</p>}
-               </fieldset>
-             </form>
-           </DialogPanel>
+@@ -545,7 +546,7 @@ function ProjectScriptEditorForm({
+                 onCheckedChange={(checked) => setAutoOpenPreview(Boolean(checked))}
+               />
+             </label>
+-            {validationError && <p className="text-sm text-destructive">{validationError}</p>}
++            {validationError && <p className="text-sm text-destructive">{displayConnectionPermissionError(validationError)}</p>}
+           </fieldset>
+         </form>
+       </DialogPanel>
 diff --git a/apps/web/src/components/search/ProjectContentSearchDialog.tsx b/apps/web/src/components/search/ProjectContentSearchDialog.tsx
-index 4dd38e6d..f390d884 100644
+index 9b31de0c..aa4ff754 100644
 --- a/apps/web/src/components/search/ProjectContentSearchDialog.tsx
 +++ b/apps/web/src/components/search/ProjectContentSearchDialog.tsx
 @@ -1,3 +1,4 @@
@@ -256,7 +257,7 @@ index 4dd38e6d..f390d884 100644
  import { Spinner } from "~/components/ui/spinner";
  import { AuthFilesystemReadScope, type ProjectContentMatch } from "@t3tools/contracts";
 
-@@ -240,7 +241,7 @@ function OpenContentSearchDialog(props: {
+@@ -238,7 +239,7 @@ function OpenContentSearchDialog(props: {
                <Spinner size="sm" /> Searching…
              </span>
            ) : search.error ? (
@@ -266,7 +267,7 @@ index 4dd38e6d..f390d884 100644
              <span className="text-destructive">Invalid regular expression</span>
            ) : (
 diff --git a/apps/web/src/components/settings/GitHubAccountSettings.tsx b/apps/web/src/components/settings/GitHubAccountSettings.tsx
-index 9ca6caa0..6aa58f9c 100644
+index cc628b85..b6438a4a 100644
 --- a/apps/web/src/components/settings/GitHubAccountSettings.tsx
 +++ b/apps/web/src/components/settings/GitHubAccountSettings.tsx
 @@ -1,6 +1,7 @@
@@ -277,7 +278,7 @@ index 9ca6caa0..6aa58f9c 100644
 
  import { useEnvironmentSettings } from "../../hooks/useSettings";
  import { serverEnvironment } from "../../state/server";
-@@ -149,7 +150,7 @@ export function GitHubAccountSettings({
+@@ -137,7 +138,7 @@ export function GitHubAccountSettings({
                          {(value: string) =>
                            value === ACTIVE_ACCOUNT ? (
                              <span className="flex min-w-0 items-center gap-1">
@@ -286,7 +287,7 @@ index 9ca6caa0..6aa58f9c 100644
                                {group.activeAccount ? (
                                  <>
                                    (
-@@ -170,7 +171,7 @@ export function GitHubAccountSettings({
+@@ -158,7 +159,7 @@ export function GitHubAccountSettings({
                      <SelectPopup align="end" alignItemWithTrigger={false}>
                        <SelectItem value={ACTIVE_ACCOUNT}>
                          <span className="flex min-w-0 items-center gap-1">
@@ -295,7 +296,7 @@ index 9ca6caa0..6aa58f9c 100644
                            {group.activeAccount ? (
                              <>
                                (<RedactedLogin revealed={revealed} account={group.activeAccount} />)
-@@ -213,13 +214,12 @@ export function GitHubAccountSettings({
+@@ -201,13 +202,12 @@ export function GitHubAccountSettings({
                  className="flex min-w-0 flex-wrap items-center gap-1 text-xs text-muted-foreground/70"
                >
                  <RedactedLogin revealed={revealed} account={entry.account} />
@@ -312,7 +313,7 @@ index 9ca6caa0..6aa58f9c 100644
              ) : null}
            </div>
 diff --git a/apps/web/src/components/settings/IntegrationsSettings.tsx b/apps/web/src/components/settings/IntegrationsSettings.tsx
-index c375ee91..523ea4f8 100644
+index 388c513c..7c6e8182 100644
 --- a/apps/web/src/components/settings/IntegrationsSettings.tsx
 +++ b/apps/web/src/components/settings/IntegrationsSettings.tsx
 @@ -1,4 +1,5 @@
@@ -321,7 +322,7 @@ index c375ee91..523ea4f8 100644
  import { DeviceToolVersions } from "../device/DeviceToolVersions";
  import { useScopedSettings, useUpdateScopedSettings } from "./useScopedSettings";
  import { ScopedSwitch } from "./ScopedSwitch";
-@@ -1489,7 +1490,7 @@ function BrowserProfilesSetting({ disabled }: { readonly disabled: boolean }) {
+@@ -1557,7 +1558,7 @@ function BrowserProfilesSetting({ disabled }: { readonly disabled: boolean }) {
          <AlertDialogPopup>
            <AlertDialogHeader>
              <AlertDialogTitle>
@@ -331,7 +332,7 @@ index c375ee91..523ea4f8 100644
              <AlertDialogDescription>
                You are signed out of its sites. Server browser tabs open in this profile close now.
 diff --git a/apps/web/src/components/settings/ProjectSettingsPanel.tsx b/apps/web/src/components/settings/ProjectSettingsPanel.tsx
-index 2ad856e1..cd40f7a9 100644
+index b9a29197..716aefba 100644
 --- a/apps/web/src/components/settings/ProjectSettingsPanel.tsx
 +++ b/apps/web/src/components/settings/ProjectSettingsPanel.tsx
 @@ -1,3 +1,4 @@
@@ -339,12 +340,12 @@ index 2ad856e1..cd40f7a9 100644
  import { useComposerMenuState } from "../chat/useComposerMenuState";
  import { useOrchestrationCommand } from "../../state/use-orchestration-command";
  import { AuthOrchestrationOperateScope } from "@t3tools/contracts";
-@@ -203,14 +204,14 @@ function ProjectDetail({
+@@ -202,14 +203,14 @@ function ProjectDetail({
        ? window.desktopBridge?.pickProjectFavicon
        : undefined;
 
--  const reportFailure = useCallback((title: string, result: AtomCommandResult<void, unknown>) => {
-+  const reportFailure = useCallback((title: string, result: AtomCommandResult<void, unknown>, displayDescription?: string) => {
+-  const reportFailure = (title: string, result: AtomCommandResult<void, unknown>) => {
++  const reportFailure = (title: string, result: AtomCommandResult<void, unknown>, displayDescription?: string) => {
      if (result._tag !== "Failure" || isAtomCommandInterrupted(result)) return;
      const error = squashAtomCommandFailure(result);
      toastManager.add(
@@ -355,18 +356,18 @@ index 2ad856e1..cd40f7a9 100644
 +        description: displayDescription ?? (error instanceof Error ? error.message : "An error occurred."),
        }),
      );
-   }, []);
-@@ -228,7 +229,7 @@ function ProjectDetail({
-           ),
+   };
+@@ -229,7 +230,7 @@ function ProjectDetail({
          ),
-       );
--      reportFailure(failureTitle, result);
-+      reportFailure(failureTitle, result, fillSlot("This connection cannot change projects in ", denied.environmentLabel ?? translateFixed("this environment"), "."));
-       return result;
-     },
-     [reportFailure],
+       ),
+     );
+-    reportFailure(failureTitle, result);
++    reportFailure(failureTitle, result, fillSlot("This connection cannot change projects in ", denied.environmentLabel ?? translateFixed("this environment"), "."));
+     return result;
+   };
+
 diff --git a/apps/web/src/components/settings/settingsLayout.tsx b/apps/web/src/components/settings/settingsLayout.tsx
-index 27c6a8fe..f05cddc6 100644
+index 3d6abb71..91e7553a 100644
 --- a/apps/web/src/components/settings/settingsLayout.tsx
 +++ b/apps/web/src/components/settings/settingsLayout.tsx
 @@ -1,3 +1,4 @@
@@ -374,7 +375,7 @@ index 27c6a8fe..f05cddc6 100644
  import { SettingsGroup } from "./SettingsGroup";
  import { AuthSettingsWriteScope } from "@t3tools/contracts";
  import { usePrimaryEnvironmentId, usePrimaryEnvironment } from "../../state/environments";
-@@ -396,14 +397,14 @@ export function SettingsRow({
+@@ -410,14 +411,14 @@ export function SettingsRow({
      unavailable && control
        ? inertControl(
            !canWriteSettings
@@ -414,32 +415,29 @@ index 00000000..2f95275f
 +  return (globalThis.__t3zh?.t?.(value) ?? value) as T;
 +}
 diff --git a/apps/web/src/hooks/useSettings.ts b/apps/web/src/hooks/useSettings.ts
-index 027373a4..1eec8972 100644
+index 9ea16d4e..21880829 100644
 --- a/apps/web/src/hooks/useSettings.ts
 +++ b/apps/web/src/hooks/useSettings.ts
-@@ -9,6 +9,7 @@
-  * access is intentionally named as such so environment-sensitive consumers
-  * cannot silently read the wrong server's settings.
-  */
+@@ -1,3 +1,4 @@
 +import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
- import { useCallback, useEffect, useMemo, useRef, useSyncExternalStore, use } from "react";
+ import { useEffect, useRef, useSyncExternalStore, use } from "react";
+ import { useSyncExternalStoreWithSelector } from "use-sync-external-store/with-selector";
  import { RegistryContext, useAtomValue } from "@effect/atom-react";
- import {
-@@ -675,7 +676,7 @@ function useUpdateSettingsTarget(environmentId: EnvironmentId | null) {
-         toastManager.add({
-           type: "warning",
-           title: "Setting not saved",
--          description: `This connection lacks permission to change settings on ${environments.find((target) => target.environmentId === environmentId)?.label ?? "the selected environment"}.`,
-+          description: fillSlot("This connection lacks permission to change settings on ", environments.find((target) => target.environmentId === environmentId)?.label ?? "the selected environment", "."),
-         });
-       }
-       if (Object.keys(serverPatch).length > 0 && canWriteServerPatch) {
-@@ -735,7 +736,7 @@ function useUpdateSettingsTarget(environmentId: EnvironmentId | null) {
-           if (writes.length === 0) {
-             warnUnsaved(
-               deniedLabels.length > 0
--                ? `This connection lacks permission to change settings on ${deniedLabels.join(", ")}.`
-+                ? fillSlot("This connection lacks permission to change settings on ", deniedLabels.join(", "), ".")
-                 : targets.size > 0
-                   ? "Update older servers to save this setting."
-                   : undefined,
+@@ -628,7 +629,7 @@ function useUpdateSettingsTarget(environmentId: EnvironmentId | null) {
+       toastManager.add({
+         type: "warning",
+         title: "Setting not saved",
+-        description: `This connection lacks permission to change settings on ${environments.find((target) => target.environmentId === environmentId)?.label ?? "the selected environment"}.`,
++        description: fillSlot("This connection lacks permission to change settings on ", environments.find((target) => target.environmentId === environmentId)?.label ?? "the selected environment", "."),
+       });
+     }
+     if (Object.keys(serverPatch).length > 0 && canWriteServerPatch) {
+@@ -687,7 +688,7 @@ function useUpdateSettingsTarget(environmentId: EnvironmentId | null) {
+         if (writes.length === 0) {
+           warnUnsaved(
+             deniedLabels.length > 0
+-              ? `This connection lacks permission to change settings on ${deniedLabels.join(", ")}.`
++              ? fillSlot("This connection lacks permission to change settings on ", deniedLabels.join(", "), ".")
+               : targets.size > 0
+                 ? "Update older servers to save this setting."
+                 : undefined,

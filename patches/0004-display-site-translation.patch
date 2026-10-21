@@ -1,7 +1,7 @@
 # 0004-display-site-translation.patch
 #
 # 显示位置补译：给那些同时被代码当作「值」比较/查表、因而转换插件不能包裹的界面文字
-# 补一层只在渲染处生效的翻译。基线 v0.1.0，须在 0001 之后应用
+# 补一层只在渲染处生效的翻译。基线 v0.1.1，须在 0001 之后应用
 # （依赖 0001 给 Window 补的 __t3zh 声明，本补丁把它扩上 t() 并补一个全局 var 声明）。
 #
 # 背景（handoff/T05.md「已知问题」第 2 条、dict/T05-changes.md §5.2）：有 16 条文字既被渲染、
@@ -68,7 +68,7 @@
 #
 # 上游更新后重做方法见 patches/README.md。
 diff --git a/apps/desktop/src/electron/ElectronMenu.ts b/apps/desktop/src/electron/ElectronMenu.ts
-index 352a5bc97..3eb344720 100644
+index 352a5bc9..3eb34472 100644
 --- a/apps/desktop/src/electron/ElectronMenu.ts
 +++ b/apps/desktop/src/electron/ElectronMenu.ts
 @@ -8,6 +8,52 @@ import * as Schema from "effect/Schema";
@@ -134,19 +134,19 @@ index 352a5bc97..3eb344720 100644
          ...(typeof item.checked === "boolean" ? { type: "checkbox", checked: item.checked } : {}),
        };
 diff --git a/apps/web/src/components/BranchToolbarBranchSelector.tsx b/apps/web/src/components/BranchToolbarBranchSelector.tsx
-index c3f7a9553..fa5a6308d 100644
+index 84cb807f..c7b7e54a 100644
 --- a/apps/web/src/components/BranchToolbarBranchSelector.tsx
 +++ b/apps/web/src/components/BranchToolbarBranchSelector.tsx
-@@ -45,7 +45,7 @@ import { cn } from "../lib/utils";
+@@ -43,7 +43,7 @@ import { cn } from "../lib/utils";
  import { THREAD_DETAILS_PANEL_ICON_CLASS } from "./chat/threadDetailsPanelStyles";
  import { ThreadDetailsPrRows } from "./chat/ThreadDetailsPrRows";
- import { parsePullRequestReference } from "../pullRequestReference";
+ import { parsePullRequestReference } from "@t3tools/client-runtime/pull-request-link-input";
 -import { getSourceControlPresentation } from "../sourceControlPresentation";
 +import { getSourceControlPresentation, localizeTerminologyText } from "../sourceControlPresentation";
  import { useComposerMenuProps } from "./chat/composerEventScope";
  import {
    deriveLocalBranchNameFromRemoteRef,
-@@ -661,7 +661,10 @@ export function BranchToolbarBranchSelector({
+@@ -593,7 +593,10 @@ export function BranchToolbarBranchSelector({
              <SourceControlIcon className="size-3.5 shrink-0 text-muted-foreground" />
              <span className="flex min-w-0 flex-col items-start">
                <span className="truncate font-medium">
@@ -159,10 +159,10 @@ index c3f7a9553..fa5a6308d 100644
                <span className="truncate text-muted-foreground text-xs">{prReference}</span>
              </span>
 diff --git a/apps/web/src/components/GitActionsControl.tsx b/apps/web/src/components/GitActionsControl.tsx
-index 8164537ee..2fcc25aa9 100644
+index 42663d44..332f2e60 100644
 --- a/apps/web/src/components/GitActionsControl.tsx
 +++ b/apps/web/src/components/GitActionsControl.tsx
-@@ -115,7 +115,7 @@ import {
+@@ -116,7 +116,7 @@ import {
    THREAD_DETAILS_PANEL_SPLIT_GROUP_CLASS,
    THREAD_DETAILS_PANEL_SPLIT_SEPARATOR_CLASS,
  } from "./chat/threadDetailsPanelStyles";
@@ -171,7 +171,7 @@ index 8164537ee..2fcc25aa9 100644
  import { sourceControlClients } from "@t3tools/client-runtime/source-control-clients";
  import { formatDiffCount } from "@t3tools/client-runtime/diff-count";
  import { useOpenLink } from "~/browser/useOpenLink";
-@@ -290,6 +290,59 @@ function getMenuActionDisabledReason({
+@@ -286,6 +286,59 @@ function getMenuActionDisabledReason({
  const COMMIT_DIALOG_TITLE = "Commit changes";
  const COMMIT_DIALOG_DESCRIPTION =
    "Review and confirm your commit. Leave the message blank to auto-generate one.";
@@ -231,7 +231,7 @@ index 8164537ee..2fcc25aa9 100644
 
  function GitActionItemIcon({
    icon,
-@@ -386,7 +439,7 @@ function GitActionProgressButtonContent({
+@@ -378,7 +431,7 @@ function GitActionProgressButtonContent({
            isPanel && THREAD_DETAILS_PANEL_LABEL_CLASS,
          )}
        >
@@ -240,7 +240,7 @@ index 8164537ee..2fcc25aa9 100644
        </p>
        {!isPanel ? (
          <GitActionElapsedTime
-@@ -1204,7 +1257,7 @@ export default function GitActionsControl({
+@@ -1150,7 +1203,7 @@ export default function GitActionsControl({
    const quickActionDisabledReason = !canWriteSourceControl
      ? "This connection cannot change source control."
      : quickAction.disabled
@@ -249,7 +249,7 @@ index 8164537ee..2fcc25aa9 100644
        : null;
    const gitActionProgress = resolveGitActionProgressPresentation(vcsActionState);
    const pendingDefaultBranchActionCopy = pendingDefaultBranchAction
-@@ -1525,7 +1578,7 @@ export default function GitActionsControl({
+@@ -1452,7 +1505,7 @@ export default function GitActionsControl({
      if (quickAction.kind === "show_hint") {
        toastManager.add({
          type: "info",
@@ -258,7 +258,7 @@ index 8164537ee..2fcc25aa9 100644
          description: quickAction.hint,
          data: threadToastData,
        });
-@@ -1629,9 +1682,9 @@ export default function GitActionsControl({
+@@ -1553,9 +1606,9 @@ export default function GitActionsControl({
              <div key={`${item.id}-${item.label}`}>
                <MenuItem density={presentation === "menu" ? "touch" : "default"} disabled>
                  <GitActionItemIcon icon={item.icon} SourceControlIcon={SourceControlIcon} />
@@ -270,7 +270,7 @@ index 8164537ee..2fcc25aa9 100644
              </div>
            );
          }
-@@ -1649,11 +1702,11 @@ export default function GitActionsControl({
+@@ -1573,11 +1626,11 @@ export default function GitActionsControl({
                    disabled
                  >
                    <GitActionItemIcon icon={item.icon} SourceControlIcon={SourceControlIcon} />
@@ -284,7 +284,7 @@ index 8164537ee..2fcc25aa9 100644
                </PopoverPopup>
              </Popover>
            );
-@@ -1669,7 +1722,7 @@ export default function GitActionsControl({
+@@ -1593,7 +1646,7 @@ export default function GitActionsControl({
              }}
            >
              <GitActionItemIcon icon={item.icon} SourceControlIcon={SourceControlIcon} />
@@ -293,7 +293,7 @@ index 8164537ee..2fcc25aa9 100644
            </MenuItem>
          );
        })}
-@@ -1731,7 +1784,7 @@ export default function GitActionsControl({
+@@ -1655,7 +1708,7 @@ export default function GitActionsControl({
                  quickAction={quickAction}
                  SourceControlIcon={SourceControlIcon}
                />
@@ -302,7 +302,7 @@ index 8164537ee..2fcc25aa9 100644
              </MenuItem>
              {quickActionDisabledReason && (
                <p className="max-w-64 px-2 py-1.5 text-xs text-warning">
-@@ -1780,8 +1833,8 @@ export default function GitActionsControl({
+@@ -1704,8 +1757,8 @@ export default function GitActionsControl({
              <ThreadDetailsControl
                aria-label={
                  gitActionProgress.output
@@ -313,7 +313,7 @@ index 8164537ee..2fcc25aa9 100644
                }
                part="primary"
                panel={isPanel}
-@@ -1822,7 +1875,7 @@ export default function GitActionsControl({
+@@ -1746,7 +1799,7 @@ export default function GitActionsControl({
                      isPanel && cn("not-sr-only ml-0 truncate", THREAD_DETAILS_PANEL_LABEL_CLASS),
                    )}
                  >
@@ -322,7 +322,7 @@ index 8164537ee..2fcc25aa9 100644
                  </span>
                </PopoverTrigger>
                <PopoverPopup tooltipStyle side="bottom" align="start">
-@@ -1849,7 +1902,7 @@ export default function GitActionsControl({
+@@ -1773,7 +1826,7 @@ export default function GitActionsControl({
                    isPanel && cn("not-sr-only ml-0 truncate", THREAD_DETAILS_PANEL_LABEL_CLASS),
                  )}
                >
@@ -331,7 +331,7 @@ index 8164537ee..2fcc25aa9 100644
                </span>
              </ThreadDetailsControl>
            )}
-@@ -1945,7 +1998,7 @@ export default function GitActionsControl({
+@@ -1867,7 +1920,7 @@ export default function GitActionsControl({
            <DialogPanel>
              <div className="space-y-3 rounded-xl bg-zinc-25 p-3 text-sm ring-1 ring-black/5 dark:bg-white/[0.035] dark:ring-white/5">
                <div className="grid grid-cols-[auto_1fr] items-center gap-x-2 gap-y-1">
@@ -340,7 +340,7 @@ index 8164537ee..2fcc25aa9 100644
                  <span className="flex items-center justify-between gap-2">
                    <span className="font-medium">
                      {gitStatusForActions?.refName ?? "(detached HEAD)"}
-@@ -2121,9 +2174,19 @@ export default function GitActionsControl({
+@@ -2042,9 +2095,19 @@ export default function GitActionsControl({
          <DialogPopup className="max-w-xl">
            <DialogHeader>
              <DialogTitle>
@@ -359,11 +359,11 @@ index 8164537ee..2fcc25aa9 100644
 +                    changeRequestTerminology,
 +                  )}
 +            </DialogDescription>
-           </DialogHeader>
-           <DialogFooter variant="bare" className="sm:flex-wrap sm:items-center">
-             <Button
-@@ -2141,7 +2204,10 @@ export default function GitActionsControl({
-               onClick={continuePendingDefaultBranchAction}
+             {featureBranchUnavailableReason && (
+               <p className="text-xs text-muted-foreground">{featureBranchUnavailableReason}</p>
+             )}
+@@ -2065,7 +2128,10 @@ export default function GitActionsControl({
+               onClick={() => continuePendingDefaultBranchAction(false)}
                disabled={!canWriteSourceControl}
              >
 -              {pendingDefaultBranchActionCopy?.continueLabel ?? "Continue"}
@@ -375,10 +375,10 @@ index 8164537ee..2fcc25aa9 100644
              <Button
                className="w-full max-w-full sm:w-auto"
 diff --git a/apps/web/src/components/LegacySidebar.tsx b/apps/web/src/components/LegacySidebar.tsx
-index b0f9eb7e1..a47f1af0c 100644
+index 9076b9c1..75407c3b 100644
 --- a/apps/web/src/components/LegacySidebar.tsx
 +++ b/apps/web/src/components/LegacySidebar.tsx
-@@ -2452,7 +2452,7 @@ const SidebarProjectItem = memo(function SidebarProjectItem(props: SidebarProjec
+@@ -2274,7 +2274,7 @@ const SidebarProjectItem = memo(function SidebarProjectItem(props: SidebarProjec
                <TooltipTrigger
                  render={
                    <span
@@ -387,7 +387,7 @@ index b0f9eb7e1..a47f1af0c 100644
                      className={`-ml-0.5 relative inline-flex size-3.5 shrink-0 items-center justify-center ${projectStatus.colorClass}`}
                    />
                  }
-@@ -2466,7 +2466,9 @@ const SidebarProjectItem = memo(function SidebarProjectItem(props: SidebarProjec
+@@ -2288,7 +2288,9 @@ const SidebarProjectItem = memo(function SidebarProjectItem(props: SidebarProjec
                  </span>
                  <ChevronRightIcon className="absolute inset-0 m-auto size-3.5 text-icon-muted opacity-0 transition-opacity duration-150 group-hover/project-header:opacity-100" />
                </TooltipTrigger>
@@ -398,7 +398,7 @@ index b0f9eb7e1..a47f1af0c 100644
              </Tooltip>
            ) : (
              <ChevronRightIcon
-@@ -2766,7 +2768,9 @@ function LocalSecondaryStatus() {
+@@ -2579,7 +2581,9 @@ function LocalSecondaryStatus() {
        {connecting.length > 0 ? (
          <Alert variant="sidebar">
            <Spinner />
@@ -410,19 +410,19 @@ index b0f9eb7e1..a47f1af0c 100644
        ) : null}
        {failed.length > 0 ? (
 diff --git a/apps/web/src/components/PullRequestThreadDialog.tsx b/apps/web/src/components/PullRequestThreadDialog.tsx
-index 47e4b361a..b5493ce69 100644
+index 5ca4e4ad..496a9acb 100644
 --- a/apps/web/src/components/PullRequestThreadDialog.tsx
 +++ b/apps/web/src/components/PullRequestThreadDialog.tsx
 @@ -17,7 +17,7 @@ import {
  } from "~/lib/sourceControlActions";
  import { cn } from "~/lib/utils";
- import { parsePullRequestReference } from "~/pullRequestReference";
+ import { parsePullRequestReference } from "@t3tools/client-runtime/pull-request-link-input";
 -import { getSourceControlPresentation } from "~/sourceControlPresentation";
 +import { getSourceControlPresentation, localizeTerminologyText } from "~/sourceControlPresentation";
  import { useEnvironmentQuery } from "~/state/query";
  import { readEnvironmentScope, useEnvironmentScope } from "~/state/session";
  import { vcsEnvironment } from "~/state/vcs";
-@@ -198,9 +198,15 @@ export function PullRequestThreadDialog({
+@@ -182,9 +182,15 @@ export function PullRequestThreadDialog({
    const validationMessage = !referenceDirty
      ? null
      : reference.trim().length === 0
@@ -440,7 +440,7 @@ index 47e4b361a..b5493ce69 100644
          : null;
    const errorMessage =
      validationMessage ??
-@@ -210,7 +216,7 @@ export function PullRequestThreadDialog({
+@@ -194,7 +200,7 @@ export function PullRequestThreadDialog({
        : preparePullRequestThreadAction.error instanceof Error
          ? preparePullRequestThreadAction.error.message
          : preparePullRequestThreadAction.error
@@ -449,7 +449,7 @@ index 47e4b361a..b5493ce69 100644
            : null);
 
    return (
-@@ -226,21 +232,31 @@ export function PullRequestThreadDialog({
+@@ -210,21 +216,31 @@ export function PullRequestThreadDialog({
          <DialogHeader>
            <DialogTitle className="flex items-center">
              <SourceControlIcon className="me-2 size-4" />
@@ -486,7 +486,7 @@ index 47e4b361a..b5493ce69 100644
                value={reference}
                onChange={(event) => {
                  setReferenceDirty(true);
-@@ -281,7 +297,7 @@ export function PullRequestThreadDialog({
+@@ -265,7 +281,7 @@ export function PullRequestThreadDialog({
            {isResolving ? (
              <div className="flex items-center gap-2 text-muted-foreground text-xs">
                <Spinner size="sm" />
@@ -496,10 +496,10 @@ index 47e4b361a..b5493ce69 100644
            ) : null}
 
 diff --git a/apps/web/src/components/RightPanelTabs.tsx b/apps/web/src/components/RightPanelTabs.tsx
-index 5c8323a7a..a4fa78eb8 100644
+index d105ed19..c718b3cb 100644
 --- a/apps/web/src/components/RightPanelTabs.tsx
 +++ b/apps/web/src/components/RightPanelTabs.tsx
-@@ -93,6 +93,11 @@ import { previewBridge } from "./preview/previewBridge";
+@@ -91,6 +91,11 @@ import { previewBridge } from "./preview/previewBridge";
  import { PierreEntryIcon } from "./chat/PierreEntryIcon";
  import { resolvePullRequestState } from "./pullRequest/pullRequestPresentation";
  import { PullRequestGlyph } from "~/components/pullRequest/pullRequestIcons";
@@ -511,7 +511,7 @@ index 5c8323a7a..a4fa78eb8 100644
  import { observeResize } from "~/lib/observeResize";
 
  interface RightPanelTabsProps {
-@@ -535,7 +540,7 @@ function RightPanelEmptyState(props: {
+@@ -489,7 +494,7 @@ function RightPanelEmptyState(props: {
                        action.label === "Browser" && props.browserProfiles.length > 1 && "pr-7",
                      )}
                    >
@@ -520,7 +520,7 @@ index 5c8323a7a..a4fa78eb8 100644
                    </span>
                    <Kbd>{action.shortcut}</Kbd>
                  </button>
-@@ -582,7 +587,7 @@ function RightPanelEmptyState(props: {
+@@ -531,7 +536,7 @@ function RightPanelEmptyState(props: {
                      className="flex h-8 w-full cursor-default items-center gap-2.5 rounded-(--control-radius) px-2.5 text-left text-sm opacity-50"
                    >
                      {actionIcon(action, "size-4")}
@@ -529,7 +529,7 @@ index 5c8323a7a..a4fa78eb8 100644
                      <Kbd>{action.shortcut}</Kbd>
                    </div>
                  }
-@@ -622,12 +627,12 @@ function surfaceTitle(
+@@ -571,12 +576,12 @@ function surfaceTitle(
        return surface.title ?? surface.target?.name ?? "Device";
      case "preview": {
        const snapshot = surface.resourceId ? sessions[surface.resourceId] : null;
@@ -545,7 +545,7 @@ index 5c8323a7a..a4fa78eb8 100644
        }
      }
    }
-@@ -1376,7 +1381,7 @@ export function RightPanelTabs(props: RightPanelTabsProps) {
+@@ -1358,7 +1363,7 @@ export function RightPanelTabs(props: RightPanelTabsProps) {
                              }}
                            >
                              <Icon />
@@ -553,8 +553,8 @@ index 5c8323a7a..a4fa78eb8 100644
 +                            {displayLabel(action.label)}
                              <MenuShortcut>{action.shortcut}</MenuShortcut>
                            </MenuSubTrigger>
-                           {/*
-@@ -1406,7 +1411,7 @@ export function RightPanelTabs(props: RightPanelTabsProps) {
+                           <MenuSubPopup className="max-w-56">
+@@ -1383,7 +1388,7 @@ export function RightPanelTabs(props: RightPanelTabsProps) {
                          onClick={action.onClick}
                        >
                          <Icon />
@@ -564,10 +564,10 @@ index 5c8323a7a..a4fa78eb8 100644
                      );
                    })}
 diff --git a/apps/web/src/components/Sidebar.tsx b/apps/web/src/components/Sidebar.tsx
-index 65c00d70e..4b51fce8d 100644
+index bcd24bf8..5970c99b 100644
 --- a/apps/web/src/components/Sidebar.tsx
 +++ b/apps/web/src/components/Sidebar.tsx
-@@ -2048,7 +2048,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+@@ -2349,7 +2349,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
                                  )}
                                >
                                  <AlarmClockIcon aria-hidden className="size-4 shrink-0" />
@@ -576,7 +576,7 @@ index 65c00d70e..4b51fce8d 100644
                                </button>
                              }
                            />
-@@ -2077,7 +2077,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+@@ -2378,7 +2378,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
                            {/* The label alone is the live region: a role="status"
                              wrapper around the ticking duration would make
                              screen readers announce every second. */}
@@ -586,10 +586,10 @@ index 65c00d70e..4b51fce8d 100644
                              <span aria-hidden>
                                <WorkingDuration startedAt={resolveWorkingStartedAt(thread)} />
 diff --git a/apps/web/src/components/ThreadStatusIndicators.tsx b/apps/web/src/components/ThreadStatusIndicators.tsx
-index 051077b46..a7f8336fe 100644
+index 6688e06d..5584dea0 100644
 --- a/apps/web/src/components/ThreadStatusIndicators.tsx
 +++ b/apps/web/src/components/ThreadStatusIndicators.tsx
-@@ -885,7 +885,7 @@ export function ThreadStatusLabel({
+@@ -822,7 +822,7 @@ export function ThreadStatusLabel({
            render={
              <span
                role="img"
@@ -598,7 +598,7 @@ index 051077b46..a7f8336fe 100644
                className={`inline-flex size-3.5 shrink-0 items-center justify-center ${status.colorClass}`}
              />
            }
-@@ -896,7 +896,9 @@ export function ThreadStatusLabel({
+@@ -833,7 +833,9 @@ export function ThreadStatusLabel({
              }`}
            />
          </TooltipTrigger>
@@ -609,7 +609,7 @@ index 051077b46..a7f8336fe 100644
        </Tooltip>
      );
    }
-@@ -907,7 +909,7 @@ export function ThreadStatusLabel({
+@@ -844,7 +846,7 @@ export function ThreadStatusLabel({
          render={
            <span
              role="img"
@@ -618,8 +618,8 @@ index 051077b46..a7f8336fe 100644
              className={`inline-flex items-center gap-1 text-3xs ${status.colorClass}`}
            />
          }
-@@ -917,9 +919,13 @@ export function ThreadStatusLabel({
-             status.pulse ? "animate-status-pulse" : ""
+@@ -854,9 +856,13 @@ export function ThreadStatusLabel({
+             status.pulse ? "motion-safe:animate-status-pulse" : ""
            }`}
          />
 -        <span className="hidden md:inline">{status.label}</span>
@@ -635,10 +635,10 @@ index 051077b46..a7f8336fe 100644
    );
  }
 diff --git a/apps/web/src/components/chat/ComposerTasksBadge.tsx b/apps/web/src/components/chat/ComposerTasksBadge.tsx
-index 3031924e4..5e422fdf8 100644
+index 704bfc38..1409b953 100644
 --- a/apps/web/src/components/chat/ComposerTasksBadge.tsx
 +++ b/apps/web/src/components/chat/ComposerTasksBadge.tsx
-@@ -195,7 +195,9 @@ export const ComposerTasksContent = memo(function ComposerTasksContent({
+@@ -196,7 +196,9 @@ export const ComposerTasksContent = memo(function ComposerTasksContent({
                          : "text-muted-foreground/70",
                    )}
                  >
@@ -650,10 +650,10 @@ index 3031924e4..5e422fdf8 100644
                  </ComposerBanner.Content>
                  <ComposerBanner.Actions>
 diff --git a/apps/web/src/components/chat/SubagentTooltipContent.tsx b/apps/web/src/components/chat/SubagentTooltipContent.tsx
-index 9bd96292c..f5cfa31c6 100644
+index 21057c9a..8db7765a 100644
 --- a/apps/web/src/components/chat/SubagentTooltipContent.tsx
 +++ b/apps/web/src/components/chat/SubagentTooltipContent.tsx
-@@ -175,7 +175,7 @@ export function SubagentTooltipContent(props: {
+@@ -174,7 +174,7 @@ export function SubagentTooltipContent(props: {
          return (
            <div key={label} className="flex min-w-0 items-center gap-2">
              <Icon aria-hidden className="size-3 shrink-0" />
@@ -663,7 +663,7 @@ index 9bd96292c..f5cfa31c6 100644
            </div>
          );
 diff --git a/apps/web/src/components/onboarding/WelcomeWizard.tsx b/apps/web/src/components/onboarding/WelcomeWizard.tsx
-index 2f7c942be..0ff28b819 100644
+index 17207a20..409423e3 100644
 --- a/apps/web/src/components/onboarding/WelcomeWizard.tsx
 +++ b/apps/web/src/components/onboarding/WelcomeWizard.tsx
 @@ -74,7 +74,7 @@ import {
@@ -675,7 +675,7 @@ index 2f7c942be..0ff28b819 100644
  import { providerClients } from "../settings/providerDriverMeta";
  import { ChatGptWelcomeCoordinator } from "../settings/ChatGptWelcomeCoordinator";
  import { AddManagedCodexAccountDialog, CodexSetupSection } from "../settings/CodexSetupSection";
-@@ -986,7 +986,7 @@ function AgentCard({
+@@ -974,7 +974,7 @@ function AgentCard({
        <div className="min-w-0 flex-1">
          <span className="block text-sm font-medium text-foreground">{displayName}</span>
          <p className="mt-0.5 text-xs leading-relaxed break-words whitespace-pre-wrap text-muted-foreground">
@@ -684,7 +684,7 @@ index 2f7c942be..0ff28b819 100644
            {providerState !== "ready" && summary.detail ? ` · ${summary.detail}` : ""}
          </p>
        </div>
-@@ -1001,7 +1001,9 @@ function AgentCard({
+@@ -989,7 +989,9 @@ function AgentCard({
          ) : providerState === "disabled" ? (
            <span className="text-xs text-muted-foreground">Disabled</span>
          ) : providerState === "attention" ? (
@@ -696,10 +696,10 @@ index 2f7c942be..0ff28b819 100644
            <Button
              size="xs"
 diff --git a/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx b/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx
-index 125b71f50..40fadb86c 100644
+index dd4dc73e..366d344d 100644
 --- a/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx
 +++ b/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx
-@@ -216,7 +216,9 @@ export function PullRequestStackMenu({
+@@ -215,7 +215,9 @@ export function PullRequestStackMenu({
            />
            <TooltipPopup>
              Merge stack through #{reference.number} into {stack.base} ({mergeLayers.length}{" "}
@@ -711,10 +711,10 @@ index 125b71f50..40fadb86c 100644
          </Tooltip>
        ) : null}
 diff --git a/apps/web/src/components/settings/CodexSetupSection.tsx b/apps/web/src/components/settings/CodexSetupSection.tsx
-index 9a37edf09..a577ae041 100644
+index 9feafee3..f17f3de4 100644
 --- a/apps/web/src/components/settings/CodexSetupSection.tsx
 +++ b/apps/web/src/components/settings/CodexSetupSection.tsx
-@@ -37,7 +37,7 @@ import { RedactedSensitiveText } from "./RedactedSensitiveText";
+@@ -45,7 +45,7 @@ import { RedactedSensitiveText } from "./RedactedSensitiveText";
  import { SettingsRow } from "./settingsLayout";
  import { AddCodexAccountDialog } from "./AddCodexAccountDialog";
  import { getOnboardingProviderState } from "../../onboarding/providerReadiness.logic";
@@ -723,7 +723,7 @@ index 9a37edf09..a577ae041 100644
 
  const noop = () => undefined;
 
-@@ -88,7 +88,7 @@ export function CodexSetupSection(props: CodexSetupSectionProps) {
+@@ -95,7 +95,7 @@ export function CodexSetupSection(props: CodexSetupSectionProps) {
            ) : existingChecking ? (
              "Checking your Codex CLI..."
            ) : props.provider?.installed ? (
@@ -732,7 +732,7 @@ index 9a37edf09..a577ae041 100644
            ) : (
              "Code with your ChatGPT subscription."
            )
-@@ -102,7 +102,9 @@ export function CodexSetupSection(props: CodexSetupSectionProps) {
+@@ -109,7 +109,9 @@ export function CodexSetupSection(props: CodexSetupSectionProps) {
            ) : existingChecking ? (
              <span className="text-xs text-muted-foreground">Checking...</span>
            ) : existingAuthenticated ? (
@@ -744,10 +744,10 @@ index 9a37edf09..a577ae041 100644
              <ChatGptConnectionButton
                size="sm"
 diff --git a/apps/web/src/components/settings/ProjectDefaultsSettings.tsx b/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
-index 58f4d10b3..3e2dd65e8 100644
+index 2a66452e..b9e851b1 100644
 --- a/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
 +++ b/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
-@@ -171,7 +171,7 @@ export function ProjectDefaultsSettings({ category }: { category: ProjectSetting
+@@ -173,7 +173,7 @@ export function ProjectDefaultsSettings({ category }: { category: ProjectSetting
                instanceEntries={entries}
                modelOptionsByInstance={modelOptions}
                triggerClassName={SETTINGS_PICKER_TRIGGER_CLASSNAME}
@@ -757,18 +757,18 @@ index 58f4d10b3..3e2dd65e8 100644
                onOpenProviderSetup={(instanceId) => {
                  if (representative)
 diff --git a/apps/web/src/components/settings/ProviderInstanceCard.tsx b/apps/web/src/components/settings/ProviderInstanceCard.tsx
-index 53b6cbc27..cf8c91fc7 100644
+index 1a6a0b88..e6b3dc47 100644
 --- a/apps/web/src/components/settings/ProviderInstanceCard.tsx
 +++ b/apps/web/src/components/settings/ProviderInstanceCard.tsx
-@@ -67,6 +67,7 @@ import {
-   PROVIDER_STATUS_STYLES,
+@@ -69,6 +69,7 @@ import {
+   getProviderStatusKey,
    getProviderSummary,
    getProviderVersionLabel,
 +  providerStatusLabel,
-   type ProviderStatusKey,
  } from "./providerStatus";
 
-@@ -923,7 +924,7 @@ export function ProviderInstanceCard({
+ const ENVIRONMENT_VARIABLE_NAME_PATTERN = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
+@@ -859,7 +860,7 @@ export function ProviderInstanceCard({
      ) : (
        <>
          {statusDotNode}
@@ -777,7 +777,7 @@ index 53b6cbc27..cf8c91fc7 100644
          {inlineStatusDetail ? (
            <span className="min-w-0 [overflow-wrap:anywhere]">· {inlineStatusDetail}</span>
          ) : null}
-@@ -1089,7 +1090,7 @@ export function ProviderInstanceCard({
+@@ -1024,7 +1025,7 @@ export function ProviderInstanceCard({
                      `Updating · ${updateProgress}`
                    ) : (
                      <>
@@ -787,10 +787,10 @@ index 53b6cbc27..cf8c91fc7 100644
                      </>
                    )}
 diff --git a/apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx b/apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx
-index eb65bb6cf..8b7b0b473 100644
+index 3fd3b83f..3916363b 100644
 --- a/apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx
 +++ b/apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx
-@@ -639,7 +639,10 @@ function ProcessTable({
+@@ -632,7 +632,10 @@ function ProcessTable({
                  <td className="px-3 py-2 text-right font-mono tabular-nums text-muted-foreground">
                    <Tooltip>
                      <TooltipTrigger render={<span>{formatBytes(process.ioWriteBytes)}</span>} />
@@ -803,10 +803,10 @@ index eb65bb6cf..8b7b0b473 100644
                  </td>
                  <td className="px-3 py-2 text-right font-mono tabular-nums text-muted-foreground">
 diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/components/settings/SettingsPanels.tsx
-index a9dca0e5a..5437293d8 100644
+index 2b753b5c..7662853b 100644
 --- a/apps/web/src/components/settings/SettingsPanels.tsx
 +++ b/apps/web/src/components/settings/SettingsPanels.tsx
-@@ -3333,7 +3333,7 @@ export function GeneralSettingsPanel() {
+@@ -3249,7 +3249,7 @@ export function GeneralSettingsPanel() {
                    instanceEntries={textGenerationModelInstanceEntries}
                    modelOptionsByInstance={textGenerationModelOptionsByInstance}
                    triggerClassName={SETTINGS_PICKER_TRIGGER_CLASSNAME}
@@ -816,7 +816,7 @@ index a9dca0e5a..5437293d8 100644
                    {...(environmentId
                      ? {
 diff --git a/apps/web/src/components/settings/SourceControlWritingSettings.tsx b/apps/web/src/components/settings/SourceControlWritingSettings.tsx
-index 2a1e81126..b002e1081 100644
+index 3c76207c..959851bc 100644
 --- a/apps/web/src/components/settings/SourceControlWritingSettings.tsx
 +++ b/apps/web/src/components/settings/SourceControlWritingSettings.tsx
 @@ -361,7 +361,7 @@ export function SourceControlWritingSettingsSection() {
@@ -829,10 +829,10 @@ index 2a1e81126..b002e1081 100644
                      ? {
                          onOpenProviderSetup: (instanceId: ProviderInstanceId) => {
 diff --git a/apps/web/src/components/settings/providerStatus.ts b/apps/web/src/components/settings/providerStatus.ts
-index ad8494fac..38670e802 100644
+index fbd72b1c..ed071c87 100644
 --- a/apps/web/src/components/settings/providerStatus.ts
 +++ b/apps/web/src/components/settings/providerStatus.ts
-@@ -104,6 +104,75 @@ export function getProviderVersionLabel(version: string | null | undefined) {
+@@ -114,6 +114,75 @@ export function getProviderVersionLabel(version: string | null | undefined) {
    return /^\d/.test(version) ? `v${version}` : version;
  }
 
@@ -909,10 +909,10 @@ index ad8494fac..38670e802 100644
    graceful: "Limited support",
    unsupported: "Unsupported version",
 diff --git a/apps/web/src/components/usage/UsagePriceOverrides.tsx b/apps/web/src/components/usage/UsagePriceOverrides.tsx
-index 4fe68f66c..e6e165401 100644
+index efa0f453..980385b6 100644
 --- a/apps/web/src/components/usage/UsagePriceOverrides.tsx
 +++ b/apps/web/src/components/usage/UsagePriceOverrides.tsx
-@@ -457,7 +457,12 @@ export function UsagePriceOverrides({
+@@ -450,7 +450,12 @@ export function UsagePriceOverrides({
                                    value={row.alias ?? aliasCell.value}
                                    aria-label={`Map ${row.model || "new model"} to model`}
                                    list="usage-alias-models"
@@ -926,7 +926,7 @@ index 4fe68f66c..e6e165401 100644
                                    autoComplete="off"
                                    spellCheck={false}
                                    disabled={locked}
-@@ -486,7 +491,8 @@ export function UsagePriceOverrides({
+@@ -481,7 +486,8 @@ export function UsagePriceOverrides({
                                            ? field.optional
                                              ? "Input rate"
                                              : "0.00"
@@ -937,10 +937,10 @@ index 4fe68f66c..e6e165401 100644
                                        autoComplete="off"
                                        disabled={locked}
 diff --git a/apps/web/src/contextMenuFallback.ts b/apps/web/src/contextMenuFallback.ts
-index 1ba2be270..882c10583 100644
+index c6f831ef..36a8d3f3 100644
 --- a/apps/web/src/contextMenuFallback.ts
 +++ b/apps/web/src/contextMenuFallback.ts
-@@ -2,6 +2,60 @@ import type { ContextMenuItem } from "@t3tools/contracts";
+@@ -2,6 +2,61 @@ import type { ContextMenuItem } from "@t3tools/contracts";
 
  const SVG_NS = "http://www.w3.org/2000/svg";
 
@@ -998,10 +998,11 @@ index 1ba2be270..882c10583 100644
 +  if (!TRANSLATABLE_MENU_LABEL_SET.has(label)) return label;
 +  return globalThis.__t3zh?.t?.(label) ?? label;
 +}
- // Inline Lucide-style icon paths (stroke-based, viewBox 0 0 24 24, strokeWidth 2).
++
  const ICON_PATHS: Record<string, ReadonlyArray<{ tag: string; attrs: Record<string, string> }>> = {
    archive: [
-@@ -324,7 +378,7 @@ export function showContextMenuFallback<T extends string>(
+     { tag: "rect", attrs: { width: "20", height: "5", x: "2", y: "3", rx: "1" } },
+@@ -309,7 +364,7 @@ export function showContextMenuFallback<T extends string>(
          if (item.header === true) {
            const header = document.createElement("div");
            header.className = "px-2 py-1.5 font-medium text-muted-foreground text-xs";
@@ -1010,7 +1011,7 @@ index 1ba2be270..882c10583 100644
            inner.appendChild(header);
            continue;
          }
-@@ -379,7 +433,7 @@ export function showContextMenuFallback<T extends string>(
+@@ -362,7 +417,7 @@ export function showContextMenuFallback<T extends string>(
 
          const label = document.createElement("span");
          label.className = "min-w-0 flex-1 truncate";
@@ -1020,10 +1021,10 @@ index 1ba2be270..882c10583 100644
 
          if (hasChildren) {
 diff --git a/apps/web/src/sourceControlPresentation.ts b/apps/web/src/sourceControlPresentation.ts
-index 5ac72012c..5aa4ea73e 100644
+index ec8b4c72..4b1d4f46 100644
 --- a/apps/web/src/sourceControlPresentation.ts
 +++ b/apps/web/src/sourceControlPresentation.ts
-@@ -40,6 +40,97 @@ export interface SourceControlPresentation {
+@@ -39,6 +39,97 @@ export interface SourceControlPresentation {
    readonly Icon: SourceControlIcon;
  }
 
@@ -1122,10 +1123,10 @@ index 5ac72012c..5aa4ea73e 100644
    definition: SourceControlClientDefinition,
    providerName: string,
 diff --git a/apps/web/src/vite-env.d.ts b/apps/web/src/vite-env.d.ts
-index d3ecb5592..700221980 100644
+index 07e5e492..af858f9a 100644
 --- a/apps/web/src/vite-env.d.ts
 +++ b/apps/web/src/vite-env.d.ts
-@@ -23,11 +23,27 @@ interface ImportMeta {
+@@ -24,11 +24,27 @@ interface ImportMeta {
  declare global {
    interface Window {
      desktopBridge?: DesktopBridge;

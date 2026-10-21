@@ -6,7 +6,9 @@
 # （桌面主进程汉化用的三个文件，patches/0003 引用它们）及构建工作树的 server 版本字段，
 # 不改任何上游文件。T3 Connect 的四个公开标识从基线 .env.example 写入构建树 .env。
 #
-# 用法：scripts/build-zh.sh <版本号>        例：scripts/build-zh.sh 0.0.46-n2644.zh.0
+# 用法：scripts/build-zh.sh <版本号> [--prepare-only]        例：scripts/build-zh.sh 0.0.46-n2644.zh.0
+#
+# --prepare-only 只执行步骤 1–6，供迁移后的类型检查使用；不构建或打包产物。
 #
 # 环境变量：
 #   T3ZH_PATCH_DIR   覆盖补丁目录（默认 <仓库>/patches）。只用于排查补丁问题，交付构建不要设。
@@ -19,7 +21,7 @@ set -Eeuo pipefail
 
 ZH_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SRC="${ZH_ROOT}/.build/src"
-BASELINE_COMMIT="81493efb71e8e8244f95d3e9f71d8369654ab151"
+BASELINE_COMMIT="fe27e8e3dc12dcbb108e9a28fd9b8cb65f34ae92"
 STATS_FILE="${ZH_ROOT}/reports/transform-stats.json"
 WRAPPER_NAME="vite.zh.config.ts"
 
@@ -71,11 +73,17 @@ die() { printf '[build-zh] 失败：第 %s 步「%s」：%s\n' "${STEP_NO:-0}" "
 now() { perl -MTime::HiRes=time -e 'printf "%.1f\n", time'; }
 
 usage() {
-  echo "用法：scripts/build-zh.sh <版本号>   例：scripts/build-zh.sh 0.0.46-n2644.zh.0" >&2
+  echo "用法：scripts/build-zh.sh <版本号> [--prepare-only]   例：scripts/build-zh.sh 0.0.46-n2644.zh.0" >&2
   exit 2
 }
 
 VERSION="${1:-}"
+PREPARE_ONLY=0
+if [[ "${2:-}" == "--prepare-only" && "$#" == 2 ]]; then
+  PREPARE_ONLY=1
+elif [[ "$#" != 1 ]]; then
+  usage
+fi
 [[ -n "${VERSION}" ]] || usage
 [[ "${VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z]+([.-][0-9A-Za-z]+)*)?$ ]] || die "版本号格式不对：${VERSION}"
 # 与 scripts/build-desktop-artifact.ts 的 resolveDesktopUpdateChannel 一致：这种形式会让产品名变成 T3 Code (Nightly)。
@@ -423,6 +431,11 @@ step 3 "安装依赖" install_deps
 step 4 "应用补丁" apply_patches
 step 5 "准备 T3 Connect 与汉化配置" copy_wrapper
 step 6 "构建链守卫" guard_build_chain
+if [[ "${PREPARE_ONLY}" == 1 ]]; then
+  log "准备完成：${VERSION}；仅执行步骤 1–6，未构建或打包产物"
+  printf '%s' "${STEP_LOG}"
+  exit 0
+fi
 step 7 "构建 web（中文转换）" build_web
 step 8 "产物守卫" guard_web_output
 step 9 "构建 server" build_server

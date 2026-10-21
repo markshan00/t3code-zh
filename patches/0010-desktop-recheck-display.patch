@@ -1,5 +1,5 @@
 # 0010-desktop-recheck-display.patch
-# Baseline v0.1.0, after 0009. Fix zh.3 desktop recheck display call sites.
+# Baseline v0.1.1, after 0009. Fix zh.3 desktop recheck display call sites.
 # Payloads, provider/custom labels, command text and default webhook prompts remain unchanged.
 diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceDisplayStrings.ts
 index 4825f427..912668e3 100644
@@ -51,16 +51,16 @@ index 4825f427..912668e3 100644
    return fillSlot("", String(count), ` ${count === 1 ? singular : plural}`);
  }
 diff --git a/apps/web/src/components/Sidebar.tsx b/apps/web/src/components/Sidebar.tsx
-index 27bf95d1..708fbea1 100644
+index d64e10b0..aed645ad 100644
 --- a/apps/web/src/components/Sidebar.tsx
 +++ b/apps/web/src/components/Sidebar.tsx
 @@ -1,4 +1,5 @@
  import { type EnvironmentId, type ScopedProjectRef } from "@t3tools/contracts";
 +import { displayDuration } from "~/acceptanceDisplayStrings";
+ import type { EnvironmentServerConfig } from "@t3tools/client-runtime/connection";
  import { ThreadHoverCard, ThreadHoverCardPopup } from "./ThreadHoverCard";
  import { CollapsibleSectionHeader } from "./ui/collapsible-section-header";
- import {
-@@ -336,8 +337,8 @@ function checkThreadOperations(
+@@ -837,8 +838,8 @@ function checkThreadOperations(
  }
 
  function compactSidebarTimeLabel(label: string): string {
@@ -70,12 +70,12 @@ index 27bf95d1..708fbea1 100644
 +  return displayDuration(label.endsWith(" ago") ? label.slice(0, -4) : label);
  }
 
- function threadTimeLabel(thread: SidebarThreadSummary): string {
+ // Subscribes to the minute tick itself, so only the label re-renders each
 diff --git a/apps/web/src/components/chat/MessagesTimeline.logic.ts b/apps/web/src/components/chat/MessagesTimeline.logic.ts
-index 25f67ffc..ff916275 100644
+index 9ebb6eda..c5ea7edf 100644
 --- a/apps/web/src/components/chat/MessagesTimeline.logic.ts
 +++ b/apps/web/src/components/chat/MessagesTimeline.logic.ts
-@@ -244,6 +244,7 @@ export function liveWorkEntryLabel(
+@@ -233,6 +233,7 @@ export function liveWorkEntryLabel(
    entry: WorkLogEntry,
    workspaceRoot: string | undefined,
    active: boolean,
@@ -83,7 +83,7 @@ index 25f67ffc..ff916275 100644
  ) {
    const status = liveActivityToolStatus(entry.toolLifecycleStatus, active);
    if (entry.itemType === "reasoning") {
-@@ -269,7 +270,7 @@ export function liveWorkEntryLabel(
+@@ -258,7 +259,7 @@ export function liveWorkEntryLabel(
              : status === "stopped"
                ? "Stopped"
                : "Ran";
@@ -93,18 +93,18 @@ index 25f67ffc..ff916275 100644
    return workEntryDisplayLabel(entry, workspaceRoot);
  }
 diff --git a/apps/web/src/components/chat/MessagesTimeline.tsx b/apps/web/src/components/chat/MessagesTimeline.tsx
-index f05bdbf7..7adf7932 100644
+index 605d05e0..92ad4dc1 100644
 --- a/apps/web/src/components/chat/MessagesTimeline.tsx
 +++ b/apps/web/src/components/chat/MessagesTimeline.tsx
-@@ -1,6 +1,7 @@
- import { ThreadFindTimelineContext } from "./ThreadFindProvider";
+@@ -4,6 +4,7 @@ import { ThreadFindTimelineContext } from "./ThreadFindProvider";
+ import { shallow } from "zustand/vanilla/shallow";
  import { shouldPreserveAssistantLineBreaks } from "@t3tools/shared/markdownPipeline";
- import { MarkdownFindContext, useFindRevealRef } from "./markdownFindContext";
+ import { MarkdownFindContext, findRevealRef } from "./markdownFindContext";
 +import { displayKnown, displayLiveCommand } from "~/acceptanceDisplayStrings";
  import { displayFold, displayWorkSummary, displayFailedTool } from "~/acceptanceDisplayStrings";
  import { useChatCanvas } from "./ChatCanvasContext";
  import { WorkLogBlock, WorkLogButton, WorkLogDetails, WorkLogList, WorkLogRow } from "./WorkLog";
-@@ -1932,7 +1933,7 @@ function TimelineMinimap({
+@@ -1777,7 +1778,7 @@ function TimelineMinimap({
              }}
            />
            <button
@@ -113,7 +113,7 @@ index f05bdbf7..7adf7932 100644
              className="absolute inset-y-0 left-0 w-full cursor-pointer bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/70"
              onBlur={() => setActiveIndex(null)}
              onClick={(event) => {
-@@ -2034,7 +2035,7 @@ function TimelineMinimap({
+@@ -1876,7 +1877,7 @@ function TimelineMinimap({
                >
                  <span className="dropdown-glass block rounded-xl p-3 text-left text-popover-foreground shadow-xl shadow-black/25">
                    <span className="block max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium leading-5">
@@ -122,7 +122,7 @@ index f05bdbf7..7adf7932 100644
                    </span>
                    {activeItem.assistantText ? (
                      <span
-@@ -2078,7 +2079,7 @@ function TimelineMinimapNavigationButton({
+@@ -1920,7 +1921,7 @@ function TimelineMinimapNavigationButton({
    onClick: () => void;
  }) {
    const previous = direction === "previous";
@@ -131,7 +131,7 @@ index f05bdbf7..7adf7932 100644
    const Icon = previous ? ChevronUpIcon : ChevronDownIcon;
 
    return (
-@@ -4096,7 +4097,7 @@ function LiveWorkEntryTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "
+@@ -3839,7 +3840,7 @@ function LiveWorkEntryTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "
    const questionHeading = row.entry.questionAnswer
      ? getQuestionTextPreview(row.entry.questionAnswer)
      : "";
@@ -141,7 +141,7 @@ index f05bdbf7..7adf7932 100644
 
    const failed = workEntryDisplayIndicatesToolFailure(row.entry);
 diff --git a/apps/web/src/components/chat/ProviderStatusBanner.tsx b/apps/web/src/components/chat/ProviderStatusBanner.tsx
-index c83aef7c..dbbaf9c5 100644
+index ec3bcd0f..4abbdb7e 100644
 --- a/apps/web/src/components/chat/ProviderStatusBanner.tsx
 +++ b/apps/web/src/components/chat/ProviderStatusBanner.tsx
 @@ -1,3 +1,4 @@
@@ -149,7 +149,7 @@ index c83aef7c..dbbaf9c5 100644
  import { type ProviderInstanceId, type ServerProvider } from "@t3tools/contracts";
  import { memo } from "react";
  import { InfoIcon, XIcon } from "lucide-react";
-@@ -108,7 +109,7 @@ export const ProviderStatusBanner = memo(function ProviderStatusBanner({
+@@ -106,7 +107,7 @@ export const ProviderStatusBanner = memo(function ProviderStatusBanner({
      ? `${providerName} is unauthenticated`
      : incompatible
        ? `${providerName} ${status.version ?? ""} is ${incompatible.status === "broken" ? "known to be broken" : "unsupported"}`
@@ -158,7 +158,7 @@ index c83aef7c..dbbaf9c5 100644
    const message = incompatible?.message ?? getProviderStatusMessage(status);
    const isWarning =
      incompatible?.status !== "broken" && (status.status === "warning" || incompatible !== null);
-@@ -125,9 +126,9 @@ export const ProviderStatusBanner = memo(function ProviderStatusBanner({
+@@ -123,9 +124,9 @@ export const ProviderStatusBanner = memo(function ProviderStatusBanner({
          <AlertTitle>{title}</AlertTitle>
          <AlertDescription>
            <Tooltip>
@@ -171,7 +171,7 @@ index c83aef7c..dbbaf9c5 100644
            </Tooltip>
            {onOpenProviderSetup && hasProviderSetup(status) ? (
 diff --git a/apps/web/src/components/settings/ProviderInstanceCard.tsx b/apps/web/src/components/settings/ProviderInstanceCard.tsx
-index cf8c91fc..247049a2 100644
+index e6b3dc47..ac28afc0 100644
 --- a/apps/web/src/components/settings/ProviderInstanceCard.tsx
 +++ b/apps/web/src/components/settings/ProviderInstanceCard.tsx
 @@ -1,4 +1,5 @@
@@ -180,7 +180,7 @@ index cf8c91fc..247049a2 100644
 
  import { Spinner } from "~/components/ui/spinner";
 
-@@ -942,7 +943,7 @@ export function ProviderInstanceCard({
+@@ -878,7 +879,7 @@ export function ProviderInstanceCard({
                    size={mode === "list" ? "icon-micro" : "icon-xs"}
                    variant="ghost-muted"
                    className={mode === "list" ? "pointer-events-auto relative shrink-0" : undefined}
@@ -189,7 +189,7 @@ index cf8c91fc..247049a2 100644
                  >
                    {updateProgress ? (
                      <Spinner tone="muted" {...(mode === "list" ? { size: "sm" as const } : {})} />
-@@ -960,14 +961,14 @@ export function ProviderInstanceCard({
+@@ -896,14 +897,14 @@ export function ProviderInstanceCard({
            }
          />
          <TooltipPopup side="top">
@@ -208,25 +208,25 @@ index cf8c91fc..247049a2 100644
              <p
                className={cn(
 diff --git a/apps/web/src/components/settings/ScheduledTasksSettings.tsx b/apps/web/src/components/settings/ScheduledTasksSettings.tsx
-index 81d48435..88227ae9 100644
+index 921d4842..3180be82 100644
 --- a/apps/web/src/components/settings/ScheduledTasksSettings.tsx
 +++ b/apps/web/src/components/settings/ScheduledTasksSettings.tsx
 @@ -1,3 +1,4 @@
 +import { displayKnown } from "~/acceptanceDisplayStrings";
  import { useAtomValue } from "@effect/atom-react";
- import {
-   Clock3Icon,
-@@ -1329,7 +1330,7 @@ function ScheduledTaskEditorDialog({
-                     }}
-                   >
-                     {WEEKDAY_ORDER.map((day) => (
--                      <Toggle key={day} value={String(day)} aria-label={WEEKDAY_LABELS[day]}>
-+                      <Toggle key={day} value={String(day)} aria-label={displayKnown(WEEKDAY_LABELS[day])}>
-                         {WEEKDAY_SHORT[day]}
-                       </Toggle>
-                     ))}
+ import { connectionStatusTitle } from "@t3tools/client-runtime/connection";
+ import * as Option from "effect/Option";
+@@ -1720,7 +1721,7 @@ function ScheduledTaskEditorForm({
+                   }}
+                 >
+                   {WEEKDAY_ORDER.map((day) => (
+-                    <Toggle key={day} value={String(day)} aria-label={WEEKDAY_LABELS[day]}>
++                    <Toggle key={day} value={String(day)} aria-label={displayKnown(WEEKDAY_LABELS[day])}>
+                       {WEEKDAY_SHORT[day]}
+                     </Toggle>
+                   ))}
 diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/components/usage/UsageLimitsPooled.tsx
-index b8603d30..318d6b68 100644
+index 76be2555..03ab85cc 100644
 --- a/apps/web/src/components/usage/UsageLimitsPooled.tsx
 +++ b/apps/web/src/components/usage/UsageLimitsPooled.tsx
 @@ -1,3 +1,4 @@
@@ -234,7 +234,7 @@ index b8603d30..318d6b68 100644
  import {
    CHATGPT_USAGE_URL,
    collectLimitAccounts,
-@@ -509,7 +510,7 @@ function PoolWindowCard({
+@@ -538,7 +539,7 @@ function PoolWindowCard({
    return (
      <div className="grid items-center gap-x-6 gap-y-3 rounded-lg border border-border/60 p-4 md:grid-cols-[11rem_minmax(0,1fr)]">
        <div className="flex flex-col gap-1">

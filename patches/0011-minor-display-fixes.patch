@@ -1,5 +1,5 @@
 # 0011-minor-display-fixes.patch
-# Baseline v0.1.0, apply after 0001–0010 (zh.5).
+# Baseline v0.1.1, apply after 0001–0010 (zh.5).
 # Small display fixes found while reviewing zh.4; display boundaries only.
 #   * Sidebar row accessible name: the status part (Goal / Working / Waiting / Approval /
 #     Input / Limited / Failed / Woke / Done) and the draft row's "Unsent draft" go through
@@ -84,17 +84,17 @@ index 912668e3..3ed7657b 100644
  export function displayScope(value: string): string {
    const turn = /^Turn (\d+|\?)$/.exec(value);
 diff --git a/apps/web/src/components/Sidebar.tsx b/apps/web/src/components/Sidebar.tsx
-index 708fbea1..59320a52 100644
+index aed645ad..b75dfebe 100644
 --- a/apps/web/src/components/Sidebar.tsx
 +++ b/apps/web/src/components/Sidebar.tsx
 @@ -1,5 +1,5 @@
  import { type EnvironmentId, type ScopedProjectRef } from "@t3tools/contracts";
 -import { displayDuration } from "~/acceptanceDisplayStrings";
 +import { displayDuration, displayKnown } from "~/acceptanceDisplayStrings";
+ import type { EnvironmentServerConfig } from "@t3tools/client-runtime/connection";
  import { ThreadHoverCard, ThreadHoverCardPopup } from "./ThreadHoverCard";
  import { CollapsibleSectionHeader } from "./ui/collapsible-section-header";
- import {
-@@ -873,7 +873,7 @@ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
+@@ -1342,7 +1342,7 @@ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
        : `${attachmentCount} attachment${attachmentCount === 1 ? "" : "s"}`;
    const accessibility = resolveSidebarRowAccessibility({
      title: preview,
@@ -103,7 +103,7 @@ index 708fbea1..59320a52 100644
      projectDisplayName: displayDefaultName(props.projectDisplayName),
      isActive: props.isActive,
    });
-@@ -1656,7 +1656,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: {
+@@ -1976,7 +1976,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
 
    const accessibility = resolveSidebarRowAccessibility({
      title: displayDefaultName(thread.title),
@@ -113,7 +113,7 @@ index 708fbea1..59320a52 100644
      isActive: props.isActive,
    });
 diff --git a/apps/web/src/components/chat/ProviderStatusBanner.tsx b/apps/web/src/components/chat/ProviderStatusBanner.tsx
-index dbbaf9c5..e377460b 100644
+index 4abbdb7e..6b8a2674 100644
 --- a/apps/web/src/components/chat/ProviderStatusBanner.tsx
 +++ b/apps/web/src/components/chat/ProviderStatusBanner.tsx
 @@ -1,4 +1,4 @@
@@ -122,7 +122,7 @@ index dbbaf9c5..e377460b 100644
  import { type ProviderInstanceId, type ServerProvider } from "@t3tools/contracts";
  import { memo } from "react";
  import { InfoIcon, XIcon } from "lucide-react";
-@@ -139,7 +139,7 @@ export const ProviderStatusBanner = memo(function ProviderStatusBanner({
+@@ -137,7 +137,7 @@ export const ProviderStatusBanner = memo(function ProviderStatusBanner({
          </AlertDescription>
          <AlertAction>
            <Button

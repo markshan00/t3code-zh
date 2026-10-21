@@ -3,7 +3,7 @@
  *
  *   node --test scripts/windows/windows-ci.test.ts
  *
- * 需要上游 git 对象的用例（Windows 补丁能否打到 v0.1.0 上）从 T3ZH_UPSTREAM_GIT（默认 <仓库>/upstream）读取
+ * 需要上游 git 对象的用例（Windows 补丁能否打到 v0.1.1 上）从 T3ZH_UPSTREAM_GIT（默认 <仓库>/upstream）读取
  * 固定 tag 的文件，不依赖任何工作区 HEAD；找不到时跳过。workflow 结构检查用 ruby 自带的 YAML 解析，没有 ruby 时跳过。
  */
 import assert from "node:assert/strict";
@@ -28,9 +28,9 @@ import {
 } from "./package-windows.ts";
 import { listPatches, porcelainPath, WINDOWS_PATCH_DIR } from "./prepare-source.ts";
 
-const VERSION = "0.1.0-zh.1";
-const UPSTREAM_TAG = "v0.1.0";
-const UPSTREAM_COMMIT = "81493efb71e8e8244f95d3e9f71d8369654ab151";
+const VERSION = "0.1.1-zh.1";
+const UPSTREAM_TAG = "v0.1.1";
+const UPSTREAM_COMMIT = "fe27e8e3dc12dcbb108e9a28fd9b8cb65f34ae92";
 const WORKFLOW = path.join(ZH_ROOT, ".github/workflows/build-windows.yml");
 const WINDOWS_PATCH = path.join(WINDOWS_PATCH_DIR, "0001-windows-zh-packaging.patch");
 
@@ -160,7 +160,7 @@ test("staging build 配置：通过与各类不符", () => {
 
 test("输出目录：只有一个安装包、没有更新清单", () => {
   const exe = installerName(VERSION);
-  assert.equal(exe, "T3-Code-0.1.0-zh.1-x64.exe");
+  assert.equal(exe, "T3-Code-0.1.1-zh.1-x64.exe");
   assert.deepEqual(checkOutputEntries([exe, `${exe}.blockmap`, "builder-debug.yml", "builder-effective-config.yaml"], VERSION), []);
   assert.match(checkOutputEntries([exe, "latest.yml"], VERSION).join("\n"), /更新清单/);
   assert.match(checkOutputEntries([exe, "nightly.yml"], VERSION).join("\n"), /更新清单/);
@@ -195,7 +195,7 @@ test("win-unpacked 文件清单：语言包、许可证、WSL runtime、无更�
 
 test("CLI 归档结构检查", () => {
   const stem = cliArchiveStem(VERSION);
-  assert.equal(stem, "t3-0.1.0-zh.1-linux-x64");
+  assert.equal(stem, "t3-0.1.1-zh.1-linux-x64");
   const listing = [`./${stem}/`, `${stem}/t3`, `${stem}/client/`, `${stem}/client/index.html`, `${stem}/node_modules/`, `${stem}/node_modules/node-pty/build/Release/pty.node`].join("\n");
   const members = normalizeTarMembers(listing);
   assert.deepEqual(checkCliArchiveMembers(members, VERSION), []);
@@ -205,7 +205,7 @@ test("CLI 归档结构检查", () => {
 });
 
 // ---------------------------------------------------------------------------
-// Windows 补丁对固定 tag 的 v0.1.0 源文件
+// Windows 补丁对固定 tag 的 v0.1.1 源文件
 
 function upstreamGitDir(): string | undefined {
   const dir = process.env.T3ZH_UPSTREAM_GIT ?? path.join(ZH_ROOT, "upstream");
@@ -219,10 +219,11 @@ test("Windows 补丁：上限常量与 package-windows.ts 一致", () => {
   assert.ok(match, "补丁里找不到新的文件数上限");
   assert.equal(Number(match[1]) + Number(match[2]), PAYLOAD_FILE_LIMIT);
   assert.match(text, /^\+\s+\? \[\.\.\.DESKTOP_ELECTRON_LANGUAGES, "zh-CN"\]$/m);
-  assert.match(text, /^\+\s+buildConfig\.nsis = \{ differentialPackage: true, installerLanguages: \["zh_CN"\], language: "2052" \};$/m);
+  assert.match(text, /^\+\s+installerLanguages: \["zh_CN"\],$/m);
+  assert.match(text, /^\+\s+language: "2052",$/m);
 });
 
-test("Windows 补丁：可打到 v0.1.0 原文件，也可接在共享补丁之后，打完仍能解析", async (t) => {
+test("Windows 补丁：可打到 v0.1.1 原文件，也可接在共享补丁之后，打完仍能解析", async (t) => {
   const upstream = upstreamGitDir();
   if (!upstream) return t.skip(`找不到 ${UPSTREAM_TAG} = ${UPSTREAM_COMMIT} 的上游 git 对象`);
   const file = "scripts/build-desktop-artifact.ts";
@@ -290,7 +291,7 @@ test("workflow：触发、权限、版本与基线", (t) => {
   // YAML 1.1 把裸写的 on 解析成 true。
   const on = wf.on ?? wf.true;
   assert.deepEqual(Object.keys(on).sort(), ["push", "workflow_dispatch"]);
-  assert.deepEqual(on.push, { branches: ["build/t21-v010-dual-platform"] });
+  assert.deepEqual(on.push, { branches: ["build/t23-v011-dual-platform"] });
   assert.equal(on.workflow_dispatch.inputs.version.default, VERSION);
   assert.deepEqual(wf.permissions, { contents: "read" });
   assert.equal(wf.env.UPSTREAM_TAG, UPSTREAM_TAG);

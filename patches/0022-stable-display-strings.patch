@@ -1,8 +1,8 @@
-# v0.1.0 stable UI display strings; values and protocol identifiers remain unchanged.
+# v0.1.1 stable UI display strings; values and protocol identifiers remain unchanged.
 # New guide, prompt link, workflow, telemetry and update interfaces use fixed skeletons.
 # Also removes a Chinese cleanup spacing artifact and extracts the existing GitCafe predicate.
 diff --git a/apps/web/src/components/CommandPaletteResults.tsx b/apps/web/src/components/CommandPaletteResults.tsx
-index 60a5a10a..e96e8a77 100644
+index f6624f7f..7191ab47 100644
 --- a/apps/web/src/components/CommandPaletteResults.tsx
 +++ b/apps/web/src/components/CommandPaletteResults.tsx
 @@ -1,3 +1,4 @@
@@ -10,7 +10,7 @@ index 60a5a10a..e96e8a77 100644
  import { translateFixed } from "~/newThreadDisplayStrings";
  import { displayKnown, displayRelativeTime } from "~/acceptanceDisplayStrings";
  import { type ResolvedKeybindingsConfig } from "@t3tools/contracts";
-@@ -169,7 +170,7 @@ function DisabledCommandPaletteResultRow(props: {
+@@ -168,7 +169,7 @@ function DisabledCommandPaletteResultRow(props: {
              {props.item.titleLeadingContent}
              <span className="truncate">
                {props.item.value.startsWith("action:add-project:")
@@ -19,7 +19,7 @@ index 60a5a10a..e96e8a77 100644
                  : props.item.title}
              </span>
            </span>
-@@ -179,7 +180,7 @@ function DisabledCommandPaletteResultRow(props: {
+@@ -178,7 +179,7 @@ function DisabledCommandPaletteResultRow(props: {
            {props.item.description ? (
              <span className="min-w-0 text-muted-foreground/70 text-xs">
                {props.item.value.startsWith("action:add-project:")
@@ -28,7 +28,7 @@ index 60a5a10a..e96e8a77 100644
                  : props.item.description}
              </span>
            ) : null}
-@@ -189,7 +190,7 @@ function DisabledCommandPaletteResultRow(props: {
+@@ -188,7 +189,7 @@ function DisabledCommandPaletteResultRow(props: {
            {props.item.titleLeadingContent}
            <span className="truncate">
              {props.item.value.startsWith("action:add-project:")
@@ -37,7 +37,7 @@ index 60a5a10a..e96e8a77 100644
                : props.item.title}
            </span>
          </span>
-@@ -229,7 +230,7 @@ function CommandPaletteResultRow(props: {
+@@ -228,7 +229,7 @@ function CommandPaletteResultRow(props: {
              {props.item.titleLeadingContent}
              <span className="truncate">
                {props.item.value.startsWith("action:add-project:")
@@ -46,7 +46,7 @@ index 60a5a10a..e96e8a77 100644
                  : props.item.title}
              </span>
            </span>
-@@ -239,7 +240,7 @@ function CommandPaletteResultRow(props: {
+@@ -238,7 +239,7 @@ function CommandPaletteResultRow(props: {
            {props.item.description ? (
              <span className="min-w-0 text-muted-foreground/70 text-xs">
                {props.item.value.startsWith("action:add-project:")
@@ -55,7 +55,7 @@ index 60a5a10a..e96e8a77 100644
                  : props.item.description}
              </span>
            ) : null}
-@@ -249,7 +250,7 @@ function CommandPaletteResultRow(props: {
+@@ -248,7 +249,7 @@ function CommandPaletteResultRow(props: {
            {props.item.titleLeadingContent}
            <span className="truncate">
              {props.item.value.startsWith("action:add-project:")
@@ -65,7 +65,7 @@ index 60a5a10a..e96e8a77 100644
            </span>
          </span>
 diff --git a/apps/web/src/components/chat/ThreadLineageWorkflowRow.tsx b/apps/web/src/components/chat/ThreadLineageWorkflowRow.tsx
-index 1d85211d..d2f1556a 100644
+index 2e00e47e..ca9bf321 100644
 --- a/apps/web/src/components/chat/ThreadLineageWorkflowRow.tsx
 +++ b/apps/web/src/components/chat/ThreadLineageWorkflowRow.tsx
 @@ -1,3 +1,5 @@
@@ -74,7 +74,7 @@ index 1d85211d..d2f1556a 100644
  import type {
    SubagentWorkflowGroup,
    RuntimeSubagent,
-@@ -89,7 +91,7 @@ function WorkflowMemberRow({
+@@ -81,7 +83,7 @@ function WorkflowMemberRow({
          >
            <ThreadRelationshipIcon driver={driver} provider={provider} status={member.status} />
            <span className="min-w-0 flex-1 truncate">{member.title}</span>
@@ -83,7 +83,7 @@ index 1d85211d..d2f1556a 100644
            {member.startedAt ? (
              <span className="shrink-0 text-2xs font-normal tabular-nums text-muted-foreground">
                <AgentElapsed agent={member} />
-@@ -183,7 +185,7 @@ export function ThreadLineageWorkflowRow({
+@@ -173,7 +175,7 @@ export function ThreadLineageWorkflowRow({
            variant="ghost"
            part="secondary"
            aria-expanded={expanded}
@@ -92,7 +92,7 @@ index 1d85211d..d2f1556a 100644
            onClick={() => setExpanded((value) => !value)}
          >
            <ChevronDownIcon
-@@ -206,7 +208,7 @@ export function ThreadLineageWorkflowRow({
+@@ -196,7 +198,7 @@ export function ThreadLineageWorkflowRow({
                    variant="panel"
                    tone={phase.state === "running" ? "emphasized" : "muted"}
                    expanded={open}
@@ -101,7 +101,7 @@ index 1d85211d..d2f1556a 100644
                    onClick={() => setPhaseOpen((phases) => new Map(phases).set(phase.index, !open))}
                    accessory={
                      <>
-@@ -214,8 +216,7 @@ export function ThreadLineageWorkflowRow({
+@@ -204,8 +206,7 @@ export function ThreadLineageWorkflowRow({
                          <SectionHeaderStatus>Failed</SectionHeaderStatus>
                        ) : null}
                        <span className="shrink-0 text-2xs font-normal tabular-nums">
@@ -112,7 +112,7 @@ index 1d85211d..d2f1556a 100644
                        <span className="shrink-0 text-2xs font-normal tabular-nums empty:hidden">
                          <AgentElapsed agent={phaseElapsed(phase)} />
 diff --git a/apps/web/src/components/promptLinks/HostedPromptLinkLanding.tsx b/apps/web/src/components/promptLinks/HostedPromptLinkLanding.tsx
-index 77fca435..06d8f05f 100644
+index 6a512608..98862ab1 100644
 --- a/apps/web/src/components/promptLinks/HostedPromptLinkLanding.tsx
 +++ b/apps/web/src/components/promptLinks/HostedPromptLinkLanding.tsx
 @@ -1,3 +1,4 @@
@@ -120,7 +120,7 @@ index 77fca435..06d8f05f 100644
  import {
    type LinkedPrompt,
    parseNewThreadLink,
-@@ -35,7 +36,7 @@ function summarize(
+@@ -34,7 +35,7 @@ function summarize(
    if (url.pathname !== "/new") {
      const prompt = parseThreadLinkPrompt(url.search);
      return prompt.ok
@@ -129,7 +129,7 @@ index 77fca435..06d8f05f 100644
        : prompt;
    }
    const link = parseNewThreadLink(url.search);
-@@ -44,7 +45,7 @@ function summarize(
+@@ -43,7 +44,7 @@ function summarize(
      const { owner, name, number } = link.value.pullRequest;
      return {
        ok: true,
@@ -138,7 +138,7 @@ index 77fca435..06d8f05f 100644
      };
    }
    const { repository, provider, model } = link.value;
-@@ -53,8 +54,8 @@ function summarize(
+@@ -52,8 +53,8 @@ function summarize(
      value: {
        prompt: link.value.prompt,
        details: [
@@ -149,7 +149,7 @@ index 77fca435..06d8f05f 100644
        ],
      },
    };
-@@ -146,8 +147,7 @@ function HostedPromptLinkLanding({
+@@ -134,8 +135,7 @@ function HostedPromptLinkLanding({
          <Alert className="mt-5" variant="error">
            <AlertTitle>This prompt had hidden characters, it may be malicious</AlertTitle>
            <AlertDescription>
@@ -160,7 +160,7 @@ index 77fca435..06d8f05f 100644
          </Alert>
        ) : null}
 diff --git a/apps/web/src/components/promptLinks/NewThreadLinkView.tsx b/apps/web/src/components/promptLinks/NewThreadLinkView.tsx
-index ab7cbc4b..079763dd 100644
+index b585d71b..851039c6 100644
 --- a/apps/web/src/components/promptLinks/NewThreadLinkView.tsx
 +++ b/apps/web/src/components/promptLinks/NewThreadLinkView.tsx
 @@ -1,3 +1,5 @@
@@ -169,7 +169,7 @@ index ab7cbc4b..079763dd 100644
  import { scopeProjectRef, scopeThreadRef } from "@t3tools/client-runtime/environment";
  import { getCloneDestinationPath } from "@t3tools/client-runtime/operations/projects";
  import {
-@@ -121,8 +123,8 @@ export function NewThreadLinkView({ link }: { readonly link: NewThreadLink }) {
+@@ -122,8 +124,8 @@ export function NewThreadLinkView({ link }: { readonly link: NewThreadLink }) {
        if (resolved === null || !resolved.exact) {
          notes.push(
            resolved === null
@@ -180,17 +180,17 @@ index ab7cbc4b..079763dd 100644
          );
        }
      }
-@@ -291,7 +293,7 @@ export function NewThreadLinkView({ link }: { readonly link: NewThreadLink }) {
+@@ -304,7 +306,7 @@ export function NewThreadLinkView({ link }: { readonly link: NewThreadLink }) {
            description="Clone it to work on it here, or start without a project."
          >
            <Button size="sm" onClick={() => void cloneRepository(state.repository)}>
 -            Clone {name}
 +            {fillSlot("Clone ", name, "")}
            </Button>
-           <Button size="sm" variant="outline" onClick={() => void openWithoutProject()}>
+           <Button size="sm" variant="outline" onClick={openWithoutProject}>
              Use without project
 diff --git a/apps/web/src/components/promptLinks/linkedPrompt.ts b/apps/web/src/components/promptLinks/linkedPrompt.ts
-index 7334f591..581b2931 100644
+index 5e6a61ff..7b49ad1c 100644
 --- a/apps/web/src/components/promptLinks/linkedPrompt.ts
 +++ b/apps/web/src/components/promptLinks/linkedPrompt.ts
 @@ -1,3 +1,4 @@
@@ -198,7 +198,7 @@ index 7334f591..581b2931 100644
  import type { LinkedPrompt } from "@t3tools/shared/promptLinks";
 
  import { type ComposerThreadTarget, useComposerDraftStore } from "~/composerDraftStore";
-@@ -32,7 +33,7 @@ export function placeLinkedPrompt(
+@@ -25,7 +26,7 @@ export function placeLinkedPrompt(
      toastManager.add({
        type: "info",
        title: "Prompt added from a link",
@@ -208,7 +208,7 @@ index 7334f591..581b2931 100644
    };
    const existing = useComposerDraftStore.getState().getComposerDraft(target)?.prompt ?? "";
 diff --git a/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx b/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx
-index 40fadb86..98694298 100644
+index 366d344d..9e6f313c 100644
 --- a/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx
 +++ b/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx
 @@ -1,3 +1,4 @@
@@ -216,7 +216,7 @@ index 40fadb86..98694298 100644
  import { Tooltip, TooltipTrigger, TooltipPopup } from "../ui/tooltip";
  import type {
    EnvironmentId,
-@@ -237,7 +238,7 @@ export function PullRequestStackMenu({
+@@ -236,7 +237,7 @@ export function PullRequestStackMenu({
              </DialogTitle>
              <DialogDescription>
                {confirmation === "merge"
@@ -226,7 +226,7 @@ index 40fadb86..98694298 100644
              </DialogDescription>
            </DialogHeader>
 diff --git a/apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx b/apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx
-index 4b9747ec..63372e3b 100644
+index 357c201e..efafff49 100644
 --- a/apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx
 +++ b/apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx
 @@ -1,3 +1,5 @@
@@ -235,18 +235,8 @@ index 4b9747ec..63372e3b 100644
  import type {
    DiffLineAnnotation,
    FileDiffContentsLoader,
-@@ -321,8 +323,7 @@ export function GuideExcerpt({
-             renderHeaderMetadata={() => (
-               <span className="flex items-center gap-2 text-xs text-muted-foreground">
-                 <span className="tabular-nums">
--                  {excerpt.side === "old" ? "removed code, " : ""}showing {slice.shown} of{" "}
--                  {slice.total} diff lines
-+                  {fillDisplaySlots(excerpt.side === "old" ? "removed code, showing \uE000 of \uE001 diff lines" : "showing \uE000 of \uE001 diff lines", [slice.shown, slice.total])}
-                 </span>
-                 <Button
-                   size="icon-xs"
-@@ -338,13 +339,12 @@ export function GuideExcerpt({
-         </div>
+@@ -163,13 +165,12 @@ export function GuideExcerpt({
+         />
        ) : loading ? (
          <p className="rounded-lg border border-border/60 px-3 py-2 text-xs text-muted-foreground">
 -          Loading {excerpt.path}...
@@ -261,8 +251,18 @@ index 4b9747ec..63372e3b 100644
            </span>
            <Button size="xs" variant="outline" onClick={() => onOpenFile(excerpt.path)}>
              Open in Code
+@@ -355,8 +356,7 @@ function ExcerptDiff({
+         renderHeaderMetadata={() => (
+           <span className="flex items-center gap-2 text-xs text-muted-foreground">
+             <span className="tabular-nums">
+-              {excerpt.side === "old" ? "removed code, " : ""}showing {slice.shown} of {slice.total}{" "}
+-              diff lines
++              {fillDisplaySlots(excerpt.side === "old" ? "removed code, showing \uE000 of \uE001 diff lines" : "showing \uE000 of \uE001 diff lines", [slice.shown, slice.total])}
+             </span>
+             <Button
+               size="icon-xs"
 diff --git a/apps/web/src/components/pullRequest/guide/GuideRail.tsx b/apps/web/src/components/pullRequest/guide/GuideRail.tsx
-index 8ff930af..45e3530e 100644
+index 7a165140..8bf658e0 100644
 --- a/apps/web/src/components/pullRequest/guide/GuideRail.tsx
 +++ b/apps/web/src/components/pullRequest/guide/GuideRail.tsx
 @@ -1,3 +1,4 @@
@@ -270,7 +270,7 @@ index 8ff930af..45e3530e 100644
  import type { PullRequestReviewGuideStop } from "@t3tools/contracts";
  import { CheckIcon } from "lucide-react";
 
-@@ -37,7 +38,7 @@ export function GuideRail({
+@@ -32,7 +33,7 @@ export function GuideRail({
                  Look closely
                </Badge>
              ) : null}
@@ -279,9 +279,9 @@ index 8ff930af..45e3530e 100644
            </>
          }
        />
-@@ -48,7 +49,7 @@ export function GuideRail({
+@@ -42,7 +43,7 @@ export function GuideRail({
+   return (
      <nav aria-label="Review tour" className="flex min-h-0 flex-col gap-4">
-       {/* Beside the stop only; narrow, the stop's own header says where the reader is. */}
        <p className="text-xs text-muted-foreground tabular-nums @max-[56rem]/guide:hidden">
 -        {reviewed} of {stops.length} read
 +        {fillDisplaySlots("\uE000 of \uE001 read", [reviewed, stops.length])}
@@ -289,7 +289,7 @@ index 8ff930af..45e3530e 100644
        <div className="flex flex-col gap-4">
          <ol className="flex flex-col gap-0.5">{stops.map(renderStop)}</ol>
 diff --git a/apps/web/src/components/pullRequest/guide/GuideStop.tsx b/apps/web/src/components/pullRequest/guide/GuideStop.tsx
-index bfd1aed8..4037a9fc 100644
+index 81e5aa40..57eb9ce7 100644
 --- a/apps/web/src/components/pullRequest/guide/GuideStop.tsx
 +++ b/apps/web/src/components/pullRequest/guide/GuideStop.tsx
 @@ -1,3 +1,5 @@
@@ -298,7 +298,7 @@ index bfd1aed8..4037a9fc 100644
  import type { FileDiffContentsLoader, FileDiffMetadata } from "@pierre/diffs";
  import type {
    PullRequestReviewGuideAttention,
-@@ -101,7 +103,7 @@ export function GuideStop({
+@@ -85,7 +87,7 @@ export function GuideStop({
          <Collapsible open={railOpen} onOpenChange={onRailOpenChange}>
            <header className="flex items-center justify-between gap-2">
              <p className="text-xs text-muted-foreground tabular-nums @max-[56rem]/guide:hidden">
@@ -307,7 +307,7 @@ index bfd1aed8..4037a9fc 100644
              </p>
              <CollapsibleTrigger
                render={
-@@ -109,7 +111,7 @@ export function GuideStop({
+@@ -93,7 +95,7 @@ export function GuideStop({
                }
              >
                <span className="tabular-nums">
@@ -316,7 +316,7 @@ index bfd1aed8..4037a9fc 100644
                </span>
                <ChevronDownIcon aria-hidden className={cn(railOpen && "rotate-180")} />
              </CollapsibleTrigger>
-@@ -289,7 +291,7 @@ export function GuideStop({
+@@ -271,7 +273,7 @@ export function GuideStop({
          <footer className="flex flex-wrap items-center justify-end gap-3 border-t border-border/60 pt-4">
            {nextTitle !== null ? (
              <Button className="min-w-0" onClick={() => onStep(1)}>
@@ -326,15 +326,15 @@ index bfd1aed8..4037a9fc 100644
              </Button>
            ) : onFinish !== null ? (
 diff --git a/apps/web/src/components/pullRequest/guide/GuideTour.tsx b/apps/web/src/components/pullRequest/guide/GuideTour.tsx
-index 2c084664..5677a3cb 100644
+index e374bc59..beffe54a 100644
 --- a/apps/web/src/components/pullRequest/guide/GuideTour.tsx
 +++ b/apps/web/src/components/pullRequest/guide/GuideTour.tsx
 @@ -1,3 +1,4 @@
 +import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
  import type { EnvironmentId, PullRequestRef, PullRequestReviewGuide } from "@t3tools/contracts";
- import { useEffect, useEffectEvent, useMemo, useRef, useState, type ReactNode } from "react";
+ import { useEffect, useEffectEvent, useRef, useState, type ReactNode } from "react";
 
-@@ -128,7 +129,7 @@ export function GuideTour({
+@@ -103,7 +104,7 @@ export function GuideTour({
            {banner}
            {diff.error !== null ? (
              <p className="text-xs text-muted-foreground">
@@ -344,7 +344,7 @@ index 2c084664..5677a3cb 100644
            ) : null}
            {stop === null ? (
 diff --git a/apps/web/src/components/settings/TelemetryExportSettings.tsx b/apps/web/src/components/settings/TelemetryExportSettings.tsx
-index a3124ff4..7103a9f5 100644
+index 6f66c5eb..300ca6b6 100644
 --- a/apps/web/src/components/settings/TelemetryExportSettings.tsx
 +++ b/apps/web/src/components/settings/TelemetryExportSettings.tsx
 @@ -1,3 +1,4 @@
@@ -352,7 +352,7 @@ index a3124ff4..7103a9f5 100644
  import { useAtomValue } from "@effect/atom-react";
  import type { OtlpEndpointCheckResult, OtlpSignal } from "@t3tools/contracts";
  import { useEffect, useEffectEvent, useState } from "react";
-@@ -152,8 +153,7 @@ function TelemetryExportForm() {
+@@ -142,8 +143,7 @@ function TelemetryExportForm() {
          </p>
          {!canEdit && (
            <p className="text-xs text-muted-foreground">
@@ -362,7 +362,7 @@ index a3124ff4..7103a9f5 100644
            </p>
          )}
          {SIGNALS.map(({ key, label, signal }) => {
-@@ -164,7 +164,7 @@ function TelemetryExportForm() {
+@@ -154,7 +154,7 @@ function TelemetryExportForm() {
                <div className="flex items-center justify-between gap-3">
                  <div className="flex items-center gap-1.5">
                    {status && <ConnectionStatusDot dotClassName={status.dot} />}
@@ -371,7 +371,7 @@ index a3124ff4..7103a9f5 100644
                  </div>
                  {status && <span className="text-xs text-muted-foreground">{status.label}</span>}
                </div>
-@@ -204,7 +204,7 @@ function TelemetryExportForm() {
+@@ -194,7 +194,7 @@ function TelemetryExportForm() {
                </div>
                {saved[key] !== (running?.[key] ?? "") && (
                  <p className="break-all text-xs text-muted-foreground">
@@ -381,16 +381,16 @@ index a3124ff4..7103a9f5 100644
                )}
              </div>
 diff --git a/apps/web/src/components/sidebar/SidebarUpdateCapsule.tsx b/apps/web/src/components/sidebar/SidebarUpdateCapsule.tsx
-index b8306c59..91d0ab0d 100644
+index 57e649ba..03f60afe 100644
 --- a/apps/web/src/components/sidebar/SidebarUpdateCapsule.tsx
 +++ b/apps/web/src/components/sidebar/SidebarUpdateCapsule.tsx
 @@ -1,3 +1,5 @@
 +import { translateFixed } from "~/newThreadDisplayStrings";
 +import { displayUpdateStatus } from "~/stableDisplayStrings";
  import { useAtomValue } from "@effect/atom-react";
- import { Atom } from "effect/reactivity";
- import { type ReactNode, useCallback, useMemo, useSyncExternalStore } from "react";
-@@ -117,7 +119,7 @@ export function SidebarUpdateCapsule({
+ import { type ReactNode, useSyncExternalStore } from "react";
+
+@@ -98,7 +100,7 @@ export function SidebarUpdateCapsule({
              <button
                type="button"
                aria-label={
@@ -399,7 +399,7 @@ index b8306c59..91d0ab0d 100644
                }
                className="absolute inset-0 cursor-pointer rounded-full outline-hidden ring-ring hover:bg-sidebar-row-hover focus-visible:ring-2 focus-visible:ring-inset"
              />
-@@ -136,7 +138,7 @@ export function SidebarUpdateCapsule({
+@@ -116,7 +118,7 @@ export function SidebarUpdateCapsule({
              className="relative shrink-0 cursor-pointer pr-3 pl-1.5 text-xs underline decoration-muted-foreground/60 underline-offset-3 hover:decoration-current"
              onClick={runAction}
            >
@@ -408,7 +408,7 @@ index b8306c59..91d0ab0d 100644
            </button>
          ) : (
            <span className="pointer-events-none relative grid size-8 shrink-0 place-items-center">
-@@ -150,7 +152,7 @@ export function SidebarUpdateCapsule({
+@@ -130,7 +132,7 @@ export function SidebarUpdateCapsule({
              <div className="flex items-center justify-between gap-3">
                <span>This app</span>
                <span className="text-muted-foreground tabular-nums">
@@ -417,7 +417,7 @@ index b8306c59..91d0ab0d 100644
                </span>
              </div>
            ) : onRestart ? (
-@@ -171,7 +173,7 @@ export function SidebarUpdateCapsule({
+@@ -151,7 +153,7 @@ export function SidebarUpdateCapsule({
                      status === "failed" ? "text-destructive" : "text-muted-foreground",
                    )}
                  >
@@ -427,7 +427,7 @@ index b8306c59..91d0ab0d 100644
                      ? ` ${formatUpdateElapsed(now - machine.startedAt)}`
                      : ""}
 diff --git a/apps/web/src/components/sidebar/UpdateEverythingDialog.tsx b/apps/web/src/components/sidebar/UpdateEverythingDialog.tsx
-index 51f4a369..0537e2cd 100644
+index a5f7c425..e855e4c7 100644
 --- a/apps/web/src/components/sidebar/UpdateEverythingDialog.tsx
 +++ b/apps/web/src/components/sidebar/UpdateEverythingDialog.tsx
 @@ -1,3 +1,5 @@
@@ -436,7 +436,7 @@ index 51f4a369..0537e2cd 100644
  import { useAtomValue } from "@effect/atom-react";
  import { EnvironmentId } from "@t3tools/contracts";
  import { Atom } from "effect/reactivity";
-@@ -93,7 +95,7 @@ function UpdateEverythingDialogContent({
+@@ -83,7 +85,7 @@ function UpdateEverythingDialogContent({
      ),
    );
    const running = stopped + continuing;
@@ -445,7 +445,7 @@ index 51f4a369..0537e2cd 100644
 
    return (
      <>
-@@ -113,7 +115,7 @@ function UpdateEverythingDialogContent({
+@@ -103,7 +105,7 @@ function UpdateEverythingDialogContent({
          ) : null}
          {skipped.length > 0 ? (
            <p className="whitespace-pre-line pt-2 text-sm">
@@ -455,7 +455,7 @@ index 51f4a369..0537e2cd 100644
          ) : null}
        </AlertDialogHeader>
 diff --git a/apps/web/src/components/sidebar/updateEverything.logic.ts b/apps/web/src/components/sidebar/updateEverything.logic.ts
-index ac80b406..53167d1d 100644
+index 9a7c32ab..fa044885 100644
 --- a/apps/web/src/components/sidebar/updateEverything.logic.ts
 +++ b/apps/web/src/components/sidebar/updateEverything.logic.ts
 @@ -1,3 +1,5 @@
@@ -464,7 +464,7 @@ index ac80b406..53167d1d 100644
  import type { ServerUpdateState } from "@t3tools/client-runtime/state/server";
  import type { EnvironmentId, ServerConfig } from "@t3tools/contracts";
  import { cliReleaseChannelOf } from "@t3tools/shared/cliRelease";
-@@ -328,7 +330,7 @@ export function describeUpdateCapsule(
+@@ -275,7 +277,7 @@ export function describeUpdateCapsule(
    if (failed.length > 0) {
      return {
        tone: "failed",
@@ -473,7 +473,7 @@ index ac80b406..53167d1d 100644
        action: failed.some(({ machine }) => machine.server !== null) ? "retry" : "dismiss",
      };
    }
-@@ -401,7 +403,7 @@ export function getUpdateEverythingToastView(
+@@ -335,7 +337,7 @@ export function getUpdateEverythingToastView(
    readonly description?: string;
  } | null {
    const parts = [
@@ -482,7 +482,7 @@ index ac80b406..53167d1d 100644
      countLabel(result.updatedServers, "server"),
      countLabel(result.updatedProviders, "provider"),
    ].filter((part) => part !== null);
-@@ -409,19 +411,19 @@ export function getUpdateEverythingToastView(
+@@ -343,19 +345,19 @@ export function getUpdateEverythingToastView(
      result.restarting.length === 0
        ? []
        : [
@@ -505,7 +505,7 @@ index ac80b406..53167d1d 100644
      description: [...result.failures, ...restarting].join("\n"),
    };
  }
-@@ -441,10 +443,14 @@ export interface UpdateEverythingPlan {
+@@ -373,10 +375,14 @@ export interface UpdateEverythingPlan {
  }
 
  function countLabel(count: number, noun: string): string | null {
@@ -521,7 +521,7 @@ index ac80b406..53167d1d 100644
    if (parts.length <= 2) return parts.join(" and ");
    return `${parts.slice(0, -1).join(", ")}, and ${parts.at(-1)}`;
  }
-@@ -462,13 +468,13 @@ export function describeUpdateEverything(plan: UpdateEverythingPlan): {
+@@ -389,13 +395,13 @@ export function describeUpdateEverything(plan: UpdateEverythingPlan): {
      (count, machine) => count + machine.providers.length,
      0,
    );
@@ -538,8 +538,8 @@ index ac80b406..53167d1d 100644
 
    const machines = new Map<EnvironmentId, { label: string; items: string[] }>();
    const itemsFor = (environmentId: EnvironmentId, label: string) => {
-@@ -483,8 +489,8 @@ export function describeUpdateEverything(plan: UpdateEverythingPlan): {
-     // offers, so it has no target version to show.
+@@ -408,8 +414,8 @@ export function describeUpdateEverything(plan: UpdateEverythingPlan): {
+   for (const server of plan.servers) {
      itemsFor(server.environmentId, server.serverLabel).push(
        server.selfUpdate === "desktop-managed"
 -        ? "desktop app update"
@@ -549,7 +549,7 @@ index ac80b406..53167d1d 100644
      );
    }
    for (const machine of plan.providerMachines) {
-@@ -494,7 +500,7 @@ export function describeUpdateEverything(plan: UpdateEverythingPlan): {
+@@ -419,7 +425,7 @@ export function describeUpdateEverything(plan: UpdateEverythingPlan): {
    return {
      summary,
      lines: [

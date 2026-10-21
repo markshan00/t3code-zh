@@ -3,7 +3,7 @@ name: Build Windows x64 (T3 Code 中文版)
 # 构建 T3 Code 中文版的 Windows x64 unsigned NSIS 安装包，只上传 artifacts：
 # 不创建 Release、不推送任何分支、不发布到 npm，也不使用任何签名或部署密钥。
 #
-# 照上游 v0.1.0 官方流程（.github/workflows/release.yml + release-desktop.yml）分三段：
+# 照上游 v0.1.1 官方流程（.github/workflows/release.yml + release-desktop.yml）分三段：
 #   bundle     Linux：上游源码 + 共享 patches/ + 构建时转换插件 → 中文 server/web/desktop JS bundle
 #   linux_cli  Linux：同一份 bundle 打 Linux x64 CLI 归档（WSL 后端运行的同版本 runtime）
 #   windows    Windows：同一份 bundle + CLI 归档 → unsigned NSIS，核对包内容，安装后实际启动烟测
@@ -15,12 +15,12 @@ on:
       version:
         description: "交付版本号（不能是 -nightly.YYYYMMDD.N 或上游预览版形式）"
         required: false
-        default: "0.1.0-zh.1"
+        default: "0.1.1-zh.1"
         type: string
   # 首次运行：默认分支没有 workflow 时 workflow_dispatch 无法注册，由推送这个隔离分支触发。只匹配这一个精确分支。
   push:
     branches:
-      - "build/t21-v010-dual-platform"
+      - "build/t23-v011-dual-platform"
 
 permissions:
   contents: read
@@ -30,9 +30,9 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  T3ZH_VERSION: ${{ inputs.version || '0.1.0-zh.1' }}
-  UPSTREAM_TAG: v0.1.0
-  UPSTREAM_COMMIT: 81493efb71e8e8244f95d3e9f71d8369654ab151
+  T3ZH_VERSION: ${{ inputs.version || '0.1.1-zh.1' }}
+  UPSTREAM_TAG: v0.1.1
+  UPSTREAM_COMMIT: fe27e8e3dc12dcbb108e9a28fd9b8cb65f34ae92
   # 汉化仓库检出到 zh/，上游源码取到同级的 src/：两者互不嵌套，上游代码不会从 zh/node_modules 解析到依赖。
   ZH_DIR: zh
   SRC_DIR: src
