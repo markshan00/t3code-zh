@@ -318,10 +318,10 @@ index 367420c4..8636ecaf 100644
      );
 diff --git a/apps/web/src/v011DisplayStrings.ts b/apps/web/src/v011DisplayStrings.ts
 new file mode 100644
-index 00000000..0f3692e3
+index 00000000..3300a7b2
 --- /dev/null
 +++ b/apps/web/src/v011DisplayStrings.ts
-@@ -0,0 +1,32 @@
+@@ -0,0 +1,45 @@
 +import { fillSlot, translateFixed } from "./newThreadDisplayStrings";
 +import { fillDisplaySlots } from "./stableDisplayStrings";
 +
@@ -349,8 +349,21 @@ index 00000000..0f3692e3
 +  return row ? fillSlot("Filter ", row[1]!, ` needs a path under body, headers or query${row[2]}`) : value;
 +}
 +
++// These are the eight fixed pairs returned by webhookDeliveryLabel's local labels map.
++// Ordinary tuples keep the display literals out of the plugin's value-use pre-scan.
++const WEBHOOK_DELIVERY_STATUS_PAIRS: ReadonlyArray<readonly [string, string]> = [
++  ["dispatch_failed", "Run failed"],
++  ["duplicate", "Duplicate"],
++  ["coalesced", "Coalesced"],
++  ["filtered", "Filtered"],
++  ["rejected_signature", "Bad signature"],
++  ["disabled", "Task paused"],
++  ["rate_limited", "Rate limited"],
++  ["expired", "Too old"],
++];
++
 +export function displayWebhookDeliveryStatus(outcome: string, label: string): string {
-+  return (outcome === "coalesced" && label === "Coalesced") || (outcome === "filtered" && label === "Filtered")
-+    ? translateFixed(label)
-+    : label;
++  return WEBHOOK_DELIVERY_STATUS_PAIRS.some(
++    ([knownOutcome, knownLabel]) => outcome === knownOutcome && label === knownLabel,
++  ) ? translateFixed(label) : label;
 +}
