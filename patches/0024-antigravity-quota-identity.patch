@@ -1,8 +1,7 @@
 # T24: Query measured Antigravity quotas with the Hub compatibility identity.
 # Suppress rolling full-window reset placeholders for untouched buckets.
-# Baseline: v0.1.1 fe27e8e3dc12dcbb108e9a28fd9b8cb65f34ae92.
+# Baseline: v0.1.5 6d450a4284852af137b2f3407fddd89eb76e7644.
 diff --git a/apps/server/src/provider/antigravityUsageLimits.test.ts b/apps/server/src/provider/antigravityUsageLimits.test.ts
-index 6fa7f65f84..834ca8af52 100644
 --- a/apps/server/src/provider/antigravityUsageLimits.test.ts
 +++ b/apps/server/src/provider/antigravityUsageLimits.test.ts
 @@ -1,6 +1,8 @@
@@ -14,7 +13,7 @@ index 6fa7f65f84..834ca8af52 100644
  import * as Effect from "effect/Effect";
  import * as FileSystem from "effect/FileSystem";
  import * as Path from "effect/Path";
-@@ -61,6 +63,9 @@ const fixture = Effect.fn("AntigravityUsageTest.fixture")(function* (
+@@ -61,6 +63,9 @@
      userId?: string;
      missingToken?: boolean;
      authMethod?: "oauth-personal" | "gemini-api-key";
@@ -24,7 +23,7 @@ index 6fa7f65f84..834ca8af52 100644
    } = {},
  ) {
    const fs = yield* FileSystem.FileSystem;
-@@ -107,6 +112,11 @@ const fixture = Effect.fn("AntigravityUsageTest.fixture")(function* (
+@@ -107,6 +112,11 @@
          );
        }
        expect(JSON.parse(body)).toEqual({ project: "project-id" });
@@ -36,7 +35,7 @@ index 6fa7f65f84..834ca8af52 100644
        return HttpClientResponse.fromWeb(
          request,
          request.url.endsWith(":retrieveUserQuotaSummary")
-@@ -120,11 +130,92 @@ const fixture = Effect.fn("AntigravityUsageTest.fixture")(function* (
+@@ -120,11 +130,92 @@
    const usage = yield* makeAntigravityUsageProbe({
      profileDirectory,
      authMethod: options.authMethod ?? "oauth-personal",
@@ -131,10 +130,9 @@ index 6fa7f65f84..834ca8af52 100644
      Effect.gen(function* () {
        const { probe, requests } = yield* fixture();
 diff --git a/apps/server/src/provider/antigravityUsageLimits.ts b/apps/server/src/provider/antigravityUsageLimits.ts
-index 55ef357994..485aece999 100644
 --- a/apps/server/src/provider/antigravityUsageLimits.ts
 +++ b/apps/server/src/provider/antigravityUsageLimits.ts
-@@ -40,6 +40,7 @@ const Bucket = Schema.Struct({
+@@ -40,6 +40,7 @@
    bucketId: Schema.NonEmptyString,
    window: Schema.optional(Schema.String),
    displayName: Schema.optional(Schema.String),
@@ -142,7 +140,7 @@ index 55ef357994..485aece999 100644
    disabled: Schema.optional(Schema.Boolean),
  });
  const Summary = Schema.Struct({
-@@ -96,7 +97,7 @@ function quotaWindow(
+@@ -96,7 +97,7 @@
    };
  }
  
@@ -151,7 +149,7 @@ index 55ef357994..485aece999 100644
    const windows = new Map<string, ServerProviderUsageWindow>();
    const groups = summary.groups?.some((group) => group.buckets?.length)
      ? summary.groups
-@@ -118,7 +119,23 @@ function summaryWindows(summary: typeof Summary.Type) {
+@@ -118,7 +119,23 @@
          weekly ? "weekly" : session ? "session" : "other",
          weekly ? 7 * 24 * 60 : session ? 5 * 60 : undefined,
        );
@@ -176,7 +174,7 @@ index 55ef357994..485aece999 100644
      }
    }
    return [...windows.values()];
-@@ -167,6 +184,9 @@ export const makeAntigravityUsageProbe = Effect.fn("makeAntigravityUsageProbe")(
+@@ -167,6 +184,9 @@
    const crypto = yield* Crypto.Crypto;
    const platform = yield* HostProcess.Platform;
    const architecture = yield* HostProcess.Architecture;
@@ -186,7 +184,7 @@ index 55ef357994..485aece999 100644
    const tokenPath = path.join(input.profileDirectory, "antigravity-acp", "acp_token.json");
    let cached:
      | { fingerprint: string; account: string; accessToken: string; expiresAt: number }
-@@ -260,7 +280,7 @@ export const makeAntigravityUsageProbe = Effect.fn("makeAntigravityUsageProbe")(
+@@ -257,7 +277,7 @@
              HttpClientRequest.post(`${endpoint}/v1internal:${operation}`).pipe(
                HttpClientRequest.setHeaders({
                  Authorization: `Bearer ${accessToken}`,
@@ -195,7 +193,7 @@ index 55ef357994..485aece999 100644
                }),
                HttpClientRequest.bodyJsonUnsafe(
                  token.project_id ? { project: token.project_id } : {},
-@@ -280,7 +300,7 @@ export const makeAntigravityUsageProbe = Effect.fn("makeAntigravityUsageProbe")(
+@@ -277,7 +297,7 @@
        return [...windows.values()];
      });
      const summary = yield* fetchWindows("retrieveUserQuotaSummary", (response) =>

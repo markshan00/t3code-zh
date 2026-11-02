@@ -1,5 +1,5 @@
 # Mark explicitly authorized this functional recovery fix on 2026-10-07.
-# Baseline: v0.1.1 / fe27e8e3dc12dcbb108e9a28fd9b8cb65f34ae92
+# Baseline: v0.1.5 / 6d450a4284852af137b2f3407fddd89eb76e7644
 # Keep T3 Connect loading/failure visible and offer a manual renderer reload.
 # Does not change auth sessions, scopes, account state or SDK dependencies.
 diff --git a/apps/web/src/components/clerk/T3ConnectSidebarSignIn.behavior.browser.test.tsx b/apps/web/src/components/clerk/T3ConnectSidebarSignIn.behavior.browser.test.tsx
@@ -167,7 +167,6 @@ new file mode 100644
 +  expect(vi.getTimerCount()).toBe(0);
 +});
 diff --git a/apps/web/src/components/clerk/T3ConnectSidebarSignIn.tsx b/apps/web/src/components/clerk/T3ConnectSidebarSignIn.tsx
-index e75ce33c..f7bf3f9a 100644
 --- a/apps/web/src/components/clerk/T3ConnectSidebarSignIn.tsx
 +++ b/apps/web/src/components/clerk/T3ConnectSidebarSignIn.tsx
 @@ -1,15 +1,29 @@
@@ -176,16 +175,16 @@ index e75ce33c..f7bf3f9a 100644
 +import { ClerkFailed, ClerkLoaded, ClerkLoading, UserButton, useAuth } from "@clerk/react";
 +import { LogInIcon, RotateCwIcon } from "lucide-react";
 +import { useEffect, useState } from "react";
-
+ 
  import { hasCloudPublicConfig } from "../../cloud/publicConfig";
  import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 +import { Button } from "../ui/button";
  import { T3_CONNECT_ACCOUNT_PAGES } from "./T3ConnectAccountPages";
  import { useT3ConnectAuthPrompt } from "./useT3ConnectAuthPrompt";
-
+ 
  export function T3ConnectSidebarSignIn() {
    if (!hasCloudPublicConfig()) return null;
-
+ 
 -  return <ConfiguredT3ConnectSidebarSignIn />;
 +  return (
 +    <>
@@ -201,20 +200,20 @@ index e75ce33c..f7bf3f9a 100644
 +    </>
 +  );
  }
-
+ 
  export function T3ConnectSidebarAvatar() {
-@@ -50,7 +64,8 @@ function ConfiguredT3ConnectSidebarSignIn() {
+@@ -51,7 +65,8 @@
    const { isLoaded, isSignedIn } = useAuth();
-   const { authPrompt, openAuthPrompt } = useT3ConnectAuthPrompt();
-
+   const { openAuthPrompt } = useT3ConnectAuthPrompt();
+ 
 -  if (!isLoaded || isSignedIn) return null;
 +  if (!isLoaded) return <T3ConnectAuthRecovery loading />;
 +  if (isSignedIn) return null;
-
+ 
    return (
-     <>
-@@ -66,3 +81,44 @@ function ConfiguredT3ConnectSidebarSignIn() {
-     </>
+     <SidebarMenu>
+@@ -64,3 +79,44 @@
+     </SidebarMenu>
    );
  }
 +

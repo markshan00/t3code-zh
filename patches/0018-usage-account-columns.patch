@@ -1,9 +1,8 @@
-# 基线 v0.1.1 / fe27e8e3dc12dcbb108e9a28fd9b8cb65f34ae92；按编号顺序普通 apply。
+# 基线 v0.1.5 / 6d450a4284852af137b2f3407fddd89eb76e7644；按编号顺序普通 apply。
 diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/components/usage/UsageLimitsPooled.tsx
-index 03ab85cc..f16bdd1b 100644
 --- a/apps/web/src/components/usage/UsageLimitsPooled.tsx
 +++ b/apps/web/src/components/usage/UsageLimitsPooled.tsx
-@@ -193,7 +193,7 @@ function SegmentPopover({
+@@ -193,7 +193,7 @@
          ) : null}
          {timeLeft !== null ? <Row label="Even pace">{timeLeft}% left by now</Row> : null}
          {reset && reset.restoresPercent > 0 ? (
@@ -12,7 +11,7 @@ index 03ab85cc..f16bdd1b 100644
          ) : null}
        </div>
        {credits && redeem ? (
-@@ -286,8 +286,6 @@ function PoolSegment({
+@@ -287,8 +287,6 @@
    readonly refillPercent: number;
    readonly color: string;
    readonly now: number;
@@ -21,7 +20,7 @@ index 03ab85cc..f16bdd1b 100644
  }) {
    return account.redeem ? (
      <RedeemableSegment account={account} redeemAt={account.redeem} {...props} />
-@@ -331,14 +329,10 @@ function SegmentTriggers({
+@@ -332,14 +330,10 @@
    refillPercent,
    color,
    now,
@@ -36,7 +35,7 @@ index 03ab85cc..f16bdd1b 100644
  }) {
    const popover = use(SegmentPopoverContext) ?? undefined;
    const payload: SegmentPayload = { account, window, reset, redeem };
-@@ -357,24 +351,24 @@ function SegmentTriggers({
+@@ -358,24 +352,24 @@
            <button
              ref={segmentRef}
              type="button"
@@ -66,7 +65,7 @@ index 03ab85cc..f16bdd1b 100644
                  style={{
                    width: `${Math.min(100 - remaining, refillPercent)}%`,
                    backgroundImage: `repeating-linear-gradient(135deg, ${color} 0 1px, transparent 1px 5px)`,
-@@ -386,142 +380,16 @@ function SegmentTriggers({
+@@ -387,147 +381,16 @@
          {paceMark ? (
            <span
              aria-hidden
@@ -88,7 +87,12 @@ index 03ab85cc..f16bdd1b 100644
 -              className="min-w-0 truncate font-medium text-foreground"
 -            />
 -          ) : null}
--          <span className="shrink-0 font-semibold text-foreground tabular-nums">{remaining}%</span>
+-          {/* A single-account bar repeats the headline percentage. */}
+-          {showAccountName ? (
+-            <span className="shrink-0 font-semibold text-foreground tabular-nums">
+-              {remaining}%
+-            </span>
+-          ) : null}
 -          {resetsIn || credits ? (
 -            <span className="ms-auto flex min-w-0 items-center gap-1.5 overflow-hidden rounded-sm bg-background/85 px-1.5 py-0.5 text-2xs whitespace-nowrap text-foreground tabular-nums">
 -              {resetsIn?.replace("resets in ", "↻ ") ?? ""}
@@ -113,7 +117,7 @@ index 03ab85cc..f16bdd1b 100644
      </>
    );
  }
-
+ 
 -function LegendRow({
 -  payload,
 -  color,
@@ -211,16 +215,12 @@ index 03ab85cc..f16bdd1b 100644
  function PoolWindowCard({
    pool,
    color,
-@@ -535,38 +403,52 @@ function PoolWindowCard({
+@@ -541,38 +404,52 @@
    readonly label?: string | undefined;
    readonly description?: string | undefined;
  }) {
 -  const nextRefill = pool.resets.find((reset) => reset.restoresPercent > 0);
-+  const member = pool.members[0]!;
-+  const reset = pool.resets.find((candidate) => candidate.member.account.key === member.account.key);
-+  const resetsIn = formatResetsIn(member.window, now);
-+  const credits = member.account.limits.resetCredits?.availableCount ?? 0;
-   return (
+-  return (
 -    <div className="grid items-center gap-x-6 gap-y-3 rounded-lg border border-border/60 p-4 md:grid-cols-[11rem_minmax(0,1fr)]">
 -      <div className="flex flex-col gap-1">
 -        <span className="text-sm font-medium text-foreground">{label !== undefined ? label : displayKnown(pool.label)}</span>
@@ -232,6 +232,11 @@ index 03ab85cc..f16bdd1b 100644
 -            <span>left</span>
 -            {pool.pace ? <PaceIcon pace={pool.pace} /> : null}
 -          </span>
++  const member = pool.members[0]!;
++  const reset = pool.resets.find((candidate) => candidate.member.account.key === member.account.key);
++  const resetsIn = formatResetsIn(member.window, now);
++  const credits = member.account.limits.resetCredits?.availableCount ?? 0;
++  return (
 +    <div className="flex min-w-0 flex-col gap-3 py-5 first:pt-0 last:pb-0">
 +      <span className="text-xs font-medium text-muted-foreground">
 +        {label !== undefined ? label : displayKnown(pool.label)}
@@ -239,16 +244,16 @@ index 03ab85cc..f16bdd1b 100644
 +      <div className="flex items-baseline gap-2">
 +        <span className="text-3xl font-semibold text-foreground tabular-nums">
 +          {remainingPercent(member.window)}%
-+        </span>
-+        <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
-+          <span>left</span>
-+          {pool.pace ? <PaceIcon pace={pool.pace} /> : null}
          </span>
 -        {nextRefill && pool.columns.length > 1 ? (
 -          <span className="text-xs font-medium text-foreground tabular-nums">
 -            ↻ +{nextRefill.restoresPercent}%
 -          </span>
 -        ) : null}
++        <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
++          <span>left</span>
++          {pool.pace ? <PaceIcon pace={pool.pace} /> : null}
++        </span>
        </div>
 -      <PoolBar pool={pool} color={color} now={now} />
 -      {description ? (
@@ -276,7 +281,7 @@ index 03ab85cc..f16bdd1b 100644
      </div>
    );
  }
-
+ 
 +/** Keep each account's windows together, regardless of which provider it uses. */
  function PoolSection({ pool, now }: { readonly pool: LimitPool; readonly now: number }) {
    const color = barColor(pool.driver);
@@ -285,7 +290,7 @@ index 03ab85cc..f16bdd1b 100644
    return (
      <section className="flex flex-col gap-3">
        <h2 className="flex items-center gap-2 text-sm font-medium text-foreground">
-@@ -579,19 +461,39 @@ function PoolSection({ pool, now }: { readonly pool: LimitPool; readonly now: nu
+@@ -585,19 +462,39 @@
          />
          {label}
        </h2>

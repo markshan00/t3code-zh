@@ -1,8 +1,8 @@
 # 0021 n2935 display strings
-# 基线 v0.1.1；在 0020 后应用。
+# 基线 v0.1.5；在 0020 后应用。
 # 清理结果、计数及精确理由名单，只在显示处翻译；Automatic 只包固定回退。
+# T26（v0.1.3）：项目默认设置的模型行不再显示 Automatic 状态（上游并入说明文字），该 hunk 已退役。
 diff --git a/apps/web/src/components/CommandPaletteResults.tsx b/apps/web/src/components/CommandPaletteResults.tsx
-index 05934b9c..f6624f7f 100644
 --- a/apps/web/src/components/CommandPaletteResults.tsx
 +++ b/apps/web/src/components/CommandPaletteResults.tsx
 @@ -1,3 +1,4 @@
@@ -10,70 +10,67 @@ index 05934b9c..f6624f7f 100644
  import { displayKnown, displayRelativeTime } from "~/acceptanceDisplayStrings";
  import { type ResolvedKeybindingsConfig } from "@t3tools/contracts";
  import { LegendList, type LegendListRef } from "@legendapp/list/react";
-@@ -167,7 +168,7 @@ function DisabledCommandPaletteResultRow(props: {
+@@ -197,7 +198,7 @@
+         <span className="flex min-w-0 flex-1 flex-col">
+           <span className="flex min-w-0 items-center gap-1.5 text-sm text-foreground">
              {props.item.titleLeadingContent}
-             <span className="truncate">
-               {props.item.value.startsWith("action:add-project:")
--                ? displayKnown(props.item.title)
-+                ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
-                 : props.item.title}
-             </span>
+-            <CommandPaletteTitle item={{ title: props.item.value.startsWith("action:add-project:") ? displayKnown(props.item.title) : props.item.title }} />
++            <CommandPaletteTitle item={{ title: props.item.value.startsWith("action:add-project:") ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title)) : props.item.title }} />
+             <ThreadRowContext item={props.item} />
            </span>
-@@ -177,7 +178,7 @@ function DisabledCommandPaletteResultRow(props: {
-           {props.item.description ? (
+           {props.item.threadContentMatch ? (
+@@ -206,14 +207,14 @@
+             <SearchMatchHintLine hint={props.item.matchHint} />
+           ) : props.item.description ? (
              <span className="min-w-0 text-muted-foreground/70 text-xs">
-               {props.item.value.startsWith("action:add-project:")
--                ? displayKnown(props.item.description)
-+                ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.description === "Clone GitCafe owner/repo" ? translateFixed("Clone GitCafe owner/repo") : displayKnown(props.item.description))
-                 : props.item.description}
+-              {props.item.value.startsWith("action:add-project:") ? displayKnown(props.item.description) : props.item.description}
++              {props.item.value.startsWith("action:add-project:") ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.description === "Clone GitCafe owner/repo" ? translateFixed("Clone GitCafe owner/repo") : displayKnown(props.item.description)) : props.item.description}
              </span>
            ) : null}
-@@ -187,7 +188,7 @@ function DisabledCommandPaletteResultRow(props: {
-           {props.item.titleLeadingContent}
-           <span className="truncate">
-             {props.item.value.startsWith("action:add-project:")
--              ? displayKnown(props.item.title)
-+              ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
-               : props.item.title}
-           </span>
          </span>
-@@ -227,7 +228,7 @@ function CommandPaletteResultRow(props: {
+       ) : (
+         <span className="flex min-w-0 flex-1 items-center gap-1.5 text-sm text-foreground">
+           {props.item.titleLeadingContent}
+-          <CommandPaletteTitle item={{ title: props.item.value.startsWith("action:add-project:") ? displayKnown(props.item.title) : props.item.title }} />
++          <CommandPaletteTitle item={{ title: props.item.value.startsWith("action:add-project:") ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title)) : props.item.title }} />
+         </span>
+       )}
+       {props.item.titleTrailingContent}
+@@ -249,7 +250,7 @@
+         <span className="flex min-w-0 flex-1 flex-col">
+           <span className="flex min-w-0 items-center gap-1.5 text-sm text-foreground">
              {props.item.titleLeadingContent}
-             <span className="truncate">
-               {props.item.value.startsWith("action:add-project:")
--                ? displayKnown(props.item.title)
-+                ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
-                 : props.item.title}
-             </span>
+-            <CommandPaletteTitle item={{ title: props.item.value.startsWith("action:add-project:") ? displayKnown(props.item.title) : props.item.title }} />
++            <CommandPaletteTitle item={{ title: props.item.value.startsWith("action:add-project:") ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title)) : props.item.title }} />
+             <ThreadRowContext item={props.item} />
            </span>
-@@ -237,7 +238,7 @@ function CommandPaletteResultRow(props: {
-           {props.item.description ? (
+           {props.item.threadContentMatch ? (
+@@ -258,14 +259,14 @@
+             <SearchMatchHintLine hint={props.item.matchHint} />
+           ) : props.item.description ? (
              <span className="min-w-0 text-muted-foreground/70 text-xs">
-               {props.item.value.startsWith("action:add-project:")
--                ? displayKnown(props.item.description)
-+                ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.description === "Clone GitCafe owner/repo" ? translateFixed("Clone GitCafe owner/repo") : displayKnown(props.item.description))
-                 : props.item.description}
+-              {props.item.value.startsWith("action:add-project:") ? displayKnown(props.item.description) : props.item.description}
++              {props.item.value.startsWith("action:add-project:") ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.description === "Clone GitCafe owner/repo" ? translateFixed("Clone GitCafe owner/repo") : displayKnown(props.item.description)) : props.item.description}
              </span>
            ) : null}
-@@ -247,7 +248,7 @@ function CommandPaletteResultRow(props: {
-           {props.item.titleLeadingContent}
-           <span className="truncate">
-             {props.item.value.startsWith("action:add-project:")
--              ? displayKnown(props.item.title)
-+              ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title))
-               : props.item.title}
-           </span>
          </span>
+       ) : (
+         <span className="flex min-w-0 flex-1 items-center gap-1.5 text-sm text-foreground">
+           {props.item.titleLeadingContent}
+-          <CommandPaletteTitle item={{ title: props.item.value.startsWith("action:add-project:") ? displayKnown(props.item.title) : props.item.title }} />
++          <CommandPaletteTitle item={{ title: props.item.value.startsWith("action:add-project:") ? (!props.item.value.startsWith("action:add-project:environment:") && /:gitcafe(?::not-ready)?$/.test(props.item.value) && props.item.title === "GitCafe repository" ? translateFixed("GitCafe repository") : displayKnown(props.item.title)) : props.item.title }} />
+         </span>
+       )}
+       {props.item.titleTrailingContent}
 diff --git a/apps/web/src/components/RightPanelTabs.tsx b/apps/web/src/components/RightPanelTabs.tsx
-index c718b3cb..d1365694 100644
 --- a/apps/web/src/components/RightPanelTabs.tsx
 +++ b/apps/web/src/components/RightPanelTabs.tsx
 @@ -1,3 +1,4 @@
 +import { panelDragAccessibility } from "~/n2935DisplayStrings";
- import { pullRequestHostOf, type SourceControlProviderKind } from "@t3tools/contracts";
+ import { sourceControlClients } from "@t3tools/client-runtime/source-control-clients";
  import type { EnvironmentThreadShell } from "@t3tools/client-runtime/state/shell";
  import { useProjects, useServerConfigs, useThreadShells } from "~/state/entities";
-@@ -774,6 +775,7 @@ function focusOnMount(node: HTMLDivElement | null) {
+@@ -756,6 +757,7 @@
  function SortableTabList(props: {
    surfaces: readonly RightPanelSurface[];
    onMove: ((surfaceId: string, toIndex: number) => void) | undefined;
@@ -81,7 +78,7 @@ index c718b3cb..d1365694 100644
    children: ReactNode;
  }) {
    const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
-@@ -786,6 +788,10 @@ function SortableTabList(props: {
+@@ -768,6 +770,10 @@
    };
    return (
      <DndContext
@@ -92,7 +89,7 @@ index c718b3cb..d1365694 100644
        sensors={sensors}
        collisionDetection={closestCenter}
        modifiers={TAB_DRAG_MODIFIERS}
-@@ -1281,7 +1287,11 @@ export function RightPanelTabs(props: RightPanelTabsProps) {
+@@ -1261,7 +1267,11 @@
            data-right-panel-tab-list
          >
            <div className="flex h-full w-max min-w-full items-center gap-1">
@@ -106,10 +103,9 @@ index c718b3cb..d1365694 100644
                  const previewTabId = previewTabIdOf(surface, props.previewSessions);
                  const favicon = previewFaviconOf(
 diff --git a/apps/web/src/components/onboarding/WelcomeWizard.tsx b/apps/web/src/components/onboarding/WelcomeWizard.tsx
-index 13f4e0f9..4c7d4492 100644
 --- a/apps/web/src/components/onboarding/WelcomeWizard.tsx
 +++ b/apps/web/src/components/onboarding/WelcomeWizard.tsx
-@@ -1532,7 +1532,7 @@ function ImportStep({
+@@ -1527,7 +1527,7 @@
          >
            {isImporting
              ? "Importing…"
@@ -118,24 +114,10 @@ index 13f4e0f9..4c7d4492 100644
          </Button>
        </div>
      </StepShell>
-diff --git a/apps/web/src/components/settings/ProjectDefaultsSettings.tsx b/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
-index c80223f5..c9446059 100644
---- a/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
-+++ b/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
-@@ -155,7 +155,7 @@ export function ProjectDefaultsSettings({ category }: { category: ProjectSetting
-         unavailable || mixedModel || modelSource === "project"
-           ? undefined
-           : settings.defaultModelSelection === null
--            ? "Automatic"
-+            ? translateFixed("Automatic")
-             : undefined
-       }
-       resetAction={
 diff --git a/apps/web/src/components/settings/ProjectSettingsPanel.tsx b/apps/web/src/components/settings/ProjectSettingsPanel.tsx
-index 716aefba..006ac448 100644
 --- a/apps/web/src/components/settings/ProjectSettingsPanel.tsx
 +++ b/apps/web/src/components/settings/ProjectSettingsPanel.tsx
-@@ -536,7 +536,7 @@ function ProjectDetail({
+@@ -521,7 +521,7 @@
                    ? `${projectIcon.text} · ${projectIcon.color}`
                    : projectIcon?.kind === "emoji"
                      ? projectIcon.emoji
@@ -145,7 +127,6 @@ index 716aefba..006ac448 100644
              resetAction={
                group.memberProjects.some(
 diff --git a/apps/web/src/components/settings/SettingInheritance.tsx b/apps/web/src/components/settings/SettingInheritance.tsx
-index e7b558a5..ef494ce9 100644
 --- a/apps/web/src/components/settings/SettingInheritance.tsx
 +++ b/apps/web/src/components/settings/SettingInheritance.tsx
 @@ -1,3 +1,4 @@
@@ -153,7 +134,7 @@ index e7b558a5..ef494ce9 100644
  import {
    DEFAULT_SERVER_SETTINGS,
    PROJECT_FILE_BACKED_SETTINGS,
-@@ -44,7 +45,7 @@ function formatValue(key: keyof ServerSettings, value: unknown): string {
+@@ -44,7 +45,7 @@
        : key === "sidebarAutoSettleAfterDays"
          ? "Never"
          : key === "defaultModelSelection"
@@ -163,7 +144,6 @@ index e7b558a5..ef494ce9 100644
              ? "Text generation model"
              : key === "reviewGuideModelSelection"
 diff --git a/apps/web/src/components/settings/StorageSettings.tsx b/apps/web/src/components/settings/StorageSettings.tsx
-index 78dd7501..07c5d909 100644
 --- a/apps/web/src/components/settings/StorageSettings.tsx
 +++ b/apps/web/src/components/settings/StorageSettings.tsx
 @@ -1,3 +1,5 @@
@@ -172,7 +152,7 @@ index 78dd7501..07c5d909 100644
  import type {
    StorageCleanupReport,
    StorageCleanupSettings,
-@@ -205,14 +207,18 @@ function CleanupResults({
+@@ -200,14 +202,18 @@
              : entry.kind === "logs"
                ? "Rotated logs"
                : "Browser artifacts";
@@ -193,7 +173,7 @@ index 78dd7501..07c5d909 100644
                  </span>
                  <span className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-1 border-l border-border/60 pl-3">
                    <span>Machine</span>
-@@ -244,7 +250,7 @@ function CleanupResults({
+@@ -239,7 +245,7 @@
                  <span className="text-xs text-muted-foreground">
                    {[
                      entry.kind !== "worktree" && entry.files !== null
@@ -202,7 +182,7 @@ index 78dd7501..07c5d909 100644
                        : null,
                      entry.bytes !== null ? formatBytes(entry.bytes) : null,
                    ]
-@@ -258,12 +264,12 @@ function CleanupResults({
+@@ -253,12 +259,12 @@
        })}
        {report.omittedCount > 0 && (
          <p className="px-3 py-2.5 text-xs text-muted-foreground sm:px-4">
@@ -217,7 +197,7 @@ index 78dd7501..07c5d909 100644
          </p>
        )}
      </>
-@@ -328,10 +334,10 @@ function CleanupSection() {
+@@ -324,10 +330,10 @@
        report,
        label: settingsScopeEnvironmentLabel(environment, connectedEnvironments),
        counts: report
@@ -225,12 +205,12 @@ index 78dd7501..07c5d909 100644
 +        ? displayCleanupSummary(report.counts.removed, report.counts.kept, report.counts.failed)
          : "",
        description: report
--        ? `Last run ${formatRelativeTimeLabel(report.finishedAt)}. ${formatBytes(report.bytesFreed)} recovered.${report.counts.failed > 0 ? ` ${report.counts.failed} ${report.counts.failed === 1 ? "item" : "items"} couldn't be removed.` : ""}`
-+        ? displayCleanupLastRun(formatRelativeTimeLabel(report.finishedAt), formatBytes(report.bytesFreed), report.counts.failed)
+-        ? `Last run ${formatRelativeTimeLabel(report.finishedAt, nowMs)}. ${formatBytes(report.bytesFreed)} recovered.${report.counts.failed > 0 ? ` ${report.counts.failed} ${report.counts.failed === 1 ? "item" : "items"} couldn't be removed.` : ""}`
++        ? displayCleanupLastRun(formatRelativeTimeLabel(report.finishedAt, nowMs), formatBytes(report.bytesFreed), report.counts.failed)
          : query?.failed
            ? "Could not load the last run."
            : query?.loading
-@@ -354,13 +360,13 @@ function CleanupSection() {
+@@ -350,13 +356,13 @@
              if (failures.length > 0)
                toastManager.add({
                  type: "error",
@@ -248,7 +228,6 @@ index 78dd7501..07c5d909 100644
            }
 diff --git a/apps/web/src/n2935DisplayStrings.ts b/apps/web/src/n2935DisplayStrings.ts
 new file mode 100644
-index 00000000..47907172
 --- /dev/null
 +++ b/apps/web/src/n2935DisplayStrings.ts
 @@ -0,0 +1,85 @@

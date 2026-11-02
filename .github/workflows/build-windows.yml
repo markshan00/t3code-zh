@@ -3,7 +3,7 @@ name: Build Windows x64 (T3 Code 中文版)
 # 构建 T3 Code 中文版的 Windows x64 unsigned NSIS 安装包，只上传 artifacts：
 # 不创建 Release、不推送任何分支、不发布到 npm，也不使用任何签名或部署密钥。
 #
-# 照上游 v0.1.1 官方流程（.github/workflows/release.yml + release-desktop.yml）分三段：
+# 照上游 v0.1.5 官方流程（.github/workflows/release.yml + release-desktop.yml）分三段：
 #   bundle     Linux：上游源码 + 共享 patches/ + 构建时转换插件 → 中文 server/web/desktop JS bundle
 #   linux_cli  Linux：同一份 bundle 打 Linux x64 CLI 归档（WSL 后端运行的同版本 runtime）
 #   windows    Windows：同一份 bundle + CLI 归档 → unsigned NSIS，核对包内容，安装后实际启动烟测
@@ -15,12 +15,12 @@ on:
       version:
         description: "交付版本号（不能是 -nightly.YYYYMMDD.N 或上游预览版形式）"
         required: false
-        default: "0.1.1-zh.2"
+        default: "0.1.5-zh.1"
         type: string
   # 首次运行：默认分支没有 workflow 时 workflow_dispatch 无法注册，由推送这个隔离分支触发。只匹配这一个精确分支。
   push:
     branches:
-      - "build/t24-antigravity-quota"
+      - "build/t28-v015-windows"
 
 permissions:
   contents: read
@@ -30,9 +30,9 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  T3ZH_VERSION: ${{ inputs.version || '0.1.1-zh.2' }}
-  UPSTREAM_TAG: v0.1.1
-  UPSTREAM_COMMIT: fe27e8e3dc12dcbb108e9a28fd9b8cb65f34ae92
+  T3ZH_VERSION: ${{ inputs.version || '0.1.5-zh.1' }}
+  UPSTREAM_TAG: v0.1.5
+  UPSTREAM_COMMIT: 6d450a4284852af137b2f3407fddd89eb76e7644
   # 汉化仓库检出到 zh/，上游源码取到同级的 src/：两者互不嵌套，上游代码不会从 zh/node_modules 解析到依赖。
   ZH_DIR: zh
   SRC_DIR: src
@@ -173,13 +173,17 @@ jobs:
           mkdir -p "$RUNNER_TEMP/cli-resource-monitor/linux-x64"
           cp native/resource-monitor/target/x86_64-unknown-linux-gnu/release/t3-resource-monitor "$RUNNER_TEMP/cli-resource-monitor/linux-x64/"
 
-      # 与上游相同：SEA 单文件用 26.8.2 的 Node 构建（与 apps/server/vite.config.ts 的 SEA_NODE_VERSION 一致）。
+      # 与上游相同：SEA 单文件用 26.8.2 的 Node 构建（与上游 CLI Node 版本一致）。
       - name: Build CLI single-executable
         shell: bash
         working-directory: ${{ env.SRC_DIR }}
         env:
           VP_NODE_VERSION: "26.8.2"
         run: node apps/server/scripts/cli.ts build-exe --verbose
+
+      # v0.1.5 Linux CLI 内置 libatomic.so.1，需要 patchelf 写入相对 RUNPATH。
+      - name: Install Linux CLI packaging libraries
+        run: sudo apt-get update && sudo apt-get install -y patchelf libatomic1
 
       # 输出放 RUNNER_TEMP：上游 .gitignore 不含 release-cli/，放在源码树里会触发工作树守卫。
       - name: Build CLI archive

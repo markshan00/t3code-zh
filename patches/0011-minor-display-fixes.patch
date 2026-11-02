@@ -1,5 +1,5 @@
 # 0011-minor-display-fixes.patch
-# Baseline v0.1.1, apply after 0001–0010 (zh.5).
+# Baseline v0.1.5, apply after 0001–0010 (zh.5).
 # Small display fixes found while reviewing zh.4; display boundaries only.
 #   * Sidebar row accessible name: the status part (Goal / Working / Waiting / Approval /
 #     Input / Limited / Failed / Woke / Done) and the draft row's "Unsent draft" go through
@@ -12,10 +12,9 @@
 # Dictionary-only wording changes in the same release: "Checked {0}", the follow-up
 # shortcut sentence. Tests: plugin/__tests__/acceptance-display-strings.test.ts.
 diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceDisplayStrings.ts
-index 912668e3..3ed7657b 100644
 --- a/apps/web/src/acceptanceDisplayStrings.ts
 +++ b/apps/web/src/acceptanceDisplayStrings.ts
-@@ -177,8 +177,17 @@ export const ACCEPTANCE_DISPLAY_LABELS: string[] = [
+@@ -177,8 +177,17 @@
    "Clone Bitbucket workspace/repository",
    "Forgejo / Gitea repository",
    "Clone Forgejo / Gitea owner/repo",
@@ -34,10 +33,11 @@ index 912668e3..3ed7657b 100644
  ];
  const knownLabels = new Set(ACCEPTANCE_DISPLAY_LABELS);
  export function displayKnown<T>(value: T): T {
-@@ -191,6 +200,14 @@ export function displayLiveCommand(verb: string, program: string): string {
+@@ -190,6 +199,14 @@
+ }
  export function displayProviderTitle(providerName: string): string {
    return fillSlot("", providerName, " provider status");
- }
++}
 +// The banner's status is a ServerProviderState; each value has its own fixed skeleton.
 +// Unknown future states keep the original English sentence.
 +const DISMISS_PROVIDER_STATES: string[] = ["ready", "warning", "error"];
@@ -45,11 +45,10 @@ index 912668e3..3ed7657b 100644
 +export function displayDismissProvider(providerName: string, state: string): string {
 +  if (!dismissProviderStates.has(state)) return `Dismiss ${providerName} provider ${state}`;
 +  return fillSlot("Dismiss ", providerName, ` provider ${state}`);
-+}
+ }
  export function displayCount(count: number, singular: string, plural: string): string {
    return fillSlot("", String(count), ` ${count === 1 ? singular : plural}`);
- }
-@@ -220,11 +237,28 @@ export function displayFold(value: string): string {
+@@ -220,11 +237,28 @@
    return displayKnown(value);
  }
  export function displayWorkSummary(value: string): string {
@@ -83,37 +82,7 @@ index 912668e3..3ed7657b 100644
  }
  export function displayScope(value: string): string {
    const turn = /^Turn (\d+|\?)$/.exec(value);
-diff --git a/apps/web/src/components/Sidebar.tsx b/apps/web/src/components/Sidebar.tsx
-index aed645ad..b75dfebe 100644
---- a/apps/web/src/components/Sidebar.tsx
-+++ b/apps/web/src/components/Sidebar.tsx
-@@ -1,5 +1,5 @@
- import { type EnvironmentId, type ScopedProjectRef } from "@t3tools/contracts";
--import { displayDuration } from "~/acceptanceDisplayStrings";
-+import { displayDuration, displayKnown } from "~/acceptanceDisplayStrings";
- import type { EnvironmentServerConfig } from "@t3tools/client-runtime/connection";
- import { ThreadHoverCard, ThreadHoverCardPopup } from "./ThreadHoverCard";
- import { CollapsibleSectionHeader } from "./ui/collapsible-section-header";
-@@ -1342,7 +1342,7 @@ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
-       : `${attachmentCount} attachment${attachmentCount === 1 ? "" : "s"}`;
-   const accessibility = resolveSidebarRowAccessibility({
-     title: preview,
--    statusLabel: "Unsent draft",
-+    statusLabel: displayKnown("Unsent draft"),
-     projectDisplayName: displayDefaultName(props.projectDisplayName),
-     isActive: props.isActive,
-   });
-@@ -1976,7 +1976,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
-
-   const accessibility = resolveSidebarRowAccessibility({
-     title: displayDefaultName(thread.title),
--    statusLabel: topStatus?.label ?? null,
-+    statusLabel: topStatus ? displayKnown(topStatus.label) : null,
-     projectDisplayName: displayDefaultName(props.projectDisplayName),
-     isActive: props.isActive,
-   });
 diff --git a/apps/web/src/components/chat/ProviderStatusBanner.tsx b/apps/web/src/components/chat/ProviderStatusBanner.tsx
-index 4abbdb7e..6b8a2674 100644
 --- a/apps/web/src/components/chat/ProviderStatusBanner.tsx
 +++ b/apps/web/src/components/chat/ProviderStatusBanner.tsx
 @@ -1,4 +1,4 @@
@@ -122,7 +91,7 @@ index 4abbdb7e..6b8a2674 100644
  import { type ProviderInstanceId, type ServerProvider } from "@t3tools/contracts";
  import { memo } from "react";
  import { InfoIcon, XIcon } from "lucide-react";
-@@ -137,7 +137,7 @@ export const ProviderStatusBanner = memo(function ProviderStatusBanner({
+@@ -136,7 +136,7 @@
          </AlertDescription>
          <AlertAction>
            <Button
@@ -131,3 +100,37 @@ index 4abbdb7e..6b8a2674 100644
              onClick={onDismiss}
              size="icon-xs"
              variant="ghost-muted"
+diff --git a/apps/web/src/components/sidebar/SidebarDraftBlock.tsx b/apps/web/src/components/sidebar/SidebarDraftBlock.tsx
+--- a/apps/web/src/components/sidebar/SidebarDraftBlock.tsx
++++ b/apps/web/src/components/sidebar/SidebarDraftBlock.tsx
+@@ -1,3 +1,4 @@
++import { displayKnown } from "../../acceptanceDisplayStrings";
+ import { displayDefaultName } from "../../newThreadDisplayStrings";
+ import { discardComposerDraft } from "../../lib/discardComposerDraft";
+ import { replaceComposerContextReferences } from "@t3tools/shared/composerContextReferences";
+@@ -51,7 +52,7 @@
+       : `${attachmentCount} attachment${attachmentCount === 1 ? "" : "s"}`;
+   const accessibility = resolveSidebarRowAccessibility({
+     title: preview,
+-    statusLabel: "Unsent draft",
++    statusLabel: displayKnown("Unsent draft"),
+     projectDisplayName: displayDefaultName(props.projectDisplayName),
+     isActive: props.isActive,
+   });
+diff --git a/apps/web/src/components/sidebar/SidebarThreadRow.tsx b/apps/web/src/components/sidebar/SidebarThreadRow.tsx
+--- a/apps/web/src/components/sidebar/SidebarThreadRow.tsx
++++ b/apps/web/src/components/sidebar/SidebarThreadRow.tsx
+@@ -1,3 +1,4 @@
++import { displayKnown } from "../../acceptanceDisplayStrings";
+ import { displayDuration } from "../../acceptanceDisplayStrings";
+ import { displayDefaultName } from "../../newThreadDisplayStrings";
+ import { ThreadHoverCard, ThreadHoverCardPopup } from "../ThreadHoverCard";
+@@ -1001,7 +1002,7 @@
+ 
+   const accessibility = resolveSidebarRowAccessibility({
+     title: displayDefaultName(thread.title),
+-    statusLabel: topStatus?.label ?? null,
++    statusLabel: topStatus ? displayKnown(topStatus.label) : null,
+     projectDisplayName: displayDefaultName(props.projectDisplayName),
+     isActive: props.isActive,
+   });

@@ -1,6 +1,6 @@
 # 0005-desktop-zh-hans-localization.patch
 #
-# 给桌面版 app 声明简体中文本地化（T07-fix1，CONVENTIONS §5 末尾 2026-10-05 的例外）。基线 v0.1.1。
+# 给桌面版 app 声明简体中文本地化（T07-fix1，CONVENTIONS §5 末尾 2026-10-05 的例外）。基线 v0.1.5。
 #
 # 改动：scripts/build-desktop-artifact.ts 里 electron-builder 的 mac.extendInfo 加
 #   CFBundleLocalizations: ["en", "zh-Hans"]
@@ -20,10 +20,9 @@
 # 涉及一个上游文件：scripts/build-desktop-artifact.ts（打包脚本，不进 app）。上游更新后重做方法见 patches/README.md。
 #
 diff --git a/scripts/build-desktop-artifact.ts b/scripts/build-desktop-artifact.ts
-index d2cff472..7c17607c 100644
 --- a/scripts/build-desktop-artifact.ts
 +++ b/scripts/build-desktop-artifact.ts
-@@ -2897,6 +2897,10 @@ export const createBuildConfig = Effect.fn("createBuildConfig")(function* (
+@@ -2835,6 +2835,10 @@
            "T3 Code lets commands run by terminals and coding agents use the microphone.",
          // macOS lists an app under Default web browser only when it opens web
          // pages as documents as well as http and https links (see protocols).

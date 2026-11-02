@@ -1,0 +1,229 @@
+# v0.1.2 finite approval, Mermaid view and idle-compaction display strings.
+# Baseline v0.1.5; apply after 0024. Runtime tests: v012-display-strings.test.ts.
+diff --git a/apps/web/src/components/chat/ComposerPendingApprovalActions.tsx b/apps/web/src/components/chat/ComposerPendingApprovalActions.tsx
+--- a/apps/web/src/components/chat/ComposerPendingApprovalActions.tsx
++++ b/apps/web/src/components/chat/ComposerPendingApprovalActions.tsx
+@@ -1,3 +1,4 @@
++import { displayV012Label } from "../../v012DisplayStrings";
+ import {
+   type ProviderApprovalDecision,
+   type ProviderApprovalOption,
+@@ -62,7 +63,7 @@
+           <>
+             {option.warning ? <TriangleAlertIcon className="size-3 shrink-0" /> : null}
+             <span className={presentation === "inline" ? "whitespace-normal" : "max-w-40 truncate"}>
+-              {option.label}
++              {displayV012Label(option.label)}
+             </span>
+           </>
+         );
+@@ -121,7 +122,7 @@
+                   }}
+                 >
+                   {option.warning ? <TriangleAlertIcon className="size-3 text-warning" /> : null}
+-                  <span className="min-w-0 whitespace-normal wrap-break-word">{option.label}</span>
++                  <span className="min-w-0 whitespace-normal wrap-break-word">{displayV012Label(option.label)}</span>
+                 </MenuItem>
+               );
+               return option.warning ? (
+diff --git a/apps/web/src/components/chat/MarkdownMermaidCodeBlock.tsx b/apps/web/src/components/chat/MarkdownMermaidCodeBlock.tsx
+--- a/apps/web/src/components/chat/MarkdownMermaidCodeBlock.tsx
++++ b/apps/web/src/components/chat/MarkdownMermaidCodeBlock.tsx
+@@ -1,3 +1,4 @@
++import { displayMermaidToggle } from "../../v012DisplayStrings";
+ import { CodeIcon, WorkflowIcon } from "lucide-react";
+ import { Suspense, use, useState, type ReactNode } from "react";
+ 
+@@ -48,13 +49,13 @@
+                   variant="ghost-muted"
+                   size="icon-xs"
+                   onClick={() => setShowCode((value) => !value)}
+-                  aria-label={toggleLabel}
++                  aria-label={displayMermaidToggle(toggleLabel)}
+                 />
+               }
+             >
+               {showCode ? <WorkflowIcon className="size-3" /> : <CodeIcon className="size-3" />}
+             </TooltipTrigger>
+-            <TooltipPopup side="top">{toggleLabel}</TooltipPopup>
++            <TooltipPopup side="top">{displayMermaidToggle(toggleLabel)}</TooltipPopup>
+           </Tooltip>
+         )
+       }
+diff --git a/apps/web/src/components/chat/MessagesTimeline.logic.ts b/apps/web/src/components/chat/MessagesTimeline.logic.ts
+--- a/apps/web/src/components/chat/MessagesTimeline.logic.ts
++++ b/apps/web/src/components/chat/MessagesTimeline.logic.ts
+@@ -1204,7 +1204,7 @@
+         createdAt: steer.createdAt,
+         hiddenEntryIds: segmentHiddenIds(entries),
+         entryIds: new Set(entries.map((entry) => entry.id)),
+-        label: segmentMs !== null ? `Continued for ${formatDuration(segmentMs)}` : "Continued",
++        label: segmentMs !== null ? /* t3zh-skip */ `Continued for ${formatDuration(segmentMs)}` : "Continued",
+       });
+     }
+   }
+diff --git a/apps/web/src/components/chat/TimelinePendingApprovalRow.tsx b/apps/web/src/components/chat/TimelinePendingApprovalRow.tsx
+--- a/apps/web/src/components/chat/TimelinePendingApprovalRow.tsx
++++ b/apps/web/src/components/chat/TimelinePendingApprovalRow.tsx
+@@ -1,3 +1,4 @@
++import { displayV012Label } from "../../v012DisplayStrings";
+ import {
+   FULL_ACCESS_OVERRIDE_QUESTION,
+   fullAccessOverrideExplanation,
+@@ -13,17 +14,17 @@
+ import { WorkLogRow } from "./WorkLog";
+
+ const APPROVAL_PRESENTATION = {
+-  command: { icon: "terminal", label: "Command approval", detailLabel: "Command" },
+-  "file-change": { icon: "square-pen", label: "File change approval", detailLabel: "File change" },
+-  "file-read": { icon: "eye", label: "File read approval", detailLabel: "File to read" },
++  command: { icon: "terminal", label: /* t3zh-skip */ "Command approval", detailLabel: "Command" },
++  "file-change": { icon: "square-pen", label: /* t3zh-skip */ "File change approval", detailLabel: "File change" },
++  "file-read": { icon: "eye", label: /* t3zh-skip */ "File read approval", detailLabel: "File to read" },
+   permission: {
+     icon: "wrench",
+-    label: "App permission approval",
++    label: /* t3zh-skip */ "App permission approval",
+     detailLabel: "Permission request",
+   },
+   "mcp-elicitation": {
+     icon: "hammer",
+-    label: "App access approval",
++    label: /* t3zh-skip */ "App access approval",
+     detailLabel: "App access request",
+   },
+ } satisfies Record<
+@@ -42,7 +43,7 @@
+   return (
+     <WorkLogRow
+       role="group"
+-      aria-label={presentation.label}
++      aria-label={displayV012Label(presentation.label)}
+       data-v2-item-type="approval_request"
+       wrapLabel
+       icon={
+@@ -55,12 +56,12 @@
+       }
+       label={
+         <code
+-          aria-label={presentation.detailLabel}
++          aria-label={displayV012Label(presentation.detailLabel)}
+           className="block max-h-40 min-w-0 overflow-auto whitespace-pre-wrap font-mono text-xs leading-5 text-foreground select-text! wrap-anywhere [scrollbar-width:thin] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/70"
+           data-approval-detail="complete"
+           tabIndex={0}
+         >
+-          {approval.detail || presentation.label}
++          {approval.detail || displayV012Label(presentation.label)}
+         </code>
+       }
+     >
+@@ -103,15 +104,15 @@
+           {approval.fullAccessOverride ? (
+             <Popover>
+               <PopoverTrigger openOnHover render={<InlineButton tone="muted" />}>
+-                {FULL_ACCESS_OVERRIDE_QUESTION}
++                {displayV012Label(FULL_ACCESS_OVERRIDE_QUESTION)}
+               </PopoverTrigger>
+               <PopoverPopup
+-                aria-label={FULL_ACCESS_OVERRIDE_QUESTION}
++                aria-label={displayV012Label(FULL_ACCESS_OVERRIDE_QUESTION)}
+                 tooltipStyle
+                 side="top"
+                 className="max-w-[min(22rem,calc(100vw-2rem))] whitespace-normal"
+               >
+-                {fullAccessOverrideExplanation(approval.fullAccessOverride)}
++                {displayV012Label(fullAccessOverrideExplanation(approval.fullAccessOverride))}
+               </PopoverPopup>
+             </Popover>
+           ) : null}
+diff --git a/apps/web/src/components/chat/TimelineWorkGroupRows.tsx b/apps/web/src/components/chat/TimelineWorkGroupRows.tsx
+--- a/apps/web/src/components/chat/TimelineWorkGroupRows.tsx
++++ b/apps/web/src/components/chat/TimelineWorkGroupRows.tsx
+@@ -1,3 +1,4 @@
++import { translateFixed } from "../../newThreadDisplayStrings";
+ import { displayLiveCommand } from "../../acceptanceDisplayStrings";
+ import { displayFailedTool, displayWorkSummary } from "../../acceptanceDisplayStrings";
+ import { TimelinePendingApprovalRow } from "./TimelinePendingApprovalRow";
+@@ -315,7 +316,6 @@
+   const terminalId = snapshot.setupScript?.terminalId ?? null;
+   const openTerminal = ctx.onOpenWorktreeSetupTerminal;
+   const onOpenTerminal = openTerminal && terminalId ? () => openTerminal(terminalId) : null;
+-  const scriptName = snapshot.setupScript?.name ?? "Setup script";
+   return (
+     <Popover>
+       <PopoverTrigger
+@@ -324,7 +324,7 @@
+             variant="ghost-muted"
+             size="micro"
+             className="ml-auto min-w-0 shrink-0"
+-            aria-label={`Background setup is still running: ${scriptName}. Show setup progress.`}
++            aria-label={`Background setup is still running: ${snapshot.setupScript?.name ?? translateFixed("Setup script")}. Show setup progress.`}
+           />
+         }
+       >
+diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/components/settings/SettingsPanels.tsx
+--- a/apps/web/src/components/settings/SettingsPanels.tsx
++++ b/apps/web/src/components/settings/SettingsPanels.tsx
+@@ -1,3 +1,4 @@
++import { displayV012Label } from "../../v012DisplayStrings";
+ import { displayKnown, displayFollowUp } from "~/acceptanceDisplayStrings";
+ import { useAtomValue } from "@effect/atom-react";
+ import { NotificationSettings } from "./NotificationSettings";
+@@ -1480,7 +1481,7 @@
+             <SelectValue>
+               {(value: string | null) =>
+                 value === null
+-                  ? "Mixed"
++                  ? displayV012Label("Mixed")
+                   : IDLE_COMPACTION_MODES.find((mode) => mode.value === value)?.label
+               }
+             </SelectValue>
+diff --git a/apps/web/src/v012DisplayStrings.ts b/apps/web/src/v012DisplayStrings.ts
+new file mode 100644
+--- /dev/null
++++ b/apps/web/src/v012DisplayStrings.ts
+@@ -0,0 +1,44 @@
++// Finite v0.1.2 display labels only; provider details and user text remain raw.
++export const V012_DISPLAY_LABELS: readonly string[] = [
++  "Why am I being asked this?",
++  "App access approval",
++  "Command approval",
++  "File read approval",
++  "App permission approval",
++  "File change approval",
++  "App access request",
++  "Command",
++  "File to read",
++  "Permission request",
++  "File change",
++  "Approve",
++  "Decline",
++  "Cancel",
++  "Always allow this session",
++  "Allow once",
++  "Allow for this thread",
++  "Deny",
++  "Allow all edits this session",
++  "Always allow",
++  "Mixed",
++  "Full access skips approvals, but an ask rule in the agent's own settings matches this action, so it still asks. Remove or narrow that rule to stop these prompts.",
++  "Full access skips approvals, but the agent still stops for a few safety checks of its own that no setting can skip, such as a delete whose path it can't verify. T3 Code can't turn these off, so check the request and approve it if it's what you expect."
++];
++const knownLabels = new Set(V012_DISPLAY_LABELS);
++export function displayV012Label<T>(value: T): T | string {
++  if (typeof value !== "string" || !knownLabels.has(value)) return value;
++  return globalThis.__t3zh?.t?.(value) ?? value;
++}
++
++// "Show code" also means a pairing code elsewhere. Keep this view's wording scoped.
++// The values are dictionary keys, translated at render time; skip the plugin's E2 mapping rule.
++const mermaidToggleLabels: Readonly<Record<string, string>> = {
++  "Show code": /* t3zh-skip */ "Mermaid: Show code",
++  "Show diagram": /* t3zh-skip */ "Mermaid: Show diagram",
++};
++export function displayMermaidToggle(value: string): string {
++  if (!Object.hasOwn(mermaidToggleLabels, value)) return value;
++  const key = mermaidToggleLabels[value]!;
++  const translated = globalThis.__t3zh?.t?.(key) ?? key;
++  return translated === key ? value : translated;
++}

@@ -1,0 +1,72 @@
+# 0027-v013-display-strings.patch
+# 基线 v0.1.5 / 6d450a4284852af137b2f3407fddd89eb76e7644；在 0025 后普通 git apply（T26）。
+#
+# v0.1.3 兼容修复：client-runtime 的 snoozeWakeLabel 名字以 Label 结尾，插件按 E3 把返回值
+# （"now"、`5m` / `3h` / `2d`）包成翻译；"now" 又在 dict/allow-suspicious.json 放行。v0.1.3 的
+# useThreadLifecycle 开始拿它做比较（`snoozeWake !== "now"`）并插进 `Snoozed, ${snoozeWake} left`，
+# 中文模式下会显示「Snoozed, 5 分钟 left」「Snoozed, 现在 left」。本补丁：
+#   * threadSettled.ts：五个返回值加 /* t3zh-skip */，值保持英文；状态行由词库既有的
+#     `Snoozed, {0}m left` / `{0}h` / `{0}d` 模板整句翻译，到点时走 "Snoozed"；
+#   * 侧栏暂缓行原样显示该值（v0.1.2 起为中文），改在 SidebarThreadRow 最终显示处经
+#     v013DisplayStrings.ts 的 displaySnoozeWake 按固定形态（now / 数字 + m|h|d）查词库，其余原样。
+# 测试：plugin/__tests__/v013-display-strings.test.ts。
+diff --git a/apps/web/src/components/sidebar/SidebarThreadRow.tsx b/apps/web/src/components/sidebar/SidebarThreadRow.tsx
+--- a/apps/web/src/components/sidebar/SidebarThreadRow.tsx
++++ b/apps/web/src/components/sidebar/SidebarThreadRow.tsx
+@@ -1,6 +1,7 @@
+ import { displayKnown } from "../../acceptanceDisplayStrings";
+ import { displayDuration } from "../../acceptanceDisplayStrings";
+ import { displayDefaultName } from "../../newThreadDisplayStrings";
++import { displaySnoozeWake } from "../../v013DisplayStrings";
+ import { ThreadHoverCard, ThreadHoverCardPopup } from "../ThreadHoverCard";
+ import { ThreadTerminalStatusButton } from "../ThreadStatusIndicators";
+ import { discardComposerDraft } from "../../lib/discardComposerDraft";
+@@ -1283,7 +1284,7 @@
+                       <span className="inline-flex items-center gap-1 text-xs text-info-foreground tabular-nums">
+                         {/* The clock tells a wake time from an age at a glance. */}
+                         <AlarmClockIcon aria-hidden className="size-3" />
+-                        {props.snoozeWakeLabelText}
++                        {displaySnoozeWake(props.snoozeWakeLabelText)}
+                       </span>
+                     ) : (inFolder ? isWokeStatus : isWoke) ? (
+                       <Tooltip>
+diff --git a/apps/web/src/v013DisplayStrings.ts b/apps/web/src/v013DisplayStrings.ts
+new file mode 100644
+--- /dev/null
++++ b/apps/web/src/v013DisplayStrings.ts
+@@ -0,0 +1,13 @@
++/**
++ * t3code-zh（patches/0027）：v0.1.3 的显示补译，只在最终渲染处调用。
++ *
++ * snoozeWakeLabel（client-runtime）的返回值现在同时被 useThreadLifecycle 当值比较（`!== "now"`）
++ * 并插进 `Snoozed, ${snoozeWake} left`，所以补丁让它保持英文；侧栏暂缓行原样显示同一个值，
++ * 在这里按固定形态（`now` 或「数字 + m/h/d」）交给词库，其余文字原样返回。
++ */
++const SNOOZE_WAKE_SHAPE = /^(?:now|[1-9]\d*[mhd])$/;
++
++export function displaySnoozeWake(value: string): string {
++  if (!SNOOZE_WAKE_SHAPE.test(value)) return value;
++  return globalThis.__t3zh?.t?.(value) ?? value;
++}
+diff --git a/packages/client-runtime/src/state/threadSettled.ts b/packages/client-runtime/src/state/threadSettled.ts
+--- a/packages/client-runtime/src/state/threadSettled.ts
++++ b/packages/client-runtime/src/state/threadSettled.ts
+@@ -326,12 +326,13 @@
+ export function snoozeWakeLabel(snoozedUntil: string, options: { readonly now: string }): string {
+   const wakeMs = Date.parse(snoozedUntil);
+   const nowMs = Date.parse(options.now);
+-  if (Number.isNaN(wakeMs) || Number.isNaN(nowMs)) return "now";
++  // t3code-zh (patches/0027): callers compare "now" and build "Snoozed, 5m left"; keep values English.
++  if (Number.isNaN(wakeMs) || Number.isNaN(nowMs)) return /* t3zh-skip */ "now";
+   const remainingMs = wakeMs - nowMs;
+-  if (remainingMs <= 0) return "now";
+-  if (remainingMs < HOUR_MS) return `${Math.max(1, Math.ceil(remainingMs / 60_000))}m`;
+-  if (remainingMs < DAY_MS) return `${Math.ceil(remainingMs / HOUR_MS)}h`;
+-  return `${Math.ceil(remainingMs / DAY_MS)}d`;
++  if (remainingMs <= 0) return /* t3zh-skip */ "now";
++  if (remainingMs < HOUR_MS) return /* t3zh-skip */ `${Math.max(1, Math.ceil(remainingMs / 60_000))}m`;
++  if (remainingMs < DAY_MS) return /* t3zh-skip */ `${Math.ceil(remainingMs / HOUR_MS)}h`;
++  return /* t3zh-skip */ `${Math.ceil(remainingMs / DAY_MS)}d`;
+ }
+ 
+ export type CustomSnoozeInput =
