@@ -23,6 +23,7 @@ import {
   parseArgs,
   requireValue,
   run,
+  sanitizedPackagingEnv,
   sha256File,
   validateVersion,
   writeJson,
@@ -115,7 +116,12 @@ if (isMainModule(import.meta.url)) {
     const src = path.resolve(requireValue(values, "src"));
     const version = validateVersion(requireValue(values, "version"));
     const constants = readBuildZhConstants(path.join(ZH_ROOT, "scripts/build-zh.sh"));
-    delete process.env.ELECTRON_RUN_AS_NODE;
+    // CI 会自动注入 GITHUB_REPOSITORY，上游 web 配置据此编译更新仓库。
+    // 与 installer 一样清除更新源及签名变量，确保资源中的更新入口也与 Mac 交付一致。
+    const buildEnv = sanitizedPackagingEnv(process.env);
+    for (const key of Object.keys(process.env)) {
+      if (!(key in buildEnv)) delete process.env[key];
+    }
 
     guardBuildChain(src, constants);
     const translated = buildWeb(src, version, constants);
