@@ -306,6 +306,9 @@ test("workflow：触发、权限、版本与基线", (t) => {
   assert.deepEqual(wf.jobs.linux_cli.needs, ["bundle"]);
   assert.deepEqual(wf.jobs.windows.needs, ["bundle", "linux_cli"]);
   assert.equal(wf.jobs.windows["runs-on"], "windows-2025");
+  const seaStep = wf.jobs.linux_cli.steps.find((step: any) => step.name === "Build CLI single-executable");
+  assert.ok(seaStep);
+  assert.equal(seaStep.env?.VP_NODE_VERSION, undefined, "SEA Node 必须沿用上游 engines.node，不覆写旧版");
   for (const job of Object.values<any>(wf.jobs)) assert.equal(job.permissions, undefined, "job 不应放宽权限");
 });
 

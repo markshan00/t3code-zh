@@ -173,12 +173,10 @@ jobs:
           mkdir -p "$RUNNER_TEMP/cli-resource-monitor/linux-x64"
           cp native/resource-monitor/target/x86_64-unknown-linux-gnu/release/t3-resource-monitor "$RUNNER_TEMP/cli-resource-monitor/linux-x64/"
 
-      # 与上游相同：SEA 单文件用 26.8.2 的 Node 构建（与上游 CLI Node 版本一致）。
+      # 直接沿用 Setup Vite+ 从上游 package.json 安装的 Node；SEA 构建会校验精确版本。
       - name: Build CLI single-executable
         shell: bash
         working-directory: ${{ env.SRC_DIR }}
-        env:
-          VP_NODE_VERSION: "26.8.2"
         run: node apps/server/scripts/cli.ts build-exe --verbose
 
       # v0.1.5 Linux CLI 内置 libatomic.so.1，需要 patchelf 写入相对 RUNPATH。
