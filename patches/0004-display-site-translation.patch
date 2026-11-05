@@ -55,6 +55,8 @@
 # T26（v0.1.3）：上游 #25401 删除 ComposerTasksBadge（任务步骤改为时间线行，步骤状态用符号），
 # 其读屏状态 hunk 无后继显示入口，已退役；PullRequestStackMenu 的名词改由 terminology.singular /
 # plural 提供（6 个内置值均有精确词条），同一显示处包裹跟到新表达式。
+# T29 r1：只包悬浮提示里的术语；确认弹窗 DialogTitle 保持上游整句，由插件外层运行时按
+# `Merge {0} pull requests?` 等模板整句翻译——内层预翻译术语会令模板失配（迁移时误加，已撤回）。
 #
 # r5（本轮）收紧三处边界：
 #   * 认证骨架只接受「前缀精确相等 + 恰好一个 ` · ` 分隔符」（参数 = 剩余全部，可含换行）；
@@ -616,15 +618,6 @@ index 8ed8ba2d..25338417 100644
            </TooltipPopup>
          </Tooltip>
        ) : null}
-@@ -244,7 +244,7 @@ export function PullRequestStackMenu({
-           <DialogHeader>
-             <DialogTitle>
-               {confirmation === "merge"
--                ? `Merge ${mergeLayers.length} ${mergeLayers.length === 1 ? terminology.singular : terminology.plural}?`
-+                ? `Merge ${mergeLayers.length} ${globalThis.__t3zh?.t?.(mergeLayers.length === 1 ? terminology.singular : terminology.plural) ?? (mergeLayers.length === 1 ? terminology.singular : terminology.plural)}?`
-                 : `Rebase ${unmerged.length} ${unmerged.length === 1 ? terminology.singular : terminology.plural}?`}
-             </DialogTitle>
-             <DialogDescription>
 diff --git a/apps/web/src/components/settings/CodexSetupSection.tsx b/apps/web/src/components/settings/CodexSetupSection.tsx
 index 0dfd68dc..497f8ee0 100644
 --- a/apps/web/src/components/settings/CodexSetupSection.tsx
