@@ -1,4 +1,4 @@
-# 基线 v0.1.5 / 6d450a4284852af137b2f3407fddd89eb76e7644；按编号顺序普通 apply。
+# 基线 v0.1.7 / 322f6544dfad0a3c8a0c8cbecf2c7f7874b14268；按编号顺序普通 apply。
 # 0001-language-setting.patch
 #
 # 在设置的「常规 / General」页加一行语言选择（System / English / 简体中文），
@@ -23,25 +23,26 @@
 # 词条见 dict/zh-CN.json。上游更新后重做方法见 patches/README.md。
 #
 diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/components/settings/SettingsPanels.tsx
+index 362210f9..68a75516 100644
 --- a/apps/web/src/components/settings/SettingsPanels.tsx
 +++ b/apps/web/src/components/settings/SettingsPanels.tsx
-@@ -402,6 +402,13 @@
-     </>
+@@ -421,6 +421,13 @@ function AboutVersionSection() {
    );
  }
-+
+
 +// Added by patches/0001-language-setting.patch.
 +const LANGUAGE_OPTIONS: ReadonlyArray<{ value: string; label: string }> = [
 +  { value: "system", label: "System" },
 +  { value: "en", label: "English" },
 +  { value: "zh-CN", label: "简体中文" },
 +];
-
++
  export function useSettingsRestore(onRestored?: () => void) {
    const {
-@@ -1008,6 +1015,32 @@
+     theme,
+@@ -1026,6 +1033,32 @@ export function GeneralSettingsPanel() {
        </SettingsSection>
- 
+
        <SettingsSection id="display" title="Display">
 +        {typeof window !== "undefined" && window.__t3zh ? (
 +          <SettingsRow
@@ -73,25 +74,27 @@ diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/
            {...searchableSetting("time-format")}
            description="System default follows your browser or OS clock preference."
 diff --git a/apps/web/src/components/settings/settingsSearch.ts b/apps/web/src/components/settings/settingsSearch.ts
+index e61a0644..e1b4b3bd 100644
 --- a/apps/web/src/components/settings/settingsSearch.ts
 +++ b/apps/web/src/components/settings/settingsSearch.ts
-@@ -520,6 +520,12 @@
+@@ -539,6 +539,12 @@ export const SETTINGS_SEARCH_ITEMS = [
+     to: "/settings/general",
      searchTerms: ["notification toast popup completion input approval failure"],
    },
-   {
++  {
 +    id: "language",
 +    title: "Language",
 +    to: "/settings/general",
 +    searchTerms: ["locale interface app translation chinese english system"],
 +  },
-+  {
+   {
      id: "time-format",
      title: "Time format",
-     to: "/settings/general",
 diff --git a/apps/web/src/vite-env.d.ts b/apps/web/src/vite-env.d.ts
+index 63f7cca9..b912335d 100644
 --- a/apps/web/src/vite-env.d.ts
 +++ b/apps/web/src/vite-env.d.ts
-@@ -25,6 +25,12 @@
+@@ -26,6 +26,12 @@ interface ImportMeta {
  declare global {
    interface Window {
      desktopBridge?: DesktopBridge;

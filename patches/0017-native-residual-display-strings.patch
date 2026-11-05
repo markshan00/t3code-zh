@@ -1,9 +1,10 @@
 # T14 / T14-fix1：r1 审核范围内的最终显示修复。
-# 基线 v0.1.5；在 0016 后应用。
+# 基线 v0.1.7；在 0016 后应用。
 diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceDisplayStrings.ts
+index b4efa9ec..c980d5de 100644
 --- a/apps/web/src/acceptanceDisplayStrings.ts
 +++ b/apps/web/src/acceptanceDisplayStrings.ts
-@@ -3,6 +3,61 @@
+@@ -3,6 +3,61 @@ import { fillSlot, translateAroundSlot, translateFixed } from "./newThreadDispla
  // Finite UI labels audited against baseline 2702. Never translate arbitrary errors,
  // project names, model names, script IDs, or option values.
  export const ACCEPTANCE_DISPLAY_LABELS: string[] = [
@@ -65,7 +66,7 @@ diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceD
    "Search commands, projects, and threads...",
    "Search...",
    "Clone from a remote URL",
-@@ -189,6 +244,45 @@
+@@ -189,6 +244,45 @@ export const ACCEPTANCE_DISPLAY_LABELS: string[] = [
    "Done",
    "Unsent draft",
  ];
@@ -111,7 +112,7 @@ diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceD
  const knownLabels = new Set(ACCEPTANCE_DISPLAY_LABELS);
  export function displayKnown<T>(value: T): T {
    return (typeof value === "string" && knownLabels.has(value) ? translateFixed(value) : value) as T;
-@@ -301,3 +395,53 @@
+@@ -301,3 +395,53 @@ export function displayFollowUp(modifier: string, shortcut: string): string {
      )
    );
  }
@@ -166,9 +167,10 @@ diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceD
 +    .replace("\uE002", () => summary ?? "");
 +}
 diff --git a/apps/web/src/components/Sidebar.tsx b/apps/web/src/components/Sidebar.tsx
+index f63e2323..101d8cf4 100644
 --- a/apps/web/src/components/Sidebar.tsx
 +++ b/apps/web/src/components/Sidebar.tsx
-@@ -3482,7 +3482,11 @@
+@@ -3601,7 +3601,11 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
                              ? "Loading"
                              : olderSettledShelf.failed
                                ? "Could not load older threads. Retry"
@@ -182,6 +184,7 @@ diff --git a/apps/web/src/components/Sidebar.tsx b/apps/web/src/components/Sideb
                        </li>
                      ) : null}
 diff --git a/apps/web/src/components/chat/ComposerPrimaryActions.tsx b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
+index 786f0c65..d5f635d2 100644
 --- a/apps/web/src/components/chat/ComposerPrimaryActions.tsx
 +++ b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
 @@ -1,5 +1,5 @@
@@ -191,7 +194,7 @@ diff --git a/apps/web/src/components/chat/ComposerPrimaryActions.tsx b/apps/web/
  import { fillSlot } from "~/newThreadDisplayStrings";
  import { memo, type MouseEventHandler, type PointerEventHandler } from "react";
  import { CheckIcon, ChevronDownIcon, ChevronLeftIcon, Minimize2Icon, PlayIcon } from "lucide-react";
-@@ -320,7 +320,9 @@
+@@ -320,7 +320,9 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
          isEnvironmentUnavailable ||
          (!hasSendableContent && !showResume)
        }
@@ -202,7 +205,7 @@ diff --git a/apps/web/src/components/chat/ComposerPrimaryActions.tsx b/apps/web/
      >
        {stageBackdropVariant ? (
          <span className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-@@ -355,7 +357,12 @@
+@@ -355,7 +357,12 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
        <TooltipPopup>
          {submitStatus == null && compactsBeforeSend
            ? fillSlot("Summarize ", compactTokens, " tokens of history, then send")
@@ -217,15 +220,15 @@ diff --git a/apps/web/src/components/chat/ComposerPrimaryActions.tsx b/apps/web/
      </Tooltip>
    );
 diff --git a/apps/web/src/components/chat/ThreadRelationshipsControl.tsx b/apps/web/src/components/chat/ThreadRelationshipsControl.tsx
+index c91d5ace..bb570e1c 100644
 --- a/apps/web/src/components/chat/ThreadRelationshipsControl.tsx
 +++ b/apps/web/src/components/chat/ThreadRelationshipsControl.tsx
-@@ -1,4 +1,5 @@
- import { useAtomValue } from "@effect/atom-react";
+@@ -1,3 +1,4 @@
 +import { fillSlot } from "~/newThreadDisplayStrings";
+ import { useAtomValue } from "@effect/atom-react";
+ import { threadKey } from "@t3tools/client-runtime/state/entities";
  import { ThreadDetailsControl } from "./ThreadDetailsControl";
- import { ThreadHoverCardPopup } from "../ThreadHoverCard";
- import { ThreadDetailsSection } from "./ThreadDetailsSection";
-@@ -118,7 +119,11 @@
+@@ -128,7 +129,11 @@ function ThreadLineageRowList(props: {
            className={`flex h-8 w-full cursor-pointer items-center rounded-lg ${THREAD_DETAILS_PANEL_ROW_CONTENT_CLASS} text-sm font-medium text-muted-foreground/70 hover:bg-black/[0.055] hover:text-foreground/80 dark:hover:bg-white/[0.075]`}
          >
            <PlusIcon aria-hidden className="size-4 shrink-0" />
@@ -238,7 +241,7 @@ diff --git a/apps/web/src/components/chat/ThreadRelationshipsControl.tsx b/apps/
          </button>
        ) : null}
      </>
-@@ -146,7 +151,11 @@
+@@ -156,7 +161,11 @@ function ThreadLineageGroup(props: {
            <span className={cn(THREAD_DETAILS_PANEL_LABEL_CLASS, "min-w-0 flex-1 truncate")}>
              {props.label}
            </span>
@@ -252,18 +255,16 @@ diff --git a/apps/web/src/components/chat/ThreadRelationshipsControl.tsx b/apps/
              <span className="shrink-0 text-xs font-normal tabular-nums text-muted-foreground">
                {props.rows.length}
 diff --git a/apps/web/src/components/chat/TraitsPicker.tsx b/apps/web/src/components/chat/TraitsPicker.tsx
+index 114e2025..aeae0d29 100644
 --- a/apps/web/src/components/chat/TraitsPicker.tsx
 +++ b/apps/web/src/components/chat/TraitsPicker.tsx
-@@ -7,7 +7,7 @@
-   REASONING_SELECT_DESCRIPTOR_IDS,
-   ULTRATHINK_PROMPT_PREFIX,
- } from "@t3tools/client-runtime/model-traits";
+@@ -1,4 +1,4 @@
 -import { displayKnown } from "~/acceptanceDisplayStrings";
 +import { displayKnown, displayTraitLabel } from "~/acceptanceDisplayStrings";
  import {
-   type ModelSelection,
-   type ProviderDriverKind,
-@@ -416,7 +416,7 @@
+   buildTraitsTriggerDisplay,
+   getDescriptorStringValue,
+@@ -400,7 +400,7 @@ const TraitsMenuContent = memo(function TraitsMenuContentImpl(props: TraitsSelec
                {index > 0 ? <MenuDivider /> : null}
                <MenuGroup>
                  <div className="px-2 pt-1.5 pb-1 font-medium text-muted-foreground text-xs">
@@ -272,50 +273,51 @@ diff --git a/apps/web/src/components/chat/TraitsPicker.tsx b/apps/web/src/compon
                  </div>
                  <div className="px-2 pb-1.5 text-muted-foreground/80 text-xs">{value}</div>
                </MenuGroup>
-@@ -440,7 +440,7 @@
-             {index > 0 ? <MenuDivider /> : null}
-             <MenuGroup>
-               <div className="px-2 pt-1.5 pb-1 font-medium text-muted-foreground text-xs">
--                {displayKnown(descriptor.label)}
-+                {displayTraitLabel(descriptor.label)}
-               </div>
-               {ultrathinkInBodyText && descriptor.id === primarySelectDescriptor?.id ? (
-                 <div className="px-2 pb-1.5 text-muted-foreground/80 text-xs">
-@@ -462,7 +462,7 @@
-                   >
-                     <span className="flex w-full min-w-0 flex-col">
-                       <span className="flex min-w-0 items-center gap-1">
--                        <span className="min-w-0 truncate">{displayKnown(option.label)}</span>
-+                        <span className="min-w-0 truncate">{displayTraitLabel(option.label)}</span>
-                         {option.isDefault ? <DefaultBadge /> : null}
-                       </span>
-                       {option.description ? (
-@@ -486,7 +486,7 @@
-             {index > 0 || selectDescriptors.length > 0 ? <MenuDivider /> : null}
-             <MenuGroup>
-               <div className="px-2 py-1.5 font-medium text-muted-foreground text-xs">
--                {displayKnown(descriptor.label)}
-+                {displayTraitLabel(descriptor.label)}
-               </div>
-               <MenuRadioGroup
-                 value={selectedValue}
-@@ -595,6 +595,7 @@
-     ultrathinkPromptControlled,
-     modelSelection: instanceId && model ? { instanceId, model, options: modelOptions ?? [] } : null,
-     reportedModelSelection,
+@@ -418,7 +418,7 @@ const TraitsMenuContent = memo(function TraitsMenuContentImpl(props: TraitsSelec
+           {index > 0 ? <MenuDivider /> : null}
+           <MenuGroup>
+             <div className="px-2 pt-1.5 pb-1 font-medium text-muted-foreground text-xs">
+-              {displayKnown(descriptor.label)}
++              {displayTraitLabel(descriptor.label)}
+             </div>
+             {ultrathinkInBodyText && descriptor.id === primarySelectDescriptor?.id ? (
+               <div className="px-2 pb-1.5 text-muted-foreground/80 text-xs">
+@@ -439,7 +439,7 @@ const TraitsMenuContent = memo(function TraitsMenuContentImpl(props: TraitsSelec
+                 >
+                   <span className="flex w-full min-w-0 flex-col">
+                     <span className="flex min-w-0 items-center gap-1">
+-                      <span className="min-w-0 truncate">{displayKnown(option.label)}</span>
++                      <span className="min-w-0 truncate">{displayTraitLabel(option.label)}</span>
+                       {option.isDefault ? <DefaultBadge /> : null}
+                     </span>
+                     {option.description ? (
+@@ -459,7 +459,7 @@ const TraitsMenuContent = memo(function TraitsMenuContentImpl(props: TraitsSelec
+           {index > 0 || selectDescriptors.length > 0 ? <MenuDivider /> : null}
+           <MenuGroup>
+             <div className="px-2 py-1.5 font-medium text-muted-foreground text-xs">
+-              {displayKnown(descriptor.label)}
++              {displayTraitLabel(descriptor.label)}
+             </div>
+             <MenuRadioGroup
+               value={descriptor.currentValue === true ? "on" : "off"}
+@@ -505,6 +505,7 @@ export const TraitsPicker = memo(function TraitsPicker({
+         ? { instanceId: props.instanceId, model: props.model, options: props.modelOptions ?? [] }
+         : null,
+     reportedModelSelection: props.reportedModelSelection,
 +    displayLabel: displayTraitLabel,
    });
-   const isCodexStyle = provider === "codex";
-   // In the composer the glyph has no word, so the tooltip and label name the control.
+   const isCodexStyle = props.provider === "codex";
+
 diff --git a/apps/web/src/components/clerk/BrowserManagedAuthShell.tsx b/apps/web/src/components/clerk/BrowserManagedAuthShell.tsx
+index 84332942..9900238f 100644
 --- a/apps/web/src/components/clerk/BrowserManagedAuthShell.tsx
 +++ b/apps/web/src/components/clerk/BrowserManagedAuthShell.tsx
 @@ -1,3 +1,4 @@
 +import { translateFixed } from "~/newThreadDisplayStrings";
  import { ClerkProvider } from "@clerk/react";
  import type { ReactNode } from "react";
- 
-@@ -13,7 +14,20 @@
+
+@@ -13,7 +14,20 @@ export default function BrowserManagedAuthShell({
    readonly children: ReactNode;
  }) {
    return (
@@ -338,6 +340,7 @@ diff --git a/apps/web/src/components/clerk/BrowserManagedAuthShell.tsx b/apps/we
      </ClerkProvider>
    );
 diff --git a/apps/web/src/components/clerk/ElectronManagedAuthShell.tsx b/apps/web/src/components/clerk/ElectronManagedAuthShell.tsx
+index 8ed4de1f..f7483d3a 100644
 --- a/apps/web/src/components/clerk/ElectronManagedAuthShell.tsx
 +++ b/apps/web/src/components/clerk/ElectronManagedAuthShell.tsx
 @@ -1,3 +1,4 @@
@@ -345,7 +348,7 @@ diff --git a/apps/web/src/components/clerk/ElectronManagedAuthShell.tsx b/apps/w
  import { passkeys } from "@clerk/electron/passkeys";
  import { ClerkProvider } from "@clerk/electron/react";
  import type { ReactNode } from "react";
-@@ -15,7 +16,21 @@
+@@ -15,7 +16,21 @@ export default function ElectronManagedAuthShell({
    readonly children: ReactNode;
  }) {
    return (
@@ -369,6 +372,7 @@ diff --git a/apps/web/src/components/clerk/ElectronManagedAuthShell.tsx b/apps/w
      </ClerkProvider>
    );
 diff --git a/apps/web/src/components/device/DeviceSetup.tsx b/apps/web/src/components/device/DeviceSetup.tsx
+index 29b46e99..90fdd1df 100644
 --- a/apps/web/src/components/device/DeviceSetup.tsx
 +++ b/apps/web/src/components/device/DeviceSetup.tsx
 @@ -1,3 +1,5 @@
@@ -377,7 +381,7 @@ diff --git a/apps/web/src/components/device/DeviceSetup.tsx b/apps/web/src/compo
  import { DeviceHostUpdates } from "./DeviceHostUpdates";
  import type { DevicePlatform, DeviceServiceState, EnvironmentId } from "@t3tools/contracts";
  import { Check } from "lucide-react";
-@@ -163,6 +165,8 @@
+@@ -163,6 +165,8 @@ export function DeviceSetup(props: {
        >
          <WizardSteps
            steps={["Device hub", "Simulators", "Agent access"]}
@@ -386,7 +390,7 @@ diff --git a/apps/web/src/components/device/DeviceSetup.tsx b/apps/web/src/compo
            currentStep={step}
            onStepChange={setStep}
            isStepDisabled={(requested) => busy || pending !== null || requested > step}
-@@ -175,7 +179,7 @@
+@@ -175,7 +179,7 @@ export function DeviceSetup(props: {
            <section className="space-y-3 text-sm">
              <h3 className="font-medium">Enable the device hub</h3>
              <div className="flex items-start justify-between gap-4">
@@ -395,7 +399,7 @@ diff --git a/apps/web/src/components/device/DeviceSetup.tsx b/apps/web/src/compo
                <Switch
                  checked={enabled}
                  disabled={!canConfigure || busy || pending !== null}
-@@ -216,7 +220,7 @@
+@@ -216,7 +220,7 @@ export function DeviceSetup(props: {
            <section className="space-y-3 text-sm">
              <h3 className="font-medium">Allow agent control</h3>
              <div className="flex items-start justify-between gap-4">
@@ -404,7 +408,7 @@ diff --git a/apps/web/src/components/device/DeviceSetup.tsx b/apps/web/src/compo
                <Switch
                  checked={props.state.agentAccessEnabled}
                  disabled={!canConfigure || !enabled || busy || pending !== null}
-@@ -379,7 +383,7 @@
+@@ -379,7 +383,7 @@ function PlatformStatus(props: {
        <div className={cn(props.compact && props.status.ready && "flex items-center gap-2")}>
          <p className="font-medium">{props.platform}</p>
          <p className="text-xs text-muted-foreground">
@@ -414,9 +418,10 @@ diff --git a/apps/web/src/components/device/DeviceSetup.tsx b/apps/web/src/compo
        </div>
      </div>
 diff --git a/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx b/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx
+index f8084aa5..9974f679 100644
 --- a/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx
 +++ b/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx
-@@ -2,6 +2,7 @@
+@@ -2,6 +2,7 @@ import {
    capitalizeTerm,
    sourceControlClients,
  } from "@t3tools/client-runtime/source-control-clients";
@@ -424,7 +429,7 @@ diff --git a/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx b/app
  import { useAtomCommand } from "~/state/use-atom-command";
  import type {
    EnvironmentId,
-@@ -441,8 +442,7 @@
+@@ -441,8 +442,7 @@ export function PullRequestSummaryTab({
          className="w-full"
          onClick={() => setShown({ url: detail.url, count: shownConversations + COMMENT_PAGE })}
        >
@@ -435,14 +440,15 @@ diff --git a/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx b/app
      ) : null;
    // Verdicts outside the visible comment window still count.
 diff --git a/apps/web/src/components/settings/BranchNamingSettings.tsx b/apps/web/src/components/settings/BranchNamingSettings.tsx
+index d5365e8c..8b7988da 100644
 --- a/apps/web/src/components/settings/BranchNamingSettings.tsx
 +++ b/apps/web/src/components/settings/BranchNamingSettings.tsx
 @@ -1,3 +1,4 @@
 +import { translateFixed } from "~/newThreadDisplayStrings";
  import { useRef } from "react";
  import { BranchNamingMode, DEFAULT_SERVER_SETTINGS } from "@t3tools/contracts";
- 
-@@ -63,13 +64,15 @@
+
+@@ -63,13 +64,15 @@ export function BranchNamingSettings() {
            >
              <SelectTrigger size="sm" aria-label="Worktree branch naming">
                <SelectValue>
@@ -461,14 +467,15 @@ diff --git a/apps/web/src/components/settings/BranchNamingSettings.tsx b/apps/we
                ))}
              </SelectPopup>
 diff --git a/apps/web/src/components/settings/ConnectionsSettings.logic.ts b/apps/web/src/components/settings/ConnectionsSettings.logic.ts
+index 23c20ad5..84dca60a 100644
 --- a/apps/web/src/components/settings/ConnectionsSettings.logic.ts
 +++ b/apps/web/src/components/settings/ConnectionsSettings.logic.ts
 @@ -1,3 +1,4 @@
 +import { fillSlot } from "../../newThreadDisplayStrings";
  import * as DateTime from "effect/DateTime";
- 
+
  import { resolveDesktopPairingUrl, resolveHostedPairingUrl } from "./pairingUrls";
-@@ -287,9 +288,9 @@
+@@ -303,9 +304,9 @@ export function summarizeAuthorizedClients(
    links: ReadonlyArray<ServerPairingLinkRecord>,
  ): string {
    const parts = [
@@ -481,6 +488,7 @@ diff --git a/apps/web/src/components/settings/ConnectionsSettings.logic.ts b/app
    ];
    return parts.filter((part): part is string => part !== null).join(" · ");
 diff --git a/apps/web/src/components/settings/IntegrationsSettings.tsx b/apps/web/src/components/settings/IntegrationsSettings.tsx
+index b5ea4553..e8417625 100644
 --- a/apps/web/src/components/settings/IntegrationsSettings.tsx
 +++ b/apps/web/src/components/settings/IntegrationsSettings.tsx
 @@ -1,5 +1,5 @@
@@ -491,6 +499,7 @@ diff --git a/apps/web/src/components/settings/IntegrationsSettings.tsx b/apps/we
  import { useScopedSettings, useUpdateScopedSettings } from "./useScopedSettings";
  import { ScopedSwitch } from "./ScopedSwitch";
 diff --git a/apps/web/src/components/settings/ProjectDefaultsSettings.tsx b/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
+index 1ba33ae8..caefe485 100644
 --- a/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
 +++ b/apps/web/src/components/settings/ProjectDefaultsSettings.tsx
 @@ -1,3 +1,4 @@
@@ -498,7 +507,7 @@ diff --git a/apps/web/src/components/settings/ProjectDefaultsSettings.tsx b/apps
  import {
    DEFAULT_SERVER_SETTINGS,
    type ModelSelection,
-@@ -446,8 +447,8 @@
+@@ -504,8 +505,8 @@ export function ProjectDefaultsSettings({ category }: { category: ProjectSetting
                        value === "merge" || value === "squash" || value === "rebase"
                          ? PULL_REQUEST_MERGE_METHOD_LABELS[value]
                          : value === "last"
@@ -510,6 +519,7 @@ diff --git a/apps/web/src/components/settings/ProjectDefaultsSettings.tsx b/apps
                    </SelectValue>
                  </SelectTrigger>
 diff --git a/apps/web/src/components/settings/SnapShotSettings.tsx b/apps/web/src/components/settings/SnapShotSettings.tsx
+index 58b6ddca..b291a2f9 100644
 --- a/apps/web/src/components/settings/SnapShotSettings.tsx
 +++ b/apps/web/src/components/settings/SnapShotSettings.tsx
 @@ -1,3 +1,4 @@
@@ -517,7 +527,7 @@ diff --git a/apps/web/src/components/settings/SnapShotSettings.tsx b/apps/web/sr
  import { RegistryContext, useAtomValue } from "@effect/atom-react";
  import {
    isModifierPairShortcut,
-@@ -359,10 +360,10 @@
+@@ -359,10 +360,10 @@ export function SnapShotSettings() {
              status={
                bridge
                  ? setupBusy && !wizard
@@ -531,10 +541,11 @@ diff --git a/apps/web/src/components/settings/SnapShotSettings.tsx b/apps/web/sr
              }
              control={
 diff --git a/apps/web/src/components/ui/wizard.tsx b/apps/web/src/components/ui/wizard.tsx
+index ebb1ca2b..bb1f6411 100644
 --- a/apps/web/src/components/ui/wizard.tsx
 +++ b/apps/web/src/components/ui/wizard.tsx
-@@ -64,6 +64,8 @@
- 
+@@ -64,6 +64,8 @@ export function WizardFooter({
+
  export function WizardSteps({
    steps,
 +  displayStep = (step: string) => step,
@@ -542,7 +553,7 @@ diff --git a/apps/web/src/components/ui/wizard.tsx b/apps/web/src/components/ui/
    currentStep,
    summaries,
    showSummaries = false,
-@@ -71,6 +73,12 @@
+@@ -71,6 +73,12 @@ export function WizardSteps({
    isStepDisabled,
  }: {
    readonly steps: readonly string[];
@@ -555,7 +566,7 @@ diff --git a/apps/web/src/components/ui/wizard.tsx b/apps/web/src/components/ui/
    readonly currentStep: number;
    readonly summaries?: readonly (string | null)[];
    readonly showSummaries?: boolean;
-@@ -98,7 +106,11 @@
+@@ -98,7 +106,11 @@ export function WizardSteps({
                  "bg-card text-foreground shadow-xs ring-1 ring-inset ring-black/5 hover:bg-card dark:shadow-none dark:ring-white/5",
              )}
              aria-current={index === currentStep ? "step" : undefined}
@@ -568,7 +579,7 @@ diff --git a/apps/web/src/components/ui/wizard.tsx b/apps/web/src/components/ui/
              onClick={onStepChange ? () => onStepChange(index) : undefined}
            >
              <span
-@@ -120,7 +132,7 @@
+@@ -120,7 +132,7 @@ export function WizardSteps({
                  index === currentStep ? "text-foreground" : "text-muted-foreground",
                )}
              >
@@ -578,9 +589,10 @@ diff --git a/apps/web/src/components/ui/wizard.tsx b/apps/web/src/components/ui/
                  ? `: ${summaries[index]}`
                  : null}
 diff --git a/packages/client-runtime/src/modelTraits.ts b/packages/client-runtime/src/modelTraits.ts
+index b05f9226..c79c070e 100644
 --- a/packages/client-runtime/src/modelTraits.ts
 +++ b/packages/client-runtime/src/modelTraits.ts
-@@ -110,6 +110,7 @@
+@@ -116,11 +116,13 @@ export function buildTraitsTriggerDisplay(input: {
    ultrathinkPromptControlled: boolean;
    modelSelection?: ModelSelection | null;
    reportedModelSelection?: ModelSelection | null | undefined;
@@ -588,27 +600,24 @@ diff --git a/packages/client-runtime/src/modelTraits.ts b/packages/client-runtim
  }): {
    label: string;
    /** "Fast" or "Ultrafast" when a speed option is on. */
-@@ -117,6 +118,7 @@
-   /** Labels other than reasoning and speed, such as context window or thinking. */
-   otherLabels: ReadonlyArray<string>;
+   speedLabel: string | null;
  } {
 +  const displayLabel = input.displayLabel ?? ((value: string) => value);
    let fastModeFallbackLabel: string | null = null;
    let speedLabel: string | null = null;
    let reasoningLabelIndex = -1;
-@@ -169,19 +171,19 @@
-       ) {
+@@ -169,18 +171,18 @@ export function buildTraitsTriggerDisplay(input: {
+       if (reasoningLabelIndex === -1 && isReasoningSelect(descriptor)) {
          reasoningLabelIndex = labels.length;
        }
 -      labels.push(label);
 +      labels.push(displayLabel(label));
      }
    }
- 
-   const otherLabels = labels.filter((_, index) => index !== reasoningLabelIndex);
+
    if (labels.length === 0 && fastModeFallbackLabel !== null) {
--    return { label: fastModeFallbackLabel, speedLabel, otherLabels };
-+    return { label: displayLabel(fastModeFallbackLabel), speedLabel, otherLabels };
+-    return { label: fastModeFallbackLabel, speedLabel };
++    return { label: displayLabel(fastModeFallbackLabel), speedLabel };
    }
    if (speedLabel) {
      if (reasoningLabelIndex >= 0) {
@@ -619,4 +628,4 @@ diff --git a/packages/client-runtime/src/modelTraits.ts b/packages/client-runtim
 +      labels.push(displayLabel(speedLabel));
      }
    }
-   return { label: labels.join(" · "), speedLabel, otherLabels };
+   return { label: labels.join(" · "), speedLabel };

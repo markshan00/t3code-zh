@@ -3,9 +3,10 @@
 # 依赖0007、0009、0022，按文件名顺序应用。
 
 diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceDisplayStrings.ts
+index 9589213a..a215e456 100644
 --- a/apps/web/src/acceptanceDisplayStrings.ts
 +++ b/apps/web/src/acceptanceDisplayStrings.ts
-@@ -17,6 +17,7 @@
+@@ -17,6 +17,7 @@ export const ACCEPTANCE_DISPLAY_LABELS: string[] = [
    "Cloning repository",
    "Repository not cloned",
    "Select at least one model.",
@@ -14,6 +15,7 @@ diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceD
    "Attachments still uploading",
    "Retry or remove the failed attachment",
 diff --git a/apps/web/src/components/AddProjectToMachineDialog.tsx b/apps/web/src/components/AddProjectToMachineDialog.tsx
+index a1f2c544..f7411db6 100644
 --- a/apps/web/src/components/AddProjectToMachineDialog.tsx
 +++ b/apps/web/src/components/AddProjectToMachineDialog.tsx
 @@ -1,3 +1,5 @@
@@ -22,7 +24,7 @@ diff --git a/apps/web/src/components/AddProjectToMachineDialog.tsx b/apps/web/sr
  import { useParams } from "@tanstack/react-router";
  import { scopeProjectRef } from "@t3tools/client-runtime/environment";
  import {
-@@ -223,8 +225,7 @@
+@@ -224,8 +226,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
            <DialogHeader>
              <DialogTitle>Add to another machine</DialogTitle>
              <DialogDescription>
@@ -32,7 +34,7 @@ diff --git a/apps/web/src/components/AddProjectToMachineDialog.tsx b/apps/web/sr
              </DialogDescription>
            </DialogHeader>
            <DialogPanel>
-@@ -250,7 +251,7 @@
+@@ -251,7 +252,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
                  <span>
                    {selectedFiles.size === 0
                      ? "no files"
@@ -41,16 +43,16 @@ diff --git a/apps/web/src/components/AddProjectToMachineDialog.tsx b/apps/web/sr
                  </span>
                </div>
                <div className="flex min-w-0 flex-col gap-1">
-@@ -312,7 +313,7 @@
+@@ -313,7 +314,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
              </div>
- 
+
              <div className="flex flex-col gap-1.5">
 -              <Label htmlFor={`${id}-path`}>Folder on {target?.label ?? "the other machine"}</Label>
 +              <Label htmlFor={`${id}-path`}>{fillSlot("Folder on ", target?.label ?? translateFixed("the other machine"), "")}</Label>
                <Input
                  id={`${id}-path`}
                  value={destinationPath}
-@@ -329,7 +330,7 @@
+@@ -332,7 +333,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
                    {copyable.length > 0 ? (
                      <>
                        <span className="text-muted-foreground text-xs">
@@ -59,7 +61,7 @@ diff --git a/apps/web/src/components/AddProjectToMachineDialog.tsx b/apps/web/sr
                          {selectedBytes > 0 ? ` · ${formatBytes(selectedBytes)}` : ""}
                        </span>
                        <Button
-@@ -371,7 +372,7 @@
+@@ -374,7 +375,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
                  )}
                  {ignoredFiles.data?.truncated ? (
                    <p className="text-muted-foreground text-xs">
@@ -68,7 +70,7 @@ diff --git a/apps/web/src/components/AddProjectToMachineDialog.tsx b/apps/web/sr
                    </p>
                  ) : null}
                  <p className="text-muted-foreground text-xs">
-@@ -388,7 +389,7 @@
+@@ -391,7 +392,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
                Cancel
              </Button>
              <Button type="submit" disabled={unavailable || submitting}>
@@ -78,6 +80,7 @@ diff --git a/apps/web/src/components/AddProjectToMachineDialog.tsx b/apps/web/sr
            </DialogFooter>
          </form>
 diff --git a/apps/web/src/components/settings/ConnectionDiagnosisDetails.tsx b/apps/web/src/components/settings/ConnectionDiagnosisDetails.tsx
+index d896efe4..86a9c025 100644
 --- a/apps/web/src/components/settings/ConnectionDiagnosisDetails.tsx
 +++ b/apps/web/src/components/settings/ConnectionDiagnosisDetails.tsx
 @@ -1,3 +1,4 @@
@@ -85,7 +88,7 @@ diff --git a/apps/web/src/components/settings/ConnectionDiagnosisDetails.tsx b/a
  import { useAtomValue } from "@effect/atom-react";
  import {
    AVAILABLE_CONNECTION_STATE,
-@@ -93,7 +94,7 @@
+@@ -93,7 +94,7 @@ export function ConnectionDiagnosisSummary({
        <p className="flex flex-wrap items-center gap-1 text-muted-foreground">
          {retryAt !== null ? <RetryCountdown retryAt={retryAt} /> : null}
          {retryAt !== null && attempt > 0 ? <span aria-hidden>·</span> : null}
@@ -95,6 +98,7 @@ diff --git a/apps/web/src/components/settings/ConnectionDiagnosisDetails.tsx b/a
          <button
            type="button"
 diff --git a/apps/web/src/components/settings/DeviceSourcesSettings.tsx b/apps/web/src/components/settings/DeviceSourcesSettings.tsx
+index 09ccc32f..a7d28b8e 100644
 --- a/apps/web/src/components/settings/DeviceSourcesSettings.tsx
 +++ b/apps/web/src/components/settings/DeviceSourcesSettings.tsx
 @@ -1,3 +1,5 @@
@@ -103,7 +107,7 @@ diff --git a/apps/web/src/components/settings/DeviceSourcesSettings.tsx b/apps/w
  import { useAtomValue } from "@effect/atom-react";
  import { Fragment, useState, type ReactNode } from "react";
  import * as Cause from "effect/Cause";
-@@ -81,6 +83,7 @@
+@@ -81,6 +83,7 @@ interface SourceRow {
    readonly title: string;
    readonly kind?: string;
    readonly description: ReactNode;
@@ -111,7 +115,7 @@ diff --git a/apps/web/src/components/settings/DeviceSourcesSettings.tsx b/apps/w
    readonly environments: ReadonlyArray<SourceEnvironment>;
    /**
     * One machine or account every environment reaches the same way (an SSH host, EAS, a Simlock
-@@ -459,6 +462,7 @@
+@@ -459,6 +462,7 @@ export function DeviceSourcesSettings(props: {
          title: host.label,
          kind: "EAS",
          description: easSessionLimits(host),
@@ -119,7 +123,7 @@ diff --git a/apps/web/src/components/settings/DeviceSourcesSettings.tsx b/apps/w
          environments: active.map((member) => {
            const added = (member.settings?.easDeviceHosts ?? []).some(
              (candidate) => candidate.id === host.id,
-@@ -759,7 +763,7 @@
+@@ -759,7 +763,7 @@ function DeviceSourceRow(props: { row: SourceRow }) {
              </span>
            ) : null}
          </div>
@@ -128,7 +132,7 @@ diff --git a/apps/web/src/components/settings/DeviceSourcesSettings.tsx b/apps/w
          {problems.map((environment) => (
            <p
              key={environment.environmentId}
-@@ -777,7 +781,7 @@
+@@ -777,7 +781,7 @@ function DeviceSourceRow(props: { row: SourceRow }) {
              </span>
              {environment.status.action ? (
                <InlineButton onClick={environment.status.action.run}>
@@ -138,6 +142,7 @@ diff --git a/apps/web/src/components/settings/DeviceSourcesSettings.tsx b/apps/w
              ) : null}
            </p>
 diff --git a/apps/web/src/components/settings/EasDeviceHostEditor.tsx b/apps/web/src/components/settings/EasDeviceHostEditor.tsx
+index 1223fe09..af39cd7a 100644
 --- a/apps/web/src/components/settings/EasDeviceHostEditor.tsx
 +++ b/apps/web/src/components/settings/EasDeviceHostEditor.tsx
 @@ -1,3 +1,4 @@
@@ -145,7 +150,7 @@ diff --git a/apps/web/src/components/settings/EasDeviceHostEditor.tsx b/apps/web
  import { useAtomValue } from "@effect/atom-react";
  import { useId, useRef, useState } from "react";
  import * as Cause from "effect/Cause";
-@@ -136,7 +137,7 @@
+@@ -143,7 +144,7 @@ export function EasDeviceHostEditor(props: {
      max: number,
    ) => (
      <label className="block space-y-1.5">
@@ -154,7 +159,7 @@ diff --git a/apps/web/src/components/settings/EasDeviceHostEditor.tsx b/apps/web
        <Input
          type="number"
          min={1}
-@@ -232,7 +233,7 @@
+@@ -258,7 +259,7 @@ export function EasDeviceHostEditor(props: {
              <div className="flex items-center justify-between gap-3 rounded-lg border border-border/60 px-3 py-2.5">
                <p role="status" className="min-w-0 text-xs text-muted-foreground">
                  {account.status === "signed-in"
@@ -163,8 +168,8 @@ diff --git a/apps/web/src/components/settings/EasDeviceHostEditor.tsx b/apps/web
                    : account.status === "failed"
                      ? account.error
                      : account.status === "checking"
-@@ -246,7 +247,7 @@
-                 disabled={props.busy || account.status === "checking"}
+@@ -272,7 +273,7 @@ export function EasDeviceHostEditor(props: {
+                 disabled={props.busy || !tokenValid || account.status === "checking"}
                  onClick={() => void checkAccount()}
                >
 -                {account.status === "checking" ? <Spinner size="xs" /> : null} Check account
@@ -172,7 +177,7 @@ diff --git a/apps/web/src/components/settings/EasDeviceHostEditor.tsx b/apps/web
                </Button>
              </div>
              <div className="space-y-1.5 text-sm">
-@@ -294,14 +295,12 @@
+@@ -320,14 +321,12 @@ export function EasDeviceHostEditor(props: {
                {limit("idleMinutes", "Idle minutes", 60)}
              </div>
              <p className="text-xs text-muted-foreground">
@@ -190,7 +195,7 @@ diff --git a/apps/web/src/components/settings/EasDeviceHostEditor.tsx b/apps/web
                </p>
              )}
            </DialogPanel>
-@@ -310,7 +309,7 @@
+@@ -336,7 +335,7 @@ export function EasDeviceHostEditor(props: {
                Cancel
              </Button>
              <Button type="submit" disabled={props.busy || !valid}>
@@ -200,9 +205,10 @@ diff --git a/apps/web/src/components/settings/EasDeviceHostEditor.tsx b/apps/web
            </DialogFooter>
          </form>
 diff --git a/apps/web/src/components/settings/IntegrationsSettings.tsx b/apps/web/src/components/settings/IntegrationsSettings.tsx
+index e8417625..065251c2 100644
 --- a/apps/web/src/components/settings/IntegrationsSettings.tsx
 +++ b/apps/web/src/components/settings/IntegrationsSettings.tsx
-@@ -734,7 +734,7 @@
+@@ -751,7 +751,7 @@ function BrowserSearchEngineSetting() {
            status={
              isValidSearchUrlTemplate(customUrl)
                ? undefined
@@ -211,18 +217,19 @@ diff --git a/apps/web/src/components/settings/IntegrationsSettings.tsx b/apps/we
            }
            control={
              <DraftInput
-@@ -1549,7 +1549,9 @@
- 
+@@ -1573,7 +1573,9 @@ function BrowserProfilesSetting({ disabled }: { readonly disabled: boolean }) {
+
  export function BrowserSettingsPanel() {
    const desktopOnly = !isElectron;
 -  const desktopOnlyMessage = desktopOnly ? "Only available in the desktop app." : undefined;
 +  const desktopOnlyMessage = desktopOnly
 +    ? translateFixed("Only available in the desktop app.")
 +    : undefined;
- 
+
    return (
      <SettingsPageContainer>
 diff --git a/apps/web/src/components/settings/MobileAppSettingsRow.tsx b/apps/web/src/components/settings/MobileAppSettingsRow.tsx
+index 62f4332a..20c76d53 100644
 --- a/apps/web/src/components/settings/MobileAppSettingsRow.tsx
 +++ b/apps/web/src/components/settings/MobileAppSettingsRow.tsx
 @@ -1,3 +1,4 @@
@@ -230,7 +237,7 @@ diff --git a/apps/web/src/components/settings/MobileAppSettingsRow.tsx b/apps/we
  import { AndroidIcon, AppleIcon } from "../Icons";
  import { Button } from "../ui/button";
  import { Popover, PopoverPopup, PopoverTitle, PopoverTrigger } from "../ui/popover";
-@@ -51,7 +52,7 @@
+@@ -51,7 +52,7 @@ export function MobileAppSettingsRow() {
                      variant="outline"
                      render={<a href={url} target="_blank" rel="noreferrer noopener" />}
                    >
@@ -240,6 +247,7 @@ diff --git a/apps/web/src/components/settings/MobileAppSettingsRow.tsx b/apps/we
                  </div>
                </PopoverPopup>
 diff --git a/apps/web/src/components/settings/ScheduledTasksSettings.tsx b/apps/web/src/components/settings/ScheduledTasksSettings.tsx
+index 49759114..579c000a 100644
 --- a/apps/web/src/components/settings/ScheduledTasksSettings.tsx
 +++ b/apps/web/src/components/settings/ScheduledTasksSettings.tsx
 @@ -1,3 +1,4 @@
@@ -247,7 +255,7 @@ diff --git a/apps/web/src/components/settings/ScheduledTasksSettings.tsx b/apps/
  import { displayKnown } from "~/acceptanceDisplayStrings";
  import { fillSlot } from "../../newThreadDisplayStrings";
  import { useAtomValue } from "@effect/atom-react";
-@@ -856,7 +857,7 @@
+@@ -903,7 +904,7 @@ function WebhookDeliveriesDialog({
                      selected.pendingWindow ? "coalesced" : selected.outcome,
                    )}
                  >
@@ -256,7 +264,7 @@ diff --git a/apps/web/src/components/settings/ScheduledTasksSettings.tsx b/apps/
                  </Badge>
                  <span>
                    {selected.method} · <ScheduledRelativeLabel value={selected.receivedAt} />
-@@ -921,7 +922,7 @@
+@@ -968,7 +969,7 @@ function WebhookDeliveriesDialog({
                          delivery.pendingWindow ? "coalesced" : delivery.outcome,
                        )}
                      >
@@ -265,7 +273,7 @@ diff --git a/apps/web/src/components/settings/ScheduledTasksSettings.tsx b/apps/
                      </Badge>
                      <span>{delivery.method}</span>
                      <span className="text-muted-foreground">
-@@ -1205,7 +1206,7 @@
+@@ -1303,7 +1304,7 @@ function ScheduledTaskEditorForm({
      }
      const parsedFilters = parseWebhookFilterDrafts(draft.filters);
      if (draft.scheduleMode === "webhook" && "error" in parsedFilters) {
@@ -275,6 +283,7 @@ diff --git a/apps/web/src/components/settings/ScheduledTasksSettings.tsx b/apps/
      }
      const schedule = scheduleFromDraft(draft);
 diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/components/usage/UsageLimitsPooled.tsx
+index de4fd9bb..a6fb6546 100644
 --- a/apps/web/src/components/usage/UsageLimitsPooled.tsx
 +++ b/apps/web/src/components/usage/UsageLimitsPooled.tsx
 @@ -1,3 +1,5 @@
@@ -283,7 +292,7 @@ diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/
  import { displayKnown } from "~/acceptanceDisplayStrings";
  import {
    CHATGPT_USAGE_URL,
-@@ -191,7 +193,7 @@
+@@ -192,7 +194,7 @@ function SegmentPopover({
              {resetsIn ? ` · ${resetsIn.replace("resets in ", "in ")}` : ""}
            </Row>
          ) : null}
@@ -292,7 +301,7 @@ diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/
          {reset && reset.restoresPercent > 0 ? (
            <Row label="Restores">+{reset.restoresPercent}%</Row>
          ) : null}
-@@ -353,7 +355,7 @@
+@@ -354,7 +356,7 @@ function SegmentTriggers({
              ref={segmentRef}
              type="button"
              style={paceMark?.gappedTrack}
@@ -302,9 +311,10 @@ diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/
            />
          }
 diff --git a/apps/web/src/lib/addProjectToMachine.ts b/apps/web/src/lib/addProjectToMachine.ts
+index 0ef0467b..675d8c8c 100644
 --- a/apps/web/src/lib/addProjectToMachine.ts
 +++ b/apps/web/src/lib/addProjectToMachine.ts
-@@ -183,7 +183,9 @@
+@@ -183,7 +183,9 @@ export async function addProjectToMachine(input: AddProjectToMachineInput): Prom
          ? null
          : {
              phase: "failed",
@@ -317,6 +327,7 @@ diff --git a/apps/web/src/lib/addProjectToMachine.ts b/apps/web/src/lib/addProje
      );
 diff --git a/apps/web/src/v011DisplayStrings.ts b/apps/web/src/v011DisplayStrings.ts
 new file mode 100644
+index 00000000..3300a7b2
 --- /dev/null
 +++ b/apps/web/src/v011DisplayStrings.ts
 @@ -0,0 +1,45 @@

@@ -1,5 +1,5 @@
 {
-  "baseline": "v0.1.5",
+  "baseline": "v0.1.7",
   "messages": {
     "A page in the browser wants to open another application:": "浏览器中的页面想要打开另一个应用：",
     "Accessibility": "辅助功能",
@@ -23,7 +23,7 @@
     "Copy": "复制",
     "Copy Image": "复制图片",
     "Copy Link": "复制链接",
-    "Copy Path": "复制路径",
+    "Copy path": "复制路径",
     "Could not check for updates.": "无法检查更新。",
     "Cut": "剪切",
     "Delete": "删除",

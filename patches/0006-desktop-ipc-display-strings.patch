@@ -1,7 +1,7 @@
 # 0006-desktop-ipc-display-strings.patch
 #
 # 桌面主进程经 IPC 传给 web 显示的英文，在 web 的显示位置翻译（T07-fix1，对应 T07 已知问题 3）。
-# 基线 v0.1.5；类型上依赖 0004 在 vite-env.d.ts 补的全局 `var __t3zh`（含 t），须在 0004 之后应用。
+# 基线 v0.1.7；类型上依赖 0004 在 vite-env.d.ts 补的全局 `var __t3zh`（含 t），须在 0004 之后应用。
 #
 # 做法：新增 apps/web/src/desktopIpcStrings.ts 的 translateKnownDesktopString(x)。只有名单里的精确文字才交给
 # globalThis.__t3zh?.t?.(x) 查表（CONVENTIONS §5 全局 API），其余原样返回。名单外的文字不能交给 t()：
@@ -23,6 +23,7 @@
 # reports/desktop-main-strings.md 第 4 节和 handoff/T07.md。上游更新后重做方法见 patches/README.md。
 #
 diff --git a/apps/web/src/components/ServerUpdateAction.tsx b/apps/web/src/components/ServerUpdateAction.tsx
+index 32a2811a..daf3ef33 100644
 --- a/apps/web/src/components/ServerUpdateAction.tsx
 +++ b/apps/web/src/components/ServerUpdateAction.tsx
 @@ -1,3 +1,4 @@
@@ -30,16 +31,16 @@ diff --git a/apps/web/src/components/ServerUpdateAction.tsx b/apps/web/src/compo
  import { useAtomValue } from "@effect/atom-react";
  import {
    AuthEnvironmentMaintainScope,
-@@ -68,7 +69,7 @@
+@@ -80,7 +81,7 @@ function CrossTrackNote() {
  }
- 
+
  function updateFailureMessage(error: unknown): string {
 -  return error instanceof Error ? error.message : "Server update failed.";
 +  return error instanceof Error ? translateKnownDesktopString(error.message) : "Server update failed.";
  }
- 
+
  export interface ServerUpdateTarget {
-@@ -216,8 +217,12 @@
+@@ -240,8 +241,12 @@ export function ServerUpdateProgress({
        <div className="mt-1 flex min-w-0 items-center gap-2 text-xs text-destructive" role="alert">
          <span className="size-1.5 shrink-0 rounded-full bg-destructive" aria-hidden="true" />
          <Tooltip>
@@ -55,17 +56,18 @@ diff --git a/apps/web/src/components/ServerUpdateAction.tsx b/apps/web/src/compo
        </div>
      );
 diff --git a/apps/web/src/components/desktop/SnapShotCoordinator.tsx b/apps/web/src/components/desktop/SnapShotCoordinator.tsx
+index 3d7dae6e..2db4f031 100644
 --- a/apps/web/src/components/desktop/SnapShotCoordinator.tsx
 +++ b/apps/web/src/components/desktop/SnapShotCoordinator.tsx
-@@ -35,6 +35,7 @@
+@@ -35,6 +35,7 @@ import {
    openQuestionAttachmentDraft,
  } from "../../questionAttachments";
  import { stackedThreadToast, toastManager } from "../ui/toast";
 +import { translateKnownDesktopString } from "~/desktopIpcStrings";
- 
+
  type CaptureTarget = DraftId | ScopedThreadRef;
  type CaptureFailure = "missing-project" | "delivery";
-@@ -456,7 +457,7 @@
+@@ -456,7 +457,7 @@ export function SnapShotCoordinator() {
                stackedThreadToast({
                  type: "error",
                  title: "Snapshot failed",
@@ -75,6 +77,7 @@ diff --git a/apps/web/src/components/desktop/SnapShotCoordinator.tsx b/apps/web/
              );
            });
 diff --git a/apps/web/src/components/settings/AuthorizedClientsSettings.tsx b/apps/web/src/components/settings/AuthorizedClientsSettings.tsx
+index 171bdeab..e0b07f63 100644
 --- a/apps/web/src/components/settings/AuthorizedClientsSettings.tsx
 +++ b/apps/web/src/components/settings/AuthorizedClientsSettings.tsx
 @@ -1,3 +1,4 @@
@@ -82,7 +85,7 @@ diff --git a/apps/web/src/components/settings/AuthorizedClientsSettings.tsx b/ap
  import { AUTH_SCOPE_OPTIONS as PAIRING_SCOPE_OPTIONS } from "@t3tools/shared/authScopeOptions";
  import { PlusIcon, QrCodeIcon } from "lucide-react";
  import { type ReactNode, memo, useId, useState } from "react";
-@@ -423,7 +424,7 @@
+@@ -428,7 +429,7 @@ const PairingLinkListRow = memo(function PairingLinkListRow({
                            isSelected ? "text-foreground" : "text-muted-foreground",
                          )}
                        >
@@ -91,9 +94,9 @@ diff --git a/apps/web/src/components/settings/AuthorizedClientsSettings.tsx b/ap
                        </span>
                        <span className="min-w-0 truncate text-2xs text-muted-foreground/70">
                          {option.detail}
-@@ -864,7 +865,7 @@
-       <div className="flex min-h-6 min-w-0 flex-col gap-2 sm:-my-0.5 sm:flex-row sm:items-center">
-         <div className="flex min-w-0 items-baseline gap-3">
+@@ -884,7 +885,7 @@ export const AdvertisedEndpointListRow = memo(function AdvertisedEndpointListRow
+       <div className="flex min-h-7 min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+         <div className="flex min-h-7 min-w-0 flex-1 items-center gap-3">
            <h3 className="shrink-0 text-sm leading-5 font-medium text-foreground">
 -            {endpoint.label}
 +            {translateKnownDesktopString(endpoint.label)}
@@ -101,9 +104,10 @@ diff --git a/apps/web/src/components/settings/AuthorizedClientsSettings.tsx b/ap
            {shouldShowEndpointUrl ? (
              <Tooltip>
 diff --git a/apps/web/src/components/settings/SnapShotSettings.tsx b/apps/web/src/components/settings/SnapShotSettings.tsx
+index c69f1e78..58b6ddca 100644
 --- a/apps/web/src/components/settings/SnapShotSettings.tsx
 +++ b/apps/web/src/components/settings/SnapShotSettings.tsx
-@@ -54,6 +54,7 @@
+@@ -54,6 +54,7 @@ import { SelectButton } from "../ui/select";
  import { Switch } from "../ui/switch";
  import { SnapShotSetupDialog } from "./SnapShotSetupDialog";
  import { useSnapShotShortcutRecorder } from "./useSnapShotShortcutRecorder";
@@ -111,7 +115,7 @@ diff --git a/apps/web/src/components/settings/SnapShotSettings.tsx b/apps/web/sr
  import {
    captureSetupAccessReady,
    captureSetupInitialStep,
-@@ -261,7 +262,7 @@
+@@ -261,7 +262,7 @@ export function SnapShotSettings() {
          : shortcutCheck.availability
            ? shortcutCheck.availability.available
              ? "Ready to save."
@@ -121,9 +125,10 @@ diff --git a/apps/web/src/components/settings/SnapShotSettings.tsx b/apps/web/sr
                !state.shortcutLabel &&
                isModifierPairShortcut(displayShortcut)
 diff --git a/apps/web/src/components/settings/SnapShotSetupDialog.tsx b/apps/web/src/components/settings/SnapShotSetupDialog.tsx
+index bf078c74..a7a0cb90 100644
 --- a/apps/web/src/components/settings/SnapShotSetupDialog.tsx
 +++ b/apps/web/src/components/settings/SnapShotSetupDialog.tsx
-@@ -11,6 +11,7 @@
+@@ -11,6 +11,7 @@ import { CaptureShortcutConfig } from "./CaptureShortcutConfig";
  import { Button } from "../ui/button";
  import { Dialog, DialogDescription } from "../ui/dialog";
  import { WizardSteps, WizardPopup, WizardHeader, WizardPanel, WizardFooter } from "../ui/wizard";
@@ -131,7 +136,7 @@ diff --git a/apps/web/src/components/settings/SnapShotSetupDialog.tsx b/apps/web
  import {
    captureSetupAccessReady,
    captureSetupBackend,
-@@ -348,7 +349,7 @@
+@@ -348,7 +349,7 @@ export function SnapShotSetupDialog({
                  <div className="mt-3 space-y-3">
                    {details.map((detail) => (
                      <p key={detail} className="break-words">
@@ -142,6 +147,7 @@ diff --git a/apps/web/src/components/settings/SnapShotSetupDialog.tsx b/apps/web
                    {step === "access" && (backend === "gnome" || helperBackend) ? (
 diff --git a/apps/web/src/desktopIpcStrings.ts b/apps/web/src/desktopIpcStrings.ts
 new file mode 100644
+index 00000000..de566038
 --- /dev/null
 +++ b/apps/web/src/desktopIpcStrings.ts
 @@ -0,0 +1,94 @@
