@@ -1,5 +1,5 @@
 # 0011-minor-display-fixes.patch
-# Baseline v0.1.7, apply after 0001–0010 (zh.5).
+# Baseline v0.1.8, apply after 0001–0010 (zh.5).
 # Small display fixes found while reviewing zh.4; display boundaries only.
 #   * Sidebar row accessible name: the status part (Goal / Working / Waiting / Approval /
 #     Input / Limited / Failed / Woke / Done) and the draft row's "Unsent draft" go through
@@ -12,7 +12,7 @@
 # Dictionary-only wording changes in the same release: "Checked {0}", the follow-up
 # shortcut sentence. Tests: plugin/__tests__/acceptance-display-strings.test.ts.
 diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceDisplayStrings.ts
-index 2a145dbf..b4efa9ec 100644
+index 9ea3c6de..d9d98024 100644
 --- a/apps/web/src/acceptanceDisplayStrings.ts
 +++ b/apps/web/src/acceptanceDisplayStrings.ts
 @@ -177,8 +177,17 @@ export const ACCEPTANCE_DISPLAY_LABELS: string[] = [
@@ -121,15 +121,16 @@ index bb5882a6..438c0d49 100644
      isActive: props.isActive,
    });
 diff --git a/apps/web/src/components/sidebar/SidebarThreadRow.tsx b/apps/web/src/components/sidebar/SidebarThreadRow.tsx
-index ebc7aed9..d496dae4 100644
+index 2edfeab8..4fecd9e8 100644
 --- a/apps/web/src/components/sidebar/SidebarThreadRow.tsx
 +++ b/apps/web/src/components/sidebar/SidebarThreadRow.tsx
-@@ -1,3 +1,4 @@
+@@ -1,4 +1,5 @@
+ import { useAtomMount } from "@effect/atom-react";
 +import { displayKnown } from "../../acceptanceDisplayStrings";
  import { displayDuration } from "../../acceptanceDisplayStrings";
  import { displayDefaultName } from "../../newThreadDisplayStrings";
  import { ThreadHoverCard, ThreadHoverCardPopup } from "../ThreadHoverCard";
-@@ -1003,7 +1004,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
+@@ -1014,7 +1015,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
 
    const accessibility = resolveSidebarRowAccessibility({
      title: displayDefaultName(thread.title),

@@ -1,5 +1,5 @@
 # Mark explicitly authorized this functional recovery fix on 2026-10-07.
-# Baseline: v0.1.7 / 322f6544dfad0a3c8a0c8cbecf2c7f7874b14268
+# Baseline: v0.1.8 / bf469bb19669671d0df2efda74ed73867a7137c0
 # Keep T3 Connect loading/failure visible and offer a manual renderer reload.
 # Does not change auth sessions, scopes, account state or SDK dependencies.
 diff --git a/apps/web/src/components/clerk/T3ConnectSidebarSignIn.behavior.browser.test.tsx b/apps/web/src/components/clerk/T3ConnectSidebarSignIn.behavior.browser.test.tsx

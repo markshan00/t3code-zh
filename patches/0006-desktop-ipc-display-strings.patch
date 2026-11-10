@@ -1,7 +1,7 @@
 # 0006-desktop-ipc-display-strings.patch
 #
 # 桌面主进程经 IPC 传给 web 显示的英文，在 web 的显示位置翻译（T07-fix1，对应 T07 已知问题 3）。
-# 基线 v0.1.7；类型上依赖 0004 在 vite-env.d.ts 补的全局 `var __t3zh`（含 t），须在 0004 之后应用。
+# 基线 v0.1.8；类型上依赖 0004 在 vite-env.d.ts 补的全局 `var __t3zh`（含 t），须在 0004 之后应用。
 #
 # 做法：新增 apps/web/src/desktopIpcStrings.ts 的 translateKnownDesktopString(x)。只有名单里的精确文字才交给
 # globalThis.__t3zh?.t?.(x) 查表（CONVENTIONS §5 全局 API），其余原样返回。名单外的文字不能交给 t()：
@@ -77,15 +77,15 @@ index 3d7dae6e..2db4f031 100644
              );
            });
 diff --git a/apps/web/src/components/settings/AuthorizedClientsSettings.tsx b/apps/web/src/components/settings/AuthorizedClientsSettings.tsx
-index 171bdeab..e0b07f63 100644
+index f58bf7b1..6e6f4034 100644
 --- a/apps/web/src/components/settings/AuthorizedClientsSettings.tsx
 +++ b/apps/web/src/components/settings/AuthorizedClientsSettings.tsx
 @@ -1,3 +1,4 @@
 +import { translateKnownDesktopString } from "../../desktopIpcStrings";
  import { AUTH_SCOPE_OPTIONS as PAIRING_SCOPE_OPTIONS } from "@t3tools/shared/authScopeOptions";
- import { PlusIcon, QrCodeIcon } from "lucide-react";
+ import { PlugIcon, PlusIcon, QrCodeIcon } from "lucide-react";
  import { type ReactNode, memo, useId, useState } from "react";
-@@ -428,7 +429,7 @@ const PairingLinkListRow = memo(function PairingLinkListRow({
+@@ -435,7 +436,7 @@ const PairingLinkListRow = memo(function PairingLinkListRow({
                            isSelected ? "text-foreground" : "text-muted-foreground",
                          )}
                        >
@@ -94,7 +94,7 @@ index 171bdeab..e0b07f63 100644
                        </span>
                        <span className="min-w-0 truncate text-2xs text-muted-foreground/70">
                          {option.detail}
-@@ -884,7 +885,7 @@ export const AdvertisedEndpointListRow = memo(function AdvertisedEndpointListRow
+@@ -901,7 +902,7 @@ export const AdvertisedEndpointListRow = memo(function AdvertisedEndpointListRow
        <div className="flex min-h-7 min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
          <div className="flex min-h-7 min-w-0 flex-1 items-center gap-3">
            <h3 className="shrink-0 text-sm leading-5 font-medium text-foreground">

@@ -2,15 +2,15 @@
 # New guide, prompt link, workflow, telemetry and update interfaces use fixed skeletons.
 # Also removes a Chinese cleanup spacing artifact and extracts the existing GitCafe predicate.
 diff --git a/apps/web/src/components/CommandPaletteResults.tsx b/apps/web/src/components/CommandPaletteResults.tsx
-index 8dceaf8c..2748a488 100644
+index ea4e225a..1e2e87c2 100644
 --- a/apps/web/src/components/CommandPaletteResults.tsx
 +++ b/apps/web/src/components/CommandPaletteResults.tsx
 @@ -1,3 +1,4 @@
 +import { isGitCafeProjectSource } from "~/n2935DisplayStrings";
  import { translateFixed } from "~/newThreadDisplayStrings";
  import { displayKnown, displayRelativeTime } from "~/acceptanceDisplayStrings";
- import { type ResolvedKeybindingsConfig } from "@t3tools/contracts";
-@@ -199,7 +200,7 @@ function DisabledCommandPaletteResultRow(props: {
+ import { useLegendListRef } from "~/hooks/useLegendListRef";
+@@ -203,7 +204,7 @@ function DisabledCommandPaletteResultRow(props: {
          <span className="flex min-w-0 flex-1 flex-col">
            <span className="flex min-w-0 items-center gap-1.5 text-sm text-foreground">
              {props.item.titleLeadingContent}
@@ -19,7 +19,7 @@ index 8dceaf8c..2748a488 100644
              <ThreadRowContext item={props.item} />
            </span>
            {props.item.threadContentMatch ? (
-@@ -208,14 +209,14 @@ function DisabledCommandPaletteResultRow(props: {
+@@ -212,14 +213,14 @@ function DisabledCommandPaletteResultRow(props: {
              <SearchMatchHintLine hint={props.item.matchHint} />
            ) : props.item.description ? (
              <span className="min-w-0 text-muted-foreground/70 text-xs">
@@ -36,7 +36,7 @@ index 8dceaf8c..2748a488 100644
          </span>
        )}
        {props.item.titleTrailingContent}
-@@ -251,7 +252,7 @@ function CommandPaletteResultRow(props: {
+@@ -255,7 +256,7 @@ function CommandPaletteResultRow(props: {
          <span className="flex min-w-0 flex-1 flex-col">
            <span className="flex min-w-0 items-center gap-1.5 text-sm text-foreground">
              {props.item.titleLeadingContent}
@@ -45,7 +45,7 @@ index 8dceaf8c..2748a488 100644
              <ThreadRowContext item={props.item} />
            </span>
            {props.item.threadContentMatch ? (
-@@ -260,14 +261,14 @@ function CommandPaletteResultRow(props: {
+@@ -264,14 +265,14 @@ function CommandPaletteResultRow(props: {
              <SearchMatchHintLine hint={props.item.matchHint} />
            ) : props.item.description ? (
              <span className="min-w-0 text-muted-foreground/70 text-xs">
@@ -63,16 +63,16 @@ index 8dceaf8c..2748a488 100644
        )}
        {props.item.titleTrailingContent}
 diff --git a/apps/web/src/components/chat/ThreadLineageWorkflowRow.tsx b/apps/web/src/components/chat/ThreadLineageWorkflowRow.tsx
-index 9d31ec35..4ecb1b31 100644
+index 4cfb2335..0a1a8eb0 100644
 --- a/apps/web/src/components/chat/ThreadLineageWorkflowRow.tsx
 +++ b/apps/web/src/components/chat/ThreadLineageWorkflowRow.tsx
 @@ -1,3 +1,5 @@
 +import { fillDisplaySlots, displayWorkflowStatus } from "~/stableDisplayStrings";
 +import { fillSlot } from "~/newThreadDisplayStrings";
- import type {
-   SubagentWorkflowGroup,
-   RuntimeSubagent,
-@@ -88,7 +90,7 @@ function WorkflowMemberRow({
+ import {
+   workflowMemberModelSelection,
+   type SubagentWorkflowGroup,
+@@ -89,7 +91,7 @@ function WorkflowMemberRow({
              status={member.status}
            />
            <span className="min-w-0 flex-1 truncate">{member.title}</span>
@@ -81,7 +81,7 @@ index 9d31ec35..4ecb1b31 100644
            {member.startedAt ? (
              <span className="shrink-0 text-2xs font-normal tabular-nums text-muted-foreground">
                <AgentElapsed agent={member} />
-@@ -180,7 +182,7 @@ export function ThreadLineageWorkflowRow({
+@@ -182,7 +184,7 @@ export function ThreadLineageWorkflowRow({
            variant="ghost"
            part="secondary"
            aria-expanded={expanded}
@@ -90,7 +90,7 @@ index 9d31ec35..4ecb1b31 100644
            onClick={() => setExpanded((value) => !value)}
          >
            <ChevronDownIcon
-@@ -203,7 +205,7 @@ export function ThreadLineageWorkflowRow({
+@@ -205,7 +207,7 @@ export function ThreadLineageWorkflowRow({
                    variant="panel"
                    tone={phase.state === "running" ? "emphasized" : "muted"}
                    expanded={open}
@@ -99,7 +99,7 @@ index 9d31ec35..4ecb1b31 100644
                    onClick={() => setPhaseOpen((phases) => new Map(phases).set(phase.index, !open))}
                    accessory={
                      <>
-@@ -211,8 +213,7 @@ export function ThreadLineageWorkflowRow({
+@@ -213,8 +215,7 @@ export function ThreadLineageWorkflowRow({
                          <SectionHeaderStatus>Failed</SectionHeaderStatus>
                        ) : null}
                        <span className="shrink-0 text-2xs font-normal tabular-nums">
@@ -158,16 +158,16 @@ index ca44345e..549be498 100644
          </Alert>
        ) : null}
 diff --git a/apps/web/src/components/promptLinks/NewThreadLinkView.tsx b/apps/web/src/components/promptLinks/NewThreadLinkView.tsx
-index f8e76b56..cccff1ff 100644
+index 918e3912..3d614f71 100644
 --- a/apps/web/src/components/promptLinks/NewThreadLinkView.tsx
 +++ b/apps/web/src/components/promptLinks/NewThreadLinkView.tsx
 @@ -1,3 +1,5 @@
 +import { fillDisplaySlots } from "~/stableDisplayStrings";
 +import { fillSlot } from "~/newThreadDisplayStrings";
  import { scopeProjectRef, scopeThreadRef } from "@t3tools/client-runtime/environment";
- import { getCloneDestinationPath } from "@t3tools/client-runtime/operations/projects";
  import {
-@@ -160,8 +162,8 @@ export function NewThreadLinkView({ link }: { readonly link: NewThreadLink }) {
+   getAddProjectInitialQuery,
+@@ -164,8 +166,8 @@ export function NewThreadLinkView({ link }: { readonly link: NewThreadLink }) {
        if (resolved === null || !resolved.exact) {
          notes.push(
            resolved === null
@@ -178,7 +178,7 @@ index f8e76b56..cccff1ff 100644
          );
        }
      }
-@@ -363,7 +365,7 @@ export function NewThreadLinkView({ link }: { readonly link: NewThreadLink }) {
+@@ -375,7 +377,7 @@ export function NewThreadLinkView({ link }: { readonly link: NewThreadLink }) {
            description="Clone it to work on it here, or start without a project."
          >
            <Button size="sm" onClick={() => void cloneRepository(state.repository)}>
@@ -206,7 +206,7 @@ index 5e6a61ff..8615695d 100644
    };
    const existing = useComposerDraftStore.getState().getComposerDraft(target)?.prompt ?? "";
 diff --git a/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx b/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx
-index 25338417..3c19f273 100644
+index 7f1de5c5..9ab80d15 100644
 --- a/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx
 +++ b/apps/web/src/components/pullRequest/PullRequestStackMenu.tsx
 @@ -1,3 +1,4 @@
@@ -224,7 +224,7 @@ index 25338417..3c19f273 100644
              </DialogDescription>
            </DialogHeader>
 diff --git a/apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx b/apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx
-index d336bb78..475d1633 100644
+index cf1c248a..e8cc9ac9 100644
 --- a/apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx
 +++ b/apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx
 @@ -1,3 +1,5 @@
@@ -233,7 +233,7 @@ index d336bb78..475d1633 100644
  import type {
    DiffLineAnnotation,
    FileDiffContentsLoader,
-@@ -165,13 +167,12 @@ export function GuideExcerpt({
+@@ -167,13 +169,12 @@ export function GuideExcerpt({
          />
        ) : loading ? (
          <p className="rounded-lg border border-border/60 px-3 py-2 text-xs text-muted-foreground">
@@ -249,7 +249,7 @@ index d336bb78..475d1633 100644
            </span>
            <Button size="xs" variant="outline" onClick={() => onOpenFile(excerpt.path)}>
              Open in Code
-@@ -357,8 +358,7 @@ function ExcerptDiff({
+@@ -360,8 +361,7 @@ function ExcerptDiff({
          renderHeaderMetadata={() => (
            <span className="flex items-center gap-2 text-xs text-muted-foreground">
              <span className="tabular-nums">

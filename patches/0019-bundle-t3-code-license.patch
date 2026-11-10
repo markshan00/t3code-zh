@@ -1,15 +1,15 @@
 # 0019-bundle-t3-code-license.patch
 #
 # T16：分发修改版时附上基线 LICENSE，逐字节复制，不改版权声明。
-# 基线 v0.1.7；在 0018 后应用。
+# 基线 v0.1.8；在 0018 后应用。
 # staging 时复制到资源目录，electron-builder 的 extraResources 在签名前
 # 放入 Contents/Resources/T3-Code-LICENSE.txt；build-zh.sh 第 13 步比对内容。
 # 只修改打包脚本 scripts/build-desktop-artifact.ts，不改应用运行逻辑。
 diff --git a/scripts/build-desktop-artifact.ts b/scripts/build-desktop-artifact.ts
-index f3569b4c..3dea658b 100644
+index fa905b25..3f81420c 100644
 --- a/scripts/build-desktop-artifact.ts
 +++ b/scripts/build-desktop-artifact.ts
-@@ -1085,6 +1085,10 @@ export const DESKTOP_EXTRA_RESOURCES = [
+@@ -1095,6 +1095,10 @@ export const DESKTOP_EXTRA_RESOURCES = [
      from: "apps/desktop/prod-resources/cursor-sdk",
      to: "node_modules/@cursor",
    },
@@ -20,7 +20,7 @@ index f3569b4c..3dea658b 100644
    {
      from: "apps/desktop/prod-resources/resource-monitor",
      to: "resource-monitor",
-@@ -3740,6 +3744,10 @@ const buildDesktopArtifactUnlocked = Effect.fn("buildDesktopArtifactUnlocked")(f
+@@ -3755,6 +3759,10 @@ const buildDesktopArtifactUnlocked = Effect.fn("buildDesktopArtifactUnlocked")(f
    yield* Effect.log("[desktop-artifact] Staging release app...");
    yield* fs.copy(distDirs.desktopDist, path.join(stageAppDir, "apps/desktop/dist-electron"));
    yield* fs.copy(distDirs.desktopResources, stageResourcesDir);

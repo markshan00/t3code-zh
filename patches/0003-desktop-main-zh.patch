@@ -1,6 +1,6 @@
 # 0003-desktop-main-zh.patch
 #
-# 桌面主进程（apps/desktop）的界面文字，以及把系统语言暴露给渲染进程（T07）。基线 v0.1.7。
+# 桌面主进程（apps/desktop）的界面文字，以及把系统语言暴露给渲染进程（T07）。基线 v0.1.8。
 #
 # 1. 主进程文字：菜单栏、右键菜单、原生对话框、权限助手面板、画中画预览窗口（标题与图片 alt）、
 #    截图动画遮罩（空窗口标题时的回退文字）里的英文原文包成 __t3zh_t(<原表达式>)；插进主进程自己拼的
@@ -30,10 +30,10 @@
 # T18 / n2908 新增 preview/Passkeys.ts：仅翻原生选择框、未命名回退及取消按钮，账户名与 WebAuthn 错误保持原文。
 #
 diff --git a/apps/desktop/src/app/DesktopApp.ts b/apps/desktop/src/app/DesktopApp.ts
-index 8bdd1957..f6e12bf3 100644
+index e3b6c49e..5e8d7dee 100644
 --- a/apps/desktop/src/app/DesktopApp.ts
 +++ b/apps/desktop/src/app/DesktopApp.ts
-@@ -36,6 +36,7 @@ import * as DesktopUpdates from "../updates/DesktopUpdates.ts";
+@@ -38,6 +38,7 @@ import * as DesktopUpdates from "../updates/DesktopUpdates.ts";
  import * as DesktopSnapShot from "../snapShot/DesktopSnapShot.ts";
  import * as DesktopWslBackend from "../wsl/DesktopWslBackend.ts";
  import * as DesktopRendererHistory from "../telemetry/DesktopRendererHistory.ts";
@@ -41,7 +41,7 @@ index 8bdd1957..f6e12bf3 100644
  import * as HostProcess from "@t3tools/shared/HostProcess";
 
  const DEFAULT_DESKTOP_BACKEND_PORT = 3773;
-@@ -137,8 +138,8 @@ const handleFatalStartupError = Effect.fn("desktop.startup.handleFatalStartupErr
+@@ -144,8 +145,8 @@ const handleFatalStartupError = Effect.fn("desktop.startup.handleFatalStartupErr
    const wasQuitting = yield* Ref.getAndSet(state.quitting, true);
    if (!wasQuitting) {
      yield* electronDialog.showErrorBox(
@@ -115,10 +115,10 @@ index 0b50e147..07713356 100644
      });
      this.window = window;
 diff --git a/apps/desktop/src/preload.ts b/apps/desktop/src/preload.ts
-index da568071..c863df28 100644
+index 2dbc4eed..6c44fe75 100644
 --- a/apps/desktop/src/preload.ts
 +++ b/apps/desktop/src/preload.ts
-@@ -41,6 +41,25 @@ try {
+@@ -42,6 +42,25 @@ try {
    }
  } catch {}
 
@@ -145,7 +145,7 @@ index da568071..c863df28 100644
  const clientPlatform = process.platform;
 
 diff --git a/apps/desktop/src/preview/BrowserSession.ts b/apps/desktop/src/preview/BrowserSession.ts
-index a780cacf..d42d9b99 100644
+index b2523ba6..5c9602f1 100644
 --- a/apps/desktop/src/preview/BrowserSession.ts
 +++ b/apps/desktop/src/preview/BrowserSession.ts
 @@ -1,5 +1,7 @@
@@ -156,7 +156,7 @@ index a780cacf..d42d9b99 100644
  import * as Context from "effect/Context";
  import * as Digest from "effect/crypto/Digest";
  import * as Effect from "effect/Effect";
-@@ -247,9 +249,9 @@ export const make = Effect.gen(function* BrowserSessionMake() {
+@@ -250,9 +252,9 @@ export const make = Effect.gen(function* BrowserSessionMake() {
      promptPermission(
        requester,
        {
@@ -170,15 +170,15 @@ index a780cacf..d42d9b99 100644
        (answer) => callback(answer === true),
      );
 diff --git a/apps/desktop/src/preview/Manager.ts b/apps/desktop/src/preview/Manager.ts
-index 18eb4b2b..6002cee8 100644
+index c668c390..5bb94208 100644
 --- a/apps/desktop/src/preview/Manager.ts
 +++ b/apps/desktop/src/preview/Manager.ts
 @@ -1,3 +1,4 @@
 +import { __t3zh_html, __t3zh_t } from "../t3zh/t3zh-desktop.ts";
+ // @effect-diagnostics-next-line nodeBuiltinImport:off -- FileSystem.copyFile cannot request an exclusive copy.
+ import * as NodeFSP from "node:fs/promises";
  import * as NodeZlib from "node:zlib";
- import {
-   DesktopPreviewRecordingInputSchema,
-@@ -166,7 +167,7 @@ const buildPreviewPictureInPictureDataUrl = (): string => {
+@@ -178,7 +179,7 @@ const buildPreviewPictureInPictureDataUrl = (): string => {
      </style>
    </head>
    <body>
@@ -187,7 +187,7 @@ index 18eb4b2b..6002cee8 100644
      <script>
        const frame = document.getElementById("preview-frame");
        window.previewPictureInPicture.onFrame((next) => {
-@@ -2752,7 +2753,8 @@ const makeNativeOperations = Effect.fn("PreviewManager.makeOperations")(function
+@@ -2845,7 +2846,8 @@ const makeNativeOperations = Effect.fn("PreviewManager.makeOperations")(function
                height: PICTURE_IN_PICTURE_INITIAL_HEIGHT,
                minWidth: PICTURE_IN_PICTURE_MIN_WIDTH,
                minHeight: PICTURE_IN_PICTURE_MIN_HEIGHT,
@@ -248,7 +248,7 @@ index 4b6ce04a..d2c3dd21 100644
    if(value.appIconDataUrl){
      const icon=document.getElementById("icon");icon.src=value.appIconDataUrl;icon.style.display="block";document.getElementById("fallback").style.display="none";
 diff --git a/apps/desktop/src/window/DesktopApplicationMenu.ts b/apps/desktop/src/window/DesktopApplicationMenu.ts
-index 07fd8654..f25c19b7 100644
+index 44d2c234..e9f31bc0 100644
 --- a/apps/desktop/src/window/DesktopApplicationMenu.ts
 +++ b/apps/desktop/src/window/DesktopApplicationMenu.ts
 @@ -1,3 +1,4 @@
@@ -347,8 +347,8 @@ index 07fd8654..f25c19b7 100644
                    accelerator: "CmdOrCtrl+,",
                    click: settingsClick,
                  },
-@@ -202,58 +205,61 @@ export const make = Effect.gen(function* () {
-               ]),
+@@ -213,58 +216,61 @@ export const make = Effect.gen(function* () {
+           },
            // Cmd/Ctrl+W belongs to the renderer's tab close; it must never close the window.
            environment.platform === "darwin"
 -            ? { label: "Close Window", click: (_item, window) => window?.close() }
@@ -428,7 +428,7 @@ index 07fd8654..f25c19b7 100644
              accelerator: "CmdOrCtrl+Plus",
              visible: false,
              click: zoomClick("in"),
-@@ -261,14 +267,14 @@ export const make = Effect.gen(function* () {
+@@ -272,14 +278,14 @@ export const make = Effect.gen(function* () {
            ...(environment.platform === "darwin"
              ? [
                  {
@@ -445,7 +445,7 @@ index 07fd8654..f25c19b7 100644
            // Keypad codes do not match number-row accelerators.
            {
              label: "Actual Size",
-@@ -277,7 +283,7 @@ export const make = Effect.gen(function* () {
+@@ -288,7 +294,7 @@ export const make = Effect.gen(function* () {
              click: zoomClick("reset"),
            },
            {
@@ -454,7 +454,7 @@ index 07fd8654..f25c19b7 100644
              accelerator: "CmdOrCtrl+numadd",
              visible: false,
              click: zoomClick("in"),
-@@ -289,25 +295,27 @@ export const make = Effect.gen(function* () {
+@@ -300,25 +306,27 @@ export const make = Effect.gen(function* () {
              click: zoomClick("out"),
            },
            { type: "separator" },
@@ -488,10 +488,10 @@ index 07fd8654..f25c19b7 100644
            },
          ],
 diff --git a/apps/desktop/src/window/DesktopWindow.ts b/apps/desktop/src/window/DesktopWindow.ts
-index 5e02f4cf..9db3eb6f 100644
+index 17dba674..c6a0167d 100644
 --- a/apps/desktop/src/window/DesktopWindow.ts
 +++ b/apps/desktop/src/window/DesktopWindow.ts
-@@ -36,6 +36,7 @@ import * as DesktopClientSettings from "../settings/DesktopClientSettings.ts";
+@@ -37,6 +37,7 @@ import * as DesktopClientSettings from "../settings/DesktopClientSettings.ts";
  import * as ElectronApp from "../electron/ElectronApp.ts";
  import * as DesktopRendererHistory from "../telemetry/DesktopRendererHistory.ts";
  import { makeQuitShortcutHandler } from "./QuitHold.ts";
@@ -499,7 +499,7 @@ index 5e02f4cf..9db3eb6f 100644
  import { copyContextMenuImage } from "./ContextMenuImage.ts";
 
  const TITLEBAR_HEIGHT = 40;
-@@ -180,7 +181,7 @@ function buildConnectingSplashDataUrl(shouldUseDarkColors: boolean): string {
+@@ -194,7 +195,7 @@ function buildConnectingSplashDataUrl(shouldUseDarkColors: boolean): string {
    const label = shouldUseDarkColors ? "#9ca3af" : "#6b7280";
    const accent = shouldUseDarkColors ? "#f8fafc" : "#1f2937";
    const track = shouldUseDarkColors ? "rgba(248,250,252,0.18)" : "rgba(31,41,55,0.18)";
@@ -508,16 +508,16 @@ index 5e02f4cf..9db3eb6f 100644
    return `data:text/html;charset=utf-8,${encodeURIComponent(html)}`;
  }
 
-@@ -406,6 +407,8 @@ export const make = Effect.gen(function* () {
+@@ -420,6 +421,8 @@ export const make = Effect.gen(function* () {
          nodeIntegration: false,
          sandbox: true,
          webviewTag: true,
 +        // t3code-zh：把 app.getPreferredSystemLanguages() 传给 preload，暴露为 globalThis.__t3zhSystemLanguages。
 +        additionalArguments: [systemLanguagesArgument()],
          // Guest fullscreen propagates to the embedder; both must opt out to keep it inside the webview.
+         // The app's own fullscreen elements reach OS fullscreen through syncHtmlFullscreen.
          disableHtmlFullscreenWindowResize: true,
-       },
-@@ -558,7 +561,7 @@ export const make = Effect.gen(function* () {
+@@ -573,7 +576,7 @@ export const make = Effect.gen(function* () {
              });
            }
            if (params.dictionarySuggestions.length === 0) {
@@ -526,7 +526,7 @@ index 5e02f4cf..9db3eb6f 100644
            }
            menuTemplate.push({ type: "separator" });
          }
-@@ -566,7 +569,7 @@ export const make = Effect.gen(function* () {
+@@ -581,7 +584,7 @@ export const make = Effect.gen(function* () {
          if (Option.isSome(ElectronShell.parseSafeExternalUrl(params.linkURL))) {
            menuTemplate.push(
              {
@@ -535,7 +535,7 @@ index 5e02f4cf..9db3eb6f 100644
                click: () => {
                  void runPromise(electronShell.copyText(params.linkURL));
                },
-@@ -577,7 +580,7 @@ export const make = Effect.gen(function* () {
+@@ -592,7 +595,7 @@ export const make = Effect.gen(function* () {
 
          if (params.mediaType === "image") {
            menuTemplate.push({
@@ -543,8 +543,8 @@ index 5e02f4cf..9db3eb6f 100644
 +            label: __t3zh_t("Copy Image"),
              click: () => {
                void runPromise(
-                 Effect.tryPromise(() => copyContextMenuImage(contents, params)).pipe(
-@@ -590,10 +593,14 @@ export const make = Effect.gen(function* () {
+                 Effect.tryPromise({
+@@ -606,10 +609,14 @@ export const make = Effect.gen(function* () {
          }
 
          menuTemplate.push(

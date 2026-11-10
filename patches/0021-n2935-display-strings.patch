@@ -1,17 +1,18 @@
 # 0021 n2935 display strings
-# 基线 v0.1.7；在 0020 后应用。
+# 基线 v0.1.8；在 0020 后应用。
 # 清理结果、计数及精确理由名单，只在显示处翻译；Automatic 只包固定回退。
 # T26（v0.1.3）：项目默认设置的模型行不再显示 Automatic 状态（上游并入说明文字），该 hunk 已退役。
+# T30（v0.1.8）：上游 #33209 删除向导 ImportStep，「Import N project(s)」按钮改为新文案「Import N projects and start / and their threads」（保留英文），该 hunk 退役。
 diff --git a/apps/web/src/components/CommandPaletteResults.tsx b/apps/web/src/components/CommandPaletteResults.tsx
-index 95eb854c..8dceaf8c 100644
+index 969dda37..ea4e225a 100644
 --- a/apps/web/src/components/CommandPaletteResults.tsx
 +++ b/apps/web/src/components/CommandPaletteResults.tsx
 @@ -1,3 +1,4 @@
 +import { translateFixed } from "~/newThreadDisplayStrings";
  import { displayKnown, displayRelativeTime } from "~/acceptanceDisplayStrings";
+ import { useLegendListRef } from "~/hooks/useLegendListRef";
  import { type ResolvedKeybindingsConfig } from "@t3tools/contracts";
- import { LegendList, type LegendListRef } from "@legendapp/list/react";
-@@ -198,7 +199,7 @@ function DisabledCommandPaletteResultRow(props: {
+@@ -202,7 +203,7 @@ function DisabledCommandPaletteResultRow(props: {
          <span className="flex min-w-0 flex-1 flex-col">
            <span className="flex min-w-0 items-center gap-1.5 text-sm text-foreground">
              {props.item.titleLeadingContent}
@@ -20,7 +21,7 @@ index 95eb854c..8dceaf8c 100644
              <ThreadRowContext item={props.item} />
            </span>
            {props.item.threadContentMatch ? (
-@@ -207,14 +208,14 @@ function DisabledCommandPaletteResultRow(props: {
+@@ -211,14 +212,14 @@ function DisabledCommandPaletteResultRow(props: {
              <SearchMatchHintLine hint={props.item.matchHint} />
            ) : props.item.description ? (
              <span className="min-w-0 text-muted-foreground/70 text-xs">
@@ -37,7 +38,7 @@ index 95eb854c..8dceaf8c 100644
          </span>
        )}
        {props.item.titleTrailingContent}
-@@ -250,7 +251,7 @@ function CommandPaletteResultRow(props: {
+@@ -254,7 +255,7 @@ function CommandPaletteResultRow(props: {
          <span className="flex min-w-0 flex-1 flex-col">
            <span className="flex min-w-0 items-center gap-1.5 text-sm text-foreground">
              {props.item.titleLeadingContent}
@@ -46,7 +47,7 @@ index 95eb854c..8dceaf8c 100644
              <ThreadRowContext item={props.item} />
            </span>
            {props.item.threadContentMatch ? (
-@@ -259,14 +260,14 @@ function CommandPaletteResultRow(props: {
+@@ -263,14 +264,14 @@ function CommandPaletteResultRow(props: {
              <SearchMatchHintLine hint={props.item.matchHint} />
            ) : props.item.description ? (
              <span className="min-w-0 text-muted-foreground/70 text-xs">
@@ -104,21 +105,8 @@ index b5534780..5614ba4b 100644
                {props.surfaces.map((surface) => {
                  const previewTabId = previewTabIdOf(surface, props.previewSessions);
                  const favicon = previewFaviconOf(
-diff --git a/apps/web/src/components/onboarding/WelcomeWizard.tsx b/apps/web/src/components/onboarding/WelcomeWizard.tsx
-index 031e187d..ca3d64ad 100644
---- a/apps/web/src/components/onboarding/WelcomeWizard.tsx
-+++ b/apps/web/src/components/onboarding/WelcomeWizard.tsx
-@@ -1569,7 +1569,7 @@ function ImportStep({
-         >
-           {isImporting
-             ? "Importing…"
--            : `Import ${selected.length} ${selected.length === 1 ? "project" : "projects"}`}
-+            : fillSlot("Import ", String(selected.length), selected.length === 1 ? " project" : " projects")}
-         </Button>
-       </div>
-     </StepShell>
 diff --git a/apps/web/src/components/settings/ProjectSettingsPanel.tsx b/apps/web/src/components/settings/ProjectSettingsPanel.tsx
-index c4976334..f44ef9fa 100644
+index 143f5fc9..0cc811d8 100644
 --- a/apps/web/src/components/settings/ProjectSettingsPanel.tsx
 +++ b/apps/web/src/components/settings/ProjectSettingsPanel.tsx
 @@ -570,7 +570,7 @@ function ProjectDetail({

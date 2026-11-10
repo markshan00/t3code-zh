@@ -3,7 +3,7 @@
 # 依赖0007、0009、0022，按文件名顺序应用。
 
 diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceDisplayStrings.ts
-index 9589213a..a215e456 100644
+index d8121085..cb3c15b3 100644
 --- a/apps/web/src/acceptanceDisplayStrings.ts
 +++ b/apps/web/src/acceptanceDisplayStrings.ts
 @@ -17,6 +17,7 @@ export const ACCEPTANCE_DISPLAY_LABELS: string[] = [
@@ -15,7 +15,7 @@ index 9589213a..a215e456 100644
    "Attachments still uploading",
    "Retry or remove the failed attachment",
 diff --git a/apps/web/src/components/AddProjectToMachineDialog.tsx b/apps/web/src/components/AddProjectToMachineDialog.tsx
-index a1f2c544..f7411db6 100644
+index 3a5752fc..955bf9e3 100644
 --- a/apps/web/src/components/AddProjectToMachineDialog.tsx
 +++ b/apps/web/src/components/AddProjectToMachineDialog.tsx
 @@ -1,3 +1,5 @@
@@ -24,7 +24,7 @@ index a1f2c544..f7411db6 100644
  import { useParams } from "@tanstack/react-router";
  import { scopeProjectRef } from "@t3tools/client-runtime/environment";
  import {
-@@ -224,8 +226,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
+@@ -227,8 +229,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
            <DialogHeader>
              <DialogTitle>Add to another machine</DialogTitle>
              <DialogDescription>
@@ -34,7 +34,7 @@ index a1f2c544..f7411db6 100644
              </DialogDescription>
            </DialogHeader>
            <DialogPanel>
-@@ -251,7 +252,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
+@@ -254,7 +255,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
                  <span>
                    {selectedFiles.size === 0
                      ? "no files"
@@ -43,7 +43,7 @@ index a1f2c544..f7411db6 100644
                  </span>
                </div>
                <div className="flex min-w-0 flex-col gap-1">
-@@ -313,7 +314,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
+@@ -316,7 +317,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
              </div>
 
              <div className="flex flex-col gap-1.5">
@@ -52,7 +52,7 @@ index a1f2c544..f7411db6 100644
                <Input
                  id={`${id}-path`}
                  value={destinationPath}
-@@ -332,7 +333,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
+@@ -335,7 +336,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
                    {copyable.length > 0 ? (
                      <>
                        <span className="text-muted-foreground text-xs">
@@ -61,7 +61,7 @@ index a1f2c544..f7411db6 100644
                          {selectedBytes > 0 ? ` · ${formatBytes(selectedBytes)}` : ""}
                        </span>
                        <Button
-@@ -374,7 +375,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
+@@ -377,7 +378,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
                  )}
                  {ignoredFiles.data?.truncated ? (
                    <p className="text-muted-foreground text-xs">
@@ -70,7 +70,7 @@ index a1f2c544..f7411db6 100644
                    </p>
                  ) : null}
                  <p className="text-muted-foreground text-xs">
-@@ -391,7 +392,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
+@@ -394,7 +395,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
                Cancel
              </Button>
              <Button type="submit" disabled={unavailable || submitting}>
@@ -98,7 +98,7 @@ index d896efe4..86a9c025 100644
          <button
            type="button"
 diff --git a/apps/web/src/components/settings/DeviceSourcesSettings.tsx b/apps/web/src/components/settings/DeviceSourcesSettings.tsx
-index 09ccc32f..a7d28b8e 100644
+index 9d4e07b0..878a9626 100644
 --- a/apps/web/src/components/settings/DeviceSourcesSettings.tsx
 +++ b/apps/web/src/components/settings/DeviceSourcesSettings.tsx
 @@ -1,3 +1,5 @@
@@ -107,7 +107,7 @@ index 09ccc32f..a7d28b8e 100644
  import { useAtomValue } from "@effect/atom-react";
  import { Fragment, useState, type ReactNode } from "react";
  import * as Cause from "effect/Cause";
-@@ -81,6 +83,7 @@ interface SourceRow {
+@@ -82,6 +84,7 @@ interface SourceRow {
    readonly title: string;
    readonly kind?: string;
    readonly description: ReactNode;
@@ -115,7 +115,7 @@ index 09ccc32f..a7d28b8e 100644
    readonly environments: ReadonlyArray<SourceEnvironment>;
    /**
     * One machine or account every environment reaches the same way (an SSH host, EAS, a Simlock
-@@ -459,6 +462,7 @@ export function DeviceSourcesSettings(props: {
+@@ -462,6 +465,7 @@ export function DeviceSourcesSettings(props: {
          title: host.label,
          kind: "EAS",
          description: easSessionLimits(host),
@@ -123,7 +123,7 @@ index 09ccc32f..a7d28b8e 100644
          environments: active.map((member) => {
            const added = (member.settings?.easDeviceHosts ?? []).some(
              (candidate) => candidate.id === host.id,
-@@ -759,7 +763,7 @@ function DeviceSourceRow(props: { row: SourceRow }) {
+@@ -762,7 +766,7 @@ function DeviceSourceRow(props: { row: SourceRow }) {
              </span>
            ) : null}
          </div>
@@ -132,8 +132,8 @@ index 09ccc32f..a7d28b8e 100644
          {problems.map((environment) => (
            <p
              key={environment.environmentId}
-@@ -777,7 +781,7 @@ function DeviceSourceRow(props: { row: SourceRow }) {
-             </span>
+@@ -790,7 +794,7 @@ function DeviceSourceRow(props: { row: SourceRow }) {
+             ) : null}
              {environment.status.action ? (
                <InlineButton onClick={environment.status.action.run}>
 -                {environment.status.action.label}
@@ -205,10 +205,10 @@ index 1223fe09..af39cd7a 100644
            </DialogFooter>
          </form>
 diff --git a/apps/web/src/components/settings/IntegrationsSettings.tsx b/apps/web/src/components/settings/IntegrationsSettings.tsx
-index e8417625..065251c2 100644
+index 0fe8f4cf..ca386f22 100644
 --- a/apps/web/src/components/settings/IntegrationsSettings.tsx
 +++ b/apps/web/src/components/settings/IntegrationsSettings.tsx
-@@ -751,7 +751,7 @@ function BrowserSearchEngineSetting() {
+@@ -757,7 +757,7 @@ function BrowserSearchEngineSetting() {
            status={
              isValidSearchUrlTemplate(customUrl)
                ? undefined
@@ -217,7 +217,7 @@ index e8417625..065251c2 100644
            }
            control={
              <DraftInput
-@@ -1573,7 +1573,9 @@ function BrowserProfilesSetting({ disabled }: { readonly disabled: boolean }) {
+@@ -1579,7 +1579,9 @@ function BrowserProfilesSetting({ disabled }: { readonly disabled: boolean }) {
 
  export function BrowserSettingsPanel() {
    const desktopOnly = !isElectron;
@@ -247,7 +247,7 @@ index 62f4332a..20c76d53 100644
                  </div>
                </PopoverPopup>
 diff --git a/apps/web/src/components/settings/ScheduledTasksSettings.tsx b/apps/web/src/components/settings/ScheduledTasksSettings.tsx
-index 49759114..579c000a 100644
+index 420ab301..68f456aa 100644
 --- a/apps/web/src/components/settings/ScheduledTasksSettings.tsx
 +++ b/apps/web/src/components/settings/ScheduledTasksSettings.tsx
 @@ -1,3 +1,4 @@
@@ -255,7 +255,7 @@ index 49759114..579c000a 100644
  import { displayKnown } from "~/acceptanceDisplayStrings";
  import { fillSlot } from "../../newThreadDisplayStrings";
  import { useAtomValue } from "@effect/atom-react";
-@@ -903,7 +904,7 @@ function WebhookDeliveriesDialog({
+@@ -954,7 +955,7 @@ function WebhookDeliveriesDialog({
                      selected.pendingWindow ? "coalesced" : selected.outcome,
                    )}
                  >
@@ -264,7 +264,7 @@ index 49759114..579c000a 100644
                  </Badge>
                  <span>
                    {selected.method} · <ScheduledRelativeLabel value={selected.receivedAt} />
-@@ -968,7 +969,7 @@ function WebhookDeliveriesDialog({
+@@ -1019,7 +1020,7 @@ function WebhookDeliveriesDialog({
                          delivery.pendingWindow ? "coalesced" : delivery.outcome,
                        )}
                      >
@@ -273,7 +273,7 @@ index 49759114..579c000a 100644
                      </Badge>
                      <span>{delivery.method}</span>
                      <span className="text-muted-foreground">
-@@ -1303,7 +1304,7 @@ function ScheduledTaskEditorForm({
+@@ -1483,7 +1484,7 @@ function ScheduledTaskEditorForm({
      }
      const parsedFilters = parseWebhookFilterDrafts(draft.filters);
      if (draft.scheduleMode === "webhook" && "error" in parsedFilters) {
@@ -283,7 +283,7 @@ index 49759114..579c000a 100644
      }
      const schedule = scheduleFromDraft(draft);
 diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/components/usage/UsageLimitsPooled.tsx
-index de4fd9bb..a6fb6546 100644
+index d2dbf18c..32214f41 100644
 --- a/apps/web/src/components/usage/UsageLimitsPooled.tsx
 +++ b/apps/web/src/components/usage/UsageLimitsPooled.tsx
 @@ -1,3 +1,5 @@

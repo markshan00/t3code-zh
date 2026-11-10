@@ -1,6 +1,6 @@
-# 基线 v0.1.7 / 322f6544dfad0a3c8a0c8cbecf2c7f7874b14268；按编号顺序普通 apply。
+# 基线 v0.1.8 / bf469bb19669671d0df2efda74ed73867a7137c0；按编号顺序普通 apply。
 diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/components/usage/UsageLimitsPooled.tsx
-index f54fcdcd..de4fd9bb 100644
+index 74591d45..d2dbf18c 100644
 --- a/apps/web/src/components/usage/UsageLimitsPooled.tsx
 +++ b/apps/web/src/components/usage/UsageLimitsPooled.tsx
 @@ -194,7 +194,7 @@ function SegmentPopover({

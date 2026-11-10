@@ -1,7 +1,7 @@
 # 0001-windows-zh-packaging.patch（仅 Windows 构建，T21-W）
 #
 # 由 scripts/windows/prepare-source.ts 在共享 patches/ 全部应用之后、仅当 --platform win 时应用；
-# Mac 交付构建（scripts/build-zh.sh）不使用本补丁。基线 v0.1.7（322f6544dfad0a3c8a0c8cbecf2c7f7874b14268）。
+# Mac 交付构建（scripts/build-zh.sh）不使用本补丁。基线 v0.1.8（bf469bb19669671d0df2efda74ed73867a7137c0）。
 #
 # 只改打包脚本 scripts/build-desktop-artifact.ts（不进 app），三处，都只影响 platform === "win"：
 #   1. electronLanguages 在 Windows 上额外保留 "zh-CN"：win-unpacked/locales/zh-CN.pak 打进包，
@@ -13,13 +13,13 @@
 #   3. WINDOWS_PACKAGED_PAYLOAD_FILE_LIMIT 80 → 80 + 2：汉化版比上游多两个文件
 #      （共享补丁 0019 的 T3-Code-LICENSE.txt、本补丁的 zh-CN.pak），保留上游原有余量。
 #
-# 上游改了这几处时：按 v0.1.7 原文重做，git apply --check 通过后再跑 scripts/windows/windows-ci.test.ts。
+# 上游改了这几处时：按 v0.1.8 原文重做，git apply --check 通过后再跑 scripts/windows/windows-ci.test.ts。
 #
 diff --git a/scripts/build-desktop-artifact.ts b/scripts/build-desktop-artifact.ts
-index 6756f6f..8ae2253 100644
+index 2fff491..3c14b19 100644
 --- a/scripts/build-desktop-artifact.ts
 +++ b/scripts/build-desktop-artifact.ts
-@@ -1051,7 +1051,9 @@ export function resolveWindowsServerAsarIgnoreGlobs(arch: typeof BuildArch.Type)
+@@ -1061,7 +1061,9 @@ export function resolveWindowsServerAsarIgnoreGlobs(arch: typeof BuildArch.Type)
    ];
  }
  
@@ -30,7 +30,7 @@ index 6756f6f..8ae2253 100644
  export const WINDOWS_SERVER_RESOURCE_SOURCE_DIR = "apps/desktop/prod-resources/windows-server";
  export const WINDOWS_SERVER_EXTRA_RESOURCES = [
    {
-@@ -2775,7 +2777,12 @@ export const createBuildConfig = Effect.fn("createBuildConfig")(function* (
+@@ -2784,7 +2786,12 @@ export const createBuildConfig = Effect.fn("createBuildConfig")(function* (
      appId: DESKTOP_APP_ID,
      productName: resolveDesktopProductName(version),
      artifactName: "T3-Code-${version}-${arch}.${ext}",
@@ -44,7 +44,7 @@ index 6756f6f..8ae2253 100644
      files: [
        ...DESKTOP_FILE_EXCLUSIONS,
        ...(platform === "mac"
-@@ -2935,9 +2942,12 @@ export const createBuildConfig = Effect.fn("createBuildConfig")(function* (
+@@ -2950,9 +2957,12 @@ export const createBuildConfig = Effect.fn("createBuildConfig")(function* (
  
    if (platform === "win") {
      buildConfig.npmRebuild = false;

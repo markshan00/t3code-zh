@@ -1,10 +1,10 @@
 # n2774 新增的混排显示文字：旧 Claude 任务「压缩并发送」按钮的提示与菜单项、拉取请求检查的失败计数、项目动作菜单名的角色后缀，以及移动端收起输入框的压缩发送读屏名。
-# 基线：v0.1.7；按序在 0015 之后普通 git apply。依赖 0007 的 fillSlot（U+E000 槽位）与 ChatComposer 已导入的 translateFixed。
+# 基线：v0.1.8；按序在 0015 之后普通 git apply。依赖 0007 的 fillSlot（U+E000 槽位）与 ChatComposer 已导入的 translateFixed。
 # T13-fix1 I1：只在最终 aria-label 翻译 collapsedComposerPrimaryActionLabel；三个固定取值都有精确 messages 词条。
 # t() 只收到固定文字或固定骨架 + 槽位；Token 数、失败计数和用户起的脚本名在翻译后插入，英文显示与原版逐字一致。
 
 diff --git a/apps/web/src/components/ProjectScriptsControl.tsx b/apps/web/src/components/ProjectScriptsControl.tsx
-index 165f57fc..5f59d30f 100644
+index 29eaab6a..c1498fa3 100644
 --- a/apps/web/src/components/ProjectScriptsControl.tsx
 +++ b/apps/web/src/components/ProjectScriptsControl.tsx
 @@ -16,6 +16,7 @@ import { ChevronDownIcon, DownloadIcon, PlusIcon, SettingsIcon, WrenchIcon } fro
@@ -30,7 +30,7 @@ index 165f57fc..5f59d30f 100644
  export default function ProjectScriptsControl({
    displayMode = "toolbar",
    presentation = "toolbar",
-@@ -190,7 +199,7 @@ export default function ProjectScriptsControl({
+@@ -191,7 +200,7 @@ export default function ProjectScriptsControl({
              onClick={() => onRunScript?.(script)}
            >
              <ScriptIcon icon={script.icon} className="size-4" />
@@ -40,10 +40,10 @@ index 165f57fc..5f59d30f 100644
                {shortcutLabel &&
                  (presentation === "menu" ? (
 diff --git a/apps/web/src/components/chat/ChatComposer.tsx b/apps/web/src/components/chat/ChatComposer.tsx
-index ee51f293..beb4ec64 100644
+index 9a4d9d98..802c0638 100644
 --- a/apps/web/src/components/chat/ChatComposer.tsx
 +++ b/apps/web/src/components/chat/ChatComposer.tsx
-@@ -3268,7 +3268,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+@@ -3321,7 +3321,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
                    data-chat-composer-transition-actions="true"
                    className="flex size-8 shrink-0 items-center justify-center rounded-full bg-message-action text-message-action-foreground hover:bg-message-action-hover disabled:opacity-64"
                    disabled={collapsedComposerPrimaryActionDisabled}
@@ -53,17 +53,17 @@ index ee51f293..beb4ec64 100644
                    onClick={(event) => {
                      event.stopPropagation();
 diff --git a/apps/web/src/components/chat/ComposerPrimaryActions.tsx b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
-index 8c92b894..786f0c65 100644
+index c2378665..68af3da1 100644
 --- a/apps/web/src/components/chat/ComposerPrimaryActions.tsx
 +++ b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
 @@ -1,5 +1,6 @@
  import { displayConnectionPermissionError } from "~/connectionPermissionDisplayStrings";
  import { displayKnown } from "~/acceptanceDisplayStrings";
 +import { fillSlot } from "~/newThreadDisplayStrings";
- import { memo, type MouseEventHandler, type PointerEventHandler } from "react";
- import { CheckIcon, ChevronDownIcon, ChevronLeftIcon, Minimize2Icon, PlayIcon } from "lucide-react";
+ import { memo, type MouseEventHandler, type PointerEventHandler, type ReactNode } from "react";
+ import { CheckIcon, ChevronLeftIcon, Minimize2Icon, PlayIcon } from "lucide-react";
  import { CornerUpRight, ListPlus } from "lucide";
-@@ -351,7 +352,11 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
+@@ -301,7 +302,11 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
    const submit = (
      <Tooltip key="submit">
        <TooltipTrigger render={<span className="inline-flex" />}>{sendButton}</TooltipTrigger>
@@ -75,7 +75,7 @@ index 8c92b894..786f0c65 100644
 +      </TooltipPopup>
      </Tooltip>
    );
-   if (compactTokens === null) return submit;
+   if (compactTokens === null) {
 diff --git a/apps/web/src/components/pullRequest/PullRequestChecksPopover.tsx b/apps/web/src/components/pullRequest/PullRequestChecksPopover.tsx
 index cfcea204..ea83a5d4 100644
 --- a/apps/web/src/components/pullRequest/PullRequestChecksPopover.tsx

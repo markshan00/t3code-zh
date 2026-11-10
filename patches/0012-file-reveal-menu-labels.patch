@@ -1,9 +1,9 @@
-# 基线 v0.1.7 / 322f6544dfad0a3c8a0c8cbecf2c7f7874b14268；按编号顺序普通 apply。
+# 基线 v0.1.8 / bf469bb19669671d0df2efda74ed73867a7137c0；按编号顺序普通 apply。
 # 文件右键菜单的平台标签：在原生菜单与浏览器 fallback 的最终显示入口补译。
 # 只扩展精确名单；标签定义、动作 id、路径与编辑器名称不变。
 # 在 0004 之后应用；对应主进程精确词条在 dict/zh-CN.desktop.json。
 diff --git a/apps/desktop/src/electron/ElectronMenu.ts b/apps/desktop/src/electron/ElectronMenu.ts
-index dc0a3c2a..fd1f3939 100644
+index e5d72075..40576395 100644
 --- a/apps/desktop/src/electron/ElectronMenu.ts
 +++ b/apps/desktop/src/electron/ElectronMenu.ts
 @@ -33,6 +33,10 @@ const TRANSLATABLE_MENU_LABELS = [
@@ -18,7 +18,7 @@ index dc0a3c2a..fd1f3939 100644
  const TRANSLATABLE_MENU_LABEL_SET = new Set(TRANSLATABLE_MENU_LABELS);
 
 diff --git a/apps/web/src/contextMenuFallback.ts b/apps/web/src/contextMenuFallback.ts
-index f92f6861..05a402c2 100644
+index a8e15e5c..d7719476 100644
 --- a/apps/web/src/contextMenuFallback.ts
 +++ b/apps/web/src/contextMenuFallback.ts
 @@ -31,6 +31,10 @@ const TRANSLATABLE_MENU_LABELS = [

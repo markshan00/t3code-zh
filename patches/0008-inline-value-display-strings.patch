@@ -1,7 +1,7 @@
 # 0008-inline-value-display-strings.patch
 #
 # 2702 新增的七处「英文句子中间嵌一个运行时值」的显示文字，只在显示处翻译（T10-fix1，reviews/T10-r1.md I3）。
-# 基线 v0.1.7；复用 0007 新增的 apps/web/src/newThreadDisplayStrings.ts，须在 0007 之后应用。
+# 基线 v0.1.8；复用 0007 新增的 apps/web/src/newThreadDisplayStrings.ts，须在 0007 之后应用。
 #
 # 原因：这些句子是文字与表达式混排的 JSX（其中一处还带复数后缀 `{n === 1 ? "" : "s"}`），插件按 CONVENTIONS §4
 # 记 mixed-jsx 跳过，交付包里直接显示英文。
@@ -42,7 +42,7 @@ index 93764ade..2faa7c5d 100644
        ) : null}
      </div>
 diff --git a/apps/web/src/components/chat/V2ItemInspector.tsx b/apps/web/src/components/chat/V2ItemInspector.tsx
-index ee6072b9..d993f129 100644
+index 8d314a1b..7778fd8a 100644
 --- a/apps/web/src/components/chat/V2ItemInspector.tsx
 +++ b/apps/web/src/components/chat/V2ItemInspector.tsx
 @@ -1,3 +1,4 @@
@@ -50,16 +50,16 @@ index ee6072b9..d993f129 100644
  import type { ToolCallDiffTarget } from "../../diffPanelStore";
  import type { EnvironmentId, OrchestrationV2ProjectedTurnItem } from "@t3tools/contracts";
  import {
-@@ -166,7 +167,7 @@ function ToolOutput(props: ToolOutputState) {
+@@ -160,7 +161,7 @@ function ToolOutput(props: ToolOutputState) {
    ) : props.pending ? (
      <div className="text-muted-foreground italic">Loading output…</div>
    ) : props.error ? (
 -    <div className="text-destructive">Couldn&apos;t load output: {props.error}</div>
 +    <div className="text-destructive">{fillSlot("Couldn't load output: ", props.error, "")}</div>
-   ) : props.empty && images.length === 0 ? (
+   ) : props.empty && props.images.length === 0 ? (
      <div className="text-muted-foreground italic">No output.</div>
    ) : null;
-@@ -223,7 +224,7 @@ function ToolCallBody(
+@@ -217,7 +218,7 @@ function ToolCallBody(
        {call.argsText ? <StructuredValue value={call.argsText} highlightJson /> : null}
        {props.outputSlot ?? <ToolOutput {...props} />}
        {props.exitCode !== undefined && props.exitCode !== 0 ? (
@@ -97,7 +97,7 @@ index 8a95cfec..1dcacc15 100644
        ) : null}
        {body}
 diff --git a/apps/web/src/components/settings/ScheduledTasksSettings.tsx b/apps/web/src/components/settings/ScheduledTasksSettings.tsx
-index 2b8b37d4..37254937 100644
+index ff024e5b..f9d21f47 100644
 --- a/apps/web/src/components/settings/ScheduledTasksSettings.tsx
 +++ b/apps/web/src/components/settings/ScheduledTasksSettings.tsx
 @@ -1,3 +1,4 @@
@@ -105,7 +105,7 @@ index 2b8b37d4..37254937 100644
  import { useAtomValue } from "@effect/atom-react";
  import { connectionStatusTitle } from "@t3tools/client-runtime/connection";
  import { AsyncResult } from "effect/reactivity";
-@@ -884,7 +885,7 @@ function WebhookDeliveriesDialog({
+@@ -935,7 +936,7 @@ function WebhookDeliveriesDialog({
      >
        <DialogPopup className="max-w-2xl">
          <DialogHeader>
@@ -114,7 +114,7 @@ index 2b8b37d4..37254937 100644
            <DialogDescription>Recent requests to this task's webhook URL.</DialogDescription>
          </DialogHeader>
          <DialogPanel>
-@@ -931,7 +932,7 @@ function WebhookDeliveriesDialog({
+@@ -982,7 +983,7 @@ function WebhookDeliveriesDialog({
                </DeliveryBlock>
                {selected.missingFields.length > 0 ? (
                  <p className="text-sm text-muted-foreground">
@@ -123,7 +123,7 @@ index 2b8b37d4..37254937 100644
                  </p>
                ) : null}
                <DeliveryBlock title="Headers">
-@@ -977,8 +978,13 @@ function WebhookDeliveriesDialog({
+@@ -1028,8 +1029,13 @@ function WebhookDeliveriesDialog({
                      ) : null}
                      {delivery.missingFields.length > 0 ? (
                        <span className="text-muted-foreground">

@@ -1,12 +1,14 @@
 # n2861 显示补丁；新增混排骨架及网页沙盒发现的固定标签。
-# 基线 v0.1.7；在 0019 后应用，依赖 0007 / 0009 / 0017。
+# 基线 v0.1.8；在 0019 后应用，依赖 0007 / 0009 / 0017。
 # T18 / n2908：向导本地步骤翻译、权限回退、六条固定更新错误与代码语言语境标签；
 # 历史词条登记在 dict/todo/v0.0.46-nightly.20261009.2861.extra.json；T18 增量见 dict/todo/v0.0.46-nightly.20261010.2908.extra.json。
 # 新增涉及：settings/settingsLayout.tsx、hooks/useSettings.ts、chat/ComposerCodeBlockLanguagePicker.tsx。
 # 0017 的 displayDeviceStepAria 增加可选显示回调，原默认行为不变。
+# T30 / v0.1.8：上游 #33209 把三步向导换成单页 WelcomePage，Connect/Agents/Projects 步骤条与「Not connected, so setup skips…」句子均已删除，WelcomeWizard 4 段退役；
+#   displayDeviceStepAria 的可选回调保留（默认行为不变）。CliCommandSettingsRow 新增 pathSetup 分支（新文案）在中文模式下显示原 description。
 #
 diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceDisplayStrings.ts
-index c980d5de..9589213a 100644
+index 6e9a277b..d8121085 100644
 --- a/apps/web/src/acceptanceDisplayStrings.ts
 +++ b/apps/web/src/acceptanceDisplayStrings.ts
 @@ -3,6 +3,17 @@ import { fillSlot, translateAroundSlot, translateFixed } from "./newThreadDispla
@@ -92,7 +94,7 @@ index 762d2270..a9d790ed 100644
                </ComboboxItem>
              )}
 diff --git a/apps/web/src/components/chat/McpAppFrame.tsx b/apps/web/src/components/chat/McpAppFrame.tsx
-index d65758f0..2af016c8 100644
+index fc697333..f02829ac 100644
 --- a/apps/web/src/components/chat/McpAppFrame.tsx
 +++ b/apps/web/src/components/chat/McpAppFrame.tsx
 @@ -1,3 +1,4 @@
@@ -100,7 +102,7 @@ index d65758f0..2af016c8 100644
  import type { EnvironmentId, ThreadId, TurnItemId } from "@t3tools/contracts";
  import {
    makeMcpAppHost,
-@@ -406,7 +407,7 @@ export function McpAppFrame(props: {
+@@ -410,7 +411,7 @@ export function McpAppFrame(props: {
    if (closed) {
      return (
        <div className="flex items-center justify-between gap-2 rounded-lg border border-border px-3 py-2 text-muted-foreground text-xs">
@@ -109,7 +111,7 @@ index d65758f0..2af016c8 100644
          <Button
            size="xs"
            variant="ghost"
-@@ -459,7 +460,7 @@ export function McpAppFrame(props: {
+@@ -463,7 +464,7 @@ export function McpAppFrame(props: {
          ) : null}
          {navigatedAway ? (
            <p className="flex size-full items-center justify-center text-muted-foreground text-xs">
@@ -118,7 +120,7 @@ index d65758f0..2af016c8 100644
            </p>
          ) : src !== null ? (
            <iframe
-@@ -475,7 +476,7 @@ export function McpAppFrame(props: {
+@@ -479,7 +480,7 @@ export function McpAppFrame(props: {
            />
          ) : asset._tag === "Failure" ? (
            <p className="flex size-full items-center justify-center text-muted-foreground text-xs">
@@ -185,51 +187,6 @@ index 99049e28..c7182408 100644
          {...(viewerRef ? { ref: viewerRef } : {})}
          className={
            className
-diff --git a/apps/web/src/components/onboarding/WelcomeWizard.tsx b/apps/web/src/components/onboarding/WelcomeWizard.tsx
-index 955bd210..031e187d 100644
---- a/apps/web/src/components/onboarding/WelcomeWizard.tsx
-+++ b/apps/web/src/components/onboarding/WelcomeWizard.tsx
-@@ -1,3 +1,5 @@
-+import { fillSlot, translateFixed } from "~/newThreadDisplayStrings";
-+import { displayDeviceStepAria } from "~/acceptanceDisplayStrings";
- import { displayConnectionPermissionError } from "~/connectionPermissionDisplayStrings";
- import { useAuth } from "@clerk/react";
- import { useAtomValue } from "@effect/atom-react";
-@@ -112,6 +114,10 @@ type WizardStep = "connection" | "agents" | "import";
- const NO_ENVIRONMENTS: readonly EnvironmentId[] = [];
-
- const AGENT_ONBOARDING_THREAD_ID = ThreadId.make("onboarding-agent-setup");
-+// This finite callback belongs to the onboarding wizard, never environment names.
-+const displayOnboardingStep = (step: string) =>
-+  step === "Connect" || step === "Agents" || step === "Projects" ? translateFixed(step) : step;
-+
- const ONBOARDING_STAGES = ["Connect", "Agents", "Projects"] as const;
- const SCAN_LIMIT_MESSAGE = "Scan limit reached. Some projects or conversations may be missing.";
-
-@@ -252,6 +258,10 @@ export function WelcomeWizard({
-         >
-           <WizardSteps
-             steps={ONBOARDING_STAGES}
-+            displayStep={displayOnboardingStep}
-+            displayStepAria={(step, index, summary) =>
-+              displayDeviceStepAria(step, index, summary, displayOnboardingStep)
-+            }
-             currentStep={stageIndex}
-             isStepDisabled={(index) => isImporting || index >= stageIndex}
-             onStepChange={(index) => {
-@@ -439,8 +449,10 @@ function ConnectionStep({
-       </div>
-       {skippedLabels.length > 0 ? (
-         <p className="mt-4 text-xs text-muted-foreground">
--          Not connected, so setup skips {skippedLabels.join(", ")}. You can set{" "}
--          {skippedLabels.length === 1 ? "it" : "them"} up later from Settings.
-+          {fillSlot("Not connected, so setup skips ", skippedLabels.join(", "),
-+            skippedLabels.length === 1
-+              ? ". You can set it up later from Settings."
-+              : ". You can set them up later from Settings.")}
-         </p>
-       ) : null}
-       <div className="mt-6 flex flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
 diff --git a/apps/web/src/components/preview/PreviewUnreachable.tsx b/apps/web/src/components/preview/PreviewUnreachable.tsx
 index 635436ff..064eeb7c 100644
 --- a/apps/web/src/components/preview/PreviewUnreachable.tsx
@@ -258,10 +215,10 @@ index 635436ff..064eeb7c 100644
          <div className="mt-auto flex items-center gap-2 pt-8">
            <div className="flex-1" />
 diff --git a/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx b/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx
-index 9974f679..1d98d32c 100644
+index 5ab3385e..107229d0 100644
 --- a/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx
 +++ b/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx
-@@ -2,6 +2,7 @@ import {
+@@ -3,6 +3,7 @@ import {
    capitalizeTerm,
    sourceControlClients,
  } from "@t3tools/client-runtime/source-control-clients";
@@ -269,17 +226,17 @@ index 9974f679..1d98d32c 100644
  import { displayOlderComments } from "~/acceptanceDisplayStrings";
  import { useAtomCommand } from "~/state/use-atom-command";
  import type {
-@@ -775,7 +776,7 @@ export function PullRequestSummaryTab({
+@@ -858,7 +859,7 @@ export function PullRequestSummaryTab({
              <div className="flex items-start gap-1">
                <PullRequestMarkdown
                  className="min-w-0 flex-1"
--                text={detail.body.trim().length > 0 ? detail.body : "_No description provided._"}
-+                text={detail.body.trim().length > 0 ? detail.body : translateFixed("_No description provided._")}
+-                text={description.trim().length > 0 ? description : "_No description provided._"}
++                text={description.trim().length > 0 ? description : translateFixed("_No description provided._")}
                  cwd={detail.workspaceRoot}
                  environmentId={environmentId}
                  threadRef={threadRef}
 diff --git a/apps/web/src/components/settings/CliCommandSettingsRow.tsx b/apps/web/src/components/settings/CliCommandSettingsRow.tsx
-index 28e86e9f..afc99cb1 100644
+index ec38480d..afe69034 100644
 --- a/apps/web/src/components/settings/CliCommandSettingsRow.tsx
 +++ b/apps/web/src/components/settings/CliCommandSettingsRow.tsx
 @@ -1,3 +1,4 @@
@@ -287,7 +244,7 @@ index 28e86e9f..afc99cb1 100644
  import { useState } from "react";
 
  import {
-@@ -47,7 +48,17 @@ export function CliCommandSettingsRow() {
+@@ -65,7 +66,19 @@ export function CliCommandSettingsRow() {
    return (
      <SettingsRow
        {...searchableSetting("cli-command")}
@@ -301,13 +258,15 @@ index 28e86e9f..afc99cb1 100644
 +            ? translateFixed("Run T3 Code's CLI as `t3` from any terminal.")
 +            : state.onPath
 +              ? fillSlot("Installed at ", state.installedPath!, ". Open a new terminal to use it.")
-+              : fillSlot("Installed at ", state.installedPath!, ", which is not on your PATH yet. Add its folder to your PATH to run `t3`.")
++              : state.pathSetup
++                ? description
++                : fillSlot("Installed at ", state.installedPath!, ", which is not on your PATH yet. Add its folder to your PATH to run `t3`.")
 +      }
        control={
-         <Button
-           size="sm"
+         <div className="flex gap-2">
+           {state.pathSetup && !state.pathSetup.added ? (
 diff --git a/apps/web/src/components/settings/ProviderInstanceCard.tsx b/apps/web/src/components/settings/ProviderInstanceCard.tsx
-index cc760ca2..be6f654f 100644
+index 3249b1a0..569e1d50 100644
 --- a/apps/web/src/components/settings/ProviderInstanceCard.tsx
 +++ b/apps/web/src/components/settings/ProviderInstanceCard.tsx
 @@ -1,3 +1,4 @@
@@ -315,7 +274,7 @@ index cc760ca2..be6f654f 100644
  import { displayKnown } from "../../acceptanceDisplayStrings";
  import { Spinner } from "~/components/ui/spinner";
 
-@@ -972,7 +973,7 @@ export function ProviderInstanceCard({
+@@ -985,7 +986,7 @@ export function ProviderInstanceCard({
                    size={mode === "list" ? "icon-micro" : "icon-xs"}
                    variant="ghost-muted"
                    className={mode === "list" ? "pointer-events-auto relative shrink-0" : undefined}
@@ -324,7 +283,7 @@ index cc760ca2..be6f654f 100644
                  >
                    {updateProgress ? (
                      <Spinner tone="muted" {...(mode === "list" ? { size: "sm" as const } : {})} />
-@@ -990,7 +991,7 @@ export function ProviderInstanceCard({
+@@ -1003,7 +1004,7 @@ export function ProviderInstanceCard({
            }
          />
          <TooltipPopup side="top">
@@ -333,7 +292,7 @@ index cc760ca2..be6f654f 100644
          </TooltipPopup>
        </Tooltip>
        <PopoverPopup side="bottom" align="end" width="md" aria-label={displayKnown(versionAdvisory.title)}>
-@@ -1033,7 +1034,7 @@ export function ProviderInstanceCard({
+@@ -1046,7 +1047,7 @@ export function ProviderInstanceCard({
                  updateProblem ? "text-warning" : "text-muted-foreground",
                )}
              >
@@ -342,7 +301,7 @@ index cc760ca2..be6f654f 100644
              </p>
            ) : null}
            {onRunVersionAction && updateCommand ? (
-@@ -1116,7 +1117,7 @@ export function ProviderInstanceCard({
+@@ -1129,7 +1130,7 @@ export function ProviderInstanceCard({
                    className="pointer-events-auto line-clamp-2 [overflow-wrap:anywhere]"
                  >
                    {updateProgress ? (
@@ -352,7 +311,7 @@ index cc760ca2..be6f654f 100644
                      <>
                        {providerStatusLabel(summary.headline)}
 diff --git a/apps/web/src/components/settings/settingsLayout.tsx b/apps/web/src/components/settings/settingsLayout.tsx
-index ba3e4a6c..556439cb 100644
+index 866c4834..3b242108 100644
 --- a/apps/web/src/components/settings/settingsLayout.tsx
 +++ b/apps/web/src/components/settings/settingsLayout.tsx
 @@ -1,3 +1,4 @@
@@ -360,7 +319,7 @@ index ba3e4a6c..556439cb 100644
  import { fillSlot } from "~/newThreadDisplayStrings";
  import { SettingsGroup } from "./SettingsGroup";
  import { AuthSettingsWriteScope } from "@t3tools/contracts";
-@@ -436,8 +437,8 @@ export function SettingsRow({
+@@ -438,8 +439,8 @@ export function SettingsRow({
                        ? context.connectedEnvironments
                            .filter((target) => !writableIds.has(target.environmentId))
                            .map((target) => target.label)
@@ -372,7 +331,7 @@ index ba3e4a6c..556439cb 100644
                  : context
                    ? "Reconnect the selected environment to change this setting."
 diff --git a/apps/web/src/components/usage/UsagePage.tsx b/apps/web/src/components/usage/UsagePage.tsx
-index f0a61408..dbf80b73 100644
+index 16ffb518..1ea07ae8 100644
 --- a/apps/web/src/components/usage/UsagePage.tsx
 +++ b/apps/web/src/components/usage/UsagePage.tsx
 @@ -1,4 +1,5 @@
@@ -381,7 +340,7 @@ index f0a61408..dbf80b73 100644
  import { ChatGptUsageButton } from "../settings/ChatGptUsageButton";
  import { usesChatGptSharing } from "@t3tools/shared/usageLimits";
  import { RefreshIcon } from "~/components/ui/refresh-icon";
-@@ -1443,7 +1444,15 @@ function UsageProviderFilter({
+@@ -1266,7 +1267,15 @@ function UsageProviderFilter({
    return (
      <Menu>
        <MenuTrigger render={<InlineButton />} className="group/usage-provider min-w-0 max-w-full">
@@ -471,7 +430,7 @@ index 00000000..c040b91a
 +  return () => { observer.disconnect(); for (const child of panels.values()) child.disconnect(); panels.clear(); };
 +}
 diff --git a/apps/web/src/hooks/useSettings.ts b/apps/web/src/hooks/useSettings.ts
-index c6e1b787..4d46837c 100644
+index e7a629a0..0d01621d 100644
 --- a/apps/web/src/hooks/useSettings.ts
 +++ b/apps/web/src/hooks/useSettings.ts
 @@ -1,3 +1,4 @@
@@ -479,7 +438,7 @@ index c6e1b787..4d46837c 100644
  import { fillSlot } from "~/newThreadDisplayStrings";
  import { useRef, useSyncExternalStore, use } from "react";
  import { useSyncExternalStoreWithSelector } from "use-sync-external-store/with-selector";
-@@ -625,7 +626,7 @@ function useUpdateSettingsTarget(environmentId: EnvironmentId | null) {
+@@ -618,7 +619,7 @@ function useUpdateSettingsTarget(environmentId: EnvironmentId | null) {
        toastManager.add({
          type: "warning",
          title: "Setting not saved",
