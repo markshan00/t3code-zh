@@ -21,10 +21,14 @@ import {
   checkOutputEntries,
   checkStageBuildConfig,
   checkUnpackedFiles,
+  COMPILE_CACHE_DIR,
+  COMPILE_CACHE_FILE_LIMIT,
+  countPayloadFiles,
   extraOutputEntries,
   installerName,
   normalizeAsarEntry,
   PAYLOAD_FILE_LIMIT,
+  PAYLOAD_FILE_LIMIT_WITHOUT_COMPILE_CACHE,
 } from "./package-windows.ts";
 import { listPatches, porcelainPath, WINDOWS_PATCH_DIR } from "./prepare-source.ts";
 
@@ -197,6 +201,14 @@ test("win-unpacked 文件清单：语言包、许可证、WSL runtime、无更�
   assert.match(check(good.filter((rel) => !rel.includes("LICENSE"))), /LICENSE/);
   const many = [...good, ...Array.from({ length: PAYLOAD_FILE_LIMIT }, (_, i) => `resources/extra-${i}`)];
   assert.match(check(many), /上限/);
+  // 编译缓存与其余文件分开计数（v0.1.8 实测缓存 22 个；其余 71 个）。
+  const cacheFiles = (n: number) => Array.from({ length: n }, (_, i) => `${COMPILE_CACHE_DIR}cache-${i}`);
+  const others = (n: number) => Array.from({ length: n }, (_, i) => `resources/extra-${i}`);
+  assert.equal(check([...good, ...cacheFiles(COMPILE_CACHE_FILE_LIMIT)]), "");
+  assert.match(check([...good, ...cacheFiles(COMPILE_CACHE_FILE_LIMIT + 1)]), /server-compile-cache.*上限/);
+  assert.equal(check([...good, ...others(PAYLOAD_FILE_LIMIT_WITHOUT_COMPILE_CACHE - good.length), ...cacheFiles(COMPILE_CACHE_FILE_LIMIT)]), "");
+  assert.match(check([...good, ...others(PAYLOAD_FILE_LIMIT_WITHOUT_COMPILE_CACHE - good.length + 1)]), /除编译缓存外.*上限/);
+  assert.deepEqual(countPayloadFiles([...good, ...cacheFiles(3)]), { total: good.length + 3, compileCache: 3, withoutCompileCache: good.length });
   assert.equal(normalizeAsarEntry("\\apps\\server\\dist\\bin.mjs"), "apps/server/dist/bin.mjs");
   assert.equal(normalizeAsarEntry("/package.json"), "package.json");
 });
@@ -223,9 +235,11 @@ function upstreamGitDir(): string | undefined {
 
 test("Windows 补丁：上限常量与 package-windows.ts 一致", () => {
   const text = fs.readFileSync(WINDOWS_PATCH, "utf8");
-  const match = /^\+export const WINDOWS_PACKAGED_PAYLOAD_FILE_LIMIT = (\d+) \+ (\d+);$/m.exec(text);
+  const match = /^\+export const WINDOWS_PACKAGED_PAYLOAD_FILE_LIMIT = (\d+) \+ (\d+) \+ (\d+);$/m.exec(text);
   assert.ok(match, "补丁里找不到新的文件数上限");
-  assert.equal(Number(match[1]) + Number(match[2]), PAYLOAD_FILE_LIMIT);
+  assert.equal(Number(match[1]) + Number(match[2]), PAYLOAD_FILE_LIMIT_WITHOUT_COMPILE_CACHE);
+  assert.equal(Number(match[3]), COMPILE_CACHE_FILE_LIMIT);
+  assert.equal(Number(match[1]) + Number(match[2]) + Number(match[3]), PAYLOAD_FILE_LIMIT);
   assert.match(text, /^\+\s+\? \[\.\.\.DESKTOP_ELECTRON_LANGUAGES, "zh-CN"\]$/m);
   assert.match(text, /^\+\s+installerLanguages: \["zh_CN"\],$/m);
   assert.match(text, /^\+\s+language: "2052",$/m);

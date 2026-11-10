@@ -10,27 +10,32 @@
 #   2. NSIS 单语简体中文安装器：installerLanguages ["zh_CN"]；language "2052" 让安装器版本资源也用 zh-CN。
 #      electron-builder 自带的 messages.yml 有 3 条罕见错误提示（decompressionFailed、
 #      uninstallFailed、appClosing）没有 zh_CN，会回退英文，属上游限制（上游 electron-builder 自带词库限制）。
-#   3. WINDOWS_PACKAGED_PAYLOAD_FILE_LIMIT 80 → 80 + 2：汉化版比上游多两个文件
-#      （共享补丁 0019 的 T3-Code-LICENSE.txt、本补丁的 zh-CN.pak），保留上游原有余量。
+#   3. WINDOWS_PACKAGED_PAYLOAD_FILE_LIMIT 80 → 80 + 2 + 30：+2 是汉化版比上游多的两个文件
+#      （共享补丁 0019 的 T3-Code-LICENSE.txt、本补丁的 zh-CN.pak）；+30 给 Windows 主机打包时 afterPack
+#      生成的 resources/server-compile-cache/（v0.1.8 实测 22 个文件；上游在 Linux 交叉打包，跳过该步骤，不计入 80）。
 #
 # 上游改了这几处时：按 v0.1.8 原文重做，git apply --check 通过后再跑 scripts/windows/windows-ci.test.ts。
 #
 diff --git a/scripts/build-desktop-artifact.ts b/scripts/build-desktop-artifact.ts
-index 2fff491..3c14b19 100644
+index 2fff491..3cd89f6 100644
 --- a/scripts/build-desktop-artifact.ts
 +++ b/scripts/build-desktop-artifact.ts
-@@ -1061,7 +1061,9 @@ export function resolveWindowsServerAsarIgnoreGlobs(arch: typeof BuildArch.Type)
+@@ -1061,7 +1061,13 @@ export function resolveWindowsServerAsarIgnoreGlobs(arch: typeof BuildArch.Type)
    ];
  }
  
 -export const WINDOWS_PACKAGED_PAYLOAD_FILE_LIMIT = 80;
-+// t3code-zh（仅 Windows 构建）：汉化版在 Windows 包里多出两个文件——共享补丁 0019 的
-+// resources/T3-Code-LICENSE.txt 与本补丁保留的 locales/zh-CN.pak。上限同步 +2，保留上游原有余量。
-+export const WINDOWS_PACKAGED_PAYLOAD_FILE_LIMIT = 80 + 2;
++// t3code-zh（仅 Windows 构建）：在上游的 80 上放宽 2 + 30。
++//   +2：汉化版多出两个文件——共享补丁 0019 的 resources/T3-Code-LICENSE.txt 与本补丁保留的 locales/zh-CN.pak。
++//   +30：本流程在 Windows 主机上打包，afterPack 会用打好的 exe 生成 resources/server-compile-cache/；
++//        上游在 Linux 上交叉打包 Windows，该步骤因目标不可执行而跳过，缓存文件不在上游的 80 之内。
++//        v0.1.8 实测 21 个缓存条目 + manifest.json = 22 个文件，余量留给 server 分块数量的变化。
++// 汉化流程另在 scripts/windows/package-windows.ts 里把缓存文件与其余文件分开计数、各自设上限。
++export const WINDOWS_PACKAGED_PAYLOAD_FILE_LIMIT = 80 + 2 + 30;
  export const WINDOWS_SERVER_RESOURCE_SOURCE_DIR = "apps/desktop/prod-resources/windows-server";
  export const WINDOWS_SERVER_EXTRA_RESOURCES = [
    {
-@@ -2784,7 +2786,12 @@ export const createBuildConfig = Effect.fn("createBuildConfig")(function* (
+@@ -2784,7 +2790,12 @@ export const createBuildConfig = Effect.fn("createBuildConfig")(function* (
      appId: DESKTOP_APP_ID,
      productName: resolveDesktopProductName(version),
      artifactName: "T3-Code-${version}-${arch}.${ext}",
@@ -44,7 +49,7 @@ index 2fff491..3c14b19 100644
      files: [
        ...DESKTOP_FILE_EXCLUSIONS,
        ...(platform === "mac"
-@@ -2950,9 +2957,12 @@ export const createBuildConfig = Effect.fn("createBuildConfig")(function* (
+@@ -2950,9 +2961,12 @@ export const createBuildConfig = Effect.fn("createBuildConfig")(function* (
  
    if (platform === "win") {
      buildConfig.npmRebuild = false;

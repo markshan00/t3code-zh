@@ -38,8 +38,16 @@ import {
 import { cliArchiveStem } from "./check-cli-archive.ts";
 
 export const ARCH = "x64";
-/** 与仅 Windows 补丁 0001 中的 WINDOWS_PACKAGED_PAYLOAD_FILE_LIMIT（80 + 2）一致。 */
-export const PAYLOAD_FILE_LIMIT = 82;
+/** 与仅 Windows 补丁 0001 中的 WINDOWS_PACKAGED_PAYLOAD_FILE_LIMIT（80 + 2 + 30）一致。 */
+export const PAYLOAD_FILE_LIMIT = 112;
+/** 不含编译缓存的文件数上限：上游的 80 + 汉化版多出的 2 个文件（共享补丁 0019 的许可证、zh-CN.pak）。 */
+export const PAYLOAD_FILE_LIMIT_WITHOUT_COMPILE_CACHE = 82;
+/**
+ * resources/server-compile-cache/ 的文件数上限。本流程在 Windows 主机上打包，afterPack 会生成这个目录；
+ * 上游在 Linux 上交叉打包 Windows 时跳过该步骤，所以它不在上游的 80 之内。v0.1.7 实测 13 个，v0.1.8 实测 22 个。
+ */
+export const COMPILE_CACHE_FILE_LIMIT = 30;
+export const COMPILE_CACHE_DIR = "resources/server-compile-cache/";
 export const EXPECTED_LOCALES = ["en-US.pak", "zh-CN.pak"];
 
 export function installerName(version: string): string {
@@ -111,8 +119,21 @@ export function checkUnpackedFiles(files: ReadonlyArray<string>, productName: st
     if (!has(rel)) problems.push(`缺少 ${rel}`);
   }
   if (files.some((rel) => /(^|\/)app-update\.yml$/.test(rel))) problems.push("包里有 app-update.yml（自动更新配置）");
+  const counts = countPayloadFiles(files);
   if (files.length > PAYLOAD_FILE_LIMIT) problems.push(`win-unpacked 有 ${files.length} 个文件，超过上限 ${PAYLOAD_FILE_LIMIT}`);
+  if (counts.withoutCompileCache > PAYLOAD_FILE_LIMIT_WITHOUT_COMPILE_CACHE) {
+    problems.push(`win-unpacked 除编译缓存外有 ${counts.withoutCompileCache} 个文件，超过上限 ${PAYLOAD_FILE_LIMIT_WITHOUT_COMPILE_CACHE}`);
+  }
+  if (counts.compileCache > COMPILE_CACHE_FILE_LIMIT) {
+    problems.push(`${COMPILE_CACHE_DIR} 有 ${counts.compileCache} 个文件，超过上限 ${COMPILE_CACHE_FILE_LIMIT}`);
+  }
   return problems;
+}
+
+/** win-unpacked 文件数：总数、编译缓存目录里的、其余的。 */
+export function countPayloadFiles(files: ReadonlyArray<string>): { total: number; compileCache: number; withoutCompileCache: number } {
+  const compileCache = files.filter((rel) => rel.startsWith(COMPILE_CACHE_DIR)).length;
+  return { total: files.length, compileCache, withoutCompileCache: files.length - compileCache };
 }
 
 type AsarModule = {
@@ -245,7 +266,12 @@ if (isMainModule(import.meta.url)) {
     check(recordedWsl === wslSha256, `包内 wsl-runtime.tar.gz.sha256 (${recordedWsl}) 与输入归档 (${wslSha256}) 不一致`);
     check(sha256File(path.join(resources, "wsl-runtime.tar.gz")) === wslSha256, "包内 wsl-runtime.tar.gz 与输入归档字节不同");
     const asarHits = checkAsarContents(await loadAsar(), resources, version, constants);
-    log(`win-unpacked 内容核对通过（${files.length} 个文件，上限 ${PAYLOAD_FILE_LIMIT}）`);
+    const counts = countPayloadFiles(files);
+    log(
+      `win-unpacked 内容核对通过（${files.length} 个文件，上限 ${PAYLOAD_FILE_LIMIT}；` +
+        `除编译缓存 ${counts.withoutCompileCache} 个，上限 ${PAYLOAD_FILE_LIMIT_WITHOUT_COMPILE_CACHE}；` +
+        `编译缓存 ${counts.compileCache} 个，上限 ${COMPILE_CACHE_FILE_LIMIT}）`,
+    );
 
     const entries = fs.readdirSync(out).sort();
     const outputProblems = checkOutputEntries(entries, version);
@@ -269,6 +295,10 @@ if (isMainModule(import.meta.url)) {
       wslRuntime: { name: path.basename(wslRuntime), sha256: wslSha256 },
       payloadFileCount: files.length,
       payloadFileLimit: PAYLOAD_FILE_LIMIT,
+      payloadFileCountWithoutCompileCache: counts.withoutCompileCache,
+      payloadFileLimitWithoutCompileCache: PAYLOAD_FILE_LIMIT_WITHOUT_COMPILE_CACHE,
+      compileCacheFileCount: counts.compileCache,
+      compileCacheFileLimit: COMPILE_CACHE_FILE_LIMIT,
       locales: files.filter((rel) => rel.startsWith("locales/")),
       ...asarHits,
       outputEntries: entries,
