@@ -1,5 +1,5 @@
 # n2861 显示补丁；新增混排骨架及网页沙盒发现的固定标签。
-# 基线 v0.1.8；在 0019 后应用，依赖 0007 / 0009 / 0017。
+# 基线 v0.1.9；在 0019 后应用，依赖 0007 / 0009 / 0017。
 # T18 / n2908：向导本地步骤翻译、权限回退、六条固定更新错误与代码语言语境标签；
 # 历史词条登记在 dict/todo/v0.0.46-nightly.20261009.2861.extra.json；T18 增量见 dict/todo/v0.0.46-nightly.20261010.2908.extra.json。
 # 新增涉及：settings/settingsLayout.tsx、hooks/useSettings.ts、chat/ComposerCodeBlockLanguagePicker.tsx。
@@ -94,7 +94,7 @@ index 762d2270..a9d790ed 100644
                </ComboboxItem>
              )}
 diff --git a/apps/web/src/components/chat/McpAppFrame.tsx b/apps/web/src/components/chat/McpAppFrame.tsx
-index fc697333..f02829ac 100644
+index d1be91fd..5646cd3e 100644
 --- a/apps/web/src/components/chat/McpAppFrame.tsx
 +++ b/apps/web/src/components/chat/McpAppFrame.tsx
 @@ -1,3 +1,4 @@
@@ -102,7 +102,7 @@ index fc697333..f02829ac 100644
  import type { EnvironmentId, ThreadId, TurnItemId } from "@t3tools/contracts";
  import {
    makeMcpAppHost,
-@@ -410,7 +411,7 @@ export function McpAppFrame(props: {
+@@ -416,7 +417,7 @@ export function McpAppFrame(props: {
    if (closed) {
      return (
        <div className="flex items-center justify-between gap-2 rounded-lg border border-border px-3 py-2 text-muted-foreground text-xs">
@@ -111,7 +111,7 @@ index fc697333..f02829ac 100644
          <Button
            size="xs"
            variant="ghost"
-@@ -463,7 +464,7 @@ export function McpAppFrame(props: {
+@@ -469,7 +470,7 @@ export function McpAppFrame(props: {
          ) : null}
          {navigatedAway ? (
            <p className="flex size-full items-center justify-center text-muted-foreground text-xs">
@@ -120,7 +120,7 @@ index fc697333..f02829ac 100644
            </p>
          ) : src !== null ? (
            <iframe
-@@ -479,7 +480,7 @@ export function McpAppFrame(props: {
+@@ -485,7 +486,7 @@ export function McpAppFrame(props: {
            />
          ) : asset._tag === "Failure" ? (
            <p className="flex size-full items-center justify-center text-muted-foreground text-xs">
@@ -152,7 +152,7 @@ index 466cd929..40fb67fa 100644
            {props.status === "error" ? (
              <Button size="xs" variant="ghost" onClick={props.onRetry}>
 diff --git a/apps/web/src/components/diffs/StyledDiffCodeView.tsx b/apps/web/src/components/diffs/StyledDiffCodeView.tsx
-index 99049e28..c7182408 100644
+index a64e8d88..4c5939a2 100644
 --- a/apps/web/src/components/diffs/StyledDiffCodeView.tsx
 +++ b/apps/web/src/components/diffs/StyledDiffCodeView.tsx
 @@ -7,7 +7,8 @@ import {
@@ -165,7 +165,7 @@ index 99049e28..c7182408 100644
 
  import { DIFF_SURFACE_THEME_UNSAFE_CSS } from "~/lib/diffRendering";
  import { DiffWorkerPoolProvider } from "../DiffWorkerPoolProvider";
-@@ -222,12 +223,21 @@ export function StyledDiffCodeView<LAnnotation = undefined>({
+@@ -233,12 +234,21 @@ export function StyledDiffCodeView<LAnnotation = undefined>({
    viewerRef,
    className,
    unsafeCSSExtra,
@@ -215,10 +215,10 @@ index 635436ff..064eeb7c 100644
          <div className="mt-auto flex items-center gap-2 pt-8">
            <div className="flex-1" />
 diff --git a/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx b/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx
-index 5ab3385e..107229d0 100644
+index 7eed0680..c01e31ed 100644
 --- a/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx
 +++ b/apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx
-@@ -3,6 +3,7 @@ import {
+@@ -5,6 +5,7 @@ import {
    capitalizeTerm,
    sourceControlClients,
  } from "@t3tools/client-runtime/source-control-clients";
@@ -226,8 +226,8 @@ index 5ab3385e..107229d0 100644
  import { displayOlderComments } from "~/acceptanceDisplayStrings";
  import { useAtomCommand } from "~/state/use-atom-command";
  import type {
-@@ -858,7 +859,7 @@ export function PullRequestSummaryTab({
-             <div className="flex items-start gap-1">
+@@ -943,7 +944,7 @@ export function PullRequestSummaryTab({
+             <div className="flex items-start gap-1" data-pr-description>
                <PullRequestMarkdown
                  className="min-w-0 flex-1"
 -                text={description.trim().length > 0 ? description : "_No description provided._"}
@@ -266,7 +266,7 @@ index ec38480d..afe69034 100644
          <div className="flex gap-2">
            {state.pathSetup && !state.pathSetup.added ? (
 diff --git a/apps/web/src/components/settings/ProviderInstanceCard.tsx b/apps/web/src/components/settings/ProviderInstanceCard.tsx
-index 3249b1a0..569e1d50 100644
+index a6a59e68..c9d75b47 100644
 --- a/apps/web/src/components/settings/ProviderInstanceCard.tsx
 +++ b/apps/web/src/components/settings/ProviderInstanceCard.tsx
 @@ -1,3 +1,4 @@
@@ -274,7 +274,7 @@ index 3249b1a0..569e1d50 100644
  import { displayKnown } from "../../acceptanceDisplayStrings";
  import { Spinner } from "~/components/ui/spinner";
 
-@@ -985,7 +986,7 @@ export function ProviderInstanceCard({
+@@ -986,7 +987,7 @@ export function ProviderInstanceCard({
                    size={mode === "list" ? "icon-micro" : "icon-xs"}
                    variant="ghost-muted"
                    className={mode === "list" ? "pointer-events-auto relative shrink-0" : undefined}
@@ -283,7 +283,7 @@ index 3249b1a0..569e1d50 100644
                  >
                    {updateProgress ? (
                      <Spinner tone="muted" {...(mode === "list" ? { size: "sm" as const } : {})} />
-@@ -1003,7 +1004,7 @@ export function ProviderInstanceCard({
+@@ -1004,7 +1005,7 @@ export function ProviderInstanceCard({
            }
          />
          <TooltipPopup side="top">
@@ -292,7 +292,7 @@ index 3249b1a0..569e1d50 100644
          </TooltipPopup>
        </Tooltip>
        <PopoverPopup side="bottom" align="end" width="md" aria-label={displayKnown(versionAdvisory.title)}>
-@@ -1046,7 +1047,7 @@ export function ProviderInstanceCard({
+@@ -1047,7 +1048,7 @@ export function ProviderInstanceCard({
                  updateProblem ? "text-warning" : "text-muted-foreground",
                )}
              >
@@ -301,7 +301,7 @@ index 3249b1a0..569e1d50 100644
              </p>
            ) : null}
            {onRunVersionAction && updateCommand ? (
-@@ -1129,7 +1130,7 @@ export function ProviderInstanceCard({
+@@ -1130,7 +1131,7 @@ export function ProviderInstanceCard({
                    className="pointer-events-auto line-clamp-2 [overflow-wrap:anywhere]"
                  >
                    {updateProgress ? (

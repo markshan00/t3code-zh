@@ -1,21 +1,27 @@
 # 0023-v011-display-strings.patch
 # v0.1.1 新增显示位置；复用固定骨架与槽位，不改协议、用户内容或设置数据。
 # 依赖0007、0009、0022，按文件名顺序应用。
+# T31 / v0.1.9：上游 #34106 把重置额度确认句从 JSX 移进 shared 的 resetCreditChoices().confirmDescription（非显示白名单键），
+#   原有译文失效；在 acceptanceDisplayStrings 精确名单补这一句，UsageLimits.tsx 的确认对话框在最终显示处 displayKnown。
+#   逐额度选项的说明（含服务端 label / description）不在名单内，原样显示。
 
 diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceDisplayStrings.ts
-index d8121085..cb3c15b3 100644
+index d8121085..214d74db 100644
 --- a/apps/web/src/acceptanceDisplayStrings.ts
 +++ b/apps/web/src/acceptanceDisplayStrings.ts
-@@ -17,6 +17,7 @@ export const ACCEPTANCE_DISPLAY_LABELS: string[] = [
+@@ -17,6 +17,10 @@ export const ACCEPTANCE_DISPLAY_LABELS: string[] = [
    "Cloning repository",
    "Repository not cloned",
    "Select at least one model.",
 +  "Copying files",
++  // T31 / v0.1.9: #34106 moved this fixed reset-credit confirmation out of JSX into
++  // resetCreditChoices().confirmDescription; the per-option variant embeds server text and stays raw.
++  "This redeems one credit on your account and clears the current rate-limit windows. It cannot be undone.",
    "Attachment still uploading",
    "Attachments still uploading",
    "Retry or remove the failed attachment",
 diff --git a/apps/web/src/components/AddProjectToMachineDialog.tsx b/apps/web/src/components/AddProjectToMachineDialog.tsx
-index 3a5752fc..955bf9e3 100644
+index 3d9c064c..9e2af484 100644
 --- a/apps/web/src/components/AddProjectToMachineDialog.tsx
 +++ b/apps/web/src/components/AddProjectToMachineDialog.tsx
 @@ -1,3 +1,5 @@
@@ -24,7 +30,7 @@ index 3a5752fc..955bf9e3 100644
  import { useParams } from "@tanstack/react-router";
  import { scopeProjectRef } from "@t3tools/client-runtime/environment";
  import {
-@@ -227,8 +229,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
+@@ -226,8 +228,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
            <DialogHeader>
              <DialogTitle>Add to another machine</DialogTitle>
              <DialogDescription>
@@ -34,7 +40,7 @@ index 3a5752fc..955bf9e3 100644
              </DialogDescription>
            </DialogHeader>
            <DialogPanel>
-@@ -254,7 +255,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
+@@ -253,7 +254,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
                  <span>
                    {selectedFiles.size === 0
                      ? "no files"
@@ -43,7 +49,7 @@ index 3a5752fc..955bf9e3 100644
                  </span>
                </div>
                <div className="flex min-w-0 flex-col gap-1">
-@@ -316,7 +317,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
+@@ -315,7 +316,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
              </div>
 
              <div className="flex flex-col gap-1.5">
@@ -52,7 +58,7 @@ index 3a5752fc..955bf9e3 100644
                <Input
                  id={`${id}-path`}
                  value={destinationPath}
-@@ -335,7 +336,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
+@@ -334,7 +335,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
                    {copyable.length > 0 ? (
                      <>
                        <span className="text-muted-foreground text-xs">
@@ -61,7 +67,7 @@ index 3a5752fc..955bf9e3 100644
                          {selectedBytes > 0 ? ` · ${formatBytes(selectedBytes)}` : ""}
                        </span>
                        <Button
-@@ -377,7 +378,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
+@@ -376,7 +377,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
                  )}
                  {ignoredFiles.data?.truncated ? (
                    <p className="text-muted-foreground text-xs">
@@ -70,7 +76,7 @@ index 3a5752fc..955bf9e3 100644
                    </p>
                  ) : null}
                  <p className="text-muted-foreground text-xs">
-@@ -394,7 +395,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
+@@ -393,7 +394,7 @@ function AddProjectToMachineDialog({ request }: { request: AddProjectToMachineRe
                Cancel
              </Button>
              <Button type="submit" disabled={unavailable || submitting}>
@@ -282,8 +288,23 @@ index 420ab301..68f456aa 100644
        return;
      }
      const schedule = scheduleFromDraft(draft);
+diff --git a/apps/web/src/components/usage/UsageLimits.tsx b/apps/web/src/components/usage/UsageLimits.tsx
+index 2d23b3e8..82f711c3 100644
+--- a/apps/web/src/components/usage/UsageLimits.tsx
++++ b/apps/web/src/components/usage/UsageLimits.tsx
+@@ -295,7 +295,9 @@ export function ResetCreditDialog({
+       <AlertDialogPopup>
+         <AlertDialogHeader>
+           <AlertDialogTitle>Use a reset credit?</AlertDialogTitle>
+-          <AlertDialogDescription>{choice?.confirmDescription}</AlertDialogDescription>
++          <AlertDialogDescription>
++            {displayKnown(choice?.confirmDescription)}
++          </AlertDialogDescription>
+         </AlertDialogHeader>
+         <AlertDialogFooter>
+           <AlertDialogClose render={<Button variant="outline" />}>Cancel</AlertDialogClose>
 diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/components/usage/UsageLimitsPooled.tsx
-index d2dbf18c..32214f41 100644
+index 9fa90818..9a0b681d 100644
 --- a/apps/web/src/components/usage/UsageLimitsPooled.tsx
 +++ b/apps/web/src/components/usage/UsageLimitsPooled.tsx
 @@ -1,3 +1,5 @@
@@ -292,7 +313,7 @@ index d2dbf18c..32214f41 100644
  import { displayKnown } from "~/acceptanceDisplayStrings";
  import {
    CHATGPT_USAGE_URL,
-@@ -192,7 +194,7 @@ function SegmentPopover({
+@@ -189,7 +191,7 @@ function SegmentPopover({
              {resetsIn ? ` · ${resetsIn.replace("resets in ", "in ")}` : ""}
            </Row>
          ) : null}
@@ -301,7 +322,7 @@ index d2dbf18c..32214f41 100644
          {reset && reset.restoresPercent > 0 ? (
            <Row label="Restores">+{reset.restoresPercent}%</Row>
          ) : null}
-@@ -354,7 +356,7 @@ function SegmentTriggers({
+@@ -356,7 +358,7 @@ function SegmentTriggers({
              ref={segmentRef}
              type="button"
              style={paceMark?.gappedTrack}
@@ -311,10 +332,10 @@ index d2dbf18c..32214f41 100644
            />
          }
 diff --git a/apps/web/src/lib/addProjectToMachine.ts b/apps/web/src/lib/addProjectToMachine.ts
-index 0ef0467b..675d8c8c 100644
+index 2d3bdc52..66b9c3fd 100644
 --- a/apps/web/src/lib/addProjectToMachine.ts
 +++ b/apps/web/src/lib/addProjectToMachine.ts
-@@ -183,7 +183,9 @@ export async function addProjectToMachine(input: AddProjectToMachineInput): Prom
+@@ -193,7 +193,9 @@ export async function addProjectToMachine(input: AddProjectToMachineInput): Prom
          ? null
          : {
              phase: "failed",

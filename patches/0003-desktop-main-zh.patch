@@ -1,6 +1,6 @@
 # 0003-desktop-main-zh.patch
 #
-# 桌面主进程（apps/desktop）的界面文字，以及把系统语言暴露给渲染进程（T07）。基线 v0.1.8。
+# 桌面主进程（apps/desktop）的界面文字，以及把系统语言暴露给渲染进程（T07）。基线 v0.1.9。
 #
 # 1. 主进程文字：菜单栏、右键菜单、原生对话框、权限助手面板、画中画预览窗口（标题与图片 alt）、
 #    截图动画遮罩（空窗口标题时的回退文字）里的英文原文包成 __t3zh_t(<原表达式>)；插进主进程自己拼的
@@ -488,7 +488,7 @@ index 44d2c234..e9f31bc0 100644
            },
          ],
 diff --git a/apps/desktop/src/window/DesktopWindow.ts b/apps/desktop/src/window/DesktopWindow.ts
-index 17dba674..c6a0167d 100644
+index 73f5b418..0f879500 100644
 --- a/apps/desktop/src/window/DesktopWindow.ts
 +++ b/apps/desktop/src/window/DesktopWindow.ts
 @@ -37,6 +37,7 @@ import * as DesktopClientSettings from "../settings/DesktopClientSettings.ts";
@@ -499,7 +499,7 @@ index 17dba674..c6a0167d 100644
  import { copyContextMenuImage } from "./ContextMenuImage.ts";
 
  const TITLEBAR_HEIGHT = 40;
-@@ -194,7 +195,7 @@ function buildConnectingSplashDataUrl(shouldUseDarkColors: boolean): string {
+@@ -209,7 +210,7 @@ function buildConnectingSplashDataUrl(shouldUseDarkColors: boolean): string {
    const label = shouldUseDarkColors ? "#9ca3af" : "#6b7280";
    const accent = shouldUseDarkColors ? "#f8fafc" : "#1f2937";
    const track = shouldUseDarkColors ? "rgba(248,250,252,0.18)" : "rgba(31,41,55,0.18)";
@@ -508,7 +508,7 @@ index 17dba674..c6a0167d 100644
    return `data:text/html;charset=utf-8,${encodeURIComponent(html)}`;
  }
 
-@@ -420,6 +421,8 @@ export const make = Effect.gen(function* () {
+@@ -435,6 +436,8 @@ export const make = Effect.gen(function* () {
          nodeIntegration: false,
          sandbox: true,
          webviewTag: true,
@@ -517,7 +517,7 @@ index 17dba674..c6a0167d 100644
          // Guest fullscreen propagates to the embedder; both must opt out to keep it inside the webview.
          // The app's own fullscreen elements reach OS fullscreen through syncHtmlFullscreen.
          disableHtmlFullscreenWindowResize: true,
-@@ -573,7 +576,7 @@ export const make = Effect.gen(function* () {
+@@ -588,7 +591,7 @@ export const make = Effect.gen(function* () {
              });
            }
            if (params.dictionarySuggestions.length === 0) {
@@ -526,7 +526,7 @@ index 17dba674..c6a0167d 100644
            }
            menuTemplate.push({ type: "separator" });
          }
-@@ -581,7 +584,7 @@ export const make = Effect.gen(function* () {
+@@ -596,7 +599,7 @@ export const make = Effect.gen(function* () {
          if (Option.isSome(ElectronShell.parseSafeExternalUrl(params.linkURL))) {
            menuTemplate.push(
              {
@@ -535,7 +535,7 @@ index 17dba674..c6a0167d 100644
                click: () => {
                  void runPromise(electronShell.copyText(params.linkURL));
                },
-@@ -592,7 +595,7 @@ export const make = Effect.gen(function* () {
+@@ -620,7 +623,7 @@ export const make = Effect.gen(function* () {
 
          if (params.mediaType === "image") {
            menuTemplate.push({
@@ -544,7 +544,7 @@ index 17dba674..c6a0167d 100644
              click: () => {
                void runPromise(
                  Effect.tryPromise({
-@@ -606,10 +609,14 @@ export const make = Effect.gen(function* () {
+@@ -634,10 +637,14 @@ export const make = Effect.gen(function* () {
          }
 
          menuTemplate.push(

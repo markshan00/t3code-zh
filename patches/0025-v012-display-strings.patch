@@ -1,5 +1,5 @@
 # v0.1.2 finite approval, Mermaid view and idle-compaction display strings.
-# Baseline v0.1.8; apply after 0024. Runtime tests: v012-display-strings.test.ts.
+# Baseline v0.1.9; apply after 0024. Runtime tests: v012-display-strings.test.ts.
 diff --git a/apps/web/src/components/chat/ComposerPendingApprovalActions.tsx b/apps/web/src/components/chat/ComposerPendingApprovalActions.tsx
 index 67860e45..9b508180 100644
 --- a/apps/web/src/components/chat/ComposerPendingApprovalActions.tsx
@@ -53,10 +53,10 @@ index cc0c8e7d..12c821d0 100644
          )
        }
 diff --git a/apps/web/src/components/chat/MessagesTimeline.logic.ts b/apps/web/src/components/chat/MessagesTimeline.logic.ts
-index 00dad8b0..6463ff6b 100644
+index e12ab2de..535ea112 100644
 --- a/apps/web/src/components/chat/MessagesTimeline.logic.ts
 +++ b/apps/web/src/components/chat/MessagesTimeline.logic.ts
-@@ -1214,7 +1214,7 @@ function deriveTurnFolds(input: {
+@@ -1228,7 +1228,7 @@ function deriveTurnFolds(input: {
          createdAt: steer.createdAt,
          hiddenEntryIds: segmentHiddenIds(entries),
          entryIds: new Set(entries.map((entry) => entry.id)),
@@ -167,7 +167,7 @@ index 034d0e6e..c0403644 100644
          }
        >
 diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/components/settings/SettingsPanels.tsx
-index 1afa4bac..6f4744d9 100644
+index 0efb5507..512caddc 100644
 --- a/apps/web/src/components/settings/SettingsPanels.tsx
 +++ b/apps/web/src/components/settings/SettingsPanels.tsx
 @@ -1,3 +1,4 @@
@@ -175,7 +175,7 @@ index 1afa4bac..6f4744d9 100644
  import { displayKnown, displayFollowUp } from "~/acceptanceDisplayStrings";
  import { useAtomValue } from "@effect/atom-react";
  import { NotificationSettings } from "./NotificationSettings";
-@@ -1524,7 +1525,7 @@ function ScopedCompactIdleThreadsRow() {
+@@ -1592,7 +1593,7 @@ function ScopedCompactIdleThreadsRow() {
              <SelectValue>
                {(value: string | null) =>
                  value === null

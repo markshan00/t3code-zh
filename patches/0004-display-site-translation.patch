@@ -1,7 +1,7 @@
 # 0004-display-site-translation.patch
 #
 # 显示位置补译：给那些同时被代码当作「值」比较/查表、因而转换插件不能包裹的界面文字
-# 补一层只在渲染处生效的翻译。基线 v0.1.8，须在 0001 之后应用
+# 补一层只在渲染处生效的翻译。基线 v0.1.9，须在 0001 之后应用
 # （依赖 0001 给 Window 补的 __t3zh 声明，本补丁把它扩上 t() 并补一个全局 var 声明）。
 #
 # 背景（handoff/T05.md「已知问题」第 2 条、dict/T05-changes.md §5.2）：有 16 条文字既被渲染、
@@ -44,7 +44,7 @@
 #   * contextMenuFallback / ElectronMenu 的 displayMenuLabel 改为**只翻审核过、且有精确 messages
 #     词条的菜单标签**（`TRANSLATABLE_MENU_LABELS`）；项目名、环境名、路径、分支名、
 #     server 文案一律原样。`Branch` 因在 `SubagentTooltipContent` 里被当值比较，插件不包裹，
-#     原生菜单是 Branch 在桌面端的翻译点；Copy path 在 v0.1.8 的 Sidebar
+#     原生菜单是 Branch 在桌面端的翻译点；Copy path 在 v0.1.9 的 Sidebar
 #     用对象 label 定义，网页插件已覆盖，原生入口使用实际大小写精确兜底。
 #     两条词条因此也补进 dict/zh-CN.desktop.json
 # 另有 components/GitActionsControl.logic.ts、threadActionMenu.logic.ts 的源头预翻译被移除：两文件
@@ -73,7 +73,7 @@
 #
 # 上游更新后重做方法见 patches/README.md。
 diff --git a/apps/desktop/src/electron/ElectronMenu.ts b/apps/desktop/src/electron/ElectronMenu.ts
-index d4338b45..e5d72075 100644
+index 4ff3df6b..cf881a39 100644
 --- a/apps/desktop/src/electron/ElectronMenu.ts
 +++ b/apps/desktop/src/electron/ElectronMenu.ts
 @@ -8,6 +8,52 @@ import * as Schema from "effect/Schema";
@@ -129,7 +129,7 @@ index d4338b45..e5d72075 100644
  export interface ElectronMenuPosition {
    readonly x: number;
    readonly y: number;
-@@ -164,7 +210,7 @@ export const make = Effect.gen(function* () {
+@@ -167,7 +213,7 @@ export const make = Effect.gen(function* () {
        }
 
        const itemOption: Electron.MenuItemConstructorOptions = {
@@ -164,10 +164,10 @@ index 9782f258..dfbcf2e8 100644
                <span className="truncate text-muted-foreground text-xs">{prReference}</span>
              </span>
 diff --git a/apps/web/src/components/GitActionsControl.tsx b/apps/web/src/components/GitActionsControl.tsx
-index c927aa30..d7973c6f 100644
+index 4e236f0b..4fc1ed08 100644
 --- a/apps/web/src/components/GitActionsControl.tsx
 +++ b/apps/web/src/components/GitActionsControl.tsx
-@@ -108,7 +108,7 @@ import {
+@@ -109,7 +109,7 @@ import {
    THREAD_DETAILS_PANEL_SPLIT_GROUP_CLASS,
    THREAD_DETAILS_PANEL_SPLIT_SEPARATOR_CLASS,
  } from "./chat/threadDetailsPanelStyles";
@@ -176,7 +176,7 @@ index c927aa30..d7973c6f 100644
  import { sourceControlClients } from "@t3tools/client-runtime/source-control-clients";
  import { formatDiffCount } from "@t3tools/client-runtime/diff-count";
  import { useOpenLink } from "~/browser/useOpenLink";
-@@ -276,6 +276,59 @@ function getMenuActionDisabledReason({
+@@ -277,6 +277,59 @@ function getMenuActionDisabledReason({
  const COMMIT_DIALOG_TITLE = "Commit changes";
  const COMMIT_DIALOG_DESCRIPTION =
    "Review and confirm your commit. Leave the message blank to auto-generate one.";
@@ -236,7 +236,7 @@ index c927aa30..d7973c6f 100644
 
  function GitActionItemIcon({
    icon,
-@@ -355,7 +408,7 @@ function GitActionProgressButtonContent({ progress }: { progress: GitActionProgr
+@@ -356,7 +409,7 @@ function GitActionProgressButtonContent({ progress }: { progress: GitActionProgr
      >
        <Spinner aria-hidden="true" className="row-start-1 -mx-0.5 shrink-0" />
        <p className={cn("row-start-1 min-w-0 truncate text-left", THREAD_DETAILS_PANEL_LABEL_CLASS)}>
@@ -245,7 +245,7 @@ index c927aa30..d7973c6f 100644
        </p>
        <div
          className={cn(
-@@ -1116,7 +1169,7 @@ export default function GitActionsControl({
+@@ -1117,7 +1170,7 @@ export default function GitActionsControl({
    const quickActionDisabledReason = !canWriteSourceControl
      ? "This connection cannot change source control."
      : quickAction.disabled
@@ -254,7 +254,7 @@ index c927aa30..d7973c6f 100644
        : null;
    const gitActionProgress = resolveGitActionProgressPresentation(vcsActionState);
    // A fresh draft or a thread with no turns hides commit, push, and diff rows until there is work.
-@@ -1326,7 +1379,7 @@ export default function GitActionsControl({
+@@ -1327,7 +1380,7 @@ export default function GitActionsControl({
      if (quickAction.kind === "show_hint") {
        toastManager.add({
          type: "info",
@@ -263,7 +263,7 @@ index c927aa30..d7973c6f 100644
          description: quickAction.hint,
          data: threadToastData,
        });
-@@ -1432,11 +1485,11 @@ export default function GitActionsControl({
+@@ -1450,11 +1503,11 @@ export default function GitActionsControl({
                >
                  <MenuItem className="w-full" disabled>
                    <GitActionItemIcon icon={item.icon} SourceControlIcon={SourceControlIcon} />
@@ -277,7 +277,7 @@ index c927aa30..d7973c6f 100644
                </PopoverPopup>
              </Popover>
            );
-@@ -1451,7 +1504,7 @@ export default function GitActionsControl({
+@@ -1469,7 +1522,7 @@ export default function GitActionsControl({
              }}
            >
              <GitActionItemIcon icon={item.icon} SourceControlIcon={SourceControlIcon} />
@@ -286,7 +286,7 @@ index c927aa30..d7973c6f 100644
            </MenuItem>
          );
        })}
-@@ -1516,8 +1569,8 @@ export default function GitActionsControl({
+@@ -1532,8 +1585,8 @@ export default function GitActionsControl({
              <ThreadDetailsControl
                aria-label={
                  gitActionProgress.output
@@ -297,7 +297,7 @@ index c927aa30..d7973c6f 100644
                }
                part="primary"
                panel
-@@ -1557,7 +1610,7 @@ export default function GitActionsControl({
+@@ -1573,7 +1626,7 @@ export default function GitActionsControl({
                      cn("not-sr-only ml-0 truncate", THREAD_DETAILS_PANEL_LABEL_CLASS),
                    )}
                  >
@@ -306,7 +306,7 @@ index c927aa30..d7973c6f 100644
                  </span>
                </PopoverTrigger>
                <PopoverPopup tooltipStyle side="bottom" align="start">
-@@ -1584,7 +1637,7 @@ export default function GitActionsControl({
+@@ -1600,7 +1653,7 @@ export default function GitActionsControl({
                    cn("not-sr-only ml-0 truncate", THREAD_DETAILS_PANEL_LABEL_CLASS),
                  )}
                >
@@ -315,7 +315,7 @@ index c927aa30..d7973c6f 100644
                </span>
              </ThreadDetailsControl>
            )}
-@@ -1698,7 +1751,7 @@ export default function GitActionsControl({
+@@ -1714,7 +1767,7 @@ export default function GitActionsControl({
            <DialogPanel>
              <div className="space-y-3 rounded-xl bg-zinc-25 p-3 text-sm ring-1 ring-black/5 dark:bg-white/[0.035] dark:ring-white/5">
                <div className="grid grid-cols-[auto_1fr] items-center gap-x-2 gap-y-1">
@@ -324,7 +324,7 @@ index c927aa30..d7973c6f 100644
                  <span className="flex items-center justify-between gap-2">
                    <span className="font-medium">
                      {gitStatusForActions?.refName ?? "(detached HEAD)"}
-@@ -1875,9 +1928,19 @@ export default function GitActionsControl({
+@@ -1891,9 +1944,19 @@ export default function GitActionsControl({
          <DialogPopup className="max-w-xl">
            <DialogHeader>
              <DialogTitle>
@@ -346,7 +346,7 @@ index c927aa30..d7973c6f 100644
              {featureBranchUnavailableReason && (
                <p className="text-xs text-muted-foreground">{featureBranchUnavailableReason}</p>
              )}
-@@ -1898,7 +1961,10 @@ export default function GitActionsControl({
+@@ -1914,7 +1977,10 @@ export default function GitActionsControl({
                onClick={() => continuePendingDefaultBranchAction(false)}
                disabled={!canWriteSourceControl}
              >
@@ -445,7 +445,7 @@ index 4ecce601..fb4e5d44 100644
            ) : null}
 
 diff --git a/apps/web/src/components/RightPanelTabs.tsx b/apps/web/src/components/RightPanelTabs.tsx
-index 596bdee9..b5534780 100644
+index f3066201..09135e72 100644
 --- a/apps/web/src/components/RightPanelTabs.tsx
 +++ b/apps/web/src/components/RightPanelTabs.tsx
 @@ -105,6 +105,9 @@ import { PullRequestGlyph } from "~/components/pullRequest/pullRequestIcons";
@@ -492,7 +492,7 @@ index 596bdee9..b5534780 100644
        }
      }
    }
-@@ -1432,7 +1435,7 @@ export function RightPanelTabs(props: RightPanelTabsProps) {
+@@ -1437,7 +1440,7 @@ export function RightPanelTabs(props: RightPanelTabsProps) {
                              }}
                            >
                              <Icon />
@@ -501,7 +501,7 @@ index 596bdee9..b5534780 100644
                              <MenuShortcut>{action.shortcut}</MenuShortcut>
                            </MenuSubTrigger>
                            <MenuSubPopup className="max-w-56">
-@@ -1457,7 +1460,7 @@ export function RightPanelTabs(props: RightPanelTabsProps) {
+@@ -1462,7 +1465,7 @@ export function RightPanelTabs(props: RightPanelTabsProps) {
                          onClick={action.onClick}
                        >
                          <Icon />
@@ -654,7 +654,7 @@ index b091d0d5..ffbe059b 100644
                getModelDisabledReason={modelDisabledReason}
                onOpenProviderSetup={(instanceId) => {
 diff --git a/apps/web/src/components/settings/ProviderInstanceCard.tsx b/apps/web/src/components/settings/ProviderInstanceCard.tsx
-index f0040802..14b4d9a4 100644
+index b77c8fee..e8d75a26 100644
 --- a/apps/web/src/components/settings/ProviderInstanceCard.tsx
 +++ b/apps/web/src/components/settings/ProviderInstanceCard.tsx
 @@ -76,6 +76,7 @@ import {
@@ -665,7 +665,7 @@ index f0040802..14b4d9a4 100644
  } from "./providerStatus";
 
  const ENVIRONMENT_VARIABLE_NAME_PATTERN = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
-@@ -965,7 +966,7 @@ export function ProviderInstanceCard({
+@@ -966,7 +967,7 @@ export function ProviderInstanceCard({
      ) : (
        <>
          {statusDotNode}
@@ -674,7 +674,7 @@ index f0040802..14b4d9a4 100644
          {inlineStatusDetail ? (
            <span className="min-w-0 [overflow-wrap:anywhere]">· {inlineStatusDetail}</span>
          ) : null}
-@@ -1130,7 +1131,7 @@ export function ProviderInstanceCard({
+@@ -1131,7 +1132,7 @@ export function ProviderInstanceCard({
                      `Updating · ${updateProgress}`
                    ) : (
                      <>
@@ -684,10 +684,10 @@ index f0040802..14b4d9a4 100644
                      </>
                    )}
 diff --git a/apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx b/apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx
-index b79b8057..47d2254f 100644
+index f37be9b8..4667b4f4 100644
 --- a/apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx
 +++ b/apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx
-@@ -626,7 +626,10 @@ function ProcessTable({
+@@ -630,7 +630,10 @@ function ProcessTable({
                  <td className="px-3 py-2 text-right font-mono tabular-nums text-muted-foreground">
                    <Tooltip>
                      <TooltipTrigger render={<span>{formatBytes(process.ioWriteBytes)}</span>} />
@@ -700,10 +700,10 @@ index b79b8057..47d2254f 100644
                  </td>
                  <td className="px-3 py-2 text-right font-mono tabular-nums text-muted-foreground">
 diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/components/settings/SettingsPanels.tsx
-index 094e62bf..79d153cd 100644
+index 99000d11..eeb1d145 100644
 --- a/apps/web/src/components/settings/SettingsPanels.tsx
 +++ b/apps/web/src/components/settings/SettingsPanels.tsx
-@@ -1851,7 +1851,7 @@ export function ThreadsSettingsPanel() {
+@@ -1919,7 +1919,7 @@ export function ThreadsSettingsPanel() {
                    instanceEntries={textGenerationModelInstanceEntries}
                    modelOptionsByInstance={textGenerationModelOptionsByInstance}
                    triggerClassName={SETTINGS_PICKER_TRIGGER_CLASSNAME}
@@ -713,10 +713,10 @@ index 094e62bf..79d153cd 100644
                    {...(environmentId
                      ? {
 diff --git a/apps/web/src/components/settings/SourceControlWritingSettings.tsx b/apps/web/src/components/settings/SourceControlWritingSettings.tsx
-index af5b0f29..05bc841d 100644
+index 9d65ffc8..8164ba00 100644
 --- a/apps/web/src/components/settings/SourceControlWritingSettings.tsx
 +++ b/apps/web/src/components/settings/SourceControlWritingSettings.tsx
-@@ -540,7 +540,7 @@ export function SourceControlWritingSettingsSection() {
+@@ -541,7 +541,7 @@ export function SourceControlWritingSettingsSection() {
                      modelOptionsByInstance={modelOptionsByInstance}
                      triggerClassName={SETTINGS_PICKER_TRIGGER_CLASSNAME}
                      triggerAriaLabel="Source control writer model"
@@ -834,10 +834,10 @@ index 38b1e53b..20825621 100644
          ) : null}
          {collapsed && hiddenThreads.length > 0 ? (
 diff --git a/apps/web/src/components/sidebar/SidebarThreadRow.tsx b/apps/web/src/components/sidebar/SidebarThreadRow.tsx
-index 3a50e76d..ce6b7024 100644
+index 05e89842..01f77ded 100644
 --- a/apps/web/src/components/sidebar/SidebarThreadRow.tsx
 +++ b/apps/web/src/components/sidebar/SidebarThreadRow.tsx
-@@ -1489,7 +1489,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
+@@ -1497,7 +1497,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
                                  )}
                                >
                                  <AlarmClockIcon aria-hidden className="size-4 shrink-0" />
@@ -846,7 +846,7 @@ index 3a50e76d..ce6b7024 100644
                                </button>
                              }
                            />
-@@ -1506,7 +1506,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
+@@ -1514,7 +1514,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
                            {/* Not a live region: a collapsed sidebar is inert, so
                              BackgroundThreadAnnouncer and the open thread's
                              timeline speak status changes instead. */}
@@ -884,7 +884,7 @@ index eb47ac55..e828c6a8 100644
                                        autoComplete="off"
                                        disabled={locked}
 diff --git a/apps/web/src/contextMenuFallback.ts b/apps/web/src/contextMenuFallback.ts
-index a3e760dd..a8e15e5c 100644
+index 55041deb..b60b9163 100644
 --- a/apps/web/src/contextMenuFallback.ts
 +++ b/apps/web/src/contextMenuFallback.ts
 @@ -2,6 +2,58 @@ import type { ContextMenuItem } from "@t3tools/contracts";
@@ -963,7 +963,7 @@ index a3e760dd..a8e15e5c 100644
 +        label.textContent = displayMenuLabel(item.label);
          button.appendChild(label);
 
-         if (hasChildren) {
+         if (item.detail) {
 diff --git a/apps/web/src/sourceControlPresentation.tsx b/apps/web/src/sourceControlPresentation.tsx
 index c122ed0f..10b611bb 100644
 --- a/apps/web/src/sourceControlPresentation.tsx

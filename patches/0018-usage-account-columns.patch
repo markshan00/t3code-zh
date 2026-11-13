@@ -1,9 +1,9 @@
-# 基线 v0.1.8 / bf469bb19669671d0df2efda74ed73867a7137c0；按编号顺序普通 apply。
+# 基线 v0.1.9 / 24e77473ecf41bc1f7142529c7911c1c1aae1d76；按编号顺序普通 apply。
 diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/components/usage/UsageLimitsPooled.tsx
-index 74591d45..d2dbf18c 100644
+index d05ebbd1..9fa90818 100644
 --- a/apps/web/src/components/usage/UsageLimitsPooled.tsx
 +++ b/apps/web/src/components/usage/UsageLimitsPooled.tsx
-@@ -194,7 +194,7 @@ function SegmentPopover({
+@@ -191,7 +191,7 @@ function SegmentPopover({
          ) : null}
          {timeLeft !== null ? <Row label="Even pace">{timeLeft}% left by now</Row> : null}
          {reset && reset.restoresPercent > 0 ? (
@@ -11,8 +11,8 @@ index 74591d45..d2dbf18c 100644
 +          <Row label="Restores">+{reset.restoresPercent}%</Row>
          ) : null}
        </div>
-       {credits && redeem ? (
-@@ -288,8 +288,6 @@ function PoolSegment({
+       {choices.length > 0 && redeem ? (
+@@ -289,8 +289,6 @@ function PoolSegment({
    readonly refillPercent: number;
    readonly color: string;
    readonly now: number;
@@ -21,7 +21,7 @@ index 74591d45..d2dbf18c 100644
  }) {
    return account.redeem ? (
      <RedeemableSegment account={account} redeemAt={account.redeem} {...props} />
-@@ -333,14 +331,10 @@ function SegmentTriggers({
+@@ -335,14 +333,10 @@ function SegmentTriggers({
    refillPercent,
    color,
    now,
@@ -36,7 +36,7 @@ index 74591d45..d2dbf18c 100644
  }) {
    const popover = use(SegmentPopoverContext) ?? undefined;
    const payload: SegmentPayload = { account, window, reset, redeem };
-@@ -359,24 +353,24 @@ function SegmentTriggers({
+@@ -361,24 +355,24 @@ function SegmentTriggers({
            <button
              ref={segmentRef}
              type="button"
@@ -66,7 +66,7 @@ index 74591d45..d2dbf18c 100644
                  style={{
                    width: `${Math.min(100 - remaining, refillPercent)}%`,
                    backgroundImage: `repeating-linear-gradient(135deg, ${color} 0 1px, transparent 1px 5px)`,
-@@ -388,147 +382,16 @@ function SegmentTriggers({
+@@ -390,147 +384,16 @@ function SegmentTriggers({
          {paceMark ? (
            <span
              aria-hidden
@@ -216,7 +216,7 @@ index 74591d45..d2dbf18c 100644
  function PoolWindowCard({
    pool,
    color,
-@@ -542,38 +405,52 @@ function PoolWindowCard({
+@@ -544,38 +407,52 @@ function PoolWindowCard({
    readonly label?: string | undefined;
    readonly description?: string | undefined;
  }) {
@@ -290,7 +290,7 @@ index 74591d45..d2dbf18c 100644
    return (
      <section className="flex flex-col gap-3">
        <h2 className="flex items-center gap-2 text-sm font-medium text-foreground">
-@@ -586,19 +463,39 @@ function PoolSection({ pool, now }: { readonly pool: LimitPool; readonly now: nu
+@@ -588,19 +465,39 @@ function PoolSection({ pool, now }: { readonly pool: LimitPool; readonly now: nu
          />
          {label}
        </h2>

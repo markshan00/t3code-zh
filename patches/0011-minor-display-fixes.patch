@@ -1,5 +1,5 @@
 # 0011-minor-display-fixes.patch
-# Baseline v0.1.8, apply after 0001–0010 (zh.5).
+# Baseline v0.1.9, apply after 0001–0010 (zh.5).
 # Small display fixes found while reviewing zh.4; display boundaries only.
 #   * Sidebar row accessible name: the status part (Goal / Working / Waiting / Approval /
 #     Input / Limited / Failed / Woke / Done) and the draft row's "Unsent draft" go through
@@ -121,7 +121,7 @@ index bb5882a6..438c0d49 100644
      isActive: props.isActive,
    });
 diff --git a/apps/web/src/components/sidebar/SidebarThreadRow.tsx b/apps/web/src/components/sidebar/SidebarThreadRow.tsx
-index 2edfeab8..4fecd9e8 100644
+index e602ceb1..c9d53262 100644
 --- a/apps/web/src/components/sidebar/SidebarThreadRow.tsx
 +++ b/apps/web/src/components/sidebar/SidebarThreadRow.tsx
 @@ -1,4 +1,5 @@
@@ -129,8 +129,8 @@ index 2edfeab8..4fecd9e8 100644
 +import { displayKnown } from "../../acceptanceDisplayStrings";
  import { displayDuration } from "../../acceptanceDisplayStrings";
  import { displayDefaultName } from "../../newThreadDisplayStrings";
- import { ThreadHoverCard, ThreadHoverCardPopup } from "../ThreadHoverCard";
-@@ -1014,7 +1015,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
+ import { asLaunchingThread } from "@t3tools/client-runtime/state/thread-inbox";
+@@ -1022,7 +1023,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
 
    const accessibility = resolveSidebarRowAccessibility({
      title: displayDefaultName(thread.title),

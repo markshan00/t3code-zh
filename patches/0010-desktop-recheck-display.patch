@@ -1,5 +1,5 @@
 # 0010-desktop-recheck-display.patch
-# Baseline v0.1.8, after 0009. Fix zh.3 desktop recheck display call sites.
+# Baseline v0.1.9, after 0009. Fix zh.3 desktop recheck display call sites.
 # Payloads, provider/custom labels, command text and default webhook prompts remain unchanged.
 diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceDisplayStrings.ts
 index 65abf18b..9ea3c6de 100644
@@ -51,10 +51,10 @@ index 65abf18b..9ea3c6de 100644
    return fillSlot("", formattedCount, ` ${count === 1 ? singular : plural}`);
  }
 diff --git a/apps/web/src/components/chat/MessagesTimeline.logic.ts b/apps/web/src/components/chat/MessagesTimeline.logic.ts
-index 4536e9a2..00dad8b0 100644
+index 9e9d82a1..e12ab2de 100644
 --- a/apps/web/src/components/chat/MessagesTimeline.logic.ts
 +++ b/apps/web/src/components/chat/MessagesTimeline.logic.ts
-@@ -238,6 +238,7 @@ export function liveWorkEntryLabel(
+@@ -239,6 +239,7 @@ export function liveWorkEntryLabel(
    entry: WorkLogEntry,
    workspaceRoot: string | undefined,
    active: boolean,
@@ -62,7 +62,7 @@ index 4536e9a2..00dad8b0 100644
  ) {
    const status = liveActivityToolStatus(entry.toolLifecycleStatus, active);
    if (entry.itemType === "reasoning") {
-@@ -263,7 +264,7 @@ export function liveWorkEntryLabel(
+@@ -264,7 +265,7 @@ export function liveWorkEntryLabel(
              : status === "stopped"
                ? "Stopped"
                : "Ran";
@@ -102,7 +102,7 @@ index 64afa55e..ba4b99f0 100644
              </Tooltip>
              <div className="flex flex-wrap items-center justify-end gap-3">
 diff --git a/apps/web/src/components/chat/TimelineMinimap.tsx b/apps/web/src/components/chat/TimelineMinimap.tsx
-index 44747a80..8e23fe8b 100644
+index 3a32ec20..e20703a1 100644
 --- a/apps/web/src/components/chat/TimelineMinimap.tsx
 +++ b/apps/web/src/components/chat/TimelineMinimap.tsx
 @@ -1,3 +1,4 @@
@@ -110,16 +110,16 @@ index 44747a80..8e23fe8b 100644
  import { resolveTimelineMinimapPreview, type TimelineMinimapItem } from "./timelineMinimapItems";
  import { useRef, useState, type MouseEvent } from "react";
  import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
-@@ -156,7 +157,7 @@ export function TimelineMinimap({
+@@ -146,7 +147,7 @@ export function TimelineMinimap({
              }}
            />
            <button
 -            aria-label={`Jump to message: ${activeItem?.userText ?? "User message"}`}
 +            aria-label={`Jump to message: ${activeItem?.userText ?? displayKnown("User message")}`}
-             className="absolute inset-y-0 left-0 w-full cursor-pointer bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/70"
+             className="absolute inset-y-0 left-0 w-full cursor-pointer bg-transparent before:absolute before:inset-x-0 before:-inset-y-1 before:content-[''] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/70"
              onBlur={() => setActiveIndex(null)}
              onClick={(event) => {
-@@ -253,7 +254,7 @@ export function TimelineMinimap({
+@@ -231,7 +232,7 @@ export function TimelineMinimap({
                >
                  <span className="dropdown-glass block rounded-xl p-3 text-left text-popover-foreground shadow-xl shadow-black/25">
                    <span className="block max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium leading-5">
@@ -128,7 +128,7 @@ index 44747a80..8e23fe8b 100644
                    </span>
                    {activeItem.assistantText ? (
                      <span
-@@ -297,7 +298,7 @@ function TimelineMinimapNavigationButton({
+@@ -275,7 +276,7 @@ function TimelineMinimapNavigationButton({
    onClick: () => void;
  }) {
    const previous = direction === "previous";
@@ -156,7 +156,7 @@ index 21207ae6..034d0e6e 100644
 
    const item = row.entry.projectedItem?.item;
 diff --git a/apps/web/src/components/settings/ProviderInstanceCard.tsx b/apps/web/src/components/settings/ProviderInstanceCard.tsx
-index 14b4d9a4..3249b1a0 100644
+index e8d75a26..a6a59e68 100644
 --- a/apps/web/src/components/settings/ProviderInstanceCard.tsx
 +++ b/apps/web/src/components/settings/ProviderInstanceCard.tsx
 @@ -1,3 +1,4 @@
@@ -164,7 +164,7 @@ index 14b4d9a4..3249b1a0 100644
  import { Spinner } from "~/components/ui/spinner";
 
  import {
-@@ -984,7 +985,7 @@ export function ProviderInstanceCard({
+@@ -985,7 +986,7 @@ export function ProviderInstanceCard({
                    size={mode === "list" ? "icon-micro" : "icon-xs"}
                    variant="ghost-muted"
                    className={mode === "list" ? "pointer-events-auto relative shrink-0" : undefined}
@@ -173,7 +173,7 @@ index 14b4d9a4..3249b1a0 100644
                  >
                    {updateProgress ? (
                      <Spinner tone="muted" {...(mode === "list" ? { size: "sm" as const } : {})} />
-@@ -1002,14 +1003,14 @@ export function ProviderInstanceCard({
+@@ -1003,14 +1004,14 @@ export function ProviderInstanceCard({
            }
          />
          <TooltipPopup side="top">
@@ -210,16 +210,16 @@ index f9d21f47..420ab301 100644
                      </Toggle>
                    ))}
 diff --git a/apps/web/src/components/sidebar/SidebarThreadRow.tsx b/apps/web/src/components/sidebar/SidebarThreadRow.tsx
-index 82b52c94..2edfeab8 100644
+index 5b717793..e602ceb1 100644
 --- a/apps/web/src/components/sidebar/SidebarThreadRow.tsx
 +++ b/apps/web/src/components/sidebar/SidebarThreadRow.tsx
 @@ -1,4 +1,5 @@
  import { useAtomMount } from "@effect/atom-react";
 +import { displayDuration } from "../../acceptanceDisplayStrings";
  import { displayDefaultName } from "../../newThreadDisplayStrings";
+ import { asLaunchingThread } from "@t3tools/client-runtime/state/thread-inbox";
  import { ThreadHoverCard, ThreadHoverCardPopup } from "../ThreadHoverCard";
- import { ThreadTerminalStatusButton } from "../ThreadStatusIndicators";
-@@ -136,8 +137,8 @@ export type SidebarProviderEntry = Pick<
+@@ -137,8 +138,8 @@ export type SidebarProviderEntry = Pick<
    | "models"
  >;
  function compactSidebarTimeLabel(label: string): string {
@@ -231,7 +231,7 @@ index 82b52c94..2edfeab8 100644
 
  // Subscribes to the minute tick itself, so only the label re-renders each
 diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/components/usage/UsageLimitsPooled.tsx
-index 00f43724..74591d45 100644
+index f2d5790e..d05ebbd1 100644
 --- a/apps/web/src/components/usage/UsageLimitsPooled.tsx
 +++ b/apps/web/src/components/usage/UsageLimitsPooled.tsx
 @@ -1,3 +1,4 @@
@@ -239,7 +239,7 @@ index 00f43724..74591d45 100644
  import {
    CHATGPT_USAGE_URL,
    collectLimitAccounts,
-@@ -545,7 +546,7 @@ function PoolWindowCard({
+@@ -547,7 +548,7 @@ function PoolWindowCard({
    return (
      <div className="grid items-center gap-x-6 gap-y-3 rounded-lg border border-border/60 p-4 md:grid-cols-[11rem_minmax(0,1fr)]">
        <div className="flex flex-col gap-1">

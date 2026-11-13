@@ -1,5 +1,5 @@
 # 0009-acceptance-display-strings.patch
-# Baseline: v0.1.8, apply after 0001–0008.
+# Baseline: v0.1.9, apply after 0001–0008.
 # Fix UI observations in reviews/T10-acceptance-codex.md.
 # Finite labels use an exact allowlist at display boundaries; dynamic values are
 # inserted after translating a sentinel skeleton. User content and stored values
@@ -250,15 +250,15 @@ index 00000000..65abf18b
 +  );
 +}
 diff --git a/apps/web/src/components/CommandPalette.tsx b/apps/web/src/components/CommandPalette.tsx
-index 6352b577..c570b4ec 100644
+index 2e65d621..85f89bb7 100644
 --- a/apps/web/src/components/CommandPalette.tsx
 +++ b/apps/web/src/components/CommandPalette.tsx
 @@ -1,3 +1,4 @@
 +import { displayKnown } from "../acceptanceDisplayStrings";
+ import { ThreadContextDragGhost } from "./chat/ThreadContextDragGhost";
  import { threadPullRequestLinkMode } from "@t3tools/client-runtime/thread-pull-request-compatibility";
  import { visibleThreadPullRequests } from "@t3tools/shared/threadPullRequests";
-
-@@ -2871,7 +2872,7 @@ function OpenCommandPaletteDialog(props: {
+@@ -2880,7 +2881,7 @@ function OpenCommandPaletteDialog(props: {
        key={`${viewStack.length}-${browseGeneration}-${isBrowsing}-${newProjectFlow ? "new-project" : (addProjectCloneFlow?.step ?? "none")}`}
        aria-label="Command palette"
        autoHighlight={autoHighlightsFirstRow ? "always" : false}
@@ -267,25 +267,25 @@ index 6352b577..c570b4ec 100644
        footerTrailing={footerTrailing}
        inputAccessory={inputAccessory}
        inputProps={{
-@@ -2885,7 +2886,7 @@ function OpenCommandPaletteDialog(props: {
+@@ -2894,7 +2895,7 @@ function OpenCommandPaletteDialog(props: {
                    hasHighlightedBrowseItem,
                  })
                : undefined,
 -        placeholder: inputPlaceholder,
 +        placeholder: displayKnown(inputPlaceholder),
+         "aria-describedby": inputAccessory ? submitButtonId : undefined,
          ...(isSubmenu
            ? {
-               startAddon: (
 diff --git a/apps/web/src/components/CommandPaletteResults.tsx b/apps/web/src/components/CommandPaletteResults.tsx
-index aec99f04..969dda37 100644
+index 864c190b..8e78e09b 100644
 --- a/apps/web/src/components/CommandPaletteResults.tsx
 +++ b/apps/web/src/components/CommandPaletteResults.tsx
 @@ -1,3 +1,4 @@
 +import { displayKnown, displayRelativeTime } from "~/acceptanceDisplayStrings";
+ import { startPaletteThreadDrag } from "./CommandPalette.drag";
  import { useLegendListRef } from "~/hooks/useLegendListRef";
  import { type ResolvedKeybindingsConfig } from "@t3tools/contracts";
- import { LegendList, type LegendListRef } from "@legendapp/list/react";
-@@ -201,7 +202,7 @@ function DisabledCommandPaletteResultRow(props: {
+@@ -210,7 +211,7 @@ function DisabledCommandPaletteResultRow(props: {
          <span className="flex min-w-0 flex-1 flex-col">
            <span className="flex min-w-0 items-center gap-1.5 text-sm text-foreground">
              {props.item.titleLeadingContent}
@@ -294,7 +294,7 @@ index aec99f04..969dda37 100644
              <ThreadRowContext item={props.item} />
            </span>
            {props.item.threadContentMatch ? (
-@@ -210,14 +211,14 @@ function DisabledCommandPaletteResultRow(props: {
+@@ -219,14 +220,14 @@ function DisabledCommandPaletteResultRow(props: {
              <SearchMatchHintLine hint={props.item.matchHint} />
            ) : props.item.description ? (
              <span className="min-w-0 text-muted-foreground/70 text-xs">
@@ -311,7 +311,7 @@ index aec99f04..969dda37 100644
          </span>
        )}
        {props.item.titleTrailingContent}
-@@ -253,7 +254,7 @@ function CommandPaletteResultRow(props: {
+@@ -272,7 +273,7 @@ function CommandPaletteResultRow(props: {
          <span className="flex min-w-0 flex-1 flex-col">
            <span className="flex min-w-0 items-center gap-1.5 text-sm text-foreground">
              {props.item.titleLeadingContent}
@@ -320,7 +320,7 @@ index aec99f04..969dda37 100644
              <ThreadRowContext item={props.item} />
            </span>
            {props.item.threadContentMatch ? (
-@@ -262,14 +263,14 @@ function CommandPaletteResultRow(props: {
+@@ -281,14 +282,14 @@ function CommandPaletteResultRow(props: {
              <SearchMatchHintLine hint={props.item.matchHint} />
            ) : props.item.description ? (
              <span className="min-w-0 text-muted-foreground/70 text-xs">
@@ -337,7 +337,7 @@ index aec99f04..969dda37 100644
          </span>
        )}
        {props.item.titleTrailingContent}
-@@ -283,7 +284,7 @@ function CommandPaletteResultRow(props: {
+@@ -302,7 +303,7 @@ function CommandPaletteResultRow(props: {
        ) : null}
        {props.item.timestamp ? (
          <span className="min-w-12 shrink-0 text-right text-xs tabular-nums text-muted-foreground/70">
@@ -347,7 +347,7 @@ index aec99f04..969dda37 100644
        ) : null}
        {shortcutLabel ? <CommandShortcut>{shortcutLabel}</CommandShortcut> : null}
 diff --git a/apps/web/src/components/DiffPanel.tsx b/apps/web/src/components/DiffPanel.tsx
-index e7e6d614..32aa9b0b 100644
+index 2e9af946..1c5b5657 100644
 --- a/apps/web/src/components/DiffPanel.tsx
 +++ b/apps/web/src/components/DiffPanel.tsx
 @@ -1,3 +1,4 @@
@@ -355,7 +355,7 @@ index e7e6d614..32aa9b0b 100644
  import { RefreshIcon } from "~/components/ui/refresh-icon";
  import { useAtomValue } from "@effect/atom-react";
  import type { FileDiffContentsLoader, FileDiffMetadata } from "@pierre/diffs";
-@@ -821,10 +822,10 @@ export default function DiffPanel({
+@@ -823,10 +824,10 @@ export default function DiffPanel({
            <DropdownMenuTrigger
              render={<Button size="xs" variant="secondary" />}
              className={cn("max-w-full", headerCommitSha !== null && "min-w-0 shrink")}
@@ -369,7 +369,7 @@ index e7e6d614..32aa9b0b 100644
            </DropdownMenuTrigger>
            {headerCommitSha !== null ? (
 diff --git a/apps/web/src/components/ThreadTerminalDrawer.tsx b/apps/web/src/components/ThreadTerminalDrawer.tsx
-index 45318dd5..c66e3275 100644
+index 049589d0..4d565e2a 100644
 --- a/apps/web/src/components/ThreadTerminalDrawer.tsx
 +++ b/apps/web/src/components/ThreadTerminalDrawer.tsx
 @@ -1,3 +1,4 @@
@@ -377,7 +377,7 @@ index 45318dd5..c66e3275 100644
  import { workspaceAreaProps } from "../lib/workspaceFocus";
  import { useAtomMount, useAtomValue } from "@effect/atom-react";
  import {
-@@ -1821,7 +1822,7 @@ export default function ThreadTerminalDrawer({
+@@ -1823,7 +1824,7 @@ export default function ThreadTerminalDrawer({
              onClick={onNewTerminalAction}
              disabled={!canOperateTerminal}
            >
@@ -386,7 +386,7 @@ index 45318dd5..c66e3275 100644
            </Button>
          </div>
        </aside>
-@@ -1862,7 +1863,7 @@ export default function ThreadTerminalDrawer({
+@@ -1855,7 +1856,7 @@ export default function ThreadTerminalDrawer({
                    : "hover:bg-accent"
                }`}
                onClick={onSplitTerminalAction}
@@ -395,7 +395,7 @@ index 45318dd5..c66e3275 100644
              >
                <SquareSplitHorizontal className="size-3.25" />
              </TerminalActionButton>
-@@ -1875,7 +1876,7 @@ export default function ThreadTerminalDrawer({
+@@ -1868,7 +1869,7 @@ export default function ThreadTerminalDrawer({
                    : "hover:bg-accent"
                }`}
                onClick={onSplitTerminalVerticalAction}
@@ -404,7 +404,7 @@ index 45318dd5..c66e3275 100644
              >
                <SquareSplitVertical className="size-3.25" />
              </TerminalActionButton>
-@@ -1884,7 +1885,7 @@ export default function ThreadTerminalDrawer({
+@@ -1877,7 +1878,7 @@ export default function ThreadTerminalDrawer({
                disabled={!canOperateTerminal}
                className="p-1 text-foreground/90 transition-colors hover:bg-accent"
                onClick={onNewTerminalAction}
@@ -413,7 +413,7 @@ index 45318dd5..c66e3275 100644
              >
                <Plus className="size-3.25" />
              </TerminalActionButton>
-@@ -1893,7 +1894,7 @@ export default function ThreadTerminalDrawer({
+@@ -1886,7 +1887,7 @@ export default function ThreadTerminalDrawer({
                disabled={!canOperateTerminal}
                className="p-1 text-foreground/90 transition-colors hover:bg-accent"
                onClick={() => confirmCloseTerminal(resolvedActiveTerminalId)}
@@ -422,7 +422,7 @@ index 45318dd5..c66e3275 100644
              >
                <Trash2 className="size-3.25" />
              </TerminalActionButton>
-@@ -1938,7 +1939,7 @@ export default function ThreadTerminalDrawer({
+@@ -1932,7 +1933,7 @@ export default function ThreadTerminalDrawer({
                          : "hover:bg-accent/70"
                      }`}
                      onClick={onSplitTerminalAction}
@@ -431,7 +431,7 @@ index 45318dd5..c66e3275 100644
                    >
                      <SquareSplitHorizontal className="size-3.25" />
                    </TerminalActionButton>
-@@ -1950,7 +1951,7 @@ export default function ThreadTerminalDrawer({
+@@ -1944,7 +1945,7 @@ export default function ThreadTerminalDrawer({
                          : "hover:bg-accent/70"
                      }`}
                      onClick={onSplitTerminalVerticalAction}
@@ -440,7 +440,7 @@ index 45318dd5..c66e3275 100644
                    >
                      <SquareSplitVertical className="size-3.25" />
                    </TerminalActionButton>
-@@ -1958,7 +1959,7 @@ export default function ThreadTerminalDrawer({
+@@ -1952,7 +1953,7 @@ export default function ThreadTerminalDrawer({
                      disabled={!canOperateTerminal}
                      className="inline-flex h-full items-center border-l border-border/70 px-1 text-foreground/90 transition-colors hover:bg-accent/70"
                      onClick={onNewTerminalAction}
@@ -449,7 +449,7 @@ index 45318dd5..c66e3275 100644
                    >
                      <Plus className="size-3.25" />
                    </TerminalActionButton>
-@@ -1966,7 +1967,7 @@ export default function ThreadTerminalDrawer({
+@@ -1960,7 +1961,7 @@ export default function ThreadTerminalDrawer({
                      disabled={!canOperateTerminal}
                      className="inline-flex h-full items-center border-l border-border/70 px-1 text-foreground/90 transition-colors hover:bg-accent/70"
                      onClick={() => confirmCloseTerminal(resolvedActiveTerminalId)}
@@ -459,7 +459,7 @@ index 45318dd5..c66e3275 100644
                      <Trash2 className="size-3.25" />
                    </TerminalActionButton>
 diff --git a/apps/web/src/components/chat/ChangedFilesTree.tsx b/apps/web/src/components/chat/ChangedFilesTree.tsx
-index 6b49b814..27022146 100644
+index 5023da3a..fdbdcc8a 100644
 --- a/apps/web/src/components/chat/ChangedFilesTree.tsx
 +++ b/apps/web/src/components/chat/ChangedFilesTree.tsx
 @@ -1,3 +1,4 @@
@@ -467,7 +467,7 @@ index 6b49b814..27022146 100644
  import { useSyncLayout } from "@legendapp/list/react";
  import { type OrchestrationV2CheckpointFileTotals, type RunId } from "@t3tools/contracts";
  import { type MouseEvent, type ReactNode, memo, useLayoutEffect, useRef, useState } from "react";
-@@ -61,7 +62,7 @@ export const ChangedFilesCard = memo(function ChangedFilesCard(props: {
+@@ -66,7 +67,7 @@ export const ChangedFilesCard = memo(function ChangedFilesCard(props: {
        >
          <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-foreground">
            <span>
@@ -477,15 +477,15 @@ index 6b49b814..27022146 100644
            {hasNonZeroStat(totals) && (
              <DiffStatLabel
 diff --git a/apps/web/src/components/chat/ComposerPrimaryActions.tsx b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
-index cd37a818..e0f295f4 100644
+index ec9ec103..7e0d3d8d 100644
 --- a/apps/web/src/components/chat/ComposerPrimaryActions.tsx
 +++ b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
 @@ -1,3 +1,4 @@
 +import { displayKnown } from "~/acceptanceDisplayStrings";
  import { memo, type MouseEventHandler, type PointerEventHandler, type ReactNode } from "react";
- import { CheckIcon, ChevronLeftIcon, Minimize2Icon, PlayIcon } from "lucide-react";
- import { CornerUpRight, ListPlus } from "lucide";
-@@ -267,7 +268,7 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
+ import {
+   CheckIcon,
+@@ -272,7 +273,7 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
          isEnvironmentUnavailable ||
          (!hasSendableContent && !showResume)
        }
@@ -495,7 +495,7 @@ index cd37a818..e0f295f4 100644
        {stageBackdropVariant ? (
          <span className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
 diff --git a/apps/web/src/components/chat/MessagesTimeline.tsx b/apps/web/src/components/chat/MessagesTimeline.tsx
-index 09f8155c..6f774e5a 100644
+index a2b39ffd..9cf7f2ce 100644
 --- a/apps/web/src/components/chat/MessagesTimeline.tsx
 +++ b/apps/web/src/components/chat/MessagesTimeline.tsx
 @@ -1,3 +1,4 @@
@@ -503,7 +503,7 @@ index 09f8155c..6f774e5a 100644
  import { threadEnvironment } from "../../state/threads";
  import { useAtomCommand } from "../../state/use-atom-command";
  import type { ToolCallDiffTarget } from "../../diffPanelStore";
-@@ -1635,7 +1636,7 @@ function TurnFoldTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "turn-
+@@ -1667,7 +1668,7 @@ function TurnFoldTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "turn-
            className="flex cursor-pointer select-none items-center gap-1 rounded-md px-1 text-sm leading-relaxed text-muted-foreground tabular-nums transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/70"
          >
            <span>
@@ -511,10 +511,10 @@ index 09f8155c..6f774e5a 100644
 +            {displayFold(row.label)}
              {error ? ` · ${error}` : ""}
            </span>
-           <MorphIcon className="size-3.5" icon={row.expanded ? ChevronDown : ChevronRight} />
-@@ -1673,7 +1674,7 @@ function AttemptFoldTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "at
-           icon={row.expanded ? ChevronDown : ChevronRight}
-         />
+           {row.expanded ? (
+@@ -1710,7 +1711,7 @@ function AttemptFoldTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "at
+           <ChevronRightIcon className="size-3.5 shrink-0 text-muted-foreground" />
+         )}
          <span className="text-xs font-medium text-foreground/80">
 -          {row.label}
 +          {displayFold(row.label)}
@@ -549,15 +549,15 @@ index a19491ad..aca9befd 100644
        </ThreadDetailsControl>
        {isPanel ? (
 diff --git a/apps/web/src/components/chat/PanelLayoutControls.tsx b/apps/web/src/components/chat/PanelLayoutControls.tsx
-index 56d93123..8a6298c5 100644
+index e64e9019..aa6949b9 100644
 --- a/apps/web/src/components/chat/PanelLayoutControls.tsx
 +++ b/apps/web/src/components/chat/PanelLayoutControls.tsx
 @@ -1,3 +1,4 @@
 +import { displayKnown } from "~/acceptanceDisplayStrings";
- import { PanelBottomIcon, PanelRightIcon, SquareMenuIcon } from "lucide-react";
- import { Maximize2, Minimize2 } from "lucide";
- import { MorphIcon } from "~/components/MorphIcon";
-@@ -148,7 +149,7 @@ export const RightPanelMaximizeControl = memo(function RightPanelMaximizeControl
+ import {
+   PanelBottomIcon,
+   PanelRightIcon,
+@@ -152,7 +153,7 @@ export const RightPanelMaximizeControl = memo(function RightPanelMaximizeControl
              className="shrink-0 [-webkit-app-region:no-drag]"
              pressed={maximized}
              onPressedChange={onToggle}
@@ -566,7 +566,7 @@ index 56d93123..8a6298c5 100644
              variant="ghost"
              size="sm"
            >
-@@ -156,7 +157,7 @@ export const RightPanelMaximizeControl = memo(function RightPanelMaximizeControl
+@@ -164,7 +165,7 @@ export const RightPanelMaximizeControl = memo(function RightPanelMaximizeControl
            </Toggle>
          }
        />
@@ -576,7 +576,7 @@ index 56d93123..8a6298c5 100644
    );
  });
 diff --git a/apps/web/src/components/chat/TimelineWorkEntryRow.tsx b/apps/web/src/components/chat/TimelineWorkEntryRow.tsx
-index 95661d16..83f8feaa 100644
+index 5f63142a..88a83456 100644
 --- a/apps/web/src/components/chat/TimelineWorkEntryRow.tsx
 +++ b/apps/web/src/components/chat/TimelineWorkEntryRow.tsx
 @@ -1,3 +1,4 @@
@@ -584,7 +584,7 @@ index 95661d16..83f8feaa 100644
  import { TimelinePendingApprovalRow } from "./TimelinePendingApprovalRow";
  import { WorkLogDetails, WorkLogRow } from "./WorkLog";
  import {
-@@ -378,7 +379,7 @@ function WorkEntryLogRow(props: WorkEntryRowProps) {
+@@ -410,7 +411,7 @@ function WorkEntryLogRow(props: WorkEntryRowProps) {
      .filter(Boolean)
      .join(": ");
    const accessibleDisplayText = showFailedIndicator
@@ -878,7 +878,7 @@ index 90bf07fd..c081f7b2 100644
      setPrompt(nextValue);
      setCursor(nextCursor);
 diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/components/settings/SettingsPanels.tsx
-index 79d153cd..1afa4bac 100644
+index eeb1d145..0efb5507 100644
 --- a/apps/web/src/components/settings/SettingsPanels.tsx
 +++ b/apps/web/src/components/settings/SettingsPanels.tsx
 @@ -1,3 +1,4 @@
@@ -886,7 +886,7 @@ index 79d153cd..1afa4bac 100644
  import { useAtomValue } from "@effect/atom-react";
  import { NotificationSettings } from "./NotificationSettings";
  import { PRIVACY_POLICY_URL } from "../../legalLinks";
-@@ -306,7 +307,7 @@ function AboutVersionSection() {
+@@ -310,7 +311,7 @@ function AboutVersionSection() {
        <SettingsRow
          id={searchableSetting("app-version").id}
          title={<AboutVersionTitle />}
@@ -895,7 +895,7 @@ index 79d153cd..1afa4bac 100644
          managed={updatesDenial}
          control={
            <Tooltip>
-@@ -318,7 +319,7 @@ function AboutVersionSection() {
+@@ -322,7 +323,7 @@ function AboutVersionSection() {
                    disabled={buttonDisabled || isUpdateActionPending}
                    onClick={handleButtonClick}
                  >
@@ -904,7 +904,7 @@ index 79d153cd..1afa4bac 100644
                  </Button>
                }
              />
-@@ -1195,12 +1196,7 @@ export function ChatSettingsPanel() {
+@@ -1203,12 +1204,7 @@ export function ChatSettingsPanel() {
        <SettingsSection id="follow-ups" title="Follow-ups">
          <SettingsRow
            {...searchableSetting("follow-up-behavior")}
@@ -918,7 +918,7 @@ index 79d153cd..1afa4bac 100644
            resetAction={
              settings.followUpBehavior !== DEFAULT_UNIFIED_SETTINGS.followUpBehavior ? (
                <SettingResetButton
-@@ -1851,7 +1847,9 @@ export function ThreadsSettingsPanel() {
+@@ -1919,7 +1915,9 @@ export function ThreadsSettingsPanel() {
                    instanceEntries={textGenerationModelInstanceEntries}
                    modelOptionsByInstance={textGenerationModelOptionsByInstance}
                    triggerClassName={SETTINGS_PICKER_TRIGGER_CLASSNAME}
@@ -929,7 +929,7 @@ index 79d153cd..1afa4bac 100644
                    getModelDisabledReason={textGenerationModelDisabledReason}
                    {...(environmentId
                      ? {
-@@ -1928,7 +1926,7 @@ export function ThreadsSettingsPanel() {
+@@ -1996,7 +1994,7 @@ export function ThreadsSettingsPanel() {
              description={
                mixedResponseStreamingMode
                  ? "The selected targets use different streaming modes."
@@ -959,7 +959,7 @@ index 17a6094b..5abe1963 100644
              className={cn(
                // The accent ring marks the picked tile; focus is a neutral ring set inside it with a gap.
 diff --git a/apps/web/src/components/sidebar/SidebarUpdatePill.tsx b/apps/web/src/components/sidebar/SidebarUpdatePill.tsx
-index 6871b914..98b5b414 100644
+index 3c18b2c7..2858fdc3 100644
 --- a/apps/web/src/components/sidebar/SidebarUpdatePill.tsx
 +++ b/apps/web/src/components/sidebar/SidebarUpdatePill.tsx
 @@ -1,3 +1,4 @@
@@ -967,7 +967,7 @@ index 6871b914..98b5b414 100644
  import {
    type DesktopBridge,
    type DesktopUpdateState,
-@@ -452,7 +453,7 @@ function SidebarUpdateControl() {
+@@ -462,7 +463,7 @@ function SidebarUpdateControl() {
    const updateButton = (
      <button
        type="button"
@@ -976,7 +976,7 @@ index 6871b914..98b5b414 100644
        aria-disabled={isInteractionDisabled || undefined}
        className={cn(
          "inline-flex size-8 items-center justify-center rounded-full outline-hidden ring-ring transition-colors focus-visible:ring-2 focus-visible:ring-inset",
-@@ -543,7 +544,7 @@ function SidebarUpdateControl() {
+@@ -553,7 +554,7 @@ function SidebarUpdateControl() {
                    <div className="text-muted-foreground">{idleTooltip.detail}</div>
                  </div>
                ) : (
@@ -985,7 +985,7 @@ index 6871b914..98b5b414 100644
                )}
              </TooltipPopup>
            ) : null}
-@@ -568,7 +569,7 @@ function SidebarUpdateControl() {
+@@ -578,7 +579,7 @@ function SidebarUpdateControl() {
              <SidebarUpdateReleaseNotes
                shell={window.desktopBridge}
                state={state}
@@ -995,7 +995,7 @@ index 6871b914..98b5b414 100644
            </PopoverPopup>
          ) : null}
 diff --git a/apps/web/src/components/ui/sidebar.tsx b/apps/web/src/components/ui/sidebar.tsx
-index 8099eae7..89838658 100644
+index 42f7c78e..ec0d6844 100644
 --- a/apps/web/src/components/ui/sidebar.tsx
 +++ b/apps/web/src/components/ui/sidebar.tsx
 @@ -1,3 +1,4 @@
@@ -1003,7 +1003,7 @@ index 8099eae7..89838658 100644
  import { mergeProps } from "@base-ui/react/merge-props";
  import { useRender } from "@base-ui/react/use-render";
  import { cva, type VariantProps } from "class-variance-authority";
-@@ -550,7 +551,7 @@ function SidebarRail({
+@@ -549,7 +550,7 @@ function SidebarRail({
        <TooltipTrigger
          render={
            <button
@@ -1013,7 +1013,7 @@ index 8099eae7..89838658 100644
                /* A collapsed offcanvas rail overlaps the native scrollbar on Windows and Linux. */
                "-translate-x-1/2 group-data-[side=left]:-right-4 absolute inset-y-0 z-20 hidden w-4 after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-sidebar-border group-data-[side=right]:left-0 sm:flex [[data-collapsible=offcanvas][data-state=collapsed]_&]:pointer-events-none",
 diff --git a/apps/web/src/components/usage/UsageLimits.tsx b/apps/web/src/components/usage/UsageLimits.tsx
-index 43ee023a..e8fb485b 100644
+index e41aa209..2d23b3e8 100644
 --- a/apps/web/src/components/usage/UsageLimits.tsx
 +++ b/apps/web/src/components/usage/UsageLimits.tsx
 @@ -1,3 +1,4 @@
@@ -1021,7 +1021,7 @@ index 43ee023a..e8fb485b 100644
  import {
    AuthProvidersManageScope,
    type EnvironmentId,
-@@ -130,7 +131,7 @@ function WindowBar({
+@@ -131,7 +132,7 @@ function WindowBar({
    const resetsAt = window.resetsAt
      ? formatUpcomingTimestamp(window.resetsAt, timestampFormat, now)
      : null;
@@ -1030,7 +1030,7 @@ index 43ee023a..e8fb485b 100644
      timeLeft === null ? "" : `, ${timeLeft}% of the window left`
    }${resetsIn ? `, ${resetsIn}` : ""}`;
 
-@@ -213,7 +214,7 @@ export function LimitWindows({
+@@ -214,7 +215,7 @@ export function LimitWindows({
          return (
            <Fragment key={window.id}>
              <span className="flex min-w-0 items-center gap-2 text-xs">

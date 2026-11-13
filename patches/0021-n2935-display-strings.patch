@@ -1,18 +1,18 @@
 # 0021 n2935 display strings
-# 基线 v0.1.8；在 0020 后应用。
+# 基线 v0.1.9；在 0020 后应用。
 # 清理结果、计数及精确理由名单，只在显示处翻译；Automatic 只包固定回退。
 # T26（v0.1.3）：项目默认设置的模型行不再显示 Automatic 状态（上游并入说明文字），该 hunk 已退役。
 # T30（v0.1.8）：上游 #33209 删除向导 ImportStep，「Import N project(s)」按钮改为新文案「Import N projects and start / and their threads」（保留英文），该 hunk 退役。
 diff --git a/apps/web/src/components/CommandPaletteResults.tsx b/apps/web/src/components/CommandPaletteResults.tsx
-index 969dda37..ea4e225a 100644
+index 8e78e09b..cdcfecf7 100644
 --- a/apps/web/src/components/CommandPaletteResults.tsx
 +++ b/apps/web/src/components/CommandPaletteResults.tsx
 @@ -1,3 +1,4 @@
 +import { translateFixed } from "~/newThreadDisplayStrings";
  import { displayKnown, displayRelativeTime } from "~/acceptanceDisplayStrings";
+ import { startPaletteThreadDrag } from "./CommandPalette.drag";
  import { useLegendListRef } from "~/hooks/useLegendListRef";
- import { type ResolvedKeybindingsConfig } from "@t3tools/contracts";
-@@ -202,7 +203,7 @@ function DisabledCommandPaletteResultRow(props: {
+@@ -211,7 +212,7 @@ function DisabledCommandPaletteResultRow(props: {
          <span className="flex min-w-0 flex-1 flex-col">
            <span className="flex min-w-0 items-center gap-1.5 text-sm text-foreground">
              {props.item.titleLeadingContent}
@@ -21,7 +21,7 @@ index 969dda37..ea4e225a 100644
              <ThreadRowContext item={props.item} />
            </span>
            {props.item.threadContentMatch ? (
-@@ -211,14 +212,14 @@ function DisabledCommandPaletteResultRow(props: {
+@@ -220,14 +221,14 @@ function DisabledCommandPaletteResultRow(props: {
              <SearchMatchHintLine hint={props.item.matchHint} />
            ) : props.item.description ? (
              <span className="min-w-0 text-muted-foreground/70 text-xs">
@@ -38,7 +38,7 @@ index 969dda37..ea4e225a 100644
          </span>
        )}
        {props.item.titleTrailingContent}
-@@ -254,7 +255,7 @@ function CommandPaletteResultRow(props: {
+@@ -273,7 +274,7 @@ function CommandPaletteResultRow(props: {
          <span className="flex min-w-0 flex-1 flex-col">
            <span className="flex min-w-0 items-center gap-1.5 text-sm text-foreground">
              {props.item.titleLeadingContent}
@@ -47,7 +47,7 @@ index 969dda37..ea4e225a 100644
              <ThreadRowContext item={props.item} />
            </span>
            {props.item.threadContentMatch ? (
-@@ -263,14 +264,14 @@ function CommandPaletteResultRow(props: {
+@@ -282,14 +283,14 @@ function CommandPaletteResultRow(props: {
              <SearchMatchHintLine hint={props.item.matchHint} />
            ) : props.item.description ? (
              <span className="min-w-0 text-muted-foreground/70 text-xs">
@@ -65,7 +65,7 @@ index 969dda37..ea4e225a 100644
        )}
        {props.item.titleTrailingContent}
 diff --git a/apps/web/src/components/RightPanelTabs.tsx b/apps/web/src/components/RightPanelTabs.tsx
-index b5534780..5614ba4b 100644
+index 09135e72..e4a9d4c8 100644
 --- a/apps/web/src/components/RightPanelTabs.tsx
 +++ b/apps/web/src/components/RightPanelTabs.tsx
 @@ -1,3 +1,4 @@
@@ -92,7 +92,7 @@ index b5534780..5614ba4b 100644
        sensors={sensors}
        collisionDetection={closestCenter}
        modifiers={TAB_DRAG_MODIFIERS}
-@@ -1353,7 +1359,11 @@ export function RightPanelTabs(props: RightPanelTabsProps) {
+@@ -1358,7 +1364,11 @@ export function RightPanelTabs(props: RightPanelTabsProps) {
            data-right-panel-tab-list
          >
            <div className="flex h-full w-max min-w-full items-center gap-1">

@@ -1,7 +1,7 @@
 # 0008-inline-value-display-strings.patch
 #
 # 2702 新增的七处「英文句子中间嵌一个运行时值」的显示文字，只在显示处翻译（T10-fix1，reviews/T10-r1.md I3）。
-# 基线 v0.1.8；复用 0007 新增的 apps/web/src/newThreadDisplayStrings.ts，须在 0007 之后应用。
+# 基线 v0.1.9；复用 0007 新增的 apps/web/src/newThreadDisplayStrings.ts，须在 0007 之后应用。
 #
 # 原因：这些句子是文字与表达式混排的 JSX（其中一处还带复数后缀 `{n === 1 ? "" : "s"}`），插件按 CONVENTIONS §4
 # 记 mixed-jsx 跳过，交付包里直接显示英文。
@@ -24,7 +24,7 @@
 # 测试：plugin/__tests__/inline-value-display-strings.test.ts。上游更新后重做方法见 patches/README.md。
 #
 diff --git a/apps/web/src/components/chat/HtmlRenderFrame.tsx b/apps/web/src/components/chat/HtmlRenderFrame.tsx
-index 93764ade..2faa7c5d 100644
+index 767f4bc3..32f64c57 100644
 --- a/apps/web/src/components/chat/HtmlRenderFrame.tsx
 +++ b/apps/web/src/components/chat/HtmlRenderFrame.tsx
 @@ -1,3 +1,4 @@
@@ -69,7 +69,7 @@ index 8d314a1b..7778fd8a 100644
      </div>
    );
 diff --git a/apps/web/src/components/files/AttachmentFilePreview.tsx b/apps/web/src/components/files/AttachmentFilePreview.tsx
-index 8a95cfec..1dcacc15 100644
+index 1f70074e..8be9a6aa 100644
 --- a/apps/web/src/components/files/AttachmentFilePreview.tsx
 +++ b/apps/web/src/components/files/AttachmentFilePreview.tsx
 @@ -1,3 +1,4 @@
@@ -77,7 +77,7 @@ index 8a95cfec..1dcacc15 100644
  import { filePreviewDelimiter } from "@t3tools/shared/delimitedPreview";
  import type { AssetResource, EnvironmentId, ScopedThreadRef } from "@t3tools/contracts";
  import { formatAttachmentSize } from "@t3tools/client-runtime/state/attachments";
-@@ -468,9 +469,15 @@ export function AttachmentFilePreview(props: {
+@@ -480,9 +481,15 @@ export function AttachmentFilePreview(props: {
        </div>
        {content?.truncated ? (
          <FileSurfaceNotice>

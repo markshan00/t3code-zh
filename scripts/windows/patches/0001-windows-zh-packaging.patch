@@ -1,7 +1,7 @@
 # 0001-windows-zh-packaging.patch（仅 Windows 构建，T21-W）
 #
 # 由 scripts/windows/prepare-source.ts 在共享 patches/ 全部应用之后、仅当 --platform win 时应用；
-# Mac 交付构建（scripts/build-zh.sh）不使用本补丁。基线 v0.1.8（bf469bb19669671d0df2efda74ed73867a7137c0）。
+# Mac 交付构建（scripts/build-zh.sh）不使用本补丁。基线 v0.1.9（24e77473ecf41bc1f7142529c7911c1c1aae1d76；scripts/build-desktop-artifact.ts 与 v0.1.8 逐字节相同，本补丁无需重做）。
 #
 # 只改打包脚本 scripts/build-desktop-artifact.ts（不进 app），三处，都只影响 platform === "win"：
 #   1. electronLanguages 在 Windows 上额外保留 "zh-CN"：win-unpacked/locales/zh-CN.pak 打进包，
@@ -14,7 +14,7 @@
 #      （共享补丁 0019 的 T3-Code-LICENSE.txt、本补丁的 zh-CN.pak）；+30 给 Windows 主机打包时 afterPack
 #      生成的 resources/server-compile-cache/（v0.1.8 实测 22 个文件；上游在 Linux 交叉打包，跳过该步骤，不计入 80）。
 #
-# 上游改了这几处时：按 v0.1.8 原文重做，git apply --check 通过后再跑 scripts/windows/windows-ci.test.ts。
+# 上游改了这几处时：按 v0.1.9 原文重做，git apply --check 通过后再跑 scripts/windows/windows-ci.test.ts。
 #
 diff --git a/scripts/build-desktop-artifact.ts b/scripts/build-desktop-artifact.ts
 index 2fff491..3cd89f6 100644
