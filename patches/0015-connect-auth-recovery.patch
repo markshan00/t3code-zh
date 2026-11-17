@@ -1,13 +1,16 @@
 # Mark explicitly authorized this functional recovery fix on 2026-10-07.
-# Baseline: v0.1.9 / 24e77473ecf41bc1f7142529c7911c1c1aae1d76
+# Baseline: v0.1.10 / 7d32075e3757ded707914e2450c3e392a9665765
 # Keep T3 Connect loading/failure visible and offer a manual renderer reload.
 # Does not change auth sessions, scopes, account state or SDK dependencies.
+# T33 / v0.1.10: #23620 added clerkLoadFailure.ts (a Retry entry inside the configured sign-in when
+#   useClerk().status is "error"). It is kept but shadowed: the configured sign-in renders only inside
+#   <ClerkLoaded>, so a failed load still shows this patch's recovery. The behavior test mocks useClerk.
 diff --git a/apps/web/src/components/clerk/T3ConnectSidebarSignIn.behavior.browser.test.tsx b/apps/web/src/components/clerk/T3ConnectSidebarSignIn.behavior.browser.test.tsx
 new file mode 100644
-index 00000000..15792eec
+index 00000000..3932c2b8
 --- /dev/null
 +++ b/apps/web/src/components/clerk/T3ConnectSidebarSignIn.behavior.browser.test.tsx
-@@ -0,0 +1,159 @@
+@@ -0,0 +1,161 @@
 +import type { ComponentProps, PropsWithChildren } from "react";
 +import { act, render as renderDom, type Screen } from "../../../test/render";
 +import { afterEach, beforeEach, expect, it, vi } from "vite-plus/test";
@@ -40,6 +43,8 @@ index 00000000..15792eec
 +    ClerkFailed: ({ children }: PropsWithChildren) => { useSnapshot(); return auth.status === "error" ? children : null; },
 +    ClerkLoaded: ({ children }: PropsWithChildren) => { useSnapshot(); return loaded() ? children : null; },
 +    useAuth: () => { useSnapshot(); return { isLoaded: auth.authLoaded ?? loaded(), isSignedIn: auth.signedIn }; },
++    // v0.1.10 (#23620): the configured sign-in also reads useClerk().status via clerkLoadFailure.ts.
++    useClerk: () => { useSnapshot(); return { status: auth.status }; },
 +    UserButton,
 +  };
 +});
@@ -168,22 +173,22 @@ index 00000000..15792eec
 +  expect(vi.getTimerCount()).toBe(0);
 +});
 diff --git a/apps/web/src/components/clerk/T3ConnectSidebarSignIn.tsx b/apps/web/src/components/clerk/T3ConnectSidebarSignIn.tsx
-index 6b66bed8..4688c823 100644
+index cb00e5ab..dc4d261c 100644
 --- a/apps/web/src/components/clerk/T3ConnectSidebarSignIn.tsx
 +++ b/apps/web/src/components/clerk/T3ConnectSidebarSignIn.tsx
-@@ -1,15 +1,29 @@
+@@ -1,8 +1,10 @@
 -import { UserButton, useAuth } from "@clerk/react";
--import { LogInIcon } from "lucide-react";
 +import { ClerkFailed, ClerkLoaded, ClerkLoading, UserButton, useAuth } from "@clerk/react";
-+import { LogInIcon, RotateCwIcon } from "lucide-react";
+ import { LogInIcon, RotateCwIcon } from "lucide-react";
 +import { useEffect, useState } from "react";
 
  import { hasCloudPublicConfig } from "../../cloud/publicConfig";
  import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 +import { Button } from "../ui/button";
+ import { retryClerkLoad, useClerkLoadFailed } from "./clerkLoadFailure";
  import { T3_CONNECT_ACCOUNT_PAGES } from "./T3ConnectAccountPages";
  import { useT3ConnectAuthPrompt } from "./useT3ConnectAuthPrompt";
-
+@@ -10,7 +12,19 @@ import { useT3ConnectAuthPrompt } from "./useT3ConnectAuthPrompt";
  export function T3ConnectSidebarSignIn() {
    if (!hasCloudPublicConfig()) return null;
 
@@ -204,17 +209,17 @@ index 6b66bed8..4688c823 100644
  }
 
  export function T3ConnectSidebarAvatar() {
-@@ -51,7 +65,8 @@ function ConfiguredT3ConnectSidebarSignIn() {
-   const { isLoaded, isSignedIn } = useAuth();
-   const { openAuthPrompt } = useT3ConnectAuthPrompt();
-
+@@ -65,7 +79,8 @@ function ConfiguredT3ConnectSidebarSignIn() {
+       </SidebarMenu>
+     );
+   }
 -  if (!isLoaded || isSignedIn) return null;
 +  if (!isLoaded) return <T3ConnectAuthRecovery loading />;
 +  if (isSignedIn) return null;
 
    return (
      <SidebarMenu>
-@@ -64,3 +79,44 @@ function ConfiguredT3ConnectSidebarSignIn() {
+@@ -78,3 +93,44 @@ function ConfiguredT3ConnectSidebarSignIn() {
      </SidebarMenu>
    );
  }

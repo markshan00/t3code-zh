@@ -1,10 +1,10 @@
 # 0021 n2935 display strings
-# 基线 v0.1.9；在 0020 后应用。
+# 基线 v0.1.10；在 0020 后应用。
 # 清理结果、计数及精确理由名单，只在显示处翻译；Automatic 只包固定回退。
 # T26（v0.1.3）：项目默认设置的模型行不再显示 Automatic 状态（上游并入说明文字），该 hunk 已退役。
 # T30（v0.1.8）：上游 #33209 删除向导 ImportStep，「Import N project(s)」按钮改为新文案「Import N projects and start / and their threads」（保留英文），该 hunk 退役。
 diff --git a/apps/web/src/components/CommandPaletteResults.tsx b/apps/web/src/components/CommandPaletteResults.tsx
-index 8e78e09b..cdcfecf7 100644
+index 41c51840..ec6566b4 100644
 --- a/apps/web/src/components/CommandPaletteResults.tsx
 +++ b/apps/web/src/components/CommandPaletteResults.tsx
 @@ -1,3 +1,4 @@
@@ -38,7 +38,7 @@ index 8e78e09b..cdcfecf7 100644
          </span>
        )}
        {props.item.titleTrailingContent}
-@@ -273,7 +274,7 @@ function CommandPaletteResultRow(props: {
+@@ -276,7 +277,7 @@ function CommandPaletteResultRow(props: {
          <span className="flex min-w-0 flex-1 flex-col">
            <span className="flex min-w-0 items-center gap-1.5 text-sm text-foreground">
              {props.item.titleLeadingContent}
@@ -47,7 +47,7 @@ index 8e78e09b..cdcfecf7 100644
              <ThreadRowContext item={props.item} />
            </span>
            {props.item.threadContentMatch ? (
-@@ -282,14 +283,14 @@ function CommandPaletteResultRow(props: {
+@@ -285,14 +286,14 @@ function CommandPaletteResultRow(props: {
              <SearchMatchHintLine hint={props.item.matchHint} />
            ) : props.item.description ? (
              <span className="min-w-0 text-muted-foreground/70 text-xs">
@@ -65,7 +65,7 @@ index 8e78e09b..cdcfecf7 100644
        )}
        {props.item.titleTrailingContent}
 diff --git a/apps/web/src/components/RightPanelTabs.tsx b/apps/web/src/components/RightPanelTabs.tsx
-index 09135e72..e4a9d4c8 100644
+index a941f3a7..2930b195 100644
 --- a/apps/web/src/components/RightPanelTabs.tsx
 +++ b/apps/web/src/components/RightPanelTabs.tsx
 @@ -1,3 +1,4 @@
@@ -73,7 +73,7 @@ index 09135e72..e4a9d4c8 100644
  import { sourceControlClients } from "@t3tools/client-runtime/source-control-clients";
  import { scopeThreadRef } from "@t3tools/client-runtime/environment";
  import {
-@@ -829,6 +830,7 @@ function PullRequestSurfaceIcon({
+@@ -826,6 +827,7 @@ function PullRequestSurfaceIcon({
  function SortableTabList(props: {
    surfaces: readonly RightPanelSurface[];
    onMove: ((surfaceId: string, toIndex: number) => void) | undefined;
@@ -81,7 +81,7 @@ index 09135e72..e4a9d4c8 100644
    children: ReactNode;
  }) {
    const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
-@@ -841,6 +843,10 @@ function SortableTabList(props: {
+@@ -838,6 +840,10 @@ function SortableTabList(props: {
    };
    return (
      <DndContext
@@ -92,7 +92,7 @@ index 09135e72..e4a9d4c8 100644
        sensors={sensors}
        collisionDetection={closestCenter}
        modifiers={TAB_DRAG_MODIFIERS}
-@@ -1358,7 +1364,11 @@ export function RightPanelTabs(props: RightPanelTabsProps) {
+@@ -1366,7 +1372,11 @@ export function RightPanelTabs(props: RightPanelTabsProps) {
            data-right-panel-tab-list
          >
            <div className="flex h-full w-max min-w-full items-center gap-1">
@@ -106,10 +106,10 @@ index 09135e72..e4a9d4c8 100644
                  const previewTabId = previewTabIdOf(surface, props.previewSessions);
                  const favicon = previewFaviconOf(
 diff --git a/apps/web/src/components/settings/ProjectSettingsPanel.tsx b/apps/web/src/components/settings/ProjectSettingsPanel.tsx
-index 143f5fc9..0cc811d8 100644
+index cd2c0cb5..60f205a3 100644
 --- a/apps/web/src/components/settings/ProjectSettingsPanel.tsx
 +++ b/apps/web/src/components/settings/ProjectSettingsPanel.tsx
-@@ -570,7 +570,7 @@ function ProjectDetail({
+@@ -581,7 +581,7 @@ function ProjectDetail({
                    ? `${projectIcon.text} · ${projectIcon.color}`
                    : projectIcon?.kind === "emoji"
                      ? projectIcon.emoji
@@ -137,7 +137,7 @@ index 8f83f137..9d6efe7a 100644
              ? "Text generation model"
              : key === "reviewGuideModelSelection"
 diff --git a/apps/web/src/components/settings/StorageSettings.tsx b/apps/web/src/components/settings/StorageSettings.tsx
-index 28f031b5..80924942 100644
+index 312fdde3..98a75386 100644
 --- a/apps/web/src/components/settings/StorageSettings.tsx
 +++ b/apps/web/src/components/settings/StorageSettings.tsx
 @@ -1,3 +1,5 @@
@@ -146,7 +146,7 @@ index 28f031b5..80924942 100644
  import type {
    StorageCleanupReport,
    StorageCleanupSettings,
-@@ -209,14 +211,18 @@ function CleanupResults({
+@@ -296,14 +298,18 @@ function CleanupResults({
              : entry.kind === "logs"
                ? "Rotated logs"
                : "Browser artifacts";
@@ -167,7 +167,7 @@ index 28f031b5..80924942 100644
                  </span>
                  <span className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-1 border-l border-border/60 pl-3">
                    <span>Machine</span>
-@@ -248,7 +254,7 @@ function CleanupResults({
+@@ -335,7 +341,7 @@ function CleanupResults({
                  <span className="text-xs text-muted-foreground">
                    {[
                      entry.kind !== "worktree" && entry.files !== null
@@ -176,7 +176,7 @@ index 28f031b5..80924942 100644
                        : null,
                      entry.bytes !== null ? formatBytes(entry.bytes) : null,
                    ]
-@@ -262,12 +268,12 @@ function CleanupResults({
+@@ -349,12 +355,12 @@ function CleanupResults({
        })}
        {report.omittedCount > 0 && (
          <p className="px-3 py-2.5 text-xs text-muted-foreground sm:px-4">
@@ -191,7 +191,7 @@ index 28f031b5..80924942 100644
          </p>
        )}
      </>
-@@ -333,10 +339,10 @@ function CleanupSection() {
+@@ -420,10 +426,10 @@ function CleanupSection() {
        report,
        label: settingsScopeEnvironmentLabel(environment, connectedEnvironments),
        counts: report
@@ -204,7 +204,7 @@ index 28f031b5..80924942 100644
          : query?.failed
            ? "Could not load the last run."
            : query?.loading
-@@ -359,13 +365,13 @@ function CleanupSection() {
+@@ -446,13 +452,13 @@ function CleanupSection() {
              if (failures.length > 0)
                toastManager.add({
                  type: "error",

@@ -2,7 +2,7 @@
 # New guide, prompt link, workflow, telemetry and update interfaces use fixed skeletons.
 # Also removes a Chinese cleanup spacing artifact and extracts the existing GitCafe predicate.
 diff --git a/apps/web/src/components/CommandPaletteResults.tsx b/apps/web/src/components/CommandPaletteResults.tsx
-index cdcfecf7..b992b5ad 100644
+index ec6566b4..c53fdf97 100644
 --- a/apps/web/src/components/CommandPaletteResults.tsx
 +++ b/apps/web/src/components/CommandPaletteResults.tsx
 @@ -1,3 +1,4 @@
@@ -36,7 +36,7 @@ index cdcfecf7..b992b5ad 100644
          </span>
        )}
        {props.item.titleTrailingContent}
-@@ -274,7 +275,7 @@ function CommandPaletteResultRow(props: {
+@@ -277,7 +278,7 @@ function CommandPaletteResultRow(props: {
          <span className="flex min-w-0 flex-1 flex-col">
            <span className="flex min-w-0 items-center gap-1.5 text-sm text-foreground">
              {props.item.titleLeadingContent}
@@ -45,7 +45,7 @@ index cdcfecf7..b992b5ad 100644
              <ThreadRowContext item={props.item} />
            </span>
            {props.item.threadContentMatch ? (
-@@ -283,14 +284,14 @@ function CommandPaletteResultRow(props: {
+@@ -286,14 +287,14 @@ function CommandPaletteResultRow(props: {
              <SearchMatchHintLine hint={props.item.matchHint} />
            ) : props.item.description ? (
              <span className="min-w-0 text-muted-foreground/70 text-xs">
@@ -224,7 +224,7 @@ index 7f1de5c5..9ab80d15 100644
              </DialogDescription>
            </DialogHeader>
 diff --git a/apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx b/apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx
-index cf1c248a..e8cc9ac9 100644
+index 28b9898e..0064deca 100644
 --- a/apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx
 +++ b/apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx
 @@ -1,3 +1,5 @@
@@ -233,7 +233,7 @@ index cf1c248a..e8cc9ac9 100644
  import type {
    DiffLineAnnotation,
    FileDiffContentsLoader,
-@@ -167,13 +169,12 @@ export function GuideExcerpt({
+@@ -139,13 +141,12 @@ export function GuideExcerpt({
          />
        ) : loading ? (
          <p className="rounded-lg border border-border/60 px-3 py-2 text-xs text-muted-foreground">
@@ -249,7 +249,7 @@ index cf1c248a..e8cc9ac9 100644
            </span>
            <Button size="xs" variant="outline" onClick={() => onOpenFile(excerpt.path)}>
              Open in Code
-@@ -360,8 +361,7 @@ function ExcerptDiff({
+@@ -332,8 +333,7 @@ function ExcerptDiff({
          renderHeaderMetadata={() => (
            <span className="flex items-center gap-2 text-xs text-muted-foreground">
              <span className="tabular-nums">
@@ -324,7 +324,7 @@ index 3599defc..77a94a12 100644
              </Button>
            ) : onFinish !== null ? (
 diff --git a/apps/web/src/components/pullRequest/guide/GuideTour.tsx b/apps/web/src/components/pullRequest/guide/GuideTour.tsx
-index 81074bef..33fd8ddb 100644
+index 2014eb16..fdd49daa 100644
 --- a/apps/web/src/components/pullRequest/guide/GuideTour.tsx
 +++ b/apps/web/src/components/pullRequest/guide/GuideTour.tsx
 @@ -1,3 +1,4 @@
@@ -332,7 +332,7 @@ index 81074bef..33fd8ddb 100644
  import type { EnvironmentId, PullRequestRef, PullRequestReviewGuide } from "@t3tools/contracts";
  import { useEffect, useEffectEvent, useRef, useState, type ReactNode } from "react";
 
-@@ -104,7 +105,7 @@ export function GuideTour({
+@@ -115,7 +116,7 @@ export function GuideTour({
            {banner}
            {diff.error !== null ? (
              <p className="text-xs text-muted-foreground">
@@ -425,7 +425,7 @@ index 5b635589..bf257b36 100644
                      ? ` ${formatUpdateElapsed(now - machine.startedAt)}`
                      : ""}
 diff --git a/apps/web/src/components/sidebar/UpdateEverythingDialog.tsx b/apps/web/src/components/sidebar/UpdateEverythingDialog.tsx
-index 86c1fd28..f598f564 100644
+index 586438bb..8f392e01 100644
 --- a/apps/web/src/components/sidebar/UpdateEverythingDialog.tsx
 +++ b/apps/web/src/components/sidebar/UpdateEverythingDialog.tsx
 @@ -1,3 +1,5 @@
@@ -443,7 +443,7 @@ index 86c1fd28..f598f564 100644
    const restarting = new Set(restarts.map((machine) => machine.environmentId));
    const updating = rows.filter((row) => row.app !== null || row.providers.length > 0);
    const skipped = rows.filter((row) => row.skipped !== null);
-@@ -210,7 +212,7 @@ function UpdateEverythingDialogContent({
+@@ -218,7 +220,7 @@ function UpdateEverythingDialogContent({
                        <span className="max-w-32 min-w-0">
                          <MiddleTruncate value={row.label} />
                        </span>
@@ -453,7 +453,7 @@ index 86c1fd28..f598f564 100644
                    ))}
                  </div>
 diff --git a/apps/web/src/components/sidebar/updateEverything.logic.ts b/apps/web/src/components/sidebar/updateEverything.logic.ts
-index cbbd3baa..cdc5e435 100644
+index d11292ab..e21bb60c 100644
 --- a/apps/web/src/components/sidebar/updateEverything.logic.ts
 +++ b/apps/web/src/components/sidebar/updateEverything.logic.ts
 @@ -1,3 +1,5 @@
@@ -462,7 +462,7 @@ index cbbd3baa..cdc5e435 100644
  import type { ServerUpdateState } from "@t3tools/client-runtime/state/server";
  import {
    type DesktopUpdateChannel,
-@@ -493,7 +495,7 @@ export function describeUpdateCapsule(
+@@ -504,7 +506,7 @@ export function describeUpdateCapsule(
    if (failed.length > 0) {
      return {
        tone: "failed",
@@ -471,7 +471,7 @@ index cbbd3baa..cdc5e435 100644
        action:
          !run.trackSwitch && failed.some(({ machine }) => machine.server !== null)
            ? "retry"
-@@ -556,7 +558,7 @@ export function getUpdateEverythingToastView(
+@@ -567,7 +569,7 @@ export function getUpdateEverythingToastView(
    readonly description?: string;
  } | null {
    const parts = [
@@ -480,7 +480,7 @@ index cbbd3baa..cdc5e435 100644
      countLabel(result.updatedServers, "server"),
      countLabel(result.updatedProviders, "provider"),
    ].filter((part) => part !== null);
-@@ -564,19 +566,19 @@ export function getUpdateEverythingToastView(
+@@ -575,19 +577,19 @@ export function getUpdateEverythingToastView(
      result.restarting.length === 0
        ? []
        : [
@@ -503,7 +503,7 @@ index cbbd3baa..cdc5e435 100644
      description: [...result.failures, ...restarting].join("\n"),
    };
  }
-@@ -608,10 +610,14 @@ export interface UpdateEverythingRow {
+@@ -619,10 +621,14 @@ export interface UpdateEverythingRow {
  }
 
  function countLabel(count: number, noun: string): string | null {
@@ -519,7 +519,7 @@ index cbbd3baa..cdc5e435 100644
    if (parts.length <= 2) return parts.join(" and ");
    return `${parts.slice(0, -1).join(", ")}, and ${parts.at(-1)}`;
  }
-@@ -627,13 +633,13 @@ export function describeUpdateEverything(plan: UpdateEverythingPlan): {
+@@ -638,13 +644,13 @@ export function describeUpdateEverything(plan: UpdateEverythingPlan): {
      (count, machine) => count + machine.providers.length,
      0,
    );

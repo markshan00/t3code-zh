@@ -1,5 +1,5 @@
 # v0.1.2 finite approval, Mermaid view and idle-compaction display strings.
-# Baseline v0.1.9; apply after 0024. Runtime tests: v012-display-strings.test.ts.
+# Baseline v0.1.10; apply after 0024. Runtime tests: v012-display-strings.test.ts.
 diff --git a/apps/web/src/components/chat/ComposerPendingApprovalActions.tsx b/apps/web/src/components/chat/ComposerPendingApprovalActions.tsx
 index 67860e45..9b508180 100644
 --- a/apps/web/src/components/chat/ComposerPendingApprovalActions.tsx
@@ -53,10 +53,10 @@ index cc0c8e7d..12c821d0 100644
          )
        }
 diff --git a/apps/web/src/components/chat/MessagesTimeline.logic.ts b/apps/web/src/components/chat/MessagesTimeline.logic.ts
-index e12ab2de..535ea112 100644
+index bedeca23..c691681e 100644
 --- a/apps/web/src/components/chat/MessagesTimeline.logic.ts
 +++ b/apps/web/src/components/chat/MessagesTimeline.logic.ts
-@@ -1228,7 +1228,7 @@ function deriveTurnFolds(input: {
+@@ -1254,7 +1254,7 @@ function deriveTurnFolds(input: {
          createdAt: steer.createdAt,
          hiddenEntryIds: segmentHiddenIds(entries),
          entryIds: new Set(entries.map((entry) => entry.id)),
@@ -141,7 +141,7 @@ index c425d560..f4578332 100644
              </Popover>
            ) : null}
 diff --git a/apps/web/src/components/chat/TimelineWorkGroupRows.tsx b/apps/web/src/components/chat/TimelineWorkGroupRows.tsx
-index 034d0e6e..c0403644 100644
+index 297736cf..9130a8ac 100644
 --- a/apps/web/src/components/chat/TimelineWorkGroupRows.tsx
 +++ b/apps/web/src/components/chat/TimelineWorkGroupRows.tsx
 @@ -1,3 +1,4 @@
@@ -149,7 +149,7 @@ index 034d0e6e..c0403644 100644
  import { displayLiveCommand } from "../../acceptanceDisplayStrings";
  import { displayFailedTool, displayWorkSummary } from "../../acceptanceDisplayStrings";
  import { TimelinePendingApprovalRow } from "./TimelinePendingApprovalRow";
-@@ -316,7 +317,6 @@ function BackgroundWorktreeSetupChip({ snapshot }: { snapshot: WorktreeSetupSnap
+@@ -385,7 +386,6 @@ function BackgroundWorktreeSetupChip({ snapshot }: { snapshot: WorktreeSetupSnap
    const terminalId = snapshot.setupScript?.terminalId ?? null;
    const openTerminal = ctx.onOpenWorktreeSetupTerminal;
    const onOpenTerminal = openTerminal && terminalId ? () => openTerminal(terminalId) : null;
@@ -157,7 +157,7 @@ index 034d0e6e..c0403644 100644
    return (
      <Popover>
        <PopoverTrigger
-@@ -325,7 +325,7 @@ function BackgroundWorktreeSetupChip({ snapshot }: { snapshot: WorktreeSetupSnap
+@@ -394,7 +394,7 @@ function BackgroundWorktreeSetupChip({ snapshot }: { snapshot: WorktreeSetupSnap
              variant="ghost-muted"
              size="micro"
              className="ml-auto min-w-0 shrink-0"
@@ -167,7 +167,7 @@ index 034d0e6e..c0403644 100644
          }
        >
 diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/components/settings/SettingsPanels.tsx
-index 0efb5507..512caddc 100644
+index 8e7a854d..7b024adc 100644
 --- a/apps/web/src/components/settings/SettingsPanels.tsx
 +++ b/apps/web/src/components/settings/SettingsPanels.tsx
 @@ -1,3 +1,4 @@
@@ -175,7 +175,7 @@ index 0efb5507..512caddc 100644
  import { displayKnown, displayFollowUp } from "~/acceptanceDisplayStrings";
  import { useAtomValue } from "@effect/atom-react";
  import { NotificationSettings } from "./NotificationSettings";
-@@ -1592,7 +1593,7 @@ function ScopedCompactIdleThreadsRow() {
+@@ -1688,7 +1689,7 @@ function ScopedCompactIdleThreadsRow() {
              <SelectValue>
                {(value: string | null) =>
                  value === null

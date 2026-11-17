@@ -1,6 +1,8 @@
-# 基线 v0.1.9 / 24e77473ecf41bc1f7142529c7911c1c1aae1d76；按编号顺序普通 apply。
+# 基线 v0.1.10 / 7d32075e3757ded707914e2450c3e392a9665765；按编号顺序普通 apply。
+# T33 / v0.1.10：#35341 在合并条 PoolBar 里加的 `$0 cap` 占位格随 PoolBar 一起删除（按账号分列不会留空白格）；
+#   保留 #34421 的窗口标题可隐藏（label 为 null），cursorUsageWindowDetails 的第二个参数传该账号自己的 accountPool。
 diff --git a/apps/web/src/components/usage/UsageLimitsPooled.tsx b/apps/web/src/components/usage/UsageLimitsPooled.tsx
-index d05ebbd1..9fa90818 100644
+index ce537459..c1a50146 100644
 --- a/apps/web/src/components/usage/UsageLimitsPooled.tsx
 +++ b/apps/web/src/components/usage/UsageLimitsPooled.tsx
 @@ -191,7 +191,7 @@ function SegmentPopover({
@@ -66,7 +68,7 @@ index d05ebbd1..9fa90818 100644
                  style={{
                    width: `${Math.min(100 - remaining, refillPercent)}%`,
                    backgroundImage: `repeating-linear-gradient(135deg, ${color} 0 1px, transparent 1px 5px)`,
-@@ -390,147 +384,16 @@ function SegmentTriggers({
+@@ -390,159 +384,16 @@ function SegmentTriggers({
          {paceMark ? (
            <span
              aria-hidden
@@ -205,6 +207,18 @@ index d05ebbd1..9fa90818 100644
 -              index={position + 1}
 -              showAccountName={pool.columns.length > 1}
 -            />
+-          ) : pool.kind === "monthly" && member.account.limits.zeroSpendCap ? (
+-            <div
+-              key={member.account.key}
+-              style={{ gridColumn: position + 1, gridRow: 1 }}
+-              className="flex h-5 min-w-0 items-center justify-center gap-1.5 overflow-hidden rounded-md border border-dashed border-border text-3xs whitespace-nowrap text-muted-foreground @2xl/pool:h-8 @2xl/pool:justify-start @2xl/pool:px-2 @2xl/pool:text-xs"
+-            >
+-              <AccountName
+-                account={member.account}
+-                className="hidden min-w-0 truncate @2xl/pool:inline-flex"
+-              />
+-              $0 cap
+-            </div>
 -          ) : null,
 -        )}
 -      </div>
@@ -216,8 +230,8 @@ index d05ebbd1..9fa90818 100644
  function PoolWindowCard({
    pool,
    color,
-@@ -544,38 +407,52 @@ function PoolWindowCard({
-   readonly label?: string | undefined;
+@@ -556,42 +407,54 @@ function PoolWindowCard({
+   readonly label?: string | null | undefined;
    readonly description?: string | undefined;
  }) {
 -  const nextRefill = pool.resets.find((reset) => reset.restoresPercent > 0);
@@ -228,7 +242,11 @@ index d05ebbd1..9fa90818 100644
    return (
 -    <div className="grid items-center gap-x-6 gap-y-3 rounded-lg border border-border/60 p-4 md:grid-cols-[11rem_minmax(0,1fr)]">
 -      <div className="flex flex-col gap-1">
--        <span className="text-sm font-medium text-foreground">{label !== undefined ? label : displayKnown(pool.label)}</span>
+-        {label !== null ? (
+-          <span className="text-sm font-medium text-foreground">
+-            {label !== undefined ? label : displayKnown(pool.label)}
+-          </span>
+-        ) : null}
 -        <span className="flex items-baseline gap-2">
 -          <span className="text-3xl font-semibold text-foreground tabular-nums">
 -            {pool.remainingPercent}%
@@ -238,9 +256,11 @@ index d05ebbd1..9fa90818 100644
 -            {pool.pace ? <PaceIcon pace={pool.pace} /> : null}
 -          </span>
 +    <div className="flex min-w-0 flex-col gap-3 py-5 first:pt-0 last:pb-0">
-+      <span className="text-xs font-medium text-muted-foreground">
-+        {label !== undefined ? label : displayKnown(pool.label)}
-+      </span>
++      {label !== null ? (
++        <span className="text-xs font-medium text-muted-foreground">
++          {label !== undefined ? label : displayKnown(pool.label)}
++        </span>
++      ) : null}
 +      <div className="flex items-baseline gap-2">
 +        <span className="text-3xl font-semibold text-foreground tabular-nums">
 +          {remainingPercent(member.window)}%
@@ -290,12 +310,13 @@ index d05ebbd1..9fa90818 100644
    return (
      <section className="flex flex-col gap-3">
        <h2 className="flex items-center gap-2 text-sm font-medium text-foreground">
-@@ -588,19 +465,39 @@ function PoolSection({ pool, now }: { readonly pool: LimitPool; readonly now: nu
+@@ -604,20 +467,42 @@ function PoolSection({ pool, now }: { readonly pool: LimitPool; readonly now: nu
          />
          {label}
        </h2>
 -      {windows.map((window) => {
--        const details = pool.driver === "cursor" ? cursorUsageWindowDetails(window.id) : undefined;
+-        const details =
+-          pool.driver === "cursor" ? cursorUsageWindowDetails(window.id, pool) : undefined;
 -        return (
 -          <PoolWindowCard
 -            key={`${window.kind}:${window.id}`}
@@ -323,7 +344,10 @@ index d05ebbd1..9fa90818 100644
 +              </header>
 +              <div className="flex min-w-0 flex-col divide-y divide-border/60">
 +                {displayLimitWindows(accountPool).map((window) => {
-+                  const details = pool.driver === "cursor" ? cursorUsageWindowDetails(window.id) : undefined;
++                  const details =
++                    pool.driver === "cursor"
++                      ? cursorUsageWindowDetails(window.id, accountPool)
++                      : undefined;
 +                  return (
 +                    <PoolWindowCard
 +                      key={`${window.kind}:${window.id}`}

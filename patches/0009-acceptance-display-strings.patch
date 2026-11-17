@@ -1,10 +1,13 @@
 # 0009-acceptance-display-strings.patch
-# Baseline: v0.1.9, apply after 0001–0008.
+# Baseline: v0.1.10, apply after 0001–0008.
 # Fix UI observations in reviews/T10-acceptance-codex.md.
 # Finite labels use an exact allowlist at display boundaries; dynamic values are
 # inserted after translating a sentinel skeleton. User content and stored values
 # stay unchanged. The font preview is a fixed local sample, never an agent prompt.
 # Tests: plugin/__tests__/acceptance-display-strings.test.ts.
+# T33 / v0.1.10: OpenInPicker (#35045) moved the primary aria-label into `primaryControlLabel` and added a
+#   tooltip; a display-only `primaryControlDisplayLabel` (translateFixed for the fixed compact label,
+#   displayOpenIn for `Open in <editor>`) feeds both. Data and comparisons are unchanged.
 diff --git a/apps/web/src/acceptanceDisplayStrings.ts b/apps/web/src/acceptanceDisplayStrings.ts
 new file mode 100644
 index 00000000..65abf18b
@@ -250,7 +253,7 @@ index 00000000..65abf18b
 +  );
 +}
 diff --git a/apps/web/src/components/CommandPalette.tsx b/apps/web/src/components/CommandPalette.tsx
-index 2e65d621..85f89bb7 100644
+index cd32eeb4..9387c48d 100644
 --- a/apps/web/src/components/CommandPalette.tsx
 +++ b/apps/web/src/components/CommandPalette.tsx
 @@ -1,3 +1,4 @@
@@ -258,7 +261,7 @@ index 2e65d621..85f89bb7 100644
  import { ThreadContextDragGhost } from "./chat/ThreadContextDragGhost";
  import { threadPullRequestLinkMode } from "@t3tools/client-runtime/thread-pull-request-compatibility";
  import { visibleThreadPullRequests } from "@t3tools/shared/threadPullRequests";
-@@ -2880,7 +2881,7 @@ function OpenCommandPaletteDialog(props: {
+@@ -2963,7 +2964,7 @@ function OpenCommandPaletteDialog(props: {
        key={`${viewStack.length}-${browseGeneration}-${isBrowsing}-${newProjectFlow ? "new-project" : (addProjectCloneFlow?.step ?? "none")}`}
        aria-label="Command palette"
        autoHighlight={autoHighlightsFirstRow ? "always" : false}
@@ -267,7 +270,7 @@ index 2e65d621..85f89bb7 100644
        footerTrailing={footerTrailing}
        inputAccessory={inputAccessory}
        inputProps={{
-@@ -2894,7 +2895,7 @@ function OpenCommandPaletteDialog(props: {
+@@ -2977,7 +2978,7 @@ function OpenCommandPaletteDialog(props: {
                    hasHighlightedBrowseItem,
                  })
                : undefined,
@@ -277,7 +280,7 @@ index 2e65d621..85f89bb7 100644
          ...(isSubmenu
            ? {
 diff --git a/apps/web/src/components/CommandPaletteResults.tsx b/apps/web/src/components/CommandPaletteResults.tsx
-index 864c190b..8e78e09b 100644
+index 8c52ad29..41c51840 100644
 --- a/apps/web/src/components/CommandPaletteResults.tsx
 +++ b/apps/web/src/components/CommandPaletteResults.tsx
 @@ -1,3 +1,4 @@
@@ -311,7 +314,7 @@ index 864c190b..8e78e09b 100644
          </span>
        )}
        {props.item.titleTrailingContent}
-@@ -272,7 +273,7 @@ function CommandPaletteResultRow(props: {
+@@ -275,7 +276,7 @@ function CommandPaletteResultRow(props: {
          <span className="flex min-w-0 flex-1 flex-col">
            <span className="flex min-w-0 items-center gap-1.5 text-sm text-foreground">
              {props.item.titleLeadingContent}
@@ -320,7 +323,7 @@ index 864c190b..8e78e09b 100644
              <ThreadRowContext item={props.item} />
            </span>
            {props.item.threadContentMatch ? (
-@@ -281,14 +282,14 @@ function CommandPaletteResultRow(props: {
+@@ -284,14 +285,14 @@ function CommandPaletteResultRow(props: {
              <SearchMatchHintLine hint={props.item.matchHint} />
            ) : props.item.description ? (
              <span className="min-w-0 text-muted-foreground/70 text-xs">
@@ -337,7 +340,7 @@ index 864c190b..8e78e09b 100644
          </span>
        )}
        {props.item.titleTrailingContent}
-@@ -302,7 +303,7 @@ function CommandPaletteResultRow(props: {
+@@ -305,7 +306,7 @@ function CommandPaletteResultRow(props: {
        ) : null}
        {props.item.timestamp ? (
          <span className="min-w-12 shrink-0 text-right text-xs tabular-nums text-muted-foreground/70">
@@ -347,7 +350,7 @@ index 864c190b..8e78e09b 100644
        ) : null}
        {shortcutLabel ? <CommandShortcut>{shortcutLabel}</CommandShortcut> : null}
 diff --git a/apps/web/src/components/DiffPanel.tsx b/apps/web/src/components/DiffPanel.tsx
-index 2e9af946..1c5b5657 100644
+index 38e3151e..ac56c62d 100644
 --- a/apps/web/src/components/DiffPanel.tsx
 +++ b/apps/web/src/components/DiffPanel.tsx
 @@ -1,3 +1,4 @@
@@ -355,7 +358,7 @@ index 2e9af946..1c5b5657 100644
  import { RefreshIcon } from "~/components/ui/refresh-icon";
  import { useAtomValue } from "@effect/atom-react";
  import type { FileDiffContentsLoader, FileDiffMetadata } from "@pierre/diffs";
-@@ -823,10 +824,10 @@ export default function DiffPanel({
+@@ -840,10 +841,10 @@ export default function DiffPanel({
            <DropdownMenuTrigger
              render={<Button size="xs" variant="secondary" />}
              className={cn("max-w-full", headerCommitSha !== null && "min-w-0 shrink")}
@@ -369,7 +372,7 @@ index 2e9af946..1c5b5657 100644
            </DropdownMenuTrigger>
            {headerCommitSha !== null ? (
 diff --git a/apps/web/src/components/ThreadTerminalDrawer.tsx b/apps/web/src/components/ThreadTerminalDrawer.tsx
-index 049589d0..4d565e2a 100644
+index 8d6e5336..3ac1508c 100644
 --- a/apps/web/src/components/ThreadTerminalDrawer.tsx
 +++ b/apps/web/src/components/ThreadTerminalDrawer.tsx
 @@ -1,3 +1,4 @@
@@ -377,7 +380,7 @@ index 049589d0..4d565e2a 100644
  import { workspaceAreaProps } from "../lib/workspaceFocus";
  import { useAtomMount, useAtomValue } from "@effect/atom-react";
  import {
-@@ -1823,7 +1824,7 @@ export default function ThreadTerminalDrawer({
+@@ -1796,7 +1797,7 @@ export default function ThreadTerminalDrawer({
              onClick={onNewTerminalAction}
              disabled={!canOperateTerminal}
            >
@@ -386,7 +389,7 @@ index 049589d0..4d565e2a 100644
            </Button>
          </div>
        </aside>
-@@ -1855,7 +1856,7 @@ export default function ThreadTerminalDrawer({
+@@ -1828,7 +1829,7 @@ export default function ThreadTerminalDrawer({
                    : "hover:bg-accent"
                }`}
                onClick={onSplitTerminalAction}
@@ -395,7 +398,7 @@ index 049589d0..4d565e2a 100644
              >
                <SquareSplitHorizontal className="size-3.25" />
              </TerminalActionButton>
-@@ -1868,7 +1869,7 @@ export default function ThreadTerminalDrawer({
+@@ -1841,7 +1842,7 @@ export default function ThreadTerminalDrawer({
                    : "hover:bg-accent"
                }`}
                onClick={onSplitTerminalVerticalAction}
@@ -404,7 +407,7 @@ index 049589d0..4d565e2a 100644
              >
                <SquareSplitVertical className="size-3.25" />
              </TerminalActionButton>
-@@ -1877,7 +1878,7 @@ export default function ThreadTerminalDrawer({
+@@ -1850,7 +1851,7 @@ export default function ThreadTerminalDrawer({
                disabled={!canOperateTerminal}
                className="p-1 text-foreground/90 transition-colors hover:bg-accent"
                onClick={onNewTerminalAction}
@@ -413,7 +416,7 @@ index 049589d0..4d565e2a 100644
              >
                <Plus className="size-3.25" />
              </TerminalActionButton>
-@@ -1886,7 +1887,7 @@ export default function ThreadTerminalDrawer({
+@@ -1859,7 +1860,7 @@ export default function ThreadTerminalDrawer({
                disabled={!canOperateTerminal}
                className="p-1 text-foreground/90 transition-colors hover:bg-accent"
                onClick={() => confirmCloseTerminal(resolvedActiveTerminalId)}
@@ -422,7 +425,7 @@ index 049589d0..4d565e2a 100644
              >
                <Trash2 className="size-3.25" />
              </TerminalActionButton>
-@@ -1932,7 +1933,7 @@ export default function ThreadTerminalDrawer({
+@@ -1905,7 +1906,7 @@ export default function ThreadTerminalDrawer({
                          : "hover:bg-accent/70"
                      }`}
                      onClick={onSplitTerminalAction}
@@ -431,7 +434,7 @@ index 049589d0..4d565e2a 100644
                    >
                      <SquareSplitHorizontal className="size-3.25" />
                    </TerminalActionButton>
-@@ -1944,7 +1945,7 @@ export default function ThreadTerminalDrawer({
+@@ -1917,7 +1918,7 @@ export default function ThreadTerminalDrawer({
                          : "hover:bg-accent/70"
                      }`}
                      onClick={onSplitTerminalVerticalAction}
@@ -440,7 +443,7 @@ index 049589d0..4d565e2a 100644
                    >
                      <SquareSplitVertical className="size-3.25" />
                    </TerminalActionButton>
-@@ -1952,7 +1953,7 @@ export default function ThreadTerminalDrawer({
+@@ -1925,7 +1926,7 @@ export default function ThreadTerminalDrawer({
                      disabled={!canOperateTerminal}
                      className="inline-flex h-full items-center border-l border-border/70 px-1 text-foreground/90 transition-colors hover:bg-accent/70"
                      onClick={onNewTerminalAction}
@@ -449,7 +452,7 @@ index 049589d0..4d565e2a 100644
                    >
                      <Plus className="size-3.25" />
                    </TerminalActionButton>
-@@ -1960,7 +1961,7 @@ export default function ThreadTerminalDrawer({
+@@ -1933,7 +1934,7 @@ export default function ThreadTerminalDrawer({
                      disabled={!canOperateTerminal}
                      className="inline-flex h-full items-center border-l border-border/70 px-1 text-foreground/90 transition-colors hover:bg-accent/70"
                      onClick={() => confirmCloseTerminal(resolvedActiveTerminalId)}
@@ -477,15 +480,15 @@ index 5023da3a..fdbdcc8a 100644
            {hasNonZeroStat(totals) && (
              <DiffStatLabel
 diff --git a/apps/web/src/components/chat/ComposerPrimaryActions.tsx b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
-index ec9ec103..7e0d3d8d 100644
+index 41e5e3c7..9fd70674 100644
 --- a/apps/web/src/components/chat/ComposerPrimaryActions.tsx
 +++ b/apps/web/src/components/chat/ComposerPrimaryActions.tsx
 @@ -1,3 +1,4 @@
 +import { displayKnown } from "~/acceptanceDisplayStrings";
- import { memo, type MouseEventHandler, type PointerEventHandler, type ReactNode } from "react";
  import {
-   CheckIcon,
-@@ -272,7 +273,7 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
+   memo,
+   useEffect,
+@@ -422,7 +423,7 @@ export const ComposerPrimaryActions = memo(function ComposerPrimaryActions({
          isEnvironmentUnavailable ||
          (!hasSendableContent && !showResume)
        }
@@ -495,7 +498,7 @@ index ec9ec103..7e0d3d8d 100644
        {stageBackdropVariant ? (
          <span className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
 diff --git a/apps/web/src/components/chat/MessagesTimeline.tsx b/apps/web/src/components/chat/MessagesTimeline.tsx
-index a2b39ffd..9cf7f2ce 100644
+index b9653da6..62282950 100644
 --- a/apps/web/src/components/chat/MessagesTimeline.tsx
 +++ b/apps/web/src/components/chat/MessagesTimeline.tsx
 @@ -1,3 +1,4 @@
@@ -503,7 +506,7 @@ index a2b39ffd..9cf7f2ce 100644
  import { threadEnvironment } from "../../state/threads";
  import { useAtomCommand } from "../../state/use-atom-command";
  import type { ToolCallDiffTarget } from "../../diffPanelStore";
-@@ -1667,7 +1668,7 @@ function TurnFoldTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "turn-
+@@ -1837,7 +1838,7 @@ function TurnFoldTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "turn-
            className="flex cursor-pointer select-none items-center gap-1 rounded-md px-1 text-sm leading-relaxed text-muted-foreground tabular-nums transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/70"
          >
            <span>
@@ -512,7 +515,7 @@ index a2b39ffd..9cf7f2ce 100644
              {error ? ` · ${error}` : ""}
            </span>
            {row.expanded ? (
-@@ -1710,7 +1711,7 @@ function AttemptFoldTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "at
+@@ -1880,7 +1881,7 @@ function AttemptFoldTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "at
            <ChevronRightIcon className="size-3.5 shrink-0 text-muted-foreground" />
          )}
          <span className="text-xs font-medium text-foreground/80">
@@ -522,34 +525,50 @@ index a2b39ffd..9cf7f2ce 100644
          </span>
          <span className="text-2xs text-muted-foreground">Cut off by a steer</span>
 diff --git a/apps/web/src/components/chat/OpenInPicker.tsx b/apps/web/src/components/chat/OpenInPicker.tsx
-index a19491ad..aca9befd 100644
+index d61a1a4a..230de176 100644
 --- a/apps/web/src/components/chat/OpenInPicker.tsx
 +++ b/apps/web/src/components/chat/OpenInPicker.tsx
-@@ -1,3 +1,4 @@
+@@ -1,3 +1,5 @@
 +import { displayOpenIn } from "~/acceptanceDisplayStrings";
++import { translateFixed } from "~/newThreadDisplayStrings";
  import { ThreadDetailsControl } from "./ThreadDetailsControl";
  import {
    AuthOrchestrationOperateScope,
-@@ -365,7 +366,7 @@ export const OpenInPicker = memo(function OpenInPicker({
-         : {})}
+@@ -365,9 +367,13 @@ export const OpenInPicker = memo(function OpenInPicker({
+   }
+
+   const primaryControlLabel = compact ? "Open file in preferred editor" : primaryLabel;
++  // patches/0009: display-only copy for the aria-label and tooltip (the fixed compact label, or `Open in <editor>`).
++  const primaryControlDisplayLabel = compact
++    ? translateFixed(primaryControlLabel)
++    : displayOpenIn(primaryControlLabel);
+   const primaryControl = (
+     <ThreadDetailsControl
+-      aria-label={primaryControlLabel}
++      aria-label={primaryControlDisplayLabel}
+       // Tooltip replaces the button data-slot, so toolbar theming needs a separate hook.
+       data-toolbar-control=""
+       size={isPanel ? "sm" : "xs"}
+@@ -403,7 +409,7 @@ export const OpenInPicker = memo(function OpenInPicker({
+           isPanel && cn("not-sr-only ml-0 min-w-0 truncate", THREAD_DETAILS_PANEL_LABEL_CLASS),
+         )}
+       >
+-        {primaryLabel}
++        {displayOpenIn(primaryLabel)}
+       </span>
+     </ThreadDetailsControl>
+   );
+@@ -418,7 +424,7 @@ export const OpenInPicker = memo(function OpenInPicker({
      >
-       <ThreadDetailsControl
--        aria-label={compact ? "Open file in preferred editor" : primaryLabel}
-+        aria-label={compact ? "Open file in preferred editor" : displayOpenIn(primaryLabel)}
-         size={isPanel ? "sm" : "xs"}
-         variant={isPanel ? "ghost" : "outline"}
-         part="primary"
-@@ -402,7 +403,7 @@ export const OpenInPicker = memo(function OpenInPicker({
-             isPanel && cn("not-sr-only ml-0 min-w-0 truncate", THREAD_DETAILS_PANEL_LABEL_CLASS),
-           )}
-         >
--          {primaryLabel}
-+          {displayOpenIn(primaryLabel)}
-         </span>
-       </ThreadDetailsControl>
+       <Tooltip>
+         <TooltipTrigger render={primaryControl} />
+-        <TooltipPopup side="top">{primaryControlLabel}</TooltipPopup>
++        <TooltipPopup side="top">{primaryControlDisplayLabel}</TooltipPopup>
+       </Tooltip>
        {isPanel ? (
+         <span aria-hidden="true" className={THREAD_DETAILS_PANEL_SPLIT_SEPARATOR_CLASS} />
 diff --git a/apps/web/src/components/chat/PanelLayoutControls.tsx b/apps/web/src/components/chat/PanelLayoutControls.tsx
-index e64e9019..aa6949b9 100644
+index 7252ead1..0d384501 100644
 --- a/apps/web/src/components/chat/PanelLayoutControls.tsx
 +++ b/apps/web/src/components/chat/PanelLayoutControls.tsx
 @@ -1,3 +1,4 @@
@@ -557,7 +576,7 @@ index e64e9019..aa6949b9 100644
  import {
    PanelBottomIcon,
    PanelRightIcon,
-@@ -152,7 +153,7 @@ export const RightPanelMaximizeControl = memo(function RightPanelMaximizeControl
+@@ -156,7 +157,7 @@ export const RightPanelMaximizeControl = memo(function RightPanelMaximizeControl
              className="shrink-0 [-webkit-app-region:no-drag]"
              pressed={maximized}
              onPressedChange={onToggle}
@@ -566,7 +585,7 @@ index e64e9019..aa6949b9 100644
              variant="ghost"
              size="sm"
            >
-@@ -164,7 +165,7 @@ export const RightPanelMaximizeControl = memo(function RightPanelMaximizeControl
+@@ -168,7 +169,7 @@ export const RightPanelMaximizeControl = memo(function RightPanelMaximizeControl
            </Toggle>
          }
        />
@@ -576,7 +595,7 @@ index e64e9019..aa6949b9 100644
    );
  });
 diff --git a/apps/web/src/components/chat/TimelineWorkEntryRow.tsx b/apps/web/src/components/chat/TimelineWorkEntryRow.tsx
-index 5f63142a..88a83456 100644
+index eecd3c50..581803b7 100644
 --- a/apps/web/src/components/chat/TimelineWorkEntryRow.tsx
 +++ b/apps/web/src/components/chat/TimelineWorkEntryRow.tsx
 @@ -1,3 +1,4 @@
@@ -584,7 +603,7 @@ index 5f63142a..88a83456 100644
  import { TimelinePendingApprovalRow } from "./TimelinePendingApprovalRow";
  import { WorkLogDetails, WorkLogRow } from "./WorkLog";
  import {
-@@ -410,7 +411,7 @@ function WorkEntryLogRow(props: WorkEntryRowProps) {
+@@ -425,7 +426,7 @@ function WorkEntryLogRow(props: WorkEntryRowProps) {
      .filter(Boolean)
      .join(": ");
    const accessibleDisplayText = showFailedIndicator
@@ -594,7 +613,7 @@ index 5f63142a..88a83456 100644
    const rowToggleProps = canExpandProjectedItem
      ? {
 diff --git a/apps/web/src/components/chat/TimelineWorkGroupRows.tsx b/apps/web/src/components/chat/TimelineWorkGroupRows.tsx
-index 5a62cde6..21207ae6 100644
+index 1784f38d..ef4d13f9 100644
 --- a/apps/web/src/components/chat/TimelineWorkGroupRows.tsx
 +++ b/apps/web/src/components/chat/TimelineWorkGroupRows.tsx
 @@ -1,3 +1,4 @@
@@ -602,7 +621,7 @@ index 5a62cde6..21207ae6 100644
  import { TimelinePendingApprovalRow } from "./TimelinePendingApprovalRow";
  import { WorkLogButton, WorkLogList, WorkLogRow } from "./WorkLog";
  import type { WorktreeSetupSnapshot } from "@t3tools/contracts";
-@@ -518,7 +519,7 @@ export function LiveWorkEntryTimelineRow({
+@@ -591,7 +592,7 @@ export function LiveWorkEntryTimelineRow({
        )}
        aria-label={
          failed
@@ -611,7 +630,7 @@ index 5a62cde6..21207ae6 100644
            : undefined
        }
        aria-expanded={row.expanded}
-@@ -593,7 +594,7 @@ export function WorkGroupToggleTimelineRow({
+@@ -666,7 +667,7 @@ export function WorkGroupToggleTimelineRow({
    const ctx = use(TimelineRowCtx);
    return (
      <WorkGroupHeader
@@ -620,7 +639,7 @@ index 5a62cde6..21207ae6 100644
        iconName={row.toolSurface ?? toolGroupSummaryIconName(row.summaryKind)}
        toolIcon={row.toolIcon}
        failed={row.hasFailure}
-@@ -617,7 +618,7 @@ function WorkGroupHeader(props: {
+@@ -690,7 +691,7 @@ function WorkGroupHeader(props: {
  }) {
    return (
      <WorkLogButton
@@ -630,7 +649,7 @@ index 5a62cde6..21207ae6 100644
        onClick={props.onToggle}
        icon={
 diff --git a/apps/web/src/components/chat/TraitsPicker.tsx b/apps/web/src/components/chat/TraitsPicker.tsx
-index 5154072a..b3bd3b71 100644
+index 48913f37..81a46d9a 100644
 --- a/apps/web/src/components/chat/TraitsPicker.tsx
 +++ b/apps/web/src/components/chat/TraitsPicker.tsx
 @@ -1,3 +1,4 @@
@@ -699,7 +718,7 @@ index f52be354..b2a5f698 100644
          canResetBackgroundActivity ? (
            <SettingResetButton
 diff --git a/apps/web/src/components/settings/KeybindingsSettings.tsx b/apps/web/src/components/settings/KeybindingsSettings.tsx
-index cb00bca7..d1c898a2 100644
+index 45466385..29dd5212 100644
 --- a/apps/web/src/components/settings/KeybindingsSettings.tsx
 +++ b/apps/web/src/components/settings/KeybindingsSettings.tsx
 @@ -1,5 +1,6 @@
@@ -709,7 +728,7 @@ index cb00bca7..d1c898a2 100644
  import {
    ChevronDownIcon,
    CircleXIcon,
-@@ -827,7 +828,7 @@ function KeybindingKeyControl({
+@@ -829,7 +830,7 @@ function KeybindingKeyControl({
            ref={pillRef}
            type="button"
            onClick={() => setDraft({ isRecording: true })}
@@ -718,7 +737,7 @@ index cb00bca7..d1c898a2 100644
            className={cn(
              "inline-flex h-8 cursor-pointer items-center rounded-md border border-transparent px-1.5 sm:h-7 outline-none transition-colors hover:border-border/70 hover:bg-accent focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-inset focus-visible:ring-ring/24",
              pillClassName,
-@@ -839,7 +840,7 @@ function KeybindingKeyControl({
+@@ -841,7 +842,7 @@ function KeybindingKeyControl({
          <Input
            data-keybinding-capture=""
            autoFocus={isRecording}
@@ -727,7 +746,7 @@ index cb00bca7..d1c898a2 100644
            value={isRecording ? "" : keyDraft}
            placeholder={isRecording ? "Press shortcut" : "Unassigned"}
            size="sm"
-@@ -926,7 +927,7 @@ function KeybindingRowMenu({
+@@ -928,7 +929,7 @@ function KeybindingRowMenu({
              variant="ghost-muted"
              size="icon-sm"
              disabled={isSaving}
@@ -736,7 +755,7 @@ index cb00bca7..d1c898a2 100644
            />
          }
        >
-@@ -952,7 +953,7 @@ function KeybindingSourceBadge({ source }: { source: KeybindingRow["source"] })
+@@ -954,7 +955,7 @@ function KeybindingSourceBadge({ source }: { source: KeybindingRow["source"] })
    if (source === "Default") return null;
    return (
      <Badge variant="outline" size="sm">
@@ -745,7 +764,7 @@ index cb00bca7..d1c898a2 100644
      </Badge>
    );
  }
-@@ -961,7 +962,7 @@ function KeybindingRowTitle({ row }: { row: KeybindingRow }) {
+@@ -963,7 +964,7 @@ function KeybindingRowTitle({ row }: { row: KeybindingRow }) {
    return (
      <Tooltip>
        <TooltipTrigger render={<span className="flex items-center gap-2" />}>
@@ -754,7 +773,7 @@ index cb00bca7..d1c898a2 100644
          <KeybindingSourceBadge source={row.source} />
        </TooltipTrigger>
        <TooltipPopup side="top">{row.command}</TooltipPopup>
-@@ -982,7 +983,7 @@ function KeybindingRowWhen({
+@@ -984,7 +985,7 @@ function KeybindingRowWhen({
      <span className="flex h-6 items-center gap-1.5">
        <span className="text-xs leading-none text-muted-foreground/70">When</span>
        <WhenClauseControl
@@ -763,7 +782,7 @@ index cb00bca7..d1c898a2 100644
          expression={editor.whenDraftExpression}
          value={editor.whenDraft}
          variables={variables}
-@@ -1058,7 +1059,9 @@ function useNewKeybindingDraft({
+@@ -1060,7 +1061,9 @@ function useNewKeybindingDraft({
      key: keyDraft,
      when: whenDraftExpression,
    });
@@ -774,7 +793,7 @@ index cb00bca7..d1c898a2 100644
    const canSave = Boolean(commandDraft) && keyDraft.trim().length > 0 && isWhenDraftValid;
 
    const save = () => {
-@@ -1134,7 +1137,7 @@ function NewKeybindingCommandSelect({
+@@ -1136,7 +1139,7 @@ function NewKeybindingCommandSelect({
        <SelectContent alignItemWithTrigger={false} matchTriggerWidth={false} className="max-h-72">
          {commandOptions.map((command) => (
            <SelectItem key={command} value={command} className="w-full">
@@ -784,15 +803,15 @@ index cb00bca7..d1c898a2 100644
          ))}
        </SelectContent>
 diff --git a/apps/web/src/components/settings/ProviderModelsSection.tsx b/apps/web/src/components/settings/ProviderModelsSection.tsx
-index 3e39d6cc..8005e309 100644
+index 3a47da1a..9bd8b0b6 100644
 --- a/apps/web/src/components/settings/ProviderModelsSection.tsx
 +++ b/apps/web/src/components/settings/ProviderModelsSection.tsx
 @@ -1,3 +1,4 @@
 +import { displayKnown, displayCount } from "../../acceptanceDisplayStrings";
  import { ArrowDownIcon, ArrowUpIcon, PencilIcon, PlusIcon, StarIcon, XIcon } from "lucide-react";
- import { useEffect, useRef, useState } from "react";
+ import { memo, useEffect, useRef, useState } from "react";
  import {
-@@ -298,7 +299,7 @@ export function ProviderModelsSection({
+@@ -325,7 +326,7 @@ export function ProviderModelsSection({
 
    const groupLabel = (label: string, isFirst: boolean) => (
      <div className={cn("px-2 pb-1.5 text-2xs text-muted-foreground", isFirst ? "pt-1" : "pt-5")}>
@@ -801,7 +820,7 @@ index 3e39d6cc..8005e309 100644
      </div>
    );
 
-@@ -333,11 +334,9 @@ export function ProviderModelsSection({
+@@ -360,11 +361,9 @@ export function ProviderModelsSection({
              </Button>
            ) : null}
            <span className="text-xs text-muted-foreground">
@@ -816,7 +835,7 @@ index 3e39d6cc..8005e309 100644
            </span>
          </div>
          {driverKind !== "antigravity" && !isAdding ? (
-@@ -535,7 +534,7 @@ function ProviderModelRow({
+@@ -569,7 +568,7 @@ const ProviderModelRow = memo(function ProviderModelRow({
        </span>
        <span className="text-2xs text-muted-foreground/70">
          {capLabels.length > 0 ? (
@@ -826,7 +845,7 @@ index 3e39d6cc..8005e309 100644
        </span>
        <span className="flex shrink-0 items-center justify-end gap-0.5">
 diff --git a/apps/web/src/components/settings/ProviderSettingsPanel.tsx b/apps/web/src/components/settings/ProviderSettingsPanel.tsx
-index aca6e5eb..d8a3d728 100644
+index c3cf2859..88f08de5 100644
 --- a/apps/web/src/components/settings/ProviderSettingsPanel.tsx
 +++ b/apps/web/src/components/settings/ProviderSettingsPanel.tsx
 @@ -1,3 +1,4 @@
@@ -863,7 +882,7 @@ index aca6e5eb..d8a3d728 100644
      </span>
    );
 diff --git a/apps/web/src/components/settings/SettingsFontPreviews.tsx b/apps/web/src/components/settings/SettingsFontPreviews.tsx
-index 90bf07fd..c081f7b2 100644
+index 7a76219d..aef57109 100644
 --- a/apps/web/src/components/settings/SettingsFontPreviews.tsx
 +++ b/apps/web/src/components/settings/SettingsFontPreviews.tsx
 @@ -30,8 +30,8 @@ function noop() {}
@@ -878,7 +897,7 @@ index 90bf07fd..c081f7b2 100644
      setPrompt(nextValue);
      setCursor(nextCursor);
 diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/components/settings/SettingsPanels.tsx
-index eeb1d145..0efb5507 100644
+index 582d60d7..8e7a854d 100644
 --- a/apps/web/src/components/settings/SettingsPanels.tsx
 +++ b/apps/web/src/components/settings/SettingsPanels.tsx
 @@ -1,3 +1,4 @@
@@ -886,7 +905,7 @@ index eeb1d145..0efb5507 100644
  import { useAtomValue } from "@effect/atom-react";
  import { NotificationSettings } from "./NotificationSettings";
  import { PRIVACY_POLICY_URL } from "../../legalLinks";
-@@ -310,7 +311,7 @@ function AboutVersionSection() {
+@@ -312,7 +313,7 @@ function AboutVersionSection() {
        <SettingsRow
          id={searchableSetting("app-version").id}
          title={<AboutVersionTitle />}
@@ -895,7 +914,7 @@ index eeb1d145..0efb5507 100644
          managed={updatesDenial}
          control={
            <Tooltip>
-@@ -322,7 +323,7 @@ function AboutVersionSection() {
+@@ -324,7 +325,7 @@ function AboutVersionSection() {
                    disabled={buttonDisabled || isUpdateActionPending}
                    onClick={handleButtonClick}
                  >
@@ -904,7 +923,7 @@ index eeb1d145..0efb5507 100644
                  </Button>
                }
              />
-@@ -1203,12 +1204,7 @@ export function ChatSettingsPanel() {
+@@ -1265,12 +1266,7 @@ export function ChatSettingsPanel() {
        <SettingsSection id="follow-ups" title="Follow-ups">
          <SettingsRow
            {...searchableSetting("follow-up-behavior")}
@@ -918,7 +937,7 @@ index eeb1d145..0efb5507 100644
            resetAction={
              settings.followUpBehavior !== DEFAULT_UNIFIED_SETTINGS.followUpBehavior ? (
                <SettingResetButton
-@@ -1919,7 +1915,9 @@ export function ThreadsSettingsPanel() {
+@@ -2018,7 +2014,9 @@ export function ThreadsSettingsPanel() {
                    instanceEntries={textGenerationModelInstanceEntries}
                    modelOptionsByInstance={textGenerationModelOptionsByInstance}
                    triggerClassName={SETTINGS_PICKER_TRIGGER_CLASSNAME}
@@ -929,7 +948,7 @@ index eeb1d145..0efb5507 100644
                    getModelDisabledReason={textGenerationModelDisabledReason}
                    {...(environmentId
                      ? {
-@@ -1996,7 +1994,7 @@ export function ThreadsSettingsPanel() {
+@@ -2099,7 +2097,7 @@ export function ThreadsSettingsPanel() {
              description={
                mixedResponseStreamingMode
                  ? "The selected targets use different streaming modes."
@@ -959,7 +978,7 @@ index 17a6094b..5abe1963 100644
              className={cn(
                // The accent ring marks the picked tile; focus is a neutral ring set inside it with a gap.
 diff --git a/apps/web/src/components/sidebar/SidebarUpdatePill.tsx b/apps/web/src/components/sidebar/SidebarUpdatePill.tsx
-index 3c18b2c7..2858fdc3 100644
+index 5df8007e..e6aa1206 100644
 --- a/apps/web/src/components/sidebar/SidebarUpdatePill.tsx
 +++ b/apps/web/src/components/sidebar/SidebarUpdatePill.tsx
 @@ -1,3 +1,4 @@
@@ -967,7 +986,7 @@ index 3c18b2c7..2858fdc3 100644
  import {
    type DesktopBridge,
    type DesktopUpdateState,
-@@ -462,7 +463,7 @@ function SidebarUpdateControl() {
+@@ -463,7 +464,7 @@ function SidebarUpdateControl() {
    const updateButton = (
      <button
        type="button"
@@ -976,7 +995,7 @@ index 3c18b2c7..2858fdc3 100644
        aria-disabled={isInteractionDisabled || undefined}
        className={cn(
          "inline-flex size-8 items-center justify-center rounded-full outline-hidden ring-ring transition-colors focus-visible:ring-2 focus-visible:ring-inset",
-@@ -553,7 +554,7 @@ function SidebarUpdateControl() {
+@@ -554,7 +555,7 @@ function SidebarUpdateControl() {
                    <div className="text-muted-foreground">{idleTooltip.detail}</div>
                  </div>
                ) : (
@@ -985,7 +1004,7 @@ index 3c18b2c7..2858fdc3 100644
                )}
              </TooltipPopup>
            ) : null}
-@@ -578,7 +579,7 @@ function SidebarUpdateControl() {
+@@ -579,7 +580,7 @@ function SidebarUpdateControl() {
              <SidebarUpdateReleaseNotes
                shell={window.desktopBridge}
                state={state}
@@ -995,7 +1014,7 @@ index 3c18b2c7..2858fdc3 100644
            </PopoverPopup>
          ) : null}
 diff --git a/apps/web/src/components/ui/sidebar.tsx b/apps/web/src/components/ui/sidebar.tsx
-index 42f7c78e..ec0d6844 100644
+index 61fea912..686158e6 100644
 --- a/apps/web/src/components/ui/sidebar.tsx
 +++ b/apps/web/src/components/ui/sidebar.tsx
 @@ -1,3 +1,4 @@
@@ -1003,7 +1022,7 @@ index 42f7c78e..ec0d6844 100644
  import { mergeProps } from "@base-ui/react/merge-props";
  import { useRender } from "@base-ui/react/use-render";
  import { cva, type VariantProps } from "class-variance-authority";
-@@ -549,7 +550,7 @@ function SidebarRail({
+@@ -574,7 +575,7 @@ function SidebarRail({
        <TooltipTrigger
          render={
            <button
@@ -1040,7 +1059,7 @@ index e41aa209..2d23b3e8 100644
                  {remainingPercent(window)}% left
                </span>
 diff --git a/apps/web/src/components/usage/UsagePage.tsx b/apps/web/src/components/usage/UsagePage.tsx
-index 8bc8a93a..16ffb518 100644
+index b60ae71d..b126ae6a 100644
 --- a/apps/web/src/components/usage/UsagePage.tsx
 +++ b/apps/web/src/components/usage/UsagePage.tsx
 @@ -1,3 +1,4 @@
@@ -1058,15 +1077,15 @@ index 8bc8a93a..16ffb518 100644
            {showUsageStatus && hasIssue ? (
              <CircleAlertIcon
 diff --git a/apps/web/src/terminal/ghostty/surface.ts b/apps/web/src/terminal/ghostty/surface.ts
-index f1db4305..e7e1a236 100644
+index e3d8cfbb..a3e64d81 100644
 --- a/apps/web/src/terminal/ghostty/surface.ts
 +++ b/apps/web/src/terminal/ghostty/surface.ts
 @@ -1,3 +1,4 @@
 +import { displayKnown } from "~/acceptanceDisplayStrings";
+ import { resolveEventKeys } from "@t3tools/shared/keybindingMatching";
  import { isMacPlatform } from "../../lib/utils";
  import { SELECTION_MULTI_CLICK_INTERVAL_MS } from "../../lib/selectionActions";
- import { collectWrappedTerminalLinkLine, extractTerminalLinks } from "../../terminal-links";
-@@ -688,7 +689,7 @@ export class GhosttyTerminalSurface {
+@@ -701,7 +702,7 @@ export class GhosttyTerminalSurface {
 
      const input = document.createElement("textarea");
      input.className = "t3-ghostty-input";

@@ -1,7 +1,7 @@
 # 0007-new-thread-display-strings.patch
 #
 # 新建任务页面上转换插件包不到的英文，只在显示处翻译（T09，Mark 在 zh.1 手动验收时指出的四处）。
-# 基线 v0.1.9；须在 0004（Sidebar.tsx、vite-env.d.ts 的
+# 基线 v0.1.10；须在 0004（Sidebar.tsx、vite-env.d.ts 的
 # 全局 `var __t3zh` 声明）之后应用；ChatComposer 直接使用原版，不依赖已停用的 0002。
 #
 # 四处英文与原因：
@@ -47,8 +47,10 @@
 # 见 handoff/T09.md。
 # 上游更新后重做方法见 patches/README.md。
 #
+# T33 / v0.1.10：侧栏任务行 sr-only 标题随 #25269 删除而退役（读屏改用已翻译的可见标题 span）；任务页项目面包屑改为
+#   MiddleTruncate（#30503），只在其 value（仅用于显示）处 displayDefaultName，tooltip 沿用 New thread in 槽位骨架。
 diff --git a/apps/web/src/components/Sidebar.tsx b/apps/web/src/components/Sidebar.tsx
-index 8fa58d84..879f342d 100644
+index e6cdb90d..df9a08ac 100644
 --- a/apps/web/src/components/Sidebar.tsx
 +++ b/apps/web/src/components/Sidebar.tsx
 @@ -1,3 +1,4 @@
@@ -56,7 +58,7 @@ index 8fa58d84..879f342d 100644
  import { attachSidebarTree } from "../lib/sidebarTree";
  import { type EnvironmentId, type ScopedProjectRef } from "@t3tools/contracts";
  import type { EnvironmentServerConfig } from "@t3tools/client-runtime/connection";
-@@ -2828,7 +2829,7 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
+@@ -2825,7 +2826,7 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
            case "archive": {
              if (confirmThreadArchive) {
                const confirmed = await settlePromise(() =>
@@ -65,7 +67,7 @@ index 8fa58d84..879f342d 100644
                );
                if (confirmed._tag === "Failure" || !confirmed.value) return;
              }
-@@ -2858,8 +2859,8 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
+@@ -2855,8 +2856,8 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
                const confirmed = await settlePromise(() =>
                  api.dialogs.confirm(
                    [
@@ -77,7 +79,7 @@ index 8fa58d84..879f342d 100644
                    { variant: "destructive" },
                  ),
 diff --git a/apps/web/src/components/chat/ChatComposer.tsx b/apps/web/src/components/chat/ChatComposer.tsx
-index cba7c434..fdf955b8 100644
+index be3144ef..d3377496 100644
 --- a/apps/web/src/components/chat/ChatComposer.tsx
 +++ b/apps/web/src/components/chat/ChatComposer.tsx
 @@ -1,4 +1,5 @@
@@ -85,8 +87,8 @@ index cba7c434..fdf955b8 100644
 +import { translateFixed } from "../../newThreadDisplayStrings";
  import { useComposerTypingGuard } from "./useComposerTypingGuard";
  import { insertAttachmentReferencesForDraft } from "./composerAttachmentReferences";
- import { DESKTOP_PASTE_AS_TEXT_EVENT } from "../../lib/desktopPasteAsText";
-@@ -3489,7 +3490,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
+ import type { ComposerAttachmentInsertion } from "../composerAttachmentInsertion";
+@@ -3655,7 +3656,7 @@ export const ChatComposer = memo(function ChatComposer(props: ChatComposerProps)
                              ? "Choose a project above to start a thread"
                              : showProviderUnavailable
                                ? "Enable a provider in Settings to send a message"
@@ -96,7 +98,7 @@ index cba7c434..fdf955b8 100644
                      placeholderSuffix={
                        offeredPromptSuggestion !== null ? (
 diff --git a/apps/web/src/components/chat/ChatHeader.tsx b/apps/web/src/components/chat/ChatHeader.tsx
-index e80e8e0f..04ba83fd 100644
+index 22e02b22..243ad9e3 100644
 --- a/apps/web/src/components/chat/ChatHeader.tsx
 +++ b/apps/web/src/components/chat/ChatHeader.tsx
 @@ -1,3 +1,4 @@
@@ -104,7 +106,7 @@ index e80e8e0f..04ba83fd 100644
  import {
    AuthOrchestrationOperateScope,
    type EnvironmentId,
-@@ -83,6 +84,7 @@ export const ChatHeader = memo(function ChatHeader({
+@@ -84,6 +85,7 @@ export const ChatHeader = memo(function ChatHeader({
    onFindInThread,
  }: ChatHeaderProps) {
    const activeProjectName = activeProject?.isScratch ? "No project" : activeProject?.title;
@@ -112,7 +114,7 @@ index e80e8e0f..04ba83fd 100644
    const activeProjectCwd = activeProject?.workspaceRoot ?? null;
    const interfaceFont = useClientSettings((settings) => settings.fontFamilySans);
    const breadcrumbContainerRef = useRef<HTMLDivElement>(null);
-@@ -265,7 +267,7 @@ export const ChatHeader = memo(function ChatHeader({
+@@ -267,7 +269,7 @@ export const ChatHeader = memo(function ChatHeader({
                    render={
                      <button
                        type="button"
@@ -121,13 +123,15 @@ index e80e8e0f..04ba83fd 100644
                        onClick={onNewThreadInProject}
                        className="inline-flex min-w-0 max-w-full cursor-pointer items-center gap-1.5 rounded-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
                      />
-@@ -273,10 +275,14 @@ export const ChatHeader = memo(function ChatHeader({
-                 >
+@@ -276,12 +278,16 @@ export const ChatHeader = memo(function ChatHeader({
                    <ProjectFavicon project={activeProject} className="size-3.5" />
-                   <WorkspaceBreadcrumbText className="max-w-40">
--                    {activeProjectName}
-+                    {displayDefaultName(activeProjectName)}
-                   </WorkspaceBreadcrumbText>
+                   <MiddleTruncate
+                     data-slot="workspace-breadcrumb-text"
+-                    value={activeProjectName ?? ""}
++                    value={displayDefaultName(activeProjectName) ?? ""}
+                     showTitle={false}
+                     variant="cap-aligned"
+                   />
                  </TooltipTrigger>
 -                <TooltipPopup side="top">New thread in {activeProjectName}</TooltipPopup>
 +                <TooltipPopup side="top">
@@ -138,7 +142,7 @@ index e80e8e0f..04ba83fd 100644
                </Tooltip>
              </WorkspaceBreadcrumbItem>
              <WorkspaceBreadcrumbSeparator>
-@@ -346,7 +352,7 @@ export const ChatHeader = memo(function ChatHeader({
+@@ -351,7 +357,7 @@ export const ChatHeader = memo(function ChatHeader({
                  render={
                    <button
                      type="button"
@@ -147,7 +151,7 @@ index e80e8e0f..04ba83fd 100644
                      aria-haspopup="menu"
                      onClick={openMenuFromTitle}
                      onDoubleClick={canOperateThread ? handleTitleDoubleClick : undefined}
-@@ -355,7 +361,7 @@ export const ChatHeader = memo(function ChatHeader({
+@@ -360,7 +366,7 @@ export const ChatHeader = memo(function ChatHeader({
                  }
                >
                  <h2 className="min-w-0" dir={textDirection(activeThreadTitle)}>
@@ -156,7 +160,7 @@ index e80e8e0f..04ba83fd 100644
                  </h2>
                  <ChevronDownIcon
                    aria-hidden
-@@ -363,22 +369,24 @@ export const ChatHeader = memo(function ChatHeader({
+@@ -368,22 +374,24 @@ export const ChatHeader = memo(function ChatHeader({
                    className="size-3.5 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover/thread-title:opacity-100 group-focus-visible/thread-title:opacity-100"
                  />
                </TooltipTrigger>
@@ -186,7 +190,7 @@ index e80e8e0f..04ba83fd 100644
            )}
            {renamingTitle === null && activeThreadLinkOrigin ? (
 diff --git a/apps/web/src/components/chat/DraftHeroHeadline.tsx b/apps/web/src/components/chat/DraftHeroHeadline.tsx
-index 91bf642f..dd3a37ab 100644
+index 772f83cb..ca220cd0 100644
 --- a/apps/web/src/components/chat/DraftHeroHeadline.tsx
 +++ b/apps/web/src/components/chat/DraftHeroHeadline.tsx
 @@ -1,3 +1,8 @@
@@ -198,7 +202,7 @@ index 91bf642f..dd3a37ab 100644
  import type { DraftId } from "~/composerDraftStore";
  import { composerDraftHasUserContent, useComposerDraftStore } from "~/composerDraftStore";
  import { resolveEnvironmentMachineKind, type ScopedProjectRef } from "@t3tools/contracts";
-@@ -164,8 +169,8 @@ export function DraftHeroHeadline({
+@@ -142,8 +147,8 @@ export function DraftHeroHeadline({
    // Pinning from a row keeps rows in place while the picker is open.
    const pickerItems: readonly PickerItem[] = useOrderWhileOpen(
      [
@@ -209,7 +213,7 @@ index 91bf642f..dd3a37ab 100644
      ],
      (item) => item.value,
      pickerOpen,
-@@ -301,12 +306,12 @@ export function DraftHeroHeadline({
+@@ -241,12 +246,12 @@ export function DraftHeroHeadline({
            }
          >
            <DraftProjectName
@@ -224,7 +228,7 @@ index 91bf642f..dd3a37ab 100644
          ) : null}
        </Tooltip>
        <ComboboxPopup align="center" className="w-72 overflow-hidden">
-@@ -370,10 +375,11 @@ export function DraftHeroHeadline({
+@@ -310,10 +315,11 @@ export function DraftHeroHeadline({
        onClick={openAddProject}
        className="pointer-events-auto inline min-w-0 max-w-full cursor-pointer border-muted-foreground/35 border-b border-dotted text-muted-foreground/60 transition-colors hover:border-muted-foreground/60 hover:text-muted-foreground/80 focus-visible:rounded-sm focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
      >
@@ -237,7 +241,7 @@ index 91bf642f..dd3a37ab 100644
    const noProjectShortcut = shortcutLabelForCommand(keybindings, "chat.newWithoutProject");
    const orStartWithoutProject =
      scratchWorkspaceRoot !== null && !isScratchDraft && (hasResolvedProject || canChooseProject) ? (
-@@ -414,7 +420,7 @@ export function DraftHeroHeadline({
+@@ -354,7 +360,7 @@ export function DraftHeroHeadline({
    return (
      <div className="mx-auto flex w-full max-w-5xl flex-col items-center">
        {hasResolvedProject && !isScratchDraft ? (
@@ -246,7 +250,7 @@ index 91bf642f..dd3a37ab 100644
            {projectSelector}
          </DraftHeroProjectHeading>
        ) : (
-@@ -422,7 +428,11 @@ export function DraftHeroHeadline({
+@@ -362,7 +368,11 @@ export function DraftHeroHeadline({
            {isScratchDraft ? (
              <>What should we work on?</>
            ) : canChooseProject ? (
@@ -308,7 +312,7 @@ index b0fa42cf..3f990285 100644
          </span>
        </h1>
 diff --git a/apps/web/src/components/settings/SettingsFontPreviews.tsx b/apps/web/src/components/settings/SettingsFontPreviews.tsx
-index b7d4d0c1..90bf07fd 100644
+index a173658f..7a76219d 100644
 --- a/apps/web/src/components/settings/SettingsFontPreviews.tsx
 +++ b/apps/web/src/components/settings/SettingsFontPreviews.tsx
 @@ -12,6 +12,7 @@ import { EMPTY_COMPOSER_CONTEXT_RECORDS } from "../composerContextPresentation";
@@ -329,15 +333,15 @@ index b7d4d0c1..90bf07fd 100644
          onChange={onChange}
          onPaste={noop}
 diff --git a/apps/web/src/components/sidebar/SidebarDraftBlock.tsx b/apps/web/src/components/sidebar/SidebarDraftBlock.tsx
-index bc15ca59..bb5882a6 100644
+index ac126ae4..4f1188be 100644
 --- a/apps/web/src/components/sidebar/SidebarDraftBlock.tsx
 +++ b/apps/web/src/components/sidebar/SidebarDraftBlock.tsx
 @@ -1,3 +1,4 @@
 +import { displayDefaultName } from "../../newThreadDisplayStrings";
  import { discardComposerDraft } from "../../lib/discardComposerDraft";
- import { replaceComposerContextReferences } from "@t3tools/shared/composerContextReferences";
- import { SquarePenIcon, XIcon } from "lucide-react";
-@@ -52,7 +53,7 @@ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
+ import type { ContextMenuSource } from "@t3tools/contracts";
+ import { contextMenuSourceOf } from "../../contextMenuSource";
+@@ -61,7 +62,7 @@ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
    const accessibility = resolveSidebarRowAccessibility({
      title: preview,
      statusLabel: "Unsent draft",
@@ -346,7 +350,7 @@ index bc15ca59..bb5882a6 100644
      isActive: props.isActive,
    });
    const handleActivate = () => onNavigate(draftId);
-@@ -104,7 +105,7 @@ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
+@@ -112,7 +113,7 @@ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
                <ProjectFavicon project={props.project} className="size-4 shrink-0" />
              ) : null}
              <span className="min-w-0 flex-1 truncate text-xs font-medium text-secondary-label">
@@ -356,7 +360,7 @@ index bc15ca59..bb5882a6 100644
              <span className="ml-auto flex h-5 min-w-5 shrink-0 items-center justify-end">
                <Tooltip>
 diff --git a/apps/web/src/components/sidebar/SidebarThreadRow.tsx b/apps/web/src/components/sidebar/SidebarThreadRow.tsx
-index 01f77ded..5b717793 100644
+index 376a2ade..1c55c399 100644
 --- a/apps/web/src/components/sidebar/SidebarThreadRow.tsx
 +++ b/apps/web/src/components/sidebar/SidebarThreadRow.tsx
 @@ -1,4 +1,5 @@
@@ -365,7 +369,7 @@ index 01f77ded..5b717793 100644
  import { asLaunchingThread } from "@t3tools/client-runtime/state/thread-inbox";
  import { ThreadHoverCard, ThreadHoverCardPopup } from "../ThreadHoverCard";
  import { ThreadTerminalStatusButton } from "../ThreadStatusIndicators";
-@@ -269,7 +270,7 @@ function SidebarThreadTooltip({
+@@ -275,7 +276,7 @@ function SidebarThreadTooltip({
    return (
      <ThreadHoverCardPopup side="right" align="start" sideOffset={4}>
        <ThreadHoverCard
@@ -374,7 +378,7 @@ index 01f77ded..5b717793 100644
          footer={
            supportsMultiplePullRequests && thread.pullRequests.length > 0 ? (
              <div className="border-t border-border/60 pt-2 pl-0.5 text-xs text-muted-foreground">
-@@ -281,7 +282,9 @@ function SidebarThreadTooltip({
+@@ -287,7 +288,9 @@ function SidebarThreadTooltip({
          {projectDisplayName ? (
            <div className="flex min-w-0 items-center gap-2">
              {project ? <ProjectFavicon project={project} className="size-3 shrink-0" /> : null}
@@ -385,7 +389,7 @@ index 01f77ded..5b717793 100644
            </div>
          ) : null}
          {environmentLabel ? (
-@@ -1017,9 +1020,9 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
+@@ -1034,9 +1037,9 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
      ) : null;
 
    const accessibility = resolveSidebarRowAccessibility({
@@ -397,7 +401,7 @@ index 01f77ded..5b717793 100644
      isActive: props.isActive,
    });
 
-@@ -1059,10 +1062,12 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
+@@ -1075,7 +1078,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
        )}
        dir={textDirection(thread.title)}
      >
@@ -405,14 +409,8 @@ index 01f77ded..5b717793 100644
 +      {displayDefaultName(thread.title)}
      </span>
    );
--  const accessibleTitle = isRenaming ? null : <span className="sr-only">{thread.title}</span>;
-+  const accessibleTitle = isRenaming ? null : (
-+    <span className="sr-only">{displayDefaultName(thread.title)}</span>
-+  );
 
-   const prBadgeShape = supportsMultiplePullRequests
-     ? resolveThreadPullRequestBadge(thread.pullRequests)
-@@ -1458,7 +1463,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
+@@ -1473,7 +1476,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
                  <span
                    className={cn("min-w-0 flex-1 truncate font-normal text-secondary-label text-xs")}
                  >
@@ -421,7 +419,7 @@ index 01f77ded..5b717793 100644
                  </span>
                ) : (
                  <span className="flex-1" />
-@@ -1497,7 +1502,9 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
+@@ -1512,7 +1515,9 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
                                  )}
                                >
                                  <AlarmClockIcon aria-hidden className="size-4 shrink-0" />
@@ -432,7 +430,7 @@ index 01f77ded..5b717793 100644
                                </button>
                              }
                            />
-@@ -1645,9 +1652,9 @@ export const SidebarSearchResultRow = memo(function SidebarSearchResultRow(props
+@@ -1666,9 +1671,9 @@ export const SidebarSearchResultRow = memo(function SidebarSearchResultRow(props
    const thread =
      useThreadShell(scopeThreadRef(props.thread.environmentId, props.thread.id)) ?? props.thread;
    const accessibility = resolveSidebarRowAccessibility({
@@ -444,7 +442,7 @@ index 01f77ded..5b717793 100644
      isActive: props.isRouteActive,
    });
    const threadRef = scopeThreadRef(thread.environmentId, thread.id);
-@@ -1769,7 +1776,7 @@ export const SidebarSearchResultRow = memo(function SidebarSearchResultRow(props
+@@ -1798,7 +1803,7 @@ export const SidebarSearchResultRow = memo(function SidebarSearchResultRow(props
                    thread.titleRegeneration != null && "opacity-55",
                  )}
                >
@@ -454,7 +452,7 @@ index 01f77ded..5b717793 100644
                <span id={`${props.resultId}-pr`} className="contents">
                  <ThreadSearchPullRequestNumber
 diff --git a/apps/web/src/hooks/useThreadActionMenu.ts b/apps/web/src/hooks/useThreadActionMenu.ts
-index f2d5509c..3170858d 100644
+index f96baf90..f46d73c4 100644
 --- a/apps/web/src/hooks/useThreadActionMenu.ts
 +++ b/apps/web/src/hooks/useThreadActionMenu.ts
 @@ -1,3 +1,4 @@
@@ -462,7 +460,7 @@ index f2d5509c..3170858d 100644
  import { scopeProjectRef } from "@t3tools/client-runtime/environment";
  import { requestCustomSnooze } from "../components/CustomSnoozeDialog";
  import { openGuestShareDialog } from "../components/chat/guestShareDialogState";
-@@ -309,7 +310,7 @@ export function useThreadActionMenu(input: {
+@@ -303,7 +304,7 @@ export function useThreadActionMenu(input: {
          case "archive": {
            if (confirmThreadArchive) {
              const confirmed = await settlePromise(() =>
@@ -471,7 +469,7 @@ index f2d5509c..3170858d 100644
              );
              if (confirmed._tag === "Failure" || !confirmed.value) return;
            }
-@@ -332,8 +333,8 @@ export function useThreadActionMenu(input: {
+@@ -326,8 +327,8 @@ export function useThreadActionMenu(input: {
              const confirmed = await settlePromise(() =>
                api.dialogs.confirm(
                  [
@@ -483,7 +481,7 @@ index f2d5509c..3170858d 100644
                  { variant: "destructive" },
                ),
 diff --git a/apps/web/src/hooks/useThreadActions.ts b/apps/web/src/hooks/useThreadActions.ts
-index e91f1706..e25375bf 100644
+index 9c5ae260..9075603f 100644
 --- a/apps/web/src/hooks/useThreadActions.ts
 +++ b/apps/web/src/hooks/useThreadActions.ts
 @@ -1,3 +1,4 @@
@@ -491,7 +489,7 @@ index e91f1706..e25375bf 100644
  import {
    parseScopedThreadKey,
    scopeProjectRef,
-@@ -972,8 +973,8 @@ export function useThreadActions() {
+@@ -996,8 +997,8 @@ export function useThreadActions() {
        const confirmationResult = await settlePromise(() =>
          localApi.dialogs.confirm(
            [

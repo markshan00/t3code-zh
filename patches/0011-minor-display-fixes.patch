@@ -1,5 +1,5 @@
 # 0011-minor-display-fixes.patch
-# Baseline v0.1.9, apply after 0001–0010 (zh.5).
+# Baseline v0.1.10, apply after 0001–0010 (zh.5).
 # Small display fixes found while reviewing zh.4; display boundaries only.
 #   * Sidebar row accessible name: the status part (Goal / Working / Waiting / Approval /
 #     Input / Limited / Failed / Woke / Done) and the draft row's "Unsent draft" go through
@@ -84,7 +84,7 @@ index 9ea3c6de..d9d98024 100644
  export function displayScope(value: string): string {
    const turn = /^Turn (\d+|\?)$/.exec(value);
 diff --git a/apps/web/src/components/chat/ProviderStatusBanner.tsx b/apps/web/src/components/chat/ProviderStatusBanner.tsx
-index ba4b99f0..a74d03a5 100644
+index f1aa4507..a3178e8c 100644
 --- a/apps/web/src/components/chat/ProviderStatusBanner.tsx
 +++ b/apps/web/src/components/chat/ProviderStatusBanner.tsx
 @@ -1,4 +1,4 @@
@@ -93,7 +93,7 @@ index ba4b99f0..a74d03a5 100644
  import {
    type EnvironmentId,
    type ProviderInstanceId,
-@@ -179,7 +179,7 @@ export const ProviderStatusBanner = memo(function ProviderStatusBanner({
+@@ -212,7 +212,7 @@ export const ProviderStatusBanner = memo(function ProviderStatusBanner({
          </AlertDescription>
          <AlertAction>
            <Button
@@ -103,15 +103,15 @@ index ba4b99f0..a74d03a5 100644
              size="icon-xs"
              variant="ghost-muted"
 diff --git a/apps/web/src/components/sidebar/SidebarDraftBlock.tsx b/apps/web/src/components/sidebar/SidebarDraftBlock.tsx
-index bb5882a6..438c0d49 100644
+index 4f1188be..3d1ff159 100644
 --- a/apps/web/src/components/sidebar/SidebarDraftBlock.tsx
 +++ b/apps/web/src/components/sidebar/SidebarDraftBlock.tsx
 @@ -1,3 +1,4 @@
 +import { displayKnown } from "../../acceptanceDisplayStrings";
  import { displayDefaultName } from "../../newThreadDisplayStrings";
  import { discardComposerDraft } from "../../lib/discardComposerDraft";
- import { replaceComposerContextReferences } from "@t3tools/shared/composerContextReferences";
-@@ -52,7 +53,7 @@ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
+ import type { ContextMenuSource } from "@t3tools/contracts";
+@@ -61,7 +62,7 @@ const SidebarDraftRow = memo(function SidebarDraftRow(props: {
        : `${attachmentCount} attachment${attachmentCount === 1 ? "" : "s"}`;
    const accessibility = resolveSidebarRowAccessibility({
      title: preview,
@@ -121,7 +121,7 @@ index bb5882a6..438c0d49 100644
      isActive: props.isActive,
    });
 diff --git a/apps/web/src/components/sidebar/SidebarThreadRow.tsx b/apps/web/src/components/sidebar/SidebarThreadRow.tsx
-index e602ceb1..c9d53262 100644
+index 5a5b00fa..52570ba2 100644
 --- a/apps/web/src/components/sidebar/SidebarThreadRow.tsx
 +++ b/apps/web/src/components/sidebar/SidebarThreadRow.tsx
 @@ -1,4 +1,5 @@
@@ -130,7 +130,7 @@ index e602ceb1..c9d53262 100644
  import { displayDuration } from "../../acceptanceDisplayStrings";
  import { displayDefaultName } from "../../newThreadDisplayStrings";
  import { asLaunchingThread } from "@t3tools/client-runtime/state/thread-inbox";
-@@ -1022,7 +1023,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
+@@ -1039,7 +1040,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
 
    const accessibility = resolveSidebarRowAccessibility({
      title: displayDefaultName(thread.title),

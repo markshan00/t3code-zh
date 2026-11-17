@@ -1,68 +1,156 @@
-# 基线 v0.1.9 / 24e77473ecf41bc1f7142529c7911c1c1aae1d76；按编号顺序普通 apply。
+# 基线 v0.1.10 / 7d32075e3757ded707914e2450c3e392a9665765；按编号顺序普通 apply。
 # 0001-language-setting.patch
 #
-# 在设置的「常规 / General」页加一行语言选择（System / English / 简体中文），
-# 让用户在设置里切换界面语言。读写一律走运行时注入的 window.__t3zh
-# （见 CONVENTIONS §5），因此本补丁只加一个 UI 入口，不引入任何自己的状态：
+# 设置「常规 / General」页的界面语言选择（跟随系统 / English / 简体中文）。读写一律走
+# 运行时注入的 window.__t3zh（见 CONVENTIONS §5），本补丁不引入自己的状态：
 #
-#   * window.__t3zh 不存在时（未加载汉化运行时、例如脱离词库/插件构建）
-#     整行不渲染，页面其余部分不受影响，也不会抛错；
-#   * getLocale() 返回 'system' | 'en' | 'zh-CN'（localStorage 里的偏好），
+#   * window.__t3zh 不存在时（未加载汉化运行时、例如脱离词库/插件构建）整行不渲染，
+#     页面其余部分不受影响，也不会抛错；
+#   * getLocale() 返回 'system' | 'en' | 'zh-CN'（localStorage["t3code-zh.locale"] 里的偏好），
 #     setLocale() 写入 localStorage 后自行刷新页面。
 #
-# 涉及三个上游文件：
+# v0.1.10（T33-A1）重做依据：上游 #31313 起用 gt-react 接入了自己的多语言（apps/web/src/i18n/，
+# 设置页 72 条，含 zh），并在同一位置加了 Language 行（客户端设置 `language`，搜索 id 同为
+# "language"）。按 tasks/T33-upgrade-v0110.md「语言方案」定案：只保留我们的语言开关，GT 的语言
+# 跟随我们的运行时。涉及三个上游文件：
 #   * apps/web/src/components/settings/SettingsPanels.tsx
-#       - 新增 LANGUAGE_OPTIONS 常量与 GeneralSettingsPanel 的 Display 段首行（时间格式之前；
-#         v0.1.3 把原 Behavior 段拆成 Notifications / Sidebar / Confirmations / Display，T26）；
-#   * apps/web/src/components/settings/settingsSearch.ts
-#       - 新增 id "language" 的搜索目录项（设置搜索能搜到这一行）；
+#       - 在上游 Language 行里换选项和处理函数：选项 = 跟随系统（沿用上游的 System default
+#         文案）+ English + 简体中文（语言本名固定、不查表），选择后 window.__t3zh.setLocale()；
+#         去掉读写上游 `language` 设置的取值与重置按钮；window.__t3zh 不存在时整行不渲染；
+#         去掉随之不用的 nativeLanguageName / SUPPORTED_LOCALES 导入。行标题、读屏名沿用上游；
+#         说明恢复 0.1.9 版文案 "Switch the interface language. Changing it reloads the app."
+#         （切换会刷新页面，需要提示；T33 主会话裁决③，A2 改），不用上游的 <T>System default follows…</T>。
+#   * apps/web/src/i18n/runtime.ts
+#       - GT 的语言改由我们运行时的解析结果决定：getResolvedLocale() 为 zh-CN → GT "zh"，否则 "en"；
+#         不再读上游 `language` 设置和 navigator.languages（桌面版第一项固定 en-US）。
+#       - <html lang> 保持我们运行时设的 zh-CN / en，不被 GT 改成 "zh"。
+#       - 加载顺序：首次确定语言在 main.tsx 模块体里 startAppServices() → startI18n()，此时静态导入图
+#         已全部求值；本文件静态导入的 ../hooks/useSettings 本身经插件转换、导入 virtual:t3zh-runtime，
+#         所以 window.__t3zh 在本模块求值前就已安装（plugin/__tests__/gt-language.test.ts 锁定）。
 #   * apps/web/src/vite-env.d.ts
-#       - 给 Window 补 __t3zh 的可选类型声明（纯类型，不影响运行）。
+#       - 给 Window 补 __t3zh 的可选类型声明（纯类型，不影响运行；0004 在此基础上扩展）。
 #
-# 文案用英文写（Language / System / English），由词库翻译；"简体中文"固定中文，
-# 词条见 dict/zh-CN.json。上游更新后重做方法见 patches/README.md。
+# v0.1.9 时的 settingsSearch.ts 片段（id "language" 的搜索目录项）退役：上游 v0.1.10 已有同 id 的
+# 搜索项，searchTerms 含 language / 中文 / 语言 等。GT 中文语言包在构建期由插件叠加主词库，
+# 见 plugin/gt-translations.ts。上游更新后重做方法见 patches/README.md。
 #
 diff --git a/apps/web/src/components/settings/SettingsPanels.tsx b/apps/web/src/components/settings/SettingsPanels.tsx
-index 3dc9566e..99000d11 100644
+index 633e18a5..19018234 100644
 --- a/apps/web/src/components/settings/SettingsPanels.tsx
 +++ b/apps/web/src/components/settings/SettingsPanels.tsx
-@@ -430,6 +430,13 @@ function AboutVersionSection() {
-   );
+@@ -111,8 +111,7 @@ import {
+   SettingsSection,
+ } from "./settingsLayout";
+ import { searchableSetting, type SettingsSearchItemId } from "./settingsSearch";
+-import { nativeLanguageName, SYSTEM_LANGUAGE } from "@t3tools/client-runtime/locales";
+-import { SUPPORTED_LOCALES } from "../../i18n/locales";
++import { SYSTEM_LANGUAGE } from "@t3tools/client-runtime/locales";
+ import { BackgroundActivitySettingsRow } from "./BackgroundActivitySettings";
+ import { AdvancedSettings } from "./AdvancedSettings";
+ import { PullRequestLinksOpenInAppSetting } from "./IntegrationsSettings";
+@@ -788,6 +787,13 @@ function useTranslatedSearchableSetting() {
+   };
  }
 
-+// Added by patches/0001-language-setting.patch.
-+const LANGUAGE_OPTIONS: ReadonlyArray<{ value: string; label: string }> = [
-+  { value: "system", label: "System" },
-+  { value: "en", label: "English" },
-+  { value: "zh-CN", label: "简体中文" },
++// Added by patches/0001-language-setting.patch: the zh runtime's languages (window.__t3zh,
++// CONVENTIONS §5), each shown in its own language.
++const T3ZH_LANGUAGES: ReadonlyArray<{ readonly locale: "en" | "zh-CN"; readonly name: string }> = [
++  { locale: "en", name: "English" },
++  { locale: "zh-CN", name: "简体中文" },
 +];
 +
- export function useSettingsRestore(onRestored?: () => void) {
-   const {
-     theme,
-@@ -1007,6 +1014,32 @@ export function GeneralSettingsPanel() {
+ export function GeneralSettingsPanel() {
+   const gt = useGT();
+   const m = useMessages();
+@@ -797,9 +803,9 @@ export function GeneralSettingsPanel() {
+   const lastEnabledProjectGroupingMode = useRef<SidebarProjectGroupingMode>(
+     readLastEnabledProjectGroupingMode(),
+   );
+-  const languageValue = SUPPORTED_LOCALES.includes(settings.language)
+-    ? settings.language
+-    : SYSTEM_LANGUAGE;
++  // patches/0001: the zh runtime's preference; the upstream `language` setting is not used.
++  const t3zh = typeof window === "undefined" ? undefined : window.__t3zh;
++  const languageValue = t3zh?.getLocale() ?? SYSTEM_LANGUAGE;
+
+   return (
+     <SettingsPageContainer>
+@@ -1056,50 +1062,42 @@ export function GeneralSettingsPanel() {
        </SettingsSection>
 
-       <SettingsSection id="display" title="Display">
-+        {typeof window !== "undefined" && window.__t3zh ? (
+       <SettingsSection id="display" title={gt("Display")}>
+-        <SettingsRow
+-          {...setting("language")}
+-          description={<T>System default follows your browser or OS language.</T>}
+-          resetAction={
+-            settings.language !== DEFAULT_UNIFIED_SETTINGS.language ? (
+-              <SettingResetButton
+-                label="language"
+-                onClick={() =>
+-                  updateSettings({
+-                    language: DEFAULT_UNIFIED_SETTINGS.language,
+-                  })
+-                }
+-              />
+-            ) : null
+-          }
+-          control={
+-            <Select
+-              value={languageValue}
+-              onValueChange={(value) => {
+-                if (value) {
+-                  updateSettings({ language: value });
+-                }
+-              }}
+-            >
+-              <SelectTrigger size="sm" className="w-full sm:w-40" aria-label={gt("Language")}>
+-                <SelectValue>
+-                  {languageValue === SYSTEM_LANGUAGE
+-                    ? m(TIMESTAMP_FORMAT_LABELS.locale)
+-                    : nativeLanguageName(languageValue)}
+-                </SelectValue>
+-              </SelectTrigger>
+-              <SelectPopup align="end" alignItemWithTrigger={false}>
+-                <SelectItem hideIndicator value={SYSTEM_LANGUAGE}>
+-                  {m(TIMESTAMP_FORMAT_LABELS.locale)}
+-                </SelectItem>
+-                {SUPPORTED_LOCALES.map((locale) => (
+-                  <SelectItem hideIndicator key={locale} value={locale}>
+-                    {nativeLanguageName(locale)}
++        {t3zh ? (
 +          <SettingsRow
-+            {...searchableSetting("language")}
++            {...setting("language")}
 +            description="Switch the interface language. Changing it reloads the app."
 +            control={
 +              <Select
-+                items={LANGUAGE_OPTIONS}
-+                value={window.__t3zh.getLocale()}
++                value={languageValue}
 +                onValueChange={(value) => {
-+                  if (typeof value === "string") window.__t3zh?.setLocale(value);
++                  const next =
++                    value === SYSTEM_LANGUAGE
++                      ? SYSTEM_LANGUAGE
++                      : T3ZH_LANGUAGES.find(({ locale }) => locale === value)?.locale;
++                  if (next) t3zh.setLocale(next);
 +                }}
 +              >
-+                <SelectTrigger size="sm" className="w-full sm:w-40" aria-label="Language">
-+                  <SelectValue />
++                <SelectTrigger size="sm" className="w-full sm:w-40" aria-label={gt("Language")}>
++                  <SelectValue>
++                    {languageValue === SYSTEM_LANGUAGE
++                      ? m(TIMESTAMP_FORMAT_LABELS.locale)
++                      : T3ZH_LANGUAGES.find(({ locale }) => locale === languageValue)?.name}
++                  </SelectValue>
 +                </SelectTrigger>
 +                <SelectPopup align="end" alignItemWithTrigger={false}>
-+                  {LANGUAGE_OPTIONS.map(({ value, label }) => (
-+                    <SelectItem key={value} value={value}>
-+                      {label}
++                  <SelectItem hideIndicator value={SYSTEM_LANGUAGE}>
++                    {m(TIMESTAMP_FORMAT_LABELS.locale)}
+                   </SelectItem>
+-                ))}
+-              </SelectPopup>
+-            </Select>
+-          }
+-        />
++                  {T3ZH_LANGUAGES.map(({ locale, name }) => (
++                    <SelectItem hideIndicator key={locale} value={locale}>
++                      {name}
 +                    </SelectItem>
 +                  ))}
 +                </SelectPopup>
@@ -71,25 +159,52 @@ index 3dc9566e..99000d11 100644
 +          />
 +        ) : null}
          <SettingsRow
-           {...searchableSetting("time-format")}
-           description="System default follows your browser or OS clock preference."
-diff --git a/apps/web/src/components/settings/settingsSearch.ts b/apps/web/src/components/settings/settingsSearch.ts
-index 4f61ba41..b2c14abf 100644
---- a/apps/web/src/components/settings/settingsSearch.ts
-+++ b/apps/web/src/components/settings/settingsSearch.ts
-@@ -678,6 +678,12 @@ export const SETTINGS_SEARCH_ITEMS = [
-     to: "/settings/general",
-     searchTerms: ["notification toast popup completion input approval failure"],
-   },
-+  {
-+    id: "language",
-+    title: "Language",
-+    to: "/settings/general",
-+    searchTerms: ["locale interface app translation chinese english system"],
-+  },
-   {
-     id: "time-format",
-     title: "Time format",
+           {...setting("time-format")}
+           description={<T>System default follows your browser or OS clock preference.</T>}
+diff --git a/apps/web/src/i18n/runtime.ts b/apps/web/src/i18n/runtime.ts
+index 4fac3aec..141cafbe 100644
+--- a/apps/web/src/i18n/runtime.ts
++++ b/apps/web/src/i18n/runtime.ts
+@@ -1,13 +1,8 @@
+-import { resolveLocale } from "@t3tools/client-runtime/locales";
+ import { getTranslationsSnapshot } from "gt-react";
+
+-import {
+-  getClientSettings,
+-  subscribeClientSettings,
+-  updateClientSettings,
+-} from "../hooks/useSettings";
++import { subscribeClientSettings, updateClientSettings } from "../hooks/useSettings";
+ import { initializeI18n } from "./initializeI18n";
+-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "./locales";
++import { DEFAULT_LOCALE } from "./locales";
+
+ type LocaleTranslations = Awaited<ReturnType<typeof getTranslationsSnapshot>>;
+
+@@ -46,18 +41,15 @@ function activateLocale(locale: string): void {
+     return;
+   }
+   snapshot = { locale, translations: { ...loadedTranslations } };
+-  document.documentElement.lang = locale;
++  // patches/0001: <html lang> keeps the zh runtime's value (zh-CN / en), not GT's "zh".
++  if (!window.__t3zh) document.documentElement.lang = locale;
+   for (const listener of listeners) listener();
+ }
+
+ function applyLanguageSetting(): void {
+-  // Not desktopBridge.getSystemLocale(): that is the regional/time locale, not the UI language.
+-  requestedLocale = resolveLocale(
+-    getClientSettings().language,
+-    navigator.languages,
+-    SUPPORTED_LOCALES,
+-    DEFAULT_LOCALE,
+-  );
++  // patches/0001: GT follows the zh runtime, which settles the locale once per page load
++  // (window.__t3zh, CONVENTIONS §5); the upstream `language` setting is not read.
++  requestedLocale = window.__t3zh?.getResolvedLocale() === "zh-CN" ? "zh" : DEFAULT_LOCALE;
+   void whenLocaleReady();
+ }
+
 diff --git a/apps/web/src/vite-env.d.ts b/apps/web/src/vite-env.d.ts
 index 63f7cca9..b912335d 100644
 --- a/apps/web/src/vite-env.d.ts

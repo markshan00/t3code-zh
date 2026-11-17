@@ -1,6 +1,6 @@
 # 0003-desktop-main-zh.patch
 #
-# 桌面主进程（apps/desktop）的界面文字，以及把系统语言暴露给渲染进程（T07）。基线 v0.1.9。
+# 桌面主进程（apps/desktop）的界面文字，以及把系统语言暴露给渲染进程（T07）。基线 v0.1.10。
 #
 # 1. 主进程文字：菜单栏、右键菜单、原生对话框、权限助手面板、画中画预览窗口（标题与图片 alt）、
 #    截图动画遮罩（空窗口标题时的回退文字）里的英文原文包成 __t3zh_t(<原表达式>)；插进主进程自己拼的
@@ -30,10 +30,10 @@
 # T18 / n2908 新增 preview/Passkeys.ts：仅翻原生选择框、未命名回退及取消按钮，账户名与 WebAuthn 错误保持原文。
 #
 diff --git a/apps/desktop/src/app/DesktopApp.ts b/apps/desktop/src/app/DesktopApp.ts
-index e3b6c49e..5e8d7dee 100644
+index f69bf965..9e61cd26 100644
 --- a/apps/desktop/src/app/DesktopApp.ts
 +++ b/apps/desktop/src/app/DesktopApp.ts
-@@ -38,6 +38,7 @@ import * as DesktopUpdates from "../updates/DesktopUpdates.ts";
+@@ -40,6 +40,7 @@ import * as DesktopUpdates from "../updates/DesktopUpdates.ts";
  import * as DesktopSnapShot from "../snapShot/DesktopSnapShot.ts";
  import * as DesktopWslBackend from "../wsl/DesktopWslBackend.ts";
  import * as DesktopRendererHistory from "../telemetry/DesktopRendererHistory.ts";
@@ -41,7 +41,7 @@ index e3b6c49e..5e8d7dee 100644
  import * as HostProcess from "@t3tools/shared/HostProcess";
 
  const DEFAULT_DESKTOP_BACKEND_PORT = 3773;
-@@ -144,8 +145,8 @@ const handleFatalStartupError = Effect.fn("desktop.startup.handleFatalStartupErr
+@@ -146,8 +147,8 @@ const handleFatalStartupError = Effect.fn("desktop.startup.handleFatalStartupErr
    const wasQuitting = yield* Ref.getAndSet(state.quitting, true);
    if (!wasQuitting) {
      yield* electronDialog.showErrorBox(
@@ -115,10 +115,10 @@ index 0b50e147..07713356 100644
      });
      this.window = window;
 diff --git a/apps/desktop/src/preload.ts b/apps/desktop/src/preload.ts
-index 2dbc4eed..6c44fe75 100644
+index ba9c17aa..801c7124 100644
 --- a/apps/desktop/src/preload.ts
 +++ b/apps/desktop/src/preload.ts
-@@ -42,6 +42,25 @@ try {
+@@ -43,6 +43,25 @@ try {
    }
  } catch {}
 
@@ -145,18 +145,19 @@ index 2dbc4eed..6c44fe75 100644
  const clientPlatform = process.platform;
 
 diff --git a/apps/desktop/src/preview/BrowserSession.ts b/apps/desktop/src/preview/BrowserSession.ts
-index b2523ba6..5c9602f1 100644
+index 1400f2c9..5721716d 100644
 --- a/apps/desktop/src/preview/BrowserSession.ts
 +++ b/apps/desktop/src/preview/BrowserSession.ts
-@@ -1,5 +1,7 @@
- import type { Session, WebContents } from "electron";
+@@ -1,6 +1,8 @@
+ import * as HostProcess from "@t3tools/shared/HostProcess";
+ import type { Certificate, Session, WebContents } from "electron";
  import { BrowserWindow, session } from "electron";
 +import { __t3zh_t } from "../t3zh/t3zh-desktop.ts";
 +
  import * as Context from "effect/Context";
+ import * as DateTime from "effect/DateTime";
  import * as Digest from "effect/crypto/Digest";
- import * as Effect from "effect/Effect";
-@@ -250,9 +252,9 @@ export const make = Effect.gen(function* BrowserSessionMake() {
+@@ -323,9 +325,9 @@ export const make = Effect.gen(function* BrowserSessionMake() {
      promptPermission(
        requester,
        {
@@ -170,7 +171,7 @@ index b2523ba6..5c9602f1 100644
        (answer) => callback(answer === true),
      );
 diff --git a/apps/desktop/src/preview/Manager.ts b/apps/desktop/src/preview/Manager.ts
-index c668c390..5bb94208 100644
+index 32ac8769..85eb7d9a 100644
 --- a/apps/desktop/src/preview/Manager.ts
 +++ b/apps/desktop/src/preview/Manager.ts
 @@ -1,3 +1,4 @@
@@ -178,7 +179,7 @@ index c668c390..5bb94208 100644
  // @effect-diagnostics-next-line nodeBuiltinImport:off -- FileSystem.copyFile cannot request an exclusive copy.
  import * as NodeFSP from "node:fs/promises";
  import * as NodeZlib from "node:zlib";
-@@ -178,7 +179,7 @@ const buildPreviewPictureInPictureDataUrl = (): string => {
+@@ -182,7 +183,7 @@ const buildPreviewPictureInPictureDataUrl = (): string => {
      </style>
    </head>
    <body>
@@ -187,7 +188,7 @@ index c668c390..5bb94208 100644
      <script>
        const frame = document.getElementById("preview-frame");
        window.previewPictureInPicture.onFrame((next) => {
-@@ -2845,7 +2846,8 @@ const makeNativeOperations = Effect.fn("PreviewManager.makeOperations")(function
+@@ -3157,7 +3158,8 @@ const makeNativeOperations = Effect.fn("PreviewManager.makeOperations")(function
                height: PICTURE_IN_PICTURE_INITIAL_HEIGHT,
                minWidth: PICTURE_IN_PICTURE_MIN_WIDTH,
                minHeight: PICTURE_IN_PICTURE_MIN_HEIGHT,
@@ -248,7 +249,7 @@ index 4b6ce04a..d2c3dd21 100644
    if(value.appIconDataUrl){
      const icon=document.getElementById("icon");icon.src=value.appIconDataUrl;icon.style.display="block";document.getElementById("fallback").style.display="none";
 diff --git a/apps/desktop/src/window/DesktopApplicationMenu.ts b/apps/desktop/src/window/DesktopApplicationMenu.ts
-index 44d2c234..e9f31bc0 100644
+index b4025ebf..a74fa29f 100644
 --- a/apps/desktop/src/window/DesktopApplicationMenu.ts
 +++ b/apps/desktop/src/window/DesktopApplicationMenu.ts
 @@ -1,3 +1,4 @@
@@ -256,7 +257,7 @@ index 44d2c234..e9f31bc0 100644
  import * as Context from "effect/Context";
  import * as Effect from "effect/Effect";
  import * as Layer from "effect/Layer";
-@@ -73,17 +74,19 @@ const checkForUpdatesFromMenu = Effect.gen(function* () {
+@@ -76,9 +77,11 @@ const checkForUpdatesFromMenu = Effect.gen(function* () {
    if (updateState.status === "up-to-date") {
      yield* electronDialog.showMessageBox({
        type: "info",
@@ -269,6 +270,9 @@ index 44d2c234..e9f31bc0 100644
 +      ),
 +      buttons: [__t3zh_t("OK")],
      });
+   } else if (updateState.status === "available") {
+     const { response } = yield* electronDialog.showMessageBox({
+@@ -112,10 +115,10 @@ const checkForUpdatesFromMenu = Effect.gen(function* () {
    } else if (updateState.status === "error") {
      yield* electronDialog.showMessageBox({
        type: "warning",
@@ -283,7 +287,7 @@ index 44d2c234..e9f31bc0 100644
      });
    }
  }).pipe(Effect.withSpan("desktop.menu.checkForUpdates"));
-@@ -98,10 +101,10 @@ const handleCheckForUpdatesMenuClick = Effect.gen(function* () {
+@@ -130,10 +133,10 @@ const handleCheckForUpdatesMenuClick = Effect.gen(function* () {
      });
      yield* electronDialog.showMessageBox({
        type: "info",
@@ -298,7 +302,7 @@ index 44d2c234..e9f31bc0 100644
      });
      return;
    }
-@@ -163,38 +166,38 @@ export const make = Effect.gen(function* () {
+@@ -195,38 +198,38 @@ export const make = Effect.gen(function* () {
        template.push({
          label: environment.displayName,
          submenu: [
@@ -347,7 +351,7 @@ index 44d2c234..e9f31bc0 100644
                    accelerator: "CmdOrCtrl+,",
                    click: settingsClick,
                  },
-@@ -213,58 +216,61 @@ export const make = Effect.gen(function* () {
+@@ -245,58 +248,61 @@ export const make = Effect.gen(function* () {
            },
            // Cmd/Ctrl+W belongs to the renderer's tab close; it must never close the window.
            environment.platform === "darwin"
@@ -428,7 +432,7 @@ index 44d2c234..e9f31bc0 100644
              accelerator: "CmdOrCtrl+Plus",
              visible: false,
              click: zoomClick("in"),
-@@ -272,14 +278,14 @@ export const make = Effect.gen(function* () {
+@@ -304,14 +310,14 @@ export const make = Effect.gen(function* () {
            ...(environment.platform === "darwin"
              ? [
                  {
@@ -445,7 +449,7 @@ index 44d2c234..e9f31bc0 100644
            // Keypad codes do not match number-row accelerators.
            {
              label: "Actual Size",
-@@ -288,7 +294,7 @@ export const make = Effect.gen(function* () {
+@@ -320,7 +326,7 @@ export const make = Effect.gen(function* () {
              click: zoomClick("reset"),
            },
            {
@@ -454,7 +458,7 @@ index 44d2c234..e9f31bc0 100644
              accelerator: "CmdOrCtrl+numadd",
              visible: false,
              click: zoomClick("in"),
-@@ -300,25 +306,27 @@ export const make = Effect.gen(function* () {
+@@ -332,25 +338,27 @@ export const make = Effect.gen(function* () {
              click: zoomClick("out"),
            },
            { type: "separator" },
@@ -488,10 +492,10 @@ index 44d2c234..e9f31bc0 100644
            },
          ],
 diff --git a/apps/desktop/src/window/DesktopWindow.ts b/apps/desktop/src/window/DesktopWindow.ts
-index 73f5b418..0f879500 100644
+index 4628be44..d884e594 100644
 --- a/apps/desktop/src/window/DesktopWindow.ts
 +++ b/apps/desktop/src/window/DesktopWindow.ts
-@@ -37,6 +37,7 @@ import * as DesktopClientSettings from "../settings/DesktopClientSettings.ts";
+@@ -41,6 +41,7 @@ import * as DesktopClientSettings from "../settings/DesktopClientSettings.ts";
  import * as ElectronApp from "../electron/ElectronApp.ts";
  import * as DesktopRendererHistory from "../telemetry/DesktopRendererHistory.ts";
  import { makeQuitShortcutHandler } from "./QuitHold.ts";
@@ -499,7 +503,7 @@ index 73f5b418..0f879500 100644
  import { copyContextMenuImage } from "./ContextMenuImage.ts";
 
  const TITLEBAR_HEIGHT = 40;
-@@ -209,7 +210,7 @@ function buildConnectingSplashDataUrl(shouldUseDarkColors: boolean): string {
+@@ -265,7 +266,7 @@ function buildConnectingSplashDataUrl(shouldUseDarkColors: boolean): string {
    const label = shouldUseDarkColors ? "#9ca3af" : "#6b7280";
    const accent = shouldUseDarkColors ? "#f8fafc" : "#1f2937";
    const track = shouldUseDarkColors ? "rgba(248,250,252,0.18)" : "rgba(31,41,55,0.18)";
@@ -508,7 +512,7 @@ index 73f5b418..0f879500 100644
    return `data:text/html;charset=utf-8,${encodeURIComponent(html)}`;
  }
 
-@@ -435,6 +436,8 @@ export const make = Effect.gen(function* () {
+@@ -492,6 +493,8 @@ export const make = Effect.gen(function* () {
          nodeIntegration: false,
          sandbox: true,
          webviewTag: true,
@@ -517,7 +521,7 @@ index 73f5b418..0f879500 100644
          // Guest fullscreen propagates to the embedder; both must opt out to keep it inside the webview.
          // The app's own fullscreen elements reach OS fullscreen through syncHtmlFullscreen.
          disableHtmlFullscreenWindowResize: true,
-@@ -588,7 +591,7 @@ export const make = Effect.gen(function* () {
+@@ -669,7 +672,7 @@ export const make = Effect.gen(function* () {
              });
            }
            if (params.dictionarySuggestions.length === 0) {
@@ -526,7 +530,7 @@ index 73f5b418..0f879500 100644
            }
            menuTemplate.push({ type: "separator" });
          }
-@@ -596,7 +599,7 @@ export const make = Effect.gen(function* () {
+@@ -677,7 +680,7 @@ export const make = Effect.gen(function* () {
          if (Option.isSome(ElectronShell.parseSafeExternalUrl(params.linkURL))) {
            menuTemplate.push(
              {
@@ -535,7 +539,7 @@ index 73f5b418..0f879500 100644
                click: () => {
                  void runPromise(electronShell.copyText(params.linkURL));
                },
-@@ -620,7 +623,7 @@ export const make = Effect.gen(function* () {
+@@ -701,7 +704,7 @@ export const make = Effect.gen(function* () {
 
          if (params.mediaType === "image") {
            menuTemplate.push({
@@ -544,7 +548,7 @@ index 73f5b418..0f879500 100644
              click: () => {
                void runPromise(
                  Effect.tryPromise({
-@@ -634,10 +637,14 @@ export const make = Effect.gen(function* () {
+@@ -715,10 +718,14 @@ export const make = Effect.gen(function* () {
          }
 
          menuTemplate.push(

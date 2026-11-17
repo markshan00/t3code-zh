@@ -1,7 +1,7 @@
 # 0006-desktop-ipc-display-strings.patch
 #
 # 桌面主进程经 IPC 传给 web 显示的英文，在 web 的显示位置翻译（T07-fix1，对应 T07 已知问题 3）。
-# 基线 v0.1.9；类型上依赖 0004 在 vite-env.d.ts 补的全局 `var __t3zh`（含 t），须在 0004 之后应用。
+# 基线 v0.1.10；类型上依赖 0004 在 vite-env.d.ts 补的全局 `var __t3zh`（含 t），须在 0004 之后应用。
 #
 # 做法：新增 apps/web/src/desktopIpcStrings.ts 的 translateKnownDesktopString(x)。只有名单里的精确文字才交给
 # globalThis.__t3zh?.t?.(x) 查表（CONVENTIONS §5 全局 API），其余原样返回。名单外的文字不能交给 t()：
@@ -23,7 +23,7 @@
 # reports/desktop-main-strings.md 第 4 节和 handoff/T07.md。上游更新后重做方法见 patches/README.md。
 #
 diff --git a/apps/web/src/components/ServerUpdateAction.tsx b/apps/web/src/components/ServerUpdateAction.tsx
-index 32a2811a..daf3ef33 100644
+index ef999e5b..f6823b83 100644
 --- a/apps/web/src/components/ServerUpdateAction.tsx
 +++ b/apps/web/src/components/ServerUpdateAction.tsx
 @@ -1,3 +1,4 @@
@@ -40,7 +40,7 @@ index 32a2811a..daf3ef33 100644
  }
 
  export interface ServerUpdateTarget {
-@@ -240,8 +241,12 @@ export function ServerUpdateProgress({
+@@ -241,8 +242,12 @@ export function ServerUpdateProgress({
        <div className="mt-1 flex min-w-0 items-center gap-2 text-xs text-destructive" role="alert">
          <span className="size-1.5 shrink-0 rounded-full bg-destructive" aria-hidden="true" />
          <Tooltip>
@@ -56,7 +56,7 @@ index 32a2811a..daf3ef33 100644
        </div>
      );
 diff --git a/apps/web/src/components/desktop/SnapShotCoordinator.tsx b/apps/web/src/components/desktop/SnapShotCoordinator.tsx
-index 9150116a..60ae3339 100644
+index a75a32fc..0459dc2c 100644
 --- a/apps/web/src/components/desktop/SnapShotCoordinator.tsx
 +++ b/apps/web/src/components/desktop/SnapShotCoordinator.tsx
 @@ -41,6 +41,7 @@ import {
@@ -64,10 +64,10 @@ index 9150116a..60ae3339 100644
  } from "../../questionAttachments";
  import { stackedThreadToast, toastManager } from "../ui/toast";
 +import { translateKnownDesktopString } from "~/desktopIpcStrings";
+ import { readComposerImageBytes } from "../chat/composerAttachmentFiles";
 
  type CaptureTarget = DraftId | ScopedThreadRef;
- type CaptureFailure = "missing-project" | "delivery";
-@@ -484,7 +485,7 @@ export function SnapShotCoordinator() {
+@@ -486,7 +487,7 @@ export function SnapShotCoordinator() {
                stackedThreadToast({
                  type: "error",
                  title: "Snapshot failed",
@@ -77,7 +77,7 @@ index 9150116a..60ae3339 100644
              );
            });
 diff --git a/apps/web/src/components/settings/AuthorizedClientsSettings.tsx b/apps/web/src/components/settings/AuthorizedClientsSettings.tsx
-index f58bf7b1..6e6f4034 100644
+index 577bdd40..66bc4dc4 100644
 --- a/apps/web/src/components/settings/AuthorizedClientsSettings.tsx
 +++ b/apps/web/src/components/settings/AuthorizedClientsSettings.tsx
 @@ -1,3 +1,4 @@
@@ -85,7 +85,7 @@ index f58bf7b1..6e6f4034 100644
  import { AUTH_SCOPE_OPTIONS as PAIRING_SCOPE_OPTIONS } from "@t3tools/shared/authScopeOptions";
  import { PlugIcon, PlusIcon, QrCodeIcon } from "lucide-react";
  import { type ReactNode, memo, useId, useState } from "react";
-@@ -435,7 +436,7 @@ const PairingLinkListRow = memo(function PairingLinkListRow({
+@@ -418,7 +419,7 @@ const PairingLinkListRow = memo(function PairingLinkListRow({
                            isSelected ? "text-foreground" : "text-muted-foreground",
                          )}
                        >
@@ -94,7 +94,7 @@ index f58bf7b1..6e6f4034 100644
                        </span>
                        <span className="min-w-0 truncate text-2xs text-muted-foreground/70">
                          {option.detail}
-@@ -901,7 +902,7 @@ export const AdvertisedEndpointListRow = memo(function AdvertisedEndpointListRow
+@@ -884,7 +885,7 @@ export const AdvertisedEndpointListRow = memo(function AdvertisedEndpointListRow
        <div className="flex min-h-7 min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
          <div className="flex min-h-7 min-w-0 flex-1 items-center gap-3">
            <h3 className="shrink-0 text-sm leading-5 font-medium text-foreground">
